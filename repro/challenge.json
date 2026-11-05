@@ -1,0 +1,493 @@
+{
+  "challenge_name": "SPD-Learn Open Reproductions & Claim Verification Challenge (ICML-2026 / NEMAR Protocol)",
+  "version": "1.0.0",
+  "papers": [
+    {
+      "paper_id": "chen2026pcm_bwcm",
+      "name": "PCM & BWCM Cholesky Product Metrics (ICLR 2026)",
+      "claims": [
+        {
+          "claim_id": "chen2026pcm_bwcm_c1",
+          "category": "Structural",
+          "text": "On diagonal SPD matrices, Bures-Wasserstein-Cholesky distance (BWCM, theta=0.5, w_diag=0.25) exactly equals the Bures-Wasserstein distance to machine precision (<1e-6), and power_cholesky_exp(power_cholesky_log(X, P), P) recovers X with <1e-5 relative error.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "chen2026pcm_bwcm_c2",
+          "category": "Signal",
+          "text": "On high-condition-number SPD matrices (kappa >= 1e5), PCM/BWCM distance and Fr\u00e9chet mean produce finite, non-NaN gradients where eigendecomposition-free Cholesky factorization runs faster than matrix_log/eigh.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "chen2026pcm_bwcm_c3",
+          "category": "Analytical",
+          "text": "A minimum-distance-to-mean (MDM) classifier using power_cholesky_mean and power_cholesky_distance decodes multi-class synthetic oscillatory EEG covariance trials significantly above chance (>0.75 accuracy).",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "hu2025coratt",
+      "name": "CorAtt: Correlation Manifold Self-Attention (IJCAI 2025)",
+      "claims": [
+        {
+          "claim_id": "hu2025coratt_c1",
+          "category": "Structural",
+          "text": "Both Off-Log Metric (OLM) and Log-Scaled Metric (LSM) maps bijectively map full-rank correlation matrices to hollow symmetric matrices (zero diagonal) and invert back to unit-diagonal correlation matrices (<1e-4 max diagonal error).",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "hu2025coratt_c2",
+          "category": "Signal",
+          "text": "Under channel-wise amplitude scaling artifacts (multiplying EEG channels by random gains in [0.1, 10.0]), cov_to_corr + CorrAttention produces strictly scale-invariant representations (relative drift <1e-4) whereas covariance-based AttentionManifold drifts significantly.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "hu2025coratt_c3",
+          "category": "Analytical",
+          "text": "CorAtt trained end-to-end on EEG trials with random per-trial channel gain perturbations outperforms covariance-based MAtt in out-of-sample test accuracy.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "chen2026cornet",
+      "name": "CorNet: Riemannian Networks over Full-Rank Correlation Matrices (ICML 2026)",
+      "claims": [
+        {
+          "claim_id": "chen2026cornet_c1",
+          "category": "Structural",
+          "text": "CorNet preserves unit-diagonal positive-definiteness across intermediate correlation BiMap/ReEig layers and outputs strictly lower-triangular isometric features of dimension d(d-1)/2.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "chen2026cornet_c2",
+          "category": "Signal",
+          "text": "CorNet forward and backward passes remain invariant to arbitrary positive diagonal congruence D S D on input covariance matrices (max logit difference <1e-4).",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "chen2026cornet_c3",
+          "category": "Analytical",
+          "text": "CorNet converges on multi-class oscillatory EEG classification under electrode impedance / amplitude scaling shifts with test accuracy >0.75.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "chen2026rietrans",
+      "name": "RieTrans: SPDLinear, SPDRMLR & SPNN (NeurIPS 2024 / 2026)",
+      "claims": [
+        {
+          "claim_id": "chen2026rietrans_c1",
+          "category": "Structural",
+          "text": "Chaining SPDLinear(return_tangent=True) into SPDLinear(input_tangent=True) produces identical outputs (<1e-5 error) to full manifold exp/log chaining under LEM while eliminating intermediate matrix_exp and matrix_log eigendecompositions.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "chen2026rietrans_c2",
+          "category": "Signal",
+          "text": "SPDRMLR supports all 4 Riemannian geometries (LEM, LCM, AIM, PEM) with finite, non-zero gradients with respect to both the SPD input X and the learnable SPD reference point P.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "chen2026rietrans_c3",
+          "category": "Analytical",
+          "text": "SPNN trained end-to-end on multi-class EEG decoding achieves >0.75 test accuracy and faster per-step execution when tangent-chaining is enabled.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "wang2025gyroatt",
+      "name": "GyroAtt: GyroSPDAttention & SymSPDAttention (NeurIPS 2025)",
+      "claims": [
+        {
+          "claim_id": "wang2025gyroatt_c1",
+          "category": "Structural",
+          "text": "Both GyroSPDAttention (orthogonal gyro-automorphisms + left gyro-translation) and SymSPDAttention (tangent SPDLinear Q/K/V) strictly preserve symmetric positive definiteness (all eigenvalues > 0) across patch sequences.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "wang2025gyroatt_c2",
+          "category": "Signal",
+          "text": "SymSPDAttention's learnable scaling softmax(-exp(alpha)*d(Q,K) - beta) achieves lower attention entropy (sharper token selectivity) than unscaled 1/(1+log(1+d)) attention on discriminative patch sequences.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "wang2025gyroatt_c3",
+          "category": "Analytical",
+          "text": "GyroSPDAtt (both gyro and sym modes) trains end-to-end and achieves >0.75 test accuracy on synthetic motor imagery EEG decoding.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "ju2023graphcspnet",
+      "name": "Graph-CSPNet & GraphBiMap (IEEE TNNLS 2023)",
+      "claims": [
+        {
+          "claim_id": "ju2023graphcspnet_c1",
+          "category": "Structural",
+          "text": "GraphBiMap's row-stochastic graph propagation matrix P mixes node SPD matrices via convex combinations that strictly preserve positive definiteness before and after node-wise BiMap.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "ju2023graphcspnet_c2",
+          "category": "Signal",
+          "text": "When discriminative covariance structure shifts across adjacent time-frequency windows, GraphBiMap with neighborhood mixing outperforms isolated identity graph (P=I) in linear separability of tangent features.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "ju2023graphcspnet_c3",
+          "category": "Analytical",
+          "text": "GraphCSPNet decodes both 3D raw EEG and 4D filter-bank EEG inputs end-to-end, achieving >0.75 test accuracy on time-frequency non-stationary EEG data.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "zhou2026gbwatt",
+      "name": "GBWAtt: Generalized Bures-Wasserstein Self-Attention (KDD 2026)",
+      "claims": [
+        {
+          "claim_id": "zhou2026gbwatt_c1",
+          "category": "Structural",
+          "text": "GBWAttention's deformed (2theta, M)-Bures-Wasserstein barycenter preserves SPD structure and reduces to standard Bures-Wasserstein attention when M=I and theta=1.0.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "zhou2026gbwatt_c2",
+          "category": "Signal",
+          "text": "On ill-conditioned patch SPD matrices with tiny eigenvalues (lambda_min = 1e-6), GBWAttention (theta=0.5) exhibits significantly smaller gradient norm variance and higher SNR stability than Log-Euclidean AttentionManifold.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "zhou2026gbwatt_c3",
+          "category": "Analytical",
+          "text": "GBWAtt trained on noisy/ill-conditioned multi-patch EEG trials achieves higher test accuracy than standard Log-Euclidean MAtt.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "seraphim2023spdtransnet",
+      "name": "SPDTransNet & Structure-Preserving MHA (arXiv 2023)",
+      "claims": [
+        {
+          "claim_id": "seraphim2023spdtransnet_c1",
+          "category": "Structural",
+          "text": "SPMultiheadAttention combines H head attention maps via a linear head-combination layer and multiplies directly with unprojected Vech(LogEig(S)) tokens, preserving exact tangent dimension d(d+1)/2 for arbitrary embed_dim and num_heads.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "seraphim2023spdtransnet_c2",
+          "category": "Signal",
+          "text": "Mapping SP-MHA output vectors back via vec_to_sym + matrix_exp yields valid SPD matrices whose eigenvalues remain bounded within the convex hull of input token log-spectra when head weights are non-negative.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "seraphim2023spdtransnet_c3",
+          "category": "Analytical",
+          "text": "SPDTransNet trained end-to-end on multi-patch EEG sequences achieves >0.75 test accuracy.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "wang2026spdmetaformer",
+      "name": "SPD-MetaFormer (arXiv Oct 2026)",
+      "claims": [
+        {
+          "claim_id": "wang2026spdmetaformer_c1",
+          "category": "Structural",
+          "text": "In MAtt's AttentionManifold, the bounded similarity 1/(1+log(1+d)) produces near-uniform attention weights across patches (normalized Shannon entropy > 0.95), confirming the paper's motivation that learned Q/K attention collapses toward uniform mixing.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "wang2026spdmetaformer_c2",
+          "category": "Signal",
+          "text": "SPDMetaFormerBlock preserves SPD structure across uniform Fr\u00e9chet token mixing and spectral FFN stages while using fewer trainable parameters than Q/K/V BiMap attention + FFN.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "wang2026spdmetaformer_c3",
+          "category": "Analytical",
+          "text": "In a small-sample EEG training regime (N <= 48 training trials), SPDMetaFormer matches or exceeds MAtt test accuracy with lower generalization gap.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "hu2026rhop",
+      "name": "RHOP: Riemannian High-Order Pooling for BFMs (ICLR 2026)",
+      "claims": [
+        {
+          "claim_id": "hu2026rhop_c1",
+          "category": "Structural",
+          "text": "GaussianSPDDescriptor embeds token mean mu in R^d and covariance Sigma in S++^d into a strictly symmetric positive definite (d+1)x(d+1) matrix across all batch sizes and token lengths T >= 1.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "hu2026rhop_c2",
+          "category": "Signal",
+          "text": "When two token sequences have identical first-order token mean (mu_1 = mu_2 = 0) but distinct inter-feature covariance (Sigma_1 != Sigma_2), standard mean pooling fails completely (0.50 accuracy) whereas RHOP separates them with >0.95 accuracy.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "hu2026rhop_c3",
+          "category": "Analytical",
+          "text": "Attaching RiemannianHighOrderPooling to a Transformer encoder on EEG token sequences improves classification accuracy over mean-pooling / CLS-only pooling.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "ju2024deepgeocca",
+      "name": "DeepGeoCCA & GeodesicCCALoss (ICLR 2024)",
+      "claims": [
+        {
+          "claim_id": "ju2024deepgeocca_c1",
+          "category": "Structural",
+          "text": "GeodesicCCALoss achieves its theoretical minimum (-k for outdim_size=k) when two SPD views are identical (Y1 == Y2) and is strictly higher (less correlated) when views are independent random SPD matrices.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "ju2024deepgeocca_c2",
+          "category": "Signal",
+          "text": "Minimizing GeodesicCCALoss via gradient descent on paired multi-view SPD inputs monotonically increases the total geodesic canonical correlation between the two encoded SPD views.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "ju2024deepgeocca_c3",
+          "category": "Analytical",
+          "text": "DeepGeoCCA decodes multi-class EEG signals using its dual-view SPDNet encoders with >0.75 test accuracy.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "gallet2026armagnac",
+      "name": "ARMAGNAC: Parametric Harmonic-Arithmetic SPD BatchNorm (HAL / Signal Processing 2026)",
+      "claims": [
+        {
+          "claim_id": "gallet2026armagnac_c1",
+          "category": "Structural",
+          "text": "SPDBatchNormHarmonicArithmetic's parametric mean M_alpha = H #_alpha A equals the batch Harmonic mean as alpha -> 0, the batch Arithmetic mean as alpha -> 1, and the Geometric-Harmonic-Arithmetic midpoint at alpha = 0.5.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "gallet2026armagnac_c2",
+          "category": "Signal",
+          "text": "When optimizing M_alpha to match target SPD distributions generated around the Harmonic mean vs Arithmetic mean, gradient descent on SPDBatchNormHarmonicArithmetic drives alpha toward 0 for Harmonic targets and toward 1 for Arithmetic targets.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "gallet2026armagnac_c3",
+          "category": "Analytical",
+          "text": "SPDBatchNormHarmonicArithmetic executes faster than multi-iteration Karcher flow (SPDBatchNormMean with n_iter=5) while achieving >= test accuracy inside an SPDNet classifier.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "zhou2025gbwbn_cbn",
+      "name": "GBWBN (CVPR 2025) & CBN (IEEE TNNLS 2025) SPD BatchNorms",
+      "claims": [
+        {
+          "claim_id": "zhou2025gbwbn_cbn_c1",
+          "category": "Structural",
+          "text": "SPDBatchNormCholesky normalizes batch mean to 0 and variance to 1 in Log-Cholesky coordinates with zero eigendecompositions, and SPDBatchNormBW centers batch Bures-Wasserstein mean to identity when rebias=False.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "zhou2025gbwbn_cbn_c2",
+          "category": "Signal",
+          "text": "On ill-conditioned SPD batches (condition number kappa = 1e6), SPDBatchNormBW and SPDBatchNormCholesky maintain finite forward outputs and gradients without NaN/Inf.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "zhou2025gbwbn_cbn_c3",
+          "category": "Analytical",
+          "text": "Adding SPDBatchNormBW or SPDBatchNormCholesky to SPDNet accelerates training loss convergence compared to unnormalized SPDNet on multi-class EEG covariance classification.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "tibermacine2025rceegnet",
+      "name": "RCEEGNet (IJCNN 2025, Issue #31)",
+      "claims": [
+        {
+          "claim_id": "tibermacine2025rceegnet_c1",
+          "category": "Structural",
+          "text": "RCEEGNet preserves SPD structure across its BiMap/ReEig/SPDBatchNormMean stages and projects to a 2D symmetric tangent map (upper=False) for 2D convolutional feature extraction.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "tibermacine2025rceegnet_c2",
+          "category": "Signal",
+          "text": "RCEEGNet's 2D tangent-space convolution captures localized off-diagonal channel-pair interactions with non-zero gradients flowing back to the temporal Conv1d frontend.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "tibermacine2025rceegnet_c3",
+          "category": "Analytical",
+          "text": "RCEEGNet trains end-to-end on multi-class oscillatory EEG signals and achieves >0.75 test accuracy.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "wang2024starnet",
+      "name": "STaRNet (Neural Networks 2024, Issue #32)",
+      "claims": [
+        {
+          "claim_id": "wang2024starnet_c1",
+          "category": "Structural",
+          "text": "STaRNet's dual-branch architecture fuses depthwise patch-level Riemannian tangent vectors with Squeeze-and-Excitation Euclidean temporal features into a unified representation.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "wang2024starnet_c2",
+          "category": "Signal",
+          "text": "When discriminative information is split between spatial covariance (branch 1) and temporal envelope modulation (branch 2), STaRNet's dual-branch fusion outperforms either branch zeroed out in isolation.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "wang2024starnet_c3",
+          "category": "Analytical",
+          "text": "STaRNet achieves >0.75 test accuracy on synthetic motor imagery EEG classification.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "chen2025alem_spdresnet",
+      "name": "ALEM & SPDResNet (IEEE TIP 2024 / ICLR 2025 / NeurIPS 2026)",
+      "claims": [
+        {
+          "claim_id": "chen2025alem_spdresnet_c1",
+          "category": "Structural",
+          "text": "AdaptiveLogEuclidean converges to the standard matrix logarithm as power p -> 0 (with w=1, b=0), and SPDResBlock strictly preserves SPD structure via Log-Euclidean geodesic residual addition.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "chen2025alem_spdresnet_c2",
+          "category": "Signal",
+          "text": "Deep SPD networks with SPDResBlock residual connections maintain non-vanishing gradient norms in early BiMap layers as network depth increases, compared to plain stacked BiMap+ReEig blocks.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "chen2025alem_spdresnet_c3",
+          "category": "Analytical",
+          "text": "SPDResNet decodes both raw EEG and covariance inputs with >0.75 test accuracy.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "nguyen2023gyrospd",
+      "name": "GyroSPD: Matrix Manifold Neural Networks (ICML 2023)",
+      "claims": [
+        {
+          "claim_id": "nguyen2023gyrospd_c1",
+          "category": "Structural",
+          "text": "GyroSPDLayer's left gyro-translation X oplus B = B^{1/2} X B^{1/2} equals X when B=I and strictly preserves symmetric positive definiteness for any learnable SPD bias B.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "nguyen2023gyrospd_c2",
+          "category": "Signal",
+          "text": "GyroSPDLayer with learnable SPD gyro-bias B can translate a batch of centered SPD matrices to match an arbitrary target SPD mean, whereas bias-free BiMap+ReEig cannot increase trace beyond the input trace.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "nguyen2023gyrospd_c3",
+          "category": "Analytical",
+          "text": "GyroSPD trained end-to-end on EEG classification achieves >0.75 test accuracy.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    },
+    {
+      "paper_id": "boucherie2026spdnetae_ssgcnet",
+      "name": "SPDNet-AE (HAL 2026) & SSGCNet (IEEE TNSRE 2026)",
+      "claims": [
+        {
+          "claim_id": "boucherie2026spdnetae_ssgcnet_c1",
+          "category": "Structural",
+          "text": "SPDNetAE's decoder reconstructs strictly SPD matrices (100% positive eigenvalues) from low-dimensional SPD latents, whereas an unconstrained Euclidean MLP autoencoder trained on flattened matrices produces indefinite matrices (negative eigenvalues) under noise/extrapolation.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "boucherie2026spdnetae_ssgcnet_c2",
+          "category": "Signal",
+          "text": "Minimizing SPDNetAE.reconstruction_loss via gradient descent monotonically reduces the Log-Euclidean geodesic reconstruction error on held-out SPD covariance matrices, and SSGCNet's k-NN tangent graph aggregation preserves SPDness.",
+          "status": "VERIFIED",
+          "points": 2
+        },
+        {
+          "claim_id": "boucherie2026spdnetae_ssgcnet_c3",
+          "category": "Analytical",
+          "text": "Both SPDNetAE and SSGCNet achieve >0.75 test accuracy on end-to-end EEG classification.",
+          "status": "TOY",
+          "points": 1
+        }
+      ]
+    }
+  ],
+  "status": "JUDGED"
+}

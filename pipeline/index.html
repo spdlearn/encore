@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
+<link rel="stylesheet" href="../assets/app.css">
+<title>Reproducibility Pipeline &amp; Trackio Logbook Matrix · SPD-Learn Encore Registry</title></head><body>
+<nav class="top" aria-label="Sections"><div class="wrap">
+  <a class="brand" href="../index.html">
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M21.6 8.3A9.5 9.5 0 1 0 25.5 16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18.9 10.7 24.1 5.5 24.7 11.3z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path class="tick" d="M11.3 16.3l3.3 3.3 5.9-6.8" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>SPD-Learn Encore</span>
+  </a>
+  <a class="by" href="https://spdlearn.org">for spdlearn.org</a>
+  <a class="tab" href="../index.html">Overview</a>
+  <a class="tab" href="../papers/index.html">Papers &amp; Claims<span class="n">18 / 54</span></a>
+  <a class="tab" href="../figures/index.html">Exact Figures Atlas<span class="n">54</span></a>
+  <a class="tab" href="../pipeline/index.html" aria-current="page">Pipeline &amp; Logbooks</a>
+  <a class="tab" href="../methodology/index.html">Methodology</a>
+  <a class="tab" href="https://github.com/spdlearn/encore" target="_blank" rel="noopener">GitHub ↗</a>
+  <button class="theme" id="theme" type="button" title="Colour theme"><span>◐</span><span>Auto</span></button>
+</div></nav>
+<div class="wrap">
+<header class="page">
+  <div class="eyebrow">Deterministic Execution &amp; Judging Pipeline</div>
+  <h1>6-Stage Reproducibility Pipeline &amp; Trackio Logbook Matrix</h1>
+  <p class="lede">
+    Every paper passes through six auditable stages: (1) Metadata &amp; Abstract Indexing (<code>papers.json</code>, <code>abstracts.json</code>), (2) 3-Tier Anchor Claim Extraction (<code>challenge.json</code>), (3) <code>/ponytail</code> Normalized Implementation in <code>spd_learn</code>, (4) Trackio Logbook Execution (<code>repro/trackio_runner.py</code>), (5) Diagnostic SVG Rendering, and (6) Untrusted-Narrative Automated Judging (<code>repro/judge.py</code>).
+  </p>
+</header>
+<main>
+  <div class="panel">
+    <h2>Live Execution Matrix (18 Papers · 54 Claims · 90 / 90 Points)</h2>
+    <div style="overflow-x:auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Paper ID</th>
+            <th>Model / Worktree Branch</th>
+            <th>Stage 1–3: Spec &amp; Tests</th>
+            <th>C1: Structural</th>
+            <th>C2: Signal</th>
+            <th>C3: Analytical</th>
+            <th>Stage 4: Trackio Logbook</th>
+            <th>Stage 6: Score</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+  <td><a href="../papers/chen2026pcm_bwcm/index.html"><code>chen2026pcm_bwcm</code></a><br><span class="muted small">ICLR 2026</span></td>
+  <td><strong><a href="../papers/chen2026pcm_bwcm/index.html">PCM &amp; BWCM Cholesky Product Metrics</a></strong><br><span class="small muted"><code>feat/pr1-pcm-bwcm</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (2.3031s)<br><a class="small" href="../repro/logbooks/chen2026pcm_bwcm_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/chen2026pcm_bwcm_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/hu2025coratt/index.html"><code>hu2025coratt</code></a><br><span class="muted small">IJCAI 2025</span></td>
+  <td><strong><a href="../papers/hu2025coratt/index.html">CorAtt: Correlation Manifold Self-Attention</a></strong><br><span class="small muted"><code>feat/pr2-coratt-cornet</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (2.3283s)<br><a class="small" href="../repro/logbooks/hu2025coratt_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/hu2025coratt_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/chen2026cornet/index.html"><code>chen2026cornet</code></a><br><span class="muted small">ICML 2026</span></td>
+  <td><strong><a href="../papers/chen2026cornet/index.html">CorNet: Full-Rank Correlation Networks</a></strong><br><span class="small muted"><code>feat/pr2-coratt-cornet</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (0.101s)<br><a class="small" href="../repro/logbooks/chen2026cornet_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/chen2026cornet_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/chen2026rietrans/index.html"><code>chen2026rietrans</code></a><br><span class="muted small">NeurIPS 2024 / NeurIPS 2026</span></td>
+  <td><strong><a href="../papers/chen2026rietrans/index.html">RieTrans: SPDLinear, SPDRMLR &amp; SPNN</a></strong><br><span class="small muted"><code>feat/pr3-rietrans-gyroatt</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (0.2005s)<br><a class="small" href="../repro/logbooks/chen2026rietrans_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/chen2026rietrans_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/wang2025gyroatt/index.html"><code>wang2025gyroatt</code></a><br><span class="muted small">NeurIPS 2025</span></td>
+  <td><strong><a href="../papers/wang2025gyroatt/index.html">GyroAtt: Gyrovector &amp; Lie-Algebraic SPD Attention</a></strong><br><span class="small muted"><code>feat/pr3-rietrans-gyroatt</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (0.6085s)<br><a class="small" href="../repro/logbooks/wang2025gyroatt_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/wang2025gyroatt_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/ju2023graphcspnet/index.html"><code>ju2023graphcspnet</code></a><br><span class="muted small">IEEE TNNLS 2023</span></td>
+  <td><strong><a href="../papers/ju2023graphcspnet/index.html">Graph-CSPNet: Time-Frequency SPD Graph Neural Network</a></strong><br><span class="small muted"><code>feat/pr4-graph-cspnet</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (0.2792s)<br><a class="small" href="../repro/logbooks/ju2023graphcspnet_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/ju2023graphcspnet_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/zhou2026gbwatt/index.html"><code>zhou2026gbwatt</code></a><br><span class="muted small">KDD 2026</span></td>
+  <td><strong><a href="../papers/zhou2026gbwatt/index.html">GBWAtt: Generalized Bures-Wasserstein Self-Attention</a></strong><br><span class="small muted"><code>feat/pr5-gbwatt</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (0.935s)<br><a class="small" href="../repro/logbooks/zhou2026gbwatt_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/zhou2026gbwatt_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/seraphim2023spdtransnet/index.html"><code>seraphim2023spdtransnet</code></a><br><span class="muted small">arXiv 2023</span></td>
+  <td><strong><a href="../papers/seraphim2023spdtransnet/index.html">SPDTransNet &amp; Structure-Preserving Multi-Head Attention</a></strong><br><span class="small muted"><code>feat/pr6-spdtransnet</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (0.5433s)<br><a class="small" href="../repro/logbooks/seraphim2023spdtransnet_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/seraphim2023spdtransnet_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/wang2026spdmetaformer/index.html"><code>wang2026spdmetaformer</code></a><br><span class="muted small">arXiv 2026</span></td>
+  <td><strong><a href="../papers/wang2026spdmetaformer/index.html">SPD-MetaFormer: Lightweight Manifold MetaFormer</a></strong><br><span class="small muted"><code>feat/pr9-spd-metaformer</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (0.5006s)<br><a class="small" href="../repro/logbooks/wang2026spdmetaformer_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/wang2026spdmetaformer_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/hu2026rhop/index.html"><code>hu2026rhop</code></a><br><span class="muted small">ICLR 2026</span></td>
+  <td><strong><a href="../papers/hu2026rhop/index.html">RHOP: Riemannian High-Order Pooling for Brain Foundation Models</a></strong><br><span class="small muted"><code>feat/pr10-rhop</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (0.1476s)<br><a class="small" href="../repro/logbooks/hu2026rhop_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/hu2026rhop_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/ju2024deepgeocca/index.html"><code>ju2024deepgeocca</code></a><br><span class="muted small">ICLR 2024</span></td>
+  <td><strong><a href="../papers/ju2024deepgeocca/index.html">DeepGeoCCA: Deep Geodesic Canonical Correlation Analysis</a></strong><br><span class="small muted"><code>feat/pr11-deepgeocca</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (1.8604s)<br><a class="small" href="../repro/logbooks/ju2024deepgeocca_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/ju2024deepgeocca_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/gallet2026armagnac/index.html"><code>gallet2026armagnac</code></a><br><span class="muted small">HAL / Signal Processing 2026</span></td>
+  <td><strong><a href="../papers/gallet2026armagnac/index.html">ARMAGNAC: Harmonic-Arithmetic Geodesic SPD BatchNorm</a></strong><br><span class="small muted"><code>feat/pr12-armagnac-gbwbn</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (0.1465s)<br><a class="small" href="../repro/logbooks/gallet2026armagnac_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/gallet2026armagnac_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/zhou2025gbwbn_cbn/index.html"><code>zhou2025gbwbn_cbn</code></a><br><span class="muted small">CVPR 2025 / IEEE TNNLS 2025</span></td>
+  <td><strong><a href="../papers/zhou2025gbwbn_cbn/index.html">GBWBN (CVPR 2025) &amp; CBN (IEEE TNNLS 2025) SPD BatchNorms</a></strong><br><span class="small muted"><code>feat/pr12-armagnac-gbwbn</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (3.2388s)<br><a class="small" href="../repro/logbooks/zhou2025gbwbn_cbn_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/zhou2025gbwbn_cbn_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/tibermacine2025rceegnet/index.html"><code>tibermacine2025rceegnet</code></a><br><span class="muted small">IJCNN 2025</span></td>
+  <td><strong><a href="../papers/tibermacine2025rceegnet/index.html">RCEEGNet: Riemannian Convolutional EEG Network (Issue #31)</a></strong><br><span class="small muted"><code>feat/pr13-rceegnet-starnet</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (0.3496s)<br><a class="small" href="../repro/logbooks/tibermacine2025rceegnet_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/tibermacine2025rceegnet_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/wang2024starnet/index.html"><code>wang2024starnet</code></a><br><span class="muted small">Neural Networks 2024</span></td>
+  <td><strong><a href="../papers/wang2024starnet/index.html">STaRNet: Spatio-Temporal &amp; Riemannian Fusion Network (Issue #32)</a></strong><br><span class="small muted"><code>feat/pr13-rceegnet-starnet</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (4.172s)<br><a class="small" href="../repro/logbooks/wang2024starnet_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/wang2024starnet_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/chen2025alem_spdresnet/index.html"><code>chen2025alem_spdresnet</code></a><br><span class="muted small">IEEE TIP 2024 / ICLR 2025</span></td>
+  <td><strong><a href="../papers/chen2025alem_spdresnet/index.html">ALEM &amp; SPDResNet: Adaptive Log-Euclidean Residual Network</a></strong><br><span class="small muted"><code>feat/pr14-spdresnet-gyrospd</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (0.537s)<br><a class="small" href="../repro/logbooks/chen2025alem_spdresnet_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/chen2025alem_spdresnet_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/nguyen2023gyrospd/index.html"><code>nguyen2023gyrospd</code></a><br><span class="muted small">ICML 2023</span></td>
+  <td><strong><a href="../papers/nguyen2023gyrospd/index.html">GyroSPD: Gyrovector Matrix Manifold Neural Networks</a></strong><br><span class="small muted"><code>feat/pr14-spdresnet-gyrospd</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (0.1274s)<br><a class="small" href="../repro/logbooks/nguyen2023gyrospd_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/nguyen2023gyrospd_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr><tr>
+  <td><a href="../papers/boucherie2026spdnetae_ssgcnet/index.html"><code>boucherie2026spdnetae_ssgcnet</code></a><br><span class="muted small">HAL 2026 / IEEE TNSRE 2026</span></td>
+  <td><strong><a href="../papers/boucherie2026spdnetae_ssgcnet/index.html">SPDNet-AE (HAL 2026) &amp; SSGCNet (IEEE TNSRE 2026)</a></strong><br><span class="small muted"><code>feat/pr15-spdnet-ae-ssgcnet</code></span></td>
+  <td><span class="chip good">✓ Indexed</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip good">✓ Verified (2 pts)</span></td>
+  <td><span class="chip warning">◐ Toy / Synthetic (1 pt)</span></td>
+  <td><code>exit=0</code> (1.2324s)<br><a class="small" href="../repro/logbooks/boucherie2026spdnetae_ssgcnet_logbook.json">JSON</a> · <a class="small" href="../repro/logbooks/boucherie2026spdnetae_ssgcnet_logbook.md">MD</a></td>
+  <td><strong>5 / 5</strong></td>
+</tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</main>
+<footer>
+  SPD-Learn Encore Reproducibility Registry · Proof-of-Concept Sub-Page for <a href="https://spdlearn.org">spdlearn.org</a> (inspired by <a href="https://encorescience.org/">Encore Science</a> &amp; the ICML 2026 Open Reproductions / NEMAR Auditing Blueprint) ·
+  <a href="../registry.json">Registry JSON</a> ·
+  <a href="../repro/verdicts.json">Judge Verdicts JSON</a> ·
+  <a href="https://github.com/spdlearn/spd_learn">spd_learn Repository</a>.
+  Every verdict is computed deterministically from raw Trackio execution traces by an untrusted-narrative automated judge.
+</footer>
+</div>
+<script>(function(){
+var b=document.getElementById('theme'),order=['auto','light','dark'],icon={auto:'◐',light:'☀',dark:'☾'},
+name={auto:'Auto',light:'Light',dark:'Dark'};
+function get(){try{var t=localStorage.getItem('theme');return t==='light'||t==='dark'?t:'auto';}catch(e){return 'auto';}}
+function show(t){if(!b)return;b.firstChild.textContent=icon[t];b.lastChild.textContent=name[t];}
+if(b){b.addEventListener('click',function(){var t=order[(order.indexOf(get())+1)%3];
+try{t==='auto'?localStorage.removeItem('theme'):localStorage.setItem('theme',t);}catch(e){}
+if(t==='auto')delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=t;show(t);});
+show(get());}})();</script>
+</body></html>

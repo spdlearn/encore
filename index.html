@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
+<link rel="stylesheet" href="assets/app.css">
+<title>Can the claims of Riemannian EEG papers be reproduced? · SPD-Learn Encore Registry</title></head><body>
+<nav class="top" aria-label="Sections"><div class="wrap">
+  <a class="brand" href="index.html">
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M21.6 8.3A9.5 9.5 0 1 0 25.5 16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18.9 10.7 24.1 5.5 24.7 11.3z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path class="tick" d="M11.3 16.3l3.3 3.3 5.9-6.8" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>SPD-Learn Encore</span>
+  </a>
+  <a class="by" href="https://spdlearn.org">for spdlearn.org</a>
+  <a class="tab" href="index.html" aria-current="page">Overview</a>
+  <a class="tab" href="papers/index.html">Papers &amp; Claims<span class="n">18 / 54</span></a>
+  <a class="tab" href="figures/index.html">Exact Figures Atlas<span class="n">54</span></a>
+  <a class="tab" href="pipeline/index.html">Pipeline &amp; Logbooks</a>
+  <a class="tab" href="methodology/index.html">Methodology</a>
+  <a class="tab" href="https://github.com/spdlearn/encore" target="_blank" rel="noopener">GitHub ↗</a>
+  <button class="theme" id="theme" type="button" title="Colour theme"><span>◐</span><span>Auto</span></button>
+</div></nav>
+<div class="wrap">
+<header class="page">
+  <div class="eyebrow">The SPD-Learn Encore Registry · ICML 2026 &amp; NEMAR Auditing Pipeline</div>
+  <h1>Can the mathematical, signal, and decoding claims of Riemannian SPD papers be reproduced?</h1>
+  <p class="lede">
+    Autonomous coding agents implement 18 Riemannian geometry papers in <a href="https://spdlearn.org"><code>spd_learn</code></a>, extract 54 falsifiable anchor claims across <strong>Structural</strong>, <strong>Signal</strong>, and <strong>Analytical</strong> tiers, execute them inside standardized Trackio logbooks, render 54 exact diagnostic figure panels, and submit every trace to an untrusted-narrative automated Logbook Judge.
+    <a href="methodology/index.html">How the methodology works</a> · <a href="figures/index.html">Browse all 54 exact figure deconstructions</a>
+  </p>
+</header>
+
+<main>
+  <section aria-label="Key Metrics">
+    <div class="tiles">
+      <div class="tile"><div class="n">18</div><div class="l">Papers Audited</div><div class="sub-l">Issue #47 + Z. Chen + Exa Lit Review</div></div>
+      <div class="tile"><div class="n">54</div><div class="l">Claims Tested</div><div class="sub-l">18 Structural · 18 Signal · 18 Analytical</div></div>
+      <div class="tile"><div class="n">36</div><div class="l">Full Reproductions</div><div class="sub-l">Verified (2 pts each · 100% finite)</div></div>
+      <div class="tile"><div class="n">18</div><div class="l">Toy / Synthetic EEG</div><div class="sub-l">Analytical tier (1 pt each · &ge;75% acc)</div></div>
+      <div class="tile"><div class="n">54</div><div class="l">Exact Figure Panels</div><div class="sub-l">+ Original paper figure deconstructions</div></div>
+      <div class="tile"><div class="n">90<span style="font-size:1.1rem;color:var(--muted)"> / 90</span></div><div class="l">Logbook Judge Score</div><div class="sub-l">0 Falsified · 0 Inconclusive</div></div>
+    </div>
+  </section>
+
+  <div class="panel">
+    <h2>Outcomes of the 54 Anchor Claims Audited by <code>spd-learn-logbook-judge-1.0</code></h2>
+    <div class="bar" role="img" aria-label="Outcomes of 54 claims">
+      <a class="seg good" style="flex:36" title="Verified (Full Scope): 36 of 54 (2 pts each)" href="papers/index.html"></a>
+      <a class="seg warning" style="flex:18" title="Toy (Synthetic EEG Benchmark): 18 of 54 (1 pt each)" href="papers/index.html"></a>
+    </div>
+    <ul class="legend">
+      <li><span class="swatch good">✓</span><strong>36 Verified (Full Scope · 2 pts)</strong> — All 18 Structural (mathematical identity / manifold closure) &amp; all 18 Signal (ill-conditioned $\kappa=10^6$ / gain invariance) claims</li>
+      <li><span class="swatch warning">◐</span><strong>18 Toy / Reduced-Scale (1 pt)</strong> — All 18 Analytical EEG decoding claims verified on synthetic multi-channel oscillatory EEG covariances</li>
+      <li><span class="swatch unresolved">?</span><strong>0 Falsified (2 pts)</strong></li>
+      <li><span class="swatch blocked">⊘</span><strong>0 Inconclusive (0 pts)</strong></li>
+    </ul>
+    <div class="caution">
+      <p style="margin:0 0 6px"><strong>Epistemological &amp; ICML 2026 Judge Rule: Narrative Self-Assessments Are Untrusted.</strong></p>
+      <p class="small" style="margin:0">
+        Following <a href="https://encorescience.org/">Encore Science</a> and the ICML 2026 Open Reproductions <code>logbook-judge</code> architecture, our automated judge (<code>repro/judge.py</code>) ignores agent prose and inspects only the machine-readable Trackio execution trace (<code>exit_code == 0</code>, <code>math.isfinite</code> on every tensor metric, and deterministic threshold predicates). Analytical claims run on synthetic oscillatory EEG trials are scored as <code>Toy (1 pt)</code> rather than <code>Verified (2 pts)</code> to strictly distinguish synthetic algorithmic validation from full multi-subject NEMAR/MOABB BIDS reproduction.
+      </p>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="panel">
+      <h2>Outcomes by NEMAR Claim Tier</h2>
+      <table class="data-table">
+        <thead><tr><th>Claim Tier</th><th>What It Tests</th><th>Outcome Distribution</th><th>Count</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><strong>C1: Structural</strong></td>
+            <td class="small">Diffeomorphic roundtrips, manifold closure ($\lambda_{\min}>0$), complexity</td>
+            <td><div class="bar mini"><span class="seg good" style="flex:18"></span></div> <span class="small">18 Verified</span></td>
+            <td><strong>18 / 18</strong></td>
+          </tr>
+          <tr>
+            <td><strong>C2: Signal</strong></td>
+            <td class="small">Condition number $\kappa=10^6$ stability, electrode gain invariance $DSD$</td>
+            <td><div class="bar mini"><span class="seg good" style="flex:18"></span></div> <span class="small">18 Verified</span></td>
+            <td><strong>18 / 18</strong></td>
+          </tr>
+          <tr>
+            <td><strong>C3: Analytical</strong></td>
+            <td class="small">End-to-end training &amp; held-out EEG decoding accuracy (&ge;75%)</td>
+            <td><div class="bar mini"><span class="seg warning" style="flex:18"></span></div> <span class="small">18 Toy (1 pt)</span></td>
+            <td><strong>18 / 18</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel">
+      <h2>Outcomes by Riemannian Geometry Family</h2>
+      <table class="data-table">
+        <thead><tr><th>Manifold / Metric Family</th><th>Papers</th><th>Claims</th><th>Score</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Cholesky Product &amp; Log-Cholesky (PCM, BWCM, CBN)</strong></td><td>2</td><td>6</td><td><strong>10 / 10</strong></td></tr>
+          <tr><td><strong>Full-Rank Correlation Manifold $\mathcal{C}_{++}^d$ (CorAtt, CorNet)</strong></td><td>2</td><td>6</td><td><strong>10 / 10</strong></td></tr>
+          <tr><td><strong>Bures-Wasserstein &amp; Harmonic-Arithmetic (GBWAtt, GBWBN, ARMAGNAC)</strong></td><td>3</td><td>9</td><td><strong>15 / 15</strong></td></tr>
+          <tr><td><strong>Gyrovector &amp; Pullback Tangent (RieTrans, GyroAtt, GyroSPD)</strong></td><td>3</td><td>9</td><td><strong>15 / 15</strong></td></tr>
+          <tr><td><strong>Transformers, MetaFormers &amp; High-Order Pooling (SPDTransNet, MetaFormer, RHOP)</strong></td><td>3</td><td>9</td><td><strong>15 / 15</strong></td></tr>
+          <tr><td><strong>Graph, Autoencoder, CCA &amp; Hybrid (GraphCSPNet, DeepGeoCCA, RCEEGNet, STaRNet, ALEM, SPDNetAE)</strong></td><td>5</td><td>15</td><td><strong>25 / 25</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="panel" style="padding:0">
+    <div style="padding:16px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+      <div>
+        <h2 style="margin:0">All 18 Audited Papers &amp; Reproduction Logbooks</h2>
+        <p class="small muted" style="margin:2px 0 0">Click any paper to inspect its 3 live SVG diagnostic panels, original paper figure deconstructions, Trackio logbook, and verifier code.</p>
+      </div>
+      <a class="tag" href="figures/index.html">Open Full 54-Panel Visual Atlas →</a>
+    </div>
+    <div>
+      <div class="drow" data-category="riemannian metric">
+  <div class="id">
+    <a href="papers/chen2026pcm_bwcm/index.html"><strong><code>chen2026pcm_bwcm</code></strong></a><br>
+    <span class="tag">ICLR 2026</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/chen2026pcm_bwcm/index.html"><strong>Fast and Stable Riemannian Metrics on SPD Manifolds via Cholesky Product Geometry</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">Cholesky Product Space (L = tril(L) + diag(d)) · Ziheng Chen, Yue Song, Rui Wang et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/chen2026pcm_bwcm/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>2.3031s</code></span>
+  </div>
+</div><div class="drow" data-category="manifold attention">
+  <div class="id">
+    <a href="papers/hu2025coratt/index.html"><strong><code>hu2025coratt</code></strong></a><br>
+    <span class="tag">IJCAI 2025</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/hu2025coratt/index.html"><strong>A Correlation Manifold Self-Attention Network for EEG Decoding</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">Full-Rank Correlation Manifold C++^d (LSM &amp; OLM) · Chen Hu, Rui Wang, Ziheng Chen et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/hu2025coratt/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>2.3283s</code></span>
+  </div>
+</div><div class="drow" data-category="correlation manifold">
+  <div class="id">
+    <a href="papers/chen2026cornet/index.html"><strong><code>chen2026cornet</code></strong></a><br>
+    <span class="tag">ICML 2026</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/chen2026cornet/index.html"><strong>Riemannian Networks over Full-Rank Correlation Matrices</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">Full-Rank Correlation Manifold C++^d (Row-Norm Full-Rank Bilinear Projection) · Ziheng Chen, Yue Song, Rui Wang et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/chen2026cornet/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>0.101s</code></span>
+  </div>
+</div><div class="drow" data-category="riemannian mlp / mlr">
+  <div class="id">
+    <a href="papers/chen2026rietrans/index.html"><strong><code>chen2026rietrans</code></strong></a><br>
+    <span class="tag">NeurIPS 2024 / NeurIPS 2026</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/chen2026rietrans/index.html"><strong>Riemannian Transformations for SPD Neural Networks (RieTrans &amp; RMLR)</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">Pullback Tangent Linear &amp; Multinomial Logistic Regression (LEM, LCM, AIM, PEM) · Ziheng Chen, Yue Song, Rui Wang et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/chen2026rietrans/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>0.2005s</code></span>
+  </div>
+</div><div class="drow" data-category="gyrovector attention">
+  <div class="id">
+    <a href="papers/wang2025gyroatt/index.html"><strong><code>wang2025gyroatt</code></strong></a><br>
+    <span class="tag">NeurIPS 2025</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/wang2025gyroatt/index.html"><strong>Towards a General Attention Framework on Gyrovector Spaces for Matrix Manifolds</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">SPD Gyrovector Space (Mobius Addition/Scalar Mult) &amp; Lie-Algebraic SymSPDAttention · Rui Wang, Chen Hu, Xiaoning Song et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/wang2025gyroatt/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>0.6085s</code></span>
+  </div>
+</div><div class="drow" data-category="spd graph network">
+  <div class="id">
+    <a href="papers/ju2023graphcspnet/index.html"><strong><code>ju2023graphcspnet</code></strong></a><br>
+    <span class="tag">IEEE TNNLS 2023</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/ju2023graphcspnet/index.html"><strong>Graph Neural Networks on SPD Manifolds for Motor Imagery Classification: A Perspective from the Time-Frequency Analysis</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">Convex Row-Stochastic Graph Aggregation on Time-Frequency SPD Cone · Ce Ju, Cuntai Guan et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/ju2023graphcspnet/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>0.2792s</code></span>
+  </div>
+</div><div class="drow" data-category="manifold attention">
+  <div class="id">
+    <a href="papers/zhou2026gbwatt/index.html"><strong><code>zhou2026gbwatt</code></strong></a><br>
+    <span class="tag">KDD 2026</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/zhou2026gbwatt/index.html"><strong>Towards Robust EEG Decoding Based on Riemannian Self-Attention</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">Generalized Bures-Wasserstein Geometry (M, theta) with Positive Curvature · Tao Zhou, Rui Wang, Ziheng Chen et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/zhou2026gbwatt/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>0.935s</code></span>
+  </div>
+</div><div class="drow" data-category="riemannian transformer">
+  <div class="id">
+    <a href="papers/seraphim2023spdtransnet/index.html"><strong><code>seraphim2023spdtransnet</code></strong></a><br>
+    <span class="tag">arXiv 2023</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/seraphim2023spdtransnet/index.html"><strong>Structure-Preserving Transformers for Sequences of SPD Matrices</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">Isometric Log-Euclidean Tangent Space T_I S++^d with Arbitrary-Head SP-MHA · Mathieu Seraphim, Alexis Lechervy, Florian Yger et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/seraphim2023spdtransnet/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>0.5433s</code></span>
+  </div>
+</div><div class="drow" data-category="manifold metaformer">
+  <div class="id">
+    <a href="papers/wang2026spdmetaformer/index.html"><strong><code>wang2026spdmetaformer</code></strong></a><br>
+    <span class="tag">arXiv 2026</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/wang2026spdmetaformer/index.html"><strong>SPD-MetaFormer Is What You Need for Small-Data Brain Decoding</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">Parameter-Free Temporal SPD Token Mixer + BiMap Channel MLP + LogEuclideanResidual · Zhida Wang, Wei Lyu, Guo Yu et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/wang2026spdmetaformer/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>0.5006s</code></span>
+  </div>
+</div><div class="drow" data-category="foundation model pooling">
+  <div class="id">
+    <a href="papers/hu2026rhop/index.html"><strong><code>hu2026rhop</code></strong></a><br>
+    <span class="tag">ICLR 2026</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/hu2026rhop/index.html"><strong>Riemannian High-Order Pooling for Brain Foundation Models</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">Gaussian-Process SPD Descriptor G in S++^{d+1} + Bilinear Contraction + PEM/LEM · Chen Hu, Rui Wang, Ziheng Chen et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/hu2026rhop/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>0.1476s</code></span>
+  </div>
+</div><div class="drow" data-category="self-supervised / multi-view">
+  <div class="id">
+    <a href="papers/ju2024deepgeocca/index.html"><strong><code>ju2024deepgeocca</code></strong></a><br>
+    <span class="tag">ICLR 2024</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/ju2024deepgeocca/index.html"><strong>Deep Geodesic Canonical Correlation Analysis for Covariance-Based Neuroimaging Data</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">Log-Euclidean Tangent Whitened Cross-Covariance Nuclear Norm (-Tr((Sigma_11^{-1/2} Sigma_12 Sigma_22^{-1/2} ...)^{1/2})) · Ce Ju, Reinmar J. Kobler, Liyao Tang et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/ju2024deepgeocca/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>1.8604s</code></span>
+  </div>
+</div><div class="drow" data-category="riemannian batchnorm">
+  <div class="id">
+    <a href="papers/gallet2026armagnac/index.html"><strong><code>gallet2026armagnac</code></strong></a><br>
+    <span class="tag">HAL / Signal Processing 2026</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/gallet2026armagnac/index.html"><strong>ARMAGNAC: A New Parametric Batch Normalization Layer for SPDNet Architecture</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">AIRM Geodesic Interpolation Between Harmonic Mean H and Arithmetic Mean A (H #_alpha A) · Matthieu Gallet, Florent Bouchard, Ammar Mian et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/gallet2026armagnac/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>0.1465s</code></span>
+  </div>
+</div><div class="drow" data-category="riemannian batchnorm">
+  <div class="id">
+    <a href="papers/zhou2025gbwbn_cbn/index.html"><strong><code>zhou2025gbwbn_cbn</code></strong></a><br>
+    <span class="tag">CVPR 2025 / IEEE TNNLS 2025</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/zhou2025gbwbn_cbn/index.html"><strong>Learning to Normalize on the SPD Manifold under Bures-Wasserstein and Cholesky Geometries</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">Generalized Bures-Wasserstein Barycenter &amp; Log-Cholesky Tangent Standardization · Tao Zhou, Rui Wang, Ziheng Chen et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/zhou2025gbwbn_cbn/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>3.2388s</code></span>
+  </div>
+</div><div class="drow" data-category="hybrid cnn-spd">
+  <div class="id">
+    <a href="papers/tibermacine2025rceegnet/index.html"><strong><code>tibermacine2025rceegnet</code></strong></a><br>
+    <span class="tag">IJCNN 2025</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/tibermacine2025rceegnet/index.html"><strong>Geometry-Aware Convolutional Neural Networks on SPD Manifolds (RCEEGNet)</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">EEGNet Depthwise-Separable Frontend + SPD BiMap/ReEig/LogEig + 1D-CNN Classifier · Imad Eddine Tibermacine, Samuele Russo, Christian Napoli et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/tibermacine2025rceegnet/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>0.3496s</code></span>
+  </div>
+</div><div class="drow" data-category="dual-branch fusion">
+  <div class="id">
+    <a href="papers/wang2024starnet/index.html"><strong><code>wang2024starnet</code></strong></a><br>
+    <span class="tag">Neural Networks 2024</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/wang2024starnet/index.html"><strong>STaRNet: A Spatio-Temporal and Riemannian Network for High-Performance Motor Imagery Decoding</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">Parallel Patch-Wise Depthwise SPD Manifold Branch + Euclidean Squeeze-and-Excitation Branch · Xingfu Wang, Yong Li, et al. et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/wang2024starnet/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>4.172s</code></span>
+  </div>
+</div><div class="drow" data-category="riemannian resnet">
+  <div class="id">
+    <a href="papers/chen2025alem_spdresnet/index.html"><strong><code>chen2025alem_spdresnet</code></strong></a><br>
+    <span class="tag">IEEE TIP 2024 / ICLR 2025</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/chen2025alem_spdresnet/index.html"><strong>Understanding Matrix Function Normalizations in Covariance Pooling through the Lens of Riemannian Geometry (ALEM &amp; SPDResNet)</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">Spectral 1D-CNN Eigenvalue Residual Blocks + Learnable ALEM Power Deformation · Ziheng Chen, Yue Song, Rui Wang et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/chen2025alem_spdresnet/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>0.537s</code></span>
+  </div>
+</div><div class="drow" data-category="gyrovector network">
+  <div class="id">
+    <a href="papers/nguyen2023gyrospd/index.html"><strong><code>nguyen2023gyrospd</code></strong></a><br>
+    <span class="tag">ICML 2023</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/nguyen2023gyrospd/index.html"><strong>Building Neural Networks on Matrix Manifolds: A Gyrovector Space Approach</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">AIRM Gyrovector Space (Mobius Gyro-Translation B^{1/2} W X W^T B^{1/2}) · Xuan Son Nguyen, Shuo Yang et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/nguyen2023gyrospd/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>0.1274s</code></span>
+  </div>
+</div><div class="drow" data-category="riemannian ae &amp; graph">
+  <div class="id">
+    <a href="papers/boucherie2026spdnetae_ssgcnet/index.html"><strong><code>boucherie2026spdnetae_ssgcnet</code></strong></a><br>
+    <span class="tag">HAL 2026 / IEEE TNSRE 2026</span>
+  </div>
+  <div>
+    <p style="margin:0 0 4px"><a href="papers/boucherie2026spdnetae_ssgcnet/index.html"><strong>SPDNet-AE: a Compact SPD Representation through Riemannian Autoencoding &amp; Stiefel-SPD Manifold Graph Convolution</strong></a></p>
+    <p class="small muted" style="margin:0 0 6px">Stiefel Dimension-Expanding SPD Decoder + Stiefel k-NN Tangent Graph Convolution · Charlotte Boucherie, Thibault de Surrel, Florian Yger et al.</p>
+    <div>
+      <div class="bar mini" role="img" aria-label="2 Verified, 1 Toy">
+        <span class="seg good" style="flex:2" title="Verified: 2 (Structural &amp; Signal)"></span>
+        <span class="seg warning" style="flex:1" title="Toy: 1 (Analytical Synthetic EEG)"></span>
+      </div>
+      <span class="small" style="margin-left:8px">
+        <span class="swatch good">✓ 2 Verified</span>
+        <span class="swatch warning">◐ 1 Toy</span>
+        <a class="small" style="margin-left:8px" href="papers/boucherie2026spdnetae_ssgcnet/index.html#tab-figures">View 3 SVG Panels &amp; Paper Figures →</a>
+      </span>
+    </div>
+  </div>
+  <div style="text-align:right">
+    <span class="chip good">✓ Judge Verified</span><br>
+    <span class="small"><strong>5 / 5 pts</strong> · <code>1.2324s</code></span>
+  </div>
+</div>
+    </div>
+  </div>
+</main>
+<footer>
+  SPD-Learn Encore Reproducibility Registry · Proof-of-Concept Sub-Page for <a href="https://spdlearn.org">spdlearn.org</a> (inspired by <a href="https://encorescience.org/">Encore Science</a> &amp; the ICML 2026 Open Reproductions / NEMAR Auditing Blueprint) ·
+  <a href="registry.json">Registry JSON</a> ·
+  <a href="repro/verdicts.json">Judge Verdicts JSON</a> ·
+  <a href="https://github.com/spdlearn/spd_learn">spd_learn Repository</a>.
+  Every verdict is computed deterministically from raw Trackio execution traces by an untrusted-narrative automated judge.
+</footer>
+</div>
+<script>(function(){
+var b=document.getElementById('theme'),order=['auto','light','dark'],icon={auto:'◐',light:'☀',dark:'☾'},
+name={auto:'Auto',light:'Light',dark:'Dark'};
+function get(){try{var t=localStorage.getItem('theme');return t==='light'||t==='dark'?t:'auto';}catch(e){return 'auto';}}
+function show(t){if(!b)return;b.firstChild.textContent=icon[t];b.lastChild.textContent=name[t];}
+if(b){b.addEventListener('click',function(){var t=order[(order.indexOf(get())+1)%3];
+try{t==='auto'?localStorage.removeItem('theme'):localStorage.setItem('theme',t);}catch(e){}
+if(t==='auto')delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=t;show(t);});
+show(get());}})();</script>
+</body></html>
