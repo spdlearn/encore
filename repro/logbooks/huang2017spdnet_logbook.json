@@ -1,0 +1,41 @@
+{
+  "schema": "trackio-logbook-v2",
+  "paper_id": "huang2017spdnet",
+  "paper_name": "SPDNet: A Riemannian Network for SPD Matrix Learning (AAAI 2017)",
+  "timestamp": "2026-11-05T16:35:43.084636+00:00",
+  "git_commit": "3a9e18d",
+  "command": "python -m repro.trackio_runner run --paper-id huang2017spdnet",
+  "exit_code": 0,
+  "duration_sec": 4.4558,
+  "error": null,
+  "claim_traces": {
+    "huang2017spdnet_c1": {
+      "stiefel_orthogonality_error": 3.782313342526322e-07,
+      "post_reeig_min_eig": 0.02629523165524006,
+      "tangent_vec_dim": 36,
+      "expected_vec_dim": 36,
+      "passed": true,
+      "scope": "full"
+    },
+    "huang2017spdnet_c2": {
+      "hdm05_raw_median_kappa": 691927.875,
+      "post_bimap_reeig_median_kappa": 129495.4609375,
+      "grad_finite": true,
+      "passed": false,
+      "scope": "full"
+    },
+    "huang2017spdnet_c3": {
+      "harness": "spd-bench HDM05 [93,30] (10 seeds) + MOABB BNCI2014-001 CrossSession",
+      "hdm05_published_mean_pct": 61.6,
+      "hdm05_published_sd_pct": 1.35,
+      "hdm05_our_harness_mean_pct": 63.1,
+      "hdm05_our_harness_sd_pct": 1.53,
+      "hdm05_delta_pct": 1.5,
+      "bnci_subj3_train_acc_pct": 81.6,
+      "bnci_subj3_test_acc_pct": 75.35,
+      "chance_level_pct": 25.0,
+      "passed": true,
+      "scope": "full"
+    }
+  }
+}

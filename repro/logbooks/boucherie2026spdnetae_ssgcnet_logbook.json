@@ -1,31 +1,33 @@
 {
-  "schema": "trackio-logbook-v1",
+  "schema": "trackio-logbook-v2",
   "paper_id": "boucherie2026spdnetae_ssgcnet",
-  "paper_name": "SPDNet-AE (HAL 2026) & SSGCNet (IEEE TNSRE 2026)",
-  "timestamp": "2026-11-05T14:47:35.982580+00:00",
-  "git_commit": "b3cf097",
+  "paper_name": "SPDNet-AE & SSGCNet: Riemannian Autoencoding & Stiefel-SPD Graph Conv (HAL / IEEE TNSRE 2026)",
+  "timestamp": "2026-11-05T16:37:36.997375+00:00",
+  "git_commit": "3a9e18d",
   "command": "python -m repro.trackio_runner run --paper-id boucherie2026spdnetae_ssgcnet",
   "exit_code": 0,
-  "duration_sec": 1.2324,
+  "duration_sec": 7.1625,
   "error": null,
   "claim_traces": {
     "boucherie2026spdnetae_ssgcnet_c1": {
-      "latent_min_eig": 0.1617300659418106,
-      "reconstructed_min_eig": 0.16173020005226135,
+      "latent_min_eig": 0.12310659885406494,
+      "reconstructed_min_eig": 0.12310611456632614,
       "passed": true,
       "scope": "full"
     },
     "boucherie2026spdnetae_ssgcnet_c2": {
-      "initial_geodesic_recon_loss": 11.72391128540039,
-      "final_geodesic_recon_loss": 7.903109073638916,
+      "initial_geodesic_recon_loss": 65.17560577392578,
+      "final_geodesic_recon_loss": 40.52341842651367,
       "passed": true,
       "scope": "full"
     },
     "boucherie2026spdnetae_ssgcnet_c3": {
-      "spdnetae_test_acc": 0.949999988079071,
-      "ssgcnet_test_acc": 1.0,
+      "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+      "spdnetae_bnci_subj3_test_acc_pct": 67.01,
+      "ssgcnet_bnci_subj3_test_acc_pct": 68.4,
+      "chance_level_pct": 25.0,
       "passed": true,
-      "scope": "toy"
+      "scope": "full"
     }
   }
 }

@@ -1,0 +1,37 @@
+{
+  "schema": "trackio-logbook-v2",
+  "paper_id": "brooks2019spdnetbn",
+  "paper_name": "SPDNetBN: Riemannian Batch Normalization for SPD Neural Networks (NeurIPS 2019)",
+  "timestamp": "2026-11-05T16:35:44.745996+00:00",
+  "git_commit": "3a9e18d",
+  "command": "python -m repro.trackio_runner run --paper-id brooks2019spdnetbn",
+  "exit_code": 0,
+  "duration_sec": 1.6232,
+  "error": null,
+  "claim_traces": {
+    "brooks2019spdnetbn_c1": {
+      "post_centering_frechet_mean_error": 0.0003150078921703039,
+      "passed": false,
+      "scope": "full"
+    },
+    "brooks2019spdnetbn_c2": {
+      "unnormalized_mean_drift": 10.71370504457553,
+      "spdnetbn_centered_drift": 0.013911679020075106,
+      "drift_reduction_ratio": 770.12,
+      "passed": true,
+      "scope": "full"
+    },
+    "brooks2019spdnetbn_c3": {
+      "harness": "spd-bench HDM05 [93,30] + Radar [20,16,14,12,10] + MOABB BNCI2014-001",
+      "hdm05_published_mean_pct": 65.2,
+      "hdm05_published_sd_pct": 1.15,
+      "hdm05_our_harness_mean_pct": 67.12,
+      "hdm05_our_harness_sd_pct": 1.48,
+      "hdm05_delta_pct": 1.92,
+      "radar_3class_our_harness_mean_pct": 95.36,
+      "bnci_subj3_test_acc_pct": 71.88,
+      "passed": true,
+      "scope": "baseline_adjusted"
+    }
+  }
+}

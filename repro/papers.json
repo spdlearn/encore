@@ -1,5 +1,120 @@
 [
   {
+    "paper_id": "huang2017spdnet",
+    "title": "A Riemannian Network for SPD Matrix Learning (SPDNet)",
+    "authors": ["Zhiwu Huang", "Luc Van Gool"],
+    "venue": "AAAI 2017",
+    "year": 2017,
+    "url": "https://doi.org/10.1609/aaai.v31i1.10866",
+    "worktree_branch": "main (spd_learn.models.SPDNet)",
+    "spd_learn_targets": [
+      "spd_learn.models.SPDNet",
+      "spd_learn.modules.BiMap",
+      "spd_learn.modules.ReEig",
+      "spd_learn.modules.LogEig"
+    ]
+  },
+  {
+    "paper_id": "brooks2019spdnetbn",
+    "title": "Riemannian Batch Normalization for SPD Neural Networks (SPDNetBN)",
+    "authors": ["Daniel Brooks", "Olivier Schwander", "Frédéric Barbaresco", "Jean-Yves Schneider", "Matthieu Cord"],
+    "venue": "NeurIPS 2019",
+    "year": 2019,
+    "url": "https://papers.nips.cc/paper/2019/hash/6e69ebbfad976d4637bb4b39de261bf7-Abstract.html",
+    "worktree_branch": "main (spd_learn.modules.SPDBatchNormMean)",
+    "spd_learn_targets": [
+      "spd_learn.modules.SPDBatchNormMean",
+      "spd_learn.functional.frechet_mean",
+      "spd_learn.functional.spd_centering",
+      "spd_learn.functional.spd_rebiasing"
+    ]
+  },
+  {
+    "paper_id": "kobler2022tsmnet",
+    "title": "SPD Domain-Specific Momentum Batch Normalization for Passively Addressing Domain Shift in EEG Decoding (TSMNet & SPDDSMBN)",
+    "authors": ["Reinmar J. Kobler", "Jun-ichiro Hirayama", "Qibin Zhao", "Motoaki Kawanabe"],
+    "venue": "NeurIPS 2022",
+    "year": 2022,
+    "url": "https://github.com/rkobler/TSMNet",
+    "worktree_branch": "main (spd_learn.models.TSMNet)",
+    "spd_learn_targets": [
+      "spd_learn.models.TSMNet",
+      "spd_learn.modules.SPDBatchNormMeanVar",
+      "spd_learn.functional.tangent_space_variance"
+    ]
+  },
+  {
+    "paper_id": "ju2022tensorcspnet",
+    "title": "Tensor-CSPNet: A Geometric Deep Learning Framework for Motor Imagery Classification",
+    "authors": ["Ce Ju", "Cuntai Guan"],
+    "venue": "IEEE TNNLS 2022",
+    "year": 2022,
+    "url": "https://doi.org/10.1109/TNNLS.2022.3172108",
+    "worktree_branch": "main (spd_learn.models.TensorCSPNet)",
+    "spd_learn_targets": [
+      "spd_learn.models.TensorCSPNet",
+      "spd_learn.modules.PatchEmbeddingLayer"
+    ]
+  },
+  {
+    "paper_id": "pan2022matt",
+    "title": "MAtt: A Manifold Attention Network for EEG Decoding",
+    "authors": ["Yue-Ting Pan", "Jing-Lun Chou", "Chun-Shu Wei"],
+    "venue": "NeurIPS 2022",
+    "year": 2022,
+    "url": "https://github.com/CECNL/MAtt",
+    "worktree_branch": "main (spd_learn.models.MAtt)",
+    "spd_learn_targets": [
+      "spd_learn.models.MAtt",
+      "spd_learn.models.AttentionManifold",
+      "spd_learn.functional.log_euclidean_distance",
+      "spd_learn.functional.log_euclidean_mean"
+    ]
+  },
+  {
+    "paper_id": "chen2024liebn",
+    "title": "A Lie Group Approach to Riemannian Batch Normalization (LieBN)",
+    "authors": ["Ziheng Chen", "Yue Song", "Yunmei Liu", "Nicu Sebe"],
+    "venue": "ICLR 2024",
+    "year": 2024,
+    "url": "https://github.com/GitZH-Chen/LieBN",
+    "worktree_branch": "main (spd_learn.modules.SPDBatchNormLie)",
+    "spd_learn_targets": [
+      "spd_learn.modules.SPDBatchNormLie",
+      "spd_learn.functional.lie_group_variance",
+      "spd_learn.functional.spd_cholesky_congruence"
+    ]
+  },
+  {
+    "paper_id": "paillard2024green",
+    "title": "GREEN: A Lightweight Architecture Using Learnable Wavelets and Riemannian Geometry for Biomarker Exploration",
+    "authors": ["Joseph Paillard", "Joerg F. Hipp", "Denis A. Engemann"],
+    "venue": "Patterns 2024",
+    "year": 2024,
+    "url": "https://doi.org/10.1016/j.patter.2024.101182",
+    "worktree_branch": "main (spd_learn.models.Green)",
+    "spd_learn_targets": [
+      "spd_learn.models.Green",
+      "spd_learn.modules.WaveletConv",
+      "spd_learn.modules.Shrinkage"
+    ]
+  },
+  {
+    "paper_id": "wilson2025eegspdnet",
+    "title": "Deep Riemannian Networks for End-to-End EEG Decoding (EEGSPDNet & PhaseSPDNet)",
+    "authors": ["Daniel Wilson", "Igor Carrara", "Théo Papadopoulo", "et al."],
+    "venue": "Neural Networks / IEEE TNSRE 2024-2025",
+    "year": 2025,
+    "url": "https://doi.org/10.48550/arxiv.2402.01234",
+    "worktree_branch": "main (spd_learn.models.EEGSPDNet, PhaseSPDNet)",
+    "spd_learn_targets": [
+      "spd_learn.models.EEGSPDNet",
+      "spd_learn.models.PhaseSPDNet",
+      "spd_learn.models.PhaseDelay",
+      "spd_learn.modules.SPDDropout"
+    ]
+  },
+  {
     "paper_id": "chen2026pcm_bwcm",
     "title": "Fast and Stable Riemannian Metrics on SPD Manifolds via Cholesky Product Geometry",
     "authors": ["Ziheng Chen", "Yue Song", "Rui Wang", "Xiao-Jun Wu", "Nicu Sebe"],

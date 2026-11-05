@@ -1,18 +1,18 @@
 {
-  "schema": "trackio-logbook-v1",
+  "schema": "trackio-logbook-v2",
   "paper_id": "tibermacine2025rceegnet",
-  "paper_name": "RCEEGNet (IJCNN 2025, Issue #31)",
-  "timestamp": "2026-11-05T14:47:33.948853+00:00",
-  "git_commit": "b3cf097",
+  "paper_name": "RCEEGNet: Geometry-Aware CNN on SPD Manifolds (IJCNN 2025)",
+  "timestamp": "2026-11-05T16:37:19.026633+00:00",
+  "git_commit": "3a9e18d",
   "command": "python -m repro.trackio_runner run --paper-id tibermacine2025rceegnet",
   "exit_code": 0,
-  "duration_sec": 0.3496,
+  "duration_sec": 22.2814,
   "error": null,
   "claim_traces": {
     "tibermacine2025rceegnet_c1": {
       "output_shape": [
         4,
-        2
+        4
       ],
       "passed": true,
       "scope": "full"
@@ -23,9 +23,12 @@
       "scope": "full"
     },
     "tibermacine2025rceegnet_c3": {
-      "test_acc": 1.0,
-      "passed": true,
-      "scope": "toy"
+      "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+      "bnci_subj3_uncalibrated_mom01_test_acc_pct": 47.22,
+      "bnci_subj3_calibrated_mom04_test_acc_pct": 66.67,
+      "momentum_calibration_gain_pp": 19.45,
+      "passed": false,
+      "scope": "baseline_adjusted"
     }
   }
 }

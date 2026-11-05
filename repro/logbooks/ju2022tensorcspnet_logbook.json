@@ -1,0 +1,43 @@
+{
+  "schema": "trackio-logbook-v2",
+  "paper_id": "ju2022tensorcspnet",
+  "paper_name": "Tensor-CSPNet: Time-Frequency-Spatial SPD Network (IEEE TNNLS 2022)",
+  "timestamp": "2026-11-05T16:35:56.924317+00:00",
+  "git_commit": "3a9e18d",
+  "command": "python -m repro.trackio_runner run --paper-id ju2022tensorcspnet",
+  "exit_code": 0,
+  "duration_sec": 4.6093,
+  "error": null,
+  "claim_traces": {
+    "ju2022tensorcspnet_c1": {
+      "filterbank_input_shape": [
+        4,
+        3,
+        12,
+        250
+      ],
+      "depthwise_slices": 6,
+      "min_eig_patch_cov": 0.00015752550098113716,
+      "passed": true,
+      "scope": "full"
+    },
+    "ju2022tensorcspnet_c2": {
+      "single_band_fisher_ratio": 0.243,
+      "multiband_fisher_ratio": 0.131,
+      "passed": false,
+      "scope": "full"
+    },
+    "ju2022tensorcspnet_c3": {
+      "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+      "published_mean_pct": 75.98,
+      "published_sd_pct": 11.1,
+      "our_9subj_harness_mean_pct": 74.12,
+      "our_9subj_harness_sd_pct": 11.85,
+      "delta_pct": -1.86,
+      "bnci_subj3_compact3band_train_acc_pct": 81.94,
+      "bnci_subj3_compact3band_test_acc_pct": 65.62,
+      "passed": true,
+      "scope": "full"
+    }
+  }
+}

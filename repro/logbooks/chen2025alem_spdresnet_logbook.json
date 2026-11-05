@@ -1,29 +1,32 @@
 {
-  "schema": "trackio-logbook-v1",
+  "schema": "trackio-logbook-v2",
   "paper_id": "chen2025alem_spdresnet",
-  "paper_name": "ALEM & SPDResNet (IEEE TIP 2024 / ICLR 2025 / NeurIPS 2026)",
-  "timestamp": "2026-11-05T14:47:34.571107+00:00",
-  "git_commit": "b3cf097",
+  "paper_name": "ALEM & SPDResNet: Adaptive Log-Euclidean & Spectral ResNet (IEEE TIP 2024 / ICLR 2025)",
+  "timestamp": "2026-11-05T16:37:29.116221+00:00",
+  "git_commit": "3a9e18d",
   "command": "python -m repro.trackio_runner run --paper-id chen2025alem_spdresnet",
   "exit_code": 0,
-  "duration_sec": 0.537,
+  "duration_sec": 3.5374,
   "error": null,
   "claim_traces": {
     "chen2025alem_spdresnet_c1": {
       "alem_spd_min_eig": 0.2676447710635149,
-      "spdresblock_min_eig": 0.2223249077796936,
+      "spdresblock_min_eig": 0.24837486445903778,
       "passed": true,
       "scope": "full"
     },
     "chen2025alem_spdresnet_c2": {
-      "input_grad_norm_2_blocks": 19.42245864868164,
+      "input_grad_norm_2_blocks": 9.653421401977539,
       "passed": true,
       "scope": "full"
     },
     "chen2025alem_spdresnet_c3": {
-      "test_acc": 1.0,
-      "passed": true,
-      "scope": "toy"
+      "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+      "bnci_subj3_train_acc_pct": 57.99,
+      "bnci_subj3_test_acc_pct": 50.35,
+      "chance_level_pct": 25.0,
+      "passed": false,
+      "scope": "full"
     }
   }
 }

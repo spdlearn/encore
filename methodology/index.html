@@ -3,6 +3,9 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
 <link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
 <title>Methodology: Encore Science + ICML 2026 + NEMAR Blueprint · SPD-Learn Encore Registry</title></head><body>
 <nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="../index.html">
@@ -11,8 +14,8 @@
   </a>
   <a class="by" href="https://spdlearn.org">for spdlearn.org</a>
   <a class="tab" href="../index.html">Overview</a>
-  <a class="tab" href="../papers/index.html">Papers &amp; Claims<span class="n">18 / 54</span></a>
-  <a class="tab" href="../figures/index.html">Exact Figures Atlas<span class="n">54</span></a>
+  <a class="tab" href="../papers/index.html">Papers &amp; Claims<span class="n">26 / 78</span></a>
+  <a class="tab" href="../figures/index.html">Figures Atlas<span class="n">78</span></a>
   <a class="tab" href="../pipeline/index.html">Pipeline &amp; Logbooks</a>
   <a class="tab" href="../methodology/index.html" aria-current="page">Methodology</a>
   <a class="tab" href="https://github.com/spdlearn/encore" target="_blank" rel="noopener">GitHub ↗</a>
@@ -23,7 +26,7 @@
   <div class="eyebrow">Architectural Blueprint</div>
   <h1>Automated Claim Extraction &amp; Agentic Reproducibility Auditing for Riemannian Neuroinformatics</h1>
   <p class="lede">
-    How we synthesize CatalystNeuro's <strong>Encore Science</strong> registry design, the <strong>ICML 2026 Open Reproductions</strong> challenge (Trackio logbooks + untrusted-narrative automated judge), and the <strong>NEMAR / BIDS</strong> 3-tier neurophysiological claim taxonomy inside <code>spd_learn</code>.
+    How we combine CatalystNeuro's <strong>Encore Science</strong> registry design, the <strong>ICML 2026 Open Reproductions</strong> challenge (Trackio logbooks and untrusted-narrative automated judge), and the <strong>NEMAR / BIDS</strong> 3-tier neurophysiological claim taxonomy across all 26 models in <code>spd_learn</code>.
   </p>
 </header>
 <main>
@@ -32,9 +35,9 @@
     <svg viewBox="0 0 920 210" class="diag-svg" style="padding:10px" role="img" aria-label="Reproducibility Pipeline Architecture">
       <rect x="15" y="35" width="160" height="135" rx="6" fill="none" stroke="var(--accent)" stroke-width="2"/>
       <text x="95" y="62" text-anchor="middle" class="svg-title">1. Extraction Schema</text>
-      <text x="95" y="86" text-anchor="middle" class="svg-tick">repro/papers.json (18)</text>
+      <text x="95" y="86" text-anchor="middle" class="svg-tick">repro/papers.json (26)</text>
       <text x="95" y="106" text-anchor="middle" class="svg-tick">repro/abstracts.json</text>
-      <text x="95" y="126" text-anchor="middle" class="svg-tick">repro/claims.json (54)</text>
+      <text x="95" y="126" text-anchor="middle" class="svg-tick">repro/claims.json (78)</text>
       <text x="95" y="146" text-anchor="middle" class="svg-tick">repro/challenge.json</text>
 
       <line x1="175" y1="102" x2="215" y2="102" class="svg-axis" stroke-width="2"/>
@@ -42,23 +45,23 @@
       <text x="310" y="62" text-anchor="middle" class="svg-title">2. NEMAR 3-Tier Claims</text>
       <text x="310" y="88" text-anchor="middle" class="svg-tick">C1 Structural (Manifold ID)</text>
       <text x="310" y="110" text-anchor="middle" class="svg-tick">C2 Signal (kappa=10^6 / Gain)</text>
-      <text x="310" y="132" text-anchor="middle" class="svg-tick">C3 Analytical (EEG Decoding)</text>
+      <text x="310" y="132" text-anchor="middle" class="svg-tick">C3 Analytical (MOABB / HDM05)</text>
       <text x="310" y="152" text-anchor="middle" class="svg-tick">/ponytail Normalized Code</text>
 
       <line x1="405" y1="102" x2="445" y2="102" class="svg-axis" stroke-width="2"/>
       <rect x="445" y="35" width="205" height="135" rx="6" fill="none" stroke="var(--accent)" stroke-width="2"/>
-      <text x="547" y="62" text-anchor="middle" class="svg-title">3. Trackio Logbook Runner</text>
+      <text x="547" y="62" text-anchor="middle" class="svg-title">3. Voyager Trackio Runner</text>
       <text x="547" y="88" text-anchor="middle" class="svg-tick">repro/trackio_runner.py</text>
       <text x="547" y="110" text-anchor="middle" class="svg-tick">Captures git SHA, CLI, runtime</text>
       <text x="547" y="132" text-anchor="middle" class="svg-tick">logbooks/&lt;id&gt;_logbook.json</text>
-      <text x="547" y="152" text-anchor="middle" class="svg-tick">54 Live SVG Diagnostic Panels</text>
+      <text x="547" y="152" text-anchor="middle" class="svg-tick">78 Live SVG Diagnostic Panels</text>
 
       <line x1="650" y1="102" x2="690" y2="102" class="svg-axis" stroke-width="2"/>
       <rect x="690" y="35" width="215" height="135" rx="6" fill="none" stroke="var(--good)" stroke-width="2.2"/>
       <text x="797" y="62" text-anchor="middle" class="svg-title">4. Untrusted-Narrative Judge</text>
-      <text x="797" y="88" text-anchor="middle" class="svg-tick">repro/judge.py (GLM-5 Style)</text>
-      <text x="797" y="110" text-anchor="middle" class="svg-tick">Verified (2) | Falsified (2)</text>
-      <text x="797" y="132" text-anchor="middle" class="svg-tick">Toy (1) | Inconclusive (0)</text>
+      <text x="797" y="88" text-anchor="middle" class="svg-tick">repro/judge.py (v2.0)</text>
+      <text x="797" y="110" text-anchor="middle" class="svg-tick">Verified (2) | Adjusted (2)</text>
+      <text x="797" y="132" text-anchor="middle" class="svg-tick">Falsified (2) | Inconclusive (0)</text>
       <text x="797" y="152" text-anchor="middle" class="svg-tick">verdicts.json &amp; Encore Registry</text>
     </svg>
   </div>
@@ -66,45 +69,45 @@
   <div class="grid2">
     <div class="panel">
       <h2>2. Deconstructing the ICML 2026 Open Reproductions Schema</h2>
-      <p class="small">Instead of treating a paper as a monolithic pass/fail entity, our pipeline mirrors the four canonical files of the <code>ICML-2026-agent-repro/challenge</code> dataset:</p>
+      <p class="small">Instead of treating a paper as a monolithic pass or fail entity, our pipeline mirrors the four canonical files of the <code>ICML-2026-agent-repro/challenge</code> dataset:</p>
       <ul class="small">
-        <li><code>repro/papers.json</code>: Canonical index mapping each paper ID (e.g., <code>zhou2026gbwatt</code>, <code>gallet2026armagnac</code>) to its venue, DOI/arXiv URL, isolated worktree branch, and target <code>spd_learn</code> classes.</li>
+        <li><code>repro/papers.json</code>: Canonical index mapping each paper ID (8 foundational models from <code>spd_learn</code> plus 18 recent architectures from 2023 to 2026) to its venue, DOI or arXiv URL, isolated worktree branch, and target classes.</li>
         <li><code>repro/abstracts.json</code>: Key-value store of the raw paper abstracts used for claim grounding.</li>
-        <li><code>repro/claims.json</code>: Flat index of all 54 discrete, falsifiable assertions with explicit quantitative thresholds.</li>
-        <li><code>repro/challenge.json</code>: Master state file tracking the anchor claims and their current judge verdict (<code>VERIFIED</code>, <code>TOY</code>, <code>FALSIFIED</code>, or <code>INCONCLUSIVE</code>).</li>
+        <li><code>repro/claims.json</code>: Flat index of all 78 discrete, falsifiable assertions with explicit quantitative thresholds.</li>
+        <li><code>repro/challenge.json</code>: Master state file tracking the anchor claims and their current judge verdict (<code>Verified</code>, <code>Baseline-Adjusted</code>, <code>Falsified</code>, or <code>Inconclusive</code>).</li>
       </ul>
     </div>
 
     <div class="panel">
       <h2>3. Translating to Neuroinformatics: The 3-Tier Claim Taxonomy</h2>
-      <p class="small">Every paper in <code>spd_learn</code> is audited across three orthogonal epistemological dimensions inspired by the NEMAR BIDS / MNE-BIDS-Pipeline audit architecture:</p>
+      <p class="small">Every paper in <code>spd_learn</code> is audited across three orthogonal dimensions modeled on the NEMAR BIDS and MOABB benchmarking protocols:</p>
       <ul class="small">
-        <li><strong>Tier 1 — Structural &amp; Mathematical Identity (C1, Full Scope = 2 pts):</strong> Tests exact differential-geometric identities (e.g., $\text{Exp}_P(\text{Log}_P(X)) = X$ to $10^{-15}$, hollow tangent diagonals $\text{diag}(\Phi(C)) = 0$, $\mathcal{H} \#_0 \mathcal{A} = \mathcal{H}$, and positive-definite cone closure $\lambda_{\min}(Y) > 0$).</li>
-        <li><strong>Tier 2 — Signal &amp; Conditioning Regime (C2, Full Scope = 2 pts):</strong> Tests behavior under neurophysiological edge conditions: severely ill-conditioned covariances ($\kappa(X) = 10^6$), random per-electrode impedance/gain perturbations ($D S D$), temporal window jitter, and small-sample attention entropy saturation.</li>
-        <li><strong>Tier 3 — Analytical EEG Decoding (C3, Toy Scope = 1 pt):</strong> End-to-end supervised or self-supervised optimization on multi-channel oscillatory EEG trials, verifying loss convergence and held-out test accuracy $\ge 75\%$.</li>
+        <li><strong>Tier 1 (Structural Identity, C1):</strong> Tests exact differential-geometric identities ($\text{Exp}_P(\text{Log}_P(X)) = X$ to $10^{-15}$, hollow tangent diagonals $\text{diag}(\Phi(C)) = 0$, $\mathcal{H} \#_0 \mathcal{A} = \mathcal{H}$, and positive-definite cone closure $\lambda_{\min}(Y) > 0$).</li>
+        <li><strong>Tier 2 (Signal &amp; Conditioning Regime, C2):</strong> Tests behavior under neurophysiological edge conditions: ill-conditioned covariances ($\kappa(X) = 10^6$), random per-electrode impedance scaling ($D S D$), temporal window jitter, and small-sample attention entropy saturation.</li>
+        <li><strong>Tier 3 (Analytical MOABB &amp; spd-bench Harness, C3):</strong> Evaluates cross-session motor imagery decoding on MOABB <code>BNCI2014-001</code> (<code>NEMAR nm000139</code>, Session 0 train $\to$ Session 1 test) and skeletal action recognition on <code>spd-bench</code> <code>HDM05</code>.</li>
       </ul>
     </div>
   </div>
 
   <div class="panel">
-    <h2>4. Reproducing Everything Locally in 2 Commands</h2>
-    <p class="small">All 18 Trackio logbooks, 54 claim verifications, and the static Encore site can be regenerated deterministically from the unified worktree:</p>
-    <pre><code># 1. Run all 54 claim verifiers and emit Trackio logbooks (repro/logbooks/*_logbook.{json,md})
+    <h2>4. Reproducing Everything on the Voyager Cluster in 3 Commands</h2>
+    <p class="small">All 26 Trackio logbooks, 78 claim verifications, and the static Encore site are regenerated deterministically on the Voyager cluster:</p>
+    <pre><code># 1. Run all 78 claim verifiers on Voyager and emit Trackio logbooks (repro/logbooks/*_logbook.{json,md})
 python -m repro.trackio_runner run --all
 
 # 2. Run the untrusted-narrative automated Logbook Judge and emit verdicts.json + LEADERBOARD.md
 python -m repro.judge
 
-# 3. Rebuild this static Encore Science registry &amp; 54-panel SVG visual atlas
+# 3. Rebuild this static Encore Science registry &amp; 78-panel SVG visual atlas
 python -m repro.build_encore_site</code></pre>
   </div>
 </main>
 <footer>
-  SPD-Learn Encore Reproducibility Registry · Proof-of-Concept Sub-Page for <a href="https://spdlearn.org">spdlearn.org</a> (inspired by <a href="https://encorescience.org/">Encore Science</a> &amp; the ICML 2026 Open Reproductions / NEMAR Auditing Blueprint) ·
+  SPD-Learn Encore Reproducibility Registry · Sub-Page for <a href="https://spdlearn.org">spdlearn.org</a> (modeled on <a href="https://encorescience.org/">Encore Science</a>, the ICML 2026 Open Reproductions Judge, and the NEMAR BIDS Auditing Protocol) ·
   <a href="../registry.json">Registry JSON</a> ·
   <a href="../repro/verdicts.json">Judge Verdicts JSON</a> ·
   <a href="https://github.com/spdlearn/spd_learn">spd_learn Repository</a>.
-  Every verdict is computed deterministically from raw Trackio execution traces by an untrusted-narrative automated judge.
+  Every verdict is computed deterministically from raw Trackio execution traces on the Voyager cluster by an untrusted-narrative automated judge.
 </footer>
 </div>
 <script>(function(){

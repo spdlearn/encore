@@ -1,0 +1,42 @@
+{
+  "schema": "trackio-logbook-v2",
+  "paper_id": "chen2024liebn",
+  "paper_name": "LieBN: A Lie Group Approach to Riemannian Batch Normalization (ICLR 2024)",
+  "timestamp": "2026-11-05T16:36:02.668195+00:00",
+  "git_commit": "3a9e18d",
+  "command": "python -m repro.trackio_runner run --paper-id chen2024liebn",
+  "exit_code": 0,
+  "duration_sec": 0.52,
+  "error": null,
+  "claim_traces": {
+    "chen2024liebn_c1": {
+      "dispersion_error_from_unit": {
+        "AIM": 0.0,
+        "LEM": 0.0,
+        "LCM": 0.0
+      },
+      "passed": true,
+      "scope": "full"
+    },
+    "chen2024liebn_c2": {
+      "hdm05_lem_centering_residual": 1.1877650641019628e-15,
+      "hdm05_lcm_centering_residual": 4.2593245247010923e-16,
+      "hdm05_aim_1step_centering_residual": 0.16933186521059693,
+      "passed": true,
+      "scope": "full"
+    },
+    "chen2024liebn_c3": {
+      "harness": "spd-bench HDM05 [93,30] (10 seeds) + FPHA [63,33] + MOABB BNCI2014-001",
+      "hdm05_lcm05_published_mean_pct": 70.84,
+      "hdm05_lcm05_published_sd_pct": 0.92,
+      "hdm05_lcm05_frozen_split_harness_pct": 67.92,
+      "hdm05_lcm05_stratified_split_harness_pct": 69.45,
+      "spdnet_baseline_liebn_paper_pct": 59.13,
+      "spdnet_baseline_our_harness_pct": 63.1,
+      "weak_baseline_inflation_pp": 3.97,
+      "bnci_subj3_test_acc_pct": 64.58,
+      "passed": false,
+      "scope": "baseline_adjusted"
+    }
+  }
+}

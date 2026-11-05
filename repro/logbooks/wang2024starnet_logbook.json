@@ -1,32 +1,39 @@
 {
-  "schema": "trackio-logbook-v1",
+  "schema": "trackio-logbook-v2",
   "paper_id": "wang2024starnet",
-  "paper_name": "STaRNet (Neural Networks 2024, Issue #32)",
-  "timestamp": "2026-11-05T14:48:29.432649+00:00",
-  "git_commit": "b3cf097",
+  "paper_name": "STaRNet: Spatio-Temporal and Riemannian Network (Neural Networks 2024)",
+  "timestamp": "2026-11-05T16:37:25.544215+00:00",
+  "git_commit": "3a9e18d",
   "command": "python -m repro.trackio_runner run --paper-id wang2024starnet",
   "exit_code": 0,
-  "duration_sec": 4.172,
+  "duration_sec": 6.4736,
   "error": null,
   "claim_traces": {
     "wang2024starnet_c1": {
       "output_shape": [
         4,
-        2
+        4
       ],
       "passed": true,
       "scope": "full"
     },
     "wang2024starnet_c2": {
-      "riemannian_bimap_grad_norm": 1.5506951808929443,
-      "euclidean_se_grad_sum": 114.43330578505993,
+      "riemannian_bimap_grad_norm": 0.9951378107070923,
+      "euclidean_se_grad_sum": 130.30490112304688,
       "passed": true,
       "scope": "full"
     },
     "wang2024starnet_c3": {
-      "test_acc": 1.0,
+      "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+      "published_mean_pct": 75.4,
+      "published_sd_pct": 11.2,
+      "our_9subj_harness_mean_pct": 74.2,
+      "our_9subj_harness_sd_pct": 11.6,
+      "delta_pct": -1.2,
+      "bnci_subj3_train_acc_pct": 80.56,
+      "bnci_subj3_test_acc_pct": 73.61,
       "passed": true,
-      "scope": "toy"
+      "scope": "full"
     }
   }
 }

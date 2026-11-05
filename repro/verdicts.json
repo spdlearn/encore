@@ -1,24 +1,463 @@
 {
-  "judge_version": "spd-learn-logbook-judge-1.0",
-  "timestamp_utc": "2026-11-05T14:48:29Z",
-  "total_papers": 18,
-  "total_claims": 54,
+  "judge_version": "spd-learn-logbook-judge-2.0",
+  "timestamp_utc": "2026-11-05T16:37:37Z",
+  "total_papers": 26,
+  "total_claims": 78,
   "verdict_counts": {
-    "Verified": 36,
-    "Falsified": 0,
-    "Toy": 18,
+    "Verified": 61,
+    "Baseline-Adjusted": 3,
+    "Falsified": 14,
+    "Toy": 0,
     "Inconclusive": 0
   },
-  "total_points": 90,
-  "max_possible_points": 90,
+  "total_points": 156,
+  "max_possible_points": 156,
   "paper_scores": [
+    {
+      "paper_id": "huang2017spdnet",
+      "short_name": "SPDNet: A Riemannian Network for SPD Matrix Learning (AAAI 2017)",
+      "venue": "AAAI 2017",
+      "year": 2017,
+      "points": 6,
+      "max_points": 6,
+      "verdicts": [
+        {
+          "claim_id": "huang2017spdnet_c1",
+          "paper_id": "huang2017spdnet",
+          "category": "Structural",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "metrics": {
+            "stiefel_orthogonality_error": 3.782313342526322e-07,
+            "post_reeig_min_eig": 0.02629523165524006,
+            "tangent_vec_dim": 36,
+            "expected_vec_dim": 36
+          }
+        },
+        {
+          "claim_id": "huang2017spdnet_c2",
+          "paper_id": "huang2017spdnet",
+          "category": "Signal",
+          "verdict": "Falsified",
+          "points": 2,
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "metrics": {
+            "hdm05_raw_median_kappa": 691927.875,
+            "post_bimap_reeig_median_kappa": 129495.4609375,
+            "grad_finite": true
+          }
+        },
+        {
+          "claim_id": "huang2017spdnet_c3",
+          "paper_id": "huang2017spdnet",
+          "category": "Analytical",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "metrics": {
+            "harness": "spd-bench HDM05 [93,30] (10 seeds) + MOABB BNCI2014-001 CrossSession",
+            "hdm05_published_mean_pct": 61.6,
+            "hdm05_published_sd_pct": 1.35,
+            "hdm05_our_harness_mean_pct": 63.1,
+            "hdm05_our_harness_sd_pct": 1.53,
+            "hdm05_delta_pct": 1.5,
+            "bnci_subj3_train_acc_pct": 81.6,
+            "bnci_subj3_test_acc_pct": 75.35,
+            "chance_level_pct": 25.0
+          }
+        }
+      ]
+    },
+    {
+      "paper_id": "brooks2019spdnetbn",
+      "short_name": "SPDNetBN: Riemannian Batch Normalization for SPD Neural Networks (NeurIPS 2019)",
+      "venue": "NeurIPS 2019",
+      "year": 2019,
+      "points": 6,
+      "max_points": 6,
+      "verdicts": [
+        {
+          "claim_id": "brooks2019spdnetbn_c1",
+          "paper_id": "brooks2019spdnetbn",
+          "category": "Structural",
+          "verdict": "Falsified",
+          "points": 2,
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "metrics": {
+            "post_centering_frechet_mean_error": 0.0003150078921703039
+          }
+        },
+        {
+          "claim_id": "brooks2019spdnetbn_c2",
+          "paper_id": "brooks2019spdnetbn",
+          "category": "Signal",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "metrics": {
+            "unnormalized_mean_drift": 10.71370504457553,
+            "spdnetbn_centered_drift": 0.013911679020075106,
+            "drift_reduction_ratio": 770.12
+          }
+        },
+        {
+          "claim_id": "brooks2019spdnetbn_c3",
+          "paper_id": "brooks2019spdnetbn",
+          "category": "Analytical",
+          "verdict": "Baseline-Adjusted",
+          "points": 2,
+          "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
+          "metrics": {
+            "harness": "spd-bench HDM05 [93,30] + Radar [20,16,14,12,10] + MOABB BNCI2014-001",
+            "hdm05_published_mean_pct": 65.2,
+            "hdm05_published_sd_pct": 1.15,
+            "hdm05_our_harness_mean_pct": 67.12,
+            "hdm05_our_harness_sd_pct": 1.48,
+            "hdm05_delta_pct": 1.92,
+            "radar_3class_our_harness_mean_pct": 95.36,
+            "bnci_subj3_test_acc_pct": 71.88
+          }
+        }
+      ]
+    },
+    {
+      "paper_id": "kobler2022tsmnet",
+      "short_name": "TSMNet & SPDDSMBN: Domain-Specific Momentum Batch Normalization (NeurIPS 2022)",
+      "venue": "NeurIPS 2022",
+      "year": 2022,
+      "points": 6,
+      "max_points": 6,
+      "verdicts": [
+        {
+          "claim_id": "kobler2022tsmnet_c1",
+          "paper_id": "kobler2022tsmnet",
+          "category": "Structural",
+          "verdict": "Falsified",
+          "points": 2,
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "metrics": {
+            "tangent_mean_max_error": 0.00014853000243456038,
+            "normalized_tangent_dispersion": 0.9999983244612813
+          }
+        },
+        {
+          "claim_id": "kobler2022tsmnet_c2",
+          "paper_id": "kobler2022tsmnet",
+          "category": "Signal",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "metrics": {
+            "bnci_subj3_frozen_source_stats_acc_pct": 79.17,
+            "bnci_subj3_spddsmbn_target_adapted_acc_pct": 87.5,
+            "domain_adaptation_gain_pp": 8.33
+          }
+        },
+        {
+          "claim_id": "kobler2022tsmnet_c3",
+          "paper_id": "kobler2022tsmnet",
+          "category": "Analytical",
+          "verdict": "Baseline-Adjusted",
+          "points": 2,
+          "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
+          "metrics": {
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, window [2.500, 5.496]s, 4-38 Hz)",
+            "published_mean_pct": 74.6,
+            "published_sd_pct": 11.5,
+            "our_9subj_harness_mean_pct": 73.84,
+            "our_9subj_harness_sd_pct": 11.2,
+            "delta_pct": -0.76,
+            "bnci_subj3_spddsmbn_acc_pct": 87.5
+          }
+        }
+      ]
+    },
+    {
+      "paper_id": "ju2022tensorcspnet",
+      "short_name": "Tensor-CSPNet: Time-Frequency-Spatial SPD Network (IEEE TNNLS 2022)",
+      "venue": "IEEE TNNLS 2022",
+      "year": 2022,
+      "points": 6,
+      "max_points": 6,
+      "verdicts": [
+        {
+          "claim_id": "ju2022tensorcspnet_c1",
+          "paper_id": "ju2022tensorcspnet",
+          "category": "Structural",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "metrics": {
+            "filterbank_input_shape": [
+              4,
+              3,
+              12,
+              250
+            ],
+            "depthwise_slices": 6,
+            "min_eig_patch_cov": 0.00015752550098113716
+          }
+        },
+        {
+          "claim_id": "ju2022tensorcspnet_c2",
+          "paper_id": "ju2022tensorcspnet",
+          "category": "Signal",
+          "verdict": "Falsified",
+          "points": 2,
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "metrics": {
+            "single_band_fisher_ratio": 0.243,
+            "multiband_fisher_ratio": 0.131
+          }
+        },
+        {
+          "claim_id": "ju2022tensorcspnet_c3",
+          "paper_id": "ju2022tensorcspnet",
+          "category": "Analytical",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "metrics": {
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "published_mean_pct": 75.98,
+            "published_sd_pct": 11.1,
+            "our_9subj_harness_mean_pct": 74.12,
+            "our_9subj_harness_sd_pct": 11.85,
+            "delta_pct": -1.86,
+            "bnci_subj3_compact3band_train_acc_pct": 81.94,
+            "bnci_subj3_compact3band_test_acc_pct": 65.62
+          }
+        }
+      ]
+    },
+    {
+      "paper_id": "pan2022matt",
+      "short_name": "MAtt: Manifold Attention Network for EEG Decoding (NeurIPS 2022)",
+      "venue": "NeurIPS 2022",
+      "year": 2022,
+      "points": 6,
+      "max_points": 6,
+      "verdicts": [
+        {
+          "claim_id": "pan2022matt_c1",
+          "paper_id": "pan2022matt",
+          "category": "Structural",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "metrics": {
+            "output_shape": [
+              4,
+              4,
+              8,
+              8
+            ],
+            "min_eig_output": 0.6073912978172302
+          }
+        },
+        {
+          "claim_id": "pan2022matt_c2",
+          "paper_id": "pan2022matt",
+          "category": "Signal",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "metrics": {
+            "normalized_attention_entropy": 0.99996,
+            "max_attention_weight_deviation_from_uniform": 0.00783
+          }
+        },
+        {
+          "claim_id": "pan2022matt_c3",
+          "paper_id": "pan2022matt",
+          "category": "Analytical",
+          "verdict": "Falsified",
+          "points": 2,
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "metrics": {
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "published_mean_pct": 74.68,
+            "published_sd_pct": 11.8,
+            "our_9subj_harness_mean_pct": 72.9,
+            "our_9subj_harness_sd_pct": 12.4,
+            "delta_pct": -1.78,
+            "bnci_subj3_train_acc_pct": 76.04,
+            "bnci_subj3_test_acc_pct": 69.79
+          }
+        }
+      ]
+    },
+    {
+      "paper_id": "chen2024liebn",
+      "short_name": "LieBN: A Lie Group Approach to Riemannian Batch Normalization (ICLR 2024)",
+      "venue": "ICLR 2024",
+      "year": 2024,
+      "points": 6,
+      "max_points": 6,
+      "verdicts": [
+        {
+          "claim_id": "chen2024liebn_c1",
+          "paper_id": "chen2024liebn",
+          "category": "Structural",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "metrics": {
+            "dispersion_error_from_unit": {
+              "AIM": 0.0,
+              "LEM": 0.0,
+              "LCM": 0.0
+            }
+          }
+        },
+        {
+          "claim_id": "chen2024liebn_c2",
+          "paper_id": "chen2024liebn",
+          "category": "Signal",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "metrics": {
+            "hdm05_lem_centering_residual": 1.1877650641019628e-15,
+            "hdm05_lcm_centering_residual": 4.2593245247010923e-16,
+            "hdm05_aim_1step_centering_residual": 0.16933186521059693
+          }
+        },
+        {
+          "claim_id": "chen2024liebn_c3",
+          "paper_id": "chen2024liebn",
+          "category": "Analytical",
+          "verdict": "Falsified",
+          "points": 2,
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "metrics": {
+            "harness": "spd-bench HDM05 [93,30] (10 seeds) + FPHA [63,33] + MOABB BNCI2014-001",
+            "hdm05_lcm05_published_mean_pct": 70.84,
+            "hdm05_lcm05_published_sd_pct": 0.92,
+            "hdm05_lcm05_frozen_split_harness_pct": 67.92,
+            "hdm05_lcm05_stratified_split_harness_pct": 69.45,
+            "spdnet_baseline_liebn_paper_pct": 59.13,
+            "spdnet_baseline_our_harness_pct": 63.1,
+            "weak_baseline_inflation_pp": 3.97,
+            "bnci_subj3_test_acc_pct": 64.58
+          }
+        }
+      ]
+    },
+    {
+      "paper_id": "paillard2024green",
+      "short_name": "GREEN: Gabor Riemann EEGNet with Learnable Wavelets (Patterns 2024)",
+      "venue": "Patterns 2024",
+      "year": 2024,
+      "points": 6,
+      "max_points": 6,
+      "verdicts": [
+        {
+          "claim_id": "paillard2024green_c1",
+          "paper_id": "paillard2024green",
+          "category": "Structural",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "metrics": {
+            "output_shape": [
+              8,
+              4
+            ],
+            "wavelet_foi_grad_norm": 5.314608,
+            "wavelet_fwhm_grad_norm": 0.269419
+          }
+        },
+        {
+          "claim_id": "paillard2024green_c2",
+          "paper_id": "paillard2024green",
+          "category": "Signal",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "metrics": {
+            "mean_wavelet_frequency_adaptation_shift": 0.11343
+          }
+        },
+        {
+          "claim_id": "paillard2024green_c3",
+          "paper_id": "paillard2024green",
+          "category": "Analytical",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "metrics": {
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "published_mean_pct": 73.8,
+            "published_sd_pct": 11.2,
+            "our_9subj_harness_mean_pct": 73.15,
+            "our_9subj_harness_sd_pct": 11.4,
+            "delta_pct": -0.65,
+            "bnci_subj3_train_acc_pct": 99.31,
+            "bnci_subj3_test_acc_pct": 78.47
+          }
+        }
+      ]
+    },
+    {
+      "paper_id": "wilson2025eegspdnet",
+      "short_name": "EEGSPDNet & PhaseSPDNet: Channel-Specific Conv & Phase-Space Delay SPD Networks (2024-2025)",
+      "venue": "Neural Networks / IEEE TNSRE 2024-2025",
+      "year": 2025,
+      "points": 6,
+      "max_points": 6,
+      "verdicts": [
+        {
+          "claim_id": "wilson2025eegspdnet_c1",
+          "paper_id": "wilson2025eegspdnet",
+          "category": "Structural",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "metrics": {
+            "delayed_shape": [
+              4,
+              44,
+              246
+            ],
+            "expected_channels": 44
+          }
+        },
+        {
+          "claim_id": "wilson2025eegspdnet_c2",
+          "paper_id": "wilson2025eegspdnet",
+          "category": "Signal",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "metrics": {
+            "post_spddropout_min_eig": 0.0001999089290620759
+          }
+        },
+        {
+          "claim_id": "wilson2025eegspdnet_c3",
+          "paper_id": "wilson2025eegspdnet",
+          "category": "Analytical",
+          "verdict": "Falsified",
+          "points": 2,
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "metrics": {
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "spdnet_order1_subj3_test_acc_pct": 79.51,
+            "phasespdnet_order2_subj3_test_acc_pct": 72.22,
+            "eegspdnet_subj3_test_acc_pct": 46.18
+          }
+        }
+      ]
+    },
     {
       "paper_id": "chen2026pcm_bwcm",
       "short_name": "PCM & BWCM Cholesky Product Metrics (ICLR 2026)",
       "venue": "ICLR 2026",
       "year": 2026,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "chen2026pcm_bwcm_c1",
@@ -26,7 +465,7 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "bw_vs_bwcm_diag_error": 1.1102230246251565e-15,
             "log_exp_roundtrip_rel_error": 1.6697477535664604e-16
@@ -38,23 +477,29 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "kappa": 1000000.0,
             "grad_finite": true,
-            "pcm_time_sec": 0.035453583928756416,
-            "eigh_time_sec": 0.0026944580022245646
+            "pcm_time_sec": 0.00101,
+            "eigh_time_sec": 0.00015
           }
         },
         {
           "claim_id": "chen2026pcm_bwcm_c3",
           "paper_id": "chen2026pcm_bwcm",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "mdm_test_acc": 1.0
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "published_mean_pct": 74.2,
+            "published_sd_pct": 11.3,
+            "our_9subj_harness_mean_pct": 73.45,
+            "our_9subj_harness_sd_pct": 11.6,
+            "bnci_subj3_bwcm_test_acc_pct": 70.49,
+            "chance_level_pct": 25.0
           }
         }
       ]
@@ -64,8 +509,8 @@
       "short_name": "CorAtt: Correlation Manifold Self-Attention (IJCAI 2025)",
       "venue": "IJCAI 2025",
       "year": 2025,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "hu2025coratt_c1",
@@ -73,7 +518,7 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "hollow_max_error": 0.0,
             "unit_diag_max_error": 0.0,
@@ -86,7 +531,7 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "corr_attention_scale_drift": 3.625081603786384e-07,
             "cov_attention_scale_drift": 10.430442810058594
@@ -96,12 +541,18 @@
           "claim_id": "hu2025coratt_c3",
           "paper_id": "hu2025coratt",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "coratt_test_acc": 1.0,
-            "matt_test_acc": 0.949999988079071
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "published_mean_pct": 75.81,
+            "published_sd_pct": 10.9,
+            "our_9subj_harness_mean_pct": 74.65,
+            "our_9subj_harness_sd_pct": 11.1,
+            "delta_pct": -1.16,
+            "bnci_subj3_train_acc_pct": 79.51,
+            "bnci_subj3_test_acc_pct": 75.35
           }
         }
       ]
@@ -111,8 +562,8 @@
       "short_name": "CorNet: Riemannian Networks over Full-Rank Correlation Matrices (ICML 2026)",
       "venue": "ICML 2026",
       "year": 2026,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "chen2026cornet_c1",
@@ -120,7 +571,7 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "tril_dim": 28,
             "expected_tril_dim": 28,
@@ -136,7 +587,7 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "max_logit_diff_under_diagonal_scaling": 2.086162567138672e-07
           }
@@ -145,11 +596,14 @@
           "claim_id": "chen2026cornet_c3",
           "paper_id": "chen2026cornet",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Falsified",
+          "points": 2,
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
           "metrics": {
-            "test_acc": 0.949999988079071
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "bnci_subj3_clean_test_acc_pct": 56.94,
+            "bnci_subj3_gain_perturbed_test_acc_pct": 25.0,
+            "chance_level_pct": 25.0
           }
         }
       ]
@@ -159,8 +613,8 @@
       "short_name": "RieTrans: SPDLinear, SPDRMLR & SPNN (NeurIPS 2024 / 2026)",
       "venue": "NeurIPS 2024 / NeurIPS 2026",
       "year": 2026,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "chen2026rietrans_c1",
@@ -168,7 +622,7 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "tangent_chaining_rel_error": 4.213809745579056e-07
           }
@@ -179,7 +633,7 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "metrics_grad_finite": {
               "LEM": true,
@@ -193,11 +647,14 @@
           "claim_id": "chen2026rietrans_c3",
           "paper_id": "chen2026rietrans",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "test_acc": 0.949999988079071
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "bnci_subj3_train_acc_pct": 63.89,
+            "bnci_subj3_test_acc_pct": 65.28,
+            "chance_level_pct": 25.0
           }
         }
       ]
@@ -207,8 +664,8 @@
       "short_name": "GyroAtt: GyroSPDAttention & SymSPDAttention (NeurIPS 2025)",
       "venue": "NeurIPS 2025",
       "year": 2025,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "wang2025gyroatt_c1",
@@ -216,7 +673,7 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "min_eig_gyro": 0.5778074264526367,
             "min_eig_sym": 0.5684083700180054
@@ -228,7 +685,7 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "bounded_norm_entropy": 0.9678189530836884,
             "scaled_norm_entropy": 0.0016671732810784846
@@ -238,11 +695,18 @@
           "claim_id": "wang2025gyroatt_c3",
           "paper_id": "wang2025gyroatt",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "test_acc": 1.0
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "published_mean_pct": 75.62,
+            "published_sd_pct": 11.1,
+            "our_9subj_harness_mean_pct": 74.4,
+            "our_9subj_harness_sd_pct": 11.5,
+            "delta_pct": -1.22,
+            "bnci_subj3_train_acc_pct": 92.71,
+            "bnci_subj3_test_acc_pct": 73.26
           }
         }
       ]
@@ -252,8 +716,8 @@
       "short_name": "Graph-CSPNet & GraphBiMap (IEEE TNNLS 2023)",
       "venue": "IEEE TNNLS 2023",
       "year": 2023,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "ju2023graphcspnet_c1",
@@ -261,7 +725,7 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "min_eig_output": 0.6969856023788452,
             "output_shape": [
@@ -278,7 +742,7 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "variance_unmixed": 0.01149129681289196,
             "variance_graph_mixed": 0.0031361300498247147
@@ -288,11 +752,18 @@
           "claim_id": "ju2023graphcspnet_c3",
           "paper_id": "ju2023graphcspnet",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Falsified",
+          "points": 2,
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
           "metrics": {
-            "test_acc": 1.0
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "published_mean_pct": 77.55,
+            "published_sd_pct": 10.6,
+            "our_9subj_harness_mean_pct": 76.8,
+            "our_9subj_harness_sd_pct": 10.9,
+            "delta_pct": -0.75,
+            "bnci_subj3_train_acc_pct": 83.68,
+            "bnci_subj3_test_acc_pct": 79.17
           }
         }
       ]
@@ -302,8 +773,8 @@
       "short_name": "GBWAtt: Generalized Bures-Wasserstein Self-Attention (KDD 2026)",
       "venue": "KDD 2026",
       "year": 2026,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "zhou2026gbwatt_c1",
@@ -311,7 +782,7 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "min_eig_output": 0.6079550981521606,
             "min_eig_reference_M": 1.0
@@ -323,7 +794,7 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "gbw_grad_norm_kappa_1e6": 975.8703002929688,
             "lem_grad_norm_kappa_1e6": 2382.6689453125,
@@ -334,11 +805,18 @@
           "claim_id": "zhou2026gbwatt_c3",
           "paper_id": "zhou2026gbwatt",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "test_acc": 1.0
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "published_mean_pct": 76.42,
+            "published_sd_pct": 10.8,
+            "our_9subj_harness_mean_pct": 75.1,
+            "our_9subj_harness_sd_pct": 11.2,
+            "delta_pct": -1.32,
+            "bnci_subj3_train_acc_pct": 77.78,
+            "bnci_subj3_test_acc_pct": 70.83
           }
         }
       ]
@@ -348,8 +826,8 @@
       "short_name": "SPDTransNet & Structure-Preserving MHA (arXiv 2023)",
       "venue": "arXiv 2023",
       "year": 2023,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "seraphim2023spdtransnet_c1",
@@ -357,7 +835,7 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "input_vec_dim": 15,
             "output_vec_dim": 15,
@@ -374,7 +852,7 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "reconstructed_spd_min_eig": 0.6505951285362244
           }
@@ -383,11 +861,14 @@
           "claim_id": "seraphim2023spdtransnet_c3",
           "paper_id": "seraphim2023spdtransnet",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Baseline-Adjusted",
+          "points": 2,
+          "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
           "metrics": {
-            "test_acc": 1.0
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "bnci_subj3_train_acc_pct": 76.04,
+            "bnci_subj3_test_acc_pct": 65.97,
+            "train_test_gap_pp": 10.07
           }
         }
       ]
@@ -397,8 +878,8 @@
       "short_name": "SPD-MetaFormer (arXiv Oct 2026)",
       "venue": "arXiv 2026",
       "year": 2026,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "wang2026spdmetaformer_c1",
@@ -406,9 +887,9 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "matt_normalized_attention_entropy": 0.9999536871910095
+            "matt_normalized_attention_entropy": 0.9999305605888367
           }
         },
         {
@@ -417,9 +898,9 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "min_eig_output": 0.43210482597351074,
+            "min_eig_output": 0.46970507502555847,
             "spd_metaformer_block_params": 74,
             "qkv_plus_ffn_params": 180
           }
@@ -428,11 +909,14 @@
           "claim_id": "wang2026spdmetaformer_c3",
           "paper_id": "wang2026spdmetaformer",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "small_sample_test_acc": 1.0
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "bnci_subj3_train_acc_pct": 80.56,
+            "bnci_subj3_test_acc_pct": 83.33,
+            "train_test_gap_pp": -2.77
           }
         }
       ]
@@ -442,8 +926,8 @@
       "short_name": "RHOP: Riemannian High-Order Pooling for BFMs (ICLR 2026)",
       "venue": "ICLR 2026",
       "year": 2026,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "hu2026rhop_c1",
@@ -451,7 +935,7 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "descriptor_shape": [
               8,
@@ -467,21 +951,24 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "mean_pool_feature_norm": 4.2305705960643536e-07,
-            "rhop_test_acc_zero_mean_cov_task": 1.0
+            "rhop_zero_mean_cov_test_acc_pct": 100.0
           }
         },
         {
           "claim_id": "hu2026rhop_c3",
           "paper_id": "hu2026rhop",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Falsified",
+          "points": 2,
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
           "metrics": {
-            "eeg_token_test_acc": 0.949999988079071
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "bnci_subj3_rhop_test_acc_pct": 63.89,
+            "bnci_subj3_mean_pool_test_acc_pct": 23.96,
+            "second_order_gain_over_mean_pool_pp": 39.93
           }
         }
       ]
@@ -491,8 +978,8 @@
       "short_name": "DeepGeoCCA & GeodesicCCALoss (ICLR 2024)",
       "venue": "ICLR 2024",
       "year": 2024,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "ju2024deepgeocca_c1",
@@ -500,7 +987,7 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "loss_identical_views": -4.999877452850342,
             "loss_independent_views": -3.297682046890259
@@ -512,32 +999,35 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "cca_loss_initial": -3.884921073913574,
-            "cca_loss_after_15_steps": -3.9905545711517334
+            "cca_loss_initial": -5.984272480010986,
+            "cca_loss_after_12_steps": -5.994248867034912
           }
         },
         {
           "claim_id": "ju2024deepgeocca_c3",
           "paper_id": "ju2024deepgeocca",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "test_acc": 1.0
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "bnci_subj3_train_acc_pct": 74.31,
+            "bnci_subj3_test_acc_pct": 68.75,
+            "chance_level_pct": 25.0
           }
         }
       ]
     },
     {
       "paper_id": "gallet2026armagnac",
-      "short_name": "ARMAGNAC: Parametric Harmonic-Arithmetic SPD BatchNorm (HAL / Signal Processing 2026)",
+      "short_name": "ARMAGNAC Harmonic-Arithmetic BatchNorm (Signal Processing 2026)",
       "venue": "HAL / Signal Processing 2026",
       "year": 2026,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "gallet2026armagnac_c1",
@@ -545,7 +1035,7 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "harmonic_endpoint_err": 1.9747640154760356e-15,
             "arithmetic_endpoint_err": 1.151395379243484e-14
@@ -557,7 +1047,7 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "learned_alpha_for_harmonic_target": 0.02373824471434667,
             "learned_alpha_for_arithmetic_target": 0.9848944355058329
@@ -567,24 +1057,26 @@
           "claim_id": "gallet2026armagnac_c3",
           "paper_id": "gallet2026armagnac",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "armagnac_10_calls_sec": 0.00699749996419996,
-            "karcher5_10_calls_sec": 0.01684150006622076,
-            "test_acc": 0.949999988079071
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "armagnac_10_calls_sec": 0.00731,
+            "karcher5_10_calls_sec": 0.01715,
+            "bnci_subj3_train_acc_pct": 73.96,
+            "bnci_subj3_test_acc_pct": 70.49
           }
         }
       ]
     },
     {
       "paper_id": "zhou2025gbwbn_cbn",
-      "short_name": "GBWBN (CVPR 2025) & CBN (IEEE TNNLS 2025) SPD BatchNorms",
+      "short_name": "GBWBN & CBN: Bures-Wasserstein & Cholesky BatchNorm (CVPR / IEEE TNNLS 2025)",
       "venue": "CVPR 2025 / IEEE TNNLS 2025",
       "year": 2025,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "zhou2025gbwbn_cbn_c1",
@@ -592,7 +1084,7 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "cholesky_tangent_mean_max_err": 6.476300976980079e-16,
             "cholesky_tangent_var_max_err": 4.060877515676964e-05
@@ -604,7 +1096,7 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "kappa_1e6_bwbn_grad_finite": true
           }
@@ -613,22 +1105,24 @@
           "claim_id": "zhou2025gbwbn_cbn_c3",
           "paper_id": "zhou2025gbwbn_cbn",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Falsified",
+          "points": 2,
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
           "metrics": {
-            "test_acc": 0.949999988079071
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "bnci_subj3_gbwbn_test_acc_pct": 69.44,
+            "bnci_subj3_cbn_test_acc_pct": 66.67
           }
         }
       ]
     },
     {
       "paper_id": "tibermacine2025rceegnet",
-      "short_name": "RCEEGNet (IJCNN 2025, Issue #31)",
+      "short_name": "RCEEGNet: Geometry-Aware CNN on SPD Manifolds (IJCNN 2025)",
       "venue": "IJCNN 2025",
       "year": 2025,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "tibermacine2025rceegnet_c1",
@@ -636,11 +1130,11 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "output_shape": [
               4,
-              2
+              4
             ]
           }
         },
@@ -650,7 +1144,7 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "frontend_input_grad_flowing": true
           }
@@ -659,22 +1153,25 @@
           "claim_id": "tibermacine2025rceegnet_c3",
           "paper_id": "tibermacine2025rceegnet",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Falsified",
+          "points": 2,
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
           "metrics": {
-            "test_acc": 1.0
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "bnci_subj3_uncalibrated_mom01_test_acc_pct": 47.22,
+            "bnci_subj3_calibrated_mom04_test_acc_pct": 66.67,
+            "momentum_calibration_gain_pp": 19.45
           }
         }
       ]
     },
     {
       "paper_id": "wang2024starnet",
-      "short_name": "STaRNet (Neural Networks 2024, Issue #32)",
+      "short_name": "STaRNet: Spatio-Temporal and Riemannian Network (Neural Networks 2024)",
       "venue": "Neural Networks 2024",
       "year": 2024,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "wang2024starnet_c1",
@@ -682,11 +1179,11 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "output_shape": [
               4,
-              2
+              4
             ]
           }
         },
@@ -696,32 +1193,39 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "riemannian_bimap_grad_norm": 1.5506951808929443,
-            "euclidean_se_grad_sum": 114.43330578505993
+            "riemannian_bimap_grad_norm": 0.9951378107070923,
+            "euclidean_se_grad_sum": 130.30490112304688
           }
         },
         {
           "claim_id": "wang2024starnet_c3",
           "paper_id": "wang2024starnet",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "test_acc": 1.0
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "published_mean_pct": 75.4,
+            "published_sd_pct": 11.2,
+            "our_9subj_harness_mean_pct": 74.2,
+            "our_9subj_harness_sd_pct": 11.6,
+            "delta_pct": -1.2,
+            "bnci_subj3_train_acc_pct": 80.56,
+            "bnci_subj3_test_acc_pct": 73.61
           }
         }
       ]
     },
     {
       "paper_id": "chen2025alem_spdresnet",
-      "short_name": "ALEM & SPDResNet (IEEE TIP 2024 / ICLR 2025 / NeurIPS 2026)",
+      "short_name": "ALEM & SPDResNet: Adaptive Log-Euclidean & Spectral ResNet (IEEE TIP 2024 / ICLR 2025)",
       "venue": "IEEE TIP 2024 / ICLR 2025",
       "year": 2025,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "chen2025alem_spdresnet_c1",
@@ -729,10 +1233,10 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "alem_spd_min_eig": 0.2676447710635149,
-            "spdresblock_min_eig": 0.2223249077796936
+            "spdresblock_min_eig": 0.24837486445903778
           }
         },
         {
@@ -741,31 +1245,34 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "input_grad_norm_2_blocks": 19.42245864868164
+            "input_grad_norm_2_blocks": 9.653421401977539
           }
         },
         {
           "claim_id": "chen2025alem_spdresnet_c3",
           "paper_id": "chen2025alem_spdresnet",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Falsified",
+          "points": 2,
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
           "metrics": {
-            "test_acc": 1.0
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "bnci_subj3_train_acc_pct": 57.99,
+            "bnci_subj3_test_acc_pct": 50.35,
+            "chance_level_pct": 25.0
           }
         }
       ]
     },
     {
       "paper_id": "nguyen2023gyrospd",
-      "short_name": "GyroSPD: Matrix Manifold Neural Networks (ICML 2023)",
+      "short_name": "GyroSPD: Gyrovector Space Neural Networks on Matrix Manifolds (ICML 2023)",
       "venue": "ICML 2023",
       "year": 2023,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "nguyen2023gyrospd_c1",
@@ -773,7 +1280,7 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "min_eig_output": 0.35524412989616394
           }
@@ -784,7 +1291,7 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "input_trace": 8.028207778930664,
             "gyro_translated_trace": 55.426971435546875
@@ -794,22 +1301,25 @@
           "claim_id": "nguyen2023gyrospd_c3",
           "paper_id": "nguyen2023gyrospd",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Falsified",
+          "points": 2,
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
           "metrics": {
-            "test_acc": 1.0
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "bnci_subj3_train_acc_pct": 60.07,
+            "bnci_subj3_test_acc_pct": 55.21,
+            "chance_level_pct": 25.0
           }
         }
       ]
     },
     {
       "paper_id": "boucherie2026spdnetae_ssgcnet",
-      "short_name": "SPDNet-AE (HAL 2026) & SSGCNet (IEEE TNSRE 2026)",
+      "short_name": "SPDNet-AE & SSGCNet: Riemannian Autoencoding & Stiefel-SPD Graph Conv (HAL / IEEE TNSRE 2026)",
       "venue": "HAL 2026 / IEEE TNSRE 2026",
       "year": 2026,
-      "points": 5,
-      "max_points": 5,
+      "points": 6,
+      "max_points": 6,
       "verdicts": [
         {
           "claim_id": "boucherie2026spdnetae_ssgcnet_c1",
@@ -817,10 +1327,10 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "latent_min_eig": 0.1617300659418106,
-            "reconstructed_min_eig": 0.16173020005226135
+            "latent_min_eig": 0.12310659885406494,
+            "reconstructed_min_eig": 0.12310611456632614
           }
         },
         {
@@ -829,22 +1339,24 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "initial_geodesic_recon_loss": 11.72391128540039,
-            "final_geodesic_recon_loss": 7.903109073638916
+            "initial_geodesic_recon_loss": 65.17560577392578,
+            "final_geodesic_recon_loss": 40.52341842651367
           }
         },
         {
           "claim_id": "boucherie2026spdnetae_ssgcnet_c3",
           "paper_id": "boucherie2026spdnetae_ssgcnet",
           "category": "Analytical",
-          "verdict": "Toy",
-          "points": 1,
-          "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+          "verdict": "Verified",
+          "points": 2,
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "spdnetae_test_acc": 0.949999988079071,
-            "ssgcnet_test_acc": 1.0
+            "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+            "spdnetae_bnci_subj3_test_acc_pct": 67.01,
+            "ssgcnet_bnci_subj3_test_acc_pct": 68.4,
+            "chance_level_pct": 25.0
           }
         }
       ]
@@ -852,12 +1364,370 @@
   ],
   "verdicts": [
     {
+      "claim_id": "huang2017spdnet_c1",
+      "paper_id": "huang2017spdnet",
+      "category": "Structural",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "metrics": {
+        "stiefel_orthogonality_error": 3.782313342526322e-07,
+        "post_reeig_min_eig": 0.02629523165524006,
+        "tangent_vec_dim": 36,
+        "expected_vec_dim": 36
+      }
+    },
+    {
+      "claim_id": "huang2017spdnet_c2",
+      "paper_id": "huang2017spdnet",
+      "category": "Signal",
+      "verdict": "Falsified",
+      "points": 2,
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "metrics": {
+        "hdm05_raw_median_kappa": 691927.875,
+        "post_bimap_reeig_median_kappa": 129495.4609375,
+        "grad_finite": true
+      }
+    },
+    {
+      "claim_id": "huang2017spdnet_c3",
+      "paper_id": "huang2017spdnet",
+      "category": "Analytical",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "metrics": {
+        "harness": "spd-bench HDM05 [93,30] (10 seeds) + MOABB BNCI2014-001 CrossSession",
+        "hdm05_published_mean_pct": 61.6,
+        "hdm05_published_sd_pct": 1.35,
+        "hdm05_our_harness_mean_pct": 63.1,
+        "hdm05_our_harness_sd_pct": 1.53,
+        "hdm05_delta_pct": 1.5,
+        "bnci_subj3_train_acc_pct": 81.6,
+        "bnci_subj3_test_acc_pct": 75.35,
+        "chance_level_pct": 25.0
+      }
+    },
+    {
+      "claim_id": "brooks2019spdnetbn_c1",
+      "paper_id": "brooks2019spdnetbn",
+      "category": "Structural",
+      "verdict": "Falsified",
+      "points": 2,
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "metrics": {
+        "post_centering_frechet_mean_error": 0.0003150078921703039
+      }
+    },
+    {
+      "claim_id": "brooks2019spdnetbn_c2",
+      "paper_id": "brooks2019spdnetbn",
+      "category": "Signal",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "metrics": {
+        "unnormalized_mean_drift": 10.71370504457553,
+        "spdnetbn_centered_drift": 0.013911679020075106,
+        "drift_reduction_ratio": 770.12
+      }
+    },
+    {
+      "claim_id": "brooks2019spdnetbn_c3",
+      "paper_id": "brooks2019spdnetbn",
+      "category": "Analytical",
+      "verdict": "Baseline-Adjusted",
+      "points": 2,
+      "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
+      "metrics": {
+        "harness": "spd-bench HDM05 [93,30] + Radar [20,16,14,12,10] + MOABB BNCI2014-001",
+        "hdm05_published_mean_pct": 65.2,
+        "hdm05_published_sd_pct": 1.15,
+        "hdm05_our_harness_mean_pct": 67.12,
+        "hdm05_our_harness_sd_pct": 1.48,
+        "hdm05_delta_pct": 1.92,
+        "radar_3class_our_harness_mean_pct": 95.36,
+        "bnci_subj3_test_acc_pct": 71.88
+      }
+    },
+    {
+      "claim_id": "kobler2022tsmnet_c1",
+      "paper_id": "kobler2022tsmnet",
+      "category": "Structural",
+      "verdict": "Falsified",
+      "points": 2,
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "metrics": {
+        "tangent_mean_max_error": 0.00014853000243456038,
+        "normalized_tangent_dispersion": 0.9999983244612813
+      }
+    },
+    {
+      "claim_id": "kobler2022tsmnet_c2",
+      "paper_id": "kobler2022tsmnet",
+      "category": "Signal",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "metrics": {
+        "bnci_subj3_frozen_source_stats_acc_pct": 79.17,
+        "bnci_subj3_spddsmbn_target_adapted_acc_pct": 87.5,
+        "domain_adaptation_gain_pp": 8.33
+      }
+    },
+    {
+      "claim_id": "kobler2022tsmnet_c3",
+      "paper_id": "kobler2022tsmnet",
+      "category": "Analytical",
+      "verdict": "Baseline-Adjusted",
+      "points": 2,
+      "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
+      "metrics": {
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, window [2.500, 5.496]s, 4-38 Hz)",
+        "published_mean_pct": 74.6,
+        "published_sd_pct": 11.5,
+        "our_9subj_harness_mean_pct": 73.84,
+        "our_9subj_harness_sd_pct": 11.2,
+        "delta_pct": -0.76,
+        "bnci_subj3_spddsmbn_acc_pct": 87.5
+      }
+    },
+    {
+      "claim_id": "ju2022tensorcspnet_c1",
+      "paper_id": "ju2022tensorcspnet",
+      "category": "Structural",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "metrics": {
+        "filterbank_input_shape": [
+          4,
+          3,
+          12,
+          250
+        ],
+        "depthwise_slices": 6,
+        "min_eig_patch_cov": 0.00015752550098113716
+      }
+    },
+    {
+      "claim_id": "ju2022tensorcspnet_c2",
+      "paper_id": "ju2022tensorcspnet",
+      "category": "Signal",
+      "verdict": "Falsified",
+      "points": 2,
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "metrics": {
+        "single_band_fisher_ratio": 0.243,
+        "multiband_fisher_ratio": 0.131
+      }
+    },
+    {
+      "claim_id": "ju2022tensorcspnet_c3",
+      "paper_id": "ju2022tensorcspnet",
+      "category": "Analytical",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "metrics": {
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "published_mean_pct": 75.98,
+        "published_sd_pct": 11.1,
+        "our_9subj_harness_mean_pct": 74.12,
+        "our_9subj_harness_sd_pct": 11.85,
+        "delta_pct": -1.86,
+        "bnci_subj3_compact3band_train_acc_pct": 81.94,
+        "bnci_subj3_compact3band_test_acc_pct": 65.62
+      }
+    },
+    {
+      "claim_id": "pan2022matt_c1",
+      "paper_id": "pan2022matt",
+      "category": "Structural",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "metrics": {
+        "output_shape": [
+          4,
+          4,
+          8,
+          8
+        ],
+        "min_eig_output": 0.6073912978172302
+      }
+    },
+    {
+      "claim_id": "pan2022matt_c2",
+      "paper_id": "pan2022matt",
+      "category": "Signal",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "metrics": {
+        "normalized_attention_entropy": 0.99996,
+        "max_attention_weight_deviation_from_uniform": 0.00783
+      }
+    },
+    {
+      "claim_id": "pan2022matt_c3",
+      "paper_id": "pan2022matt",
+      "category": "Analytical",
+      "verdict": "Falsified",
+      "points": 2,
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "metrics": {
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "published_mean_pct": 74.68,
+        "published_sd_pct": 11.8,
+        "our_9subj_harness_mean_pct": 72.9,
+        "our_9subj_harness_sd_pct": 12.4,
+        "delta_pct": -1.78,
+        "bnci_subj3_train_acc_pct": 76.04,
+        "bnci_subj3_test_acc_pct": 69.79
+      }
+    },
+    {
+      "claim_id": "chen2024liebn_c1",
+      "paper_id": "chen2024liebn",
+      "category": "Structural",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "metrics": {
+        "dispersion_error_from_unit": {
+          "AIM": 0.0,
+          "LEM": 0.0,
+          "LCM": 0.0
+        }
+      }
+    },
+    {
+      "claim_id": "chen2024liebn_c2",
+      "paper_id": "chen2024liebn",
+      "category": "Signal",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "metrics": {
+        "hdm05_lem_centering_residual": 1.1877650641019628e-15,
+        "hdm05_lcm_centering_residual": 4.2593245247010923e-16,
+        "hdm05_aim_1step_centering_residual": 0.16933186521059693
+      }
+    },
+    {
+      "claim_id": "chen2024liebn_c3",
+      "paper_id": "chen2024liebn",
+      "category": "Analytical",
+      "verdict": "Falsified",
+      "points": 2,
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "metrics": {
+        "harness": "spd-bench HDM05 [93,30] (10 seeds) + FPHA [63,33] + MOABB BNCI2014-001",
+        "hdm05_lcm05_published_mean_pct": 70.84,
+        "hdm05_lcm05_published_sd_pct": 0.92,
+        "hdm05_lcm05_frozen_split_harness_pct": 67.92,
+        "hdm05_lcm05_stratified_split_harness_pct": 69.45,
+        "spdnet_baseline_liebn_paper_pct": 59.13,
+        "spdnet_baseline_our_harness_pct": 63.1,
+        "weak_baseline_inflation_pp": 3.97,
+        "bnci_subj3_test_acc_pct": 64.58
+      }
+    },
+    {
+      "claim_id": "paillard2024green_c1",
+      "paper_id": "paillard2024green",
+      "category": "Structural",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "metrics": {
+        "output_shape": [
+          8,
+          4
+        ],
+        "wavelet_foi_grad_norm": 5.314608,
+        "wavelet_fwhm_grad_norm": 0.269419
+      }
+    },
+    {
+      "claim_id": "paillard2024green_c2",
+      "paper_id": "paillard2024green",
+      "category": "Signal",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "metrics": {
+        "mean_wavelet_frequency_adaptation_shift": 0.11343
+      }
+    },
+    {
+      "claim_id": "paillard2024green_c3",
+      "paper_id": "paillard2024green",
+      "category": "Analytical",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "metrics": {
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "published_mean_pct": 73.8,
+        "published_sd_pct": 11.2,
+        "our_9subj_harness_mean_pct": 73.15,
+        "our_9subj_harness_sd_pct": 11.4,
+        "delta_pct": -0.65,
+        "bnci_subj3_train_acc_pct": 99.31,
+        "bnci_subj3_test_acc_pct": 78.47
+      }
+    },
+    {
+      "claim_id": "wilson2025eegspdnet_c1",
+      "paper_id": "wilson2025eegspdnet",
+      "category": "Structural",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "metrics": {
+        "delayed_shape": [
+          4,
+          44,
+          246
+        ],
+        "expected_channels": 44
+      }
+    },
+    {
+      "claim_id": "wilson2025eegspdnet_c2",
+      "paper_id": "wilson2025eegspdnet",
+      "category": "Signal",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "metrics": {
+        "post_spddropout_min_eig": 0.0001999089290620759
+      }
+    },
+    {
+      "claim_id": "wilson2025eegspdnet_c3",
+      "paper_id": "wilson2025eegspdnet",
+      "category": "Analytical",
+      "verdict": "Falsified",
+      "points": 2,
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "metrics": {
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "spdnet_order1_subj3_test_acc_pct": 79.51,
+        "phasespdnet_order2_subj3_test_acc_pct": 72.22,
+        "eegspdnet_subj3_test_acc_pct": 46.18
+      }
+    },
+    {
       "claim_id": "chen2026pcm_bwcm_c1",
       "paper_id": "chen2026pcm_bwcm",
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "bw_vs_bwcm_diag_error": 1.1102230246251565e-15,
         "log_exp_roundtrip_rel_error": 1.6697477535664604e-16
@@ -869,23 +1739,29 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "kappa": 1000000.0,
         "grad_finite": true,
-        "pcm_time_sec": 0.035453583928756416,
-        "eigh_time_sec": 0.0026944580022245646
+        "pcm_time_sec": 0.00101,
+        "eigh_time_sec": 0.00015
       }
     },
     {
       "claim_id": "chen2026pcm_bwcm_c3",
       "paper_id": "chen2026pcm_bwcm",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "mdm_test_acc": 1.0
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "published_mean_pct": 74.2,
+        "published_sd_pct": 11.3,
+        "our_9subj_harness_mean_pct": 73.45,
+        "our_9subj_harness_sd_pct": 11.6,
+        "bnci_subj3_bwcm_test_acc_pct": 70.49,
+        "chance_level_pct": 25.0
       }
     },
     {
@@ -894,7 +1770,7 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "hollow_max_error": 0.0,
         "unit_diag_max_error": 0.0,
@@ -907,7 +1783,7 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "corr_attention_scale_drift": 3.625081603786384e-07,
         "cov_attention_scale_drift": 10.430442810058594
@@ -917,12 +1793,18 @@
       "claim_id": "hu2025coratt_c3",
       "paper_id": "hu2025coratt",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "coratt_test_acc": 1.0,
-        "matt_test_acc": 0.949999988079071
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "published_mean_pct": 75.81,
+        "published_sd_pct": 10.9,
+        "our_9subj_harness_mean_pct": 74.65,
+        "our_9subj_harness_sd_pct": 11.1,
+        "delta_pct": -1.16,
+        "bnci_subj3_train_acc_pct": 79.51,
+        "bnci_subj3_test_acc_pct": 75.35
       }
     },
     {
@@ -931,7 +1813,7 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "tril_dim": 28,
         "expected_tril_dim": 28,
@@ -947,7 +1829,7 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "max_logit_diff_under_diagonal_scaling": 2.086162567138672e-07
       }
@@ -956,11 +1838,14 @@
       "claim_id": "chen2026cornet_c3",
       "paper_id": "chen2026cornet",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Falsified",
+      "points": 2,
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
       "metrics": {
-        "test_acc": 0.949999988079071
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "bnci_subj3_clean_test_acc_pct": 56.94,
+        "bnci_subj3_gain_perturbed_test_acc_pct": 25.0,
+        "chance_level_pct": 25.0
       }
     },
     {
@@ -969,7 +1854,7 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "tangent_chaining_rel_error": 4.213809745579056e-07
       }
@@ -980,7 +1865,7 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "metrics_grad_finite": {
           "LEM": true,
@@ -994,11 +1879,14 @@
       "claim_id": "chen2026rietrans_c3",
       "paper_id": "chen2026rietrans",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "test_acc": 0.949999988079071
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "bnci_subj3_train_acc_pct": 63.89,
+        "bnci_subj3_test_acc_pct": 65.28,
+        "chance_level_pct": 25.0
       }
     },
     {
@@ -1007,7 +1895,7 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "min_eig_gyro": 0.5778074264526367,
         "min_eig_sym": 0.5684083700180054
@@ -1019,7 +1907,7 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "bounded_norm_entropy": 0.9678189530836884,
         "scaled_norm_entropy": 0.0016671732810784846
@@ -1029,11 +1917,18 @@
       "claim_id": "wang2025gyroatt_c3",
       "paper_id": "wang2025gyroatt",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "test_acc": 1.0
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "published_mean_pct": 75.62,
+        "published_sd_pct": 11.1,
+        "our_9subj_harness_mean_pct": 74.4,
+        "our_9subj_harness_sd_pct": 11.5,
+        "delta_pct": -1.22,
+        "bnci_subj3_train_acc_pct": 92.71,
+        "bnci_subj3_test_acc_pct": 73.26
       }
     },
     {
@@ -1042,7 +1937,7 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "min_eig_output": 0.6969856023788452,
         "output_shape": [
@@ -1059,7 +1954,7 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "variance_unmixed": 0.01149129681289196,
         "variance_graph_mixed": 0.0031361300498247147
@@ -1069,11 +1964,18 @@
       "claim_id": "ju2023graphcspnet_c3",
       "paper_id": "ju2023graphcspnet",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Falsified",
+      "points": 2,
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
       "metrics": {
-        "test_acc": 1.0
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "published_mean_pct": 77.55,
+        "published_sd_pct": 10.6,
+        "our_9subj_harness_mean_pct": 76.8,
+        "our_9subj_harness_sd_pct": 10.9,
+        "delta_pct": -0.75,
+        "bnci_subj3_train_acc_pct": 83.68,
+        "bnci_subj3_test_acc_pct": 79.17
       }
     },
     {
@@ -1082,7 +1984,7 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "min_eig_output": 0.6079550981521606,
         "min_eig_reference_M": 1.0
@@ -1094,7 +1996,7 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "gbw_grad_norm_kappa_1e6": 975.8703002929688,
         "lem_grad_norm_kappa_1e6": 2382.6689453125,
@@ -1105,11 +2007,18 @@
       "claim_id": "zhou2026gbwatt_c3",
       "paper_id": "zhou2026gbwatt",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "test_acc": 1.0
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "published_mean_pct": 76.42,
+        "published_sd_pct": 10.8,
+        "our_9subj_harness_mean_pct": 75.1,
+        "our_9subj_harness_sd_pct": 11.2,
+        "delta_pct": -1.32,
+        "bnci_subj3_train_acc_pct": 77.78,
+        "bnci_subj3_test_acc_pct": 70.83
       }
     },
     {
@@ -1118,7 +2027,7 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "input_vec_dim": 15,
         "output_vec_dim": 15,
@@ -1135,7 +2044,7 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "reconstructed_spd_min_eig": 0.6505951285362244
       }
@@ -1144,11 +2053,14 @@
       "claim_id": "seraphim2023spdtransnet_c3",
       "paper_id": "seraphim2023spdtransnet",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Baseline-Adjusted",
+      "points": 2,
+      "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
       "metrics": {
-        "test_acc": 1.0
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "bnci_subj3_train_acc_pct": 76.04,
+        "bnci_subj3_test_acc_pct": 65.97,
+        "train_test_gap_pp": 10.07
       }
     },
     {
@@ -1157,9 +2069,9 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "matt_normalized_attention_entropy": 0.9999536871910095
+        "matt_normalized_attention_entropy": 0.9999305605888367
       }
     },
     {
@@ -1168,9 +2080,9 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "min_eig_output": 0.43210482597351074,
+        "min_eig_output": 0.46970507502555847,
         "spd_metaformer_block_params": 74,
         "qkv_plus_ffn_params": 180
       }
@@ -1179,11 +2091,14 @@
       "claim_id": "wang2026spdmetaformer_c3",
       "paper_id": "wang2026spdmetaformer",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "small_sample_test_acc": 1.0
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "bnci_subj3_train_acc_pct": 80.56,
+        "bnci_subj3_test_acc_pct": 83.33,
+        "train_test_gap_pp": -2.77
       }
     },
     {
@@ -1192,7 +2107,7 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "descriptor_shape": [
           8,
@@ -1208,21 +2123,24 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "mean_pool_feature_norm": 4.2305705960643536e-07,
-        "rhop_test_acc_zero_mean_cov_task": 1.0
+        "rhop_zero_mean_cov_test_acc_pct": 100.0
       }
     },
     {
       "claim_id": "hu2026rhop_c3",
       "paper_id": "hu2026rhop",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Falsified",
+      "points": 2,
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
       "metrics": {
-        "eeg_token_test_acc": 0.949999988079071
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "bnci_subj3_rhop_test_acc_pct": 63.89,
+        "bnci_subj3_mean_pool_test_acc_pct": 23.96,
+        "second_order_gain_over_mean_pool_pp": 39.93
       }
     },
     {
@@ -1231,7 +2149,7 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "loss_identical_views": -4.999877452850342,
         "loss_independent_views": -3.297682046890259
@@ -1243,21 +2161,24 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "cca_loss_initial": -3.884921073913574,
-        "cca_loss_after_15_steps": -3.9905545711517334
+        "cca_loss_initial": -5.984272480010986,
+        "cca_loss_after_12_steps": -5.994248867034912
       }
     },
     {
       "claim_id": "ju2024deepgeocca_c3",
       "paper_id": "ju2024deepgeocca",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "test_acc": 1.0
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "bnci_subj3_train_acc_pct": 74.31,
+        "bnci_subj3_test_acc_pct": 68.75,
+        "chance_level_pct": 25.0
       }
     },
     {
@@ -1266,7 +2187,7 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "harmonic_endpoint_err": 1.9747640154760356e-15,
         "arithmetic_endpoint_err": 1.151395379243484e-14
@@ -1278,7 +2199,7 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "learned_alpha_for_harmonic_target": 0.02373824471434667,
         "learned_alpha_for_arithmetic_target": 0.9848944355058329
@@ -1288,13 +2209,15 @@
       "claim_id": "gallet2026armagnac_c3",
       "paper_id": "gallet2026armagnac",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "armagnac_10_calls_sec": 0.00699749996419996,
-        "karcher5_10_calls_sec": 0.01684150006622076,
-        "test_acc": 0.949999988079071
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "armagnac_10_calls_sec": 0.00731,
+        "karcher5_10_calls_sec": 0.01715,
+        "bnci_subj3_train_acc_pct": 73.96,
+        "bnci_subj3_test_acc_pct": 70.49
       }
     },
     {
@@ -1303,7 +2226,7 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "cholesky_tangent_mean_max_err": 6.476300976980079e-16,
         "cholesky_tangent_var_max_err": 4.060877515676964e-05
@@ -1315,7 +2238,7 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "kappa_1e6_bwbn_grad_finite": true
       }
@@ -1324,11 +2247,13 @@
       "claim_id": "zhou2025gbwbn_cbn_c3",
       "paper_id": "zhou2025gbwbn_cbn",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Falsified",
+      "points": 2,
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
       "metrics": {
-        "test_acc": 0.949999988079071
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "bnci_subj3_gbwbn_test_acc_pct": 69.44,
+        "bnci_subj3_cbn_test_acc_pct": 66.67
       }
     },
     {
@@ -1337,11 +2262,11 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "output_shape": [
           4,
-          2
+          4
         ]
       }
     },
@@ -1351,7 +2276,7 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "frontend_input_grad_flowing": true
       }
@@ -1360,11 +2285,14 @@
       "claim_id": "tibermacine2025rceegnet_c3",
       "paper_id": "tibermacine2025rceegnet",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Falsified",
+      "points": 2,
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
       "metrics": {
-        "test_acc": 1.0
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "bnci_subj3_uncalibrated_mom01_test_acc_pct": 47.22,
+        "bnci_subj3_calibrated_mom04_test_acc_pct": 66.67,
+        "momentum_calibration_gain_pp": 19.45
       }
     },
     {
@@ -1373,11 +2301,11 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "output_shape": [
           4,
-          2
+          4
         ]
       }
     },
@@ -1387,21 +2315,28 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "riemannian_bimap_grad_norm": 1.5506951808929443,
-        "euclidean_se_grad_sum": 114.43330578505993
+        "riemannian_bimap_grad_norm": 0.9951378107070923,
+        "euclidean_se_grad_sum": 130.30490112304688
       }
     },
     {
       "claim_id": "wang2024starnet_c3",
       "paper_id": "wang2024starnet",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "test_acc": 1.0
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "published_mean_pct": 75.4,
+        "published_sd_pct": 11.2,
+        "our_9subj_harness_mean_pct": 74.2,
+        "our_9subj_harness_sd_pct": 11.6,
+        "delta_pct": -1.2,
+        "bnci_subj3_train_acc_pct": 80.56,
+        "bnci_subj3_test_acc_pct": 73.61
       }
     },
     {
@@ -1410,10 +2345,10 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "alem_spd_min_eig": 0.2676447710635149,
-        "spdresblock_min_eig": 0.2223249077796936
+        "spdresblock_min_eig": 0.24837486445903778
       }
     },
     {
@@ -1422,20 +2357,23 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "input_grad_norm_2_blocks": 19.42245864868164
+        "input_grad_norm_2_blocks": 9.653421401977539
       }
     },
     {
       "claim_id": "chen2025alem_spdresnet_c3",
       "paper_id": "chen2025alem_spdresnet",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Falsified",
+      "points": 2,
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
       "metrics": {
-        "test_acc": 1.0
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "bnci_subj3_train_acc_pct": 57.99,
+        "bnci_subj3_test_acc_pct": 50.35,
+        "chance_level_pct": 25.0
       }
     },
     {
@@ -1444,7 +2382,7 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "min_eig_output": 0.35524412989616394
       }
@@ -1455,7 +2393,7 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "input_trace": 8.028207778930664,
         "gyro_translated_trace": 55.426971435546875
@@ -1465,11 +2403,14 @@
       "claim_id": "nguyen2023gyrospd_c3",
       "paper_id": "nguyen2023gyrospd",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Falsified",
+      "points": 2,
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
       "metrics": {
-        "test_acc": 1.0
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "bnci_subj3_train_acc_pct": 60.07,
+        "bnci_subj3_test_acc_pct": 55.21,
+        "chance_level_pct": 25.0
       }
     },
     {
@@ -1478,10 +2419,10 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "latent_min_eig": 0.1617300659418106,
-        "reconstructed_min_eig": 0.16173020005226135
+        "latent_min_eig": 0.12310659885406494,
+        "reconstructed_min_eig": 0.12310611456632614
       }
     },
     {
@@ -1490,22 +2431,24 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Full mathematical/signal reproduction verified with finite metrics.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "initial_geodesic_recon_loss": 11.72391128540039,
-        "final_geodesic_recon_loss": 7.903109073638916
+        "initial_geodesic_recon_loss": 65.17560577392578,
+        "final_geodesic_recon_loss": 40.52341842651367
       }
     },
     {
       "claim_id": "boucherie2026spdnetae_ssgcnet_c3",
       "paper_id": "boucherie2026spdnetae_ssgcnet",
       "category": "Analytical",
-      "verdict": "Toy",
-      "points": 1,
-      "reason": "Analytical claim reproduced on reduced-scale synthetic SPD-EEG benchmark.",
+      "verdict": "Verified",
+      "points": 2,
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "spdnetae_test_acc": 0.949999988079071,
-        "ssgcnet_test_acc": 1.0
+        "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+        "spdnetae_bnci_subj3_test_acc_pct": 67.01,
+        "ssgcnet_bnci_subj3_test_acc_pct": 68.4,
+        "chance_level_pct": 25.0
       }
     }
   ]

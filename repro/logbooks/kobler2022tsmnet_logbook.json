@@ -1,0 +1,37 @@
+{
+  "schema": "trackio-logbook-v2",
+  "paper_id": "kobler2022tsmnet",
+  "paper_name": "TSMNet & SPDDSMBN: Domain-Specific Momentum Batch Normalization (NeurIPS 2022)",
+  "timestamp": "2026-11-05T16:35:52.285659+00:00",
+  "git_commit": "3a9e18d",
+  "command": "python -m repro.trackio_runner run --paper-id kobler2022tsmnet",
+  "exit_code": 0,
+  "duration_sec": 7.51,
+  "error": null,
+  "claim_traces": {
+    "kobler2022tsmnet_c1": {
+      "tangent_mean_max_error": 0.00014853000243456038,
+      "normalized_tangent_dispersion": 0.9999983244612813,
+      "passed": false,
+      "scope": "full"
+    },
+    "kobler2022tsmnet_c2": {
+      "bnci_subj3_frozen_source_stats_acc_pct": 79.17,
+      "bnci_subj3_spddsmbn_target_adapted_acc_pct": 87.5,
+      "domain_adaptation_gain_pp": 8.33,
+      "passed": true,
+      "scope": "full"
+    },
+    "kobler2022tsmnet_c3": {
+      "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, window [2.500, 5.496]s, 4-38 Hz)",
+      "published_mean_pct": 74.6,
+      "published_sd_pct": 11.5,
+      "our_9subj_harness_mean_pct": 73.84,
+      "our_9subj_harness_sd_pct": 11.2,
+      "delta_pct": -0.76,
+      "bnci_subj3_spddsmbn_acc_pct": 87.5,
+      "passed": true,
+      "scope": "baseline_adjusted"
+    }
+  }
+}

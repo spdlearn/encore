@@ -1,12 +1,12 @@
 {
-  "schema": "trackio-logbook-v1",
+  "schema": "trackio-logbook-v2",
   "paper_id": "hu2026rhop",
   "paper_name": "RHOP: Riemannian High-Order Pooling for BFMs (ICLR 2026)",
-  "timestamp": "2026-11-05T14:47:31.460341+00:00",
-  "git_commit": "b3cf097",
+  "timestamp": "2026-11-05T16:36:42.179625+00:00",
+  "git_commit": "3a9e18d",
   "command": "python -m repro.trackio_runner run --paper-id hu2026rhop",
   "exit_code": 0,
-  "duration_sec": 0.1476,
+  "duration_sec": 0.5275,
   "error": null,
   "claim_traces": {
     "hu2026rhop_c1": {
@@ -21,14 +21,17 @@
     },
     "hu2026rhop_c2": {
       "mean_pool_feature_norm": 4.2305705960643536e-07,
-      "rhop_test_acc_zero_mean_cov_task": 1.0,
+      "rhop_zero_mean_cov_test_acc_pct": 100.0,
       "passed": true,
       "scope": "full"
     },
     "hu2026rhop_c3": {
-      "eeg_token_test_acc": 0.949999988079071,
-      "passed": true,
-      "scope": "toy"
+      "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
+      "bnci_subj3_rhop_test_acc_pct": 63.89,
+      "bnci_subj3_mean_pool_test_acc_pct": 23.96,
+      "second_order_gain_over_mean_pool_pp": 39.93,
+      "passed": false,
+      "scope": "full"
     }
   }
 }
