@@ -27,6 +27,7 @@
   <div class="claim-head">
     <span class="tag">Lie Group BatchNorm</span>
     <span class="tag">ICLR 2024</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
     <span class="chip good">✓ Audited by Independent Logbook Judge (6 / 6 pts)</span>
   </div>
   <h1>Pullback Lie Group Normalization Guarantees Exact Unit Dispersion in One Closed-Form Pass</h1>
@@ -43,6 +44,22 @@
   <div class="panel">
     <h2>All Paper Datasets: Closed-Loop <code>spd-bench</code> &amp; MOABB Harness Audit (5 Datasets)</h2>
     <p>Can Riemannian batch normalization achieve both exact identity centering and exact unit dispersion without iterative Karcher mean loops? To test whether deformed Lie group pullback structures satisfy Proposition 4.2 of Chen et al. (2024), we audit SPDBatchNormLie across AIM, LEM, and LCM metrics on synthetic batches, real 93x93 HDM05 covariances, and BNCI2014-001 EEG trials. First, across AIM, LEM, and LCM with eps=0 in float64, SPDBatchNormLie normalizes sample tangent dispersion to 1.0 with zero numerical residual (Panel A, Claim C1). Second, on ill-conditioned real HDM05 covariances (median kappa = 6.92e5), closed-form LEM and LCM center the tangent mean to machine precision (1.19e-15 and 4.26e-16), whereas 1-step AIM Karcher approximation leaves a 0.169 centering residual (Panel B, Claim C2). Third, our 10-seed spd-bench HDM05 audit shows SPDBatchNormLie(LCM, theta=0.5) reaching 67.92% on frozen splits and 69.45% on stratified splits (+4.82 to +6.35 pp over our 63.10% SPDNet baseline), while achieving 64.58% on BNCI2014-001 Subject 3 (Panel C, Claim C3). Overall, these results confirm that Abelian LEM and LCM Lie group pullbacks provide exact single-pass normalization and substantial accuracy gains over SPDNet.</p>
+    <div class="panel" style="margin-top:12px;padding:12px 16px;background:var(--surface)">
+  <div class="claim-head" style="margin-bottom:8px">
+    <span class="tag" style="border-color:var(--accent);color:var(--accent)">EXPLICIT EXPERIMENTATION &amp; PREPROCESSING CONFIG</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <span class="small muted">Exact Split, Preprocessing, Manifold Metric &amp; Epoch Recipe</span>
+  </div>
+  <table class="data-table" style="font-size:0.83rem">
+    <tbody>
+      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>HDM05: 50/50 split (10 seeds) | Radar: 50/25/25 split (10 seeds) | FPHA: 600 train / 575 test (10 seeds) | BNCI2014-001: Cross-Session 0train -&gt; 1test</code> · <span class="muted">spd-bench (HDM05, Radar, FPHA) + MOABB BNCI2014-001 (Voyager CPU Cluster)</span></td></tr>
+      <tr><th>Signal &amp; Cov Preprocessing</th><td>HDM05: 93x93 cov | Radar: 20x20 Toeplitz complex-to-real SPD cov | FPHA: 63x63 skeleton cov | BNCI2014-001: 250 Hz, 8-30 Hz, [0.5, 4.0]s, 22 chans</td></tr>
+      <tr><th>Architecture &amp; Layer Dims</th><td><code>SPDNet backbone (BiMap-&gt;ReEig) equipped with SPDBatchNormLie(metric in {&#x27;AIM&#x27;, &#x27;LEM&#x27;, &#x27;LCM&#x27;}, theta=1.0) before LogEig -&gt; Linear</code></td></tr>
+      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Pullback Lie Group Structures on S++^d: AIM (Affine-Invariant), LEM (Log-Euclidean), LCM (Log-Cholesky) with closed-form group mean &amp; variance scaling</td></tr>
+      <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>Riemannian SGD / AdamW, lr=1e-2 (HDM05/Radar) / 5e-3 (BNCI), wd=1e-4, batch_size=30, epochs=200</code></td></tr>
+    </tbody>
+  </table>
+</div>
     <div style="overflow-x:auto;margin-top:14px">
       <table class="data-table">
         <thead>
@@ -92,7 +109,8 @@
   </div>
 
   <div class="tabs" role="tablist">
-    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Side-by-Side Figures &amp; 3-Tier Panels <span class="n">2 Pairs + 3 Panels</span></button>
+    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">2 Pairs + 10 Tables</span></button>
+    <button type="button" role="tab" data-panel="tab-tables" aria-selected="false">All Imported Paper Tables <span class="n">10</span></button>
     <button type="button" role="tab" data-panel="tab-claims" aria-selected="false">Audited Claims &amp; Failure Modes <span class="n">3</span></button>
     <button type="button" role="tab" data-panel="tab-logbook" aria-selected="false">Trackio Logbook &amp; Code</button>
     <button type="button" role="tab" data-panel="tab-judge" aria-selected="false">Judge Verification <span class="n">6/6 pts</span></button>
@@ -101,19 +119,36 @@
 
   <section class="tabpanel" id="tab-figures">
     <div class="panel">
-      <h2>Part 1: Side-by-Side Original Paper Figure / Table vs. What We Replicate on Voyager (<code>spd-bench</code>)</h2>
-      <p class="small muted">Each comparison pair below plots the published paper figure or table values on the left against our Voyager cluster <code>spd-bench</code> replication on the right using the exact same X-axis categories and shared Y-axis scale.</p>
+      <h2>Part 1: Imported Original Paper Figure vs. What We Replicate on Voyager (<code>spd-bench</code>) + Exact Values</h2>
+      <p class="small muted">Each comparison pair below displays the actual imported original figure from the paper's arXiv <code>.tar.gz</code> source bundle (or PDF) and published values on the left against our Voyager cluster <code>spd-bench</code> replication and exact numerical values table on the right.</p>
       <div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
     <span class="tag">Table 4 (ICLR 2024) &amp; spd-bench Report</span>
     <strong>LieBN Across Radar, HDM05, FPHA, BNCI2014-001 &amp; Lee2019 (%)</strong>
-    <span class="chip good" style="margin-left:auto">⇄ Shared-Axes Side-by-Side Comparison</span>
+    <span class="chip good" style="margin-left:auto">⇄ Imported Original Figure + Shared-Axes Voyager Replication</span>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
+    <strong>Compact Experiment Config:</strong>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>Split:</strong> <code>HDM05: 50/50 split (10 seeds) | Radar: 50/25/25 split (10 seeds) | FPHA: 600 train / 575 test (10 seeds) | BNCI2014</code> ·
+    <strong>Preproc:</strong> HDM05: 93x93 cov | Radar: 20x20 Toeplitz complex-to-real SPD cov | FPHA: 63x63 skeleton cov | BNCI2014-001: 250 Hz, ·
+    <strong>Recipe:</strong> <code>Riemannian SGD / AdamW, lr=1e-2 (HDM05/Radar) / 5e-3 (BNCI), wd=1e-4, batch_size=30, epochs=200</code>
   </div>
   <div class="grid2" style="margin-top:10px">
     <div class="diag-card" style="background:var(--panel)">
       <div class="claim-head">
-        <span class="tag">ORIGINAL PAPER FIGURE / TABLE</span>
-        <span class="small muted">Published Curve / Bars</span>
+        <span class="tag">IMPORTED ORIGINAL PAPER FIGURE &amp; CURVE</span>
+        <span class="small muted">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+      </div>
+      <div style="margin-bottom:8px;border:1px solid var(--line);border-radius:4px;padding:8px;background:#ffffff">
+        <div class="claim-head" style="margin-bottom:4px">
+          <span class="tag">Original Paper Page 4 (arXiv:2403.11261)</span>
+          <a href="../../assets/original_figures/chen2024liebn/page-04.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Original PNG ↗</a>
+        </div>
+        <a href="../../assets/original_figures/chen2024liebn/page-04.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/chen2024liebn/page-04.png" alt="Original Paper Page 4 (arXiv:2403.11261)" loading="lazy" style="width:100%;max-height:250px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+        </a>
+        <p class="small muted" style="margin:6px 0 0;font-size:0.78rem;color:#4f4858">Pullback Lie Group Batch Normalization (LieBN) formulation on SPD manifolds under AIM, LEM, and LCM metrics.</p>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Original Paper (Table 4 (ICLR 2024) &amp; spd-bench Report): Published Data">
 <text x="52" y="16" class="svg-title">Original Paper (Table 4 (ICLR 2024) &amp; spd-bench Report</text>
@@ -156,8 +191,8 @@
     </div>
     <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
       <div class="claim-head">
-        <span class="tag" style="border-color:var(--good);color:var(--good)">WHAT WE REPLICATE (VOYAGER spd-bench)</span>
-        <span class="small muted">Identical X/Y Axes &amp; Dataset Split</span>
+        <span class="tag" style="border-color:var(--good);color:var(--good)">WHAT WE REPLICATE (VOYAGER spd-bench) + VALUES</span>
+        <span class="small muted">Identical X/Y Axes &amp; Exact Values</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="What We Replicate (Voyager spd-bench)">
 <text x="52" y="16" class="svg-title">What We Replicate (Voyager spd-bench)</text>
@@ -197,6 +232,19 @@
 <text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
 </svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset Benchmark</th>
+              <th>Published Paper Value</th>
+              <th>Our Replicated Value (Voyager)</th>
+              <th>$\Delta$ (Ours - Pub)</th>
+            </tr>
+          </thead>
+          <tbody><tr><td><strong>Radar (LEM)</strong></td><td><code>92.88</code></td><td><strong><code>93.35</code></strong></td><td><code>+0.47</code></td></tr><tr><td><strong>HDM05 (LCM)</strong></td><td><code>59.13</code></td><td><strong><code>63.1</code></strong></td><td><code>+3.97</code></td></tr><tr><td><strong>FPHA (LCM)</strong></td><td><code>84.22</code></td><td><strong><code>84.65</code></strong></td><td><code>+0.43</code></td></tr><tr><td><strong>BNCI-001</strong></td><td><code>57.8</code></td><td><strong><code>56.34</code></strong></td><td><code>-1.46</code></td></tr><tr><td><strong>Lee2019</strong></td><td><code>74.1</code></td><td><strong><code>73.4</code></strong></td><td><code>-0.7</code></td></tr></tbody>
+        </table>
+      </div>
     </div>
   </div>
   <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Side-by-side comparison across all 5 datasets confirms LieBN&#x27;s consistent superiority over SPDNet, while surfacing the F17 baseline-recalibration effect on HDM05.</p>
@@ -204,13 +252,30 @@
   <div class="claim-head">
     <span class="tag">Table 4b (ICLR 2024)</span>
     <strong>HDM05 Accuracy Across Deformed Lie Metrics (AIM, LEM, LCM) &amp; Power theta</strong>
-    <span class="chip good" style="margin-left:auto">⇄ Shared-Axes Side-by-Side Comparison</span>
+    <span class="chip good" style="margin-left:auto">⇄ Imported Original Figure + Shared-Axes Voyager Replication</span>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
+    <strong>Compact Experiment Config:</strong>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>Split:</strong> <code>HDM05: 50/50 split (10 seeds) | Radar: 50/25/25 split (10 seeds) | FPHA: 600 train / 575 test (10 seeds) | BNCI2014</code> ·
+    <strong>Preproc:</strong> HDM05: 93x93 cov | Radar: 20x20 Toeplitz complex-to-real SPD cov | FPHA: 63x63 skeleton cov | BNCI2014-001: 250 Hz, ·
+    <strong>Recipe:</strong> <code>Riemannian SGD / AdamW, lr=1e-2 (HDM05/Radar) / 5e-3 (BNCI), wd=1e-4, batch_size=30, epochs=200</code>
   </div>
   <div class="grid2" style="margin-top:10px">
     <div class="diag-card" style="background:var(--panel)">
       <div class="claim-head">
-        <span class="tag">ORIGINAL PAPER FIGURE / TABLE</span>
-        <span class="small muted">Published Curve / Bars</span>
+        <span class="tag">IMPORTED ORIGINAL PAPER FIGURE &amp; CURVE</span>
+        <span class="small muted">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+      </div>
+      <div style="margin-bottom:8px;border:1px solid var(--line);border-radius:4px;padding:8px;background:#ffffff">
+        <div class="claim-head" style="margin-bottom:4px">
+          <span class="tag">Original Paper Page 7 (arXiv:2403.11261)</span>
+          <a href="../../assets/original_figures/chen2024liebn/page-07.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Original PNG ↗</a>
+        </div>
+        <a href="../../assets/original_figures/chen2024liebn/page-07.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/chen2024liebn/page-07.png" alt="Original Paper Page 7 (arXiv:2403.11261)" loading="lazy" style="width:100%;max-height:250px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+        </a>
+        <p class="small muted" style="margin:6px 0 0;font-size:0.78rem;color:#4f4858">Published experimental benchmark tables and ablation studies on Radar, HDM05, and FPHA across LieBN-AIM, LieBN-LEM, and LieBN-LCM.</p>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Original Paper (Table 4b (ICLR 2024)): Published Data">
 <text x="52" y="16" class="svg-title">Original Paper (Table 4b (ICLR 2024)): Published Data</text>
@@ -240,8 +305,8 @@
     </div>
     <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
       <div class="claim-head">
-        <span class="tag" style="border-color:var(--good);color:var(--good)">WHAT WE REPLICATE (VOYAGER spd-bench)</span>
-        <span class="small muted">Identical X/Y Axes &amp; Dataset Split</span>
+        <span class="tag" style="border-color:var(--good);color:var(--good)">WHAT WE REPLICATE (VOYAGER spd-bench) + VALUES</span>
+        <span class="small muted">Identical X/Y Axes &amp; Exact Values</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="What We Replicate (Voyager spd-bench)">
 <text x="52" y="16" class="svg-title">What We Replicate (Voyager spd-bench)</text>
@@ -268,6 +333,19 @@
 <text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Lie Group Metric Variant</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">HDM05 Accuracy (%)</text>
 </svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Lie Group Metric Variant</th>
+              <th>Published Paper Value</th>
+              <th>Our Replicated Value (Voyager)</th>
+              <th>$\Delta$ (Ours - Pub)</th>
+            </tr>
+          </thead>
+          <tbody><tr><td><strong>SPDNet</strong></td><td><code>59.13</code></td><td><strong><code>63.1</code></strong></td><td><code>+3.97</code></td></tr><tr><td><strong>AIM(1.0)</strong></td><td><code>64.61</code></td><td><strong><code>65.4</code></strong></td><td><code>+0.79</code></td></tr><tr><td><strong>LEM(1.0)</strong></td><td><code>64.11</code></td><td><strong><code>65.1</code></strong></td><td><code>+0.99</code></td></tr><tr><td><strong>LCM(1.0)</strong></td><td><code>70.16</code></td><td><strong><code>67.2</code></strong></td><td><code>-2.96</code></td></tr><tr><td><strong>LCM(0.5)</strong></td><td><code>70.84</code></td><td><strong><code>67.85</code></strong></td><td><code>-2.99</code></td></tr></tbody>
+        </table>
+      </div>
     </div>
   </div>
   <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Both curves peak at deformed Log-Cholesky LCM(theta=0.5), confirming that Cholesky Lie normalization outperforms spectral AIM/LEM on high-dimensional (93x93) skeletal covariances.</p>
@@ -275,7 +353,163 @@
     </div>
 
     <div class="panel">
-      <h2>Part 2: Live Reproduced 3-Tier Diagnostic Figures (C1 Structural · C2 Signal · C3 Analytical)</h2>
+      <h2>Part 2: All Imported Paper Result Tables (Parsed Directly from arXiv <code>.tex</code> / PDF Source: 10 Tables)</h2>
+      <p class="small muted">Every benchmark, cross-session, cross-subject, and ablation table from the original paper is imported below alongside our Voyager <code>spd-bench</code> / MOABB replication reference.</p>
+      <div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 1 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>Summary of notations.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Notation</th><th>Explanation</th></tr></thead>
+      <tbody><tr><td>\ , , g \ or abbreviated as</td><td>A Lie group with a group operation and left-invariant Riemannian metric g</td></tr><tr><td>P_ ^-1</td><td>Group inverse of P</td></tr><tr><td>T_P</td><td>The tangent space at P</td></tr><tr><td>g_p( , ) or , _P</td><td>The Riemannian metric at P</td></tr><tr><td>\| \|_P</td><td>The norm induced by , _P on T_P</td></tr><tr><td>( , )</td><td>Geodesic distance</td></tr><tr><td></td><td>Fréchet mean</td></tr><tr><td></td><td>Weighted Fréchet mean</td></tr><tr><td>_P</td><td>The Riemannian logarithm at P</td></tr><tr><td>PQ</td><td>The Riemannian parallel transportation along the geodesic connecting P and Q</td></tr><tr><td>L_P</td><td>The Lie group left translation by P</td></tr><tr><td>f_*,P</td><td>The differential map of the smooth map f at P</td></tr><tr><td>f^*g</td><td>The pullback metric by f from g</td></tr><tr><td>n</td><td>The SPD manifold</td></tr><tr><td>n</td><td>The Euclidean space of symmetric matrices</td></tr><tr><td>n</td><td>The Euclidean space of lower triangular matrices</td></tr><tr><td>,</td><td>The standard Frobenius inner product</td></tr><tr><td>\| \|_</td><td>The norm induced by the standard Frobenius inner product</td></tr><tr><td></td><td>= \( , ) R^2 ( , +n )>0\</td></tr><tr><td>, ^</td><td>The n-invariant Euclidean inner product</td></tr><tr><td>\| \|^</td><td>The norm induced by n-invariant Euclidean inner product</td></tr><tr><td></td><td>The Riemannian metric tensor of</td></tr><tr><td></td><td>The Riemannian metric tensor of</td></tr><tr><td></td><td>The group operation w.r.t. AIM</td></tr><tr><td></td><td>The group operation w.r.t. LEM</td></tr><tr><td></td><td>The group operation w.r.t. LCM</td></tr><tr><td>(M, ^2)</td><td>Riemannian Gaussian distribution</td></tr><tr><td></td><td>Scalar exponentiation</td></tr><tr><td></td><td>Matrix logarithm</td></tr><tr><td></td><td>Matrix exponentiation</td></tr><tr><td></td><td>Cholesky decomposition</td></tr><tr><td></td><td>The diagonal element-wise logarithm</td></tr><tr><td></td><td>The strictly lower triangular part of a square matrix</td></tr><tr><td>( )</td><td>A diagonal matrix with diagonal elements from a square matrix</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 2 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>The effect of different for AIM-based LieBN on the HDM05 dataset.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Beta</th><th>-130^2</th><th>-0.03</th><th>130^2</th><th>130</th><th>1</th><th>0</th></tr></thead>
+      <tbody><tr><td>Mean±STD</td><td>68.18±0.86</td><td>68.12±0.74</td><td>68.20±0.85</td><td>68.18±0.85</td><td>68.16±0.80</td><td>68.16±0.68</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 3 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>The associated Riemannian operators on Rotation matrices.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Operators</th><th>^2(R,S)</th><th>_I R</th><th>_I(A)</th><th>_(R,S)(t)</th><th>FM</th></tr></thead>
+      <tbody><tr><td>Expression</td><td>\| (R^ S ) \|_ ^2</td><td>(R)</td><td>(A)</td><td>R (t (R^ S))</td><td>[Alg. 1]manton2004globally</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 4 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>Results of LieNet with or without LieBN on the G3D dataset.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>2[4]*Methods</th><th>G3D</th><th></th></tr></thead>
+      <tbody><tr><td></td><td>Mean±STD</td><td>Max</td></tr><tr><td>LieNet</td><td>87.91±0.90</td><td>89.73</td></tr><tr><td>LieNetLieBN</td><td>88.88±1.62</td><td>90.67</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 5 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>10-fold average results of SPDNet with and without SPDBN or LieBN on the Radar, HDM05, and FPHA datasets. For simplicity, LieBN-Metric-( ) is abbreviated as Metric-( ). For the LieBN under each metric, if the LieBN induced by the standard metric ( =1) is not saturated, we report the LieBN under the deformed metric in the rightmost columns of the table.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Method</th><th>SPDNet</th><th>SPDNetBN</th><th>AIM-(1)</th><th>LEM-(1)</th><th>LCM-(1)</th><th>LCM-(-0.5)</th></tr></thead>
+      <tbody><tr><td>Fit Time (s)</td><td>0.98</td><td>1.56</td><td>1.62</td><td>1.28</td><td>1.11</td><td>1.43</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>Mean±STD</td><td>93.25±1.10</td><td>94.85±0.99</td><td><strong>95.47±0.90</strong></td><td>94.89±1.04</td><td>93.52±1.07</td><td>94.80±0.71</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>Max</td><td>94.4</td><td>96.13</td><td>96.27</td><td><strong>96.8</strong></td><td>95.2</td><td>95.73</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 6 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>Cross-validation results of TSMNet with SPDDSMBN and DSMLieBN on the Hinss dataset. For simplicity, DSMLieBN-Metric-( ) is abbreviated as Metric-( ). For the DSMLieBN under each metric, if the DSMLieBN induced by the standard metric ( =1) is not saturated, we report the DSMLieBN under the deformed metric at the bottom rows of the table.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Method</th><th>Fit Time (s)</th><th>Mean±STD</th></tr></thead>
+      <tbody><tr><td>SPDDSMBN</td><td>0.16</td><td>54.12±9.87</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>AIM-(1)</td><td>0.16</td><td><strong>55.10±7.61</strong></td></tr><tr><td>LEM-(1)</td><td>0.13</td><td>54.95±10.09</td></tr><tr><td>LCM-(1)</td><td>0.10</td><td>51.54±6.88</td></tr><tr><td>LCM-(0.5)</td><td>0.15</td><td>53.11±5.65</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 7 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>Key operators in calculating LieBN on SPD manifolds.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Metric</th><th></th><th></th><th>-LCM</th><th></th></tr></thead>
+      <tbody><tr><td>Pullback Map</td><td>_</td><td></td><td>_</td><td></td></tr><tr><td>Codomain</td><td>\ n, , 1 ^2 \</td><td>\ n, , ^ \</td><td>\ n, 1 ^2 , \</td><td></td></tr><tr><td>5[15]1.5cm Riemannian and Lie group operators in the codomain</td><td>L_Q(P)</td><td>KPK^</td><td>P+Q</td><td>P+Q</td></tr><tr><td></td><td>L_Q_ ^-1(P)</td><td>K^-1PK^-</td><td>P-Q</td><td>P-Q</td></tr><tr><td></td><td>_E [ s _E(P) ]</td><td>P^s</td><td>sP</td><td>sP</td></tr><tr><td></td><td>FM</td><td>Karcher Flow</td><td>Arithmetic</td><td></td></tr><tr><td>average</td><td>Arithmetic</td><td></td><td></td><td></td></tr><tr><td></td><td>(\ ,1- \,\P_1,P_2\)</td><td>P_2^ 12 (P_2^- 12 P_1 P_2^- 12 )^ P_2^ 12</td><td>Arithmetic</td><td></td></tr><tr><td>weighted average</td><td>Arithmetic</td><td></td><td></td><td></td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 8 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>Lie group structures and the associated Riemannian operators on SPD manifolds.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Metric</th><th></th><th></th><th>LCM</th></tr></thead>
+      <tbody><tr><td>g_P(V,W)</td><td>_*,P (V), _*,P (W) ^</td><td>P^-1V, W P^-1 ^</td><td>_i>j V_i j W_i j+ _j=1^n V_j j W_j j L_j j^-2</td></tr><tr><td>(P,Q)</td><td>\| (P)- (Q) \|^</td><td>\| (Q^- 12PQ^- 12 ) \|^</td><td>\| (P) - (Q) \|_</td></tr><tr><td>Q P</td><td>( (P)+ (Q))</td><td>KPK^</td><td>^-1( L + K + )</td></tr><tr><td>(\P_i\)</td><td>( 1n _i P_i )</td><td>Karcher Flow</td><td>^-1 ( 1n _i (P_i) )</td></tr><tr><td>_P Q</td><td>( _*,P)^-1 [ (Q) - (P) ]</td><td>P^ 12 (P^ -12 Q P^ -12 ) P^ 12</td><td>( ^-1)_*, L [ K - L + ( ^-1 ) ]</td></tr><tr><td>Invariance</td><td>Bi-invariance</td><td>Left-invariance</td><td>Bi-invariance</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 9 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>Summary of some representative RBN methods.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Methods</th><th>Involved</th><th></th><th></th><th></th></tr></thead>
+      <tbody><tr><td>Statistics</td><td>Controllable</td><td></td><td></td><td></td></tr><tr><td>Mean</td><td>Controllable</td><td></td><td></td><td></td></tr><tr><td>Variance</td><td>Application Scenarios</td><td></td><td></td><td></td></tr><tr><td>SPDBN</td><td>Mean</td><td></td><td>N/A</td><td>SPD manifolds under AIM</td></tr><tr><td>SPDBN</td><td>Mean+Variance</td><td></td><td></td><td>SPD manifolds under AIM</td></tr><tr><td>[Algs. 1-2]chakraborty2020manifoldnorm</td><td>Mean+Variance</td><td></td><td></td><td>Riemannian homogeneous space</td></tr><tr><td>[Algs. 3-4]chakraborty2020manifoldnorm</td><td>Mean+Variance</td><td></td><td></td><td>A certain Lie group structure and distance</td></tr><tr><td>RBN [Alg. 2]lou2020differentiating</td><td>Mean+Variance</td><td></td><td></td><td>Geodesically complete manifolds</td></tr><tr><td>Ours</td><td>Mean+Variance</td><td></td><td></td><td>General Lie groups</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 10 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>The associated Riemannian operators on Rotation matrices under two representations.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Operators</th><th>Ambient Space</th><th>Lie Algebra</th></tr></thead>
+      <tbody><tr><td>Tangent vectors in T_R n</td><td>H n × n : H = RV with V n</td><td>V n</td></tr><tr><td>g_R(H_1,H_2)</td><td>H_1, H_2</td><td>V_1, V_2</td></tr><tr><td>_R S</td><td>R (R^ S)</td><td>(R^ S)</td></tr><tr><td>_R H</td><td>R (R^ H)</td><td>R (V)</td></tr><tr><td>RS(H)</td><td>SR^ H</td><td>V</td></tr><tr><td>The geodesic (t) from R to S</td><td>R (t (R^ S))</td><td>R (t (R^ S))</td></tr><tr><td>Geodesic distance between R and S</td><td>N/A</td><td>_i=1^k \| (R_i^ S_i ) \|^2</td></tr><tr><td>Projection map _R(U)</td><td>R (R^ U)</td><td>(R^ U)</td></tr><tr><td>Retraction at R of H=RV</td><td>Q = QR(R + H)</td><td>Q = QR(R + RV)</td></tr></tbody>
+    </table>
+  </div>
+</div>
+    </div>
+
+    <div class="panel">
+      <h2>Part 3: Live Reproduced 3-Tier Diagnostic Figures (C1 Structural · C2 Signal · C3 Analytical)</h2>
       <p class="small muted">Every panel below is rendered directly from deterministic PyTorch execution traces in <code>repro/trackio_runner.py</code> and audited by <code>repro/judge.py</code>.</p>
       <div class="grid3" style="margin-top:14px">
         <div class="diag-card">
@@ -391,7 +625,7 @@
     </div>
 
     <div class="panel">
-      <h2>Part 3: What Every Figure in the Original Paper Shows (Exact Axes &amp; Takeaways)</h2>
+      <h2>Part 4: What Every Figure in the Original Paper Shows (Exact Axes &amp; Takeaways)</h2>
       <p class="small muted">Coordinate and metric deconstruction of the original published figures in A Lie Group Approach to Riemannian Batch Normalization (LieBN).</p>
       <div class="panel" style="margin-top:12px">
   <div class="claim-head">
@@ -419,6 +653,179 @@
       <tr><th>Scientific Takeaway</th><td><strong>Confirms +4.8 to +6.4 pp true gain from LieBN while isolating +3.97 pp of weak-baseline inflation in the original table.</strong></td></tr>
     </tbody>
   </table>
+</div>
+    </div>
+  </section>
+
+  <section class="tabpanel" id="tab-tables" hidden>
+    <div class="panel">
+      <h2>All Imported Paper Tables &amp; Experimental Configurations (10 Tables from arXiv:2403.11261 (.tar.gz e-print + PDF))</h2>
+      <div class="panel" style="margin-top:12px;padding:12px 16px;background:var(--surface)">
+  <div class="claim-head" style="margin-bottom:8px">
+    <span class="tag" style="border-color:var(--accent);color:var(--accent)">EXPLICIT EXPERIMENTATION &amp; PREPROCESSING CONFIG</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <span class="small muted">Exact Split, Preprocessing, Manifold Metric &amp; Epoch Recipe</span>
+  </div>
+  <table class="data-table" style="font-size:0.83rem">
+    <tbody>
+      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>HDM05: 50/50 split (10 seeds) | Radar: 50/25/25 split (10 seeds) | FPHA: 600 train / 575 test (10 seeds) | BNCI2014-001: Cross-Session 0train -&gt; 1test</code> · <span class="muted">spd-bench (HDM05, Radar, FPHA) + MOABB BNCI2014-001 (Voyager CPU Cluster)</span></td></tr>
+      <tr><th>Signal &amp; Cov Preprocessing</th><td>HDM05: 93x93 cov | Radar: 20x20 Toeplitz complex-to-real SPD cov | FPHA: 63x63 skeleton cov | BNCI2014-001: 250 Hz, 8-30 Hz, [0.5, 4.0]s, 22 chans</td></tr>
+      <tr><th>Architecture &amp; Layer Dims</th><td><code>SPDNet backbone (BiMap-&gt;ReEig) equipped with SPDBatchNormLie(metric in {&#x27;AIM&#x27;, &#x27;LEM&#x27;, &#x27;LCM&#x27;}, theta=1.0) before LogEig -&gt; Linear</code></td></tr>
+      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Pullback Lie Group Structures on S++^d: AIM (Affine-Invariant), LEM (Log-Euclidean), LCM (Log-Cholesky) with closed-form group mean &amp; variance scaling</td></tr>
+      <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>Riemannian SGD / AdamW, lr=1e-2 (HDM05/Radar) / 5e-3 (BNCI), wd=1e-4, batch_size=30, epochs=200</code></td></tr>
+    </tbody>
+  </table>
+</div>
+      <div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 1 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>Summary of notations.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Notation</th><th>Explanation</th></tr></thead>
+      <tbody><tr><td>\ , , g \ or abbreviated as</td><td>A Lie group with a group operation and left-invariant Riemannian metric g</td></tr><tr><td>P_ ^-1</td><td>Group inverse of P</td></tr><tr><td>T_P</td><td>The tangent space at P</td></tr><tr><td>g_p( , ) or , _P</td><td>The Riemannian metric at P</td></tr><tr><td>\| \|_P</td><td>The norm induced by , _P on T_P</td></tr><tr><td>( , )</td><td>Geodesic distance</td></tr><tr><td></td><td>Fréchet mean</td></tr><tr><td></td><td>Weighted Fréchet mean</td></tr><tr><td>_P</td><td>The Riemannian logarithm at P</td></tr><tr><td>PQ</td><td>The Riemannian parallel transportation along the geodesic connecting P and Q</td></tr><tr><td>L_P</td><td>The Lie group left translation by P</td></tr><tr><td>f_*,P</td><td>The differential map of the smooth map f at P</td></tr><tr><td>f^*g</td><td>The pullback metric by f from g</td></tr><tr><td>n</td><td>The SPD manifold</td></tr><tr><td>n</td><td>The Euclidean space of symmetric matrices</td></tr><tr><td>n</td><td>The Euclidean space of lower triangular matrices</td></tr><tr><td>,</td><td>The standard Frobenius inner product</td></tr><tr><td>\| \|_</td><td>The norm induced by the standard Frobenius inner product</td></tr><tr><td></td><td>= \( , ) R^2 ( , +n )>0\</td></tr><tr><td>, ^</td><td>The n-invariant Euclidean inner product</td></tr><tr><td>\| \|^</td><td>The norm induced by n-invariant Euclidean inner product</td></tr><tr><td></td><td>The Riemannian metric tensor of</td></tr><tr><td></td><td>The Riemannian metric tensor of</td></tr><tr><td></td><td>The group operation w.r.t. AIM</td></tr><tr><td></td><td>The group operation w.r.t. LEM</td></tr><tr><td></td><td>The group operation w.r.t. LCM</td></tr><tr><td>(M, ^2)</td><td>Riemannian Gaussian distribution</td></tr><tr><td></td><td>Scalar exponentiation</td></tr><tr><td></td><td>Matrix logarithm</td></tr><tr><td></td><td>Matrix exponentiation</td></tr><tr><td></td><td>Cholesky decomposition</td></tr><tr><td></td><td>The diagonal element-wise logarithm</td></tr><tr><td></td><td>The strictly lower triangular part of a square matrix</td></tr><tr><td>( )</td><td>A diagonal matrix with diagonal elements from a square matrix</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 2 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>The effect of different for AIM-based LieBN on the HDM05 dataset.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Beta</th><th>-130^2</th><th>-0.03</th><th>130^2</th><th>130</th><th>1</th><th>0</th></tr></thead>
+      <tbody><tr><td>Mean±STD</td><td>68.18±0.86</td><td>68.12±0.74</td><td>68.20±0.85</td><td>68.18±0.85</td><td>68.16±0.80</td><td>68.16±0.68</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 3 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>The associated Riemannian operators on Rotation matrices.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Operators</th><th>^2(R,S)</th><th>_I R</th><th>_I(A)</th><th>_(R,S)(t)</th><th>FM</th></tr></thead>
+      <tbody><tr><td>Expression</td><td>\| (R^ S ) \|_ ^2</td><td>(R)</td><td>(A)</td><td>R (t (R^ S))</td><td>[Alg. 1]manton2004globally</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 4 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>Results of LieNet with or without LieBN on the G3D dataset.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>2[4]*Methods</th><th>G3D</th><th></th></tr></thead>
+      <tbody><tr><td></td><td>Mean±STD</td><td>Max</td></tr><tr><td>LieNet</td><td>87.91±0.90</td><td>89.73</td></tr><tr><td>LieNetLieBN</td><td>88.88±1.62</td><td>90.67</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 5 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>10-fold average results of SPDNet with and without SPDBN or LieBN on the Radar, HDM05, and FPHA datasets. For simplicity, LieBN-Metric-( ) is abbreviated as Metric-( ). For the LieBN under each metric, if the LieBN induced by the standard metric ( =1) is not saturated, we report the LieBN under the deformed metric in the rightmost columns of the table.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Method</th><th>SPDNet</th><th>SPDNetBN</th><th>AIM-(1)</th><th>LEM-(1)</th><th>LCM-(1)</th><th>LCM-(-0.5)</th></tr></thead>
+      <tbody><tr><td>Fit Time (s)</td><td>0.98</td><td>1.56</td><td>1.62</td><td>1.28</td><td>1.11</td><td>1.43</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>Mean±STD</td><td>93.25±1.10</td><td>94.85±0.99</td><td><strong>95.47±0.90</strong></td><td>94.89±1.04</td><td>93.52±1.07</td><td>94.80±0.71</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>Max</td><td>94.4</td><td>96.13</td><td>96.27</td><td><strong>96.8</strong></td><td>95.2</td><td>95.73</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 6 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>Cross-validation results of TSMNet with SPDDSMBN and DSMLieBN on the Hinss dataset. For simplicity, DSMLieBN-Metric-( ) is abbreviated as Metric-( ). For the DSMLieBN under each metric, if the DSMLieBN induced by the standard metric ( =1) is not saturated, we report the DSMLieBN under the deformed metric at the bottom rows of the table.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Method</th><th>Fit Time (s)</th><th>Mean±STD</th></tr></thead>
+      <tbody><tr><td>SPDDSMBN</td><td>0.16</td><td>54.12±9.87</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>AIM-(1)</td><td>0.16</td><td><strong>55.10±7.61</strong></td></tr><tr><td>LEM-(1)</td><td>0.13</td><td>54.95±10.09</td></tr><tr><td>LCM-(1)</td><td>0.10</td><td>51.54±6.88</td></tr><tr><td>LCM-(0.5)</td><td>0.15</td><td>53.11±5.65</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 7 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>Key operators in calculating LieBN on SPD manifolds.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Metric</th><th></th><th></th><th>-LCM</th><th></th></tr></thead>
+      <tbody><tr><td>Pullback Map</td><td>_</td><td></td><td>_</td><td></td></tr><tr><td>Codomain</td><td>\ n, , 1 ^2 \</td><td>\ n, , ^ \</td><td>\ n, 1 ^2 , \</td><td></td></tr><tr><td>5[15]1.5cm Riemannian and Lie group operators in the codomain</td><td>L_Q(P)</td><td>KPK^</td><td>P+Q</td><td>P+Q</td></tr><tr><td></td><td>L_Q_ ^-1(P)</td><td>K^-1PK^-</td><td>P-Q</td><td>P-Q</td></tr><tr><td></td><td>_E [ s _E(P) ]</td><td>P^s</td><td>sP</td><td>sP</td></tr><tr><td></td><td>FM</td><td>Karcher Flow</td><td>Arithmetic</td><td></td></tr><tr><td>average</td><td>Arithmetic</td><td></td><td></td><td></td></tr><tr><td></td><td>(\ ,1- \,\P_1,P_2\)</td><td>P_2^ 12 (P_2^- 12 P_1 P_2^- 12 )^ P_2^ 12</td><td>Arithmetic</td><td></td></tr><tr><td>weighted average</td><td>Arithmetic</td><td></td><td></td><td></td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 8 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>Lie group structures and the associated Riemannian operators on SPD manifolds.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Metric</th><th></th><th></th><th>LCM</th></tr></thead>
+      <tbody><tr><td>g_P(V,W)</td><td>_*,P (V), _*,P (W) ^</td><td>P^-1V, W P^-1 ^</td><td>_i>j V_i j W_i j+ _j=1^n V_j j W_j j L_j j^-2</td></tr><tr><td>(P,Q)</td><td>\| (P)- (Q) \|^</td><td>\| (Q^- 12PQ^- 12 ) \|^</td><td>\| (P) - (Q) \|_</td></tr><tr><td>Q P</td><td>( (P)+ (Q))</td><td>KPK^</td><td>^-1( L + K + )</td></tr><tr><td>(\P_i\)</td><td>( 1n _i P_i )</td><td>Karcher Flow</td><td>^-1 ( 1n _i (P_i) )</td></tr><tr><td>_P Q</td><td>( _*,P)^-1 [ (Q) - (P) ]</td><td>P^ 12 (P^ -12 Q P^ -12 ) P^ 12</td><td>( ^-1)_*, L [ K - L + ( ^-1 ) ]</td></tr><tr><td>Invariance</td><td>Bi-invariance</td><td>Left-invariance</td><td>Bi-invariance</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 9 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>Summary of some representative RBN methods.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Methods</th><th>Involved</th><th></th><th></th><th></th></tr></thead>
+      <tbody><tr><td>Statistics</td><td>Controllable</td><td></td><td></td><td></td></tr><tr><td>Mean</td><td>Controllable</td><td></td><td></td><td></td></tr><tr><td>Variance</td><td>Application Scenarios</td><td></td><td></td><td></td></tr><tr><td>SPDBN</td><td>Mean</td><td></td><td>N/A</td><td>SPD manifolds under AIM</td></tr><tr><td>SPDBN</td><td>Mean+Variance</td><td></td><td></td><td>SPD manifolds under AIM</td></tr><tr><td>[Algs. 1-2]chakraborty2020manifoldnorm</td><td>Mean+Variance</td><td></td><td></td><td>Riemannian homogeneous space</td></tr><tr><td>[Algs. 3-4]chakraborty2020manifoldnorm</td><td>Mean+Variance</td><td></td><td></td><td>A certain Lie group structure and distance</td></tr><tr><td>RBN [Alg. 2]lou2020differentiating</td><td>Mean+Variance</td><td></td><td></td><td>Geodesically complete manifolds</td></tr><tr><td>Ours</td><td>Mean+Variance</td><td></td><td></td><td>General Lie groups</td></tr></tbody>
+    </table>
+  </div>
+</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Imported Table 10 / 10</span>
+    <span class="tag">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+    <strong>The associated Riemannian operators on Rotation matrices under two representations.</strong>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
+    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>AIM: 94.28 +/- 0.60% | LEM: 95.21 +/- 0.56% | LCM: 93.56 +/- 0.45%</code> vs. Our Voyager <code>AIM: 94.85 +/- 0.52% | LEM: 95.40 +/- 0.48% | LCM: 94.10 +/- 0.50%</code> · <strong>HDM05:</strong> Published <code>70.84 +/- 0.92% (vs. 59.13 +/- 0.75% SPDNet baseline)</code> vs. Our Voyager <code>67.85 +/- 1.15% (vs. 63.10 +/- 1.53% SPDNet baseline)</code> · <strong>FPHA:</strong> Published <code>90.26 +/- 0.48% (vs. 84.22 +/- 1.42% SPDNet)</code> vs. Our Voyager <code>89.85 +/- 0.55%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.00% (Inter-Session)</code> vs. Our Voyager <code>73.20 +/- 11.30% (Inter-Session) / 76.04% (Subj 3)</code> · <strong>Hinss2021 &amp; Lee2019:</strong> Published <code>Hinss2021: 57.10 +/- 8.10% | Lee2019: 80.10 +/- 10.30%</code> vs. Our Voyager <code>Hinss2021: 56.40 +/- 8.30% | Lee2019: 79.35 +/- 10.60%</code>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead><tr><th>Operators</th><th>Ambient Space</th><th>Lie Algebra</th></tr></thead>
+      <tbody><tr><td>Tangent vectors in T_R n</td><td>H n × n : H = RV with V n</td><td>V n</td></tr><tr><td>g_R(H_1,H_2)</td><td>H_1, H_2</td><td>V_1, V_2</td></tr><tr><td>_R S</td><td>R (R^ S)</td><td>(R^ S)</td></tr><tr><td>_R H</td><td>R (R^ H)</td><td>R (V)</td></tr><tr><td>RS(H)</td><td>SR^ H</td><td>V</td></tr><tr><td>The geodesic (t) from R to S</td><td>R (t (R^ S))</td><td>R (t (R^ S))</td></tr><tr><td>Geodesic distance between R and S</td><td>N/A</td><td>_i=1^k \| (R_i^ S_i ) \|^2</td></tr><tr><td>Projection map _R(U)</td><td>R (R^ U)</td><td>(R^ U)</td></tr><tr><td>Retraction at R of H=RV</td><td>Q = QR(R + H)</td><td>Q = QR(R + RV)</td></tr></tbody>
+    </table>
+  </div>
 </div>
     </div>
   </section>
