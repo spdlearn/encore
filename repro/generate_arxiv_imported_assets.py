@@ -259,372 +259,544 @@ COMPACT_EXPERIMENT_CONFIGS: dict[str, dict[str, Any]] = {
 
 
 # Preferred original figure files per paper (curated from extracted PNGs in assets/original_figures/<pid>/)
-PREFERRED_FIGURES: dict[str, list[dict[str, str]]] = {
+PREFERRED_FIGURES: dict[str, list[dict[str, Any]]] = {
     "huang2017spdnet": [
         {
             "file": "spdnet-structure.png",
-            "fig_label": "Original Figure 1 (arXiv:1608.04233)",
-            "caption": "Conceptual illustration of the proposed SPD matrix network (SPDNet) architecture with BiMap, ReEig, and LogEig layers.",
+            "fig_label": "Original Figure 1 (AAAI 2017 / arXiv:1608.04233)",
+            "kind": "architectural",
+            "caption": "Conceptual illustration of the SPDNet architecture: Stiefel bilinear mapping ($X_k = W_k^\\top X_{k-1} W_k$), eigenvalue rectification ($\\operatorname{ReEig}$ at threshold $\\epsilon$), and Log-Euclidean projection ($\\operatorname{LogEig}$).",
         },
         {
             "file": "spdnet-diffconf.png",
-            "fig_label": "Original Figure 2 (arXiv:1608.04233)",
-            "caption": "(a) Accuracy curve of SPDNet-3BiRe at different rectification thresholds eps on HDM05; (b) Training/testing convergence vs epochs.",
+            "fig_label": "Original Figure 2 (AAAI 2017 / arXiv:1608.04233)",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "(a) Accuracy curve of SPDNet-3BiRe across rectification thresholds $\\epsilon \\in \\{0, 5\\times 10^{-5}, 10^{-4}\\}$ on HDM05; (b) Training and validation energy convergence over $500$ epochs.",
         },
     ],
     "brooks2019spdnetbn": [
         {
+            "file": "images_bimap.png",
+            "fig_label": "Original Figure 1a — Architecture Diagram (NeurIPS 2019 / arXiv:1909.02414)",
+            "kind": "architectural",
+            "caption": "BiMap ($W^\\top X W$), Riemannian Batch Normalization ($G^{-1/2} X G^{-1/2}$ centered around Karcher barycenter $G \\in \\mathcal{S}_{++}^d$), and ReEig pipeline on the SPD cone.",
+        },
+        {
             "file": "images_radarspdnets.png",
-            "fig_label": "Original Figure 2 (arXiv:1909.02414)",
-            "caption": "Performance of SPDNet vs SPDNetBN as a function of the percentage of Radar training data (5% to 100%).",
+            "fig_label": "Original Figure 2 (NeurIPS 2019 / arXiv:1909.02414)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Classification performance of SPDNet vs. SPDNetBN as a function of the percentage of Radar training data ($5\\%$ to $100\\%$) and multi-dataset benchmarks.",
         },
         {
             "file": "images_bary_acc.png",
-            "fig_label": "Original Figure 1b (arXiv:1909.02414)",
-            "caption": "Validation accuracy and Karcher barycenter approximation convergence across iterations in Riemannian Batch Normalization.",
-        },
-        {
-            "file": "images_bimap.png",
-            "fig_label": "Original Architecture Diagram (arXiv:1909.02414)",
-            "caption": "BiMap, Riemannian Batch Normalization ( Brooks et al., NeurIPS 2019), and ReEig pipeline on the SPD cone.",
+            "fig_label": "Original Figure 1b (NeurIPS 2019 / arXiv:1909.02414)",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "Validation accuracy and Karcher barycenter approximation convergence across iterations in Riemannian Batch Normalization on Radar ($20\\times 20$ Hermitian SPD).",
         },
     ],
     "kobler2022tsmnet": [
         {
             "file": "figures_fig-overview.png",
-            "fig_label": "Original Figure 1 (arXiv:2206.01323)",
-            "caption": "Overview of SPD Domain-Specific Batch Normalization (SPDDSMBN) aligning source and target EEG sessions on the SPD cone.",
+            "fig_label": "Original Figure 1 (NeurIPS 2022 / arXiv:2206.01323)",
+            "kind": "architectural",
+            "caption": "Overview of SPD Domain-Specific Momentum Batch Normalization ($\\text{SPDDSMBN}$) aligning source and target EEG sessions to the identity matrix $I_d \\in \\mathcal{S}_{++}^d$.",
         },
         {
             "file": "figures_fig-architecture.png",
-            "fig_label": "Original Figure 2 (arXiv:2206.01323)",
-            "caption": "TSMNet architecture combining temporal-spatial convolutions, BiMap projection, and domain-specific SPD batch normalization.",
+            "fig_label": "Original Figure 2 (NeurIPS 2022 / arXiv:2206.01323)",
+            "kind": "architectural",
+            "caption": "TSMNet architecture combining temporal-spatial convolutions, Stiefel BiMap projection ($40 \\to 20 \\to 4$), and domain-specific Riemannian batch normalization.",
         },
         {
             "file": "figures_fig-res-eeg-mi-grandaverage.png",
-            "fig_label": "Original Figure 3 (arXiv:2206.01323)",
-            "caption": "Grand-average motor imagery decoding accuracy across 6 MOABB EEG datasets under session-to-session and subject-to-subject transfer.",
+            "fig_label": "Original Figure 3 (NeurIPS 2022 / arXiv:2206.01323)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Grand-average motor imagery decoding balanced accuracy across $6$ MOABB EEG datasets under session-to-session and subject-to-subject transfer.",
         },
     ],
     "ju2022tensorcspnet": [
         {
             "file": "Digital_Source_Files_TCSPNET.png",
-            "fig_label": "Original Figure 1 (arXiv:2202.02472)",
-            "caption": "Architecture of Tensor-CSPNet: Filterbank segmentation -> BiMap+ReEig+LogEig per time-frequency window -> 2D CNN + Classifier.",
+            "fig_label": "Original Figure 1 (IEEE TNNLS 2022 / arXiv:2202.02472)",
+            "kind": "architectural",
+            "caption": "Architecture of Tensor-CSPNet: $9$-band Chebyshev filterbank segmentation $\\to$ depthwise $\\operatorname{BiMap}+\\operatorname{ReEig}+\\operatorname{LogEig}$ per time-frequency window $\\to$ 2D CNN + Classifier.",
         },
         {
             "file": "Digital_Source_Files_4_box_plot.png",
-            "fig_label": "Original Figure 6 (arXiv:2202.02472)",
-            "caption": "Boxplots of classification accuracy across all baselines (CSP, FBCSP, EEGNet, ConViT, SPDNet, Tensor-CSPNet) on MI-KU and BCIC-IV-2a.",
+            "fig_label": "Original Figure 6 (IEEE TNNLS 2022 / arXiv:2202.02472)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Boxplots of classification accuracy across all baselines (CSP, FBCSP, EEGNet, ConViT, SPDNet, Tensor-CSPNet) on MI-KU ($54$ subjects) and BCIC-IV-2a ($9$ subjects).",
         },
         {
             "file": "Digital_Source_Files_Runtime_output_dimension.png",
-            "fig_label": "Original Figure 7 (arXiv:2202.02472)",
-            "caption": "Runtime per epoch and classification accuracy as a function of BiMap output subspace dimension o.",
+            "fig_label": "Original Figure 7 (IEEE TNNLS 2022 / arXiv:2202.02472)",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "Runtime per epoch and classification accuracy profile across subjects and BiMap output subspace dimensions $o$.",
         },
     ],
     "pan2022matt": [
         {
             "file": "figures_manifold_concept_atten.png",
-            "fig_label": "Original Figure 1 (arXiv:2210.01986)",
-            "caption": "MAtt architecture: Feature Extraction (Spatio-Temporal Conv) -> E2R Epoch Covariance -> Manifold Attention Module -> R2E LogEig.",
+            "fig_label": "Original Figure 1 (NeurIPS 2022 / arXiv:2210.01986)",
+            "kind": "architectural",
+            "caption": "MAtt architecture: Spatio-Temporal Conv feature extraction $\\to$ E2R epoch-wise trace-normalized SPD covariance $\\to$ Log-Euclidean Manifold Attention Module $\\to$ R2E $\\operatorname{LogEig}$.",
         },
         {
             "file": "figures_atten_score_all.png",
-            "fig_label": "Original Figure 2 (arXiv:2210.01986)",
-            "caption": "Pairwise Log-Euclidean Manifold Attention score matrices across temporal EEG sub-epochs on BCIC-IV-2a and MAMEM-SSVEP-II.",
+            "fig_label": "Original Figure 2 (NeurIPS 2022 / arXiv:2210.01986)",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "Pairwise Log-Euclidean Manifold Attention score matrices $w_{ij} = (1 + \\log(1 + d_{\\text{LEM}}(Q_i, K_j)))^{-1}$ across temporal EEG sub-epochs $m$ on BCIC-IV-2a and MAMEM-SSVEP-II.",
         },
         {
             "file": "figures_cm_all.png",
-            "fig_label": "Original Figure 3 (arXiv:2210.01986)",
-            "caption": "Confusion matrices of MAtt across motor imagery (BCIC-IV-2a) and steady-state visual evoked potential (MAMEM-SSVEP-II) classes.",
+            "fig_label": "Original Figure 3 (NeurIPS 2022 / arXiv:2210.01986)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Class-wise confusion matrices and decoding accuracy of MAtt across motor imagery (BCIC-IV-2a) and steady-state visual evoked potential (MAMEM-SSVEP-II) classes.",
         },
     ],
     "chen2024liebn": [
         {
-            "file": "page-04.png",
-            "fig_label": "Original Paper Page 4 (arXiv:2403.11261)",
-            "caption": "Pullback Lie Group Batch Normalization (LieBN) formulation on SPD manifolds under AIM, LEM, and LCM metrics.",
+            "file": "fig1_table1_lie_groups.png",
+            "fig_label": "Original Table 1 Cut (ICLR 2024 / arXiv:2403.11261)",
+            "kind": "architectural",
+            "caption": "Deformed pullback Lie group operations ($\\odot$, $\\operatorname{Exp}$, $\\operatorname{Log}$, geodesic distance) on $\\mathcal{S}_{++}^d$ under AIM, LEM, and LCM metrics.",
         },
         {
-            "file": "page-07.png",
-            "fig_label": "Original Paper Page 7 (arXiv:2403.11261)",
-            "caption": "Published experimental benchmark tables and ablation studies on Radar, HDM05, and FPHA across LieBN-AIM, LieBN-LEM, and LieBN-LCM.",
+            "file": "fig2_table3_liebn_operators.png",
+            "fig_label": "Original Table 3 Cut (ICLR 2024 / arXiv:2403.11261)",
+            "kind": "architectural",
+            "caption": "Explicit Riemannian centering and scaling operators of $\\text{LieBN}$ on $\\mathcal{S}_{++}^d$ under $\\theta$-deformed AIM, LEM, and LCM Lie group structures.",
+        },
+        {
+            "file": "fig3_table4_spdnet_results.png",
+            "fig_label": "Original Table 4 Cut (ICLR 2024 / arXiv:2403.11261)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Published classification accuracy ($\\text{Mean} \\pm \\text{Std}\\%$) on Radar, HDM05, and FPHA across SPDNet, SPDNetBN, and SPDNetLieBN under AIM, LEM, and LCM ($\\theta \\in \\{0.5, 1.0\\}$).",
+        },
+        {
+            "file": "fig4_table5_tsmnet_eeg_results.png",
+            "fig_label": "Original Table 5 Cut (ICLR 2024 / arXiv:2403.11261)",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "Cross-session and cross-subject EEG motor imagery decoding results comparing TSMNet with $\\text{LieBN}$ across AIM, LEM, and LCM deformations.",
         },
     ],
     "paillard2024green": [
         {
-            "file": "assets_concept_figure.png",
-            "fig_label": "Original Figure 1 (PMC11963017 / Roche/neuro-green)",
-            "caption": "GREEN architecture: Learnable complex Gabor wavelets -> Cross-frequency covariance pooling -> Shrinkage + BiMap + Riemannian BN.",
-        },
-        {
-            "file": "paper_fig_1.png",
-            "fig_label": "Original Benchmark Plot (Table 1 / Fig 3 Data)",
-            "caption": "GREEN age prediction R^2 and EEG biomarker accuracy vs handcrafted filterbanks and deep baselines.",
+            "file": "fig1_green_architecture.png",
+            "fig_label": "Original Figure 1 (Patterns 2025 / PMC11963017)",
+            "kind": "architectural",
+            "caption": "GREEN architecture: Parameterized complex Gabor wavelet convolution ($E \\times F \\times C \\times T$) $\\to$ Cross-frequency covariance pooling ($P \\times FC \\times FC$) $\\to$ Ledoit-Wolf Shrinkage $\\to$ BiMap $\\to$ $\\operatorname{Log} \\circ \\operatorname{ReEig}$ $\\to$ FC.",
         },
     ],
     "wilson2025eegspdnet": [
         {
             "file": "Diagrams_EESPDNet_diagram.png",
-            "fig_label": "Original Figure 1 (arXiv:2212.10426)",
-            "caption": "End-to-End EEGSPDNet architecture with channel-specific grouped 1D convolutions, covariance pooling, BiMap, ReEig, and LogEig.",
+            "fig_label": "Original EEGSPDNet Figure 1 (arXiv:2212.10426)",
+            "kind": "architectural",
+            "caption": "End-to-End EEGSPDNet architecture with channel-specific grouped 1D convolutions, sample covariance pooling, Stiefel BiMap, $\\operatorname{ReEig}$, $\\operatorname{SPDDropout}$, and $\\operatorname{LogEig}$.",
+        },
+        {
+            "file": "Diagrams_PhaseSPDNet_diagram.png",
+            "fig_label": "Original PhaseSPDNet Figure 1 (EUSIPCO 2024 / arXiv:2302.04508)",
+            "kind": "architectural",
+            "caption": "PhaseSPDNet architecture embedding multi-channel EEG signals into Takens delay-coordinate space $\\mathcal{S}_{++}^{d \\cdot C}$ with embedding dimension $d$ and time lag $\\tau$.",
         },
         {
             "file": "Figures_ParamSweep_EEGSPDNet.png",
             "fig_label": "Original Figure 4 (arXiv:2212.10426)",
-            "caption": "Hyperparameter sweep of convolutional filter count N_f, BiMap subspace dimension, and temporal kernel length across MOABB datasets.",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Hyperparameter sweep of convolutional filter count $N_f$, BiMap subspace dimension, and temporal kernel length across MOABB motor imagery datasets.",
         },
         {
             "file": "extra_Figure_HyperParam_BNCI2014001_lhrh_MDM.png",
-            "fig_label": "PhaseSPDNet Delay-Embedding Surface (arXiv:2302.04508)",
-            "caption": "Classification accuracy surface as a function of Takens phase-space embedding dimension d and time delay tau on BNCI2014-001.",
+            "fig_label": "Original PhaseSPDNet Figure 3 (arXiv:2302.04508)",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "Classification accuracy surface as a function of Takens phase-space embedding order $d$ and time delay $\\tau$ on BNCI2014-001.",
         },
     ],
     "chen2026pcm_bwcm": [
         {
             "file": "Figures_Ellipoid.png",
             "fig_label": "Original Figure 1 (arXiv:2407.02607)",
-            "caption": "Geodesic interpolation of 3x3 SPD ellipsoids under AIRM, LEM, LCM, Power-Cholesky (PCM), and Bures-Wasserstein Cholesky (BWCM).",
-        },
-        {
-            "file": "Figures_SPDNet_compare_boxplot.png",
-            "fig_label": "Original Figure 2 (arXiv:2407.02607)",
-            "caption": "Distributions of Cholesky diagonal entries and accuracy boxplots comparing PCM and BWCM against LCM/LEM/AIM on HDM05 and FPHA.",
+            "kind": "architectural",
+            "caption": "Geodesic interpolation of $3\\times 3$ SPD ellipsoids under AIRM, LEM, LCM, Power-Cholesky Metric (PCM), and Bures-Wasserstein Cholesky Metric (BWCM, $\\theta=1/2$).",
         },
         {
             "file": "Figures_logics.png",
             "fig_label": "Original Figure 3 (arXiv:2407.02607)",
-            "caption": "Theoretical framework pulling product geometries on positive diagonal + strictly lower-triangular matrices back to the SPD manifold.",
+            "kind": "architectural",
+            "caption": "Theoretical framework pulling product geometries on positive diagonal + strictly lower-triangular Cholesky space $\\mathcal{L}_{++}^d = \\mathbb{R}_{>0}^d \\times \\mathcal{L}_0^d$ back to $\\mathcal{S}_{++}^d$.",
+        },
+        {
+            "file": "Figures_SPDNet_compare_boxplot.png",
+            "fig_label": "Original Figure 2 (arXiv:2407.02607)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Distributions of Cholesky diagonal entries and accuracy boxplots comparing PCM and BWCM against LCM, LEM, and AIM on HDM05 and FPHA.",
         },
     ],
     "hu2025coratt": [
         {
-            "file": "page-3.png",
-            "fig_label": "Original Figure 1 & Table 1 (IJCAI 2025)",
-            "caption": "Overview of the CorAtt architecture and summary of geodesic distances and Lie group operations under OLM and LSM on C++^d.",
+            "file": "fig1_coratt_architecture.png",
+            "fig_label": "Original Figure 1 (IJCAI 2025)",
+            "kind": "architectural",
+            "caption": "Overview of the Correlation Manifold Self-Attention (CorAtt) architecture operating on full-rank correlation matrices $\\mathcal{C}_{++}^d$ under OLM and LSM metrics.",
         },
         {
-            "file": "page-5.png",
-            "fig_label": "Original Tables 2, 3 & Figures 2-3 (IJCAI 2025)",
-            "caption": "CorAtt architectures and main benchmark accuracy on BCIC-IV-2a (MI), MAMEM-SSVEP-II, and BCI-ERN alongside spatial topomaps.",
+            "file": "fig2_coratt_heatmaps.png",
+            "fig_label": "Original Figure 2 (IJCAI 2025)",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "Pairwise correlation attention heatmaps and scale-invariance diagnostics under random electrode impedance scaling $D S D$ on BCIC-IV-2a and MAMEM-SSVEP-II.",
+        },
+        {
+            "file": "fig3_coratt_topomaps.png",
+            "fig_label": "Original Figure 3 (IJCAI 2025)",
+            "kind": "architectural",
+            "caption": "Spatial cortical topomaps of learned correlation attention weights across motor imagery classes (Left Hand, Right Hand, Feet, Tongue) on BCIC-IV-2a.",
+        },
+        {
+            "file": "fig4_table3_coratt_results.png",
+            "fig_label": "Original Table 3 Cut (IJCAI 2025)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Main benchmark accuracy ($\\text{Mean} \\pm \\text{Std}\\%$) comparing CorAtt (OLM & LSM) against Euclidean and SPD baselines on BCIC-IV-2a, MAMEM-SSVEP-II, and BCI-ERN.",
         },
     ],
     "chen2026cornet": [
         {
-            "file": "Figs_HDM05_TPR_cv_hist_all.png",
-            "fig_label": "Original Figure 2 (arXiv:2605.19073)",
-            "caption": "Distribution of per-sample coefficients of variation of diagonal variances on HDM05 motivating invariance to diagonal variance scaling.",
-        },
-        {
             "file": "Figs_Conv_Layers.png",
-            "fig_label": "Original Figure 7 (arXiv:2605.19073)",
-            "caption": "Architecture of Correlation Matrix Convolutional and PHCM Layers in CorNet over full-rank correlation manifolds.",
+            "fig_label": "Original Figure 7 (ICML 2026 / arXiv:2605.19073)",
+            "kind": "architectural",
+            "caption": "Architecture of Correlation Matrix Convolutional and PHCM Layers in CorNet over full-rank correlation manifolds $\\mathcal{C}_{++}^n$.",
         },
         {
             "file": "Figs_hyperplane_cor_all.png",
-            "fig_label": "Original Figure 6 (arXiv:2605.19073)",
-            "caption": "Geometry of decision hyperplanes in Correlation Multinomial Logistic Regression (Cor-MLR) across ECM, OLM, LSM, LBM, and PHCM.",
+            "fig_label": "Original Figure 6 (ICML 2026 / arXiv:2605.19073)",
+            "kind": "architectural",
+            "caption": "Geometry of decision hyperplanes in Correlation Multinomial Logistic Regression (Cor-MLR) across ECM, OLM, LSM, LBM, and PHCM metrics.",
+        },
+        {
+            "file": "Figs_HDM05_TPR_cv_hist_all.png",
+            "fig_label": "Original Figure 2 (ICML 2026 / arXiv:2605.19073)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Distribution of per-sample coefficients of variation of diagonal variances on HDM05 motivating invariance to diagonal variance scaling $C = \\operatorname{Diag}(S)^{-1/2} S \\operatorname{Diag}(S)^{-1/2}$.",
         },
     ],
     "chen2026rietrans": [
         {
             "file": "Figs_Conv_Layers.png",
-            "fig_label": "Original Figure 1 (arXiv:2609.35436)",
-            "caption": "Structure-Preserving Neural Network (SPNN / RieTrans) transformation block combining isometric activation and Lie group translation.",
+            "fig_label": "Original Figure 1 (NeurIPS 2026 / arXiv:2609.35436)",
+            "kind": "architectural",
+            "caption": "Structure-Preserving Neural Network (SPNN / RieTrans) transformation block combining intrinsic tangent-space linear mapping ($\\operatorname{SPDLinear}$) and zero-EVD tangent chaining.",
         },
         {
             "file": "extra_Figs_hyperplanes_all.png",
-            "fig_label": "Original RMLR Figure 1 (arXiv:2305.11288, CVPR 2024)",
-            "caption": "Riemannian Multinomial Logistic Regression (RMLR) margin hyperplanes on the SPD cone under 5 deformed metrics.",
+            "fig_label": "Original RMLR Figure 1 (CVPR 2024 / arXiv:2305.11288)",
+            "kind": "architectural",
+            "caption": "Riemannian Multinomial Logistic Regression ($\\operatorname{SPDRMLR}$) margin hyperplanes on the SPD cone $\\mathcal{S}_{++}^d$ under $5$ deformed Riemannian metrics.",
         },
     ],
     "wang2025gyroatt": [
         {
-            "file": "page-05.png",
-            "fig_label": "Original Figure 1 & Tables 3-4 (NeurIPS 2025)",
-            "caption": "GyroAtt architecture on matrix gyrovector spaces (SPD, SPSD, Grassmann) and main results on BNCI2014-001 and BNCI2015-001.",
+            "file": "fig1_gyroatt_architecture.png",
+            "fig_label": "Original Figure 1 (NeurIPS 2025)",
+            "kind": "architectural",
+            "caption": "GyroAtt architecture on matrix gyrovector spaces ($\\mathcal{S}_{++}^n$, $\\mathcal{S}_{+}^{n,q}$, $\\operatorname{Gr}(n,q)$) with gyro-homomorphism Q/K/V, matrix power activation $X^p$, and gyro-distance attention.",
         },
         {
-            "file": "page-06.png",
-            "fig_label": "Original Tables 5-9 & Figures 2-3 (NeurIPS 2025)",
-            "caption": "Results on MAMEM-SSVEP-II and BCI-ERN, matrix power activation ablations, BiMap vs Homomorphism ablations, and runtime comparison.",
+            "file": "fig2_topomaps_heatmaps.png",
+            "fig_label": "Original Figure 2 (NeurIPS 2025)",
+            "kind": "architectural",
+            "caption": "Cortical topomaps and pairwise gyro-attention score heatmaps across motor imagery classes on BNCI2014-001.",
+        },
+        {
+            "file": "fig3_riesne_visualization.png",
+            "fig_label": "Original Figure 3 (NeurIPS 2025)",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "Rie-SNE manifold feature embeddings comparing Euclidean, SPDNet, MAtt, and GyroAtt cluster separability.",
+        },
+        {
+            "file": "fig4_table4_eeg_results.png",
+            "fig_label": "Original Table 4 Cut (NeurIPS 2025)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Main EEG decoding benchmark results ($\\text{Mean} \\pm \\text{Std}\\%$) of GyroAtt across BNCI2014-001, BNCI2015-001, MAMEM-SSVEP-II, and BCI-ERN.",
         },
     ],
     "ju2023graphcspnet": [
         {
             "file": "digital_source_Graph_CSPNet.png",
-            "fig_label": "Original Figure 1 (arXiv:2211.02641)",
-            "caption": "Graph-CSPNet architecture modeling time-frequency SPD covariance matrices as nodes on a lattice graph with GraphBiMap layers.",
+            "fig_label": "Original Figure 1 (IEEE TNNLS 2023 / arXiv:2211.02641)",
+            "kind": "architectural",
+            "caption": "Graph-CSPNet architecture modeling $P = W \\times F$ time-frequency SPD covariance matrices as nodes on a lattice graph processed by $\\operatorname{GraphBiMap}$ layers ($M_v^{(\\ell)} = \\sum_u \\tilde{A}_{uv} W X_u W^\\top$).",
         },
         {
             "file": "digital_source_Dist_LGT.png",
-            "fig_label": "Original Figure 2 (arXiv:2211.02641)",
-            "caption": "Log-Euclidean Riemannian distance distribution across adjacent time-frequency SPD covariance nodes motivating Lattice-Graph aggregation.",
+            "fig_label": "Original Figure 2 (IEEE TNNLS 2023 / arXiv:2211.02641)",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "Log-Euclidean Riemannian distance distribution $d_{\\text{LEM}}(X_u, X_v)$ across adjacent time-frequency SPD covariance nodes motivating Lattice-Graph aggregation.",
         },
         {
             "file": "digital_source_Graph_CSPNet_LGT_BCIC.png",
-            "fig_label": "Original Figure 4 (arXiv:2211.02641)",
-            "caption": "Learned time-frequency graph adjacency heatmaps and classification performance on BCIC-IV-2a.",
+            "fig_label": "Original Figure 4 (IEEE TNNLS 2023 / arXiv:2211.02641)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Learned time-frequency graph adjacency heatmaps $\\tilde{A}$ and classification performance on BCIC-IV-2a (BNCI2014-001) and KoreaU (Lee2019).",
         },
     ],
     "zhou2026gbwatt": [
         {
             "file": "Figures_BWAtt.png",
             "fig_label": "Original Figure 1 (arXiv:2606.25456)",
-            "caption": "Overview of the GBWAtt architecture and Generalized Bures-Wasserstein Self-Attention mechanism on the SPD manifold.",
+            "kind": "architectural",
+            "caption": "Overview of the GBWAtt architecture and Generalized Bures-Wasserstein Self-Attention ($d_{\\text{BW}, M}^2(A,B)$) with learnable reference metric $M \\in \\mathcal{S}_{++}^d$.",
         },
         {
             "file": "Figures_limited_data.png",
             "fig_label": "Original Figure 2 (arXiv:2606.25456)",
-            "caption": "Classification accuracy comparison under limited training data (20% to 100% training trials) on MAMEM-SSVEP-II.",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Classification accuracy comparison under limited training data ($20\\%$ to $100\\%$ training trials) on MAMEM-SSVEP-II and main EEG benchmarks.",
         },
         {
             "file": "Figures_bci_heat.png",
             "fig_label": "Original Figure 3 (arXiv:2606.25456)",
-            "caption": "Gradient response heatmaps of GBWAtt for Subject S3 across four motor-imagery classes on BCIC-IV-2a (BNCI2014-001).",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "Gradient response heatmaps and Bures-Wasserstein power $p$ sensitivity of GBWAtt for Subject S3 across four motor-imagery classes on BCIC-IV-2a.",
         },
     ],
     "seraphim2023spdtransnet": [
         {
             "file": "spd_preserving_multihead_attention_v2.png",
-            "fig_label": "Original Figure 1 (arXiv:2309.07579)",
-            "caption": "Structure-Preserving Multi-Head Attention (SP-MHA) architecture with tensor dimensions at each Riemannian step.",
+            "fig_label": "Original Figure 1 (EUSIPCO 2024 / arXiv:2309.07579)",
+            "kind": "architectural",
+            "caption": "Structure-Preserving Multi-Head Attention (SP-MHA) architecture with exact tensor dimensions at each Riemannian conical combination step $\\sum_j \\alpha_{ij} V_j \\in \\mathcal{S}_{++}^d$.",
         },
         {
             "file": "model_architecture.png",
-            "fig_label": "Original Figure 2 (arXiv:2309.07579)",
-            "caption": "SPDTransNet global transformer architecture with t=3 SPD feature tokens per epoch and triangular block-diagonal fusion.",
+            "fig_label": "Original Figure 2 (EUSIPCO 2024 / arXiv:2309.07579)",
+            "kind": "architectural",
+            "caption": "SPDTransNet global transformer architecture with $t=3$ SPD feature tokens per epoch and upper-triangular block-diagonal multi-head fusion.",
         },
     ],
     "wang2026spdmetaformer": [
         {
             "file": "figures_spd_metaformer_overview.png",
             "fig_label": "Original Figure 2 (arXiv:2610.10952)",
-            "caption": "Overview of SPD-MetaFormer: Local covariance tokens -> Geometric Token Mixer -> Geodesic Residual -> Spectral FFN on eigenvalues.",
+            "kind": "architectural",
+            "caption": "Overview of SPD-MetaFormer: Local covariance tokens $\\to$ Geometric Token Mixer $\\to$ Geodesic Residual $\\operatorname{Exp}_X(\\alpha \\operatorname{Log}_X(Y))$ $\\to$ Spectral FFN $U \\operatorname{diag}(\\operatorname{MLP}(\\log \\Lambda)) U^\\top$.",
         },
         {
             "file": "figures_ffn_granularity.png",
             "fig_label": "Original Figure 1 (arXiv:2610.10952)",
-            "caption": "Contribution of the Spectral FFN across token granularities T on MI (BNCI2014-001), SSVEP (MAMEM), and ERN.",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Contribution of the Spectral FFN across token granularities $T$ on Motor Imagery (BNCI2014-001), SSVEP (MAMEM-II), and BCI-ERN.",
         },
         {
             "file": "figures_temperature_curves.png",
             "fig_label": "Original Figure 3 (arXiv:2610.10952)",
-            "caption": "Effect of attention temperature tau on predictive accuracy and attention allocation entropy across EEG decoding benchmarks.",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "Effect of attention temperature $\\tau$ and network depth $L$ on predictive accuracy and attention allocation entropy across EEG decoding benchmarks.",
         },
     ],
     "hu2026rhop": [
         {
-            "file": "img-001.png",
-            "fig_label": "Original Figure 1 (NeurIPS 2025 / Zenodo 20184376)",
-            "caption": "Overview of the Riemannian High-Order Pooling (RHOP) framework fusing second-order SPD token covariance with CLS token embeddings.",
+            "file": "fig1_rhop_framework.png",
+            "fig_label": "Original Figure 1 (NeurIPS 2025 / ICLR 2026)",
+            "kind": "architectural",
+            "caption": "Overview of the Riemannian High-Order Pooling (RHOP) framework fusing second-order Gaussian/SPD token descriptors ($\\mathcal{S}_{++}^{d+1}$) with first-order CLS embeddings.",
         },
         {
-            "file": "page-06.png",
-            "fig_label": "Original Tables 1-4 (NeurIPS 2025)",
-            "caption": "Main benchmark results of BIOT, LaBraM, and CBraMod with and without RHOP across TUEV, TUAB, and BCIC-2b.",
+            "file": "fig2_qge_vs_ge_bar.png",
+            "fig_label": "Original Figure 2 (NeurIPS 2025 / ICLR 2026)",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "Comparison of Quadratic Gaussian Embedding (QGE / RHOP) vs. standard Gaussian Embedding across token sequence lengths and conditioning regimes.",
+        },
+        {
+            "file": "fig3_table3_bcic2b_results.png",
+            "fig_label": "Original Table 3 Cut (NeurIPS 2025 / ICLR 2026)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Downstream EEG classification accuracy comparing BIOT, LaBraM, and CBraMod with vs. without RHOP on BCIC-IV-2b, TUEV, and TUAB.",
+        },
+        {
+            "file": "fig4_table5_ablation_components.png",
+            "fig_label": "Original Table 5 Cut (NeurIPS 2025 / ICLR 2026)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Ablation study of RHOP components (first-order mean, second-order covariance, Power-Euclidean metric $\\theta$, and BiMap subspace dimension).",
         },
     ],
     "ju2024deepgeocca": [
         {
-            "file": "page-02.png",
-            "fig_label": "Original Figures 1-2 (ICLR 2024)",
-            "caption": "Diagram of DeepGeoCCA framework for paired multi-view SPD neuroimaging covariances and geometric definition of Geodesic Correlation.",
+            "file": "fig1_deepgeocca_framework.png",
+            "fig_label": "Original Figure 1 (ICLR 2024)",
+            "kind": "architectural",
+            "caption": "Diagram of the DeepGeoCCA framework aligning paired multi-view SPD neuroimaging covariances ($X_1 \\in \\mathcal{S}_{++}^{d_1}, X_2 \\in \\mathcal{S}_{++}^{d_2}$) in a shared latent SPD manifold $\\mathcal{S}_{++}^{d_c}$.",
         },
         {
-            "file": "page-06.png",
-            "fig_label": "Original Figure 3 & Tables 1-2 (ICLR 2024)",
-            "caption": "Simulation results on S++^d, Simultaneous EEG-fMRI 10-fold CV correlation (Table 1), and Multi-View EEG accuracy on KU & BNCI2015-001 (Table 2).",
+            "file": "fig2_geodesic_correlation.png",
+            "fig_label": "Original Figure 2 (ICLR 2024)",
+            "kind": "architectural",
+            "caption": "Geometric definition of Geodesic Correlation along $\\epsilon$-cones around geodesic submanifolds through the identity matrix $I_d \\in \\mathcal{S}_{++}^d$.",
+        },
+        {
+            "file": "fig3_simulations_spd.png",
+            "fig_label": "Original Figure 3 (ICLR 2024)",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "Canonical correlation recovery across latent dimensions and optimization steps on synthetic multi-view SPD datasets.",
+        },
+        {
+            "file": "fig4_table2_multiview_eeg_results.png",
+            "fig_label": "Original Table 2 Cut (ICLR 2024)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Multi-view EEG motor imagery classification accuracy ($\\%$) on KoreaU (Lee2019, Sessions 1 & 2) and BNCI2015-001 comparing DeepGeoCCA against DeepCCA and VICReg.",
         },
     ],
     "gallet2026armagnac": [
         {
-            "file": "paper_fig_1.png",
-            "fig_label": "Original Figure 6 / Table II Data (HAL-05529546)",
-            "caption": "Forward + backward pass wall-clock runtime and memory reduction of closed-form Harmonic-Arithmetic BatchNorm (ARMAGNAC) vs Karcher SPDNetBN.",
+            "file": "fig1_spdnet_architecture.png",
+            "fig_label": "Original Figure 1 (HAL-05529546)",
+            "kind": "architectural",
+            "caption": "Illustration of the SPDNet architecture with $\\operatorname{BiMap} \\to \\operatorname{ReEig} \\to \\operatorname{BatchNorm}$ blocks on $\\mathcal{S}_{++}^{p_i}$ followed by $\\operatorname{LogEig}$ and a fully connected layer.",
         },
         {
-            "file": "paper_fig_2.png",
-            "fig_label": "Original Table II-IV Benchmark Data (HAL-05529546)",
-            "caption": "Classification performance of ARMAGNAC (Harmonic, Arithmetic, and GAH mean) vs SPDNetBN on HDM05, HyperLeaf, Rices90, and BNCI2014-001.",
+            "file": "fig2_gah_geodesic_mean.png",
+            "fig_label": "Original Figure 2 (HAL-05529546)",
+            "kind": "architectural",
+            "caption": "Forward (top) and backward (bottom) computational graph of the closed-form Geometric Mean of Arithmetic ($A$) and Harmonic ($H$) means: $\\Phi = A \\#_t H = A^{1/2}(A^{-1/2} H A^{-1/2})^t A^{1/2}$.",
+        },
+        {
+            "file": "fig3_table2_accuracy_epochs.png",
+            "fig_label": "Original Table II Cut (HAL-05529546)",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "Comparison of test accuracy ($\\%$) and convergence epochs for ARMAGNAC (learned $t$), GAH ($t=0.5$), Arithmetic, Harmonic, and Karcher Geometric BatchNorm on Wishart & Inverse-Wishart SPD datasets.",
+        },
+        {
+            "file": "fig4_table3_hyperleaf_rices90.png",
+            "fig_label": "Original Table III Cut (HAL-05529546)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Classification accuracy ($\\%$) of ARMAGNAC vs. GAH, Arithmetic, Harmonic, and Geometric BatchNorm on real hyperspectral SPD benchmarks (HyperLeaf $204\\times 204$ and Rices90 $256\\times 256$).",
         },
     ],
     "zhou2025gbwbn_cbn": [
         {
             "file": "Figs_aim_bwm.png",
-            "fig_label": "Original Figure 1 (arXiv:2504.00660, CVPR 2025)",
-            "caption": "Comparison of geodesic trajectories and conditioning under Affine-Invariant (AIM) vs Generalized Bures-Wasserstein (GBW) BatchNorm.",
+            "fig_label": "Original Figure 1 (CVPR 2025 / arXiv:2504.00660)",
+            "kind": "architectural",
+            "caption": "Comparison of geodesic trajectories and conditioning under Affine-Invariant (AIM) vs. Generalized Bures-Wasserstein (GBW) Batch Normalization on $\\mathcal{S}_{++}^d$.",
         },
         {
             "file": "Figs_GBWBN_visual1.png",
-            "fig_label": "Original Figure 2 (arXiv:2504.00660, CVPR 2025)",
-            "caption": "Visualization of covariance eigenvalue spectra and feature separability before and after GBWBN and CBN normalization.",
+            "fig_label": "Original Figure 2 (CVPR 2025 / arXiv:2504.00660)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Eigenvalue spectra and feature separability before and after $\\text{GBWBN}$ ($\\operatorname{SPDBatchNormBW}$) and $\\text{CBN}$ ($\\operatorname{SPDBatchNormCholesky}$) normalization.",
         },
         {
             "file": "Figs_heatmaps_gbw1.png",
-            "fig_label": "Original Figure 5 (arXiv:2504.00660, CVPR 2025)",
-            "caption": "Gradient response heatmaps of MAtt + GBWBN across visual stimulation frequencies on MAMEM-SSVEP-II.",
+            "fig_label": "Original Figure 5 (CVPR 2025 / arXiv:2504.00660)",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "Gradient response heatmaps and high-condition-number ($\\kappa = 10^6$) stability of MAtt + GBWBN across visual stimulation frequencies on MAMEM-SSVEP-II.",
         },
     ],
     "tibermacine2025rceegnet": [
         {
-            "file": "paper_fig_1.png",
-            "fig_label": "Original Table 1 Benchmark Data (Neurocomputing 2025)",
-            "caption": "Cross-Session classification accuracy of RCEEGNet vs EEGNet, ShallowConvNet, SPDNet, and TSMNet on BNCI2014-001 and BNCI2014-004.",
-        },
-        {
-            "file": "paper_fig_2.png",
-            "fig_label": "Original Figure 4 Ablation Data (Neurocomputing 2025)",
-            "caption": "Ablation of Residual BiMap connection and Riemannian Batch Normalization across depth L=1..4 on BNCI2014-001.",
+            "file": "fig1_rceegnet_architecture.png",
+            "fig_label": "Original Figure 1 Schematic (IJCNN / Neurocomputing 2025)",
+            "kind": "architectural",
+            "caption": "RCEEGNet hybrid architecture coupling an EEGNet depthwise-separable spatio-temporal stem with Ledoit-Wolf shrinkage covariance pooling, dual Stiefel BiMap + ReEig blocks, LogEig tangent projection, and a 1D-CNN head.",
         },
     ],
     "wang2024starnet": [
         {
-            "file": "paper_fig_1.png",
-            "fig_label": "Original Table 2 Benchmark Data (Neural Networks 2024)",
-            "caption": "Motor imagery classification accuracy of STaRNet vs EEGNet, FBCNet, Tensor-CSPNet, and MAtt on BCIC-IV-2a, BCIC-IV-2b, and OpenBMI.",
-        },
-        {
-            "file": "paper_fig_2.png",
-            "fig_label": "Original Figure 5 Multi-Scale Ablation (Neural Networks 2024)",
-            "caption": "Ablation of multi-scale temporal convolutional kernels and multi-head Riemannian attention heads in STaRNet.",
+            "file": "fig1_starnet_architecture.png",
+            "fig_label": "Original Figure 1 (Neural Networks 2024)",
+            "kind": "architectural",
+            "caption": "STaRNet architecture combining multi-scale spatial-temporal convolutional feature extraction, depthwise SPD manifold projection, and tangent-space Squeeze-and-Excitation classification.",
         },
     ],
     "chen2025alem_spdresnet": [
         {
-            "file": "Figures_PEM_LEM_distances.png",
-            "fig_label": "Original ALEM Figure 1 (arXiv:2407.10484, ICLR 2025)",
-            "caption": "Comparison of Power-Euclidean (PEM) vs Log-Euclidean (LEM) geodesic distance sensitivity to tiny eigenvalues and Adaptive LEM (ALEM) cure.",
+            "file": "extra_img_framework.png",
+            "fig_label": "Original SPDResNet Figure 1 (AAAI 2023 / arXiv:2201.10145)",
+            "kind": "architectural",
+            "caption": "Riemannian Local Mechanism (RLM) and SPDResNet residual block architecture $\\operatorname{Exp}(X)(\\operatorname{Log}(X) + \\mathcal{F}(X))$ on the SPD manifold $\\mathcal{S}_{++}^d$.",
         },
         {
-            "file": "extra_img_framework.png",
-            "fig_label": "Original SPDResNet Figure 1 (arXiv:2201.10145, AAAI 2023)",
-            "caption": "Riemannian Local Mechanism (RLM) and SPDResNet residual block architecture on the SPD manifold.",
+            "file": "Figures_PEM_LEM_distances.png",
+            "fig_label": "Original ALEM Figure 1 (ICLR 2025 / arXiv:2407.10484)",
+            "kind": "quantitative",
+            "sbs_index": 1,
+            "caption": "Comparison of Power-Euclidean (PEM) vs. Log-Euclidean (LEM) geodesic distance sensitivity to tiny eigenvalues $\\lambda \\to 0^+$ and the Adaptive LEM (ALEM) cure.",
         },
         {
             "file": "extra_img_convergence.png",
-            "fig_label": "Original SPDResNet Figure 2 (arXiv:2201.10145, AAAI 2023)",
-            "caption": "Convergence curves of SPDResNet vs plain SPDNet as network depth increases from 2 to 10 BiMap layers on HDM05.",
+            "fig_label": "Original SPDResNet Figure 2 (AAAI 2023 / arXiv:2201.10145)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Convergence and accuracy curves of SPDResNet vs. plain SPDNet as network depth increases from $2$ to $10$ BiMap layers on HDM05.",
         },
     ],
     "nguyen2023gyrospd": [
         {
             "file": "figures_law_gyrocosines.png",
-            "fig_label": "Original Figure 1 (arXiv:2305.04560, ICML 2023)",
-            "caption": "Geometric illustration of the Law of Gyrocosines and gyro-addition P oplus Q on matrix manifolds.",
+            "fig_label": "Original Figure 1 (ICML 2023 / arXiv:2305.04560)",
+            "kind": "architectural",
+            "caption": "Geometric illustration of the Law of Gyrocosines and non-associative gyro-addition $P \\oplus Q$ on SPD matrix gyrovector spaces.",
         },
         {
             "file": "figures_pseudo_distances.png",
-            "fig_label": "Original Figure 2 (arXiv:2305.04560, ICML 2023)",
-            "caption": "Comparison of geodesic vs gyro-pseudo-distance hyperplanes and training curves across AI, LE, and LC gyrovector spaces on HDM05.",
+            "fig_label": "Original Figure 2 (ICML 2023 / arXiv:2305.04560)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Comparison of geodesic vs. gyro-pseudo-distance decision hyperplanes and training curves across AI, LE, and LC gyrovector spaces on HDM05.",
         },
     ],
     "boucherie2026spdnetae_ssgcnet": [
         {
+            "file": "fig1_spdnetae_architecture.png",
+            "fig_label": "Original SPDNet-AE Figure 1 (HAL-05600912)",
+            "kind": "architectural",
+            "caption": "Architecture of the SPDNet Autoencoder ($\\text{SPDNet-AE}$): Stiefel encoder $f: \\mathcal{S}_{++}^n \\to \\mathcal{S}_{++}^d$ and Moore-Penrose pseudoinverse decoder $g: \\mathcal{S}_{++}^d \\to \\mathcal{S}_{++}^n$ trained with geodesic reconstruction loss.",
+        },
+        {
             "file": "Feature_extractor_v3.png",
-            "fig_label": "Original Figure 1 (arXiv:2606.02490 / HAL-05600912)",
-            "caption": "Architecture of congruence-based SPD feature extraction and Riemannian autoencoding (SPDNet-AE / SSGCNet) of depth L.",
+            "fig_label": "Original Figure 1 (HAL-05600912 / arXiv:2606.02490)",
+            "kind": "architectural",
+            "caption": "Architecture of congruence-based SPD feature extraction and Riemannian autoencoding ($\\text{SPDNet-AE}$ / $\\text{SSGCNet}$) mapping $X^0 \\in \\mathcal{S}_{++}^C \\to X^L \\in \\mathcal{S}_{++}^d \\to f(X^L)$.",
+        },
+        {
+            "file": "fig2_classification_results.png",
+            "fig_label": "Original Figure 2 (HAL-05600912)",
+            "kind": "quantitative",
+            "sbs_index": 0,
+            "caption": "Classification accuracy comparing Original Data, Riemannian PCA, PGA, Euclidean-AE, and SPDNet-AE (with Riemannian vs. Euclidean reconstruction loss) across MDM and Fully Connected classifiers.",
         },
     ],
 }
@@ -821,42 +993,77 @@ PDF_EXTRACTED_TABLES: dict[str, list[dict[str, Any]]] = {
 }
 
 
+def _clean_math_segment(m: str) -> str:
+    """Clean a LaTeX $...$ segment so KaTeX renders it without unknown-macro errors."""
+    inner = m[1:-1].strip()
+    if not inner:
+        return ""
+    inner = inner.replace("\\spdnetbn", "\\text{SPDNetBN}").replace("\\spdnet", "\\text{SPDNet}")
+    inner = re.sub(r"\\bm\{([^{}]*)\}", r"\\boldsymbol{\1}", inner)
+    inner = re.sub(r"\\textbf\{([^{}]*)\}", r"\\mathbf{\1}", inner)
+    inner = re.sub(r"\\textit\{([^{}]*)\}", r"\\mathit{\1}", inner)
+    inner = re.sub(r"\\emph\{([^{}]*)\}", r"\\mathit{\1}", inner)
+    inner = re.sub(r"\\cite[a-zA-Z*]*\{[^}]*\}", "", inner)
+    inner = re.sub(r"\\(?:footnotesize|small|scriptsize|tiny|normalsize|large|centering|noindent)", "", inner)
+    return f"${inner}$"
+
+
 def clean_latex_cell(s: str) -> str:
     if not s:
         return ""
     s = re.sub(r"(?<!\\)%.*", "", s)
     # Remove nested \resizebox or \scalebox wrappers
     s = re.sub(r"\\(?:resizebox|scalebox)\{[^}]*\}(?:\{[^}]*\})?\{", "", s)
-    s = re.sub(r"\\textbf\{([^{}]*)\}", r"<strong>\1</strong>", s)
-    s = re.sub(r"\\textit\{([^{}]*)\}", r"<em>\1</em>", s)
-    s = re.sub(r"\\underline\{([^{}]*)\}", r"<u>\1</u>", s)
-    s = re.sub(r"\\emph\{([^{}]*)\}", r"<em>\1</em>", s)
-    s = re.sub(r"\\bm\{([^{}]*)\}", r"<strong>\1</strong>", s)
-    s = re.sub(r"\\mathbf\{([^{}]*)\}", r"<strong>\1</strong>", s)
-    s = re.sub(r"\\mathcal\{([^{}]*)\}", r"\1", s)
-    s = re.sub(r"\\mathbb\{([^{}]*)\}", r"\1", s)
-    s = re.sub(r"\\mathrm\{([^{}]*)\}", r"\1", s)
-    s = re.sub(r"\\text\{([^{}]*)\}", r"\1", s)
-    s = re.sub(r"\\operatorname\{([^{}]*)\}", r"\1", s)
-    s = re.sub(r"\\cite[a-zA-Z*]*\{[^}]*\}", "", s)
-    s = re.sub(r"\\ref\{[^}]*\}", "", s)
-    s = re.sub(r"\\eqref\{[^}]*\}", "", s)
-    s = re.sub(r"\\label\{[^}]*\}", "", s)
-    s = re.sub(r"\\vspace\*?\{[^}]*\}", "", s)
-    s = re.sub(r"\\hspace\*?\{[^}]*\}", "", s)
-    s = re.sub(r"\\(?:footnotesize|small|scriptsize|tiny|normalsize|large|centering|noindent|raggedright|arraystretch)", "", s)
     s = re.sub(r"\\multicolumn\{\d+\}\{[^}]*\}\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}", r"\1", s)
     s = re.sub(r"\\multirow\{\d+\}\{[^}]*\}\{([^{}]*(?:\{[^{}]*\}[^{}]*)*)\}", r"\1", s)
     s = re.sub(r"\\(?:toprule|midrule|bottomrule|hline|cline\{[^}]*\}|cmidrule(?:\([^)]*\))?\{[^}]*\})", "", s)
-    # Custom macros common in Chen / Brooks / Kobler papers
-    s = s.replace("\\spdnetbn", "SPDNetBN").replace("\\spdnet", "SPDNet")
-    s = s.replace("\\pm", "±").replace("$\\pm$", "±").replace("\\times", "×").replace("\\%", "%").replace("\\_", "_")
-    s = s.replace("\\checkmark", "✓").replace("\\ding{51}", "✓").replace("\\ding{55}", "✗")
-    s = s.replace("\\uparrow", "↑").replace("\\downarrow", "↓")
-    s = s.replace("$", "")
-    s = re.sub(r"\\[a-zA-Z]+\s*", " ", s)
-    s = s.replace("{", "").replace("}", "")
-    return " ".join(s.split())
+
+    # Protect $...$ math segments while cleaning outer LaTeX markup
+    parts = re.split(r"(\$[^$]+\$)", s)
+    out_parts: list[str] = []
+    for part in parts:
+        if part.startswith("$") and part.endswith("$") and len(part) >= 2:
+            out_parts.append(_clean_math_segment(part))
+            continue
+        p_txt = part
+        p_txt = re.sub(r"\\textbf\{([^{}]*)\}", r"<strong>\1</strong>", p_txt)
+        p_txt = re.sub(r"\\textit\{([^{}]*)\}", r"<em>\1</em>", p_txt)
+        p_txt = re.sub(r"\\underline\{([^{}]*)\}", r"<u>\1</u>", p_txt)
+        p_txt = re.sub(r"\\emph\{([^{}]*)\}", r"<em>\1</em>", p_txt)
+        p_txt = re.sub(r"\\bm\{([^{}]*)\}", r"<strong>\1</strong>", p_txt)
+        p_txt = re.sub(r"\\mathbf\{([^{}]*)\}", r"$\\mathbf{\1}$", p_txt)
+        p_txt = re.sub(r"\\mathcal\{([^{}]*)\}", r"$\\mathcal{\1}$", p_txt)
+        p_txt = re.sub(r"\\mathbb\{([^{}]*)\}", r"$\\mathbb{\1}$", p_txt)
+        p_txt = re.sub(r"\\mathrm\{([^{}]*)\}", r"\1", p_txt)
+        p_txt = re.sub(r"\\text\{([^{}]*)\}", r"\1", p_txt)
+        p_txt = re.sub(r"\\operatorname\{([^{}]*)\}", r"\1", p_txt)
+        p_txt = re.sub(r"\\cite[a-zA-Z*]*\{[^}]*\}", "", p_txt)
+        p_txt = re.sub(r"\\ref\{[^}]*\}", "", p_txt)
+        p_txt = re.sub(r"\\eqref\{[^}]*\}", "", p_txt)
+        p_txt = re.sub(r"\\label\{[^}]*\}", "", p_txt)
+        p_txt = re.sub(r"\\vspace\*?\{[^}]*\}", "", p_txt)
+        p_txt = re.sub(r"\\hspace\*?\{[^}]*\}", "", p_txt)
+        p_txt = re.sub(
+            r"\\(?:footnotesize|small|scriptsize|tiny|normalsize|large|centering|noindent|raggedright|arraystretch)",
+            "",
+            p_txt,
+        )
+        p_txt = p_txt.replace("\\spdnetbn", "SPDNetBN").replace("\\spdnet", "SPDNet")
+        p_txt = p_txt.replace("\\pm", "$\\pm$").replace("\\times", "$\\times$")
+        p_txt = p_txt.replace("\\%", "%").replace("\\_", "_")
+        p_txt = p_txt.replace("\\checkmark", "✓").replace("\\ding{51}", "✓").replace("\\ding{55}", "✗")
+        p_txt = p_txt.replace("\\uparrow", "$\\uparrow$").replace("\\downarrow", "$\\downarrow$")
+        p_txt = re.sub(r"\\[a-zA-Z]+\s*", " ", p_txt)
+        p_txt = p_txt.replace("{", "").replace("}", "")
+        out_parts.append(p_txt)
+
+    res = "".join(out_parts)
+    # Merge adjacent math blocks like $a$$\pm$$b$ -> $a \pm b$
+    res = res.replace("$$", " ")
+    # Convert plain ± between numbers to $\pm$
+    res = re.sub(r"(\d)\s*±\s*(\d)", r"\1 $\\pm$ \2", res)
+    return " ".join(res.split())
+
 
 
 def parse_tabular_to_rows(raw: str) -> list[list[str]]:

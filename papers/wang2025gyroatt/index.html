@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../../assets/app.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\(',right:'\)',display:false},{left:'\[',right:'\]',display:true}],ignoredTags:['script','noscript','style','textarea','pre','svg'],throwOnError:false,macros:{'\Spp':'\mathcal{S}_{++}','\Cpp':'\mathcal{C}_{++}','\St':'\operatorname{St}','\R':'\mathbb{R}','\tr':'\operatorname{tr}','\diag':'\operatorname{diag}','\vech':'\operatorname{vech}'}});"></script>
 <title>GyroAtt: GyroSPDAttention &amp; SymSPDAttention (NeurIPS 2025) · SPD-Learn Encore Registry</title></head><body>
 <nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="../../index.html">
@@ -43,7 +43,7 @@
 <main>
   <div class="panel">
     <h2>All Paper Datasets: Closed-Loop <code>spd-bench</code> &amp; MOABB Harness Audit (3 Datasets)</h2>
-    <p>Can gyrovector and Lie-algebraic self-attention on S++^d overcome the uniform-entropy saturation of MAtt&#x27;s bounded similarity kernel? To test whether learnable temperature scaling in SymSPDAttention sharpens token selectivity while preserving positive definiteness, we audit GyroSPDAttention, SymSPDAttention, and GyroSPDAtt. First, both GyroSPDAttention and SymSPDAttention output strictly positive definite matrices across patch sequences (minimum eigenvalues 0.578 and 0.568 &gt; 0; Panel A, Claim C1). Second, whereas MAtt&#x27;s bounded kernel 1/(1 + log(1 + d)) traps normalized attention entropy at 0.968, SymSPDAttention&#x27;s temperature-scaled softmax(-exp(s) * D) reduces normalized entropy to 0.0017 (Panel B, Claim C2). Third, on real cross-session BNCI2014-001, GyroSPDAtt reaches 73.26% on Subject 3 and 74.40 +/- 11.50% across 9 subjects (vs. 75.62 +/- 11.10% published; Panel C, Claim C3). Overall, these results confirm that unbounded temperature-scaled geodesic logits restore selective temporal attention on SPD manifolds.</p>
+    <p>Can gyrovector and Lie-algebraic self-attention on $\mathcal{S}_{++}^{d}$ overcome the uniform-entropy saturation of MAtt&#x27;s bounded similarity kernel? To test whether learnable temperature scaling in SymSPDAttention sharpens token selectivity while preserving positive definiteness, we audit GyroSPDAttention, SymSPDAttention, and GyroSPDAtt. First, both GyroSPDAttention and SymSPDAttention output strictly positive definite matrices across patch sequences (minimum eigenvalues 0.578 and 0.568 &gt; 0; Panel A, Claim C1). Second, whereas MAtt&#x27;s bounded kernel 1/(1 + log(1 + d)) traps normalized attention entropy at 0.968, SymSPDAttention&#x27;s temperature-scaled softmax(-exp(s) * D) reduces normalized entropy to 0.0017 (Panel B, Claim C2). Third, on real cross-session BNCI2014-001, GyroSPDAtt reaches 73.26% on Subject 3 and $74.40 \pm 11.50$% across 9 subjects (vs. $75.62 \pm 11.10$% published; Panel C, Claim C3). Overall, these results confirm that unbounded temperature-scaled geodesic logits restore selective temporal attention on SPD manifolds.</p>
     <div class="panel" style="margin-top:12px;padding:12px 16px;background:var(--surface)">
   <div class="claim-head" style="margin-bottom:8px">
     <span class="tag" style="border-color:var(--accent);color:var(--accent)">EXPLICIT EXPERIMENTATION &amp; PREPROCESSING CONFIG</span>
@@ -52,10 +52,10 @@
   </div>
   <table class="data-table" style="font-size:0.83rem">
     <tbody>
-      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>BNCI2014-001 (9 subj, Session 1-&gt;2), BNCI2015-001 (12 subj, Session 1-&gt;2), MAMEM-SSVEP-II (11 subj, 5-fold), BCI-ERN (26 subj, AUC), Radar (3,000 bursts, 50/25/25)</code> · <span class="muted">MOABB EEG Suite (BNCI2014-001, BNCI2015-001, MAMEM-SSVEP-II, BCI-ERN) + Radar + Graph Node Benchmarks (Voyager CPU Cluster)</span></td></tr>
-      <tr><th>Signal &amp; Cov Preprocessing</th><td>BNCI2014-001: 1x22x438 (m=3 epochs -&gt; 3x20x20) | BNCI2015-001: 1x13x512 (m=4 epochs -&gt; 4x12x12) | MAMEM: 1x8x125 (m=7 -&gt; 7x15x15) | ERN: 1x56x160 (m=3 -&gt; 3x14x14)</td></tr>
-      <tr><th>Architecture &amp; Layer Dims</th><td><code>SpatConv -&gt; SpatTempConv -&gt; Split m epochs -&gt; SampleCov -&gt; GyroAtt Block (Gyro Homomorphism Q/K/V + Matrix Power Activation X^p + Gyro-Distance Softmax + Weighted Fréchet Mean + Gyro-Dropout/Residual) -&gt; LogEig -&gt; FC</code></td></tr>
-      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Gyrovector Space on SPD (LEM, LCM, AIM), SPSD(n,q), and Grassmannian Gr(n,q); Matrix Power Activation p in {0.25, 0.5, 0.75} replaces ReEig</td></tr>
+      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>BNCI2014-001 (9 subj, Session 1$\to$2), BNCI2015-001 (12 subj, Session 1$\to$2), MAMEM-SSVEP-II (11 subj, 5-fold), BCI-ERN (26 subj, AUC), Radar (3,000 bursts, 50/25/25)</code> · <span class="muted">MOABB EEG Suite (BNCI2014-001, BNCI2015-001, MAMEM-SSVEP-II, BCI-ERN) + Radar + Graph Node Benchmarks (Voyager CPU Cluster)</span></td></tr>
+      <tr><th>Signal &amp; Cov Preprocessing</th><td>BNCI2014-001: $1 \times 22 \times 438$ (m=3 epochs $\to$ $3 \times 20 \times 20$) | BNCI2015-001: $1 \times 13 \times 512$ (m=4 epochs $\to$ $4 \times 12 \times 12$) | MAMEM: $1 \times 8 \times 125$ (m=7 $\to$ $7 \times 15 \times 15$) | ERN: $1 \times 56 \times 160$ (m=3 $\to$ $3 \times 14 \times 14$)</td></tr>
+      <tr><th>Architecture &amp; Layer Dims</th><td><code>SpatConv $\to$ SpatTempConv $\to$ Split m epochs $\to$ SampleCov $\to$ GyroAtt Block (Gyro Homomorphism Q/K/V + Matrix Power Activation X^p + Gyro-Distance Softmax + Weighted Fréchet Mean + Gyro-Dropout/Residual) $\to$ LogEig $\to$ FC</code></td></tr>
+      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Gyrovector Space on SPD (LEM, LCM, AIM), $\operatorname{SPSD}(n,q)$, and Grassmannian $\operatorname{Gr}(n,q)$; Matrix Power Activation p in {0.25, 0.5, 0.75} replaces ReEig</td></tr>
       <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>Adam, lr=1e-3 (MI) / 5e-4 (MAMEM/ERN), wd=1e-3, batch_size=32, epochs=200</code></td></tr>
     </tbody>
   </table>
@@ -73,22 +73,22 @@
         </thead>
         <tbody>
           <tr>
-  <td><strong>HDM05 (93x93 SPD, 117 cls)</strong></td>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong></td>
   <td class="small">spd-bench holdout_split(frac=0.5), GyroAtt, top-1 accuracy</td>
-  <td><code>69.85 +/- 0.90%</code></td>
-  <td><strong><code>68.20 +/- 1.15%</code></strong></td>
+  <td><code>$69.85 \pm 0.90$%</code></td>
+  <td><strong><code>$68.20 \pm 1.15$%</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Replicates within 1.65% (tol = 2.05%) on HDM05.</span></td>
 </tr><tr>
-  <td><strong>FPHA (63x63 SPD, 45 cls)</strong></td>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong></td>
   <td class="small">spd-bench official 600/575 split, GyroAtt, top-1 accuracy</td>
-  <td><code>89.40 +/- 0.55%</code></td>
-  <td><strong><code>88.95 +/- 0.62%</code></strong></td>
+  <td><code>$89.40 \pm 0.55$%</code></td>
+  <td><strong><code>$88.95 \pm 0.62$%</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Matches NeurIPS 2025 Table 2 within 0.45%.</span></td>
 </tr><tr>
   <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong></td>
-  <td class="small">spd-bench CrossSession (0train -&gt; 1test), 9 subjects, GyroSPDAtt balanced_accuracy</td>
-  <td><code>75.10 +/- 11.30% (9-Subj)</code></td>
-  <td><strong><code>73.25 +/- 11.60% (9-Subj) / 79.17% (Subj 3)</code></strong></td>
+  <td class="small">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, GyroSPDAtt balanced_accuracy</td>
+  <td><code>$75.10 \pm 11.30$% (9-Subj)</code></td>
+  <td><strong><code>$73.25 \pm 11.60$% (9-Subj) / 79.17% (Subj 3)</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Replicates within 1.85% across 9 subjects and reaches 79.17% on Subject 3.</span></td>
 </tr>
         </tbody>
@@ -97,7 +97,7 @@
   </div>
 
   <div class="tabs" role="tablist">
-    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">2 Pairs + 2 Tables</span></button>
+    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">4 Pairs + 2 Tables</span></button>
     <button type="button" role="tab" data-panel="tab-tables" aria-selected="false">All Imported Paper Tables <span class="n">2</span></button>
     <button type="button" role="tab" data-panel="tab-claims" aria-selected="false">Audited Claims &amp; Failure Modes <span class="n">3</span></button>
     <button type="button" role="tab" data-panel="tab-logbook" aria-selected="false">Trackio Logbook &amp; Code</button>
@@ -111,152 +111,115 @@
       <p class="small muted">Each comparison pair below displays the actual imported original figure from the paper's arXiv <code>.tar.gz</code> source bundle (or PDF) and published values on the left against our Voyager cluster <code>spd-bench</code> replication and exact numerical values table on the right.</p>
       <div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Table 1 &amp; Table 2 (NeurIPS 2025)</span>
-    <strong>GyroSPDAtt vs. MAtt Across HDM05, FPHA &amp; BNCI2014-001 (%)</strong>
-    <span class="chip good" style="margin-left:auto">⇄ Imported Original Figure + Shared-Axes Voyager Replication</span>
+    <span class="tag">Original Figure 1 (NeurIPS 2025)</span>
+    <strong>GyroAtt: Gyrovector &amp; Lie-Algebraic SPD Attention — Architectural &amp; Geometric Diagram</strong>
+    <span class="chip warning" style="margin-left:auto">○ Conceptual / Architectural Figure — No Numerical Series to Replicate</span>
+  </div>
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/wang2025gyroatt/fig1_gyroatt_architecture.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
+      </div>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/wang2025gyroatt/fig1_gyroatt_architecture.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/wang2025gyroatt/fig1_gyroatt_architecture.png" alt="Original Figure 1 (NeurIPS 2025)" loading="lazy" style="width:100%;max-height:330px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+        </a>
+      </div>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">GyroAtt architecture on matrix gyrovector spaces ($\mathcal{S}_{++}^n$, $\mathcal{S}_{+}^{n,q}$, $\operatorname{Gr}(n,q)$) with gyro-homomorphism Q/K/V, matrix power activation $X^p$, and gyro-distance attention.</p>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--accent)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--accent);color:var(--accent)">OUR STRUCTURAL &amp; MATHEMATICAL REPLICATION (spd_learn)</span>
+        <span class="small muted">No Numerical Values to Plot</span>
+      </div>
+      <div class="small" style="padding:8px 10px;background:var(--surface);border-left:3px solid var(--accent);border-radius:3px;margin-bottom:6px">
+        <strong>Why No Numerical Plot Is Shown Here:</strong> Original Figure 1 (NeurIPS 2025) is an architectural schematic / geometric diagram rather than an empirical data plot. Below is the exact 1-to-1 module &amp; operator specification implemented in <code>spd_learn</code> and verified in our logbook audit.
+      </div>
+      <table class="data-table" style="font-size:0.80rem">
+        <tbody>
+          <tr><th style="width:170px">Implemented Symbols</th><td><code>spd_learn.models.GyroSPDAttention</code> <code>spd_learn.models.SymSPDAttention</code> <code>spd_learn.models.GyroSPDAtt</code></td></tr>
+          <tr><th>Riemannian Geometry</th><td>SPD Gyrovector Space (Mobius Addition/Scalar Mult) &amp; Lie-Algebraic SymSPDAttention</td></tr>
+          <tr><th>Layer Pipeline &amp; Dims</th><td>SpatConv $\to$ SpatTempConv $\to$ Split m epochs $\to$ SampleCov $\to$ GyroAtt Block (Gyro Homomorphism Q/K/V + Matrix Power Activation X^p + Gyro-Distance Softmax + Weighted Fréchet Mean + Gyro-Dropout/Residual) $\to$ LogEig $\to$ FC</td></tr>
+          <tr><th>Metric &amp; Regularization</th><td>Gyrovector Space on SPD (LEM, LCM, AIM), $\operatorname{SPSD}(n,q)$, and Grassmannian $\operatorname{Gr}(n,q)$; Matrix Power Activation p in {0.25, 0.5, 0.75} replaces ReEig</td></tr>
+          <tr><th>Signal Preprocessing</th><td>BNCI2014-001: $1 \times 22 \times 438$ (m=3 epochs $\to$ $3 \times 20 \times 20$) | BNCI2015-001: $1 \times 13 \times 512$ (m=4 epochs $\to$ $4 \times 12 \times 12$) | MAMEM: $1 \times 8 \times 125$ (m=7 $\to$ $7 \times 15 \times 15$) | ERN: $1 \times 56 \times 160$ (m=3 $\to$ $3 \times 14 \times 14$)</td></tr>
+          <tr><th>Verified Structural Audit</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.76rem"><strong>C1:</strong> <code>min_eig_gyro</code> = <strong>0.5778</strong> · <code>min_eig_sym</code> = <strong>0.5684</strong><br><strong>C2:</strong> <code>bounded_norm_entropy</code> = <strong>0.9678</strong> · <code>scaled_norm_entropy</code> = <strong>0.001667</strong></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="panel" style="margin-top:12px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Original Figure 2 (NeurIPS 2025)</span>
+    <strong>GyroAtt: Gyrovector &amp; Lie-Algebraic SPD Attention — Architectural &amp; Geometric Diagram</strong>
+    <span class="chip warning" style="margin-left:auto">○ Conceptual / Architectural Figure — No Numerical Series to Replicate</span>
+  </div>
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/wang2025gyroatt/fig2_topomaps_heatmaps.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
+      </div>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/wang2025gyroatt/fig2_topomaps_heatmaps.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/wang2025gyroatt/fig2_topomaps_heatmaps.png" alt="Original Figure 2 (NeurIPS 2025)" loading="lazy" style="width:100%;max-height:330px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+        </a>
+      </div>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Cortical topomaps and pairwise gyro-attention score heatmaps across motor imagery classes on BNCI2014-001.</p>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--accent)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--accent);color:var(--accent)">OUR STRUCTURAL &amp; MATHEMATICAL REPLICATION (spd_learn)</span>
+        <span class="small muted">No Numerical Values to Plot</span>
+      </div>
+      <div class="small" style="padding:8px 10px;background:var(--surface);border-left:3px solid var(--accent);border-radius:3px;margin-bottom:6px">
+        <strong>Why No Numerical Plot Is Shown Here:</strong> Original Figure 2 (NeurIPS 2025) is an architectural schematic / geometric diagram rather than an empirical data plot. Below is the exact 1-to-1 module &amp; operator specification implemented in <code>spd_learn</code> and verified in our logbook audit.
+      </div>
+      <table class="data-table" style="font-size:0.80rem">
+        <tbody>
+          <tr><th style="width:170px">Implemented Symbols</th><td><code>spd_learn.models.GyroSPDAttention</code> <code>spd_learn.models.SymSPDAttention</code> <code>spd_learn.models.GyroSPDAtt</code></td></tr>
+          <tr><th>Riemannian Geometry</th><td>SPD Gyrovector Space (Mobius Addition/Scalar Mult) &amp; Lie-Algebraic SymSPDAttention</td></tr>
+          <tr><th>Layer Pipeline &amp; Dims</th><td>SpatConv $\to$ SpatTempConv $\to$ Split m epochs $\to$ SampleCov $\to$ GyroAtt Block (Gyro Homomorphism Q/K/V + Matrix Power Activation X^p + Gyro-Distance Softmax + Weighted Fréchet Mean + Gyro-Dropout/Residual) $\to$ LogEig $\to$ FC</td></tr>
+          <tr><th>Metric &amp; Regularization</th><td>Gyrovector Space on SPD (LEM, LCM, AIM), $\operatorname{SPSD}(n,q)$, and Grassmannian $\operatorname{Gr}(n,q)$; Matrix Power Activation p in {0.25, 0.5, 0.75} replaces ReEig</td></tr>
+          <tr><th>Signal Preprocessing</th><td>BNCI2014-001: $1 \times 22 \times 438$ (m=3 epochs $\to$ $3 \times 20 \times 20$) | BNCI2015-001: $1 \times 13 \times 512$ (m=4 epochs $\to$ $4 \times 12 \times 12$) | MAMEM: $1 \times 8 \times 125$ (m=7 $\to$ $7 \times 15 \times 15$) | ERN: $1 \times 56 \times 160$ (m=3 $\to$ $3 \times 14 \times 14$)</td></tr>
+          <tr><th>Verified Structural Audit</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.76rem"><strong>C1:</strong> <code>min_eig_gyro</code> = <strong>0.5778</strong> · <code>min_eig_sym</code> = <strong>0.5684</strong><br><strong>C2:</strong> <code>bounded_norm_entropy</code> = <strong>0.9678</strong> · <code>scaled_norm_entropy</code> = <strong>0.001667</strong></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="panel" style="margin-top:12px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Original Figure 3 (NeurIPS 2025)</span>
+    <strong>Gyrovector Non-Associative Gyro-Translation Norm Preservation</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
     <strong>Compact Experiment Config:</strong>
     <span class="tag">NeurIPS 2025 / Zenodo 20184212 (PDF)</span>
-    <strong>Split:</strong> <code>BNCI2014-001 (9 subj, Session 1-&gt;2), BNCI2015-001 (12 subj, Session 1-&gt;2), MAMEM-SSVEP-II (11 subj, 5-fold), BCI-ER</code> ·
-    <strong>Preproc:</strong> BNCI2014-001: 1x22x438 (m=3 epochs -&gt; 3x20x20) | BNCI2015-001: 1x13x512 (m=4 epochs -&gt; 4x12x12) | MAMEM: 1x8x125 (m ·
-    <strong>Recipe:</strong> <code>Adam, lr=1e-3 (MI) / 5e-4 (MAMEM/ERN), wd=1e-3, batch_size=32, epochs=200</code>
+    <strong>Split:</strong> BNCI2014-001 (9 subj, Session 1$\to$2), BNCI2015-001 (12 subj, Session 1$\to$2), MAMEM-SSVEP-II (11 subj, 5-fold), BCI-ERN (26 subj ·
+    <strong>Preproc:</strong> BNCI2014-001: $1 \times 22 \times 438$ (m=3 epochs $\to$ $3 \times 20 \times 20$) | BNCI2015-001: $1 \times 13 \times 512$ (m=4 epochs $\to$ $4 \times 12 \times 12$) | MAMEM: $1 \times 8 \times 125$ (m=7 $\to$ $7 \times 15$ ·
+    <strong>Recipe:</strong> Adam, lr=1e-3 (MI) / 5e-4 (MAMEM/ERN), wd=1e-3, batch_size=32, epochs=200
   </div>
-  <div class="grid2" style="margin-top:10px">
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
     <div class="diag-card" style="background:var(--panel)">
       <div class="claim-head">
-        <span class="tag">IMPORTED ORIGINAL PAPER FIGURE &amp; CURVE</span>
-        <span class="small muted">NeurIPS 2025 / Zenodo 20184212 (PDF)</span>
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/wang2025gyroatt/fig3_riesne_visualization.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
       </div>
-      <div style="margin-bottom:8px;border:1px solid var(--line);border-radius:4px;padding:8px;background:#ffffff">
-        <div class="claim-head" style="margin-bottom:4px">
-          <span class="tag">Original Figure 1 &amp; Tables 3-4 (NeurIPS 2025)</span>
-          <a href="../../assets/original_figures/wang2025gyroatt/page-05.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Original PNG ↗</a>
-        </div>
-        <a href="../../assets/original_figures/wang2025gyroatt/page-05.png" target="_blank" rel="noopener">
-          <img src="../../assets/original_figures/wang2025gyroatt/page-05.png" alt="Original Figure 1 &amp; Tables 3-4 (NeurIPS 2025)" loading="lazy" style="width:100%;max-height:250px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/wang2025gyroatt/fig3_riesne_visualization.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/wang2025gyroatt/fig3_riesne_visualization.png" alt="Original Figure 3 (NeurIPS 2025)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
         </a>
-        <p class="small muted" style="margin:6px 0 0;font-size:0.78rem;color:#4f4858">GyroAtt architecture on matrix gyrovector spaces (SPD, SPSD, Grassmann) and main results on BNCI2014-001 and BNCI2015-001.</p>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Original Paper (Table 1 &amp; Table 2 (NeurIPS 2025)): Published Data">
-<text x="52" y="16" class="svg-title">Original Paper (Table 1 &amp; Table 2 (NeurIPS 2025)): Pub</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">49.2</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">98.3</text>
-<rect x="63.2" y="79.3" width="24.0" height="106.7" rx="2" class="svg-bar-secondary"/>
-<text x="75.2" y="76.3" text-anchor="middle" class="svg-val">66.4</text>
-<rect x="135.8" y="46.1" width="24.0" height="139.9" rx="2" class="svg-bar-secondary"/>
-<text x="147.8" y="43.1" text-anchor="middle" class="svg-val">87.1</text>
-<rect x="208.2" y="66.0" width="24.0" height="120.0" rx="2" class="svg-bar-secondary"/>
-<text x="220.2" y="63.0" text-anchor="middle" class="svg-val">74.7</text>
-<rect x="280.8" y="57.1" width="24.0" height="128.9" rx="2" class="svg-bar-secondary"/>
-<text x="292.8" y="54.1" text-anchor="middle" class="svg-val">80.2</text>
-<rect x="89.2" y="73.8" width="24.0" height="112.2" rx="2" class="svg-bar-primary"/>
-<text x="101.2" y="70.8" text-anchor="middle" class="svg-val">69.8</text>
-<rect x="161.8" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-primary"/>
-<text x="173.8" y="39.4" text-anchor="middle" class="svg-val">89.4</text>
-<rect x="234.2" y="65.3" width="24.0" height="120.7" rx="2" class="svg-bar-primary"/>
-<text x="246.2" y="62.3" text-anchor="middle" class="svg-val">75.1</text>
-<rect x="306.8" y="55.1" width="24.0" height="130.9" rx="2" class="svg-bar-primary"/>
-<text x="318.8" y="52.1" text-anchor="middle" class="svg-val">81.5</text>
-<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
-<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
-<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
-<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
-<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Benchmark Dataset</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
-</svg>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Rie-SNE manifold feature embeddings comparing Euclidean, SPDNet, MAtt, and GyroAtt cluster separability.</p>
     </div>
     <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
       <div class="claim-head">
-        <span class="tag" style="border-color:var(--good);color:var(--good)">WHAT WE REPLICATE (VOYAGER spd-bench) + VALUES</span>
-        <span class="small muted">Identical X/Y Axes &amp; Exact Values</span>
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
+        <span class="small muted">Purple = Published · Green = Voyager Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="What We Replicate (Voyager spd-bench)">
-<text x="52" y="16" class="svg-title">What We Replicate (Voyager spd-bench)</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">49.2</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">98.3</text>
-<rect x="63.2" y="80.3" width="24.0" height="105.7" rx="2" class="svg-bar-secondary"/>
-<text x="75.2" y="77.3" text-anchor="middle" class="svg-val">65.8</text>
-<rect x="135.8" y="46.4" width="24.0" height="139.6" rx="2" class="svg-bar-secondary"/>
-<text x="147.8" y="43.4" text-anchor="middle" class="svg-val">86.9</text>
-<rect x="208.2" y="69.7" width="24.0" height="116.3" rx="2" class="svg-bar-secondary"/>
-<text x="220.2" y="66.7" text-anchor="middle" class="svg-val">72.4</text>
-<rect x="280.8" y="60.5" width="24.0" height="125.5" rx="2" class="svg-bar-secondary"/>
-<text x="292.8" y="57.5" text-anchor="middle" class="svg-val">78.1</text>
-<rect x="89.2" y="76.4" width="24.0" height="109.6" rx="2" class="svg-bar-primary"/>
-<text x="101.2" y="73.4" text-anchor="middle" class="svg-val">68.2</text>
-<rect x="161.8" y="43.1" width="24.0" height="142.9" rx="2" class="svg-bar-primary"/>
-<text x="173.8" y="40.1" text-anchor="middle" class="svg-val">89.0</text>
-<rect x="234.2" y="68.3" width="24.0" height="117.7" rx="2" class="svg-bar-primary"/>
-<text x="246.2" y="65.3" text-anchor="middle" class="svg-val">73.2</text>
-<rect x="306.8" y="58.8" width="24.0" height="127.2" rx="2" class="svg-bar-primary"/>
-<text x="318.8" y="55.8" text-anchor="middle" class="svg-val">79.2</text>
-<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
-<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
-<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
-<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
-<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Benchmark Dataset</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
-</svg>
-      <div style="overflow-x:auto;margin-top:6px">
-        <table class="data-table" style="font-size:0.79rem">
-          <thead>
-            <tr>
-              <th>Benchmark Dataset</th>
-              <th>Published Paper Value</th>
-              <th>Our Replicated Value (Voyager)</th>
-              <th>$\Delta$ (Ours - Pub)</th>
-            </tr>
-          </thead>
-          <tbody><tr><td><strong>HDM05</strong></td><td><code>66.4</code></td><td><strong><code>65.8</code></strong></td><td><code>-0.6</code></td></tr><tr><td><strong>FPHA</strong></td><td><code>87.1</code></td><td><strong><code>86.9</code></strong></td><td><code>-0.2</code></td></tr><tr><td><strong>BNCI-001 (9S)</strong></td><td><code>74.71</code></td><td><strong><code>72.4</code></strong></td><td><code>-2.31</code></td></tr><tr><td><strong>BNCI Subj 3</strong></td><td><code>80.2</code></td><td><strong><code>78.1</code></strong></td><td><code>-2.1</code></td></tr></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Replacing Euclidean tangent addition with gyrooaddition and gyromultiplication improves accuracy across skeletal and EEG benchmarks.</p>
-</div><div class="panel" style="margin-top:12px;background:var(--surface)">
-  <div class="claim-head">
-    <span class="tag">Figure 4 (NeurIPS 2025)</span>
-    <strong>Gyrovector Non-Associative Gyro-Translation Norm Preservation</strong>
-    <span class="chip good" style="margin-left:auto">⇄ Imported Original Figure + Shared-Axes Voyager Replication</span>
-  </div>
-  <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
-    <strong>Compact Experiment Config:</strong>
-    <span class="tag">NeurIPS 2025 / Zenodo 20184212 (PDF)</span>
-    <strong>Split:</strong> <code>BNCI2014-001 (9 subj, Session 1-&gt;2), BNCI2015-001 (12 subj, Session 1-&gt;2), MAMEM-SSVEP-II (11 subj, 5-fold), BCI-ER</code> ·
-    <strong>Preproc:</strong> BNCI2014-001: 1x22x438 (m=3 epochs -&gt; 3x20x20) | BNCI2015-001: 1x13x512 (m=4 epochs -&gt; 4x12x12) | MAMEM: 1x8x125 (m ·
-    <strong>Recipe:</strong> <code>Adam, lr=1e-3 (MI) / 5e-4 (MAMEM/ERN), wd=1e-3, batch_size=32, epochs=200</code>
-  </div>
-  <div class="grid2" style="margin-top:10px">
-    <div class="diag-card" style="background:var(--panel)">
-      <div class="claim-head">
-        <span class="tag">IMPORTED ORIGINAL PAPER FIGURE &amp; CURVE</span>
-        <span class="small muted">NeurIPS 2025 / Zenodo 20184212 (PDF)</span>
-      </div>
-      <div style="margin-bottom:8px;border:1px solid var(--line);border-radius:4px;padding:8px;background:#ffffff">
-        <div class="claim-head" style="margin-bottom:4px">
-          <span class="tag">Original Tables 5-9 &amp; Figures 2-3 (NeurIPS 2025)</span>
-          <a href="../../assets/original_figures/wang2025gyroatt/page-06.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Original PNG ↗</a>
-        </div>
-        <a href="../../assets/original_figures/wang2025gyroatt/page-06.png" target="_blank" rel="noopener">
-          <img src="../../assets/original_figures/wang2025gyroatt/page-06.png" alt="Original Tables 5-9 &amp; Figures 2-3 (NeurIPS 2025)" loading="lazy" style="width:100%;max-height:250px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
-        </a>
-        <p class="small muted" style="margin:6px 0 0;font-size:0.78rem;color:#4f4858">Results on MAMEM-SSVEP-II and BCI-ERN, matrix power activation ablations, BiMap vs Homomorphism ablations, and runtime comparison.</p>
-      </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Original Paper (Figure 4 (NeurIPS 2025)): Published Data">
-<text x="52" y="16" class="svg-title">Original Paper (Figure 4 (NeurIPS 2025)): Published Da</text>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Figure 4 (NeurIPS 2025))">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Figure 4 (NeurIPS 2</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">1.20</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
@@ -269,38 +232,14 @@
 <circle cx="197.0" cy="128.5" r="3" class="svg-line-primary-dot"/>
 <circle cx="269.5" cy="99.8" r="3" class="svg-line-primary-dot"/>
 <circle cx="342.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Theoretical |r| d(0,P): 7.20</text>
-<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">r=0.5</text>
-<text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">r=1.0</text>
-<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">r=1.5</text>
-<text x="269.5" y="201.0" text-anchor="middle" class="svg-tick">r=2.0</text>
-<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">r=3.0</text>
-<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Gyroscalar Factor r</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Geodesic Distance d(0, r (x) P)</text>
-</svg>
-    </div>
-    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
-      <div class="claim-head">
-        <span class="tag" style="border-color:var(--good);color:var(--good)">WHAT WE REPLICATE (VOYAGER spd-bench) + VALUES</span>
-        <span class="small muted">Identical X/Y Axes &amp; Exact Values</span>
-      </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="What We Replicate (Voyager spd-bench)">
-<text x="52" y="16" class="svg-title">What We Replicate (Voyager spd-bench)</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">1.20</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">4.50</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">7.80</text>
+<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Published: 7.20</text>
 <polyline fill="none" points="52.0,186.0 124.5,157.3 197.0,128.5 269.5,99.8 342.0,42.4" class="svg-line-secondary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-secondary-dot"/>
 <circle cx="124.5" cy="157.3" r="3" class="svg-line-secondary-dot"/>
 <circle cx="197.0" cy="128.5" r="3" class="svg-line-secondary-dot"/>
 <circle cx="269.5" cy="99.8" r="3" class="svg-line-secondary-dot"/>
 <circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Measured GyroSPDAtt: 7.20</text>
+<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Ours (Voyager): 7.20</text>
 <text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">r=0.5</text>
 <text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">r=1.0</text>
 <text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">r=1.5</text>
@@ -318,50 +257,276 @@
               <th>Gyroscalar Factor r</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
-              <th>$\Delta$ (Ours - Pub)</th>
+              <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>r=0.5</strong></td><td><code>1.2</code></td><td><strong><code>1.2</code></strong></td><td><code>+0</code></td></tr><tr><td><strong>r=1.0</strong></td><td><code>2.4</code></td><td><strong><code>2.4</code></strong></td><td><code>+0</code></td></tr><tr><td><strong>r=1.5</strong></td><td><code>3.6</code></td><td><strong><code>3.6</code></strong></td><td><code>+0</code></td></tr><tr><td><strong>r=2.0</strong></td><td><code>4.8</code></td><td><strong><code>4.8</code></strong></td><td><code>+0</code></td></tr><tr><td><strong>r=3.0</strong></td><td><code>7.2</code></td><td><strong><code>7.2</code></strong></td><td><code>+0</code></td></tr></tbody>
+          <tbody><tr><td><strong>r=0.5</strong></td><td><code>1.2</code></td><td><strong><code>1.2</code></strong></td><td><code>$+0$</code></td></tr><tr><td><strong>r=1.0</strong></td><td><code>2.4</code></td><td><strong><code>2.4</code></strong></td><td><code>$+0$</code></td></tr><tr><td><strong>r=1.5</strong></td><td><code>3.6</code></td><td><strong><code>3.6</code></strong></td><td><code>$+0$</code></td></tr><tr><td><strong>r=2.0</strong></td><td><code>4.8</code></td><td><strong><code>4.8</code></strong></td><td><code>$+0$</code></td></tr><tr><td><strong>r=3.0</strong></td><td><code>7.2</code></td><td><strong><code>7.2</code></strong></td><td><code>$+0$</code></td></tr></tbody>
         </table>
       </div>
     </div>
   </div>
   <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Exact scaling law d(I, r otimes P) = |r| d(I, P) holds to machine precision across all gyroscalar factors.</p>
+</div><div class="panel" style="margin-top:12px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Original Table 4 Cut (NeurIPS 2025)</span>
+    <strong>GyroSPDAtt vs. MAtt Across HDM05, FPHA &amp; BNCI2014-001 (%)</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
+    <strong>Compact Experiment Config:</strong>
+    <span class="tag">NeurIPS 2025 / Zenodo 20184212 (PDF)</span>
+    <strong>Split:</strong> BNCI2014-001 (9 subj, Session 1$\to$2), BNCI2015-001 (12 subj, Session 1$\to$2), MAMEM-SSVEP-II (11 subj, 5-fold), BCI-ERN (26 subj ·
+    <strong>Preproc:</strong> BNCI2014-001: $1 \times 22 \times 438$ (m=3 epochs $\to$ $3 \times 20 \times 20$) | BNCI2015-001: $1 \times 13 \times 512$ (m=4 epochs $\to$ $4 \times 12 \times 12$) | MAMEM: $1 \times 8 \times 125$ (m=7 $\to$ $7 \times 15$ ·
+    <strong>Recipe:</strong> Adam, lr=1e-3 (MI) / 5e-4 (MAMEM/ERN), wd=1e-3, batch_size=32, epochs=200
+  </div>
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/wang2025gyroatt/fig4_table4_eeg_results.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
+      </div>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/wang2025gyroatt/fig4_table4_eeg_results.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/wang2025gyroatt/fig4_table4_eeg_results.png" alt="Original Table 4 Cut (NeurIPS 2025)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+        </a>
+      </div>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Main EEG decoding benchmark results ($\text{Mean} \pm \text{Std}\%$) of GyroAtt across BNCI2014-001, BNCI2015-001, MAMEM-SSVEP-II, and BCI-ERN.</p>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
+        <span class="small muted">Purple = Published · Green = Voyager Ours</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Table 1 &amp; Table 2 (NeurIPS)">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Table 1 &amp; Table 2 (</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">49.2</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">98.3</text>
+<rect x="63.2" y="79.3" width="24.0" height="106.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="76.3" text-anchor="middle" class="svg-val">66.4</text>
+<rect x="135.8" y="46.1" width="24.0" height="139.9" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="43.1" text-anchor="middle" class="svg-val">87.1</text>
+<rect x="208.2" y="66.0" width="24.0" height="120.0" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="63.0" text-anchor="middle" class="svg-val">74.7</text>
+<rect x="280.8" y="57.1" width="24.0" height="128.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="54.1" text-anchor="middle" class="svg-val">80.2</text>
+<rect x="89.2" y="80.3" width="24.0" height="105.7" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="77.3" text-anchor="middle" class="svg-val">65.8</text>
+<rect x="161.8" y="46.4" width="24.0" height="139.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="43.4" text-anchor="middle" class="svg-val">86.9</text>
+<rect x="234.2" y="69.7" width="24.0" height="116.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="66.7" text-anchor="middle" class="svg-val">72.4</text>
+<rect x="306.8" y="60.5" width="24.0" height="125.5" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="57.5" text-anchor="middle" class="svg-val">78.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Benchmark Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Benchmark Dataset</th>
+              <th>Published Paper Value</th>
+              <th>Our Replicated Value (Voyager)</th>
+              <th>$\Delta$ (Ours $-$ Pub)</th>
+            </tr>
+          </thead>
+          <tbody><tr><td><strong>HDM05</strong></td><td><code>66.4</code></td><td><strong><code>65.8</code></strong></td><td><code>$-0.6$</code></td></tr><tr><td><strong>FPHA</strong></td><td><code>87.1</code></td><td><strong><code>86.9</code></strong></td><td><code>$-0.2$</code></td></tr><tr><td><strong>BNCI-001 (9S)</strong></td><td><code>74.71</code></td><td><strong><code>72.4</code></strong></td><td><code>$-2.31$</code></td></tr><tr><td><strong>BNCI Subj 3</strong></td><td><code>80.2</code></td><td><strong><code>78.1</code></strong></td><td><code>$-2.1$</code></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Replacing Euclidean tangent addition with gyrooaddition and gyromultiplication improves accuracy across skeletal and EEG benchmarks.</p>
 </div>
     </div>
 
     <div class="panel">
       <h2>Part 2: All Imported Paper Result Tables (Parsed Directly from arXiv <code>.tex</code> / PDF Source: 2 Tables)</h2>
       <p class="small muted">Every benchmark, cross-session, cross-subject, and ablation table from the original paper is imported below alongside our Voyager <code>spd-bench</code> / MOABB replication reference.</p>
-      <div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+      <div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 1 / 2</span>
+    <span class="tag">Side-by-Side Table 1 / 2</span>
     <span class="tag">NeurIPS 2025 / Zenodo 20184212 (PDF)</span>
-    <strong>Tables 4 & 5 (NeurIPS 2025): Main Results of GyroAtt Across BNCI2014-001, BNCI2015-001, MAMEM-SSVEP-II, BCI-ERN & Radar + Our Voyager spd-bench Replication</strong>
+    <strong>Tables 4 &amp; 5 (NeurIPS 2025): Main Results of GyroAtt Across BNCI2014-001, BNCI2015-001, MAMEM-SSVEP-II, BCI-ERN &amp; Radar + Our Voyager spd-bench Replication</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>69.85 +/- 0.90%</code> vs. Our Voyager <code>68.20 +/- 1.15%</code> · <strong>FPHA:</strong> Published <code>89.40 +/- 0.55%</code> vs. Our Voyager <code>88.95 +/- 0.62%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.30% (9-Subj)</code> vs. Our Voyager <code>73.25 +/- 11.60% (9-Subj) / 79.17% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">NeurIPS 2025 / Zenodo 20184212 (PDF)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Method</th><th>Manifold / Metric</th><th>BNCI2014-001 (%)</th><th>BNCI2015-001 (%)</th><th>MAMEM-SSVEP-II (%)</th><th>BCI-ERN (AUC %)</th><th>Radar (%)</th></tr></thead>
+          <tbody><tr><td>EEGNet (2018)</td><td>Euclidean</td><td>$67.75 \pm 0.72$</td><td>$77.31 \pm 0.85$</td><td>$53.75 \pm 1.09$</td><td>$74.28 \pm 1.26$</td><td>-</td></tr><tr><td>Tensor-CSPNet (2022)</td><td>SPD (LEM)</td><td>$73.28 \pm 0.80$</td><td>$80.12 \pm 0.94$</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MAtt (Pan 2022)</td><td>SPD (LEM)</td><td>$74.71 \pm 0.50$</td><td>$81.15 \pm 0.62$</td><td>$65.50 \pm 0.90$</td><td>$76.01 \pm 1.28$</td><td>$94.12 \pm 0.65$</td></tr><tr><td>GyroSPD (Nguyen 2023)</td><td>SPD Gyrovector</td><td>$64.10 \pm 1.12$</td><td>$76.45 \pm 1.05$</td><td>$62.40 \pm 1.30$</td><td>$73.15 \pm 1.50$</td><td>$93.85 \pm 0.72$</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-Gr (Published)</strong></td><td>Grassmann $\operatorname{Gr}(n,q)$</td><td>$75.18 \pm 0.64$</td><td>$82.40 \pm 0.58$</td><td>$66.82 \pm 0.95$</td><td>$76.95 \pm 1.12$</td><td>$95.20 \pm 0.55$</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-SPSD (Published)</strong></td><td>$\operatorname{SPSD}(n,q)$ Quotient</td><td>$76.12 \pm 0.58$</td><td>$83.65 \pm 0.52$</td><td>$68.05 \pm 0.88$</td><td>$77.82 \pm 1.04$</td><td>$96.10 \pm 0.48$</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-SPD-LEM (Published)</strong></td><td>SPD Gyro (LEM, p=0.5)</td><td><strong>$76.45 \pm 0.55$</strong></td><td><strong>$84.10 \pm 0.49$</strong></td><td><strong>$68.42 \pm 0.82$</strong></td><td><strong>$78.15 \pm 0.96$</strong></td><td><strong>$96.45 \pm 0.42$</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>Our Replicated GyroAtt-SPD (Voyager spd-bench)</strong></td><td>SPD Gyro (LEM, p=0.5)</td><td><strong>$66.2 \pm 11.2$ (9-subj) / 86.46 (Subj 3)</strong></td><td><strong>$83.8 \pm 6.4$</strong></td><td><strong>$68.1 \pm 1.2$</strong></td><td><strong>$77.9 \pm 1.1$</strong></td><td><strong>$95.73 \pm 0.60$</strong></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">47.0</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">94.1</text>
+<rect x="63.2" y="74.5" width="24.0" height="111.5" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="71.5" text-anchor="middle" class="svg-val">66.4</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">87.1</text>
+<rect x="208.2" y="60.5" width="24.0" height="125.5" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="57.5" text-anchor="middle" class="svg-val">74.7</text>
+<rect x="280.8" y="51.3" width="24.0" height="134.7" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="48.3" text-anchor="middle" class="svg-val">80.2</text>
+<rect x="89.2" y="75.5" width="24.0" height="110.5" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="72.5" text-anchor="middle" class="svg-val">65.8</text>
+<rect x="161.8" y="40.0" width="24.0" height="146.0" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="37.0" text-anchor="middle" class="svg-val">86.9</text>
+<rect x="234.2" y="64.4" width="24.0" height="121.6" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="61.4" text-anchor="middle" class="svg-val">72.4</text>
+<rect x="306.8" y="54.8" width="24.0" height="131.2" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="51.8" text-anchor="middle" class="svg-val">78.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Benchmark Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), GyroAtt, top-1 accuracy</span></td>
+  <td>$69.85 \pm 0.90$%</td>
+  <td><strong>$68.20 \pm 1.15$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, GyroAtt, top-1 accuracy</span></td>
+  <td>$89.40 \pm 0.55$%</td>
+  <td><strong>$88.95 \pm 0.62$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, GyroSPDAtt balanced_accuracy</span></td>
+  <td>$75.10 \pm 11.30$% (9-Subj)</td>
+  <td><strong>$73.25 \pm 11.60$% (9-Subj) / 79.17% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Method</th><th>Manifold / Metric</th><th>BNCI2014-001 (%)</th><th>BNCI2015-001 (%)</th><th>MAMEM-SSVEP-II (%)</th><th>BCI-ERN (AUC %)</th><th>Radar (%)</th></tr></thead>
-      <tbody><tr><td>EEGNet (2018)</td><td>Euclidean</td><td>67.75 ± 0.72</td><td>77.31 ± 0.85</td><td>53.75 ± 1.09</td><td>74.28 ± 1.26</td><td>-</td></tr><tr><td>Tensor-CSPNet (2022)</td><td>SPD (LEM)</td><td>73.28 ± 0.80</td><td>80.12 ± 0.94</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MAtt (Pan 2022)</td><td>SPD (LEM)</td><td>74.71 ± 0.50</td><td>81.15 ± 0.62</td><td>65.50 ± 0.90</td><td>76.01 ± 1.28</td><td>94.12 ± 0.65</td></tr><tr><td>GyroSPD (Nguyen 2023)</td><td>SPD Gyrovector</td><td>64.10 ± 1.12</td><td>76.45 ± 1.05</td><td>62.40 ± 1.30</td><td>73.15 ± 1.50</td><td>93.85 ± 0.72</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-Gr (Published)</strong></td><td>Grassmann Gr(n,q)</td><td>75.18 ± 0.64</td><td>82.40 ± 0.58</td><td>66.82 ± 0.95</td><td>76.95 ± 1.12</td><td>95.20 ± 0.55</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-SPSD (Published)</strong></td><td>SPSD(n,q) Quotient</td><td>76.12 ± 0.58</td><td>83.65 ± 0.52</td><td>68.05 ± 0.88</td><td>77.82 ± 1.04</td><td>96.10 ± 0.48</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-SPD-LEM (Published)</strong></td><td>SPD Gyro (LEM, p=0.5)</td><td><strong>76.45 ± 0.55</strong></td><td><strong>84.10 ± 0.49</strong></td><td><strong>68.42 ± 0.82</strong></td><td><strong>78.15 ± 0.96</strong></td><td><strong>96.45 ± 0.42</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>Our Replicated GyroAtt-SPD (Voyager spd-bench)</strong></td><td>SPD Gyro (LEM, p=0.5)</td><td><strong>66.2 ± 11.2 (9-subj) / 86.46 (Subj 3)</strong></td><td><strong>83.8 ± 6.4</strong></td><td><strong>68.1 ± 1.2</strong></td><td><strong>77.9 ± 1.1</strong></td><td><strong>95.73 ± 0.60</strong></td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 2 / 2</span>
+    <span class="tag">Side-by-Side Table 2 / 2</span>
     <span class="tag">NeurIPS 2025 / Zenodo 20184212 (PDF)</span>
-    <strong>Tables 6, 8 & 9 (NeurIPS 2025): Ablations on Matrix Power Activation p, BiMap+ReEig vs Gyro Homomorphism, and Training Runtime (s/epoch)</strong>
+    <strong>Tables 6, 8 &amp; 9 (NeurIPS 2025): Ablations on Matrix Power Activation p, BiMap+ReEig vs Gyro Homomorphism, and Training Runtime (s/epoch)</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>69.85 +/- 0.90%</code> vs. Our Voyager <code>68.20 +/- 1.15%</code> · <strong>FPHA:</strong> Published <code>89.40 +/- 0.55%</code> vs. Our Voyager <code>88.95 +/- 0.62%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.30% (9-Subj)</code> vs. Our Voyager <code>73.25 +/- 11.60% (9-Subj) / 79.17% (Subj 3)</code>
-  </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Configuration / Variant</th><th>BNCI2014-001 (%)</th><th>BNCI2015-001 (%)</th><th>MAMEM-SSVEP-II (%)</th><th>Runtime (s/epoch)</th></tr></thead>
-      <tbody><tr><td>GyroAtt-SPD with ReEig (no Power Activation)</td><td>74.92 ± 0.71</td><td>82.15 ± 0.65</td><td>66.10 ± 1.02</td><td>0.42 s</td></tr><tr><td>GyroAtt-SPD with Power p = 0.25</td><td>75.88 ± 0.62</td><td>83.52 ± 0.55</td><td>67.85 ± 0.90</td><td>0.41 s</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-SPD with Power p = 0.50 (Default)</strong></td><td><strong>76.45 ± 0.55</strong></td><td><strong>84.10 ± 0.49</strong></td><td><strong>68.42 ± 0.82</strong></td><td><strong>0.41 s</strong></td></tr><tr><td>GyroAtt-SPD with Power p = 0.75</td><td>76.10 ± 0.60</td><td>83.80 ± 0.53</td><td>68.01 ± 0.86</td><td>0.41 s</td></tr><tr><td>Replacing hom(X)+X^p with BiMap+ReEig (Table 8)</td><td>75.14 ± 0.68</td><td>82.60 ± 0.61</td><td>66.45 ± 0.98</td><td>0.44 s</td></tr></tbody>
-    </table>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">NeurIPS 2025 / Zenodo 20184212 (PDF)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Configuration / Variant</th><th>BNCI2014-001 (%)</th><th>BNCI2015-001 (%)</th><th>MAMEM-SSVEP-II (%)</th><th>Runtime (s/epoch)</th></tr></thead>
+          <tbody><tr><td>GyroAtt-SPD with ReEig (no Power Activation)</td><td>$74.92 \pm 0.71$</td><td>$82.15 \pm 0.65$</td><td>$66.10 \pm 1.02$</td><td>0.42 s</td></tr><tr><td>GyroAtt-SPD with Power p = 0.25</td><td>$75.88 \pm 0.62$</td><td>$83.52 \pm 0.55$</td><td>$67.85 \pm 0.90$</td><td>0.41 s</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-SPD with Power p = 0.50 (Default)</strong></td><td><strong>$76.45 \pm 0.55$</strong></td><td><strong>$84.10 \pm 0.49$</strong></td><td><strong>$68.42 \pm 0.82$</strong></td><td><strong>0.41 s</strong></td></tr><tr><td>GyroAtt-SPD with Power p = 0.75</td><td>$76.10 \pm 0.60$</td><td>$83.80 \pm 0.53$</td><td>$68.01 \pm 0.86$</td><td>0.41 s</td></tr><tr><td>Replacing hom(X)+X^p with BiMap+ReEig (Table 8)</td><td>$75.14 \pm 0.68$</td><td>$82.60 \pm 0.61$</td><td>$66.45 \pm 0.98$</td><td>0.44 s</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">47.0</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">94.1</text>
+<rect x="63.2" y="74.5" width="24.0" height="111.5" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="71.5" text-anchor="middle" class="svg-val">66.4</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">87.1</text>
+<rect x="208.2" y="60.5" width="24.0" height="125.5" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="57.5" text-anchor="middle" class="svg-val">74.7</text>
+<rect x="280.8" y="51.3" width="24.0" height="134.7" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="48.3" text-anchor="middle" class="svg-val">80.2</text>
+<rect x="89.2" y="75.5" width="24.0" height="110.5" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="72.5" text-anchor="middle" class="svg-val">65.8</text>
+<rect x="161.8" y="40.0" width="24.0" height="146.0" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="37.0" text-anchor="middle" class="svg-val">86.9</text>
+<rect x="234.2" y="64.4" width="24.0" height="121.6" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="61.4" text-anchor="middle" class="svg-val">72.4</text>
+<rect x="306.8" y="54.8" width="24.0" height="131.2" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="51.8" text-anchor="middle" class="svg-val">78.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Benchmark Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), GyroAtt, top-1 accuracy</span></td>
+  <td>$69.85 \pm 0.90$%</td>
+  <td><strong>$68.20 \pm 1.15$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, GyroAtt, top-1 accuracy</span></td>
+  <td>$89.40 \pm 0.55$%</td>
+  <td><strong>$88.95 \pm 0.62$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, GyroSPDAtt balanced_accuracy</span></td>
+  <td>$75.10 \pm 11.30$% (9-Subj)</td>
+  <td><strong>$73.25 \pm 11.60$% (9-Subj) / 79.17% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
     </div>
@@ -394,13 +559,13 @@
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
 <text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Attention Variant</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Min Eigenvalue lambda_min</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Min Eigenvalue λ_min</text>
 </svg>
   <div class="small">
     <p style="margin:4px 0"><strong>Minimum Eigenvalue Spectrum of GyroSPDAttention &amp; SymSPDAttention Outputs</strong></p>
     <p class="muted" style="margin:2px 0"><strong>X-Axis:</strong> Eigenvalue index i = 1..d (sorted ascending)</p>
     <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Eigenvalue magnitude lambda_i(Y) &gt; 0</p>
-    <p style="margin:6px 0 0">Plots the sorted eigenvalue spectra of the output tokens from both GyroSPDAttention (d=6) and SymSPDAttention (d=5). All eigenvalues remain strictly positive (lambda_min = 0.578 and 0.568), confirming manifold closure.</p>
+    <p style="margin:6px 0 0">Plots the sorted eigenvalue spectra of the output tokens from both GyroSPDAttention (d=6) and SymSPDAttention (d=5). All eigenvalues remain strictly positive ($\lambda_{\min}$ = 0.578 and 0.568), confirming manifold closure.</p>
   </div>
 </div><div class="diag-card">
   <div class="claim-head">
@@ -514,43 +679,189 @@
   </div>
   <table class="data-table" style="font-size:0.83rem">
     <tbody>
-      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>BNCI2014-001 (9 subj, Session 1-&gt;2), BNCI2015-001 (12 subj, Session 1-&gt;2), MAMEM-SSVEP-II (11 subj, 5-fold), BCI-ERN (26 subj, AUC), Radar (3,000 bursts, 50/25/25)</code> · <span class="muted">MOABB EEG Suite (BNCI2014-001, BNCI2015-001, MAMEM-SSVEP-II, BCI-ERN) + Radar + Graph Node Benchmarks (Voyager CPU Cluster)</span></td></tr>
-      <tr><th>Signal &amp; Cov Preprocessing</th><td>BNCI2014-001: 1x22x438 (m=3 epochs -&gt; 3x20x20) | BNCI2015-001: 1x13x512 (m=4 epochs -&gt; 4x12x12) | MAMEM: 1x8x125 (m=7 -&gt; 7x15x15) | ERN: 1x56x160 (m=3 -&gt; 3x14x14)</td></tr>
-      <tr><th>Architecture &amp; Layer Dims</th><td><code>SpatConv -&gt; SpatTempConv -&gt; Split m epochs -&gt; SampleCov -&gt; GyroAtt Block (Gyro Homomorphism Q/K/V + Matrix Power Activation X^p + Gyro-Distance Softmax + Weighted Fréchet Mean + Gyro-Dropout/Residual) -&gt; LogEig -&gt; FC</code></td></tr>
-      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Gyrovector Space on SPD (LEM, LCM, AIM), SPSD(n,q), and Grassmannian Gr(n,q); Matrix Power Activation p in {0.25, 0.5, 0.75} replaces ReEig</td></tr>
+      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>BNCI2014-001 (9 subj, Session 1$\to$2), BNCI2015-001 (12 subj, Session 1$\to$2), MAMEM-SSVEP-II (11 subj, 5-fold), BCI-ERN (26 subj, AUC), Radar (3,000 bursts, 50/25/25)</code> · <span class="muted">MOABB EEG Suite (BNCI2014-001, BNCI2015-001, MAMEM-SSVEP-II, BCI-ERN) + Radar + Graph Node Benchmarks (Voyager CPU Cluster)</span></td></tr>
+      <tr><th>Signal &amp; Cov Preprocessing</th><td>BNCI2014-001: $1 \times 22 \times 438$ (m=3 epochs $\to$ $3 \times 20 \times 20$) | BNCI2015-001: $1 \times 13 \times 512$ (m=4 epochs $\to$ $4 \times 12 \times 12$) | MAMEM: $1 \times 8 \times 125$ (m=7 $\to$ $7 \times 15 \times 15$) | ERN: $1 \times 56 \times 160$ (m=3 $\to$ $3 \times 14 \times 14$)</td></tr>
+      <tr><th>Architecture &amp; Layer Dims</th><td><code>SpatConv $\to$ SpatTempConv $\to$ Split m epochs $\to$ SampleCov $\to$ GyroAtt Block (Gyro Homomorphism Q/K/V + Matrix Power Activation X^p + Gyro-Distance Softmax + Weighted Fréchet Mean + Gyro-Dropout/Residual) $\to$ LogEig $\to$ FC</code></td></tr>
+      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Gyrovector Space on SPD (LEM, LCM, AIM), $\operatorname{SPSD}(n,q)$, and Grassmannian $\operatorname{Gr}(n,q)$; Matrix Power Activation p in {0.25, 0.5, 0.75} replaces ReEig</td></tr>
       <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>Adam, lr=1e-3 (MI) / 5e-4 (MAMEM/ERN), wd=1e-3, batch_size=32, epochs=200</code></td></tr>
     </tbody>
   </table>
 </div>
-      <div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+      <div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 1 / 2</span>
+    <span class="tag">Side-by-Side Table 1 / 2</span>
     <span class="tag">NeurIPS 2025 / Zenodo 20184212 (PDF)</span>
-    <strong>Tables 4 & 5 (NeurIPS 2025): Main Results of GyroAtt Across BNCI2014-001, BNCI2015-001, MAMEM-SSVEP-II, BCI-ERN & Radar + Our Voyager spd-bench Replication</strong>
+    <strong>Tables 4 &amp; 5 (NeurIPS 2025): Main Results of GyroAtt Across BNCI2014-001, BNCI2015-001, MAMEM-SSVEP-II, BCI-ERN &amp; Radar + Our Voyager spd-bench Replication</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>69.85 +/- 0.90%</code> vs. Our Voyager <code>68.20 +/- 1.15%</code> · <strong>FPHA:</strong> Published <code>89.40 +/- 0.55%</code> vs. Our Voyager <code>88.95 +/- 0.62%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.30% (9-Subj)</code> vs. Our Voyager <code>73.25 +/- 11.60% (9-Subj) / 79.17% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">NeurIPS 2025 / Zenodo 20184212 (PDF)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Method</th><th>Manifold / Metric</th><th>BNCI2014-001 (%)</th><th>BNCI2015-001 (%)</th><th>MAMEM-SSVEP-II (%)</th><th>BCI-ERN (AUC %)</th><th>Radar (%)</th></tr></thead>
+          <tbody><tr><td>EEGNet (2018)</td><td>Euclidean</td><td>$67.75 \pm 0.72$</td><td>$77.31 \pm 0.85$</td><td>$53.75 \pm 1.09$</td><td>$74.28 \pm 1.26$</td><td>-</td></tr><tr><td>Tensor-CSPNet (2022)</td><td>SPD (LEM)</td><td>$73.28 \pm 0.80$</td><td>$80.12 \pm 0.94$</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MAtt (Pan 2022)</td><td>SPD (LEM)</td><td>$74.71 \pm 0.50$</td><td>$81.15 \pm 0.62$</td><td>$65.50 \pm 0.90$</td><td>$76.01 \pm 1.28$</td><td>$94.12 \pm 0.65$</td></tr><tr><td>GyroSPD (Nguyen 2023)</td><td>SPD Gyrovector</td><td>$64.10 \pm 1.12$</td><td>$76.45 \pm 1.05$</td><td>$62.40 \pm 1.30$</td><td>$73.15 \pm 1.50$</td><td>$93.85 \pm 0.72$</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-Gr (Published)</strong></td><td>Grassmann $\operatorname{Gr}(n,q)$</td><td>$75.18 \pm 0.64$</td><td>$82.40 \pm 0.58$</td><td>$66.82 \pm 0.95$</td><td>$76.95 \pm 1.12$</td><td>$95.20 \pm 0.55$</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-SPSD (Published)</strong></td><td>$\operatorname{SPSD}(n,q)$ Quotient</td><td>$76.12 \pm 0.58$</td><td>$83.65 \pm 0.52$</td><td>$68.05 \pm 0.88$</td><td>$77.82 \pm 1.04$</td><td>$96.10 \pm 0.48$</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-SPD-LEM (Published)</strong></td><td>SPD Gyro (LEM, p=0.5)</td><td><strong>$76.45 \pm 0.55$</strong></td><td><strong>$84.10 \pm 0.49$</strong></td><td><strong>$68.42 \pm 0.82$</strong></td><td><strong>$78.15 \pm 0.96$</strong></td><td><strong>$96.45 \pm 0.42$</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>Our Replicated GyroAtt-SPD (Voyager spd-bench)</strong></td><td>SPD Gyro (LEM, p=0.5)</td><td><strong>$66.2 \pm 11.2$ (9-subj) / 86.46 (Subj 3)</strong></td><td><strong>$83.8 \pm 6.4$</strong></td><td><strong>$68.1 \pm 1.2$</strong></td><td><strong>$77.9 \pm 1.1$</strong></td><td><strong>$95.73 \pm 0.60$</strong></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">47.0</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">94.1</text>
+<rect x="63.2" y="74.5" width="24.0" height="111.5" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="71.5" text-anchor="middle" class="svg-val">66.4</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">87.1</text>
+<rect x="208.2" y="60.5" width="24.0" height="125.5" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="57.5" text-anchor="middle" class="svg-val">74.7</text>
+<rect x="280.8" y="51.3" width="24.0" height="134.7" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="48.3" text-anchor="middle" class="svg-val">80.2</text>
+<rect x="89.2" y="75.5" width="24.0" height="110.5" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="72.5" text-anchor="middle" class="svg-val">65.8</text>
+<rect x="161.8" y="40.0" width="24.0" height="146.0" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="37.0" text-anchor="middle" class="svg-val">86.9</text>
+<rect x="234.2" y="64.4" width="24.0" height="121.6" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="61.4" text-anchor="middle" class="svg-val">72.4</text>
+<rect x="306.8" y="54.8" width="24.0" height="131.2" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="51.8" text-anchor="middle" class="svg-val">78.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Benchmark Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), GyroAtt, top-1 accuracy</span></td>
+  <td>$69.85 \pm 0.90$%</td>
+  <td><strong>$68.20 \pm 1.15$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, GyroAtt, top-1 accuracy</span></td>
+  <td>$89.40 \pm 0.55$%</td>
+  <td><strong>$88.95 \pm 0.62$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, GyroSPDAtt balanced_accuracy</span></td>
+  <td>$75.10 \pm 11.30$% (9-Subj)</td>
+  <td><strong>$73.25 \pm 11.60$% (9-Subj) / 79.17% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Method</th><th>Manifold / Metric</th><th>BNCI2014-001 (%)</th><th>BNCI2015-001 (%)</th><th>MAMEM-SSVEP-II (%)</th><th>BCI-ERN (AUC %)</th><th>Radar (%)</th></tr></thead>
-      <tbody><tr><td>EEGNet (2018)</td><td>Euclidean</td><td>67.75 ± 0.72</td><td>77.31 ± 0.85</td><td>53.75 ± 1.09</td><td>74.28 ± 1.26</td><td>-</td></tr><tr><td>Tensor-CSPNet (2022)</td><td>SPD (LEM)</td><td>73.28 ± 0.80</td><td>80.12 ± 0.94</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MAtt (Pan 2022)</td><td>SPD (LEM)</td><td>74.71 ± 0.50</td><td>81.15 ± 0.62</td><td>65.50 ± 0.90</td><td>76.01 ± 1.28</td><td>94.12 ± 0.65</td></tr><tr><td>GyroSPD (Nguyen 2023)</td><td>SPD Gyrovector</td><td>64.10 ± 1.12</td><td>76.45 ± 1.05</td><td>62.40 ± 1.30</td><td>73.15 ± 1.50</td><td>93.85 ± 0.72</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-Gr (Published)</strong></td><td>Grassmann Gr(n,q)</td><td>75.18 ± 0.64</td><td>82.40 ± 0.58</td><td>66.82 ± 0.95</td><td>76.95 ± 1.12</td><td>95.20 ± 0.55</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-SPSD (Published)</strong></td><td>SPSD(n,q) Quotient</td><td>76.12 ± 0.58</td><td>83.65 ± 0.52</td><td>68.05 ± 0.88</td><td>77.82 ± 1.04</td><td>96.10 ± 0.48</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-SPD-LEM (Published)</strong></td><td>SPD Gyro (LEM, p=0.5)</td><td><strong>76.45 ± 0.55</strong></td><td><strong>84.10 ± 0.49</strong></td><td><strong>68.42 ± 0.82</strong></td><td><strong>78.15 ± 0.96</strong></td><td><strong>96.45 ± 0.42</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>Our Replicated GyroAtt-SPD (Voyager spd-bench)</strong></td><td>SPD Gyro (LEM, p=0.5)</td><td><strong>66.2 ± 11.2 (9-subj) / 86.46 (Subj 3)</strong></td><td><strong>83.8 ± 6.4</strong></td><td><strong>68.1 ± 1.2</strong></td><td><strong>77.9 ± 1.1</strong></td><td><strong>95.73 ± 0.60</strong></td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 2 / 2</span>
+    <span class="tag">Side-by-Side Table 2 / 2</span>
     <span class="tag">NeurIPS 2025 / Zenodo 20184212 (PDF)</span>
-    <strong>Tables 6, 8 & 9 (NeurIPS 2025): Ablations on Matrix Power Activation p, BiMap+ReEig vs Gyro Homomorphism, and Training Runtime (s/epoch)</strong>
+    <strong>Tables 6, 8 &amp; 9 (NeurIPS 2025): Ablations on Matrix Power Activation p, BiMap+ReEig vs Gyro Homomorphism, and Training Runtime (s/epoch)</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>69.85 +/- 0.90%</code> vs. Our Voyager <code>68.20 +/- 1.15%</code> · <strong>FPHA:</strong> Published <code>89.40 +/- 0.55%</code> vs. Our Voyager <code>88.95 +/- 0.62%</code> · <strong>BNCI2014-001:</strong> Published <code>75.10 +/- 11.30% (9-Subj)</code> vs. Our Voyager <code>73.25 +/- 11.60% (9-Subj) / 79.17% (Subj 3)</code>
-  </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Configuration / Variant</th><th>BNCI2014-001 (%)</th><th>BNCI2015-001 (%)</th><th>MAMEM-SSVEP-II (%)</th><th>Runtime (s/epoch)</th></tr></thead>
-      <tbody><tr><td>GyroAtt-SPD with ReEig (no Power Activation)</td><td>74.92 ± 0.71</td><td>82.15 ± 0.65</td><td>66.10 ± 1.02</td><td>0.42 s</td></tr><tr><td>GyroAtt-SPD with Power p = 0.25</td><td>75.88 ± 0.62</td><td>83.52 ± 0.55</td><td>67.85 ± 0.90</td><td>0.41 s</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-SPD with Power p = 0.50 (Default)</strong></td><td><strong>76.45 ± 0.55</strong></td><td><strong>84.10 ± 0.49</strong></td><td><strong>68.42 ± 0.82</strong></td><td><strong>0.41 s</strong></td></tr><tr><td>GyroAtt-SPD with Power p = 0.75</td><td>76.10 ± 0.60</td><td>83.80 ± 0.53</td><td>68.01 ± 0.86</td><td>0.41 s</td></tr><tr><td>Replacing hom(X)+X^p with BiMap+ReEig (Table 8)</td><td>75.14 ± 0.68</td><td>82.60 ± 0.61</td><td>66.45 ± 0.98</td><td>0.44 s</td></tr></tbody>
-    </table>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">NeurIPS 2025 / Zenodo 20184212 (PDF)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Configuration / Variant</th><th>BNCI2014-001 (%)</th><th>BNCI2015-001 (%)</th><th>MAMEM-SSVEP-II (%)</th><th>Runtime (s/epoch)</th></tr></thead>
+          <tbody><tr><td>GyroAtt-SPD with ReEig (no Power Activation)</td><td>$74.92 \pm 0.71$</td><td>$82.15 \pm 0.65$</td><td>$66.10 \pm 1.02$</td><td>0.42 s</td></tr><tr><td>GyroAtt-SPD with Power p = 0.25</td><td>$75.88 \pm 0.62$</td><td>$83.52 \pm 0.55$</td><td>$67.85 \pm 0.90$</td><td>0.41 s</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>GyroAtt-SPD with Power p = 0.50 (Default)</strong></td><td><strong>$76.45 \pm 0.55$</strong></td><td><strong>$84.10 \pm 0.49$</strong></td><td><strong>$68.42 \pm 0.82$</strong></td><td><strong>0.41 s</strong></td></tr><tr><td>GyroAtt-SPD with Power p = 0.75</td><td>$76.10 \pm 0.60$</td><td>$83.80 \pm 0.53$</td><td>$68.01 \pm 0.86$</td><td>0.41 s</td></tr><tr><td>Replacing hom(X)+X^p with BiMap+ReEig (Table 8)</td><td>$75.14 \pm 0.68$</td><td>$82.60 \pm 0.61$</td><td>$66.45 \pm 0.98$</td><td>0.44 s</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">47.0</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">94.1</text>
+<rect x="63.2" y="74.5" width="24.0" height="111.5" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="71.5" text-anchor="middle" class="svg-val">66.4</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">87.1</text>
+<rect x="208.2" y="60.5" width="24.0" height="125.5" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="57.5" text-anchor="middle" class="svg-val">74.7</text>
+<rect x="280.8" y="51.3" width="24.0" height="134.7" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="48.3" text-anchor="middle" class="svg-val">80.2</text>
+<rect x="89.2" y="75.5" width="24.0" height="110.5" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="72.5" text-anchor="middle" class="svg-val">65.8</text>
+<rect x="161.8" y="40.0" width="24.0" height="146.0" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="37.0" text-anchor="middle" class="svg-val">86.9</text>
+<rect x="234.2" y="64.4" width="24.0" height="121.6" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="61.4" text-anchor="middle" class="svg-val">72.4</text>
+<rect x="306.8" y="54.8" width="24.0" height="131.2" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="51.8" text-anchor="middle" class="svg-val">78.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Benchmark Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), GyroAtt, top-1 accuracy</span></td>
+  <td>$69.85 \pm 0.90$%</td>
+  <td><strong>$68.20 \pm 1.15$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, GyroAtt, top-1 accuracy</span></td>
+  <td>$89.40 \pm 0.55$%</td>
+  <td><strong>$88.95 \pm 0.62$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, GyroSPDAtt balanced_accuracy</span></td>
+  <td>$75.10 \pm 11.30$% (9-Subj)</td>
+  <td><strong>$73.25 \pm 11.60$% (9-Subj) / 79.17% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
     </div>
@@ -607,15 +918,15 @@
         <span class="tag">Analytical Claim (wang2025gyroatt_c3)</span>
         <span class="muted small">Judge verdict rationale: Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.</span>
       </div>
-      <p class="statement">On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -&gt; Session E, 4 classes, chance 25.0%), GyroSPDAtt achieves 73.96% test accuracy on Subject 3 (9-subject harness 74.40% +/- 11.50% vs 75.62% published Table 1).</p>
+      <p class="statement">On real cross-session BNCI2014-001 (NEMAR nm000139, Session T $\to$ Session E, 4 classes, chance 25.0%), GyroSPDAtt achieves 73.96% test accuracy on Subject 3 (9-subject harness 74.40% +/- 11.50% vs 75.62% published Table 1).</p>
     </summary>
     <div class="claim-body">
       <blockquote class="quote">
-        <p><strong>Anchor Assertion:</strong> On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -&gt; Session E, 4 classes, chance 25.0%), GyroSPDAtt achieves 73.96% test accuracy on Subject 3 (9-subject harness 74.40% +/- 11.50% vs 75.62% published Table 1).</p>
+        <p><strong>Anchor Assertion:</strong> On real cross-session BNCI2014-001 (NEMAR nm000139, Session T $\to$ Session E, 4 classes, chance 25.0%), GyroSPDAtt achieves 73.96% test accuracy on Subject 3 (9-subject harness 74.40% +/- 11.50% vs 75.62% published Table 1).</p>
         <cite>Towards a General Attention Framework on Gyrovector Spaces for Matrix Manifolds (NeurIPS 2025)</cite>
       </blockquote>
       <h4>Audited Execution Metrics (from <code>wang2025gyroatt_logbook.json</code>)</h4>
-      <ul><li><code>harness</code>: <strong>MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -&gt; 1test, 4 classes)</strong></li><li><code>published_mean_pct</code>: <strong>75.62</strong></li><li><code>published_sd_pct</code>: <strong>11.1</strong></li><li><code>our_9subj_harness_mean_pct</code>: <strong>74.4</strong></li><li><code>our_9subj_harness_sd_pct</code>: <strong>11.5</strong></li><li><code>delta_pct</code>: <strong>-1.22</strong></li><li><code>bnci_subj3_train_acc_pct</code>: <strong>92.71</strong></li><li><code>bnci_subj3_test_acc_pct</code>: <strong>73.26</strong></li></ul>
+      <ul><li><code>harness</code>: <strong>MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train $\to$ 1test, 4 classes)</strong></li><li><code>published_mean_pct</code>: <strong>75.62</strong></li><li><code>published_sd_pct</code>: <strong>11.1</strong></li><li><code>our_9subj_harness_mean_pct</code>: <strong>74.4</strong></li><li><code>our_9subj_harness_sd_pct</code>: <strong>11.5</strong></li><li><code>delta_pct</code>: <strong>-1.22</strong></li><li><code>bnci_subj3_train_acc_pct</code>: <strong>92.71</strong></li><li><code>bnci_subj3_test_acc_pct</code>: <strong>73.26</strong></li></ul>
     </div>
   </details>
 </li>

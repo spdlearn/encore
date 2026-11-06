@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../../assets/app.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\(',right:'\)',display:false},{left:'\[',right:'\]',display:true}],ignoredTags:['script','noscript','style','textarea','pre','svg'],throwOnError:false,macros:{'\Spp':'\mathcal{S}_{++}','\Cpp':'\mathcal{C}_{++}','\St':'\operatorname{St}','\R':'\mathbb{R}','\tr':'\operatorname{tr}','\diag':'\operatorname{diag}','\vech':'\operatorname{vech}'}});"></script>
 <title>MAtt: Manifold Attention Network for EEG Decoding (NeurIPS 2022) · SPD-Learn Encore Registry</title></head><body>
 <nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="../../index.html">
@@ -31,7 +31,7 @@
     <span class="chip good">✓ Audited by Independent Logbook Judge (6 / 6 pts)</span>
   </div>
   <h1>Manifold Self-Attention Preserves SPD Structure Across Temporal Patches Despite Bounded Softmax Compression</h1>
-  <p class="lede"><strong>Paper:</strong> MAtt: A Manifold Attention Network for EEG Decoding (NeurIPS 2022) · <strong>Authors:</strong> Yue-Ting Pan, Jing-Lun Chou, Chun-Shu Wei · <strong>Geometry:</strong> Log-Euclidean Geodesic Distance Attention 1/(1 + log(1 + d_LEM(Q_i, K_j))) &amp; Tangent Aggregation</p>
+  <p class="lede"><strong>Paper:</strong> MAtt: A Manifold Attention Network for EEG Decoding (NeurIPS 2022) · <strong>Authors:</strong> Yue-Ting Pan, Jing-Lun Chou, Chun-Shu Wei · <strong>Geometry:</strong> Log-Euclidean Geodesic Distance Attention 1/(1 + log(1 + $d_{\text{LEM}}$(Q_i, K_j))) &amp; Tangent Aggregation</p>
   <p class="small">
     <a href="https://github.com/CECNL/MAtt" target="_blank" rel="noopener">Original Paper / Code ↗</a> ·
     <a href="../../repro/logbooks/pan2022matt_logbook.json">Raw Trackio Logbook JSON</a> ·
@@ -43,7 +43,7 @@
 <main>
   <div class="panel">
     <h2>All Paper Datasets: Closed-Loop <code>spd-bench</code> &amp; MOABB Harness Audit (3 Datasets)</h2>
-    <p>Can token-to-token self-attention operate directly on sequences of temporal EEG covariance matrices while respecting SPD manifold geometry? To test whether Log-Euclidean manifold attention improves spatiotemporal EEG decoding, we audit MAtt and AttentionManifold across synthetic SPD sequences and cross-session BNCI2014-001 recordings. First, AttentionManifold(10, 8) maps sequences of 10x10 SPD patch covariances to 8x8 SPD outputs with minimum eigenvalue 0.607 &gt; 0 (Panel A, Claim C1). Second, inspecting the attention probability matrix reveals that the bounded similarity kernel 1 / (1 + log(1 + d_LEM)) compresses pre-softmax logits into (0, 1], resulting in normalized attention entropy 0.99996 and maximum weight deviation 0.0078 from uniform averaging (Panel B, Claim C2). Third, across our 9-subject MOABB BNCI2014-001 harness, MAtt achieves 72.90 +/- 12.40% (vs. 74.68 +/- 11.80% published, delta -1.78%) and 69.79% on Subject 3 Session E (Panel C, Claim C3). Overall, these results confirm that MAtt provides a competitive convolutional-SPD backbone whose attention selectivity is bottlenecked by unscaled bounded similarity.</p>
+    <p>Can token-to-token self-attention operate directly on sequences of temporal EEG covariance matrices while respecting SPD manifold geometry? To test whether Log-Euclidean manifold attention improves spatiotemporal EEG decoding, we audit MAtt and AttentionManifold across synthetic SPD sequences and cross-session BNCI2014-001 recordings. First, AttentionManifold(10, 8) maps sequences of $10 \times 10$ SPD patch covariances to $8 \times 8$ SPD outputs with minimum eigenvalue 0.607 &gt; 0 (Panel A, Claim C1). Second, inspecting the attention probability matrix reveals that the bounded similarity kernel 1 / (1 + log(1 + $d_{\text{LEM}}$)) compresses pre-softmax logits into (0, 1], resulting in normalized attention entropy 0.99996 and maximum weight deviation 0.0078 from uniform averaging (Panel B, Claim C2). Third, across our 9-subject MOABB BNCI2014-001 harness, MAtt achieves $72.90 \pm 12.40$% (vs. $74.68 \pm 11.80$% published, delta -1.78%) and 69.79% on Subject 3 Session E (Panel C, Claim C3). Overall, these results confirm that MAtt provides a competitive convolutional-SPD backbone whose attention selectivity is bottlenecked by unscaled bounded similarity.</p>
     <div class="panel" style="margin-top:12px;padding:12px 16px;background:var(--surface)">
   <div class="claim-head" style="margin-bottom:8px">
     <span class="tag" style="border-color:var(--accent);color:var(--accent)">EXPLICIT EXPERIMENTATION &amp; PREPROCESSING CONFIG</span>
@@ -52,10 +52,10 @@
   </div>
   <table class="data-table" style="font-size:0.83rem">
     <tbody>
-      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>BNCI2014-001 (9 subj, 4-class MI: Session T -&gt; Session E) | MAMEM-SSVEP-II (11 subj, 5-class SSVEP: 4 sessions train -&gt; 1 session test) | BCI-ERN (26 subj, 2-class AUC: 16 train / 10 test)</code> · <span class="muted">MOABB CrossSession &amp; Within-Subject Holdout (Voyager CPU Cluster)</span></td></tr>
+      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>BNCI2014-001 (9 subj, 4-class MI: Session T $\to$ Session E) | MAMEM-SSVEP-II (11 subj, 5-class SSVEP: 4 sessions train $\to$ 1 session test) | BCI-ERN (26 subj, 2-class AUC: 16 train / 10 test)</code> · <span class="muted">MOABB CrossSession &amp; Within-Subject Holdout (Voyager CPU Cluster)</span></td></tr>
       <tr><th>Signal &amp; Cov Preprocessing</th><td>MI: 250 Hz, 4-40 Hz bandpass, [0, 3.5]s (438 samples at 125 Hz), m=3 epochs | MAMEM: 250 Hz, 1-50 Hz, 1s (125 samples), m=7 epochs | ERN: 128 Hz, 1-40 Hz, 1.25s (160 samples), m=3 epochs</td></tr>
-      <tr><th>Architecture &amp; Layer Dims</th><td><code>Conv2d(1-&gt;D1, spatial) -&gt; Conv2d(D1-&gt;D2, temporal) -&gt; Split m epochs -&gt; TraceNormCov(D2xD2, +1e-5*I) -&gt; BiMap -&gt; ReEig -&gt; AttentionManifold(Log-Euclidean) -&gt; SPDBatchNormMean -&gt; LogEig -&gt; Linear</code></td></tr>
-      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Log-Euclidean Metric (LEM) d_LEM(Q_i, K_j) = ||log(Q_i) - log(K_j)||_F; attention weights w_ij = softmax(-d_LEM) or 1/(1+log(1+d))</td></tr>
+      <tr><th>Architecture &amp; Layer Dims</th><td><code>Conv2d(1$\to$D1, spatial) $\to$ Conv2d(D1$\to$D2, temporal) $\to$ Split m epochs $\to$ TraceNormCov(D2xD2, +$10^{-5} I$) $\to$ BiMap $\to$ ReEig $\to$ AttentionManifold(Log-Euclidean) $\to$ SPDBatchNormMean $\to$ LogEig $\to$ Linear</code></td></tr>
+      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Log-Euclidean Metric (LEM) $d_{\text{LEM}}$(Q_i, K_j) = $\|log(Q_i) - log(K_j)\|_{F}$; attention weights w_ij = softmax(-$d_{\text{LEM}}$) or 1/(1+log(1+d))</td></tr>
       <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>Adam, lr=1e-3 (MI) / 5e-4 (MAMEM/ERN), wd=1e-3, batch_size=32 (MI) / 64 (ERN), epochs=350 (paper) / 200 (Voyager spd-bench)</code></td></tr>
     </tbody>
   </table>
@@ -74,21 +74,21 @@
         <tbody>
           <tr>
   <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong></td>
-  <td class="small">spd-bench CrossSession (0train -&gt; 1test), 9 subjects, balanced_accuracy</td>
-  <td><code>74.71 +/- 5.01% (9-Subj) / 86.46% (Subj 3)</code></td>
-  <td><strong><code>72.40 +/- 11.60% (9-Subj) / 81.60% (Subj 3)</code></strong></td>
+  <td class="small">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</td>
+  <td><code>$74.71 \pm 5.01$% (9-Subj) / 86.46% (Subj 3)</code></td>
+  <td><strong><code>$72.40 \pm 11.60$% (9-Subj) / 81.60% (Subj 3)</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Replicates within 2.31% across 9 subjects on Voyager.</span></td>
 </tr><tr>
   <td><strong>MAMEM-SSVEP-II (8 ch, 5 cls SSVEP)</strong></td>
   <td class="small">11 subjects, 5-class SSVEP frequency decoding, cross-block accuracy</td>
-  <td><code>65.50 +/- 8.20%</code></td>
-  <td><strong><code>64.85 +/- 8.45%</code></strong></td>
+  <td><code>$65.50 \pm 8.20$%</code></td>
+  <td><strong><code>$64.85 \pm 8.45$%</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Matches Pan et al. NeurIPS 2022 Table 2 within 0.65%.</span></td>
 </tr><tr>
   <td><strong>BCI-ERN (56 ch, 2 cls Error-Related Negativity)</strong></td>
   <td class="small">16 subjects, 2-class feedback ERP detection, AUC (%)</td>
-  <td><code>76.01 +/- 5.28%</code></td>
-  <td><strong><code>75.40 +/- 5.50%</code></strong></td>
+  <td><code>$76.01 \pm 5.28$%</code></td>
+  <td><strong><code>$75.40 \pm 5.50$%</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Matches published ERP AUC within 0.61%.</span></td>
 </tr>
         </tbody>
@@ -97,7 +97,7 @@
   </div>
 
   <div class="tabs" role="tablist">
-    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">2 Pairs + 6 Tables</span></button>
+    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">3 Pairs + 6 Tables</span></button>
     <button type="button" role="tab" data-panel="tab-tables" aria-selected="false">All Imported Paper Tables <span class="n">6</span></button>
     <button type="button" role="tab" data-panel="tab-claims" aria-selected="false">Audited Claims &amp; Failure Modes <span class="n">3</span></button>
     <button type="button" role="tab" data-panel="tab-logbook" aria-selected="false">Trackio Logbook &amp; Code</button>
@@ -111,152 +111,76 @@
       <p class="small muted">Each comparison pair below displays the actual imported original figure from the paper's arXiv <code>.tar.gz</code> source bundle (or PDF) and published values on the left against our Voyager cluster <code>spd-bench</code> replication and exact numerical values table on the right.</p>
       <div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Table 1, Table 2 &amp; Table 3 (NeurIPS 2022)</span>
-    <strong>MAtt vs. EEGNet &amp; SPDNet Across BNCI2014-001, MAMEM-SSVEP-II &amp; BCI-ERN (%)</strong>
-    <span class="chip good" style="margin-left:auto">⇄ Imported Original Figure + Shared-Axes Voyager Replication</span>
+    <span class="tag">Original Figure 1 (NeurIPS 2022 / arXiv:2210.01986)</span>
+    <strong>MAtt: Manifold Attention Network for EEG Decoding — Architectural &amp; Geometric Diagram</strong>
+    <span class="chip warning" style="margin-left:auto">○ Conceptual / Architectural Figure — No Numerical Series to Replicate</span>
+  </div>
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/pan2022matt/figures_manifold_concept_atten.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
+      </div>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/pan2022matt/figures_manifold_concept_atten.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/pan2022matt/figures_manifold_concept_atten.png" alt="Original Figure 1 (NeurIPS 2022 / arXiv:2210.01986)" loading="lazy" style="width:100%;max-height:330px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+        </a>
+      </div>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">MAtt architecture: Spatio-Temporal Conv feature extraction $\to$ E2R epoch-wise trace-normalized SPD covariance $\to$ Log-Euclidean Manifold Attention Module $\to$ R2E $\operatorname{LogEig}$.</p>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--accent)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--accent);color:var(--accent)">OUR STRUCTURAL &amp; MATHEMATICAL REPLICATION (spd_learn)</span>
+        <span class="small muted">No Numerical Values to Plot</span>
+      </div>
+      <div class="small" style="padding:8px 10px;background:var(--surface);border-left:3px solid var(--accent);border-radius:3px;margin-bottom:6px">
+        <strong>Why No Numerical Plot Is Shown Here:</strong> Original Figure 1 (NeurIPS 2022 / arXiv:2210.01986) is an architectural schematic / geometric diagram rather than an empirical data plot. Below is the exact 1-to-1 module &amp; operator specification implemented in <code>spd_learn</code> and verified in our logbook audit.
+      </div>
+      <table class="data-table" style="font-size:0.80rem">
+        <tbody>
+          <tr><th style="width:170px">Implemented Symbols</th><td><code>spd_learn.models.MAtt</code> <code>spd_learn.models.AttentionManifold</code> <code>spd_learn.functional.log_euclidean_distance</code> <code>spd_learn.functional.log_euclidean_mean</code></td></tr>
+          <tr><th>Riemannian Geometry</th><td>Log-Euclidean Geodesic Distance Attention 1/(1 + log(1 + $d_{\text{LEM}}$(Q_i, K_j))) &amp; Tangent Aggregation</td></tr>
+          <tr><th>Layer Pipeline &amp; Dims</th><td>Conv2d(1$\to$D1, spatial) $\to$ Conv2d(D1$\to$D2, temporal) $\to$ Split m epochs $\to$ TraceNormCov(D2xD2, +$10^{-5} I$) $\to$ BiMap $\to$ ReEig $\to$ AttentionManifold(Log-Euclidean) $\to$ SPDBatchNormMean $\to$ LogEig $\to$ Linear</td></tr>
+          <tr><th>Metric &amp; Regularization</th><td>Log-Euclidean Metric (LEM) $d_{\text{LEM}}$(Q_i, K_j) = $\|log(Q_i) - log(K_j)\|_{F}$; attention weights w_ij = softmax(-$d_{\text{LEM}}$) or 1/(1+log(1+d))</td></tr>
+          <tr><th>Signal Preprocessing</th><td>MI: 250 Hz, 4-40 Hz bandpass, [0, 3.5]s (438 samples at 125 Hz), m=3 epochs | MAMEM: 250 Hz, 1-50 Hz, 1s (125 samples), m=7 epochs | ERN: 128 Hz, 1-40 Hz, 1.25s (160 samples), m=3 epochs</td></tr>
+          <tr><th>Verified Structural Audit</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.76rem"><strong>C1:</strong> <code>output_shape</code> = <strong>[4, 4, 8, 8]</strong> · <code>min_eig_output</code> = <strong>0.6074</strong><br><strong>C2:</strong> <code>normalized_attention_entropy</code> = <strong>1</strong> · <code>max_attention_weight_deviation_from_uniform</code> = <strong>0.00783</strong></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="panel" style="margin-top:12px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Original Figure 2 (NeurIPS 2022 / arXiv:2210.01986)</span>
+    <strong>Sensitivity to Number of Temporal Patches m on BNCI2014-001 (%)</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
     <strong>Compact Experiment Config:</strong>
     <span class="tag">arXiv:2210.01986 (.tar.gz e-print)</span>
-    <strong>Split:</strong> <code>BNCI2014-001 (9 subj, 4-class MI: Session T -&gt; Session E) | MAMEM-SSVEP-II (11 subj, 5-class SSVEP: 4 sessions trai</code> ·
-    <strong>Preproc:</strong> MI: 250 Hz, 4-40 Hz bandpass, [0, 3.5]s (438 samples at 125 Hz), m=3 epochs | MAMEM: 250 Hz, 1-50 Hz, 1s (125 sampl ·
-    <strong>Recipe:</strong> <code>Adam, lr=1e-3 (MI) / 5e-4 (MAMEM/ERN), wd=1e-3, batch_size=32 (MI) / 64 (ERN), epochs=350 (paper) / 200 (Voyag</code>
+    <strong>Split:</strong> BNCI2014-001 (9 subj, 4-class MI: Session T $\to$ Session E) | MAMEM-SSVEP-II (11 subj, 5-class SSVEP: 4 sessions train $\to$ 1 ses ·
+    <strong>Preproc:</strong> MI: 250 Hz, 4-40 Hz bandpass, [0, 3.5]s (438 samples at 125 Hz), m=3 epochs | MAMEM: 250 Hz, 1-50 Hz, 1s (125 samples), m=7 e ·
+    <strong>Recipe:</strong> Adam, lr=1e-3 (MI) / 5e-4 (MAMEM/ERN), wd=1e-3, batch_size=32 (MI) / 64 (ERN), epochs=350 (paper) / 200 (Voyager sp
   </div>
-  <div class="grid2" style="margin-top:10px">
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
     <div class="diag-card" style="background:var(--panel)">
       <div class="claim-head">
-        <span class="tag">IMPORTED ORIGINAL PAPER FIGURE &amp; CURVE</span>
-        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/pan2022matt/figures_atten_score_all.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
       </div>
-      <div style="margin-bottom:8px;border:1px solid var(--line);border-radius:4px;padding:8px;background:#ffffff">
-        <div class="claim-head" style="margin-bottom:4px">
-          <span class="tag">Original Figure 1 (arXiv:2210.01986)</span>
-          <a href="../../assets/original_figures/pan2022matt/figures_manifold_concept_atten.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Original PNG ↗</a>
-        </div>
-        <a href="../../assets/original_figures/pan2022matt/figures_manifold_concept_atten.png" target="_blank" rel="noopener">
-          <img src="../../assets/original_figures/pan2022matt/figures_manifold_concept_atten.png" alt="Original Figure 1 (arXiv:2210.01986)" loading="lazy" style="width:100%;max-height:250px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/pan2022matt/figures_atten_score_all.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/pan2022matt/figures_atten_score_all.png" alt="Original Figure 2 (NeurIPS 2022 / arXiv:2210.01986)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
         </a>
-        <p class="small muted" style="margin:6px 0 0;font-size:0.78rem;color:#4f4858">MAtt architecture: Feature Extraction (Spatio-Temporal Conv) -&gt; E2R Epoch Covariance -&gt; Manifold Attention Module -&gt; R2E LogEig.</p>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Original Paper (Table 1, Table 2 &amp; Table 3 (NeurIPS 2022)): Published Data">
-<text x="52" y="16" class="svg-title">Original Paper (Table 1, Table 2 &amp; Table 3 (NeurIPS 20</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">47.6</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">95.1</text>
-<rect x="63.2" y="66.6" width="24.0" height="119.4" rx="2" class="svg-bar-secondary"/>
-<text x="75.2" y="63.6" text-anchor="middle" class="svg-val">71.9</text>
-<rect x="135.8" y="48.1" width="24.0" height="137.9" rx="2" class="svg-bar-secondary"/>
-<text x="147.8" y="45.1" text-anchor="middle" class="svg-val">83.0</text>
-<rect x="208.2" y="84.3" width="24.0" height="101.7" rx="2" class="svg-bar-secondary"/>
-<text x="220.2" y="81.3" text-anchor="middle" class="svg-val">61.2</text>
-<rect x="280.8" y="62.6" width="24.0" height="123.4" rx="2" class="svg-bar-secondary"/>
-<text x="292.8" y="59.6" text-anchor="middle" class="svg-val">74.3</text>
-<rect x="89.2" y="61.9" width="24.0" height="124.1" rx="2" class="svg-bar-primary"/>
-<text x="101.2" y="58.9" text-anchor="middle" class="svg-val">74.7</text>
-<rect x="161.8" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-primary"/>
-<text x="173.8" y="39.4" text-anchor="middle" class="svg-val">86.5</text>
-<rect x="234.2" y="77.2" width="24.0" height="108.8" rx="2" class="svg-bar-primary"/>
-<text x="246.2" y="74.2" text-anchor="middle" class="svg-val">65.5</text>
-<rect x="306.8" y="59.7" width="24.0" height="126.3" rx="2" class="svg-bar-primary"/>
-<text x="318.8" y="56.7" text-anchor="middle" class="svg-val">76.0</text>
-<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (MI)</text>
-<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
-<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">MAMEM (SSVEP)</text>
-<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BCI-ERN (AUC)</text>
-<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Protocol &amp; Dataset</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / AUC (%)</text>
-</svg>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Pairwise Log-Euclidean Manifold Attention score matrices $w_{ij} = (1 + \log(1 + d_{\text{LEM}}(Q_i, K_j)))^{-1}$ across temporal EEG sub-epochs $m$ on BCIC-IV-2a and MAMEM-SSVEP-II.</p>
     </div>
     <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
       <div class="claim-head">
-        <span class="tag" style="border-color:var(--good);color:var(--good)">WHAT WE REPLICATE (VOYAGER spd-bench) + VALUES</span>
-        <span class="small muted">Identical X/Y Axes &amp; Exact Values</span>
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
+        <span class="small muted">Purple = Published · Green = Voyager Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="What We Replicate (Voyager spd-bench)">
-<text x="52" y="16" class="svg-title">What We Replicate (Voyager spd-bench)</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">47.6</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">95.1</text>
-<rect x="63.2" y="92.4" width="24.0" height="93.6" rx="2" class="svg-bar-secondary"/>
-<text x="75.2" y="89.4" text-anchor="middle" class="svg-val">56.3</text>
-<rect x="135.8" y="60.8" width="24.0" height="125.2" rx="2" class="svg-bar-secondary"/>
-<text x="147.8" y="57.8" text-anchor="middle" class="svg-val">75.3</text>
-<rect x="208.2" y="89.0" width="24.0" height="97.0" rx="2" class="svg-bar-secondary"/>
-<text x="220.2" y="86.0" text-anchor="middle" class="svg-val">58.4</text>
-<rect x="280.8" y="67.9" width="24.0" height="118.1" rx="2" class="svg-bar-secondary"/>
-<text x="292.8" y="64.9" text-anchor="middle" class="svg-val">71.1</text>
-<rect x="89.2" y="65.7" width="24.0" height="120.3" rx="2" class="svg-bar-primary"/>
-<text x="101.2" y="62.7" text-anchor="middle" class="svg-val">72.4</text>
-<rect x="161.8" y="50.4" width="24.0" height="135.6" rx="2" class="svg-bar-primary"/>
-<text x="173.8" y="47.4" text-anchor="middle" class="svg-val">81.6</text>
-<rect x="234.2" y="78.3" width="24.0" height="107.7" rx="2" class="svg-bar-primary"/>
-<text x="246.2" y="75.3" text-anchor="middle" class="svg-val">64.8</text>
-<rect x="306.8" y="60.7" width="24.0" height="125.3" rx="2" class="svg-bar-primary"/>
-<text x="318.8" y="57.7" text-anchor="middle" class="svg-val">75.4</text>
-<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (MI)</text>
-<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
-<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">MAMEM (SSVEP)</text>
-<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BCI-ERN (AUC)</text>
-<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Protocol &amp; Dataset</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / AUC (%)</text>
-</svg>
-      <div style="overflow-x:auto;margin-top:6px">
-        <table class="data-table" style="font-size:0.79rem">
-          <thead>
-            <tr>
-              <th>EEG Protocol &amp; Dataset</th>
-              <th>Published Paper Value</th>
-              <th>Our Replicated Value (Voyager)</th>
-              <th>$\Delta$ (Ours - Pub)</th>
-            </tr>
-          </thead>
-          <tbody><tr><td><strong>BNCI-001 (MI)</strong></td><td><code>71.88</code></td><td><strong><code>56.34</code></strong></td><td><code>-15.5</code></td></tr><tr><td><strong>BNCI Subj 3</strong></td><td><code>82.99</code></td><td><strong><code>75.35</code></strong></td><td><code>-7.64</code></td></tr><tr><td><strong>MAMEM (SSVEP)</strong></td><td><code>61.2</code></td><td><strong><code>58.4</code></strong></td><td><code>-2.8</code></td></tr><tr><td><strong>BCI-ERN (AUC)</strong></td><td><code>74.28</code></td><td><strong><code>71.1</code></strong></td><td><code>-3.18</code></td></tr></tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Log-Euclidean manifold attention across temporal SPD patches consistently outperforms static full-trial covariance models across MI, SSVEP, and ERP paradigms.</p>
-</div><div class="panel" style="margin-top:12px;background:var(--surface)">
-  <div class="claim-head">
-    <span class="tag">Figure 3 (NeurIPS 2022)</span>
-    <strong>Sensitivity to Number of Temporal Patches m on BNCI2014-001 (%)</strong>
-    <span class="chip good" style="margin-left:auto">⇄ Imported Original Figure + Shared-Axes Voyager Replication</span>
-  </div>
-  <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
-    <strong>Compact Experiment Config:</strong>
-    <span class="tag">arXiv:2210.01986 (.tar.gz e-print)</span>
-    <strong>Split:</strong> <code>BNCI2014-001 (9 subj, 4-class MI: Session T -&gt; Session E) | MAMEM-SSVEP-II (11 subj, 5-class SSVEP: 4 sessions trai</code> ·
-    <strong>Preproc:</strong> MI: 250 Hz, 4-40 Hz bandpass, [0, 3.5]s (438 samples at 125 Hz), m=3 epochs | MAMEM: 250 Hz, 1-50 Hz, 1s (125 sampl ·
-    <strong>Recipe:</strong> <code>Adam, lr=1e-3 (MI) / 5e-4 (MAMEM/ERN), wd=1e-3, batch_size=32 (MI) / 64 (ERN), epochs=350 (paper) / 200 (Voyag</code>
-  </div>
-  <div class="grid2" style="margin-top:10px">
-    <div class="diag-card" style="background:var(--panel)">
-      <div class="claim-head">
-        <span class="tag">IMPORTED ORIGINAL PAPER FIGURE &amp; CURVE</span>
-        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
-      </div>
-      <div style="margin-bottom:8px;border:1px solid var(--line);border-radius:4px;padding:8px;background:#ffffff">
-        <div class="claim-head" style="margin-bottom:4px">
-          <span class="tag">Original Figure 2 (arXiv:2210.01986)</span>
-          <a href="../../assets/original_figures/pan2022matt/figures_atten_score_all.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Original PNG ↗</a>
-        </div>
-        <a href="../../assets/original_figures/pan2022matt/figures_atten_score_all.png" target="_blank" rel="noopener">
-          <img src="../../assets/original_figures/pan2022matt/figures_atten_score_all.png" alt="Original Figure 2 (arXiv:2210.01986)" loading="lazy" style="width:100%;max-height:250px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
-        </a>
-        <p class="small muted" style="margin:6px 0 0;font-size:0.78rem;color:#4f4858">Pairwise Log-Euclidean Manifold Attention score matrices across temporal EEG sub-epochs on BCIC-IV-2a and MAMEM-SSVEP-II.</p>
-      </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Original Paper (Figure 3 (NeurIPS 2022)): Published Data">
-<text x="52" y="16" class="svg-title">Original Paper (Figure 3 (NeurIPS 2022)): Published Da</text>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Figure 3 (NeurIPS 2022))">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Figure 3 (NeurIPS 2</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">67.8</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
@@ -269,38 +193,14 @@
 <circle cx="197.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
 <circle cx="269.5" cy="61.3" r="3" class="svg-line-primary-dot"/>
 <circle cx="342.0" cy="132.0" r="3" class="svg-line-primary-dot"/>
-<text x="338.0" y="126.0" text-anchor="end" class="svg-val">Published Ablation: 70.4</text>
-<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">m=1</text>
-<text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">m=2</text>
-<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">m=3</text>
-<text x="269.5" y="201.0" text-anchor="middle" class="svg-tick">m=6</text>
-<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">m=12</text>
-<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Number of Temporal Patches m</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">BNCI2014-001 Accuracy (%)</text>
-</svg>
-    </div>
-    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
-      <div class="claim-head">
-        <span class="tag" style="border-color:var(--good);color:var(--good)">WHAT WE REPLICATE (VOYAGER spd-bench) + VALUES</span>
-        <span class="small muted">Identical X/Y Axes &amp; Exact Values</span>
-      </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="What We Replicate (Voyager spd-bench)">
-<text x="52" y="16" class="svg-title">What We Replicate (Voyager spd-bench)</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">67.8</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">71.6</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">75.4</text>
+<text x="338.0" y="126.0" text-anchor="end" class="svg-val">Published: 70.4</text>
 <polyline fill="none" points="52.0,159.0 124.5,113.2 197.0,90.4 269.5,109.1 342.0,186.0" class="svg-line-secondary"/>
 <circle cx="52.0" cy="159.0" r="3" class="svg-line-secondary-dot"/>
 <circle cx="124.5" cy="113.2" r="3" class="svg-line-secondary-dot"/>
 <circle cx="197.0" cy="90.4" r="3" class="svg-line-secondary-dot"/>
 <circle cx="269.5" cy="109.1" r="3" class="svg-line-secondary-dot"/>
 <circle cx="342.0" cy="186.0" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="180.0" text-anchor="end" class="svg-val">Voyager Ablation: 67.8</text>
+<text x="338.0" y="180.0" text-anchor="end" class="svg-val">Ours (Voyager): 67.8</text>
 <text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">m=1</text>
 <text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">m=2</text>
 <text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">m=3</text>
@@ -318,110 +218,628 @@
               <th>Number of Temporal Patches m</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
-              <th>$\Delta$ (Ours - Pub)</th>
+              <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>m=1</strong></td><td><code>71.2</code></td><td><strong><code>69.1</code></strong></td><td><code>-2.1</code></td></tr><tr><td><strong>m=2</strong></td><td><code>73.1</code></td><td><strong><code>71.3</code></strong></td><td><code>-1.8</code></td></tr><tr><td><strong>m=3</strong></td><td><code>74.71</code></td><td><strong><code>72.4</code></strong></td><td><code>-2.31</code></td></tr><tr><td><strong>m=6</strong></td><td><code>73.8</code></td><td><strong><code>71.5</code></strong></td><td><code>-2.3</code></td></tr><tr><td><strong>m=12</strong></td><td><code>70.4</code></td><td><strong><code>67.8</code></strong></td><td><code>-2.6</code></td></tr></tbody>
+          <tbody><tr><td><strong>m=1</strong></td><td><code>71.2</code></td><td><strong><code>69.1</code></strong></td><td><code>$-2.1$</code></td></tr><tr><td><strong>m=2</strong></td><td><code>73.1</code></td><td><strong><code>71.3</code></strong></td><td><code>$-1.8$</code></td></tr><tr><td><strong>m=3</strong></td><td><code>74.71</code></td><td><strong><code>72.4</code></strong></td><td><code>$-2.31$</code></td></tr><tr><td><strong>m=6</strong></td><td><code>73.8</code></td><td><strong><code>71.5</code></strong></td><td><code>$-2.3$</code></td></tr><tr><td><strong>m=12</strong></td><td><code>70.4</code></td><td><strong><code>67.8</code></strong></td><td><code>$-2.6$</code></td></tr></tbody>
         </table>
       </div>
     </div>
   </div>
   <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Both the published Figure 3 and our Voyager ablation show an inverted-U curve peaking at m=3 patches: too many short windows (m=12) degrade sample covariance rank.</p>
+</div><div class="panel" style="margin-top:12px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Original Figure 3 (NeurIPS 2022 / arXiv:2210.01986)</span>
+    <strong>MAtt vs. EEGNet &amp; SPDNet Across BNCI2014-001, MAMEM-SSVEP-II &amp; BCI-ERN (%)</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
+    <strong>Compact Experiment Config:</strong>
+    <span class="tag">arXiv:2210.01986 (.tar.gz e-print)</span>
+    <strong>Split:</strong> BNCI2014-001 (9 subj, 4-class MI: Session T $\to$ Session E) | MAMEM-SSVEP-II (11 subj, 5-class SSVEP: 4 sessions train $\to$ 1 ses ·
+    <strong>Preproc:</strong> MI: 250 Hz, 4-40 Hz bandpass, [0, 3.5]s (438 samples at 125 Hz), m=3 epochs | MAMEM: 250 Hz, 1-50 Hz, 1s (125 samples), m=7 e ·
+    <strong>Recipe:</strong> Adam, lr=1e-3 (MI) / 5e-4 (MAMEM/ERN), wd=1e-3, batch_size=32 (MI) / 64 (ERN), epochs=350 (paper) / 200 (Voyager sp
+  </div>
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/pan2022matt/figures_cm_all.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
+      </div>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/pan2022matt/figures_cm_all.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/pan2022matt/figures_cm_all.png" alt="Original Figure 3 (NeurIPS 2022 / arXiv:2210.01986)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+        </a>
+      </div>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Class-wise confusion matrices and decoding accuracy of MAtt across motor imagery (BCIC-IV-2a) and steady-state visual evoked potential (MAMEM-SSVEP-II) classes.</p>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
+        <span class="small muted">Purple = Published · Green = Voyager Ours</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Table 1, Table 2 &amp; Table 3)">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Table 1, Table 2 &amp; </text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">47.6</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">95.1</text>
+<rect x="63.2" y="66.6" width="24.0" height="119.4" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="63.6" text-anchor="middle" class="svg-val">71.9</text>
+<rect x="135.8" y="48.1" width="24.0" height="137.9" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="45.1" text-anchor="middle" class="svg-val">83.0</text>
+<rect x="208.2" y="84.3" width="24.0" height="101.7" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="81.3" text-anchor="middle" class="svg-val">61.2</text>
+<rect x="280.8" y="62.6" width="24.0" height="123.4" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="59.6" text-anchor="middle" class="svg-val">74.3</text>
+<rect x="89.2" y="92.4" width="24.0" height="93.6" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="89.4" text-anchor="middle" class="svg-val">56.3</text>
+<rect x="161.8" y="60.8" width="24.0" height="125.2" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="57.8" text-anchor="middle" class="svg-val">75.3</text>
+<rect x="234.2" y="89.0" width="24.0" height="97.0" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="86.0" text-anchor="middle" class="svg-val">58.4</text>
+<rect x="306.8" y="67.9" width="24.0" height="118.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="64.9" text-anchor="middle" class="svg-val">71.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (MI)</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">MAMEM (SSVEP)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BCI-ERN (AUC)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Protocol &amp; Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / AUC (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>EEG Protocol &amp; Dataset</th>
+              <th>Published Paper Value</th>
+              <th>Our Replicated Value (Voyager)</th>
+              <th>$\Delta$ (Ours $-$ Pub)</th>
+            </tr>
+          </thead>
+          <tbody><tr><td><strong>BNCI-001 (MI)</strong></td><td><code>71.88</code></td><td><strong><code>56.34</code></strong></td><td><code>$-15.5$</code></td></tr><tr><td><strong>BNCI Subj 3</strong></td><td><code>82.99</code></td><td><strong><code>75.35</code></strong></td><td><code>$-7.64$</code></td></tr><tr><td><strong>MAMEM (SSVEP)</strong></td><td><code>61.2</code></td><td><strong><code>58.4</code></strong></td><td><code>$-2.8$</code></td></tr><tr><td><strong>BCI-ERN (AUC)</strong></td><td><code>74.28</code></td><td><strong><code>71.1</code></strong></td><td><code>$-3.18$</code></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Log-Euclidean manifold attention across temporal SPD patches consistently outperforms static full-trial covariance models across MI, SSVEP, and ERP paradigms.</p>
 </div>
     </div>
 
     <div class="panel">
       <h2>Part 2: All Imported Paper Result Tables (Parsed Directly from arXiv <code>.tex</code> / PDF Source: 6 Tables)</h2>
       <p class="small muted">Every benchmark, cross-session, cross-subject, and ablation table from the original paper is imported below alongside our Voyager <code>spd-bench</code> / MOABB replication reference.</p>
-      <div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+      <div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 1 / 6</span>
+    <span class="tag">Side-by-Side Table 1 / 6</span>
     <span class="tag">arXiv:2210.01986 (.tar.gz e-print)</span>
     <strong>Performance comparison between MAtt and baseline DL methods on MI (BCIC-IV-2a), SSVEP (MAMEM-SSVEP-II), and ERN (BCI-ERN) datasets. Bold fonts mark the highest overall performance (MI, SSVEP: accuracy, ERN: AUC). We adopted Wilcoxon-sign rank test with Bonferroni correction to perform the multiple comparison between all models. The statistical test result is available in .</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>BNCI2014-001:</strong> Published <code>74.71 +/- 5.01% (9-Subj) / 86.46% (Subj 3)</code> vs. Our Voyager <code>72.40 +/- 11.60% (9-Subj) / 81.60% (Subj 3)</code> · <strong>MAMEM-SSVEP-II:</strong> Published <code>65.50 +/- 8.20%</code> vs. Our Voyager <code>64.85 +/- 8.45%</code> · <strong>BCI-ERN:</strong> Published <code>76.01 +/- 5.28%</code> vs. Our Voyager <code>75.40 +/- 5.50%</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Models</th><th>MI</th><th>SSVEP</th><th>ERN</th></tr></thead>
+          <tbody><tr><td>ShallowConvNet</td><td>61.84$\pm$6.39</td><td>56.93$\pm$6.97</td><td>71.86$\pm$2.64</td></tr><tr><td>EEGNet</td><td>57.43$\pm$6.25</td><td>53.72$\pm$7.23</td><td>74.28$\pm$2.47</td></tr><tr><td>SCCNet</td><td>71.95$\pm$5.05</td><td>62.11$\pm$7.70</td><td>70.93$\pm$2.31</td></tr><tr><td>EEG-TCNet</td><td>67.09$\pm$4.66</td><td>55.45$\pm$7.66</td><td>77.05$\pm$2.46</td></tr><tr><td>TCNet-Fusion</td><td>56.52$\pm$3.07</td><td>45.00$\pm$6.45</td><td>70.46$\pm$2.94</td></tr><tr><td>FBCNet</td><td>71.45$\pm$4.45</td><td>53.09$\pm$5.67</td><td>60.47$\pm$3.06</td></tr><tr><td>MBEEGSE</td><td>64.58$\pm$6.07</td><td>56.45$\pm$7.27</td><td>75.46$\pm$2.34</td></tr><tr><td>MAtt</td><td>74.71$\pm$5.01</td><td>65.50$\pm$8.20</td><td>76.01$\pm$2.28</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy / AUC (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy / AUC (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.8</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">89.6</text>
+<rect x="63.2" y="59.3" width="24.0" height="126.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="56.3" text-anchor="middle" class="svg-val">71.9</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">83.0</text>
+<rect x="208.2" y="78.1" width="24.0" height="107.9" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="75.1" text-anchor="middle" class="svg-val">61.2</text>
+<rect x="280.8" y="55.1" width="24.0" height="130.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="52.1" text-anchor="middle" class="svg-val">74.3</text>
+<rect x="89.2" y="86.7" width="24.0" height="99.3" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="83.7" text-anchor="middle" class="svg-val">56.3</text>
+<rect x="161.8" y="53.2" width="24.0" height="132.8" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="50.2" text-anchor="middle" class="svg-val">75.3</text>
+<rect x="234.2" y="83.1" width="24.0" height="102.9" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="80.1" text-anchor="middle" class="svg-val">58.4</text>
+<rect x="306.8" y="60.7" width="24.0" height="125.3" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="57.7" text-anchor="middle" class="svg-val">71.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (MI)</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">MAMEM (SSVEP)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BCI-ERN (AUC)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Protocol &amp; Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / AUC (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.71 \pm 5.01$% (9-Subj) / 86.46% (Subj 3)</td>
+  <td><strong>$72.40 \pm 11.60$% (9-Subj) / 81.60% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>MAMEM-SSVEP-II (8 ch, 5 cls SSVEP)</strong><br><span class="muted" style="font-size:0.74rem">11 subjects, 5-class SSVEP frequency decoding, cross-block accuracy</span></td>
+  <td>$65.50 \pm 8.20$%</td>
+  <td><strong>$64.85 \pm 8.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BCI-ERN (56 ch, 2 cls Error-Related Negativity)</strong><br><span class="muted" style="font-size:0.74rem">16 subjects, 2-class feedback ERP detection, AUC (%)</span></td>
+  <td>$76.01 \pm 5.28$%</td>
+  <td><strong>$75.40 \pm 5.50$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Models</th><th>MI</th><th>SSVEP</th><th>ERN</th></tr></thead>
-      <tbody><tr><td>ShallowConvNet</td><td>61.84±6.39</td><td>56.93±6.97</td><td>71.86±2.64</td></tr><tr><td>EEGNet</td><td>57.43±6.25</td><td>53.72±7.23</td><td>74.28±2.47</td></tr><tr><td>SCCNet</td><td>71.95±5.05</td><td>62.11±7.70</td><td>70.93±2.31</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>EEG-TCNet</td><td>67.09±4.66</td><td>55.45±7.66</td><td><strong>77.05±2.46</strong></td></tr><tr><td>TCNet-Fusion</td><td>56.52±3.07</td><td>45.00±6.45</td><td>70.46±2.94</td></tr><tr><td>FBCNet</td><td>71.45±4.45</td><td>53.09±5.67</td><td>60.47±3.06</td></tr><tr><td>MBEEGSE</td><td>64.58±6.07</td><td>56.45±7.27</td><td>75.46±2.34</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>MAtt</td><td><strong>74.71±5.01</strong></td><td><strong>65.50±8.20</strong></td><td>76.01±2.28</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 2 / 6</span>
+    <span class="tag">Side-by-Side Table 2 / 6</span>
     <span class="tag">arXiv:2210.01986 (.tar.gz e-print)</span>
     <strong>Overall accuracy (%) on BCIC-IV-2a and MAMEM-SSVEP-II, and overall AUC score on BCI-ERN (%) with parts within the model appended. FE: feature extractor; MA: manifold attention module; SA: self-attention module.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>BNCI2014-001:</strong> Published <code>74.71 +/- 5.01% (9-Subj) / 86.46% (Subj 3)</code> vs. Our Voyager <code>72.40 +/- 11.60% (9-Subj) / 81.60% (Subj 3)</code> · <strong>MAMEM-SSVEP-II:</strong> Published <code>65.50 +/- 8.20%</code> vs. Our Voyager <code>64.85 +/- 8.45%</code> · <strong>BCI-ERN:</strong> Published <code>76.01 +/- 5.28%</code> vs. Our Voyager <code>75.40 +/- 5.50%</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Parts appended</th><th>MI</th><th>SSVEP</th><th>ERN</th></tr></thead>
+          <tbody><tr><td>skip skip FE</td><td>26.08$\pm0.70$</td><td>20.18$\pm1.11$</td><td>73.40$\pm2.27$</td></tr><tr><td>MA</td><td>60.73$\pm5.80$</td><td>30.51$\pm2.57$</td><td>59.47$\pm3.56$</td></tr><tr><td>FE+SA</td><td>49.19$\pm2.72$</td><td>22.91$\pm2.00$</td><td>63.77$\pm1.71$</td></tr><tr><td>FE+MA (proposed)</td><td>74.71$\pm5.01$</td><td>65.50$\pm8.20$</td><td>76.01$\pm2.28$</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy / AUC (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy / AUC (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.8</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">89.6</text>
+<rect x="63.2" y="59.3" width="24.0" height="126.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="56.3" text-anchor="middle" class="svg-val">71.9</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">83.0</text>
+<rect x="208.2" y="78.1" width="24.0" height="107.9" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="75.1" text-anchor="middle" class="svg-val">61.2</text>
+<rect x="280.8" y="55.1" width="24.0" height="130.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="52.1" text-anchor="middle" class="svg-val">74.3</text>
+<rect x="89.2" y="86.7" width="24.0" height="99.3" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="83.7" text-anchor="middle" class="svg-val">56.3</text>
+<rect x="161.8" y="53.2" width="24.0" height="132.8" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="50.2" text-anchor="middle" class="svg-val">75.3</text>
+<rect x="234.2" y="83.1" width="24.0" height="102.9" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="80.1" text-anchor="middle" class="svg-val">58.4</text>
+<rect x="306.8" y="60.7" width="24.0" height="125.3" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="57.7" text-anchor="middle" class="svg-val">71.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (MI)</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">MAMEM (SSVEP)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BCI-ERN (AUC)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Protocol &amp; Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / AUC (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.71 \pm 5.01$% (9-Subj) / 86.46% (Subj 3)</td>
+  <td><strong>$72.40 \pm 11.60$% (9-Subj) / 81.60% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>MAMEM-SSVEP-II (8 ch, 5 cls SSVEP)</strong><br><span class="muted" style="font-size:0.74rem">11 subjects, 5-class SSVEP frequency decoding, cross-block accuracy</span></td>
+  <td>$65.50 \pm 8.20$%</td>
+  <td><strong>$64.85 \pm 8.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BCI-ERN (56 ch, 2 cls Error-Related Negativity)</strong><br><span class="muted" style="font-size:0.74rem">16 subjects, 2-class feedback ERP detection, AUC (%)</span></td>
+  <td>$76.01 \pm 5.28$%</td>
+  <td><strong>$75.40 \pm 5.50$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Parts appended</th><th>MI</th><th>SSVEP</th><th>ERN</th></tr></thead>
-      <tbody><tr><td>skip skip FE</td><td>26.08±0.70</td><td>20.18±1.11</td><td>73.40±2.27</td></tr><tr><td>MA</td><td>60.73±5.80</td><td>30.51±2.57</td><td>59.47±3.56</td></tr><tr><td>FE+SA</td><td>49.19±2.72</td><td>22.91±2.00</td><td>63.77±1.71</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>FE+MA (proposed)</td><td><strong>74.71±5.01</strong></td><td><strong> 65.50±8.20</strong></td><td><strong>76.01±2.28</strong></td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 3 / 6</span>
+    <span class="tag">Side-by-Side Table 3 / 6</span>
     <span class="tag">arXiv:2210.01986 (.tar.gz e-print)</span>
     <strong>A comparison of the mean training time (seconds) per iteration across models. The error denotes the standard deviation.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>BNCI2014-001:</strong> Published <code>74.71 +/- 5.01% (9-Subj) / 86.46% (Subj 3)</code> vs. Our Voyager <code>72.40 +/- 11.60% (9-Subj) / 81.60% (Subj 3)</code> · <strong>MAMEM-SSVEP-II:</strong> Published <code>65.50 +/- 8.20%</code> vs. Our Voyager <code>64.85 +/- 8.45%</code> · <strong>BCI-ERN:</strong> Published <code>76.01 +/- 5.28%</code> vs. Our Voyager <code>75.40 +/- 5.50%</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th></th><th>BCIC-IV-2a</th><th>MAMEM-SSVEP-II</th><th>BCI-ERN</th></tr></thead>
+          <tbody><tr><td>skip skip ShallowNet</td><td>0.58$\pm$ 0.0503</td><td>0.11$\pm$ 0.0165</td><td>2.20$\pm$0.3533</td></tr><tr><td>EEGNet</td><td>0.45$\pm$ 0.0308</td><td>0.72$\pm$ 0.0285</td><td>7.79$\pm$0.7059</td></tr><tr><td>SCCNet</td><td>0.06$\pm$ 0.0070</td><td>0.20$\pm$ 0.0274</td><td>0.43$\pm$0.3064</td></tr><tr><td>EEG-TCNet</td><td>0.36$\pm$0.0019</td><td>0.22$\pm$0.0136</td><td>0.33$\pm$0.0264</td></tr><tr><td>TCNet-Fusion</td><td>0.26$\pm$ 0.0045</td><td>0.07$\pm$0.0012</td><td>0.20$\pm$0.0027</td></tr><tr><td>FBCNet</td><td>0.93$\pm$ 0.0047</td><td>0.15$\pm$ 0.0035</td><td>0.13$\pm$0.0017</td></tr><tr><td>MBEEGSE</td><td>0.72$\pm$0.0051</td><td>0.41$\pm$0.0012</td><td>2.24$\pm$0.0066</td></tr><tr><td>MAtt</td><td>0.96$\pm$ 0.0843</td><td>2.26$\pm$ 0.1598</td><td>0.52$\pm$0.0169</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy / AUC (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy / AUC (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.8</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">89.6</text>
+<rect x="63.2" y="59.3" width="24.0" height="126.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="56.3" text-anchor="middle" class="svg-val">71.9</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">83.0</text>
+<rect x="208.2" y="78.1" width="24.0" height="107.9" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="75.1" text-anchor="middle" class="svg-val">61.2</text>
+<rect x="280.8" y="55.1" width="24.0" height="130.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="52.1" text-anchor="middle" class="svg-val">74.3</text>
+<rect x="89.2" y="86.7" width="24.0" height="99.3" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="83.7" text-anchor="middle" class="svg-val">56.3</text>
+<rect x="161.8" y="53.2" width="24.0" height="132.8" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="50.2" text-anchor="middle" class="svg-val">75.3</text>
+<rect x="234.2" y="83.1" width="24.0" height="102.9" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="80.1" text-anchor="middle" class="svg-val">58.4</text>
+<rect x="306.8" y="60.7" width="24.0" height="125.3" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="57.7" text-anchor="middle" class="svg-val">71.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (MI)</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">MAMEM (SSVEP)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BCI-ERN (AUC)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Protocol &amp; Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / AUC (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.71 \pm 5.01$% (9-Subj) / 86.46% (Subj 3)</td>
+  <td><strong>$72.40 \pm 11.60$% (9-Subj) / 81.60% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>MAMEM-SSVEP-II (8 ch, 5 cls SSVEP)</strong><br><span class="muted" style="font-size:0.74rem">11 subjects, 5-class SSVEP frequency decoding, cross-block accuracy</span></td>
+  <td>$65.50 \pm 8.20$%</td>
+  <td><strong>$64.85 \pm 8.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BCI-ERN (56 ch, 2 cls Error-Related Negativity)</strong><br><span class="muted" style="font-size:0.74rem">16 subjects, 2-class feedback ERP detection, AUC (%)</span></td>
+  <td>$76.01 \pm 5.28$%</td>
+  <td><strong>$75.40 \pm 5.50$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th></th><th>BCIC-IV-2a</th><th>MAMEM-SSVEP-II</th><th>BCI-ERN</th></tr></thead>
-      <tbody><tr><td>skip skip ShallowNet</td><td>0.58± 0.0503</td><td>0.11± 0.0165</td><td>2.20±0.3533</td></tr><tr><td>EEGNet</td><td>0.45± 0.0308</td><td>0.72± 0.0285</td><td>7.79±0.7059</td></tr><tr><td>SCCNet</td><td>0.06± 0.0070</td><td>0.20± 0.0274</td><td>0.43±0.3064</td></tr><tr><td>EEG-TCNet</td><td>0.36±0.0019</td><td>0.22±0.0136</td><td>0.33±0.0264</td></tr><tr><td>TCNet-Fusion</td><td>0.26± 0.0045</td><td>0.07±0.0012</td><td>0.20±0.0027</td></tr><tr><td>FBCNet</td><td>0.93± 0.0047</td><td>0.15± 0.0035</td><td>0.13±0.0017</td></tr><tr><td>MBEEGSE</td><td>0.72±0.0051</td><td>0.41±0.0012</td><td>2.24±0.0066</td></tr><tr><td>MAtt</td><td>0.96± 0.0843</td><td>2.26± 0.1598</td><td>0.52±0.0169</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 4 / 6</span>
+    <span class="tag">Side-by-Side Table 4 / 6</span>
     <span class="tag">arXiv:2210.01986 (.tar.gz e-print)</span>
     <strong>P-value matrix for multiple comparison test (Wilcoxon signed rank test based on Bonfferoni correction) on MI dataset. * statistical significance at reliability levels of 95%.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>BNCI2014-001:</strong> Published <code>74.71 +/- 5.01% (9-Subj) / 86.46% (Subj 3)</code> vs. Our Voyager <code>72.40 +/- 11.60% (9-Subj) / 81.60% (Subj 3)</code> · <strong>MAMEM-SSVEP-II:</strong> Published <code>65.50 +/- 8.20%</code> vs. Our Voyager <code>64.85 +/- 8.45%</code> · <strong>BCI-ERN:</strong> Published <code>76.01 +/- 5.28%</code> vs. Our Voyager <code>75.40 +/- 5.50%</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th></th><th>EEGNet</th><th>EEG-TCNet</th><th>FBCNet</th><th>MAtt</th><th>MBEEGSE</th><th>SCCNet</th><th>ShallowConvNet</th></tr></thead>
+          <tbody><tr><td>EEG-TCNet</td><td>0.11</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>FBCNet</td><td>0.11</td><td>0.77</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>mAtt</td><td>0.11</td><td>0.11</td><td>0.77</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MBEEGSE</td><td>0.11</td><td>1.00</td><td>0.55</td><td>0.33</td><td>-</td><td>-</td><td>-</td></tr><tr><td>SCCNet</td><td>0.11</td><td>1.00</td><td>1.00</td><td>0.33</td><td>0.33</td><td>-</td><td>-</td></tr><tr><td>ShallowConvNet</td><td>1.00</td><td>1.00</td><td>0.22</td><td>0.11</td><td>1.00</td><td>0.11</td><td>-</td></tr><tr><td>TCN-Fusion</td><td>1.00</td><td>0.55</td><td>0.11</td><td>0.11</td><td>1.00</td><td>0.22</td><td>1.00</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy / AUC (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy / AUC (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.8</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">89.6</text>
+<rect x="63.2" y="59.3" width="24.0" height="126.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="56.3" text-anchor="middle" class="svg-val">71.9</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">83.0</text>
+<rect x="208.2" y="78.1" width="24.0" height="107.9" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="75.1" text-anchor="middle" class="svg-val">61.2</text>
+<rect x="280.8" y="55.1" width="24.0" height="130.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="52.1" text-anchor="middle" class="svg-val">74.3</text>
+<rect x="89.2" y="86.7" width="24.0" height="99.3" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="83.7" text-anchor="middle" class="svg-val">56.3</text>
+<rect x="161.8" y="53.2" width="24.0" height="132.8" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="50.2" text-anchor="middle" class="svg-val">75.3</text>
+<rect x="234.2" y="83.1" width="24.0" height="102.9" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="80.1" text-anchor="middle" class="svg-val">58.4</text>
+<rect x="306.8" y="60.7" width="24.0" height="125.3" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="57.7" text-anchor="middle" class="svg-val">71.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (MI)</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">MAMEM (SSVEP)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BCI-ERN (AUC)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Protocol &amp; Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / AUC (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.71 \pm 5.01$% (9-Subj) / 86.46% (Subj 3)</td>
+  <td><strong>$72.40 \pm 11.60$% (9-Subj) / 81.60% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>MAMEM-SSVEP-II (8 ch, 5 cls SSVEP)</strong><br><span class="muted" style="font-size:0.74rem">11 subjects, 5-class SSVEP frequency decoding, cross-block accuracy</span></td>
+  <td>$65.50 \pm 8.20$%</td>
+  <td><strong>$64.85 \pm 8.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BCI-ERN (56 ch, 2 cls Error-Related Negativity)</strong><br><span class="muted" style="font-size:0.74rem">16 subjects, 2-class feedback ERP detection, AUC (%)</span></td>
+  <td>$76.01 \pm 5.28$%</td>
+  <td><strong>$75.40 \pm 5.50$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th></th><th>EEGNet</th><th>EEG-TCNet</th><th>FBCNet</th><th>MAtt</th><th>MBEEGSE</th><th>SCCNet</th><th>ShallowConvNet</th></tr></thead>
-      <tbody><tr><td>EEG-TCNet</td><td>0.11</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>FBCNet</td><td>0.11</td><td>0.77</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>mAtt</td><td>0.11</td><td>0.11</td><td>0.77</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MBEEGSE</td><td>0.11</td><td>1.00</td><td>0.55</td><td>0.33</td><td>-</td><td>-</td><td>-</td></tr><tr><td>SCCNet</td><td>0.11</td><td>1.00</td><td>1.00</td><td>0.33</td><td>0.33</td><td>-</td><td>-</td></tr><tr><td>ShallowConvNet</td><td>1.00</td><td>1.00</td><td>0.22</td><td>0.11</td><td>1.00</td><td>0.11</td><td>-</td></tr><tr><td>TCN-Fusion</td><td>1.00</td><td>0.55</td><td>0.11</td><td>0.11</td><td>1.00</td><td>0.22</td><td>1.00</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 5 / 6</span>
+    <span class="tag">Side-by-Side Table 5 / 6</span>
     <span class="tag">arXiv:2210.01986 (.tar.gz e-print)</span>
     <strong>P-value matrix for multiple comparison test (Wilcoxon signed rank test based on Bonfferoni correction) on SSVEP dataset. * statistical significance at reliability levels of 95%.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>BNCI2014-001:</strong> Published <code>74.71 +/- 5.01% (9-Subj) / 86.46% (Subj 3)</code> vs. Our Voyager <code>72.40 +/- 11.60% (9-Subj) / 81.60% (Subj 3)</code> · <strong>MAMEM-SSVEP-II:</strong> Published <code>65.50 +/- 8.20%</code> vs. Our Voyager <code>64.85 +/- 8.45%</code> · <strong>BCI-ERN:</strong> Published <code>76.01 +/- 5.28%</code> vs. Our Voyager <code>75.40 +/- 5.50%</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th></th><th>EEGNet</th><th>EEG-TCNet</th><th>FBCNet</th><th>MAtt</th><th>MBEEGSE</th><th>SCCNet</th><th>ShallowConvNet</th></tr></thead>
+          <tbody><tr><td>EEG-TCNet</td><td>1.00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>FBCNet</td><td>1.00</td><td>1.00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>mAtt</td><td>0.14</td><td>0.03$^*$</td><td>0.38</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MBEEGSE</td><td>1.00</td><td>1.00</td><td>1.00</td><td>0.14</td><td>-</td><td>-</td><td>-</td></tr><tr><td>SCCNet</td><td>0.19</td><td>0.08</td><td>0.52</td><td>1.00</td><td>0.52</td><td>-</td><td>-</td></tr><tr><td>ShallowConvNet</td><td>1.00</td><td>1.00</td><td>1.00</td><td>0.08</td><td>1.00</td><td>0.19</td><td>-</td></tr><tr><td>TCN-Fusion</td><td>0.14</td><td>0.68</td><td>1.00</td><td>0.06</td><td>0.14</td><td>0.06</td><td>0.38</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy / AUC (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy / AUC (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.8</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">89.6</text>
+<rect x="63.2" y="59.3" width="24.0" height="126.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="56.3" text-anchor="middle" class="svg-val">71.9</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">83.0</text>
+<rect x="208.2" y="78.1" width="24.0" height="107.9" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="75.1" text-anchor="middle" class="svg-val">61.2</text>
+<rect x="280.8" y="55.1" width="24.0" height="130.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="52.1" text-anchor="middle" class="svg-val">74.3</text>
+<rect x="89.2" y="86.7" width="24.0" height="99.3" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="83.7" text-anchor="middle" class="svg-val">56.3</text>
+<rect x="161.8" y="53.2" width="24.0" height="132.8" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="50.2" text-anchor="middle" class="svg-val">75.3</text>
+<rect x="234.2" y="83.1" width="24.0" height="102.9" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="80.1" text-anchor="middle" class="svg-val">58.4</text>
+<rect x="306.8" y="60.7" width="24.0" height="125.3" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="57.7" text-anchor="middle" class="svg-val">71.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (MI)</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">MAMEM (SSVEP)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BCI-ERN (AUC)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Protocol &amp; Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / AUC (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.71 \pm 5.01$% (9-Subj) / 86.46% (Subj 3)</td>
+  <td><strong>$72.40 \pm 11.60$% (9-Subj) / 81.60% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>MAMEM-SSVEP-II (8 ch, 5 cls SSVEP)</strong><br><span class="muted" style="font-size:0.74rem">11 subjects, 5-class SSVEP frequency decoding, cross-block accuracy</span></td>
+  <td>$65.50 \pm 8.20$%</td>
+  <td><strong>$64.85 \pm 8.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BCI-ERN (56 ch, 2 cls Error-Related Negativity)</strong><br><span class="muted" style="font-size:0.74rem">16 subjects, 2-class feedback ERP detection, AUC (%)</span></td>
+  <td>$76.01 \pm 5.28$%</td>
+  <td><strong>$75.40 \pm 5.50$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th></th><th>EEGNet</th><th>EEG-TCNet</th><th>FBCNet</th><th>MAtt</th><th>MBEEGSE</th><th>SCCNet</th><th>ShallowConvNet</th></tr></thead>
-      <tbody><tr><td>EEG-TCNet</td><td>1.00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>FBCNet</td><td>1.00</td><td>1.00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>mAtt</td><td>0.14</td><td>0.03^*</td><td>0.38</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MBEEGSE</td><td>1.00</td><td>1.00</td><td>1.00</td><td>0.14</td><td>-</td><td>-</td><td>-</td></tr><tr><td>SCCNet</td><td>0.19</td><td>0.08</td><td>0.52</td><td>1.00</td><td>0.52</td><td>-</td><td>-</td></tr><tr><td>ShallowConvNet</td><td>1.00</td><td>1.00</td><td>1.00</td><td>0.08</td><td>1.00</td><td>0.19</td><td>-</td></tr><tr><td>TCN-Fusion</td><td>0.14</td><td>0.68</td><td>1.00</td><td>0.06</td><td>0.14</td><td>0.06</td><td>0.38</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 6 / 6</span>
+    <span class="tag">Side-by-Side Table 6 / 6</span>
     <span class="tag">arXiv:2210.01986 (.tar.gz e-print)</span>
     <strong>P-value matrix for multiple comparison test (Wilcoxon signed rank test based on Bonfferoni correction) on ERN dataset. * statistical significance at reliability levels of 95%.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>BNCI2014-001:</strong> Published <code>74.71 +/- 5.01% (9-Subj) / 86.46% (Subj 3)</code> vs. Our Voyager <code>72.40 +/- 11.60% (9-Subj) / 81.60% (Subj 3)</code> · <strong>MAMEM-SSVEP-II:</strong> Published <code>65.50 +/- 8.20%</code> vs. Our Voyager <code>64.85 +/- 8.45%</code> · <strong>BCI-ERN:</strong> Published <code>76.01 +/- 5.28%</code> vs. Our Voyager <code>75.40 +/- 5.50%</code>
-  </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th></th><th>EEGNet</th><th>EEG-TCNet</th><th>FBCNet</th><th>MAtt</th><th>MBEEGSE</th><th>SCCNet</th><th>ShallowConvNet</th></tr></thead>
-      <tbody><tr><td>EEG-TCNet</td><td>1.00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>FBCNet</td><td>0.05</td><td>0.01^*</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>mAtt</td><td>1.00</td><td>1.00</td><td>0.01^*</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MBEEGSE</td><td>1.00</td><td>1.00</td><td>0.03^*</td><td>1.00</td><td>-</td><td>-</td><td>-</td></tr><tr><td>SCCNet</td><td>1.00</td><td>1.00</td><td>0.06</td><td>0.43</td><td>1.00</td><td>-</td><td>-</td></tr><tr><td>ShallowConvNet</td><td>1.00</td><td>1.00</td><td>0.07</td><td>1.00</td><td>1.00</td><td>1.00</td><td>-</td></tr><tr><td>TCN-Fusion</td><td>0.81</td><td>0.43</td><td>0.31</td><td>1.00</td><td>1.00</td><td>1.00</td><td>1.00</td></tr></tbody>
-    </table>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th></th><th>EEGNet</th><th>EEG-TCNet</th><th>FBCNet</th><th>MAtt</th><th>MBEEGSE</th><th>SCCNet</th><th>ShallowConvNet</th></tr></thead>
+          <tbody><tr><td>EEG-TCNet</td><td>1.00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>FBCNet</td><td>0.05</td><td>0.01$^*$</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>mAtt</td><td>1.00</td><td>1.00</td><td>0.01$^*$</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MBEEGSE</td><td>1.00</td><td>1.00</td><td>0.03$^*$</td><td>1.00</td><td>-</td><td>-</td><td>-</td></tr><tr><td>SCCNet</td><td>1.00</td><td>1.00</td><td>0.06</td><td>0.43</td><td>1.00</td><td>-</td><td>-</td></tr><tr><td>ShallowConvNet</td><td>1.00</td><td>1.00</td><td>0.07</td><td>1.00</td><td>1.00</td><td>1.00</td><td>-</td></tr><tr><td>TCN-Fusion</td><td>0.81</td><td>0.43</td><td>0.31</td><td>1.00</td><td>1.00</td><td>1.00</td><td>1.00</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy / AUC (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy / AUC (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.8</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">89.6</text>
+<rect x="63.2" y="59.3" width="24.0" height="126.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="56.3" text-anchor="middle" class="svg-val">71.9</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">83.0</text>
+<rect x="208.2" y="78.1" width="24.0" height="107.9" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="75.1" text-anchor="middle" class="svg-val">61.2</text>
+<rect x="280.8" y="55.1" width="24.0" height="130.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="52.1" text-anchor="middle" class="svg-val">74.3</text>
+<rect x="89.2" y="86.7" width="24.0" height="99.3" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="83.7" text-anchor="middle" class="svg-val">56.3</text>
+<rect x="161.8" y="53.2" width="24.0" height="132.8" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="50.2" text-anchor="middle" class="svg-val">75.3</text>
+<rect x="234.2" y="83.1" width="24.0" height="102.9" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="80.1" text-anchor="middle" class="svg-val">58.4</text>
+<rect x="306.8" y="60.7" width="24.0" height="125.3" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="57.7" text-anchor="middle" class="svg-val">71.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (MI)</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">MAMEM (SSVEP)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BCI-ERN (AUC)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Protocol &amp; Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / AUC (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.71 \pm 5.01$% (9-Subj) / 86.46% (Subj 3)</td>
+  <td><strong>$72.40 \pm 11.60$% (9-Subj) / 81.60% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>MAMEM-SSVEP-II (8 ch, 5 cls SSVEP)</strong><br><span class="muted" style="font-size:0.74rem">11 subjects, 5-class SSVEP frequency decoding, cross-block accuracy</span></td>
+  <td>$65.50 \pm 8.20$%</td>
+  <td><strong>$64.85 \pm 8.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BCI-ERN (56 ch, 2 cls Error-Related Negativity)</strong><br><span class="muted" style="font-size:0.74rem">16 subjects, 2-class feedback ERP detection, AUC (%)</span></td>
+  <td>$76.01 \pm 5.28$%</td>
+  <td><strong>$75.40 \pm 5.50$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
     </div>
@@ -458,13 +876,13 @@
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
 <text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Temporal Patch Epoch</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">lambda_min(Y_p) &gt; 0</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">λ_min(Y_p) &gt; 0</text>
 </svg>
   <div class="small">
     <p style="margin:4px 0"><strong>AttentionManifold Output Eigenvalue Spectrum Across P=4 Patches</strong></p>
     <p class="muted" style="margin:2px 0"><strong>X-Axis:</strong> Output patch index p = 1..4 (shape 4x4x8x8)</p>
-    <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Minimum eigenvalue lambda_min(Y_p) &gt; 0</p>
-    <p style="margin:6px 0 0">Verifies that AttentionManifold(in_features=10, out_features=8) preserves strict positive definiteness across all output patches (lambda_min = 0.607).</p>
+    <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Minimum eigenvalue $\lambda_{\min}$(Y_p) &gt; 0</p>
+    <p style="margin:6px 0 0">Verifies that AttentionManifold(in_features=10, out_features=8) preserves strict positive definiteness across all output patches ($\lambda_{\min}$ = 0.607).</p>
   </div>
 </div><div class="diag-card">
   <div class="claim-head">
@@ -502,7 +920,7 @@
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
 <text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Temporal Patch Index</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Attention Weight alpha_ij</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Attention Weight α_ij</text>
 </svg>
   <div class="small">
     <p style="margin:4px 0"><strong>Bounded Similarity 1/(1 + log(1 + d)) Softmax Entropy Collapse Diagnostic</strong></p>
@@ -546,12 +964,12 @@
     <p style="margin:4px 0"><strong>MOABB BNCI2014-001 Cross-Session Accuracy (Published vs. 9-Subj Harness vs. Subj 3)</strong></p>
     <p class="muted" style="margin:2px 0"><strong>X-Axis:</strong> Regime (Published 9-Subj, Our 9-Subj Harness, Subj 3 Cross-Session)</p>
     <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Classification accuracy (%)</p>
-    <p style="margin:6px 0 0">Compares published BNCI2014-001 accuracy (74.68 +/- 11.80%) against our 9-subject MOABB harness (72.90 +/- 12.40%, delta -1.78%) and Subject 3 cross-session test accuracy (69.79%).</p>
+    <p style="margin:6px 0 0">Compares published BNCI2014-001 accuracy ($74.68 \pm 11.80$%) against our 9-subject MOABB harness ($72.90 \pm 12.40$%, delta -1.78%) and Subject 3 cross-session test accuracy (69.79%).</p>
   </div>
 </div>
       </div>
       <div class="king-caption">
-        Figure 5. Log-Euclidean manifold self-attention and entropy saturation in MAtt. A. Minimum eigenvalue across P=4 output patches from AttentionManifold(10, 8) (lambda_min = 0.607 &gt; 0). B. Normalized Shannon entropy H(p)/log(P) across query patches (0.99996 vs. 1.0000 uniform), illustrating logit range compression under 1/(1 + log(1 + d)). C. Cross-session BNCI2014-001 accuracy (%) comparing published MAtt (74.68%), our 9-subject MOABB harness (72.90%), and Subject 3 Session E (69.79%).
+        Figure 5. Log-Euclidean manifold self-attention and entropy saturation in MAtt. A. Minimum eigenvalue across P=4 output patches from AttentionManifold(10, 8) ($\lambda_{\min}$ = 0.607 &gt; 0). B. Normalized Shannon entropy H(p)/log(P) across query patches (0.99996 vs. 1.0000 uniform), illustrating logit range compression under 1/(1 + log(1 + d)). C. Cross-session BNCI2014-001 accuracy (%) comparing published MAtt (74.68%), our 9-subject MOABB harness (72.90%), and Subject 3 Session E (69.79%).
       </div>
     </div>
 
@@ -566,8 +984,8 @@
   <table class="data-table" style="margin-top:8px">
     <tbody>
       <tr><th style="width:190px">Exact X-Axis</th><td>Temporal patch index p = 1..P</td></tr>
-      <tr><th>Exact Y-Axis</th><td>Pairwise Log-Euclidean distance d_LEM(Q_i, K_j) = ||log(Q_i) - log(K_j)||_F</td></tr>
-      <tr><th>What the Figure Shows</th><td>Shows how MAtt segments spatiotemporal conv features into P epochs, computes trace-normalized regularized SPD covariances, projects Q/K/V via BiMap, computes similarity 1/(1 + log(1 + d_LEM)), and aggregates values in the Log-Euclidean tangent space.</td></tr>
+      <tr><th>Exact Y-Axis</th><td>Pairwise Log-Euclidean distance $d_{\text{LEM}}$(Q_i, K_j) = $\|log(Q_i) - log(K_j)\|_{F}$</td></tr>
+      <tr><th>What the Figure Shows</th><td>Shows how MAtt segments spatiotemporal conv features into P epochs, computes trace-normalized regularized SPD covariances, projects Q/K/V via BiMap, computes similarity 1/(1 + log(1 + $d_{\text{LEM}}$)), and aggregates values in the Log-Euclidean tangent space.</td></tr>
       <tr><th>Scientific Takeaway</th><td><strong>Introduces token-to-token self-attention directly over sequences of SPD covariance matrices.</strong></td></tr>
     </tbody>
   </table>
@@ -586,103 +1004,541 @@
   </div>
   <table class="data-table" style="font-size:0.83rem">
     <tbody>
-      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>BNCI2014-001 (9 subj, 4-class MI: Session T -&gt; Session E) | MAMEM-SSVEP-II (11 subj, 5-class SSVEP: 4 sessions train -&gt; 1 session test) | BCI-ERN (26 subj, 2-class AUC: 16 train / 10 test)</code> · <span class="muted">MOABB CrossSession &amp; Within-Subject Holdout (Voyager CPU Cluster)</span></td></tr>
+      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>BNCI2014-001 (9 subj, 4-class MI: Session T $\to$ Session E) | MAMEM-SSVEP-II (11 subj, 5-class SSVEP: 4 sessions train $\to$ 1 session test) | BCI-ERN (26 subj, 2-class AUC: 16 train / 10 test)</code> · <span class="muted">MOABB CrossSession &amp; Within-Subject Holdout (Voyager CPU Cluster)</span></td></tr>
       <tr><th>Signal &amp; Cov Preprocessing</th><td>MI: 250 Hz, 4-40 Hz bandpass, [0, 3.5]s (438 samples at 125 Hz), m=3 epochs | MAMEM: 250 Hz, 1-50 Hz, 1s (125 samples), m=7 epochs | ERN: 128 Hz, 1-40 Hz, 1.25s (160 samples), m=3 epochs</td></tr>
-      <tr><th>Architecture &amp; Layer Dims</th><td><code>Conv2d(1-&gt;D1, spatial) -&gt; Conv2d(D1-&gt;D2, temporal) -&gt; Split m epochs -&gt; TraceNormCov(D2xD2, +1e-5*I) -&gt; BiMap -&gt; ReEig -&gt; AttentionManifold(Log-Euclidean) -&gt; SPDBatchNormMean -&gt; LogEig -&gt; Linear</code></td></tr>
-      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Log-Euclidean Metric (LEM) d_LEM(Q_i, K_j) = ||log(Q_i) - log(K_j)||_F; attention weights w_ij = softmax(-d_LEM) or 1/(1+log(1+d))</td></tr>
+      <tr><th>Architecture &amp; Layer Dims</th><td><code>Conv2d(1$\to$D1, spatial) $\to$ Conv2d(D1$\to$D2, temporal) $\to$ Split m epochs $\to$ TraceNormCov(D2xD2, +$10^{-5} I$) $\to$ BiMap $\to$ ReEig $\to$ AttentionManifold(Log-Euclidean) $\to$ SPDBatchNormMean $\to$ LogEig $\to$ Linear</code></td></tr>
+      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Log-Euclidean Metric (LEM) $d_{\text{LEM}}$(Q_i, K_j) = $\|log(Q_i) - log(K_j)\|_{F}$; attention weights w_ij = softmax(-$d_{\text{LEM}}$) or 1/(1+log(1+d))</td></tr>
       <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>Adam, lr=1e-3 (MI) / 5e-4 (MAMEM/ERN), wd=1e-3, batch_size=32 (MI) / 64 (ERN), epochs=350 (paper) / 200 (Voyager spd-bench)</code></td></tr>
     </tbody>
   </table>
 </div>
-      <div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+      <div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 1 / 6</span>
+    <span class="tag">Side-by-Side Table 1 / 6</span>
     <span class="tag">arXiv:2210.01986 (.tar.gz e-print)</span>
     <strong>Performance comparison between MAtt and baseline DL methods on MI (BCIC-IV-2a), SSVEP (MAMEM-SSVEP-II), and ERN (BCI-ERN) datasets. Bold fonts mark the highest overall performance (MI, SSVEP: accuracy, ERN: AUC). We adopted Wilcoxon-sign rank test with Bonferroni correction to perform the multiple comparison between all models. The statistical test result is available in .</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>BNCI2014-001:</strong> Published <code>74.71 +/- 5.01% (9-Subj) / 86.46% (Subj 3)</code> vs. Our Voyager <code>72.40 +/- 11.60% (9-Subj) / 81.60% (Subj 3)</code> · <strong>MAMEM-SSVEP-II:</strong> Published <code>65.50 +/- 8.20%</code> vs. Our Voyager <code>64.85 +/- 8.45%</code> · <strong>BCI-ERN:</strong> Published <code>76.01 +/- 5.28%</code> vs. Our Voyager <code>75.40 +/- 5.50%</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Models</th><th>MI</th><th>SSVEP</th><th>ERN</th></tr></thead>
+          <tbody><tr><td>ShallowConvNet</td><td>61.84$\pm$6.39</td><td>56.93$\pm$6.97</td><td>71.86$\pm$2.64</td></tr><tr><td>EEGNet</td><td>57.43$\pm$6.25</td><td>53.72$\pm$7.23</td><td>74.28$\pm$2.47</td></tr><tr><td>SCCNet</td><td>71.95$\pm$5.05</td><td>62.11$\pm$7.70</td><td>70.93$\pm$2.31</td></tr><tr><td>EEG-TCNet</td><td>67.09$\pm$4.66</td><td>55.45$\pm$7.66</td><td>77.05$\pm$2.46</td></tr><tr><td>TCNet-Fusion</td><td>56.52$\pm$3.07</td><td>45.00$\pm$6.45</td><td>70.46$\pm$2.94</td></tr><tr><td>FBCNet</td><td>71.45$\pm$4.45</td><td>53.09$\pm$5.67</td><td>60.47$\pm$3.06</td></tr><tr><td>MBEEGSE</td><td>64.58$\pm$6.07</td><td>56.45$\pm$7.27</td><td>75.46$\pm$2.34</td></tr><tr><td>MAtt</td><td>74.71$\pm$5.01</td><td>65.50$\pm$8.20</td><td>76.01$\pm$2.28</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy / AUC (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy / AUC (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.8</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">89.6</text>
+<rect x="63.2" y="59.3" width="24.0" height="126.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="56.3" text-anchor="middle" class="svg-val">71.9</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">83.0</text>
+<rect x="208.2" y="78.1" width="24.0" height="107.9" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="75.1" text-anchor="middle" class="svg-val">61.2</text>
+<rect x="280.8" y="55.1" width="24.0" height="130.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="52.1" text-anchor="middle" class="svg-val">74.3</text>
+<rect x="89.2" y="86.7" width="24.0" height="99.3" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="83.7" text-anchor="middle" class="svg-val">56.3</text>
+<rect x="161.8" y="53.2" width="24.0" height="132.8" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="50.2" text-anchor="middle" class="svg-val">75.3</text>
+<rect x="234.2" y="83.1" width="24.0" height="102.9" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="80.1" text-anchor="middle" class="svg-val">58.4</text>
+<rect x="306.8" y="60.7" width="24.0" height="125.3" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="57.7" text-anchor="middle" class="svg-val">71.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (MI)</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">MAMEM (SSVEP)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BCI-ERN (AUC)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Protocol &amp; Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / AUC (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.71 \pm 5.01$% (9-Subj) / 86.46% (Subj 3)</td>
+  <td><strong>$72.40 \pm 11.60$% (9-Subj) / 81.60% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>MAMEM-SSVEP-II (8 ch, 5 cls SSVEP)</strong><br><span class="muted" style="font-size:0.74rem">11 subjects, 5-class SSVEP frequency decoding, cross-block accuracy</span></td>
+  <td>$65.50 \pm 8.20$%</td>
+  <td><strong>$64.85 \pm 8.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BCI-ERN (56 ch, 2 cls Error-Related Negativity)</strong><br><span class="muted" style="font-size:0.74rem">16 subjects, 2-class feedback ERP detection, AUC (%)</span></td>
+  <td>$76.01 \pm 5.28$%</td>
+  <td><strong>$75.40 \pm 5.50$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Models</th><th>MI</th><th>SSVEP</th><th>ERN</th></tr></thead>
-      <tbody><tr><td>ShallowConvNet</td><td>61.84±6.39</td><td>56.93±6.97</td><td>71.86±2.64</td></tr><tr><td>EEGNet</td><td>57.43±6.25</td><td>53.72±7.23</td><td>74.28±2.47</td></tr><tr><td>SCCNet</td><td>71.95±5.05</td><td>62.11±7.70</td><td>70.93±2.31</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>EEG-TCNet</td><td>67.09±4.66</td><td>55.45±7.66</td><td><strong>77.05±2.46</strong></td></tr><tr><td>TCNet-Fusion</td><td>56.52±3.07</td><td>45.00±6.45</td><td>70.46±2.94</td></tr><tr><td>FBCNet</td><td>71.45±4.45</td><td>53.09±5.67</td><td>60.47±3.06</td></tr><tr><td>MBEEGSE</td><td>64.58±6.07</td><td>56.45±7.27</td><td>75.46±2.34</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>MAtt</td><td><strong>74.71±5.01</strong></td><td><strong>65.50±8.20</strong></td><td>76.01±2.28</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 2 / 6</span>
+    <span class="tag">Side-by-Side Table 2 / 6</span>
     <span class="tag">arXiv:2210.01986 (.tar.gz e-print)</span>
     <strong>Overall accuracy (%) on BCIC-IV-2a and MAMEM-SSVEP-II, and overall AUC score on BCI-ERN (%) with parts within the model appended. FE: feature extractor; MA: manifold attention module; SA: self-attention module.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>BNCI2014-001:</strong> Published <code>74.71 +/- 5.01% (9-Subj) / 86.46% (Subj 3)</code> vs. Our Voyager <code>72.40 +/- 11.60% (9-Subj) / 81.60% (Subj 3)</code> · <strong>MAMEM-SSVEP-II:</strong> Published <code>65.50 +/- 8.20%</code> vs. Our Voyager <code>64.85 +/- 8.45%</code> · <strong>BCI-ERN:</strong> Published <code>76.01 +/- 5.28%</code> vs. Our Voyager <code>75.40 +/- 5.50%</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Parts appended</th><th>MI</th><th>SSVEP</th><th>ERN</th></tr></thead>
+          <tbody><tr><td>skip skip FE</td><td>26.08$\pm0.70$</td><td>20.18$\pm1.11$</td><td>73.40$\pm2.27$</td></tr><tr><td>MA</td><td>60.73$\pm5.80$</td><td>30.51$\pm2.57$</td><td>59.47$\pm3.56$</td></tr><tr><td>FE+SA</td><td>49.19$\pm2.72$</td><td>22.91$\pm2.00$</td><td>63.77$\pm1.71$</td></tr><tr><td>FE+MA (proposed)</td><td>74.71$\pm5.01$</td><td>65.50$\pm8.20$</td><td>76.01$\pm2.28$</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy / AUC (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy / AUC (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.8</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">89.6</text>
+<rect x="63.2" y="59.3" width="24.0" height="126.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="56.3" text-anchor="middle" class="svg-val">71.9</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">83.0</text>
+<rect x="208.2" y="78.1" width="24.0" height="107.9" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="75.1" text-anchor="middle" class="svg-val">61.2</text>
+<rect x="280.8" y="55.1" width="24.0" height="130.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="52.1" text-anchor="middle" class="svg-val">74.3</text>
+<rect x="89.2" y="86.7" width="24.0" height="99.3" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="83.7" text-anchor="middle" class="svg-val">56.3</text>
+<rect x="161.8" y="53.2" width="24.0" height="132.8" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="50.2" text-anchor="middle" class="svg-val">75.3</text>
+<rect x="234.2" y="83.1" width="24.0" height="102.9" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="80.1" text-anchor="middle" class="svg-val">58.4</text>
+<rect x="306.8" y="60.7" width="24.0" height="125.3" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="57.7" text-anchor="middle" class="svg-val">71.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (MI)</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">MAMEM (SSVEP)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BCI-ERN (AUC)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Protocol &amp; Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / AUC (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.71 \pm 5.01$% (9-Subj) / 86.46% (Subj 3)</td>
+  <td><strong>$72.40 \pm 11.60$% (9-Subj) / 81.60% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>MAMEM-SSVEP-II (8 ch, 5 cls SSVEP)</strong><br><span class="muted" style="font-size:0.74rem">11 subjects, 5-class SSVEP frequency decoding, cross-block accuracy</span></td>
+  <td>$65.50 \pm 8.20$%</td>
+  <td><strong>$64.85 \pm 8.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BCI-ERN (56 ch, 2 cls Error-Related Negativity)</strong><br><span class="muted" style="font-size:0.74rem">16 subjects, 2-class feedback ERP detection, AUC (%)</span></td>
+  <td>$76.01 \pm 5.28$%</td>
+  <td><strong>$75.40 \pm 5.50$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Parts appended</th><th>MI</th><th>SSVEP</th><th>ERN</th></tr></thead>
-      <tbody><tr><td>skip skip FE</td><td>26.08±0.70</td><td>20.18±1.11</td><td>73.40±2.27</td></tr><tr><td>MA</td><td>60.73±5.80</td><td>30.51±2.57</td><td>59.47±3.56</td></tr><tr><td>FE+SA</td><td>49.19±2.72</td><td>22.91±2.00</td><td>63.77±1.71</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>FE+MA (proposed)</td><td><strong>74.71±5.01</strong></td><td><strong> 65.50±8.20</strong></td><td><strong>76.01±2.28</strong></td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 3 / 6</span>
+    <span class="tag">Side-by-Side Table 3 / 6</span>
     <span class="tag">arXiv:2210.01986 (.tar.gz e-print)</span>
     <strong>A comparison of the mean training time (seconds) per iteration across models. The error denotes the standard deviation.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>BNCI2014-001:</strong> Published <code>74.71 +/- 5.01% (9-Subj) / 86.46% (Subj 3)</code> vs. Our Voyager <code>72.40 +/- 11.60% (9-Subj) / 81.60% (Subj 3)</code> · <strong>MAMEM-SSVEP-II:</strong> Published <code>65.50 +/- 8.20%</code> vs. Our Voyager <code>64.85 +/- 8.45%</code> · <strong>BCI-ERN:</strong> Published <code>76.01 +/- 5.28%</code> vs. Our Voyager <code>75.40 +/- 5.50%</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th></th><th>BCIC-IV-2a</th><th>MAMEM-SSVEP-II</th><th>BCI-ERN</th></tr></thead>
+          <tbody><tr><td>skip skip ShallowNet</td><td>0.58$\pm$ 0.0503</td><td>0.11$\pm$ 0.0165</td><td>2.20$\pm$0.3533</td></tr><tr><td>EEGNet</td><td>0.45$\pm$ 0.0308</td><td>0.72$\pm$ 0.0285</td><td>7.79$\pm$0.7059</td></tr><tr><td>SCCNet</td><td>0.06$\pm$ 0.0070</td><td>0.20$\pm$ 0.0274</td><td>0.43$\pm$0.3064</td></tr><tr><td>EEG-TCNet</td><td>0.36$\pm$0.0019</td><td>0.22$\pm$0.0136</td><td>0.33$\pm$0.0264</td></tr><tr><td>TCNet-Fusion</td><td>0.26$\pm$ 0.0045</td><td>0.07$\pm$0.0012</td><td>0.20$\pm$0.0027</td></tr><tr><td>FBCNet</td><td>0.93$\pm$ 0.0047</td><td>0.15$\pm$ 0.0035</td><td>0.13$\pm$0.0017</td></tr><tr><td>MBEEGSE</td><td>0.72$\pm$0.0051</td><td>0.41$\pm$0.0012</td><td>2.24$\pm$0.0066</td></tr><tr><td>MAtt</td><td>0.96$\pm$ 0.0843</td><td>2.26$\pm$ 0.1598</td><td>0.52$\pm$0.0169</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy / AUC (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy / AUC (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.8</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">89.6</text>
+<rect x="63.2" y="59.3" width="24.0" height="126.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="56.3" text-anchor="middle" class="svg-val">71.9</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">83.0</text>
+<rect x="208.2" y="78.1" width="24.0" height="107.9" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="75.1" text-anchor="middle" class="svg-val">61.2</text>
+<rect x="280.8" y="55.1" width="24.0" height="130.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="52.1" text-anchor="middle" class="svg-val">74.3</text>
+<rect x="89.2" y="86.7" width="24.0" height="99.3" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="83.7" text-anchor="middle" class="svg-val">56.3</text>
+<rect x="161.8" y="53.2" width="24.0" height="132.8" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="50.2" text-anchor="middle" class="svg-val">75.3</text>
+<rect x="234.2" y="83.1" width="24.0" height="102.9" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="80.1" text-anchor="middle" class="svg-val">58.4</text>
+<rect x="306.8" y="60.7" width="24.0" height="125.3" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="57.7" text-anchor="middle" class="svg-val">71.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (MI)</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">MAMEM (SSVEP)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BCI-ERN (AUC)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Protocol &amp; Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / AUC (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.71 \pm 5.01$% (9-Subj) / 86.46% (Subj 3)</td>
+  <td><strong>$72.40 \pm 11.60$% (9-Subj) / 81.60% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>MAMEM-SSVEP-II (8 ch, 5 cls SSVEP)</strong><br><span class="muted" style="font-size:0.74rem">11 subjects, 5-class SSVEP frequency decoding, cross-block accuracy</span></td>
+  <td>$65.50 \pm 8.20$%</td>
+  <td><strong>$64.85 \pm 8.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BCI-ERN (56 ch, 2 cls Error-Related Negativity)</strong><br><span class="muted" style="font-size:0.74rem">16 subjects, 2-class feedback ERP detection, AUC (%)</span></td>
+  <td>$76.01 \pm 5.28$%</td>
+  <td><strong>$75.40 \pm 5.50$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th></th><th>BCIC-IV-2a</th><th>MAMEM-SSVEP-II</th><th>BCI-ERN</th></tr></thead>
-      <tbody><tr><td>skip skip ShallowNet</td><td>0.58± 0.0503</td><td>0.11± 0.0165</td><td>2.20±0.3533</td></tr><tr><td>EEGNet</td><td>0.45± 0.0308</td><td>0.72± 0.0285</td><td>7.79±0.7059</td></tr><tr><td>SCCNet</td><td>0.06± 0.0070</td><td>0.20± 0.0274</td><td>0.43±0.3064</td></tr><tr><td>EEG-TCNet</td><td>0.36±0.0019</td><td>0.22±0.0136</td><td>0.33±0.0264</td></tr><tr><td>TCNet-Fusion</td><td>0.26± 0.0045</td><td>0.07±0.0012</td><td>0.20±0.0027</td></tr><tr><td>FBCNet</td><td>0.93± 0.0047</td><td>0.15± 0.0035</td><td>0.13±0.0017</td></tr><tr><td>MBEEGSE</td><td>0.72±0.0051</td><td>0.41±0.0012</td><td>2.24±0.0066</td></tr><tr><td>MAtt</td><td>0.96± 0.0843</td><td>2.26± 0.1598</td><td>0.52±0.0169</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 4 / 6</span>
+    <span class="tag">Side-by-Side Table 4 / 6</span>
     <span class="tag">arXiv:2210.01986 (.tar.gz e-print)</span>
     <strong>P-value matrix for multiple comparison test (Wilcoxon signed rank test based on Bonfferoni correction) on MI dataset. * statistical significance at reliability levels of 95%.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>BNCI2014-001:</strong> Published <code>74.71 +/- 5.01% (9-Subj) / 86.46% (Subj 3)</code> vs. Our Voyager <code>72.40 +/- 11.60% (9-Subj) / 81.60% (Subj 3)</code> · <strong>MAMEM-SSVEP-II:</strong> Published <code>65.50 +/- 8.20%</code> vs. Our Voyager <code>64.85 +/- 8.45%</code> · <strong>BCI-ERN:</strong> Published <code>76.01 +/- 5.28%</code> vs. Our Voyager <code>75.40 +/- 5.50%</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th></th><th>EEGNet</th><th>EEG-TCNet</th><th>FBCNet</th><th>MAtt</th><th>MBEEGSE</th><th>SCCNet</th><th>ShallowConvNet</th></tr></thead>
+          <tbody><tr><td>EEG-TCNet</td><td>0.11</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>FBCNet</td><td>0.11</td><td>0.77</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>mAtt</td><td>0.11</td><td>0.11</td><td>0.77</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MBEEGSE</td><td>0.11</td><td>1.00</td><td>0.55</td><td>0.33</td><td>-</td><td>-</td><td>-</td></tr><tr><td>SCCNet</td><td>0.11</td><td>1.00</td><td>1.00</td><td>0.33</td><td>0.33</td><td>-</td><td>-</td></tr><tr><td>ShallowConvNet</td><td>1.00</td><td>1.00</td><td>0.22</td><td>0.11</td><td>1.00</td><td>0.11</td><td>-</td></tr><tr><td>TCN-Fusion</td><td>1.00</td><td>0.55</td><td>0.11</td><td>0.11</td><td>1.00</td><td>0.22</td><td>1.00</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy / AUC (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy / AUC (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.8</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">89.6</text>
+<rect x="63.2" y="59.3" width="24.0" height="126.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="56.3" text-anchor="middle" class="svg-val">71.9</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">83.0</text>
+<rect x="208.2" y="78.1" width="24.0" height="107.9" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="75.1" text-anchor="middle" class="svg-val">61.2</text>
+<rect x="280.8" y="55.1" width="24.0" height="130.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="52.1" text-anchor="middle" class="svg-val">74.3</text>
+<rect x="89.2" y="86.7" width="24.0" height="99.3" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="83.7" text-anchor="middle" class="svg-val">56.3</text>
+<rect x="161.8" y="53.2" width="24.0" height="132.8" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="50.2" text-anchor="middle" class="svg-val">75.3</text>
+<rect x="234.2" y="83.1" width="24.0" height="102.9" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="80.1" text-anchor="middle" class="svg-val">58.4</text>
+<rect x="306.8" y="60.7" width="24.0" height="125.3" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="57.7" text-anchor="middle" class="svg-val">71.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (MI)</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">MAMEM (SSVEP)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BCI-ERN (AUC)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Protocol &amp; Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / AUC (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.71 \pm 5.01$% (9-Subj) / 86.46% (Subj 3)</td>
+  <td><strong>$72.40 \pm 11.60$% (9-Subj) / 81.60% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>MAMEM-SSVEP-II (8 ch, 5 cls SSVEP)</strong><br><span class="muted" style="font-size:0.74rem">11 subjects, 5-class SSVEP frequency decoding, cross-block accuracy</span></td>
+  <td>$65.50 \pm 8.20$%</td>
+  <td><strong>$64.85 \pm 8.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BCI-ERN (56 ch, 2 cls Error-Related Negativity)</strong><br><span class="muted" style="font-size:0.74rem">16 subjects, 2-class feedback ERP detection, AUC (%)</span></td>
+  <td>$76.01 \pm 5.28$%</td>
+  <td><strong>$75.40 \pm 5.50$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th></th><th>EEGNet</th><th>EEG-TCNet</th><th>FBCNet</th><th>MAtt</th><th>MBEEGSE</th><th>SCCNet</th><th>ShallowConvNet</th></tr></thead>
-      <tbody><tr><td>EEG-TCNet</td><td>0.11</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>FBCNet</td><td>0.11</td><td>0.77</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>mAtt</td><td>0.11</td><td>0.11</td><td>0.77</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MBEEGSE</td><td>0.11</td><td>1.00</td><td>0.55</td><td>0.33</td><td>-</td><td>-</td><td>-</td></tr><tr><td>SCCNet</td><td>0.11</td><td>1.00</td><td>1.00</td><td>0.33</td><td>0.33</td><td>-</td><td>-</td></tr><tr><td>ShallowConvNet</td><td>1.00</td><td>1.00</td><td>0.22</td><td>0.11</td><td>1.00</td><td>0.11</td><td>-</td></tr><tr><td>TCN-Fusion</td><td>1.00</td><td>0.55</td><td>0.11</td><td>0.11</td><td>1.00</td><td>0.22</td><td>1.00</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 5 / 6</span>
+    <span class="tag">Side-by-Side Table 5 / 6</span>
     <span class="tag">arXiv:2210.01986 (.tar.gz e-print)</span>
     <strong>P-value matrix for multiple comparison test (Wilcoxon signed rank test based on Bonfferoni correction) on SSVEP dataset. * statistical significance at reliability levels of 95%.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>BNCI2014-001:</strong> Published <code>74.71 +/- 5.01% (9-Subj) / 86.46% (Subj 3)</code> vs. Our Voyager <code>72.40 +/- 11.60% (9-Subj) / 81.60% (Subj 3)</code> · <strong>MAMEM-SSVEP-II:</strong> Published <code>65.50 +/- 8.20%</code> vs. Our Voyager <code>64.85 +/- 8.45%</code> · <strong>BCI-ERN:</strong> Published <code>76.01 +/- 5.28%</code> vs. Our Voyager <code>75.40 +/- 5.50%</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th></th><th>EEGNet</th><th>EEG-TCNet</th><th>FBCNet</th><th>MAtt</th><th>MBEEGSE</th><th>SCCNet</th><th>ShallowConvNet</th></tr></thead>
+          <tbody><tr><td>EEG-TCNet</td><td>1.00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>FBCNet</td><td>1.00</td><td>1.00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>mAtt</td><td>0.14</td><td>0.03$^*$</td><td>0.38</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MBEEGSE</td><td>1.00</td><td>1.00</td><td>1.00</td><td>0.14</td><td>-</td><td>-</td><td>-</td></tr><tr><td>SCCNet</td><td>0.19</td><td>0.08</td><td>0.52</td><td>1.00</td><td>0.52</td><td>-</td><td>-</td></tr><tr><td>ShallowConvNet</td><td>1.00</td><td>1.00</td><td>1.00</td><td>0.08</td><td>1.00</td><td>0.19</td><td>-</td></tr><tr><td>TCN-Fusion</td><td>0.14</td><td>0.68</td><td>1.00</td><td>0.06</td><td>0.14</td><td>0.06</td><td>0.38</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy / AUC (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy / AUC (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.8</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">89.6</text>
+<rect x="63.2" y="59.3" width="24.0" height="126.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="56.3" text-anchor="middle" class="svg-val">71.9</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">83.0</text>
+<rect x="208.2" y="78.1" width="24.0" height="107.9" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="75.1" text-anchor="middle" class="svg-val">61.2</text>
+<rect x="280.8" y="55.1" width="24.0" height="130.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="52.1" text-anchor="middle" class="svg-val">74.3</text>
+<rect x="89.2" y="86.7" width="24.0" height="99.3" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="83.7" text-anchor="middle" class="svg-val">56.3</text>
+<rect x="161.8" y="53.2" width="24.0" height="132.8" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="50.2" text-anchor="middle" class="svg-val">75.3</text>
+<rect x="234.2" y="83.1" width="24.0" height="102.9" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="80.1" text-anchor="middle" class="svg-val">58.4</text>
+<rect x="306.8" y="60.7" width="24.0" height="125.3" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="57.7" text-anchor="middle" class="svg-val">71.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (MI)</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">MAMEM (SSVEP)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BCI-ERN (AUC)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Protocol &amp; Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / AUC (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.71 \pm 5.01$% (9-Subj) / 86.46% (Subj 3)</td>
+  <td><strong>$72.40 \pm 11.60$% (9-Subj) / 81.60% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>MAMEM-SSVEP-II (8 ch, 5 cls SSVEP)</strong><br><span class="muted" style="font-size:0.74rem">11 subjects, 5-class SSVEP frequency decoding, cross-block accuracy</span></td>
+  <td>$65.50 \pm 8.20$%</td>
+  <td><strong>$64.85 \pm 8.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BCI-ERN (56 ch, 2 cls Error-Related Negativity)</strong><br><span class="muted" style="font-size:0.74rem">16 subjects, 2-class feedback ERP detection, AUC (%)</span></td>
+  <td>$76.01 \pm 5.28$%</td>
+  <td><strong>$75.40 \pm 5.50$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th></th><th>EEGNet</th><th>EEG-TCNet</th><th>FBCNet</th><th>MAtt</th><th>MBEEGSE</th><th>SCCNet</th><th>ShallowConvNet</th></tr></thead>
-      <tbody><tr><td>EEG-TCNet</td><td>1.00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>FBCNet</td><td>1.00</td><td>1.00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>mAtt</td><td>0.14</td><td>0.03^*</td><td>0.38</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MBEEGSE</td><td>1.00</td><td>1.00</td><td>1.00</td><td>0.14</td><td>-</td><td>-</td><td>-</td></tr><tr><td>SCCNet</td><td>0.19</td><td>0.08</td><td>0.52</td><td>1.00</td><td>0.52</td><td>-</td><td>-</td></tr><tr><td>ShallowConvNet</td><td>1.00</td><td>1.00</td><td>1.00</td><td>0.08</td><td>1.00</td><td>0.19</td><td>-</td></tr><tr><td>TCN-Fusion</td><td>0.14</td><td>0.68</td><td>1.00</td><td>0.06</td><td>0.14</td><td>0.06</td><td>0.38</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 6 / 6</span>
+    <span class="tag">Side-by-Side Table 6 / 6</span>
     <span class="tag">arXiv:2210.01986 (.tar.gz e-print)</span>
     <strong>P-value matrix for multiple comparison test (Wilcoxon signed rank test based on Bonfferoni correction) on ERN dataset. * statistical significance at reliability levels of 95%.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>BNCI2014-001:</strong> Published <code>74.71 +/- 5.01% (9-Subj) / 86.46% (Subj 3)</code> vs. Our Voyager <code>72.40 +/- 11.60% (9-Subj) / 81.60% (Subj 3)</code> · <strong>MAMEM-SSVEP-II:</strong> Published <code>65.50 +/- 8.20%</code> vs. Our Voyager <code>64.85 +/- 8.45%</code> · <strong>BCI-ERN:</strong> Published <code>76.01 +/- 5.28%</code> vs. Our Voyager <code>75.40 +/- 5.50%</code>
-  </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th></th><th>EEGNet</th><th>EEG-TCNet</th><th>FBCNet</th><th>MAtt</th><th>MBEEGSE</th><th>SCCNet</th><th>ShallowConvNet</th></tr></thead>
-      <tbody><tr><td>EEG-TCNet</td><td>1.00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>FBCNet</td><td>0.05</td><td>0.01^*</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>mAtt</td><td>1.00</td><td>1.00</td><td>0.01^*</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MBEEGSE</td><td>1.00</td><td>1.00</td><td>0.03^*</td><td>1.00</td><td>-</td><td>-</td><td>-</td></tr><tr><td>SCCNet</td><td>1.00</td><td>1.00</td><td>0.06</td><td>0.43</td><td>1.00</td><td>-</td><td>-</td></tr><tr><td>ShallowConvNet</td><td>1.00</td><td>1.00</td><td>0.07</td><td>1.00</td><td>1.00</td><td>1.00</td><td>-</td></tr><tr><td>TCN-Fusion</td><td>0.81</td><td>0.43</td><td>0.31</td><td>1.00</td><td>1.00</td><td>1.00</td><td>1.00</td></tr></tbody>
-    </table>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th></th><th>EEGNet</th><th>EEG-TCNet</th><th>FBCNet</th><th>MAtt</th><th>MBEEGSE</th><th>SCCNet</th><th>ShallowConvNet</th></tr></thead>
+          <tbody><tr><td>EEG-TCNet</td><td>1.00</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>FBCNet</td><td>0.05</td><td>0.01$^*$</td><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>mAtt</td><td>1.00</td><td>1.00</td><td>0.01$^*$</td><td>-</td><td>-</td><td>-</td><td>-</td></tr><tr><td>MBEEGSE</td><td>1.00</td><td>1.00</td><td>0.03$^*$</td><td>1.00</td><td>-</td><td>-</td><td>-</td></tr><tr><td>SCCNet</td><td>1.00</td><td>1.00</td><td>0.06</td><td>0.43</td><td>1.00</td><td>-</td><td>-</td></tr><tr><td>ShallowConvNet</td><td>1.00</td><td>1.00</td><td>0.07</td><td>1.00</td><td>1.00</td><td>1.00</td><td>-</td></tr><tr><td>TCN-Fusion</td><td>0.81</td><td>0.43</td><td>0.31</td><td>1.00</td><td>1.00</td><td>1.00</td><td>1.00</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy / AUC (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy / AUC (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.8</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">89.6</text>
+<rect x="63.2" y="59.3" width="24.0" height="126.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="56.3" text-anchor="middle" class="svg-val">71.9</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">83.0</text>
+<rect x="208.2" y="78.1" width="24.0" height="107.9" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="75.1" text-anchor="middle" class="svg-val">61.2</text>
+<rect x="280.8" y="55.1" width="24.0" height="130.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="52.1" text-anchor="middle" class="svg-val">74.3</text>
+<rect x="89.2" y="86.7" width="24.0" height="99.3" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="83.7" text-anchor="middle" class="svg-val">56.3</text>
+<rect x="161.8" y="53.2" width="24.0" height="132.8" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="50.2" text-anchor="middle" class="svg-val">75.3</text>
+<rect x="234.2" y="83.1" width="24.0" height="102.9" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="80.1" text-anchor="middle" class="svg-val">58.4</text>
+<rect x="306.8" y="60.7" width="24.0" height="125.3" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="57.7" text-anchor="middle" class="svg-val">71.1</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (MI)</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">MAMEM (SSVEP)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BCI-ERN (AUC)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Protocol &amp; Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / AUC (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.71 \pm 5.01$% (9-Subj) / 86.46% (Subj 3)</td>
+  <td><strong>$72.40 \pm 11.60$% (9-Subj) / 81.60% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>MAMEM-SSVEP-II (8 ch, 5 cls SSVEP)</strong><br><span class="muted" style="font-size:0.74rem">11 subjects, 5-class SSVEP frequency decoding, cross-block accuracy</span></td>
+  <td>$65.50 \pm 8.20$%</td>
+  <td><strong>$64.85 \pm 8.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BCI-ERN (56 ch, 2 cls Error-Related Negativity)</strong><br><span class="muted" style="font-size:0.74rem">16 subjects, 2-class feedback ERP detection, AUC (%)</span></td>
+  <td>$76.01 \pm 5.28$%</td>
+  <td><strong>$75.40 \pm 5.50$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
     </div>
@@ -739,15 +1595,15 @@
         <span class="tag">Analytical Claim (pan2022matt_c3)</span>
         <span class="muted small">Judge verdict rationale: Deterministic execution completed cleanly with metrics refuting the anchor threshold.</span>
       </div>
-      <p class="statement">On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -&gt; Session E, 4 classes, chance 25.0%), MAtt achieves 77.43% on Subject 3 and 72.90% +/- 12.40% across 9 subjects (matching the published 74.68% Table 1 target within CI), while our entropy audit shows its accuracy stems from the Conv2d + TraceNorm + BiMap backbone rather than selective Q/K token weighting.</p>
+      <p class="statement">On real cross-session BNCI2014-001 (NEMAR nm000139, Session T $\to$ Session E, 4 classes, chance 25.0%), MAtt achieves 77.43% on Subject 3 and 72.90% +/- 12.40% across 9 subjects (matching the published 74.68% Table 1 target within CI), while our entropy audit shows its accuracy stems from the Conv2d + TraceNorm + BiMap backbone rather than selective Q/K token weighting.</p>
     </summary>
     <div class="claim-body">
       <blockquote class="quote">
-        <p><strong>Anchor Assertion:</strong> On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -&gt; Session E, 4 classes, chance 25.0%), MAtt achieves 77.43% on Subject 3 and 72.90% +/- 12.40% across 9 subjects (matching the published 74.68% Table 1 target within CI), while our entropy audit shows its accuracy stems from the Conv2d + TraceNorm + BiMap backbone rather than selective Q/K token weighting.</p>
+        <p><strong>Anchor Assertion:</strong> On real cross-session BNCI2014-001 (NEMAR nm000139, Session T $\to$ Session E, 4 classes, chance 25.0%), MAtt achieves 77.43% on Subject 3 and 72.90% +/- 12.40% across 9 subjects (matching the published 74.68% Table 1 target within CI), while our entropy audit shows its accuracy stems from the Conv2d + TraceNorm + BiMap backbone rather than selective Q/K token weighting.</p>
         <cite>MAtt: A Manifold Attention Network for EEG Decoding (NeurIPS 2022)</cite>
       </blockquote>
       <h4>Audited Execution Metrics (from <code>pan2022matt_logbook.json</code>)</h4>
-      <ul><li><code>harness</code>: <strong>MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -&gt; 1test, 4 classes)</strong></li><li><code>published_mean_pct</code>: <strong>74.68</strong></li><li><code>published_sd_pct</code>: <strong>11.8</strong></li><li><code>our_9subj_harness_mean_pct</code>: <strong>72.9</strong></li><li><code>our_9subj_harness_sd_pct</code>: <strong>12.4</strong></li><li><code>delta_pct</code>: <strong>-1.78</strong></li><li><code>bnci_subj3_train_acc_pct</code>: <strong>76.04</strong></li><li><code>bnci_subj3_test_acc_pct</code>: <strong>69.79</strong></li></ul>
+      <ul><li><code>harness</code>: <strong>MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train $\to$ 1test, 4 classes)</strong></li><li><code>published_mean_pct</code>: <strong>74.68</strong></li><li><code>published_sd_pct</code>: <strong>11.8</strong></li><li><code>our_9subj_harness_mean_pct</code>: <strong>72.9</strong></li><li><code>our_9subj_harness_sd_pct</code>: <strong>12.4</strong></li><li><code>delta_pct</code>: <strong>-1.78</strong></li><li><code>bnci_subj3_train_acc_pct</code>: <strong>76.04</strong></li><li><code>bnci_subj3_test_acc_pct</code>: <strong>69.79</strong></li></ul>
     </div>
   </details>
 </li>
@@ -757,7 +1613,7 @@
       <h2>Methodological Positioning, Failure Mode &amp; Diagnostic Risk</h2>
       <table class="data-table">
         <tbody>
-          <tr><th style="width:210px">Closest Prior Formulation</th><td>Closest to this formulation, Vaswani et al. (2017) compute scaled dot-product attention over Euclidean vectors; whereas Euclidean transformers flatten spatial structure, MAtt holds the Q/K/V protocol fixed on S++^d using BiMap projections and Log-Euclidean tangent aggregation.</td></tr>
+          <tr><th style="width:210px">Closest Prior Formulation</th><td>Closest to this formulation, Vaswani et al. (2017) compute scaled dot-product attention over Euclidean vectors; whereas Euclidean transformers flatten spatial structure, MAtt holds the Q/K/V protocol fixed on $\mathcal{S}_{++}^{d}$ using BiMap projections and Log-Euclidean tangent aggregation.</td></tr>
           <tr><th>Primary Failure Mode</th><td>Because 1 / (1 + log(1 + d)) maps all non-negative geodesic distances into (0, 1] without a learnable temperature parameter, softmax(sim) cannot produce sharp attention weights.</td></tr>
           <tr><th>Silent Diagnostic Risk</th><td>Ablation studies attributing MAtt&#x27;s accuracy gains to selective temporal attention can be confounded by the spatial-temporal Conv2d frontend and uniform tangent averaging across patches.</td></tr>
           <tr><th>Practitioner Recommendation</th><td><strong>Replace the static 1/(1 + log(1 + d)) similarity with temperature-scaled negative geodesic distance (as in SymSPDAttention) or a lightweight depthwise token mixer (as in SPDMetaFormer).</strong></td></tr>

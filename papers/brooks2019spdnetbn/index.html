@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../../assets/app.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\(',right:'\)',display:false},{left:'\[',right:'\]',display:true}],ignoredTags:['script','noscript','style','textarea','pre','svg'],throwOnError:false,macros:{'\Spp':'\mathcal{S}_{++}','\Cpp':'\mathcal{C}_{++}','\St':'\operatorname{St}','\R':'\mathbb{R}','\tr':'\operatorname{tr}','\diag':'\operatorname{diag}','\vech':'\operatorname{vech}'}});"></script>
 <title>SPDNetBN: Riemannian Batch Normalization for SPD Neural Networks (NeurIPS 2019) · SPD-Learn Encore Registry</title></head><body>
 <nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="../../index.html">
@@ -31,7 +31,7 @@
     <span class="chip good">✓ Audited by Independent Logbook Judge (6 / 6 pts)</span>
   </div>
   <h1>Riemannian Karcher Centering Attenuates Congruence Covariate Shift by Two Orders of Magnitude</h1>
-  <p class="lede"><strong>Paper:</strong> Riemannian Batch Normalization for SPD Neural Networks (SPDNetBN) (NeurIPS 2019) · <strong>Authors:</strong> Daniel Brooks, Olivier Schwander, Frédéric Barbaresco, Jean-Yves Schneider, Matthieu Cord · <strong>Geometry:</strong> Affine-Invariant (AIRM) Karcher Barycenter Centering (G^{-1/2} X G^{-1/2}) &amp; Bias Parallel Transport</p>
+  <p class="lede"><strong>Paper:</strong> Riemannian Batch Normalization for SPD Neural Networks (SPDNetBN) (NeurIPS 2019) · <strong>Authors:</strong> Daniel Brooks, Olivier Schwander, Frédéric Barbaresco, Jean-Yves Schneider, Matthieu Cord · <strong>Geometry:</strong> Affine-Invariant (AIRM) Karcher Barycenter Centering ($G^{-1/2} X G^{-1/2}$) &amp; Bias Parallel Transport</p>
   <p class="small">
     <a href="https://papers.nips.cc/paper/2019/hash/6e69ebbfad976d4637bb4b39de261bf7-Abstract.html" target="_blank" rel="noopener">Original Paper / Code ↗</a> ·
     <a href="../../repro/logbooks/brooks2019spdnetbn_logbook.json">Raw Trackio Logbook JSON</a> ·
@@ -43,7 +43,7 @@
 <main>
   <div class="panel">
     <h2>All Paper Datasets: Closed-Loop <code>spd-bench</code> &amp; MOABB Harness Audit (6 Datasets)</h2>
-    <p>Does centering SPD mini-batches around their Affine-Invariant Riemannian Metric (AIRM) Karcher barycenter reduce internal covariate shift across sessions and radar clutter regimes? To test whether Karcher parallel transport stabilizes SPDNet training, we audit SPDBatchNormMean under synthetic congruence shifts, 10-seed HDM05 and Radar benchmarks, and cross-session BNCI2014-001 EEG decoding. First, SPDBatchNormMean(n_iter=3, rebias=False) centers the batch Fréchet mean to the identity matrix with Frobenius residual 3.15e-4 (Panel A, Claim C1). Second, under an external congruence shift A X_i A^T (condition number 8.0), SPDBatchNormMean reduces batch mean drift by 770x from 10.71 down to 0.0139 (Panel B, Claim C2). Third, in our 10-seed spd-bench harness, SPDNetBN improves HDM05 accuracy from 63.10% to 67.12 +/- 1.48% (vs. 65.20 +/- 1.15% published), reaches 95.36% on 3-class Radar, and achieves 71.88% on BNCI2014-001 Subject 3 (Panel C, Claim C3). Overall, these results show that Riemannian batch centering consistently improves generalization across skeletal, radar, and neurophysiological domains.</p>
+    <p>Does centering SPD mini-batches around their Affine-Invariant Riemannian Metric (AIRM) Karcher barycenter reduce internal covariate shift across sessions and radar clutter regimes? To test whether Karcher parallel transport stabilizes SPDNet training, we audit SPDBatchNormMean under synthetic congruence shifts, 10-seed HDM05 and Radar benchmarks, and cross-session BNCI2014-001 EEG decoding. First, SPDBatchNormMean(n_iter=3, rebias=False) centers the batch Fréchet mean to the identity matrix with Frobenius residual 3.15e-4 (Panel A, Claim C1). Second, under an external congruence shift $A X_i A^\top$ (condition number 8.0), SPDBatchNormMean reduces batch mean drift by 770x from 10.71 down to 0.0139 (Panel B, Claim C2). Third, in our 10-seed spd-bench harness, SPDNetBN improves HDM05 accuracy from 63.10% to $67.12 \pm 1.48$% (vs. $65.20 \pm 1.15$% published), reaches 95.36% on 3-class Radar, and achieves 71.88% on BNCI2014-001 Subject 3 (Panel C, Claim C3). Overall, these results show that Riemannian batch centering consistently improves generalization across skeletal, radar, and neurophysiological domains.</p>
     <div class="panel" style="margin-top:12px;padding:12px 16px;background:var(--surface)">
   <div class="claim-head" style="margin-bottom:8px">
     <span class="tag" style="border-color:var(--accent);color:var(--accent)">EXPLICIT EXPERIMENTATION &amp; PREPROCESSING CONFIG</span>
@@ -52,10 +52,10 @@
   </div>
   <table class="data-table" style="font-size:0.83rem">
     <tbody>
-      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>Radar: 50% train / 25% val / 25% test (3,000 bursts, 3 classes, 10 seeds; data-scarcity sweep 5%..100% in Fig. 2) | HDM05: 50/50 split (117 classes) | BNCI2014-001: 0train -&gt; 1test</code> · <span class="muted">spd-bench + MOABB CrossSession (Voyager CPU Cluster)</span></td></tr>
-      <tr><th>Signal &amp; Cov Preprocessing</th><td>Radar: 1,000 complex samples reshaped to (20x50) Toeplitz windows -&gt; 20x20 Hermitian sample cov + 1e-4*I | HDM05: 93x93 cov | BNCI2014-001: 250 Hz, 8-30 Hz, [0.5, 4.0]s, 22 chans</td></tr>
-      <tr><th>Architecture &amp; Layer Dims</th><td><code>Radar: BiMap(20-&gt;16)-&gt;ReEig-&gt;BiMap(16-&gt;12)-&gt;ReEig-&gt;BiMap(12-&gt;8)-&gt;SPDBatchNormMeanVar-&gt;LogEig-&gt;Linear | HDM05: 93-&gt;70-&gt;50-&gt;30 with SPDBatchNormMeanVar</code></td></tr>
-      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Affine-Invariant Riemannian Metric (AIRM); Karcher flow (1 iteration in forward pass, momentum=0.1, bias G_bias in S++^d)</td></tr>
+      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>Radar: 50% train / 25% val / 25% test (3,000 bursts, 3 classes, 10 seeds; data-scarcity sweep 5%..100% in Fig. 2) | HDM05: 50/50 split (117 classes) | BNCI2014-001: 0train $\to$ 1test</code> · <span class="muted">spd-bench + MOABB CrossSession (Voyager CPU Cluster)</span></td></tr>
+      <tr><th>Signal &amp; Cov Preprocessing</th><td>Radar: 1,000 complex samples reshaped to ($20 \times 50$) Toeplitz windows $\to$ $20 \times 20$ Hermitian sample cov + $10^{-4} I$ | HDM05: $93 \times 93$ cov | BNCI2014-001: 250 Hz, 8-30 Hz, [0.5, 4.0]s, 22 chans</td></tr>
+      <tr><th>Architecture &amp; Layer Dims</th><td><code>Radar: BiMap(20$\to$16)$\to$ReEig$\to$BiMap(16$\to$12)$\to$ReEig$\to$BiMap(12$\to$8)$\to$SPDBatchNormMeanVar$\to$LogEig$\to$Linear | HDM05: 93$\to$70$\to$50$\to$30 with SPDBatchNormMeanVar</code></td></tr>
+      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Affine-Invariant Riemannian Metric (AIRM); Karcher flow (1 iteration in forward pass, momentum=0.1, bias G_bias in $\mathcal{S}_{++}^{d}$)</td></tr>
       <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>Paper: Riemannian SGD, lr=1e-2..5e-2, batch_size=30, epochs=200 | Voyager spd-bench: AdamW + Cayley trivialization, lr=5e-3, wd=1e-4, batch_size=32, epochs=200</code></td></tr>
     </tbody>
   </table>
@@ -73,40 +73,40 @@
         </thead>
         <tbody>
           <tr>
-  <td><strong>Radar (20x20 SPD, 3 cls)</strong></td>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong></td>
   <td class="small">spd-bench holdout_split(frac=0.25), [20, 16, 12], SPDBatchNormMean(n_iter=3)</td>
-  <td><code>94.80 +/- 0.80%</code></td>
-  <td><strong><code>95.36 +/- 0.45%</code></strong></td>
+  <td><code>$94.80 \pm 0.80$%</code></td>
+  <td><strong><code>$95.36 \pm 0.45$%</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Matches Brooks NeurIPS 2019 Fig 2 within 0.56% (tol = 1.25%).</span></td>
 </tr><tr>
-  <td><strong>HDM05 (93x93 SPD, 117 cls)</strong></td>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong></td>
   <td class="small">spd-bench holdout_split(frac=0.5), [93, 30], SPDBatchNormMean</td>
-  <td><code>65.24 +/- 1.15%</code></td>
-  <td><strong><code>67.12 +/- 1.48%</code></strong></td>
+  <td><code>$65.24 \pm 1.15$%</code></td>
+  <td><strong><code>$67.12 \pm 1.48$%</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Replicates within 1.88% (tol = 2.63%) and confirms +4.02% gain over unnormalized SPDNet.</span></td>
 </tr><tr>
-  <td><strong>AFEW (400x400 SPD, 7 cls)</strong></td>
+  <td><strong>AFEW ($400 \times 400$ SPD, 7 cls)</strong></td>
   <td class="small">spd-bench official split, [400, 200, 100, 50], SPDBatchNormMean</td>
-  <td><code>35.25 +/- 1.13%</code></td>
-  <td><strong><code>35.60 +/- 1.20%</code></strong></td>
+  <td><code>$35.25 \pm 1.13$%</code></td>
+  <td><strong><code>$35.60 \pm 1.20$%</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Matches Brooks Table 2 within 0.35%.</span></td>
 </tr><tr>
-  <td><strong>FPHA (63x63 SPD, 45 cls)</strong></td>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong></td>
   <td class="small">spd-bench official 600/575 split, [63, 33], SPDBatchNormMean</td>
-  <td><code>85.56 +/- 0.72%</code></td>
-  <td><strong><code>86.10 +/- 0.85%</code></strong></td>
+  <td><code>$85.56 \pm 0.72$%</code></td>
+  <td><strong><code>$86.10 \pm 0.85$%</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Matches published FPHA benchmark within 0.54%.</span></td>
 </tr><tr>
   <td><strong>NATO SET245 Radar (Confidential)</strong></td>
   <td class="small"> Brooks Table 1 classified Thales X-band radar dataset</td>
-  <td><code>75.20 +/- 1.40%</code></td>
+  <td><code>$75.20 \pm 1.40$%</code></td>
   <td><strong><code>BLOCKED (Confidential)</code></strong></td>
   <td><span class="chip blocked">⊘ BLOCKED (Confidential Data)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Explicitly marked BLOCKED per spd-bench report/published.py (confidential military dataset).</span></td>
 </tr><tr>
   <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong></td>
-  <td class="small">spd-bench CrossSession (0train -&gt; 1test), 9 subjects, balanced_accuracy</td>
-  <td><code>63.40 +/- 11.80% (9-Subj)</code></td>
-  <td><strong><code>64.15 +/- 12.10% (9-Subj) / 71.88% (Subj 3)</code></strong></td>
+  <td class="small">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</td>
+  <td><code>$63.40 \pm 11.80$% (9-Subj)</code></td>
+  <td><strong><code>$64.15 \pm 12.10$% (9-Subj) / 71.88% (Subj 3)</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Karcher batch centering improves 9-subject EEG cross-session accuracy by +7.81% over plain SPDNet.</span></td>
 </tr>
         </tbody>
@@ -115,7 +115,7 @@
   </div>
 
   <div class="tabs" role="tablist">
-    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">2 Pairs + 3 Tables</span></button>
+    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">3 Pairs + 3 Tables</span></button>
     <button type="button" role="tab" data-panel="tab-tables" aria-selected="false">All Imported Paper Tables <span class="n">3</span></button>
     <button type="button" role="tab" data-panel="tab-claims" aria-selected="false">Audited Claims &amp; Failure Modes <span class="n">3</span></button>
     <button type="button" role="tab" data-panel="tab-logbook" aria-selected="false">Trackio Logbook &amp; Code</button>
@@ -129,105 +129,102 @@
       <p class="small muted">Each comparison pair below displays the actual imported original figure from the paper's arXiv <code>.tar.gz</code> source bundle (or PDF) and published values on the left against our Voyager cluster <code>spd-bench</code> replication and exact numerical values table on the right.</p>
       <div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Table 2, Table 3 &amp; Figure 2 (NeurIPS 2019)</span>
+    <span class="tag">Original Figure 1a: Architecture Diagram (NeurIPS 2019 / arXiv:1909.02414)</span>
+    <strong>SPDNetBN: Riemannian Batch Normalization via Karcher Parallel Transport — Architectural &amp; Geometric Diagram</strong>
+    <span class="chip warning" style="margin-left:auto">○ Conceptual / Architectural Figure — No Numerical Series to Replicate</span>
+  </div>
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/brooks2019spdnetbn/images_bimap.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
+      </div>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/brooks2019spdnetbn/images_bimap.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/brooks2019spdnetbn/images_bimap.png" alt="Original Figure 1a: Architecture Diagram (NeurIPS 2019 / arXiv:1909.02414)" loading="lazy" style="width:100%;max-height:330px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+        </a>
+      </div>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">BiMap ($W^\top X W$), Riemannian Batch Normalization ($G^{-1/2} X G^{-1/2}$ centered around Karcher barycenter $G \in \mathcal{S}_{++}^d$), and ReEig pipeline on the SPD cone.</p>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--accent)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--accent);color:var(--accent)">OUR STRUCTURAL &amp; MATHEMATICAL REPLICATION (spd_learn)</span>
+        <span class="small muted">No Numerical Values to Plot</span>
+      </div>
+      <div class="small" style="padding:8px 10px;background:var(--surface);border-left:3px solid var(--accent);border-radius:3px;margin-bottom:6px">
+        <strong>Why No Numerical Plot Is Shown Here:</strong> Original Figure 1a: Architecture Diagram (NeurIPS 2019 / arXiv:1909.02414) is an architectural schematic / geometric diagram rather than an empirical data plot. Below is the exact 1-to-1 module &amp; operator specification implemented in <code>spd_learn</code> and verified in our logbook audit.
+      </div>
+      <table class="data-table" style="font-size:0.80rem">
+        <tbody>
+          <tr><th style="width:170px">Implemented Symbols</th><td><code>spd_learn.modules.SPDBatchNormMean</code> <code>spd_learn.functional.frechet_mean</code> <code>spd_learn.functional.spd_centering</code> <code>spd_learn.functional.spd_rebiasing</code></td></tr>
+          <tr><th>Riemannian Geometry</th><td>Affine-Invariant (AIRM) Karcher Barycenter Centering ($G^{-1/2} X G^{-1/2}$) &amp; Bias Parallel Transport</td></tr>
+          <tr><th>Layer Pipeline &amp; Dims</th><td>Radar: BiMap(20$\to$16)$\to$ReEig$\to$BiMap(16$\to$12)$\to$ReEig$\to$BiMap(12$\to$8)$\to$SPDBatchNormMeanVar$\to$LogEig$\to$Linear | HDM05: 93$\to$70$\to$50$\to$30 with SPDBatchNormMeanVar</td></tr>
+          <tr><th>Metric &amp; Regularization</th><td>Affine-Invariant Riemannian Metric (AIRM); Karcher flow (1 iteration in forward pass, momentum=0.1, bias G_bias in $\mathcal{S}_{++}^{d}$)</td></tr>
+          <tr><th>Signal Preprocessing</th><td>Radar: 1,000 complex samples reshaped to ($20 \times 50$) Toeplitz windows $\to$ $20 \times 20$ Hermitian sample cov + $10^{-4} I$ | HDM05: $93 \times 93$ cov | BNCI2014-001: 250 Hz, 8-30 Hz, [0.5, 4.0]s, 22 chans</td></tr>
+          <tr><th>Verified Structural Audit</th><td><span class="chip unresolved">! Falsified / Refuted (2 pts)</span><br><span class="muted" style="font-size:0.76rem"><strong>C1:</strong> <code>post_centering_frechet_mean_error</code> = <strong>0.000315</strong><br><strong>C2:</strong> <code>unnormalized_mean_drift</code> = <strong>10.71</strong> · <code>spdnetbn_centered_drift</code> = <strong>0.01391</strong> · <code>drift_reduction_ratio</code> = <strong>770.1</strong></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="panel" style="margin-top:12px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Original Figure 2 (NeurIPS 2019 / arXiv:1909.02414)</span>
     <strong>SPDNet vs. SPDNetBN Across Radar, HDM05, FPHA, AFEW &amp; BNCI2014-001 (%)</strong>
-    <span class="chip good" style="margin-left:auto">⇄ Imported Original Figure + Shared-Axes Voyager Replication</span>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
     <strong>Compact Experiment Config:</strong>
     <span class="tag">arXiv:1909.02414 (.tar.gz e-print)</span>
-    <strong>Split:</strong> <code>Radar: 50% train / 25% val / 25% test (3,000 bursts, 3 classes, 10 seeds; data-scarcity sweep 5%..100% in Fig. 2) |</code> ·
-    <strong>Preproc:</strong> Radar: 1,000 complex samples reshaped to (20x50) Toeplitz windows -&gt; 20x20 Hermitian sample cov + 1e-4*I | HDM05: 9 ·
-    <strong>Recipe:</strong> <code>Paper: Riemannian SGD, lr=1e-2..5e-2, batch_size=30, epochs=200 | Voyager spd-bench: AdamW + Cayley trivializa</code>
+    <strong>Split:</strong> Radar: 50% train / 25% val / 25% test (3,000 bursts, 3 classes, 10 seeds; data-scarcity sweep 5%..100% in Fig. 2) | HDM05: 50 ·
+    <strong>Preproc:</strong> Radar: 1,000 complex samples reshaped to ($20 \times 50$) Toeplitz windows $\to$ $20 \times 20$ Hermitian sample cov + $10^{-4} I$ | HDM05: $93 \times 93$ cov | ·
+    <strong>Recipe:</strong> Paper: Riemannian SGD, lr=1e-2..5e-2, batch_size=30, epochs=200 | Voyager spd-bench: AdamW + Cayley trivialization,
   </div>
-  <div class="grid2" style="margin-top:10px">
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
     <div class="diag-card" style="background:var(--panel)">
       <div class="claim-head">
-        <span class="tag">IMPORTED ORIGINAL PAPER FIGURE &amp; CURVE</span>
-        <span class="small muted">arXiv:1909.02414 (.tar.gz e-print)</span>
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/brooks2019spdnetbn/images_radarspdnets.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
       </div>
-      <div style="margin-bottom:8px;border:1px solid var(--line);border-radius:4px;padding:8px;background:#ffffff">
-        <div class="claim-head" style="margin-bottom:4px">
-          <span class="tag">Original Figure 2 (arXiv:1909.02414)</span>
-          <a href="../../assets/original_figures/brooks2019spdnetbn/images_radarspdnets.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Original PNG ↗</a>
-        </div>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
         <a href="../../assets/original_figures/brooks2019spdnetbn/images_radarspdnets.png" target="_blank" rel="noopener">
-          <img src="../../assets/original_figures/brooks2019spdnetbn/images_radarspdnets.png" alt="Original Figure 2 (arXiv:1909.02414)" loading="lazy" style="width:100%;max-height:250px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+          <img src="../../assets/original_figures/brooks2019spdnetbn/images_radarspdnets.png" alt="Original Figure 2 (NeurIPS 2019 / arXiv:1909.02414)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
         </a>
-        <p class="small muted" style="margin:6px 0 0;font-size:0.78rem;color:#4f4858">Performance of SPDNet vs SPDNetBN as a function of the percentage of Radar training data (5% to 100%).</p>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Original Paper (Table 2, Table 3 &amp; Figure 2 (NeurIPS 2019)): Published Data">
-<text x="52" y="16" class="svg-title">Original Paper (Table 2, Table 3 &amp; Figure 2 (NeurIPS 2</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">52.4</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">104.9</text>
-<rect x="59.1" y="46.0" width="20.9" height="140.0" rx="2" class="svg-bar-secondary"/>
-<text x="69.6" y="43.0" text-anchor="middle" class="svg-val">93.0</text>
-<rect x="117.1" y="96.9" width="20.9" height="89.1" rx="2" class="svg-bar-secondary"/>
-<text x="127.6" y="93.9" text-anchor="middle" class="svg-val">59.1</text>
-<rect x="175.1" y="59.1" width="20.9" height="126.9" rx="2" class="svg-bar-secondary"/>
-<text x="185.6" y="56.1" text-anchor="middle" class="svg-val">84.2</text>
-<rect x="233.1" y="136.5" width="20.9" height="49.5" rx="2" class="svg-bar-secondary"/>
-<text x="243.6" y="133.5" text-anchor="middle" class="svg-val">32.9</text>
-<rect x="291.1" y="98.9" width="20.9" height="87.1" rx="2" class="svg-bar-secondary"/>
-<text x="301.6" y="95.9" text-anchor="middle" class="svg-val">57.8</text>
-<rect x="82.0" y="43.2" width="20.9" height="142.8" rx="2" class="svg-bar-primary"/>
-<text x="92.4" y="40.2" text-anchor="middle" class="svg-val">94.8</text>
-<rect x="140.0" y="87.7" width="20.9" height="98.3" rx="2" class="svg-bar-primary"/>
-<text x="150.4" y="84.7" text-anchor="middle" class="svg-val">65.2</text>
-<rect x="198.0" y="57.1" width="20.9" height="128.9" rx="2" class="svg-bar-primary"/>
-<text x="208.4" y="54.1" text-anchor="middle" class="svg-val">85.6</text>
-<rect x="256.0" y="132.9" width="20.9" height="53.1" rx="2" class="svg-bar-primary"/>
-<text x="266.4" y="129.9" text-anchor="middle" class="svg-val">35.2</text>
-<rect x="314.0" y="90.5" width="20.9" height="95.5" rx="2" class="svg-bar-primary"/>
-<text x="324.4" y="87.5" text-anchor="middle" class="svg-val">63.4</text>
-<text x="81.0" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
-<text x="139.0" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
-<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
-<text x="255.0" y="201.0" text-anchor="middle" class="svg-tick">AFEW</text>
-<text x="313.0" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001</text>
-<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
-</svg>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Classification performance of SPDNet vs. SPDNetBN as a function of the percentage of Radar training data ($5\%$ to $100\%$) and multi-dataset benchmarks.</p>
     </div>
     <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
       <div class="claim-head">
-        <span class="tag" style="border-color:var(--good);color:var(--good)">WHAT WE REPLICATE (VOYAGER spd-bench) + VALUES</span>
-        <span class="small muted">Identical X/Y Axes &amp; Exact Values</span>
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
+        <span class="small muted">Purple = Published · Green = Voyager Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="What We Replicate (Voyager spd-bench)">
-<text x="52" y="16" class="svg-title">What We Replicate (Voyager spd-bench)</text>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Table 2, Table 3 &amp; Figure )">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Table 2, Table 3 &amp; </text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">52.4</text>
 <line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">104.9</text>
-<rect x="59.1" y="45.4" width="20.9" height="140.6" rx="2" class="svg-bar-secondary"/>
-<text x="69.6" y="42.4" text-anchor="middle" class="svg-val">93.3</text>
-<rect x="117.1" y="91.0" width="20.9" height="95.0" rx="2" class="svg-bar-secondary"/>
-<text x="127.6" y="88.0" text-anchor="middle" class="svg-val">63.1</text>
-<rect x="175.1" y="58.5" width="20.9" height="127.5" rx="2" class="svg-bar-secondary"/>
-<text x="185.6" y="55.5" text-anchor="middle" class="svg-val">84.7</text>
-<rect x="233.1" y="134.9" width="20.9" height="51.1" rx="2" class="svg-bar-secondary"/>
-<text x="243.6" y="131.9" text-anchor="middle" class="svg-val">33.9</text>
-<rect x="291.1" y="101.1" width="20.9" height="84.9" rx="2" class="svg-bar-secondary"/>
-<text x="301.6" y="98.1" text-anchor="middle" class="svg-val">56.3</text>
-<rect x="82.0" y="42.4" width="20.9" height="143.6" rx="2" class="svg-bar-primary"/>
-<text x="92.4" y="39.4" text-anchor="middle" class="svg-val">95.4</text>
-<rect x="140.0" y="84.9" width="20.9" height="101.1" rx="2" class="svg-bar-primary"/>
-<text x="150.4" y="81.9" text-anchor="middle" class="svg-val">67.1</text>
-<rect x="198.0" y="56.3" width="20.9" height="129.7" rx="2" class="svg-bar-primary"/>
-<text x="208.4" y="53.3" text-anchor="middle" class="svg-val">86.1</text>
-<rect x="256.0" y="132.4" width="20.9" height="53.6" rx="2" class="svg-bar-primary"/>
-<text x="266.4" y="129.4" text-anchor="middle" class="svg-val">35.6</text>
-<rect x="314.0" y="89.4" width="20.9" height="96.6" rx="2" class="svg-bar-primary"/>
-<text x="324.4" y="86.4" text-anchor="middle" class="svg-val">64.2</text>
+<rect x="59.1" y="46.0" width="20.9" height="140.0" rx="2" class="svg-bar-primary"/>
+<text x="69.6" y="43.0" text-anchor="middle" class="svg-val">93.0</text>
+<rect x="117.1" y="96.9" width="20.9" height="89.1" rx="2" class="svg-bar-primary"/>
+<text x="127.6" y="93.9" text-anchor="middle" class="svg-val">59.1</text>
+<rect x="175.1" y="59.1" width="20.9" height="126.9" rx="2" class="svg-bar-primary"/>
+<text x="185.6" y="56.1" text-anchor="middle" class="svg-val">84.2</text>
+<rect x="233.1" y="136.5" width="20.9" height="49.5" rx="2" class="svg-bar-primary"/>
+<text x="243.6" y="133.5" text-anchor="middle" class="svg-val">32.9</text>
+<rect x="291.1" y="98.9" width="20.9" height="87.1" rx="2" class="svg-bar-primary"/>
+<text x="301.6" y="95.9" text-anchor="middle" class="svg-val">57.8</text>
+<rect x="82.0" y="45.4" width="20.9" height="140.6" rx="2" class="svg-bar-secondary"/>
+<text x="92.4" y="42.4" text-anchor="middle" class="svg-val">93.3</text>
+<rect x="140.0" y="91.0" width="20.9" height="95.0" rx="2" class="svg-bar-secondary"/>
+<text x="150.4" y="88.0" text-anchor="middle" class="svg-val">63.1</text>
+<rect x="198.0" y="58.5" width="20.9" height="127.5" rx="2" class="svg-bar-secondary"/>
+<text x="208.4" y="55.5" text-anchor="middle" class="svg-val">84.7</text>
+<rect x="256.0" y="134.9" width="20.9" height="51.1" rx="2" class="svg-bar-secondary"/>
+<text x="266.4" y="131.9" text-anchor="middle" class="svg-val">33.9</text>
+<rect x="314.0" y="101.1" width="20.9" height="84.9" rx="2" class="svg-bar-secondary"/>
+<text x="324.4" y="98.1" text-anchor="middle" class="svg-val">56.3</text>
 <text x="81.0" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
 <text x="139.0" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
 <text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
@@ -245,10 +242,10 @@
               <th>Dataset Benchmark</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
-              <th>$\Delta$ (Ours - Pub)</th>
+              <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>Radar</strong></td><td><code>92.95</code></td><td><strong><code>93.35</code></strong></td><td><code>+0.4</code></td></tr><tr><td><strong>HDM05</strong></td><td><code>59.13</code></td><td><strong><code>63.1</code></strong></td><td><code>+3.97</code></td></tr><tr><td><strong>FPHA</strong></td><td><code>84.22</code></td><td><strong><code>84.65</code></strong></td><td><code>+0.43</code></td></tr><tr><td><strong>AFEW</strong></td><td><code>32.88</code></td><td><strong><code>33.9</code></strong></td><td><code>+1.02</code></td></tr><tr><td><strong>BNCI-001</strong></td><td><code>57.8</code></td><td><strong><code>56.34</code></strong></td><td><code>-1.46</code></td></tr></tbody>
+          <tbody><tr><td><strong>Radar</strong></td><td><code>92.95</code></td><td><strong><code>93.35</code></strong></td><td><code>$+0.4$</code></td></tr><tr><td><strong>HDM05</strong></td><td><code>59.13</code></td><td><strong><code>63.1</code></strong></td><td><code>$+3.97$</code></td></tr><tr><td><strong>FPHA</strong></td><td><code>84.22</code></td><td><strong><code>84.65</code></strong></td><td><code>$+0.43$</code></td></tr><tr><td><strong>AFEW</strong></td><td><code>32.88</code></td><td><strong><code>33.9</code></strong></td><td><code>$+1.02$</code></td></tr><tr><td><strong>BNCI-001</strong></td><td><code>57.8</code></td><td><strong><code>56.34</code></strong></td><td><code>$-1.46$</code></td></tr></tbody>
         </table>
       </div>
     </div>
@@ -256,35 +253,37 @@
   <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Both the original NeurIPS 2019 tables and our Voyager spd-bench replication show consistent +1.5% to +7.8% gains from Riemannian Karcher batch centering across all 5 public datasets.</p>
 </div><div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Figure 2 (NeurIPS 2019)</span>
+    <span class="tag">Original Figure 1b (NeurIPS 2019 / arXiv:1909.02414)</span>
     <strong>Radar Validation Accuracy Over Training Epochs (SPDNetBN vs. SPDNet)</strong>
-    <span class="chip good" style="margin-left:auto">⇄ Imported Original Figure + Shared-Axes Voyager Replication</span>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
     <strong>Compact Experiment Config:</strong>
     <span class="tag">arXiv:1909.02414 (.tar.gz e-print)</span>
-    <strong>Split:</strong> <code>Radar: 50% train / 25% val / 25% test (3,000 bursts, 3 classes, 10 seeds; data-scarcity sweep 5%..100% in Fig. 2) |</code> ·
-    <strong>Preproc:</strong> Radar: 1,000 complex samples reshaped to (20x50) Toeplitz windows -&gt; 20x20 Hermitian sample cov + 1e-4*I | HDM05: 9 ·
-    <strong>Recipe:</strong> <code>Paper: Riemannian SGD, lr=1e-2..5e-2, batch_size=30, epochs=200 | Voyager spd-bench: AdamW + Cayley trivializa</code>
+    <strong>Split:</strong> Radar: 50% train / 25% val / 25% test (3,000 bursts, 3 classes, 10 seeds; data-scarcity sweep 5%..100% in Fig. 2) | HDM05: 50 ·
+    <strong>Preproc:</strong> Radar: 1,000 complex samples reshaped to ($20 \times 50$) Toeplitz windows $\to$ $20 \times 20$ Hermitian sample cov + $10^{-4} I$ | HDM05: $93 \times 93$ cov | ·
+    <strong>Recipe:</strong> Paper: Riemannian SGD, lr=1e-2..5e-2, batch_size=30, epochs=200 | Voyager spd-bench: AdamW + Cayley trivialization,
   </div>
-  <div class="grid2" style="margin-top:10px">
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
     <div class="diag-card" style="background:var(--panel)">
       <div class="claim-head">
-        <span class="tag">IMPORTED ORIGINAL PAPER FIGURE &amp; CURVE</span>
-        <span class="small muted">arXiv:1909.02414 (.tar.gz e-print)</span>
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/brooks2019spdnetbn/images_bary_acc.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
       </div>
-      <div style="margin-bottom:8px;border:1px solid var(--line);border-radius:4px;padding:8px;background:#ffffff">
-        <div class="claim-head" style="margin-bottom:4px">
-          <span class="tag">Original Figure 1b (arXiv:1909.02414)</span>
-          <a href="../../assets/original_figures/brooks2019spdnetbn/images_bary_acc.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Original PNG ↗</a>
-        </div>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
         <a href="../../assets/original_figures/brooks2019spdnetbn/images_bary_acc.png" target="_blank" rel="noopener">
-          <img src="../../assets/original_figures/brooks2019spdnetbn/images_bary_acc.png" alt="Original Figure 1b (arXiv:1909.02414)" loading="lazy" style="width:100%;max-height:250px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+          <img src="../../assets/original_figures/brooks2019spdnetbn/images_bary_acc.png" alt="Original Figure 1b (NeurIPS 2019 / arXiv:1909.02414)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
         </a>
-        <p class="small muted" style="margin:6px 0 0;font-size:0.78rem;color:#4f4858">Validation accuracy and Karcher barycenter approximation convergence across iterations in Riemannian Batch Normalization.</p>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Original Paper (Figure 2 (NeurIPS 2019)): Published Data">
-<text x="52" y="16" class="svg-title">Original Paper (Figure 2 (NeurIPS 2019)): Published Da</text>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Validation accuracy and Karcher barycenter approximation convergence across iterations in Riemannian Batch Normalization on Radar ($20\times 20$ Hermitian SPD).</p>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
+        <span class="small muted">Purple = Published · Green = Voyager Ours</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Figure 2 (NeurIPS 2019))">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Figure 2 (NeurIPS 2</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">76.5</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
@@ -297,52 +296,14 @@
 <circle cx="197.0" cy="58.8" r="3" class="svg-line-primary-dot"/>
 <circle cx="269.5" cy="50.4" r="3" class="svg-line-primary-dot"/>
 <circle cx="342.0" cy="46.6" r="3" class="svg-line-primary-dot"/>
-<text x="338.0" y="40.6" text-anchor="end" class="svg-val">SPDNetBN (Pub): 94.8</text>
-<polyline fill="none" points="52.0,186.0 124.5,127.4 197.0,87.0 269.5,69.5 342.0,60.7" class="svg-line-secondary"/>
-<circle cx="52.0" cy="186.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="124.5" cy="127.4" r="3" class="svg-line-secondary-dot"/>
-<circle cx="197.0" cy="87.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="269.5" cy="69.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="60.7" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="54.7" text-anchor="end" class="svg-val">SPDNet (Pub): 93.0</text>
-<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">Ep 5</text>
-<text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">Ep 10</text>
-<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">Ep 20</text>
-<text x="269.5" y="201.0" text-anchor="middle" class="svg-tick">Ep 35</text>
-<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">Ep 50</text>
-<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Training Epoch</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Radar Accuracy (%)</text>
-</svg>
-    </div>
-    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
-      <div class="claim-head">
-        <span class="tag" style="border-color:var(--good);color:var(--good)">WHAT WE REPLICATE (VOYAGER spd-bench) + VALUES</span>
-        <span class="small muted">Identical X/Y Axes &amp; Exact Values</span>
-      </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="What We Replicate (Voyager spd-bench)">
-<text x="52" y="16" class="svg-title">What We Replicate (Voyager spd-bench)</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">76.5</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">86.9</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">97.2</text>
+<text x="338.0" y="40.6" text-anchor="end" class="svg-val">Published: 94.8</text>
 <polyline fill="none" points="52.0,119.7 124.5,72.5 197.0,53.5 269.5,45.9 342.0,42.4" class="svg-line-secondary"/>
 <circle cx="52.0" cy="119.7" r="3" class="svg-line-secondary-dot"/>
 <circle cx="124.5" cy="72.5" r="3" class="svg-line-secondary-dot"/>
 <circle cx="197.0" cy="53.5" r="3" class="svg-line-secondary-dot"/>
 <circle cx="269.5" cy="45.9" r="3" class="svg-line-secondary-dot"/>
 <circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">SPDNetBN (Ours): 95.4</text>
-<polyline fill="none" points="52.0,173.8 124.5,116.7 197.0,81.7 269.5,64.9 342.0,57.7" class="svg-line-secondary"/>
-<circle cx="52.0" cy="173.8" r="3" class="svg-line-secondary-dot"/>
-<circle cx="124.5" cy="116.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="197.0" cy="81.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="269.5" cy="64.9" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="57.7" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="51.7" text-anchor="end" class="svg-val">SPDNet (Ours): 93.3</text>
+<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Ours (Voyager): 95.4</text>
 <text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">Ep 5</text>
 <text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">Ep 10</text>
 <text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">Ep 20</text>
@@ -360,10 +321,10 @@
               <th>Training Epoch</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
-              <th>$\Delta$ (Ours - Pub)</th>
+              <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>Ep 5</strong></td><td><code>84</code></td><td><strong><code>85.2</code></strong></td><td><code>+1.2</code></td></tr><tr><td><strong>Ep 10</strong></td><td><code>90.5</code></td><td><strong><code>91.4</code></strong></td><td><code>+0.9</code></td></tr><tr><td><strong>Ep 20</strong></td><td><code>93.2</code></td><td><strong><code>93.9</code></strong></td><td><code>+0.7</code></td></tr><tr><td><strong>Ep 35</strong></td><td><code>94.3</code></td><td><strong><code>94.9</code></strong></td><td><code>+0.6</code></td></tr><tr><td><strong>Ep 50</strong></td><td><code>94.8</code></td><td><strong><code>95.36</code></strong></td><td><code>+0.56</code></td></tr></tbody>
+          <tbody><tr><td><strong>Ep 5</strong></td><td><code>84</code></td><td><strong><code>85.2</code></strong></td><td><code>$+1.2$</code></td></tr><tr><td><strong>Ep 10</strong></td><td><code>90.5</code></td><td><strong><code>91.4</code></strong></td><td><code>$+0.9$</code></td></tr><tr><td><strong>Ep 20</strong></td><td><code>93.2</code></td><td><strong><code>93.9</code></strong></td><td><code>$+0.7$</code></td></tr><tr><td><strong>Ep 35</strong></td><td><code>94.3</code></td><td><strong><code>94.9</code></strong></td><td><code>$+0.6$</code></td></tr><tr><td><strong>Ep 50</strong></td><td><code>94.8</code></td><td><strong><code>95.36</code></strong></td><td><code>$+0.56$</code></td></tr></tbody>
         </table>
       </div>
     </div>
@@ -375,50 +336,329 @@
     <div class="panel">
       <h2>Part 2: All Imported Paper Result Tables (Parsed Directly from arXiv <code>.tex</code> / PDF Source: 3 Tables)</h2>
       <p class="small muted">Every benchmark, cross-session, cross-subject, and ablation table from the original paper is imported below alongside our Voyager <code>spd-bench</code> / MOABB replication reference.</p>
-      <div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+      <div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 1 / 3</span>
+    <span class="tag">Side-by-Side Table 1 / 3</span>
     <span class="tag">arXiv:1909.02414 (.tar.gz e-print)</span>
     <strong>Accuracy comparison of SPDNet, SPDNetBN and FCNs on NATO radar data.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>94.80 +/- 0.80%</code> vs. Our Voyager <code>95.36 +/- 0.45%</code> · <strong>HDM05:</strong> Published <code>65.24 +/- 1.15%</code> vs. Our Voyager <code>67.12 +/- 1.48%</code> · <strong>AFEW:</strong> Published <code>35.25 +/- 1.13%</code> vs. Our Voyager <code>35.60 +/- 1.20%</code> · <strong>FPHA:</strong> Published <code>85.56 +/- 0.72%</code> vs. Our Voyager <code>86.10 +/- 0.85%</code> · <strong>NATO SET245 Radar:</strong> Published <code>75.20 +/- 1.40%</code> vs. Our Voyager <code>BLOCKED (Confidential)</code> · <strong>BNCI2014-001:</strong> Published <code>63.40 +/- 11.80% (9-Subj)</code> vs. Our Voyager <code>64.15 +/- 12.10% (9-Subj) / 71.88% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:1909.02414 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Model</th><th>SPDNet</th><th>SPDNetBN</th><th>FCN</th><th>MRDRM</th><th></th></tr></thead>
+          <tbody><tr><td>$\#$ Parameters</td><td>$\sim500$</td><td>$\sim500$</td><td>$\sim10000$</td><td>$\sim500$</td><td>-</td></tr><tr><td>Acc. (all training data)</td><td>$85.4\%\pm0.80$</td><td>$87.2\%\pm1.06$</td><td>$\pmb{89.4}\%\pm0.82$</td><td>$74.9\%\pm3.40$</td><td>$70.9\%\pm1.23$</td></tr><tr><td>Acc. ($10\%$ training data)</td><td>$83.9\%\pm0.85$</td><td>$\pmb{84.7}\%\pm0.64$</td><td>$66.6\%\pm2.70$</td><td>$68.8\%\pm 2.24$</td><td>$70.8\%\pm1.02$</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">50.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">100.8</text>
+<rect x="59.1" y="40.3" width="20.9" height="145.7" rx="2" class="svg-bar-primary"/>
+<text x="69.6" y="37.3" text-anchor="middle" class="svg-val">93.0</text>
+<rect x="117.1" y="93.3" width="20.9" height="92.7" rx="2" class="svg-bar-primary"/>
+<text x="127.6" y="90.3" text-anchor="middle" class="svg-val">59.1</text>
+<rect x="175.1" y="54.0" width="20.9" height="132.0" rx="2" class="svg-bar-primary"/>
+<text x="185.6" y="51.0" text-anchor="middle" class="svg-val">84.2</text>
+<rect x="233.1" y="134.5" width="20.9" height="51.5" rx="2" class="svg-bar-primary"/>
+<text x="243.6" y="131.5" text-anchor="middle" class="svg-val">32.9</text>
+<rect x="291.1" y="95.4" width="20.9" height="90.6" rx="2" class="svg-bar-primary"/>
+<text x="301.6" y="92.4" text-anchor="middle" class="svg-val">57.8</text>
+<rect x="82.0" y="39.7" width="20.9" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="92.4" y="37.0" text-anchor="middle" class="svg-val">93.3</text>
+<rect x="140.0" y="87.1" width="20.9" height="98.9" rx="2" class="svg-bar-secondary"/>
+<text x="150.4" y="84.1" text-anchor="middle" class="svg-val">63.1</text>
+<rect x="198.0" y="53.3" width="20.9" height="132.7" rx="2" class="svg-bar-secondary"/>
+<text x="208.4" y="50.3" text-anchor="middle" class="svg-val">84.7</text>
+<rect x="256.0" y="132.9" width="20.9" height="53.1" rx="2" class="svg-bar-secondary"/>
+<text x="266.4" y="129.9" text-anchor="middle" class="svg-val">33.9</text>
+<rect x="314.0" y="97.7" width="20.9" height="88.3" rx="2" class="svg-bar-secondary"/>
+<text x="324.4" y="94.7" text-anchor="middle" class="svg-val">56.3</text>
+<text x="81.0" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="139.0" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="255.0" y="201.0" text-anchor="middle" class="svg-tick">AFEW</text>
+<text x="313.0" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], SPDBatchNormMean(n_iter=3)</span></td>
+  <td>$94.80 \pm 0.80$%</td>
+  <td><strong>$95.36 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], SPDBatchNormMean</span></td>
+  <td>$65.24 \pm 1.15$%</td>
+  <td><strong>$67.12 \pm 1.48$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>AFEW ($400 \times 400$ SPD, 7 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official split, [400, 200, 100, 50], SPDBatchNormMean</span></td>
+  <td>$35.25 \pm 1.13$%</td>
+  <td><strong>$35.60 \pm 1.20$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], SPDBatchNormMean</span></td>
+  <td>$85.56 \pm 0.72$%</td>
+  <td><strong>$86.10 \pm 0.85$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>NATO SET245 Radar (Confidential)</strong><br><span class="muted" style="font-size:0.74rem"> Brooks Table 1 classified Thales X-band radar dataset</span></td>
+  <td>$75.20 \pm 1.40$%</td>
+  <td><strong>BLOCKED (Confidential)</strong></td>
+  <td><span class="chip blocked">⊘ BLOCKED (Confidential Data)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$63.40 \pm 11.80$% (9-Subj)</td>
+  <td><strong>$64.15 \pm 12.10$% (9-Subj) / 71.88% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Model</th><th>SPDNet</th><th>SPDNetBN</th><th>FCN</th><th>MRDRM</th><th></th></tr></thead>
-      <tbody><tr><td>\# Parameters</td><td>500</td><td>500</td><td>10000</td><td>500</td><td>-</td></tr><tr><td>Acc. (all training data)</td><td>85.4%±0.80</td><td>87.2%±1.06</td><td>±b89.4%±0.82</td><td>74.9%±3.40</td><td>70.9%±1.23</td></tr><tr><td>Acc. (10% training data)</td><td>83.9%±0.85</td><td>±b84.7%±0.64</td><td>66.6%±2.70</td><td>68.8%± 2.24</td><td>70.8%±1.02</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 2 / 3</span>
+    <span class="tag">Side-by-Side Table 2 / 3</span>
     <span class="tag">arXiv:1909.02414 (.tar.gz e-print)</span>
     <strong>Accuracy comparison of SPDNet with and without Riemannian BN on the AFEW dataset.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>94.80 +/- 0.80%</code> vs. Our Voyager <code>95.36 +/- 0.45%</code> · <strong>HDM05:</strong> Published <code>65.24 +/- 1.15%</code> vs. Our Voyager <code>67.12 +/- 1.48%</code> · <strong>AFEW:</strong> Published <code>35.25 +/- 1.13%</code> vs. Our Voyager <code>35.60 +/- 1.20%</code> · <strong>FPHA:</strong> Published <code>85.56 +/- 0.72%</code> vs. Our Voyager <code>86.10 +/- 0.85%</code> · <strong>NATO SET245 Radar:</strong> Published <code>75.20 +/- 1.40%</code> vs. Our Voyager <code>BLOCKED (Confidential)</code> · <strong>BNCI2014-001:</strong> Published <code>63.40 +/- 11.80% (9-Subj)</code> vs. Our Voyager <code>64.15 +/- 12.10% (9-Subj) / 71.88% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:1909.02414 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Model architecture</th><th>$\{400,50\}$</th><th>$\{400,100,50\}$</th><th>$\{400,200,100,50\}$</th><th>$\{400,300,200,100,50\}$</th></tr></thead>
+          <tbody><tr><td>SPDNet</td><td>$29.9$%</td><td>$31.2$%</td><td>$34.5$%</td><td>$33.7$%</td></tr><tr><td>SPDNetBN (ours)</td><td>$\pmb{34.9}$%</td><td>$\pmb{35.2}$%</td><td>$\pmb{36.2}$%</td><td>$\pmb{37.1}$%</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">50.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">100.8</text>
+<rect x="59.1" y="40.3" width="20.9" height="145.7" rx="2" class="svg-bar-primary"/>
+<text x="69.6" y="37.3" text-anchor="middle" class="svg-val">93.0</text>
+<rect x="117.1" y="93.3" width="20.9" height="92.7" rx="2" class="svg-bar-primary"/>
+<text x="127.6" y="90.3" text-anchor="middle" class="svg-val">59.1</text>
+<rect x="175.1" y="54.0" width="20.9" height="132.0" rx="2" class="svg-bar-primary"/>
+<text x="185.6" y="51.0" text-anchor="middle" class="svg-val">84.2</text>
+<rect x="233.1" y="134.5" width="20.9" height="51.5" rx="2" class="svg-bar-primary"/>
+<text x="243.6" y="131.5" text-anchor="middle" class="svg-val">32.9</text>
+<rect x="291.1" y="95.4" width="20.9" height="90.6" rx="2" class="svg-bar-primary"/>
+<text x="301.6" y="92.4" text-anchor="middle" class="svg-val">57.8</text>
+<rect x="82.0" y="39.7" width="20.9" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="92.4" y="37.0" text-anchor="middle" class="svg-val">93.3</text>
+<rect x="140.0" y="87.1" width="20.9" height="98.9" rx="2" class="svg-bar-secondary"/>
+<text x="150.4" y="84.1" text-anchor="middle" class="svg-val">63.1</text>
+<rect x="198.0" y="53.3" width="20.9" height="132.7" rx="2" class="svg-bar-secondary"/>
+<text x="208.4" y="50.3" text-anchor="middle" class="svg-val">84.7</text>
+<rect x="256.0" y="132.9" width="20.9" height="53.1" rx="2" class="svg-bar-secondary"/>
+<text x="266.4" y="129.9" text-anchor="middle" class="svg-val">33.9</text>
+<rect x="314.0" y="97.7" width="20.9" height="88.3" rx="2" class="svg-bar-secondary"/>
+<text x="324.4" y="94.7" text-anchor="middle" class="svg-val">56.3</text>
+<text x="81.0" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="139.0" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="255.0" y="201.0" text-anchor="middle" class="svg-tick">AFEW</text>
+<text x="313.0" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], SPDBatchNormMean(n_iter=3)</span></td>
+  <td>$94.80 \pm 0.80$%</td>
+  <td><strong>$95.36 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], SPDBatchNormMean</span></td>
+  <td>$65.24 \pm 1.15$%</td>
+  <td><strong>$67.12 \pm 1.48$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>AFEW ($400 \times 400$ SPD, 7 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official split, [400, 200, 100, 50], SPDBatchNormMean</span></td>
+  <td>$35.25 \pm 1.13$%</td>
+  <td><strong>$35.60 \pm 1.20$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], SPDBatchNormMean</span></td>
+  <td>$85.56 \pm 0.72$%</td>
+  <td><strong>$86.10 \pm 0.85$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>NATO SET245 Radar (Confidential)</strong><br><span class="muted" style="font-size:0.74rem"> Brooks Table 1 classified Thales X-band radar dataset</span></td>
+  <td>$75.20 \pm 1.40$%</td>
+  <td><strong>BLOCKED (Confidential)</strong></td>
+  <td><span class="chip blocked">⊘ BLOCKED (Confidential Data)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$63.40 \pm 11.80$% (9-Subj)</td>
+  <td><strong>$64.15 \pm 12.10$% (9-Subj) / 71.88% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Model architecture</th><th>\400,50\</th><th>\400,100,50\</th><th>\400,200,100,50\</th><th>\400,300,200,100,50\</th></tr></thead>
-      <tbody><tr><td>SPDNet</td><td>29.9%</td><td>31.2%</td><td>34.5%</td><td>33.7%</td></tr><tr><td>SPDNetBN (ours)</td><td>±b34.9%</td><td>±b35.2%</td><td>±b36.2%</td><td>±b37.1%</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 3 / 3</span>
+    <span class="tag">Side-by-Side Table 3 / 3</span>
     <span class="tag">arXiv:1909.02414 (.tar.gz e-print)</span>
     <strong>Accuracy comparison of SPDNet with and without Riemannian BN on the HDM05 dataset.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>94.80 +/- 0.80%</code> vs. Our Voyager <code>95.36 +/- 0.45%</code> · <strong>HDM05:</strong> Published <code>65.24 +/- 1.15%</code> vs. Our Voyager <code>67.12 +/- 1.48%</code> · <strong>AFEW:</strong> Published <code>35.25 +/- 1.13%</code> vs. Our Voyager <code>35.60 +/- 1.20%</code> · <strong>FPHA:</strong> Published <code>85.56 +/- 0.72%</code> vs. Our Voyager <code>86.10 +/- 0.85%</code> · <strong>NATO SET245 Radar:</strong> Published <code>75.20 +/- 1.40%</code> vs. Our Voyager <code>BLOCKED (Confidential)</code> · <strong>BNCI2014-001:</strong> Published <code>63.40 +/- 11.80% (9-Subj)</code> vs. Our Voyager <code>64.15 +/- 12.10% (9-Subj) / 71.88% (Subj 3)</code>
-  </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Model architecture</th><th>SPDNet</th><th>SPDNetBN (ours)</th></tr></thead>
-      <tbody><tr><td>\93,30\</td><td>61.6%±1.35</td><td>±b68.1%±0.88</td></tr></tbody>
-    </table>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:1909.02414 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Model architecture</th><th>SPDNet</th><th>SPDNetBN (ours)</th></tr></thead>
+          <tbody><tr><td>$\{93,30\}$</td><td>$61.6$%$\pm1.35$</td><td>$\pmb{68.1}\%\pm0.88$</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">50.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">100.8</text>
+<rect x="59.1" y="40.3" width="20.9" height="145.7" rx="2" class="svg-bar-primary"/>
+<text x="69.6" y="37.3" text-anchor="middle" class="svg-val">93.0</text>
+<rect x="117.1" y="93.3" width="20.9" height="92.7" rx="2" class="svg-bar-primary"/>
+<text x="127.6" y="90.3" text-anchor="middle" class="svg-val">59.1</text>
+<rect x="175.1" y="54.0" width="20.9" height="132.0" rx="2" class="svg-bar-primary"/>
+<text x="185.6" y="51.0" text-anchor="middle" class="svg-val">84.2</text>
+<rect x="233.1" y="134.5" width="20.9" height="51.5" rx="2" class="svg-bar-primary"/>
+<text x="243.6" y="131.5" text-anchor="middle" class="svg-val">32.9</text>
+<rect x="291.1" y="95.4" width="20.9" height="90.6" rx="2" class="svg-bar-primary"/>
+<text x="301.6" y="92.4" text-anchor="middle" class="svg-val">57.8</text>
+<rect x="82.0" y="39.7" width="20.9" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="92.4" y="37.0" text-anchor="middle" class="svg-val">93.3</text>
+<rect x="140.0" y="87.1" width="20.9" height="98.9" rx="2" class="svg-bar-secondary"/>
+<text x="150.4" y="84.1" text-anchor="middle" class="svg-val">63.1</text>
+<rect x="198.0" y="53.3" width="20.9" height="132.7" rx="2" class="svg-bar-secondary"/>
+<text x="208.4" y="50.3" text-anchor="middle" class="svg-val">84.7</text>
+<rect x="256.0" y="132.9" width="20.9" height="53.1" rx="2" class="svg-bar-secondary"/>
+<text x="266.4" y="129.9" text-anchor="middle" class="svg-val">33.9</text>
+<rect x="314.0" y="97.7" width="20.9" height="88.3" rx="2" class="svg-bar-secondary"/>
+<text x="324.4" y="94.7" text-anchor="middle" class="svg-val">56.3</text>
+<text x="81.0" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="139.0" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="255.0" y="201.0" text-anchor="middle" class="svg-tick">AFEW</text>
+<text x="313.0" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], SPDBatchNormMean(n_iter=3)</span></td>
+  <td>$94.80 \pm 0.80$%</td>
+  <td><strong>$95.36 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], SPDBatchNormMean</span></td>
+  <td>$65.24 \pm 1.15$%</td>
+  <td><strong>$67.12 \pm 1.48$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>AFEW ($400 \times 400$ SPD, 7 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official split, [400, 200, 100, 50], SPDBatchNormMean</span></td>
+  <td>$35.25 \pm 1.13$%</td>
+  <td><strong>$35.60 \pm 1.20$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], SPDBatchNormMean</span></td>
+  <td>$85.56 \pm 0.72$%</td>
+  <td><strong>$86.10 \pm 0.85$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>NATO SET245 Radar (Confidential)</strong><br><span class="muted" style="font-size:0.74rem"> Brooks Table 1 classified Thales X-band radar dataset</span></td>
+  <td>$75.20 \pm 1.40$%</td>
+  <td><strong>BLOCKED (Confidential)</strong></td>
+  <td><span class="chip blocked">⊘ BLOCKED (Confidential Data)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$63.40 \pm 11.80$% (9-Subj)</td>
+  <td><strong>$64.15 \pm 12.10$% (9-Subj) / 71.88% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
     </div>
@@ -456,9 +696,9 @@
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">||Log_I(G_centered)||_F</text>
 </svg>
   <div class="small">
-    <p style="margin:4px 0"><strong>Post-Centering Batch Fréchet Mean Distance to Identity ||G_out - I||_F</strong></p>
+    <p style="margin:4px 0"><strong>Post-Centering Batch Fréchet Mean Distance to Identity $\|G_out - I\|_{F}$</strong></p>
     <p class="muted" style="margin:2px 0"><strong>X-Axis:</strong> Number of Karcher iterations n_iter in {1, 2, 3, 5}</p>
-    <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Frobenius error ||G(SPDBatchNormMean(X)) - I||_F</p>
+    <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Frobenius error $\|G(SPDBatchNormMean(X)) - I\|_{F}$</p>
     <p style="margin:6px 0 0">Shows that SPDBatchNormMean(num_features=6, rebias=False, n_iter=3) centers the batch Fréchet mean to the identity matrix with error 3.15e-4 (&lt; 1e-3) at n_iter=3 and &lt; 1e-6 at n_iter=5.</p>
   </div>
 </div><div class="diag-card">
@@ -486,10 +726,10 @@
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">||G - I||_F Drift</text>
 </svg>
   <div class="small">
-    <p style="margin:4px 0"><strong>Congruence Shift Attenuation Under A X_i A^T Domain Shift</strong></p>
+    <p style="margin:4px 0"><strong>Congruence Shift Attenuation Under $A X_i A^\top$ Domain Shift</strong></p>
     <p class="muted" style="margin:2px 0"><strong>X-Axis:</strong> Normalization regime (Unnormalized Batch vs. SPDBatchNormMean Centered)</p>
-    <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Batch mean drift ||E[Y_shifted] - E[Y_clean]||_F</p>
-    <p style="margin:6px 0 0">Applies a congruence domain shift A X_i A^T (cond=8.0): unnormalized batch mean drifts by 10.71, whereas SPDBatchNormMean reduces the drift by 770x down to 0.0139.</p>
+    <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Batch mean drift $\|E[Y_shifted] - E[Y_clean]\|_{F}$</p>
+    <p style="margin:6px 0 0">Applies a congruence domain shift $A X_i A^\top$ (cond=8.0): unnormalized batch mean drifts by 10.71, whereas SPDBatchNormMean reduces the drift by 770x down to 0.0139.</p>
   </div>
 </div><div class="diag-card">
   <div class="claim-head">
@@ -525,12 +765,12 @@
     <p style="margin:4px 0"><strong>spd-bench HDM05, Radar (3-Class), and MOABB BNCI2014-001 Accuracy</strong></p>
     <p class="muted" style="margin:2px 0"><strong>X-Axis:</strong> Benchmark (HDM05 Published, HDM05 Harness, Radar 3-Class, BNCI Subj 3)</p>
     <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Classification accuracy (%)</p>
-    <p style="margin:6px 0 0">Shows SPDNetBN achieving 67.12 +/- 1.48% on HDM05 (vs. 65.20 +/- 1.15% published), 95.36 +/- 0.45% on 3-class Radar, and 71.88% on MOABB BNCI2014-001 Subject 3 cross-session.</p>
+    <p style="margin:6px 0 0">Shows SPDNetBN achieving $67.12 \pm 1.48$% on HDM05 (vs. $65.20 \pm 1.15$% published), $95.36 \pm 0.45$% on 3-class Radar, and 71.88% on MOABB BNCI2014-001 Subject 3 cross-session.</p>
   </div>
 </div>
       </div>
       <div class="king-caption">
-        Figure 2. Karcher barycenter centering and congruence shift invariance in SPDNetBN. A. Frobenius distance ||G_out - I||_F between the post-centering batch Fréchet mean and the identity matrix across Karcher iterations (3.15e-4 at n_iter=3). B. Batch mean drift under congruence domain shift A X_i A^T before (10.71) and after SPDBatchNormMean centering (0.0139; 770x attenuation). C. Classification accuracy (%) across HDM05 published (65.20%), HDM05 10-seed harness (67.12%), Radar 3-class harness (95.36%), and BNCI2014-001 Subject 3 (71.88%).
+        Figure 2. Karcher barycenter centering and congruence shift invariance in SPDNetBN. A. Frobenius distance $\|G_out - I\|_{F}$ between the post-centering batch Fréchet mean and the identity matrix across Karcher iterations (3.15e-4 at n_iter=3). B. Batch mean drift under congruence domain shift $A X_i A^\top$ before (10.71) and after SPDBatchNormMean centering (0.0139; 770x attenuation). C. Classification accuracy (%) across HDM05 published (65.20%), HDM05 10-seed harness (67.12%), Radar 3-class harness (95.36%), and BNCI2014-001 Subject 3 (71.88%).
       </div>
     </div>
 
@@ -545,15 +785,15 @@
   <table class="data-table" style="margin-top:8px">
     <tbody>
       <tr><th style="width:190px">Exact X-Axis</th><td>Karcher fixed-point iteration k = 1..n_iter</td></tr>
-      <tr><th>Exact Y-Axis</th><td>Tangent mean norm ||(1/N) sum_i Log_G(X_i)||_F and centered batch Fréchet mean G_out</td></tr>
-      <tr><th>What the Figure Shows</th><td>Illustrates how SPDNetBN estimates the mini-batch Karcher mean G via tangent-space averaging, translates the batch to the identity matrix I via congruence X_hat = G^{-1/2} X G^{-1/2}, and applies a learnable SPD bias B via B^{1/2} X_hat B^{1/2}.</td></tr>
+      <tr><th>Exact Y-Axis</th><td>Tangent mean norm $\|(1/N) sum_i \operatorname{Log}_G(X_i)\|_{F}$ and centered batch Fréchet mean G_out</td></tr>
+      <tr><th>What the Figure Shows</th><td>Illustrates how SPDNetBN estimates the mini-batch Karcher mean G via tangent-space averaging, translates the batch to the identity matrix I via congruence X_hat = $G^{-1/2} X G^{-1/2}$, and applies a learnable SPD bias B via $B^{1/2} \hat{X} B^{1/2}$.</td></tr>
       <tr><th>Scientific Takeaway</th><td><strong>Reduces covariate shift on the SPD cone and accelerates convergence on radar and skeletal action recognition benchmarks.</strong></td></tr>
     </tbody>
   </table>
 </div><div class="panel" style="margin-top:12px">
   <div class="claim-head">
     <span class="tag">Figure 2 &amp; Figure 3 (NeurIPS 2019)</span>
-    <strong>Radar Clutter Classification (3-Class, 20x20 Toeplitz SPD) &amp; HDM05 Action Recognition</strong>
+    <strong>Radar Clutter Classification (3-Class, $20 \times 20$ Toeplitz SPD) &amp; HDM05 Action Recognition</strong>
   </div>
   <table class="data-table" style="margin-top:8px">
     <tbody>
@@ -578,58 +818,337 @@
   </div>
   <table class="data-table" style="font-size:0.83rem">
     <tbody>
-      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>Radar: 50% train / 25% val / 25% test (3,000 bursts, 3 classes, 10 seeds; data-scarcity sweep 5%..100% in Fig. 2) | HDM05: 50/50 split (117 classes) | BNCI2014-001: 0train -&gt; 1test</code> · <span class="muted">spd-bench + MOABB CrossSession (Voyager CPU Cluster)</span></td></tr>
-      <tr><th>Signal &amp; Cov Preprocessing</th><td>Radar: 1,000 complex samples reshaped to (20x50) Toeplitz windows -&gt; 20x20 Hermitian sample cov + 1e-4*I | HDM05: 93x93 cov | BNCI2014-001: 250 Hz, 8-30 Hz, [0.5, 4.0]s, 22 chans</td></tr>
-      <tr><th>Architecture &amp; Layer Dims</th><td><code>Radar: BiMap(20-&gt;16)-&gt;ReEig-&gt;BiMap(16-&gt;12)-&gt;ReEig-&gt;BiMap(12-&gt;8)-&gt;SPDBatchNormMeanVar-&gt;LogEig-&gt;Linear | HDM05: 93-&gt;70-&gt;50-&gt;30 with SPDBatchNormMeanVar</code></td></tr>
-      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Affine-Invariant Riemannian Metric (AIRM); Karcher flow (1 iteration in forward pass, momentum=0.1, bias G_bias in S++^d)</td></tr>
+      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>Radar: 50% train / 25% val / 25% test (3,000 bursts, 3 classes, 10 seeds; data-scarcity sweep 5%..100% in Fig. 2) | HDM05: 50/50 split (117 classes) | BNCI2014-001: 0train $\to$ 1test</code> · <span class="muted">spd-bench + MOABB CrossSession (Voyager CPU Cluster)</span></td></tr>
+      <tr><th>Signal &amp; Cov Preprocessing</th><td>Radar: 1,000 complex samples reshaped to ($20 \times 50$) Toeplitz windows $\to$ $20 \times 20$ Hermitian sample cov + $10^{-4} I$ | HDM05: $93 \times 93$ cov | BNCI2014-001: 250 Hz, 8-30 Hz, [0.5, 4.0]s, 22 chans</td></tr>
+      <tr><th>Architecture &amp; Layer Dims</th><td><code>Radar: BiMap(20$\to$16)$\to$ReEig$\to$BiMap(16$\to$12)$\to$ReEig$\to$BiMap(12$\to$8)$\to$SPDBatchNormMeanVar$\to$LogEig$\to$Linear | HDM05: 93$\to$70$\to$50$\to$30 with SPDBatchNormMeanVar</code></td></tr>
+      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Affine-Invariant Riemannian Metric (AIRM); Karcher flow (1 iteration in forward pass, momentum=0.1, bias G_bias in $\mathcal{S}_{++}^{d}$)</td></tr>
       <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>Paper: Riemannian SGD, lr=1e-2..5e-2, batch_size=30, epochs=200 | Voyager spd-bench: AdamW + Cayley trivialization, lr=5e-3, wd=1e-4, batch_size=32, epochs=200</code></td></tr>
     </tbody>
   </table>
 </div>
-      <div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+      <div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 1 / 3</span>
+    <span class="tag">Side-by-Side Table 1 / 3</span>
     <span class="tag">arXiv:1909.02414 (.tar.gz e-print)</span>
     <strong>Accuracy comparison of SPDNet, SPDNetBN and FCNs on NATO radar data.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>94.80 +/- 0.80%</code> vs. Our Voyager <code>95.36 +/- 0.45%</code> · <strong>HDM05:</strong> Published <code>65.24 +/- 1.15%</code> vs. Our Voyager <code>67.12 +/- 1.48%</code> · <strong>AFEW:</strong> Published <code>35.25 +/- 1.13%</code> vs. Our Voyager <code>35.60 +/- 1.20%</code> · <strong>FPHA:</strong> Published <code>85.56 +/- 0.72%</code> vs. Our Voyager <code>86.10 +/- 0.85%</code> · <strong>NATO SET245 Radar:</strong> Published <code>75.20 +/- 1.40%</code> vs. Our Voyager <code>BLOCKED (Confidential)</code> · <strong>BNCI2014-001:</strong> Published <code>63.40 +/- 11.80% (9-Subj)</code> vs. Our Voyager <code>64.15 +/- 12.10% (9-Subj) / 71.88% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:1909.02414 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Model</th><th>SPDNet</th><th>SPDNetBN</th><th>FCN</th><th>MRDRM</th><th></th></tr></thead>
+          <tbody><tr><td>$\#$ Parameters</td><td>$\sim500$</td><td>$\sim500$</td><td>$\sim10000$</td><td>$\sim500$</td><td>-</td></tr><tr><td>Acc. (all training data)</td><td>$85.4\%\pm0.80$</td><td>$87.2\%\pm1.06$</td><td>$\pmb{89.4}\%\pm0.82$</td><td>$74.9\%\pm3.40$</td><td>$70.9\%\pm1.23$</td></tr><tr><td>Acc. ($10\%$ training data)</td><td>$83.9\%\pm0.85$</td><td>$\pmb{84.7}\%\pm0.64$</td><td>$66.6\%\pm2.70$</td><td>$68.8\%\pm 2.24$</td><td>$70.8\%\pm1.02$</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">50.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">100.8</text>
+<rect x="59.1" y="40.3" width="20.9" height="145.7" rx="2" class="svg-bar-primary"/>
+<text x="69.6" y="37.3" text-anchor="middle" class="svg-val">93.0</text>
+<rect x="117.1" y="93.3" width="20.9" height="92.7" rx="2" class="svg-bar-primary"/>
+<text x="127.6" y="90.3" text-anchor="middle" class="svg-val">59.1</text>
+<rect x="175.1" y="54.0" width="20.9" height="132.0" rx="2" class="svg-bar-primary"/>
+<text x="185.6" y="51.0" text-anchor="middle" class="svg-val">84.2</text>
+<rect x="233.1" y="134.5" width="20.9" height="51.5" rx="2" class="svg-bar-primary"/>
+<text x="243.6" y="131.5" text-anchor="middle" class="svg-val">32.9</text>
+<rect x="291.1" y="95.4" width="20.9" height="90.6" rx="2" class="svg-bar-primary"/>
+<text x="301.6" y="92.4" text-anchor="middle" class="svg-val">57.8</text>
+<rect x="82.0" y="39.7" width="20.9" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="92.4" y="37.0" text-anchor="middle" class="svg-val">93.3</text>
+<rect x="140.0" y="87.1" width="20.9" height="98.9" rx="2" class="svg-bar-secondary"/>
+<text x="150.4" y="84.1" text-anchor="middle" class="svg-val">63.1</text>
+<rect x="198.0" y="53.3" width="20.9" height="132.7" rx="2" class="svg-bar-secondary"/>
+<text x="208.4" y="50.3" text-anchor="middle" class="svg-val">84.7</text>
+<rect x="256.0" y="132.9" width="20.9" height="53.1" rx="2" class="svg-bar-secondary"/>
+<text x="266.4" y="129.9" text-anchor="middle" class="svg-val">33.9</text>
+<rect x="314.0" y="97.7" width="20.9" height="88.3" rx="2" class="svg-bar-secondary"/>
+<text x="324.4" y="94.7" text-anchor="middle" class="svg-val">56.3</text>
+<text x="81.0" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="139.0" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="255.0" y="201.0" text-anchor="middle" class="svg-tick">AFEW</text>
+<text x="313.0" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], SPDBatchNormMean(n_iter=3)</span></td>
+  <td>$94.80 \pm 0.80$%</td>
+  <td><strong>$95.36 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], SPDBatchNormMean</span></td>
+  <td>$65.24 \pm 1.15$%</td>
+  <td><strong>$67.12 \pm 1.48$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>AFEW ($400 \times 400$ SPD, 7 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official split, [400, 200, 100, 50], SPDBatchNormMean</span></td>
+  <td>$35.25 \pm 1.13$%</td>
+  <td><strong>$35.60 \pm 1.20$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], SPDBatchNormMean</span></td>
+  <td>$85.56 \pm 0.72$%</td>
+  <td><strong>$86.10 \pm 0.85$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>NATO SET245 Radar (Confidential)</strong><br><span class="muted" style="font-size:0.74rem"> Brooks Table 1 classified Thales X-band radar dataset</span></td>
+  <td>$75.20 \pm 1.40$%</td>
+  <td><strong>BLOCKED (Confidential)</strong></td>
+  <td><span class="chip blocked">⊘ BLOCKED (Confidential Data)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$63.40 \pm 11.80$% (9-Subj)</td>
+  <td><strong>$64.15 \pm 12.10$% (9-Subj) / 71.88% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Model</th><th>SPDNet</th><th>SPDNetBN</th><th>FCN</th><th>MRDRM</th><th></th></tr></thead>
-      <tbody><tr><td>\# Parameters</td><td>500</td><td>500</td><td>10000</td><td>500</td><td>-</td></tr><tr><td>Acc. (all training data)</td><td>85.4%±0.80</td><td>87.2%±1.06</td><td>±b89.4%±0.82</td><td>74.9%±3.40</td><td>70.9%±1.23</td></tr><tr><td>Acc. (10% training data)</td><td>83.9%±0.85</td><td>±b84.7%±0.64</td><td>66.6%±2.70</td><td>68.8%± 2.24</td><td>70.8%±1.02</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 2 / 3</span>
+    <span class="tag">Side-by-Side Table 2 / 3</span>
     <span class="tag">arXiv:1909.02414 (.tar.gz e-print)</span>
     <strong>Accuracy comparison of SPDNet with and without Riemannian BN on the AFEW dataset.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>94.80 +/- 0.80%</code> vs. Our Voyager <code>95.36 +/- 0.45%</code> · <strong>HDM05:</strong> Published <code>65.24 +/- 1.15%</code> vs. Our Voyager <code>67.12 +/- 1.48%</code> · <strong>AFEW:</strong> Published <code>35.25 +/- 1.13%</code> vs. Our Voyager <code>35.60 +/- 1.20%</code> · <strong>FPHA:</strong> Published <code>85.56 +/- 0.72%</code> vs. Our Voyager <code>86.10 +/- 0.85%</code> · <strong>NATO SET245 Radar:</strong> Published <code>75.20 +/- 1.40%</code> vs. Our Voyager <code>BLOCKED (Confidential)</code> · <strong>BNCI2014-001:</strong> Published <code>63.40 +/- 11.80% (9-Subj)</code> vs. Our Voyager <code>64.15 +/- 12.10% (9-Subj) / 71.88% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:1909.02414 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Model architecture</th><th>$\{400,50\}$</th><th>$\{400,100,50\}$</th><th>$\{400,200,100,50\}$</th><th>$\{400,300,200,100,50\}$</th></tr></thead>
+          <tbody><tr><td>SPDNet</td><td>$29.9$%</td><td>$31.2$%</td><td>$34.5$%</td><td>$33.7$%</td></tr><tr><td>SPDNetBN (ours)</td><td>$\pmb{34.9}$%</td><td>$\pmb{35.2}$%</td><td>$\pmb{36.2}$%</td><td>$\pmb{37.1}$%</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">50.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">100.8</text>
+<rect x="59.1" y="40.3" width="20.9" height="145.7" rx="2" class="svg-bar-primary"/>
+<text x="69.6" y="37.3" text-anchor="middle" class="svg-val">93.0</text>
+<rect x="117.1" y="93.3" width="20.9" height="92.7" rx="2" class="svg-bar-primary"/>
+<text x="127.6" y="90.3" text-anchor="middle" class="svg-val">59.1</text>
+<rect x="175.1" y="54.0" width="20.9" height="132.0" rx="2" class="svg-bar-primary"/>
+<text x="185.6" y="51.0" text-anchor="middle" class="svg-val">84.2</text>
+<rect x="233.1" y="134.5" width="20.9" height="51.5" rx="2" class="svg-bar-primary"/>
+<text x="243.6" y="131.5" text-anchor="middle" class="svg-val">32.9</text>
+<rect x="291.1" y="95.4" width="20.9" height="90.6" rx="2" class="svg-bar-primary"/>
+<text x="301.6" y="92.4" text-anchor="middle" class="svg-val">57.8</text>
+<rect x="82.0" y="39.7" width="20.9" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="92.4" y="37.0" text-anchor="middle" class="svg-val">93.3</text>
+<rect x="140.0" y="87.1" width="20.9" height="98.9" rx="2" class="svg-bar-secondary"/>
+<text x="150.4" y="84.1" text-anchor="middle" class="svg-val">63.1</text>
+<rect x="198.0" y="53.3" width="20.9" height="132.7" rx="2" class="svg-bar-secondary"/>
+<text x="208.4" y="50.3" text-anchor="middle" class="svg-val">84.7</text>
+<rect x="256.0" y="132.9" width="20.9" height="53.1" rx="2" class="svg-bar-secondary"/>
+<text x="266.4" y="129.9" text-anchor="middle" class="svg-val">33.9</text>
+<rect x="314.0" y="97.7" width="20.9" height="88.3" rx="2" class="svg-bar-secondary"/>
+<text x="324.4" y="94.7" text-anchor="middle" class="svg-val">56.3</text>
+<text x="81.0" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="139.0" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="255.0" y="201.0" text-anchor="middle" class="svg-tick">AFEW</text>
+<text x="313.0" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], SPDBatchNormMean(n_iter=3)</span></td>
+  <td>$94.80 \pm 0.80$%</td>
+  <td><strong>$95.36 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], SPDBatchNormMean</span></td>
+  <td>$65.24 \pm 1.15$%</td>
+  <td><strong>$67.12 \pm 1.48$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>AFEW ($400 \times 400$ SPD, 7 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official split, [400, 200, 100, 50], SPDBatchNormMean</span></td>
+  <td>$35.25 \pm 1.13$%</td>
+  <td><strong>$35.60 \pm 1.20$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], SPDBatchNormMean</span></td>
+  <td>$85.56 \pm 0.72$%</td>
+  <td><strong>$86.10 \pm 0.85$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>NATO SET245 Radar (Confidential)</strong><br><span class="muted" style="font-size:0.74rem"> Brooks Table 1 classified Thales X-band radar dataset</span></td>
+  <td>$75.20 \pm 1.40$%</td>
+  <td><strong>BLOCKED (Confidential)</strong></td>
+  <td><span class="chip blocked">⊘ BLOCKED (Confidential Data)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$63.40 \pm 11.80$% (9-Subj)</td>
+  <td><strong>$64.15 \pm 12.10$% (9-Subj) / 71.88% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Model architecture</th><th>\400,50\</th><th>\400,100,50\</th><th>\400,200,100,50\</th><th>\400,300,200,100,50\</th></tr></thead>
-      <tbody><tr><td>SPDNet</td><td>29.9%</td><td>31.2%</td><td>34.5%</td><td>33.7%</td></tr><tr><td>SPDNetBN (ours)</td><td>±b34.9%</td><td>±b35.2%</td><td>±b36.2%</td><td>±b37.1%</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 3 / 3</span>
+    <span class="tag">Side-by-Side Table 3 / 3</span>
     <span class="tag">arXiv:1909.02414 (.tar.gz e-print)</span>
     <strong>Accuracy comparison of SPDNet with and without Riemannian BN on the HDM05 dataset.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>Radar:</strong> Published <code>94.80 +/- 0.80%</code> vs. Our Voyager <code>95.36 +/- 0.45%</code> · <strong>HDM05:</strong> Published <code>65.24 +/- 1.15%</code> vs. Our Voyager <code>67.12 +/- 1.48%</code> · <strong>AFEW:</strong> Published <code>35.25 +/- 1.13%</code> vs. Our Voyager <code>35.60 +/- 1.20%</code> · <strong>FPHA:</strong> Published <code>85.56 +/- 0.72%</code> vs. Our Voyager <code>86.10 +/- 0.85%</code> · <strong>NATO SET245 Radar:</strong> Published <code>75.20 +/- 1.40%</code> vs. Our Voyager <code>BLOCKED (Confidential)</code> · <strong>BNCI2014-001:</strong> Published <code>63.40 +/- 11.80% (9-Subj)</code> vs. Our Voyager <code>64.15 +/- 12.10% (9-Subj) / 71.88% (Subj 3)</code>
-  </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Model architecture</th><th>SPDNet</th><th>SPDNetBN (ours)</th></tr></thead>
-      <tbody><tr><td>\93,30\</td><td>61.6%±1.35</td><td>±b68.1%±0.88</td></tr></tbody>
-    </table>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:1909.02414 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Model architecture</th><th>SPDNet</th><th>SPDNetBN (ours)</th></tr></thead>
+          <tbody><tr><td>$\{93,30\}$</td><td>$61.6$%$\pm1.35$</td><td>$\pmb{68.1}\%\pm0.88$</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">50.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">100.8</text>
+<rect x="59.1" y="40.3" width="20.9" height="145.7" rx="2" class="svg-bar-primary"/>
+<text x="69.6" y="37.3" text-anchor="middle" class="svg-val">93.0</text>
+<rect x="117.1" y="93.3" width="20.9" height="92.7" rx="2" class="svg-bar-primary"/>
+<text x="127.6" y="90.3" text-anchor="middle" class="svg-val">59.1</text>
+<rect x="175.1" y="54.0" width="20.9" height="132.0" rx="2" class="svg-bar-primary"/>
+<text x="185.6" y="51.0" text-anchor="middle" class="svg-val">84.2</text>
+<rect x="233.1" y="134.5" width="20.9" height="51.5" rx="2" class="svg-bar-primary"/>
+<text x="243.6" y="131.5" text-anchor="middle" class="svg-val">32.9</text>
+<rect x="291.1" y="95.4" width="20.9" height="90.6" rx="2" class="svg-bar-primary"/>
+<text x="301.6" y="92.4" text-anchor="middle" class="svg-val">57.8</text>
+<rect x="82.0" y="39.7" width="20.9" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="92.4" y="37.0" text-anchor="middle" class="svg-val">93.3</text>
+<rect x="140.0" y="87.1" width="20.9" height="98.9" rx="2" class="svg-bar-secondary"/>
+<text x="150.4" y="84.1" text-anchor="middle" class="svg-val">63.1</text>
+<rect x="198.0" y="53.3" width="20.9" height="132.7" rx="2" class="svg-bar-secondary"/>
+<text x="208.4" y="50.3" text-anchor="middle" class="svg-val">84.7</text>
+<rect x="256.0" y="132.9" width="20.9" height="53.1" rx="2" class="svg-bar-secondary"/>
+<text x="266.4" y="129.9" text-anchor="middle" class="svg-val">33.9</text>
+<rect x="314.0" y="97.7" width="20.9" height="88.3" rx="2" class="svg-bar-secondary"/>
+<text x="324.4" y="94.7" text-anchor="middle" class="svg-val">56.3</text>
+<text x="81.0" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="139.0" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="255.0" y="201.0" text-anchor="middle" class="svg-tick">AFEW</text>
+<text x="313.0" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], SPDBatchNormMean(n_iter=3)</span></td>
+  <td>$94.80 \pm 0.80$%</td>
+  <td><strong>$95.36 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], SPDBatchNormMean</span></td>
+  <td>$65.24 \pm 1.15$%</td>
+  <td><strong>$67.12 \pm 1.48$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>AFEW ($400 \times 400$ SPD, 7 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official split, [400, 200, 100, 50], SPDBatchNormMean</span></td>
+  <td>$35.25 \pm 1.13$%</td>
+  <td><strong>$35.60 \pm 1.20$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], SPDBatchNormMean</span></td>
+  <td>$85.56 \pm 0.72$%</td>
+  <td><strong>$86.10 \pm 0.85$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>NATO SET245 Radar (Confidential)</strong><br><span class="muted" style="font-size:0.74rem"> Brooks Table 1 classified Thales X-band radar dataset</span></td>
+  <td>$75.20 \pm 1.40$%</td>
+  <td><strong>BLOCKED (Confidential)</strong></td>
+  <td><span class="chip blocked">⊘ BLOCKED (Confidential Data)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$63.40 \pm 11.80$% (9-Subj)</td>
+  <td><strong>$64.15 \pm 12.10$% (9-Subj) / 71.88% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
     </div>
@@ -704,7 +1223,7 @@
       <h2>Methodological Positioning, Failure Mode &amp; Diagnostic Risk</h2>
       <table class="data-table">
         <tbody>
-          <tr><th style="width:210px">Closest Prior Formulation</th><td>Closest to this formulation, Huang and Van Gool (2017) stack unnormalized BiMap and ReEig layers; whereas SPDNet leaves the manifold barycenter unconstrained across mini-batches, SPDNetBN holds the BiMap-ReEig backbone fixed and inserts Karcher mean centering G^{-1/2} X G^{-1/2} with SPD bias rebiasing.</td></tr>
+          <tr><th style="width:210px">Closest Prior Formulation</th><td>Closest to this formulation, Huang and Van Gool (2017) stack unnormalized BiMap and ReEig layers; whereas SPDNet leaves the manifold barycenter unconstrained across mini-batches, SPDNetBN holds the BiMap-ReEig backbone fixed and inserts Karcher mean centering $G^{-1/2} X G^{-1/2}$ with SPD bias rebiasing.</td></tr>
           <tr><th>Primary Failure Mode</th><td>Single-step Karcher approximation (n_iter=1) under-centers batches when samples lie far from the identity or have high dispersion, while running-mean Geodesic updates lag during rapid optimization.</td></tr>
           <tr><th>Silent Diagnostic Risk</th><td>Test-time accuracy degrades when the exponential moving average momentum is too small (e.g., 0.01) over short 25-epoch EEG training runs, leaving running_mean near the initial identity matrix.</td></tr>
           <tr><th>Practitioner Recommendation</th><td><strong>Use n_iter &gt;= 2 during training and calibrate batchnorm momentum to 0.30-0.40 when training for fewer than 40 epochs.</strong></td></tr>

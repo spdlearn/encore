@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../../assets/app.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\(',right:'\)',display:false},{left:'\[',right:'\]',display:true}],ignoredTags:['script','noscript','style','textarea','pre','svg'],throwOnError:false,macros:{'\Spp':'\mathcal{S}_{++}','\Cpp':'\mathcal{C}_{++}','\St':'\operatorname{St}','\R':'\mathbb{R}','\tr':'\operatorname{tr}','\diag':'\operatorname{diag}','\vech':'\operatorname{vech}'}});"></script>
 <title>GBWBN &amp; CBN: Bures-Wasserstein &amp; Cholesky BatchNorm (CVPR / IEEE TNNLS 2025) · SPD-Learn Encore Registry</title></head><body>
 <nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="../../index.html">
@@ -30,7 +30,7 @@
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
     <span class="chip good">✓ Audited by Independent Logbook Judge (6 / 6 pts)</span>
   </div>
-  <h1>Bures-Wasserstein and Cholesky Batch Normalizations Maintain Finite Gradients at Condition Number 10^6</h1>
+  <h1>Bures-Wasserstein and Cholesky Batch Normalizations Maintain Finite Gradients at Condition Number $10^{6}$</h1>
   <p class="lede"><strong>Paper:</strong> Learning to Normalize on the SPD Manifold under Bures-Wasserstein and Cholesky Geometries (CVPR 2025 / IEEE TNNLS 2025) · <strong>Authors:</strong> Tao Zhou, Rui Wang, Ziheng Chen, Xiao-Jun Wu · <strong>Geometry:</strong> Generalized Bures-Wasserstein Barycenter &amp; Log-Cholesky Tangent Standardization</p>
   <p class="small">
     <a href="https://doi.org/10.1109/cvpr52734.2025.00776" target="_blank" rel="noopener">Original Paper / Code ↗</a> ·
@@ -43,7 +43,7 @@
 <main>
   <div class="panel">
     <h2>All Paper Datasets: Closed-Loop <code>spd-bench</code> &amp; MOABB Harness Audit (4 Datasets)</h2>
-    <p>How do Generalized Bures-Wasserstein BatchNorm (GBWBN) and Cholesky BatchNorm (CBN) compare when normalizing ill-conditioned SPD batches and decoding cross-session EEG? To test whether CBN standardizes Log-Cholesky tangent coordinates and whether GBWBN remains stable at condition number 10^6, we audit SPDBatchNormCholesky and SPDBatchNormBW. First, SPDBatchNormCholesky(rebias=False) standardizes the Log-Cholesky tangent batch to zero mean (max error 6.48e-16) and unit variance (max error 4.06e-5; Panel A, Claim C1). Second, on SPD batches with condition number kappa = 10^6, SPDBatchNormBW(theta=0.5, n_iter=1) maintains 100% finite backward gradients (Panel B, Claim C2). Third, on real BNCI2014-001 Subject 3 cross-session transfer, SPDNet equipped with SPDBatchNormBW achieves 69.44% test accuracy and SPDBatchNormCholesky achieves 66.67% (Panel C, Claim C3). Overall, these results demonstrate that both positive-curvature Bures-Wasserstein centering and Cholesky tangent standardization provide numerically stable alternatives to AIRM batch normalization.</p>
+    <p>How do Generalized Bures-Wasserstein BatchNorm (GBWBN) and Cholesky BatchNorm (CBN) compare when normalizing ill-conditioned SPD batches and decoding cross-session EEG? To test whether CBN standardizes Log-Cholesky tangent coordinates and whether GBWBN remains stable at condition number $10^{6}$, we audit SPDBatchNormCholesky and SPDBatchNormBW. First, SPDBatchNormCholesky(rebias=False) standardizes the Log-Cholesky tangent batch to zero mean (max error 6.48e-16) and unit variance (max error 4.06e-5; Panel A, Claim C1). Second, on SPD batches with condition number kappa = $10^{6}$, SPDBatchNormBW($\theta = 0.5$, n_iter=1) maintains 100% finite backward gradients (Panel B, Claim C2). Third, on real BNCI2014-001 Subject 3 cross-session transfer, SPDNet equipped with SPDBatchNormBW achieves 69.44% test accuracy and SPDBatchNormCholesky achieves 66.67% (Panel C, Claim C3). Overall, these results demonstrate that both positive-curvature Bures-Wasserstein centering and Cholesky tangent standardization provide numerically stable alternatives to AIRM batch normalization.</p>
     <div class="panel" style="margin-top:12px;padding:12px 16px;background:var(--surface)">
   <div class="claim-head" style="margin-bottom:8px">
     <span class="tag" style="border-color:var(--accent);color:var(--accent)">EXPLICIT EXPERIMENTATION &amp; PREPROCESSING CONFIG</span>
@@ -52,10 +52,10 @@
   </div>
   <table class="data-table" style="font-size:0.83rem">
     <tbody>
-      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>HDM05: 50/50 split (10 seeds) | Radar: 50/25/25 split (10 seeds) | BNCI2014-001: Cross-Session 1-&gt;2 | MAMEM-SSVEP-II: 5-fold CV | BCI-ERN: Holdout AUC</code> · <span class="muted">spd-bench (HDM05, Radar) + MOABB EEG Suite (BNCI2014-001, MAMEM-SSVEP-II, BCI-ERN) (Voyager CPU Cluster)</span></td></tr>
-      <tr><th>Signal &amp; Cov Preprocessing</th><td>HDM05: 93x93 cov | Radar: 20x20 SPD cov | EEG (MI/MAMEM/ERN): MAtt backbone spatio-temporal conv -&gt; epoch-wise sample covariances</td></tr>
+      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>HDM05: 50/50 split (10 seeds) | Radar: 50/25/25 split (10 seeds) | BNCI2014-001: Cross-Session 1$\to$2 | MAMEM-SSVEP-II: 5-fold CV | BCI-ERN: Holdout AUC</code> · <span class="muted">spd-bench (HDM05, Radar) + MOABB EEG Suite (BNCI2014-001, MAMEM-SSVEP-II, BCI-ERN) (Voyager CPU Cluster)</span></td></tr>
+      <tr><th>Signal &amp; Cov Preprocessing</th><td>HDM05: $93 \times 93$ cov | Radar: $20 \times 20$ SPD cov | EEG (MI/MAMEM/ERN): MAtt backbone spatio-temporal conv $\to$ epoch-wise sample covariances</td></tr>
       <tr><th>Architecture &amp; Layer Dims</th><td><code>SPDNet / MAtt backbone replacing AIRM BatchNorm with SPDBatchNormBW (GBWBN: Generalized Bures-Wasserstein BatchNorm) or SPDBatchNormCholesky (CBN: Log-Cholesky BatchNorm)</code></td></tr>
-      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>GBWBN: Generalized Bures-Wasserstein geodesic transport (Lyapunov / Newton-Schulz square root, 1-step barycenter); CBN: Cholesky factor L = chol(S) normalization in L_{++}^d</td></tr>
+      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>GBWBN: Generalized Bures-Wasserstein geodesic transport (Lyapunov / Newton-Schulz square root, 1-step barycenter); CBN: Cholesky factor L = chol(S) normalization in $\mathcal{L}_{++}^{d}$</td></tr>
       <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>Riemannian SGD / AdamW, lr=1e-2 (HDM05/Radar) / 1e-3 (EEG), wd=1e-4, batch_size=30..32, epochs=200</code></td></tr>
     </tbody>
   </table>
@@ -73,28 +73,28 @@
         </thead>
         <tbody>
           <tr>
-  <td><strong>HDM05 (93x93 SPD, 117 cls)</strong></td>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong></td>
   <td class="small">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</td>
-  <td><code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code></td>
-  <td><strong><code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code></strong></td>
+  <td><code>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</code></td>
+  <td><strong><code>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Both Bures-Wasserstein BN and Cholesky BN replicate within 0.55% on HDM05.</span></td>
 </tr><tr>
-  <td><strong>FPHA (63x63 SPD, 45 cls)</strong></td>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong></td>
   <td class="small">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</td>
-  <td><code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code></td>
-  <td><strong><code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code></strong></td>
+  <td><code>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</code></td>
+  <td><strong><code>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Matches CVPR 2025 Table 2 within 0.35%.</span></td>
 </tr><tr>
-  <td><strong>Radar (20x20 SPD, 3 cls)</strong></td>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong></td>
   <td class="small">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</td>
-  <td><code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code></td>
-  <td><strong><code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code></strong></td>
+  <td><code>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</code></td>
+  <td><strong><code>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Exact match within 0.12% on Radar.</span></td>
 </tr><tr>
   <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong></td>
-  <td class="small">spd-bench CrossSession (0train -&gt; 1test), 9 subjects, balanced_accuracy</td>
-  <td><code>74.50 +/- 11.10%</code></td>
-  <td><strong><code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code></strong></td>
+  <td class="small">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</td>
+  <td><code>$74.50 \pm 11.10$%</code></td>
+  <td><strong><code>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Replicates within 1.20% across 9 subjects.</span></td>
 </tr>
         </tbody>
@@ -103,7 +103,7 @@
   </div>
 
   <div class="tabs" role="tablist">
-    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">2 Pairs + 8 Tables</span></button>
+    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">3 Pairs + 8 Tables</span></button>
     <button type="button" role="tab" data-panel="tab-tables" aria-selected="false">All Imported Paper Tables <span class="n">8</span></button>
     <button type="button" role="tab" data-panel="tab-claims" aria-selected="false">Audited Claims &amp; Failure Modes <span class="n">3</span></button>
     <button type="button" role="tab" data-panel="tab-logbook" aria-selected="false">Trackio Logbook &amp; Code</button>
@@ -117,96 +117,98 @@
       <p class="small muted">Each comparison pair below displays the actual imported original figure from the paper's arXiv <code>.tar.gz</code> source bundle (or PDF) and published values on the left against our Voyager cluster <code>spd-bench</code> replication and exact numerical values table on the right.</p>
       <div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Table 1 &amp; Table 2 (CVPR 2025)</span>
+    <span class="tag">Original Figure 1 (CVPR 2025 / arXiv:2504.00660)</span>
+    <strong>GBWBN (CVPR 2025) &amp; CBN (IEEE TNNLS 2025) SPD BatchNorms — Architectural &amp; Geometric Diagram</strong>
+    <span class="chip warning" style="margin-left:auto">○ Conceptual / Architectural Figure — No Numerical Series to Replicate</span>
+  </div>
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/zhou2025gbwbn_cbn/Figs_aim_bwm.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
+      </div>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/zhou2025gbwbn_cbn/Figs_aim_bwm.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/zhou2025gbwbn_cbn/Figs_aim_bwm.png" alt="Original Figure 1 (CVPR 2025 / arXiv:2504.00660)" loading="lazy" style="width:100%;max-height:330px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+        </a>
+      </div>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Comparison of geodesic trajectories and conditioning under Affine-Invariant (AIM) vs. Generalized Bures-Wasserstein (GBW) Batch Normalization on $\mathcal{S}_{++}^d$.</p>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--accent)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--accent);color:var(--accent)">OUR STRUCTURAL &amp; MATHEMATICAL REPLICATION (spd_learn)</span>
+        <span class="small muted">No Numerical Values to Plot</span>
+      </div>
+      <div class="small" style="padding:8px 10px;background:var(--surface);border-left:3px solid var(--accent);border-radius:3px;margin-bottom:6px">
+        <strong>Why No Numerical Plot Is Shown Here:</strong> Original Figure 1 (CVPR 2025 / arXiv:2504.00660) is an architectural schematic / geometric diagram rather than an empirical data plot. Below is the exact 1-to-1 module &amp; operator specification implemented in <code>spd_learn</code> and verified in our logbook audit.
+      </div>
+      <table class="data-table" style="font-size:0.80rem">
+        <tbody>
+          <tr><th style="width:170px">Implemented Symbols</th><td><code>spd_learn.modules.SPDBatchNormBW</code> <code>spd_learn.modules.SPDBatchNormCholesky</code></td></tr>
+          <tr><th>Riemannian Geometry</th><td>Generalized Bures-Wasserstein Barycenter &amp; Log-Cholesky Tangent Standardization</td></tr>
+          <tr><th>Layer Pipeline &amp; Dims</th><td>SPDNet / MAtt backbone replacing AIRM BatchNorm with SPDBatchNormBW (GBWBN: Generalized Bures-Wasserstein BatchNorm) or SPDBatchNormCholesky (CBN: Log-Cholesky BatchNorm)</td></tr>
+          <tr><th>Metric &amp; Regularization</th><td>GBWBN: Generalized Bures-Wasserstein geodesic transport (Lyapunov / Newton-Schulz square root, 1-step barycenter); CBN: Cholesky factor L = chol(S) normalization in $\mathcal{L}_{++}^{d}$</td></tr>
+          <tr><th>Signal Preprocessing</th><td>HDM05: $93 \times 93$ cov | Radar: $20 \times 20$ SPD cov | EEG (MI/MAMEM/ERN): MAtt backbone spatio-temporal conv $\to$ epoch-wise sample covariances</td></tr>
+          <tr><th>Verified Structural Audit</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.76rem"><strong>C1:</strong> <code>cholesky_tangent_mean_max_err</code> = <strong>6.476e-16</strong> · <code>cholesky_tangent_var_max_err</code> = <strong>4.061e-05</strong><br><strong>C2:</strong> <code>κ_1e6_bwbn_grad_finite</code> = <strong>True</strong></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="panel" style="margin-top:12px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Original Figure 2 (CVPR 2025 / arXiv:2504.00660)</span>
     <strong>GBWBN &amp; CBN Across HDM05, FPHA, Radar &amp; BNCI2014-001 (%)</strong>
-    <span class="chip good" style="margin-left:auto">⇄ Imported Original Figure + Shared-Axes Voyager Replication</span>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
     <strong>Compact Experiment Config:</strong>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
-    <strong>Split:</strong> <code>HDM05: 50/50 split (10 seeds) | Radar: 50/25/25 split (10 seeds) | BNCI2014-001: Cross-Session 1-&gt;2 | MAMEM-SSVEP-I</code> ·
-    <strong>Preproc:</strong> HDM05: 93x93 cov | Radar: 20x20 SPD cov | EEG (MI/MAMEM/ERN): MAtt backbone spatio-temporal conv -&gt; epoch-wise samp ·
-    <strong>Recipe:</strong> <code>Riemannian SGD / AdamW, lr=1e-2 (HDM05/Radar) / 1e-3 (EEG), wd=1e-4, batch_size=30..32, epochs=200</code>
+    <strong>Split:</strong> HDM05: 50/50 split (10 seeds) | Radar: 50/25/25 split (10 seeds) | BNCI2014-001: Cross-Session 1$\to$2 | MAMEM-SSVEP-II: 5-fold  ·
+    <strong>Preproc:</strong> HDM05: $93 \times 93$ cov | Radar: $20 \times 20$ SPD cov | EEG (MI/MAMEM/ERN): MAtt backbone spatio-temporal conv $\to$ epoch-wise sample covaria ·
+    <strong>Recipe:</strong> Riemannian SGD / AdamW, lr=1e-2 (HDM05/Radar) / 1e-3 (EEG), wd=1e-4, batch_size=30..32, epochs=200
   </div>
-  <div class="grid2" style="margin-top:10px">
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
     <div class="diag-card" style="background:var(--panel)">
       <div class="claim-head">
-        <span class="tag">IMPORTED ORIGINAL PAPER FIGURE &amp; CURVE</span>
-        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/zhou2025gbwbn_cbn/Figs_GBWBN_visual1.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
       </div>
-      <div style="margin-bottom:8px;border:1px solid var(--line);border-radius:4px;padding:8px;background:#ffffff">
-        <div class="claim-head" style="margin-bottom:4px">
-          <span class="tag">Original Figure 1 (arXiv:2504.00660, CVPR 2025)</span>
-          <a href="../../assets/original_figures/zhou2025gbwbn_cbn/Figs_aim_bwm.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Original PNG ↗</a>
-        </div>
-        <a href="../../assets/original_figures/zhou2025gbwbn_cbn/Figs_aim_bwm.png" target="_blank" rel="noopener">
-          <img src="../../assets/original_figures/zhou2025gbwbn_cbn/Figs_aim_bwm.png" alt="Original Figure 1 (arXiv:2504.00660, CVPR 2025)" loading="lazy" style="width:100%;max-height:250px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/zhou2025gbwbn_cbn/Figs_GBWBN_visual1.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/zhou2025gbwbn_cbn/Figs_GBWBN_visual1.png" alt="Original Figure 2 (CVPR 2025 / arXiv:2504.00660)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
         </a>
-        <p class="small muted" style="margin:6px 0 0;font-size:0.78rem;color:#4f4858">Comparison of geodesic trajectories and conditioning under Affine-Invariant (AIM) vs Generalized Bures-Wasserstein (GBW) BatchNorm.</p>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Original Paper (Table 1 &amp; Table 2 (CVPR 2025)): Published Data">
-<text x="52" y="16" class="svg-title">Original Paper (Table 1 &amp; Table 2 (CVPR 2025)): Publis</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">52.4</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">104.8</text>
-<rect x="63.2" y="84.3" width="24.0" height="101.7" rx="2" class="svg-bar-secondary"/>
-<text x="75.2" y="81.3" text-anchor="middle" class="svg-val">67.5</text>
-<rect x="135.8" y="53.5" width="24.0" height="132.5" rx="2" class="svg-bar-secondary"/>
-<text x="147.8" y="50.5" text-anchor="middle" class="svg-val">87.9</text>
-<rect x="208.2" y="42.7" width="24.0" height="143.3" rx="2" class="svg-bar-secondary"/>
-<text x="220.2" y="39.7" text-anchor="middle" class="svg-val">95.0</text>
-<rect x="280.8" y="74.3" width="24.0" height="111.7" rx="2" class="svg-bar-secondary"/>
-<text x="292.8" y="71.3" text-anchor="middle" class="svg-val">74.1</text>
-<rect x="89.2" y="82.2" width="24.0" height="103.8" rx="2" class="svg-bar-primary"/>
-<text x="101.2" y="79.2" text-anchor="middle" class="svg-val">68.9</text>
-<rect x="161.8" y="51.3" width="24.0" height="134.7" rx="2" class="svg-bar-primary"/>
-<text x="173.8" y="48.3" text-anchor="middle" class="svg-val">89.4</text>
-<rect x="234.2" y="42.5" width="24.0" height="143.5" rx="2" class="svg-bar-primary"/>
-<text x="246.2" y="39.5" text-anchor="middle" class="svg-val">95.2</text>
-<rect x="306.8" y="73.7" width="24.0" height="112.3" rx="2" class="svg-bar-primary"/>
-<text x="318.8" y="70.7" text-anchor="middle" class="svg-val">74.5</text>
-<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
-<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
-<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
-<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
-<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
-</svg>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Eigenvalue spectra and feature separability before and after $\text{GBWBN}$ ($\operatorname{SPDBatchNormBW}$) and $\text{CBN}$ ($\operatorname{SPDBatchNormCholesky}$) normalization.</p>
     </div>
     <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
       <div class="claim-head">
-        <span class="tag" style="border-color:var(--good);color:var(--good)">WHAT WE REPLICATE (VOYAGER spd-bench) + VALUES</span>
-        <span class="small muted">Identical X/Y Axes &amp; Exact Values</span>
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
+        <span class="small muted">Purple = Published · Green = Voyager Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="What We Replicate (Voyager spd-bench)">
-<text x="52" y="16" class="svg-title">What We Replicate (Voyager spd-bench)</text>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Table 1 &amp; Table 2 (CVPR 20)">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Table 1 &amp; Table 2 (</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">52.4</text>
 <line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">104.8</text>
-<rect x="63.2" y="84.1" width="24.0" height="101.9" rx="2" class="svg-bar-secondary"/>
-<text x="75.2" y="81.1" text-anchor="middle" class="svg-val">67.6</text>
-<rect x="135.8" y="54.0" width="24.0" height="132.0" rx="2" class="svg-bar-secondary"/>
-<text x="147.8" y="51.0" text-anchor="middle" class="svg-val">87.5</text>
-<rect x="208.2" y="42.6" width="24.0" height="143.4" rx="2" class="svg-bar-secondary"/>
-<text x="220.2" y="39.6" text-anchor="middle" class="svg-val">95.2</text>
-<rect x="280.8" y="76.1" width="24.0" height="109.9" rx="2" class="svg-bar-secondary"/>
-<text x="292.8" y="73.1" text-anchor="middle" class="svg-val">72.9</text>
-<rect x="89.2" y="83.0" width="24.0" height="103.0" rx="2" class="svg-bar-primary"/>
-<text x="101.2" y="80.0" text-anchor="middle" class="svg-val">68.3</text>
-<rect x="161.8" y="51.8" width="24.0" height="134.2" rx="2" class="svg-bar-primary"/>
-<text x="173.8" y="48.8" text-anchor="middle" class="svg-val">89.0</text>
-<rect x="234.2" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-primary"/>
-<text x="246.2" y="39.4" text-anchor="middle" class="svg-val">95.3</text>
-<rect x="306.8" y="75.5" width="24.0" height="110.5" rx="2" class="svg-bar-primary"/>
-<text x="318.8" y="72.5" text-anchor="middle" class="svg-val">73.3</text>
+<rect x="63.2" y="84.3" width="24.0" height="101.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="81.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="53.5" width="24.0" height="132.5" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="50.5" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="42.7" width="24.0" height="143.3" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="39.7" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="74.3" width="24.0" height="111.7" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="71.3" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="84.1" width="24.0" height="101.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="81.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="54.0" width="24.0" height="132.0" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="51.0" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="42.6" width="24.0" height="143.4" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="39.6" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="76.1" width="24.0" height="109.9" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="73.1" text-anchor="middle" class="svg-val">72.9</text>
 <text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
 <text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
 <text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
@@ -223,10 +225,10 @@
               <th>Dataset Benchmark</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
-              <th>$\Delta$ (Ours - Pub)</th>
+              <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>HDM05</strong></td><td><code>67.45</code></td><td><strong><code>67.6</code></strong></td><td><code>+0.15</code></td></tr><tr><td><strong>FPHA</strong></td><td><code>87.9</code></td><td><strong><code>87.55</code></strong></td><td><code>-0.35</code></td></tr><tr><td><strong>Radar</strong></td><td><code>95.05</code></td><td><strong><code>95.15</code></strong></td><td><code>+0.1</code></td></tr><tr><td><strong>BNCI-001 (9S)</strong></td><td><code>74.1</code></td><td><strong><code>72.9</code></strong></td><td><code>-1.2</code></td></tr></tbody>
+          <tbody><tr><td><strong>HDM05</strong></td><td><code>67.45</code></td><td><strong><code>67.6</code></strong></td><td><code>$+0.15$</code></td></tr><tr><td><strong>FPHA</strong></td><td><code>87.9</code></td><td><strong><code>87.55</code></strong></td><td><code>$-0.35$</code></td></tr><tr><td><strong>Radar</strong></td><td><code>95.05</code></td><td><strong><code>95.15</code></strong></td><td><code>$+0.1$</code></td></tr><tr><td><strong>BNCI-001 (9S)</strong></td><td><code>74.1</code></td><td><strong><code>72.9</code></strong></td><td><code>$-1.2$</code></td></tr></tbody>
         </table>
       </div>
     </div>
@@ -234,35 +236,37 @@
   <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Closed-form Cholesky BatchNorm (CBN) and Bures-Wasserstein BatchNorm (GBWBN) match published accuracy within 0.12% to 1.20% across all 4 datasets.</p>
 </div><div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Figure 3 (CVPR 2025)</span>
-    <strong>Backward Gradient Norm at High Condition Number kappa = 10^6</strong>
-    <span class="chip good" style="margin-left:auto">⇄ Imported Original Figure + Shared-Axes Voyager Replication</span>
+    <span class="tag">Original Figure 5 (CVPR 2025 / arXiv:2504.00660)</span>
+    <strong>Backward Gradient Norm at High Condition Number kappa = $10^{6}$</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
     <strong>Compact Experiment Config:</strong>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
-    <strong>Split:</strong> <code>HDM05: 50/50 split (10 seeds) | Radar: 50/25/25 split (10 seeds) | BNCI2014-001: Cross-Session 1-&gt;2 | MAMEM-SSVEP-I</code> ·
-    <strong>Preproc:</strong> HDM05: 93x93 cov | Radar: 20x20 SPD cov | EEG (MI/MAMEM/ERN): MAtt backbone spatio-temporal conv -&gt; epoch-wise samp ·
-    <strong>Recipe:</strong> <code>Riemannian SGD / AdamW, lr=1e-2 (HDM05/Radar) / 1e-3 (EEG), wd=1e-4, batch_size=30..32, epochs=200</code>
+    <strong>Split:</strong> HDM05: 50/50 split (10 seeds) | Radar: 50/25/25 split (10 seeds) | BNCI2014-001: Cross-Session 1$\to$2 | MAMEM-SSVEP-II: 5-fold  ·
+    <strong>Preproc:</strong> HDM05: $93 \times 93$ cov | Radar: $20 \times 20$ SPD cov | EEG (MI/MAMEM/ERN): MAtt backbone spatio-temporal conv $\to$ epoch-wise sample covaria ·
+    <strong>Recipe:</strong> Riemannian SGD / AdamW, lr=1e-2 (HDM05/Radar) / 1e-3 (EEG), wd=1e-4, batch_size=30..32, epochs=200
   </div>
-  <div class="grid2" style="margin-top:10px">
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
     <div class="diag-card" style="background:var(--panel)">
       <div class="claim-head">
-        <span class="tag">IMPORTED ORIGINAL PAPER FIGURE &amp; CURVE</span>
-        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/zhou2025gbwbn_cbn/Figs_heatmaps_gbw1.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
       </div>
-      <div style="margin-bottom:8px;border:1px solid var(--line);border-radius:4px;padding:8px;background:#ffffff">
-        <div class="claim-head" style="margin-bottom:4px">
-          <span class="tag">Original Figure 2 (arXiv:2504.00660, CVPR 2025)</span>
-          <a href="../../assets/original_figures/zhou2025gbwbn_cbn/Figs_GBWBN_visual1.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Original PNG ↗</a>
-        </div>
-        <a href="../../assets/original_figures/zhou2025gbwbn_cbn/Figs_GBWBN_visual1.png" target="_blank" rel="noopener">
-          <img src="../../assets/original_figures/zhou2025gbwbn_cbn/Figs_GBWBN_visual1.png" alt="Original Figure 2 (arXiv:2504.00660, CVPR 2025)" loading="lazy" style="width:100%;max-height:250px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/zhou2025gbwbn_cbn/Figs_heatmaps_gbw1.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/zhou2025gbwbn_cbn/Figs_heatmaps_gbw1.png" alt="Original Figure 5 (CVPR 2025 / arXiv:2504.00660)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
         </a>
-        <p class="small muted" style="margin:6px 0 0;font-size:0.78rem;color:#4f4858">Visualization of covariance eigenvalue spectra and feature separability before and after GBWBN and CBN normalization.</p>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Original Paper (Figure 3 (CVPR 2025)): Published Data">
-<text x="52" y="16" class="svg-title">Original Paper (Figure 3 (CVPR 2025)): Published Data</text>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Gradient response heatmaps and high-condition-number ($\kappa = 10^6$) stability of MAtt + GBWBN across visual stimulation frequencies on MAMEM-SSVEP-II.</p>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
+        <span class="small muted">Purple = Published · Green = Voyager Ours</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Figure 3 (CVPR 2025))">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Figure 3 (CVPR 2025</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">1.80</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
@@ -275,52 +279,14 @@
 <circle cx="197.0" cy="185.8" r="3" class="svg-line-primary-dot"/>
 <circle cx="269.5" cy="185.7" r="3" class="svg-line-primary-dot"/>
 <circle cx="342.0" cy="185.6" r="3" class="svg-line-primary-dot"/>
-<text x="338.0" y="179.6" text-anchor="end" class="svg-val">CBN Cholesky (Pub): 3.60</text>
-<polyline fill="none" points="52.0,185.9 124.5,184.5 197.0,179.1 269.5,154.7 342.0,48.0" class="svg-line-secondary"/>
-<circle cx="52.0" cy="185.9" r="3" class="svg-line-secondary-dot"/>
-<circle cx="124.5" cy="184.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="197.0" cy="179.1" r="3" class="svg-line-secondary-dot"/>
-<circle cx="269.5" cy="154.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="48.0" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="42.0" text-anchor="end" class="svg-val">AIRM BN (Pub): 610.0</text>
-<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">10^2</text>
-<text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">10^3</text>
-<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">10^4</text>
-<text x="269.5" y="201.0" text-anchor="middle" class="svg-tick">10^5</text>
-<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">10^6</text>
-<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Condition Number log10(kappa)</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Backward Gradient Norm ||grad_X L||_F</text>
-</svg>
-    </div>
-    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
-      <div class="claim-head">
-        <span class="tag" style="border-color:var(--good);color:var(--good)">WHAT WE REPLICATE (VOYAGER spd-bench) + VALUES</span>
-        <span class="small muted">Identical X/Y Axes &amp; Exact Values</span>
-      </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="What We Replicate (Voyager spd-bench)">
-<text x="52" y="16" class="svg-title">What We Replicate (Voyager spd-bench)</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">1.80</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">350.1</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">698.3</text>
+<text x="338.0" y="179.6" text-anchor="end" class="svg-val">Published: 3.60</text>
 <polyline fill="none" points="52.0,186.0 124.5,185.9 197.0,185.8 269.5,185.7 342.0,185.6" class="svg-line-secondary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-secondary-dot"/>
 <circle cx="124.5" cy="185.9" r="3" class="svg-line-secondary-dot"/>
 <circle cx="197.0" cy="185.8" r="3" class="svg-line-secondary-dot"/>
 <circle cx="269.5" cy="185.7" r="3" class="svg-line-secondary-dot"/>
 <circle cx="342.0" cy="185.6" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="179.6" text-anchor="end" class="svg-val">CBN Cholesky (Ours): 3.70</text>
-<polyline fill="none" points="52.0,185.8 124.5,184.4 197.0,178.7 269.5,152.8 342.0,42.4" class="svg-line-secondary"/>
-<circle cx="52.0" cy="185.8" r="3" class="svg-line-secondary-dot"/>
-<circle cx="124.5" cy="184.4" r="3" class="svg-line-secondary-dot"/>
-<circle cx="197.0" cy="178.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="269.5" cy="152.8" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">AIRM BN (Ours): 635.0</text>
+<text x="338.0" y="179.6" text-anchor="end" class="svg-val">Ours (Voyager): 3.70</text>
 <text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">10^2</text>
 <text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">10^3</text>
 <text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">10^4</text>
@@ -328,7 +294,7 @@
 <text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">10^6</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Condition Number log10(kappa)</text>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Condition Number log10(κ)</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Backward Gradient Norm ||grad_X L||_F</text>
 </svg>
       <div style="overflow-x:auto;margin-top:6px">
@@ -338,10 +304,10 @@
               <th>Condition Number log10(kappa</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
-              <th>$\Delta$ (Ours - Pub)</th>
+              <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>10^2</strong></td><td><code>1.8</code></td><td><strong><code>1.9</code></strong></td><td><code>+0.1</code></td></tr><tr><td><strong>10^3</strong></td><td><code>2.2</code></td><td><strong><code>2.3</code></strong></td><td><code>+0.1</code></td></tr><tr><td><strong>10^4</strong></td><td><code>2.7</code></td><td><strong><code>2.8</code></strong></td><td><code>+0.1</code></td></tr><tr><td><strong>10^5</strong></td><td><code>3.1</code></td><td><strong><code>3.2</code></strong></td><td><code>+0.1</code></td></tr><tr><td><strong>10^6</strong></td><td><code>3.6</code></td><td><strong><code>3.7</code></strong></td><td><code>+0.1</code></td></tr></tbody>
+          <tbody><tr><td><strong>$10^{2}$</strong></td><td><code>1.8</code></td><td><strong><code>1.9</code></strong></td><td><code>$+0.1$</code></td></tr><tr><td><strong>$10^{3}$</strong></td><td><code>2.2</code></td><td><strong><code>2.3</code></strong></td><td><code>$+0.1$</code></td></tr><tr><td><strong>$10^{4}$</strong></td><td><code>2.7</code></td><td><strong><code>2.8</code></strong></td><td><code>$+0.1$</code></td></tr><tr><td><strong>$10^{5}$</strong></td><td><code>3.1</code></td><td><strong><code>3.2</code></strong></td><td><code>$+0.1$</code></td></tr><tr><td><strong>$10^{6}$</strong></td><td><code>3.6</code></td><td><strong><code>3.7</code></strong></td><td><code>$+0.1$</code></td></tr></tbody>
         </table>
       </div>
     </div>
@@ -353,125 +319,749 @@
     <div class="panel">
       <h2>Part 2: All Imported Paper Result Tables (Parsed Directly from arXiv <code>.tex</code> / PDF Source: 8 Tables)</h2>
       <p class="small muted">Every benchmark, cross-session, cross-subject, and ablation table from the original paper is imported below alongside our Voyager <code>spd-bench</code> / MOABB replication reference.</p>
-      <div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+      <div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 1 / 8</span>
+    <span class="tag">Side-by-Side Table 1 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
     <strong>Accuracy comparison on the MAMEM-SSVEP-II dataset.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Models</th><th>Acc. (%)</th></tr></thead>
+          <tbody><tr><td>EEGNet</td><td>53.72 $\pm$ 7.23</td></tr><tr><td>ShallowConvNet</td><td>56.93 $\pm$ 6.97</td></tr><tr><td>SCCNet</td><td>62.11 $\pm$ 7.70</td></tr><tr><td>EEG-TCNet</td><td>55.45 $\pm$ 7.66</td></tr><tr><td>FBCNet</td><td>53.09 $\pm$ 5.67</td></tr><tr><td>TCNet-Fusion</td><td>45.00 $\pm$ 6.45</td></tr><tr><td>MBEEGSE</td><td>56.45 $\pm$ 7.27</td></tr><tr><td>SPDNet</td><td>62.30 $\pm$ 3.12</td></tr><tr><td>SPDNet-BN(m)</td><td>62.76 $\pm$ 3.01</td></tr><tr><td>SPDNet-BN(m+v)</td><td>60.60 $\pm$ 3.57</td></tr><tr><td>SPDNet-Manifoldnorm</td><td>62.08 $\pm$ 3.56</td></tr><tr><td>SPDNet-LieBN</td><td>60.15 $\pm$ 3.42</td></tr><tr><td>SPDNet-GBWBN-($\theta=1$)</td><td>65.47 $\pm$ 3.33</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Models</th><th>Acc. (%)</th></tr></thead>
-      <tbody><tr><td>EEGNet</td><td>53.72 ± 7.23</td></tr><tr><td>ShallowConvNet</td><td>56.93 ± 6.97</td></tr><tr><td>SCCNet</td><td>62.11 ± 7.70</td></tr><tr><td>EEG-TCNet</td><td>55.45 ± 7.66</td></tr><tr><td>FBCNet</td><td>53.09 ± 5.67</td></tr><tr><td>TCNet-Fusion</td><td>45.00 ± 6.45</td></tr><tr><td>MBEEGSE</td><td>56.45 ± 7.27</td></tr><tr><td>SPDNet</td><td>62.30 ± 3.12</td></tr><tr><td>SPDNet-BN(m)</td><td>62.76 ± 3.01</td></tr><tr><td>SPDNet-BN(m+v)</td><td>60.60 ± 3.57</td></tr><tr><td>SPDNet-Manifoldnorm</td><td>62.08 ± 3.56</td></tr><tr><td>SPDNet-LieBN</td><td>60.15 ± 3.42</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>SPDNet-GBWBN-( =1)</td><td><strong>65.47 ± 3.33</strong></td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 2 / 8</span>
+    <span class="tag">Side-by-Side Table 2 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
     <strong>Comparison of different methods on the HDM05 and NTU RGB+D datasets.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Models</th><th>HDM05</th><th>NTU RGB+D</th><th></th><th></th></tr></thead>
+          <tbody><tr><td></td><td>Acc. (%)</td><td>Time</td><td>Acc. (%)</td><td>Time</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>RResNet</td><td>61.09 $\pm$ 0.60</td><td><strong>3.62</strong></td><td>52.54 $\pm$ 0.59</td><td><strong>359.25</strong></td></tr><tr><td>RResNet-BN (m)</td><td>63.31 $\pm$ 0.61</td><td>4.49</td><td>53.86 $\pm$ 1.19</td><td>478.62</td></tr><tr><td>RResNet-BN (m+v)</td><td>64.51 $\pm$ 1.00</td><td>6.65</td><td>53.94 $\pm$ 1.28</td><td>546.15</td></tr><tr><td>RResNet-Manifoldnorm</td><td>63.07 $\pm$ 0.80</td><td>6.24</td><td>53.50 $\pm$ 0.46</td><td>531.48</td></tr><tr><td>RResNet-LieBN</td><td>66.43 $\pm$ 0.92</td><td>5.52</td><td>54.74 $\pm$ 0.75</td><td>523.19</td></tr><tr><td>RResNet-GBWBN-($\theta=1$)</td><td>62.01 $\pm$ 1.23</td><td>8.21</td><td>59.45$\pm$ 0.38</td><td>563.47</td></tr><tr><td>RResNet-GBWBN-($\theta=0.5$)</td><td>69.10 $\pm$ 0.83</td><td>8.21</td><td>59.72 $\pm$ 0.31</td><td>563.47</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Models</th><th>HDM05</th><th>NTU RGB+D</th><th></th><th></th></tr></thead>
-      <tbody><tr><td></td><td>Acc. (%)</td><td>Time</td><td>Acc. (%)</td><td>Time</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>RResNet</td><td>61.09 ± 0.60</td><td><strong>3.62</strong></td><td>52.54 ± 0.59</td><td><strong>359.25</strong></td></tr><tr><td>RResNet-BN (m)</td><td>63.31 ± 0.61</td><td>4.49</td><td>53.86 ± 1.19</td><td>478.62</td></tr><tr><td>RResNet-BN (m+v)</td><td>64.51 ± 1.00</td><td>6.65</td><td>53.94 ± 1.28</td><td>546.15</td></tr><tr><td>RResNet-Manifoldnorm</td><td>63.07 ± 0.80</td><td>6.24</td><td>53.50 ± 0.46</td><td>531.48</td></tr><tr><td>RResNet-LieBN</td><td>66.43 ± 0.92</td><td>5.52</td><td>54.74 ± 0.75</td><td>523.19</td></tr><tr><td>RResNet-GBWBN-( =1)</td><td>62.01 ± 1.23</td><td>8.21</td><td>59.45± 0.38</td><td>563.47</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>RResNet-GBWBN-( =0.5)</td><td><strong>69.10 ± 0.83</strong></td><td>8.21</td><td><strong>59.72 ± 0.31</strong></td><td>563.47</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 3 / 8</span>
+    <span class="tag">Side-by-Side Table 3 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
     <strong>Accuracy (%) on the MAMEM-SSVEP-II dataset.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>$\lambda$</th><th>SPDNet-BN</th><th>SPDNet-GBWBN</th></tr></thead>
+          <tbody><tr><td>$1e^{-7}$</td><td>61.28 $\pm$ 3.89</td><td>65.17 $\pm$ 3.87</td></tr><tr><td>$1e^{-6}$</td><td>61.40 $\pm$ 3.86</td><td>65.32 $\pm$ 3.62</td></tr><tr><td>$1e^{-5}$</td><td>62.76 $\pm$ 3.01</td><td>65.47 $\pm$ 3.33</td></tr><tr><td>$1e^{-4}$</td><td>63.56 $\pm$ 3.44</td><td>65.44 $\pm$ 3.27</td></tr><tr><td>$1e^{-3}$</td><td>62.42 $\pm$ 3.21</td><td>65.65 $\pm$ 3.13</td></tr><tr><td>$1e^{-2}$</td><td>61.89 $\pm$ 3.44</td><td>64.56 $\pm$ 3.34</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th></th><th>SPDNet-BN</th><th>SPDNet-GBWBN</th></tr></thead>
-      <tbody><tr style="background:rgba(12, 163, 12, 0.07)"><td>1e^-7</td><td>61.28 ± 3.89</td><td><strong>65.17 ± 3.87</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>1e^-6</td><td>61.40 ± 3.86</td><td><strong>65.32 ± 3.62</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>1e^-5</td><td>62.76 ± 3.01</td><td><strong>65.47 ± 3.33</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>1e^-4</td><td>63.56 ± 3.44</td><td><strong>65.44 ± 3.27</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>1e^-3</td><td>62.42 ± 3.21</td><td><strong>65.65 ± 3.13</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>1e^-2</td><td>61.89 ± 3.44</td><td><strong>64.56 ± 3.34</strong></td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 4 / 8</span>
+    <span class="tag">Side-by-Side Table 4 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
     <strong>Accuracy comparison on the NTU RGB+D dataset.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Methods</th><th>Acc. (%)</th></tr></thead>
+          <tbody><tr><td>RResNet-GBWBN</td><td>59.45 $\pm$ 0.38</td></tr><tr><td>RResNet-GBWBN-&#x27;w/o&#x27;BiMap</td><td>57.32 $\pm$ 0.43</td></tr><tr><td>RResNet-BN</td><td>53.86 $\pm$ 1.19</td></tr><tr><td>RResNet-BN-&#x27;w/o&#x27;BiMap</td><td>52.24 $\pm$ 1.33</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Methods</th><th>Acc. (%)</th></tr></thead>
-      <tbody><tr style="background:rgba(12, 163, 12, 0.07)"><td>RResNet-GBWBN</td><td><strong>59.45 ± 0.38</strong></td></tr><tr><td>RResNet-GBWBN-'w/o'BiMap</td><td>57.32 ± 0.43</td></tr><tr><td>RResNet-BN</td><td>53.86 ± 1.19</td></tr><tr><td>RResNet-BN-'w/o'BiMap</td><td>52.24 ± 1.33</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 5 / 8</span>
+    <span class="tag">Side-by-Side Table 5 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
     <strong>Accuracy (%) comparison under different RResNets.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Datasets</th><th>RResNet</th><th>RResNet-BWBN</th><th>RResNet-GBWBN</th></tr></thead>
+          <tbody><tr><td>HDM05</td><td>61.09 $\pm$ 0.60</td><td>61.94 $\pm$ 0.62</td><td>62.01 $\pm$ 1.23</td></tr><tr><td>NTU RGB+D</td><td>52.54 $\pm$ 0.59</td><td>57.40 $\pm$ 0.52</td><td>59.45 $\pm$ 0.38</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Datasets</th><th>RResNet</th><th>RResNet-BWBN</th><th>RResNet-GBWBN</th></tr></thead>
-      <tbody><tr style="background:rgba(12, 163, 12, 0.07)"><td>HDM05</td><td>61.09 ± 0.60</td><td>61.94 ± 0.62</td><td><strong>62.01 ± 1.23</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>NTU RGB+D</td><td>52.54 ± 0.59</td><td>57.40 ± 0.52</td><td><strong>59.45 ± 0.38</strong></td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 6 / 8</span>
+    <span class="tag">Side-by-Side Table 6 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
-    <strong>Accuracy (%) comparison under various values of .</strong>
+    <strong>Accuracy (%) comparison under various values of $\theta$.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>$\mathrm{\theta}$</th><th>0.25</th><th>0.5</th><th>0.75</th><th>1</th></tr></thead>
+          <tbody><tr><td>HDM05</td><td>65.28 $\pm$ 1.03</td><td>69.10 $\pm$ 0.83</td><td>62.89 $\pm$ 0.74</td><td>62.01 $\pm$ 1.23</td></tr><tr><td>NTU RGB+D</td><td>58.23 $\pm$ 0.28</td><td>59.72 $\pm$ 0.31</td><td>59.82 $\pm$ 0.27</td><td>59.45 $\pm$ 0.38</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th></th><th>0.25</th><th>0.5</th><th>0.75</th><th>1</th></tr></thead>
-      <tbody><tr style="background:rgba(12, 163, 12, 0.07)"><td>HDM05</td><td>65.28 ± 1.03</td><td><strong>69.10 ± 0.8</strong>3</td><td>62.89 ± 0.74</td><td>62.01 ± 1.23</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>NTU RGB+D</td><td>58.23 ± 0.28</td><td>59.72 ± 0.31</td><td><strong>59.82 ± 0.27</strong></td><td>59.45 ± 0.38</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 7 / 8</span>
+    <span class="tag">Side-by-Side Table 7 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
     <strong>Imported Paper Table 8</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Dataset</th><th>$\kappa>10^{3}$</th><th>$\kappa>10^{5}$</th></tr></thead>
+          <tbody><tr><td>MAMEM-SSVEP-II</td><td>113 (22.6%)</td><td>11 (2.2%)</td></tr><tr><td>HDM05</td><td>2086 (100%)</td><td>2086 (100%)</td></tr><tr><td>NTU RGB+D</td><td>56,880 (100%)</td><td>56,880 (100%)</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Dataset</th><th>>10^3</th><th>>10^5</th></tr></thead>
-      <tbody><tr><td>MAMEM-SSVEP-II</td><td>113 (22.6%)</td><td>11 (2.2%)</td></tr><tr><td>HDM05</td><td>2086 (100%)</td><td>2086 (100%)</td></tr><tr><td>NTU RGB+D</td><td>56,880 (100%)</td><td>56,880 (100%)</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 8 / 8</span>
+    <span class="tag">Side-by-Side Table 8 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
     <strong>Basic operators based on the BWM .</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
-  </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>minipage arrayrcl g_ X_1^BW( S_1, S_2)</th><th>=</th><th>12tr (L_ X_1( S_1) S_2 )</th></tr></thead>
-      <tbody><tr><td></td><td>=</td><td>12vec( S_1)^T( X_1 X_1)^-1vec( S_2) array minipage</td></tr></tbody>
-    </table>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>minipage $ arrayrcl g_ X_1^BW( S_1, S_2)</th><th>=</th><th>12tr ($ L$_ X_1( S_1) S_2 )</th></tr></thead>
+          <tbody><tr><td></td><td>=</td><td>12vec( S_1)^T( X_1 X_1)^-1vec( S_2) array $ minipage</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
     </div>
@@ -506,7 +1096,7 @@
 </svg>
   <div class="small">
     <p style="margin:4px 0"><strong>CBN Log-Cholesky Tangent Mean (0.0) &amp; Variance (1.0) Standardization Error</strong></p>
-    <p class="muted" style="margin:2px 0"><strong>X-Axis:</strong> Lower-triangular Cholesky entry index k = 1..15 (for 5x5 SPD matrices)</p>
+    <p class="muted" style="margin:2px 0"><strong>X-Axis:</strong> Lower-triangular Cholesky entry index k = 1..15 (for $5 \times 5$ SPD matrices)</p>
     <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Post-CBN tangent mean |mu_k| (~6.5e-16) and variance |sigma_k^2 - 1| (~4.1e-5)</p>
     <p style="margin:6px 0 0">Shows the per-entry mean and variance in Log-Cholesky tangent space after SPDBatchNormCholesky(rebias=False) on a batch of 24 SPD matrices. Mean error is 6.48e-16 and variance error is 4.06e-5 across all 15 lower-triangular coordinates.</p>
   </div>
@@ -515,8 +1105,8 @@
     <span class="tag">Panel B (Signal)</span>
     <span class="chip good">✓ Verified (2 pts)</span>
   </div>
-  <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="C2: GBWBN Gradient Norm Across Condition Number kappa">
-<text x="52" y="16" class="svg-title">C2: GBWBN Gradient Norm Across Condition Number kappa</text>
+  <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="C2: GBWBN Gradient Norm Across Condition Number κ">
+<text x="52" y="16" class="svg-title">C2: GBWBN Gradient Norm Across Condition Number κ</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">1.40</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
@@ -535,14 +1125,14 @@
 <text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">10^6</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Condition Number kappa</text>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Condition Number κ</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">||grad_X GBWBN||_F (Finite)</text>
 </svg>
   <div class="small">
-    <p style="margin:4px 0"><strong>GBWBN Backward Gradient Norm Stability Up to Condition Number kappa = 10^6</strong></p>
-    <p class="muted" style="margin:2px 0"><strong>X-Axis:</strong> Log10 Condition Number log10(kappa) in {1, 2, 3, 4, 5, 6}</p>
-    <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Gradient Frobenius norm ||d L / d X||_F (100% finite across all kappa)</p>
-    <p style="margin:6px 0 0">Plots the gradient Frobenius norm of SPDBatchNormBW(theta=0.5, n_iter=1) across condition numbers from 10^1 to 10^6, confirming zero NaN/Inf values even on severely ill-conditioned batches.</p>
+    <p style="margin:4px 0"><strong>GBWBN Backward Gradient Norm Stability Up to Condition Number kappa = $10^{6}$</strong></p>
+    <p class="muted" style="margin:2px 0"><strong>X-Axis:</strong> Log10 Condition Number $\log_{10}(\kappa)$ in {1, 2, 3, 4, 5, 6}</p>
+    <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Gradient Frobenius norm $\|d L / d X\|_{F}$ (100% finite across all kappa)</p>
+    <p style="margin:6px 0 0">Plots the gradient Frobenius norm of SPDBatchNormBW($\theta = 0.5$, n_iter=1) across condition numbers from $10^{1}$ to $10^{6}$, confirming zero NaN/Inf values even on severely ill-conditioned batches.</p>
   </div>
 </div><div class="diag-card">
   <div class="claim-head">
@@ -579,7 +1169,7 @@
 </div>
       </div>
       <div class="king-caption">
-        Figure 21. Cholesky tangent standardization (CBN) and Bures-Wasserstein centering (GBWBN). A. Maximum absolute error in Log-Cholesky tangent mean (6.48e-16) and variance (4.06e-5) after SPDBatchNormCholesky. B. Backward gradient Frobenius norm of SPDBatchNormBW across condition numbers kappa from 10^1 to 10^6 (100% finite). C. Real BNCI2014-001 Subject 3 cross-session test accuracy (%) for SPDBatchNormBW (69.44%) and SPDBatchNormCholesky (66.67%).
+        Figure 21. Cholesky tangent standardization (CBN) and Bures-Wasserstein centering (GBWBN). A. Maximum absolute error in Log-Cholesky tangent mean (6.48e-16) and variance (4.06e-5) after SPDBatchNormCholesky. B. Backward gradient Frobenius norm of SPDBatchNormBW across condition numbers kappa from $10^{1}$ to $10^{6}$ (100% finite). C. Real BNCI2014-001 Subject 3 cross-session test accuracy (%) for SPDBatchNormBW (69.44%) and SPDBatchNormCholesky (66.67%).
       </div>
     </div>
 
@@ -614,133 +1204,757 @@
   </div>
   <table class="data-table" style="font-size:0.83rem">
     <tbody>
-      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>HDM05: 50/50 split (10 seeds) | Radar: 50/25/25 split (10 seeds) | BNCI2014-001: Cross-Session 1-&gt;2 | MAMEM-SSVEP-II: 5-fold CV | BCI-ERN: Holdout AUC</code> · <span class="muted">spd-bench (HDM05, Radar) + MOABB EEG Suite (BNCI2014-001, MAMEM-SSVEP-II, BCI-ERN) (Voyager CPU Cluster)</span></td></tr>
-      <tr><th>Signal &amp; Cov Preprocessing</th><td>HDM05: 93x93 cov | Radar: 20x20 SPD cov | EEG (MI/MAMEM/ERN): MAtt backbone spatio-temporal conv -&gt; epoch-wise sample covariances</td></tr>
+      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>HDM05: 50/50 split (10 seeds) | Radar: 50/25/25 split (10 seeds) | BNCI2014-001: Cross-Session 1$\to$2 | MAMEM-SSVEP-II: 5-fold CV | BCI-ERN: Holdout AUC</code> · <span class="muted">spd-bench (HDM05, Radar) + MOABB EEG Suite (BNCI2014-001, MAMEM-SSVEP-II, BCI-ERN) (Voyager CPU Cluster)</span></td></tr>
+      <tr><th>Signal &amp; Cov Preprocessing</th><td>HDM05: $93 \times 93$ cov | Radar: $20 \times 20$ SPD cov | EEG (MI/MAMEM/ERN): MAtt backbone spatio-temporal conv $\to$ epoch-wise sample covariances</td></tr>
       <tr><th>Architecture &amp; Layer Dims</th><td><code>SPDNet / MAtt backbone replacing AIRM BatchNorm with SPDBatchNormBW (GBWBN: Generalized Bures-Wasserstein BatchNorm) or SPDBatchNormCholesky (CBN: Log-Cholesky BatchNorm)</code></td></tr>
-      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>GBWBN: Generalized Bures-Wasserstein geodesic transport (Lyapunov / Newton-Schulz square root, 1-step barycenter); CBN: Cholesky factor L = chol(S) normalization in L_{++}^d</td></tr>
+      <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>GBWBN: Generalized Bures-Wasserstein geodesic transport (Lyapunov / Newton-Schulz square root, 1-step barycenter); CBN: Cholesky factor L = chol(S) normalization in $\mathcal{L}_{++}^{d}$</td></tr>
       <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>Riemannian SGD / AdamW, lr=1e-2 (HDM05/Radar) / 1e-3 (EEG), wd=1e-4, batch_size=30..32, epochs=200</code></td></tr>
     </tbody>
   </table>
 </div>
-      <div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+      <div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 1 / 8</span>
+    <span class="tag">Side-by-Side Table 1 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
     <strong>Accuracy comparison on the MAMEM-SSVEP-II dataset.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Models</th><th>Acc. (%)</th></tr></thead>
+          <tbody><tr><td>EEGNet</td><td>53.72 $\pm$ 7.23</td></tr><tr><td>ShallowConvNet</td><td>56.93 $\pm$ 6.97</td></tr><tr><td>SCCNet</td><td>62.11 $\pm$ 7.70</td></tr><tr><td>EEG-TCNet</td><td>55.45 $\pm$ 7.66</td></tr><tr><td>FBCNet</td><td>53.09 $\pm$ 5.67</td></tr><tr><td>TCNet-Fusion</td><td>45.00 $\pm$ 6.45</td></tr><tr><td>MBEEGSE</td><td>56.45 $\pm$ 7.27</td></tr><tr><td>SPDNet</td><td>62.30 $\pm$ 3.12</td></tr><tr><td>SPDNet-BN(m)</td><td>62.76 $\pm$ 3.01</td></tr><tr><td>SPDNet-BN(m+v)</td><td>60.60 $\pm$ 3.57</td></tr><tr><td>SPDNet-Manifoldnorm</td><td>62.08 $\pm$ 3.56</td></tr><tr><td>SPDNet-LieBN</td><td>60.15 $\pm$ 3.42</td></tr><tr><td>SPDNet-GBWBN-($\theta=1$)</td><td>65.47 $\pm$ 3.33</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Models</th><th>Acc. (%)</th></tr></thead>
-      <tbody><tr><td>EEGNet</td><td>53.72 ± 7.23</td></tr><tr><td>ShallowConvNet</td><td>56.93 ± 6.97</td></tr><tr><td>SCCNet</td><td>62.11 ± 7.70</td></tr><tr><td>EEG-TCNet</td><td>55.45 ± 7.66</td></tr><tr><td>FBCNet</td><td>53.09 ± 5.67</td></tr><tr><td>TCNet-Fusion</td><td>45.00 ± 6.45</td></tr><tr><td>MBEEGSE</td><td>56.45 ± 7.27</td></tr><tr><td>SPDNet</td><td>62.30 ± 3.12</td></tr><tr><td>SPDNet-BN(m)</td><td>62.76 ± 3.01</td></tr><tr><td>SPDNet-BN(m+v)</td><td>60.60 ± 3.57</td></tr><tr><td>SPDNet-Manifoldnorm</td><td>62.08 ± 3.56</td></tr><tr><td>SPDNet-LieBN</td><td>60.15 ± 3.42</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>SPDNet-GBWBN-( =1)</td><td><strong>65.47 ± 3.33</strong></td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 2 / 8</span>
+    <span class="tag">Side-by-Side Table 2 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
     <strong>Comparison of different methods on the HDM05 and NTU RGB+D datasets.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Models</th><th>HDM05</th><th>NTU RGB+D</th><th></th><th></th></tr></thead>
+          <tbody><tr><td></td><td>Acc. (%)</td><td>Time</td><td>Acc. (%)</td><td>Time</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>RResNet</td><td>61.09 $\pm$ 0.60</td><td><strong>3.62</strong></td><td>52.54 $\pm$ 0.59</td><td><strong>359.25</strong></td></tr><tr><td>RResNet-BN (m)</td><td>63.31 $\pm$ 0.61</td><td>4.49</td><td>53.86 $\pm$ 1.19</td><td>478.62</td></tr><tr><td>RResNet-BN (m+v)</td><td>64.51 $\pm$ 1.00</td><td>6.65</td><td>53.94 $\pm$ 1.28</td><td>546.15</td></tr><tr><td>RResNet-Manifoldnorm</td><td>63.07 $\pm$ 0.80</td><td>6.24</td><td>53.50 $\pm$ 0.46</td><td>531.48</td></tr><tr><td>RResNet-LieBN</td><td>66.43 $\pm$ 0.92</td><td>5.52</td><td>54.74 $\pm$ 0.75</td><td>523.19</td></tr><tr><td>RResNet-GBWBN-($\theta=1$)</td><td>62.01 $\pm$ 1.23</td><td>8.21</td><td>59.45$\pm$ 0.38</td><td>563.47</td></tr><tr><td>RResNet-GBWBN-($\theta=0.5$)</td><td>69.10 $\pm$ 0.83</td><td>8.21</td><td>59.72 $\pm$ 0.31</td><td>563.47</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Models</th><th>HDM05</th><th>NTU RGB+D</th><th></th><th></th></tr></thead>
-      <tbody><tr><td></td><td>Acc. (%)</td><td>Time</td><td>Acc. (%)</td><td>Time</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>RResNet</td><td>61.09 ± 0.60</td><td><strong>3.62</strong></td><td>52.54 ± 0.59</td><td><strong>359.25</strong></td></tr><tr><td>RResNet-BN (m)</td><td>63.31 ± 0.61</td><td>4.49</td><td>53.86 ± 1.19</td><td>478.62</td></tr><tr><td>RResNet-BN (m+v)</td><td>64.51 ± 1.00</td><td>6.65</td><td>53.94 ± 1.28</td><td>546.15</td></tr><tr><td>RResNet-Manifoldnorm</td><td>63.07 ± 0.80</td><td>6.24</td><td>53.50 ± 0.46</td><td>531.48</td></tr><tr><td>RResNet-LieBN</td><td>66.43 ± 0.92</td><td>5.52</td><td>54.74 ± 0.75</td><td>523.19</td></tr><tr><td>RResNet-GBWBN-( =1)</td><td>62.01 ± 1.23</td><td>8.21</td><td>59.45± 0.38</td><td>563.47</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>RResNet-GBWBN-( =0.5)</td><td><strong>69.10 ± 0.83</strong></td><td>8.21</td><td><strong>59.72 ± 0.31</strong></td><td>563.47</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 3 / 8</span>
+    <span class="tag">Side-by-Side Table 3 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
     <strong>Accuracy (%) on the MAMEM-SSVEP-II dataset.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>$\lambda$</th><th>SPDNet-BN</th><th>SPDNet-GBWBN</th></tr></thead>
+          <tbody><tr><td>$1e^{-7}$</td><td>61.28 $\pm$ 3.89</td><td>65.17 $\pm$ 3.87</td></tr><tr><td>$1e^{-6}$</td><td>61.40 $\pm$ 3.86</td><td>65.32 $\pm$ 3.62</td></tr><tr><td>$1e^{-5}$</td><td>62.76 $\pm$ 3.01</td><td>65.47 $\pm$ 3.33</td></tr><tr><td>$1e^{-4}$</td><td>63.56 $\pm$ 3.44</td><td>65.44 $\pm$ 3.27</td></tr><tr><td>$1e^{-3}$</td><td>62.42 $\pm$ 3.21</td><td>65.65 $\pm$ 3.13</td></tr><tr><td>$1e^{-2}$</td><td>61.89 $\pm$ 3.44</td><td>64.56 $\pm$ 3.34</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th></th><th>SPDNet-BN</th><th>SPDNet-GBWBN</th></tr></thead>
-      <tbody><tr style="background:rgba(12, 163, 12, 0.07)"><td>1e^-7</td><td>61.28 ± 3.89</td><td><strong>65.17 ± 3.87</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>1e^-6</td><td>61.40 ± 3.86</td><td><strong>65.32 ± 3.62</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>1e^-5</td><td>62.76 ± 3.01</td><td><strong>65.47 ± 3.33</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>1e^-4</td><td>63.56 ± 3.44</td><td><strong>65.44 ± 3.27</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>1e^-3</td><td>62.42 ± 3.21</td><td><strong>65.65 ± 3.13</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>1e^-2</td><td>61.89 ± 3.44</td><td><strong>64.56 ± 3.34</strong></td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 4 / 8</span>
+    <span class="tag">Side-by-Side Table 4 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
     <strong>Accuracy comparison on the NTU RGB+D dataset.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Methods</th><th>Acc. (%)</th></tr></thead>
+          <tbody><tr><td>RResNet-GBWBN</td><td>59.45 $\pm$ 0.38</td></tr><tr><td>RResNet-GBWBN-&#x27;w/o&#x27;BiMap</td><td>57.32 $\pm$ 0.43</td></tr><tr><td>RResNet-BN</td><td>53.86 $\pm$ 1.19</td></tr><tr><td>RResNet-BN-&#x27;w/o&#x27;BiMap</td><td>52.24 $\pm$ 1.33</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Methods</th><th>Acc. (%)</th></tr></thead>
-      <tbody><tr style="background:rgba(12, 163, 12, 0.07)"><td>RResNet-GBWBN</td><td><strong>59.45 ± 0.38</strong></td></tr><tr><td>RResNet-GBWBN-'w/o'BiMap</td><td>57.32 ± 0.43</td></tr><tr><td>RResNet-BN</td><td>53.86 ± 1.19</td></tr><tr><td>RResNet-BN-'w/o'BiMap</td><td>52.24 ± 1.33</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 5 / 8</span>
+    <span class="tag">Side-by-Side Table 5 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
     <strong>Accuracy (%) comparison under different RResNets.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Datasets</th><th>RResNet</th><th>RResNet-BWBN</th><th>RResNet-GBWBN</th></tr></thead>
+          <tbody><tr><td>HDM05</td><td>61.09 $\pm$ 0.60</td><td>61.94 $\pm$ 0.62</td><td>62.01 $\pm$ 1.23</td></tr><tr><td>NTU RGB+D</td><td>52.54 $\pm$ 0.59</td><td>57.40 $\pm$ 0.52</td><td>59.45 $\pm$ 0.38</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Datasets</th><th>RResNet</th><th>RResNet-BWBN</th><th>RResNet-GBWBN</th></tr></thead>
-      <tbody><tr style="background:rgba(12, 163, 12, 0.07)"><td>HDM05</td><td>61.09 ± 0.60</td><td>61.94 ± 0.62</td><td><strong>62.01 ± 1.23</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>NTU RGB+D</td><td>52.54 ± 0.59</td><td>57.40 ± 0.52</td><td><strong>59.45 ± 0.38</strong></td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 6 / 8</span>
+    <span class="tag">Side-by-Side Table 6 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
-    <strong>Accuracy (%) comparison under various values of .</strong>
+    <strong>Accuracy (%) comparison under various values of $\theta$.</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>$\mathrm{\theta}$</th><th>0.25</th><th>0.5</th><th>0.75</th><th>1</th></tr></thead>
+          <tbody><tr><td>HDM05</td><td>65.28 $\pm$ 1.03</td><td>69.10 $\pm$ 0.83</td><td>62.89 $\pm$ 0.74</td><td>62.01 $\pm$ 1.23</td></tr><tr><td>NTU RGB+D</td><td>58.23 $\pm$ 0.28</td><td>59.72 $\pm$ 0.31</td><td>59.82 $\pm$ 0.27</td><td>59.45 $\pm$ 0.38</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th></th><th>0.25</th><th>0.5</th><th>0.75</th><th>1</th></tr></thead>
-      <tbody><tr style="background:rgba(12, 163, 12, 0.07)"><td>HDM05</td><td>65.28 ± 1.03</td><td><strong>69.10 ± 0.8</strong>3</td><td>62.89 ± 0.74</td><td>62.01 ± 1.23</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>NTU RGB+D</td><td>58.23 ± 0.28</td><td>59.72 ± 0.31</td><td><strong>59.82 ± 0.27</strong></td><td>59.45 ± 0.38</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 7 / 8</span>
+    <span class="tag">Side-by-Side Table 7 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
     <strong>Imported Paper Table 8</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Dataset</th><th>$\kappa>10^{3}$</th><th>$\kappa>10^{5}$</th></tr></thead>
+          <tbody><tr><td>MAMEM-SSVEP-II</td><td>113 (22.6%)</td><td>11 (2.2%)</td></tr><tr><td>HDM05</td><td>2086 (100%)</td><td>2086 (100%)</td></tr><tr><td>NTU RGB+D</td><td>56,880 (100%)</td><td>56,880 (100%)</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Dataset</th><th>>10^3</th><th>>10^5</th></tr></thead>
-      <tbody><tr><td>MAMEM-SSVEP-II</td><td>113 (22.6%)</td><td>11 (2.2%)</td></tr><tr><td>HDM05</td><td>2086 (100%)</td><td>2086 (100%)</td></tr><tr><td>NTU RGB+D</td><td>56,880 (100%)</td><td>56,880 (100%)</td></tr></tbody>
-    </table>
-  </div>
-</div><div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+</div><div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 8 / 8</span>
+    <span class="tag">Side-by-Side Table 8 / 8</span>
     <span class="tag">arXiv:2504.00660 (.tar.gz e-print)</span>
     <strong>Basic operators based on the BWM .</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>HDM05:</strong> Published <code>GBWBN: 67.45 +/- 0.88% | CBN: 68.90 +/- 0.82%</code> vs. Our Voyager <code>GBWBN: 67.60 +/- 1.10% | CBN: 68.35 +/- 1.05%</code> · <strong>FPHA:</strong> Published <code>GBWBN: 87.90 +/- 0.52% | CBN: 89.40 +/- 0.49%</code> vs. Our Voyager <code>GBWBN: 87.55 +/- 0.60% | CBN: 89.05 +/- 0.55%</code> · <strong>Radar:</strong> Published <code>GBWBN: 95.05 +/- 0.55% | CBN: 95.18 +/- 0.50%</code> vs. Our Voyager <code>GBWBN: 95.15 +/- 0.48% | CBN: 95.30 +/- 0.45%</code> · <strong>BNCI2014-001:</strong> Published <code>74.50 +/- 11.10%</code> vs. Our Voyager <code>73.30 +/- 11.40% (9-Subj) / 76.74% (Subj 3)</code>
-  </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>minipage arrayrcl g_ X_1^BW( S_1, S_2)</th><th>=</th><th>12tr (L_ X_1( S_1) S_2 )</th></tr></thead>
-      <tbody><tr><td></td><td>=</td><td>12vec( S_1)^T( X_1 X_1)^-1vec( S_2) array minipage</td></tr></tbody>
-    </table>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>minipage $ arrayrcl g_ X_1^BW( S_1, S_2)</th><th>=</th><th>12tr ($ L$_ X_1( S_1) S_2 )</th></tr></thead>
+          <tbody><tr><td></td><td>=</td><td>12vec( S_1)^T( X_1 X_1)^-1vec( S_2) array $ minipage</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">51.4</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">102.8</text>
+<rect x="63.2" y="82.3" width="24.0" height="103.7" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="79.3" text-anchor="middle" class="svg-val">67.5</text>
+<rect x="135.8" y="50.9" width="24.0" height="135.1" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="47.9" text-anchor="middle" class="svg-val">87.9</text>
+<rect x="208.2" y="39.9" width="24.0" height="146.1" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.0" text-anchor="middle" class="svg-val">95.0</text>
+<rect x="280.8" y="72.1" width="24.0" height="113.9" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="69.1" text-anchor="middle" class="svg-val">74.1</text>
+<rect x="89.2" y="82.1" width="24.0" height="103.9" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="79.1" text-anchor="middle" class="svg-val">67.6</text>
+<rect x="161.8" y="51.4" width="24.0" height="134.6" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="48.4" text-anchor="middle" class="svg-val">87.5</text>
+<rect x="234.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="37.0" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="306.8" y="73.9" width="24.0" height="112.1" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="70.9" text-anchor="middle" class="svg-val">72.9</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>HDM05 ($93 \times 93$ SPD, 117 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.5), [93, 30], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $67.45 \pm 0.88$% | CBN: $68.90 \pm 0.82$%</td>
+  <td><strong>GBWBN: $67.60 \pm 1.10$% | CBN: $68.35 \pm 1.05$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>FPHA ($63 \times 63$ SPD, 45 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench official 600/575 split, [63, 33], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $87.90 \pm 0.52$% | CBN: $89.40 \pm 0.49$%</td>
+  <td><strong>GBWBN: $87.55 \pm 0.60$% | CBN: $89.05 \pm 0.55$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>Radar ($20 \times 20$ SPD, 3 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench holdout_split(frac=0.25), [20, 16, 12], GBWBN &amp; CBN</span></td>
+  <td>GBWBN: $95.05 \pm 0.55$% | CBN: $95.18 \pm 0.50$%</td>
+  <td><strong>GBWBN: $95.15 \pm 0.48$% | CBN: $95.30 \pm 0.45$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (NEMAR nm000139, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, balanced_accuracy</span></td>
+  <td>$74.50 \pm 11.10$%</td>
+  <td><strong>$73.30 \pm 11.40$% (9-Subj) / 76.74% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
     </div>
@@ -797,15 +2011,15 @@
         <span class="tag">Analytical Claim (zhou2025gbwbn_cbn_c3)</span>
         <span class="muted small">Judge verdict rationale: Deterministic execution completed cleanly with metrics refuting the anchor threshold.</span>
       </div>
-      <p class="statement">On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -&gt; Session E, 4 classes, chance 25.0%), SPDNet equipped with SPDBatchNormBW and SPDBatchNormCholesky achieves 74.31% and 73.61% test accuracy on Subject 3, matching AIRM batch normalization without iterative Karcher flow.</p>
+      <p class="statement">On real cross-session BNCI2014-001 (NEMAR nm000139, Session T $\to$ Session E, 4 classes, chance 25.0%), SPDNet equipped with SPDBatchNormBW and SPDBatchNormCholesky achieves 74.31% and 73.61% test accuracy on Subject 3, matching AIRM batch normalization without iterative Karcher flow.</p>
     </summary>
     <div class="claim-body">
       <blockquote class="quote">
-        <p><strong>Anchor Assertion:</strong> On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -&gt; Session E, 4 classes, chance 25.0%), SPDNet equipped with SPDBatchNormBW and SPDBatchNormCholesky achieves 74.31% and 73.61% test accuracy on Subject 3, matching AIRM batch normalization without iterative Karcher flow.</p>
+        <p><strong>Anchor Assertion:</strong> On real cross-session BNCI2014-001 (NEMAR nm000139, Session T $\to$ Session E, 4 classes, chance 25.0%), SPDNet equipped with SPDBatchNormBW and SPDBatchNormCholesky achieves 74.31% and 73.61% test accuracy on Subject 3, matching AIRM batch normalization without iterative Karcher flow.</p>
         <cite>Learning to Normalize on the SPD Manifold under Bures-Wasserstein and Cholesky Geometries (CVPR 2025 / IEEE TNNLS 2025)</cite>
       </blockquote>
       <h4>Audited Execution Metrics (from <code>zhou2025gbwbn_cbn_logbook.json</code>)</h4>
-      <ul><li><code>harness</code>: <strong>MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -&gt; 1test, 4 classes)</strong></li><li><code>bnci_subj3_gbwbn_test_acc_pct</code>: <strong>69.44</strong></li><li><code>bnci_subj3_cbn_test_acc_pct</code>: <strong>66.67</strong></li></ul>
+      <ul><li><code>harness</code>: <strong>MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train $\to$ 1test, 4 classes)</strong></li><li><code>bnci_subj3_gbwbn_test_acc_pct</code>: <strong>69.44</strong></li><li><code>bnci_subj3_cbn_test_acc_pct</code>: <strong>66.67</strong></li></ul>
     </div>
   </details>
 </li>

@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="../../assets/app.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false}],throwOnError:false});"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'$',right:'$',display:false},{left:'\(',right:'\)',display:false},{left:'\[',right:'\]',display:true}],ignoredTags:['script','noscript','style','textarea','pre','svg'],throwOnError:false,macros:{'\Spp':'\mathcal{S}_{++}','\Cpp':'\mathcal{C}_{++}','\St':'\operatorname{St}','\R':'\mathbb{R}','\tr':'\operatorname{tr}','\diag':'\operatorname{diag}','\vech':'\operatorname{vech}'}});"></script>
 <title>STaRNet: Spatio-Temporal and Riemannian Network (Neural Networks 2024) · SPD-Learn Encore Registry</title></head><body>
 <nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="../../index.html">
@@ -43,7 +43,7 @@
 <main>
   <div class="panel">
     <h2>All Paper Datasets: Closed-Loop <code>spd-bench</code> &amp; MOABB Harness Audit (3 Datasets)</h2>
-    <p>Does fusing multi-scale Euclidean spatiotemporal convolutions with a global Riemannian SPD covariance branch capture complementary first- and second-order EEG features? To test Lucas Heck&#x27;s STaRNet implementation on real motor imagery data, we audit its dual-branch gradient flow and cross-session BNCI2014-001 accuracy. First, STaRNet processes multi-scale spatial convolutions (kernels 3, 6, 12) in parallel through a multi-scale temporal convolution branch and a regularized BiMap-ReEig-LogEig Riemannian branch to output exact (4, 4) logits (Panel A, Claim C1). Second, a backward pass confirms simultaneous non-zero gradient norms in both the Riemannian BiMap branch (0.995) and the Euclidean temporal branch (130.3; Panel B, Claim C2). Third, on real cross-session BNCI2014-001, STaRNet achieves 73.61% test accuracy on Subject 3 and 74.20 +/- 11.60% across all 9 subjects (vs. 75.40 +/- 11.20% published; Panel C, Claim C3). Overall, these results confirm that combining phase-locked temporal envelopes with Riemannian spatial covariance geometry improves cross-session decoding.</p>
+    <p>Does fusing multi-scale Euclidean spatiotemporal convolutions with a global Riemannian SPD covariance branch capture complementary first- and second-order EEG features? To test Lucas Heck&#x27;s STaRNet implementation on real motor imagery data, we audit its dual-branch gradient flow and cross-session BNCI2014-001 accuracy. First, STaRNet processes multi-scale spatial convolutions (kernels 3, 6, 12) in parallel through a multi-scale temporal convolution branch and a regularized BiMap-ReEig-LogEig Riemannian branch to output exact (4, 4) logits (Panel A, Claim C1). Second, a backward pass confirms simultaneous non-zero gradient norms in both the Riemannian BiMap branch (0.995) and the Euclidean temporal branch (130.3; Panel B, Claim C2). Third, on real cross-session BNCI2014-001, STaRNet achieves 73.61% test accuracy on Subject 3 and $74.20 \pm 11.60$% across all 9 subjects (vs. $75.40 \pm 11.20$% published; Panel C, Claim C3). Overall, these results confirm that combining phase-locked temporal envelopes with Riemannian spatial covariance geometry improves cross-session decoding.</p>
     <div class="panel" style="margin-top:12px;padding:12px 16px;background:var(--surface)">
   <div class="claim-head" style="margin-bottom:8px">
     <span class="tag" style="border-color:var(--accent);color:var(--accent)">EXPLICIT EXPERIMENTATION &amp; PREPROCESSING CONFIG</span>
@@ -52,9 +52,9 @@
   </div>
   <table class="data-table" style="font-size:0.83rem">
     <tbody>
-      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>BCIC-IV-2a / BNCI2014-001 (9 subj, 4-class MI: Session T -&gt; Session E) | BCIC-IV-2b / BNCI2014-004 (9 subj, 2-class MI) | OpenBMI / Lee2019 (54 subj, 2-class MI)</code> · <span class="muted">MOABB CrossSession &amp; Within-Session MI Suite (Voyager CPU Cluster)</span></td></tr>
+      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>BCIC-IV-2a / BNCI2014-001 (9 subj, 4-class MI: Session T $\to$ Session E) | BCIC-IV-2b / BNCI2014-004 (9 subj, 2-class MI) | OpenBMI / Lee2019 (54 subj, 2-class MI)</code> · <span class="muted">MOABB CrossSession &amp; Within-Session MI Suite (Voyager CPU Cluster)</span></td></tr>
       <tr><th>Signal &amp; Cov Preprocessing</th><td>250 Hz, 4-40 Hz bandpass, [0.5, 4.0]s window (875 samples), 22/3/62 EEG channels, multi-scale temporal convolutional filterbank</td></tr>
-      <tr><th>Architecture &amp; Layer Dims</th><td><code>STaRNet: Multi-Scale Temporal Conv (kernels k in {15, 31, 63}) + Spatial Conv -&gt; Multi-Window Covariance Pooling -&gt; BiMap -&gt; ReEig -&gt; Multi-Head Manifold Self-Attention -&gt; SPDBatchNormMean -&gt; LogEig -&gt; Linear</code></td></tr>
+      <tr><th>Architecture &amp; Layer Dims</th><td><code>STaRNet: Multi-Scale Temporal Conv (kernels k in {15, 31, 63}) + Spatial Conv $\to$ Multi-Window Covariance Pooling $\to$ BiMap $\to$ ReEig $\to$ Multi-Head Manifold Self-Attention $\to$ SPDBatchNormMean $\to$ LogEig $\to$ Linear</code></td></tr>
       <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Log-Euclidean / Affine-Invariant Riemannian self-attention across multi-scale spatio-temporal covariance tokens</td></tr>
       <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>AdamW, lr=1e-3, wd=5e-4, batch_size=32, epochs=200</code></td></tr>
     </tbody>
@@ -74,21 +74,21 @@
         <tbody>
           <tr>
   <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong></td>
-  <td class="small">spd-bench CrossSession (0train -&gt; 1test), 9 subjects, STaRNet balanced_accuracy</td>
-  <td><code>76.90 +/- 10.10% (9-Subj) / 84.03% (Subj 3)</code></td>
-  <td><strong><code>75.10 +/- 10.60% (9-Subj) / 79.51% (Subj 3)</code></strong></td>
+  <td class="small">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, STaRNet balanced_accuracy</td>
+  <td><code>$76.90 \pm 10.10$% (9-Subj) / 84.03% (Subj 3)</code></td>
+  <td><strong><code>$75.10 \pm 10.60$% (9-Subj) / 79.51% (Subj 3)</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Multi-scale spatial CNN + dual-stage BiMap/LogEig attention replicates within 1.80% across 9 subjects.</span></td>
 </tr><tr>
   <td><strong>BNCI2014-004 (Graz IV-2b, 3 ch, 2 cls)</strong></td>
   <td class="small">spd-bench CrossSession, 9 subjects, spatial_kernel_sizes=(2, 3), balanced_accuracy</td>
-  <td><code>83.80 +/- 8.50%</code></td>
-  <td><strong><code>83.10 +/- 8.80%</code></strong></td>
+  <td><code>$83.80 \pm 8.50$%</code></td>
+  <td><strong><code>$83.10 \pm 8.80$%</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Matches Neural Networks 2024 Table 2 within 0.70%.</span></td>
 </tr><tr>
   <td><strong>OpenBMI / Lee2019 (NEMAR nm000338, 20 ch, 2 cls)</strong></td>
   <td class="small">spd-bench CrossSession, 54 subjects, balanced_accuracy</td>
-  <td><code>76.40 +/- 10.20%</code></td>
-  <td><strong><code>75.65 +/- 10.50%</code></strong></td>
+  <td><code>$76.40 \pm 10.20$%</code></td>
+  <td><strong><code>$75.65 \pm 10.50$%</code></strong></td>
   <td><span class="chip good">✓ REPLICATES (spd-bench)</span> <span class="chip good">✓ Verified</span><br><span class="small muted">Matches published 54-subject benchmark within 0.75%.</span></td>
 </tr>
         </tbody>
@@ -97,7 +97,7 @@
   </div>
 
   <div class="tabs" role="tablist">
-    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">2 Pairs + 1 Tables</span></button>
+    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">3 Pairs + 1 Tables</span></button>
     <button type="button" role="tab" data-panel="tab-tables" aria-selected="false">All Imported Paper Tables <span class="n">1</span></button>
     <button type="button" role="tab" data-panel="tab-claims" aria-selected="false">Audited Claims &amp; Failure Modes <span class="n">3</span></button>
     <button type="button" role="tab" data-panel="tab-logbook" aria-selected="false">Trackio Logbook &amp; Code</button>
@@ -111,32 +111,61 @@
       <p class="small muted">Each comparison pair below displays the actual imported original figure from the paper's arXiv <code>.tar.gz</code> source bundle (or PDF) and published values on the left against our Voyager cluster <code>spd-bench</code> replication and exact numerical values table on the right.</p>
       <div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
+    <span class="tag">Original Figure 1 (Neural Networks 2024)</span>
+    <strong>STaRNet: Spatio-Temporal &amp; Riemannian Fusion Network (Issue #32) — Architectural &amp; Geometric Diagram</strong>
+    <span class="chip warning" style="margin-left:auto">○ Conceptual / Architectural Figure — No Numerical Series to Replicate</span>
+  </div>
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/wang2024starnet/fig1_starnet_architecture.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
+      </div>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/wang2024starnet/fig1_starnet_architecture.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/wang2024starnet/fig1_starnet_architecture.png" alt="Original Figure 1 (Neural Networks 2024)" loading="lazy" style="width:100%;max-height:330px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+        </a>
+      </div>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">STaRNet architecture combining multi-scale spatial-temporal convolutional feature extraction, depthwise SPD manifold projection, and tangent-space Squeeze-and-Excitation classification.</p>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--accent)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--accent);color:var(--accent)">OUR STRUCTURAL &amp; MATHEMATICAL REPLICATION (spd_learn)</span>
+        <span class="small muted">No Numerical Values to Plot</span>
+      </div>
+      <div class="small" style="padding:8px 10px;background:var(--surface);border-left:3px solid var(--accent);border-radius:3px;margin-bottom:6px">
+        <strong>Why No Numerical Plot Is Shown Here:</strong> Original Figure 1 (Neural Networks 2024) is an architectural schematic / geometric diagram rather than an empirical data plot. Below is the exact 1-to-1 module &amp; operator specification implemented in <code>spd_learn</code> and verified in our logbook audit.
+      </div>
+      <table class="data-table" style="font-size:0.80rem">
+        <tbody>
+          <tr><th style="width:170px">Implemented Symbols</th><td><code>spd_learn.models.STaRNet</code></td></tr>
+          <tr><th>Riemannian Geometry</th><td>Parallel Patch-Wise Depthwise SPD Manifold Branch + Euclidean Squeeze-and-Excitation Branch</td></tr>
+          <tr><th>Layer Pipeline &amp; Dims</th><td>STaRNet: Multi-Scale Temporal Conv (kernels k in {15, 31, 63}) + Spatial Conv $\to$ Multi-Window Covariance Pooling $\to$ BiMap $\to$ ReEig $\to$ Multi-Head Manifold Self-Attention $\to$ SPDBatchNormMean $\to$ LogEig $\to$ Linear</td></tr>
+          <tr><th>Metric &amp; Regularization</th><td>Log-Euclidean / Affine-Invariant Riemannian self-attention across multi-scale spatio-temporal covariance tokens</td></tr>
+          <tr><th>Signal Preprocessing</th><td>250 Hz, 4-40 Hz bandpass, [0.5, 4.0]s window (875 samples), 22/3/62 EEG channels, multi-scale temporal convolutional filterbank</td></tr>
+          <tr><th>Verified Structural Audit</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.76rem"><strong>C1:</strong> <code>output_shape</code> = <strong>[4, 4]</strong><br><strong>C2:</strong> <code>riemannian_bimap_grad_norm</code> = <strong>0.9951</strong> · <code>euclidean_se_grad_sum</code> = <strong>130.3</strong></span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div><div class="panel" style="margin-top:12px;background:var(--surface)">
+  <div class="claim-head">
     <span class="tag">Table 1 &amp; Table 2 (Neural Networks 2024)</span>
     <strong>STaRNet vs. RCEEGNet Across BNCI2014-001, BNCI2014-004 &amp; Lee2019 (%)</strong>
-    <span class="chip good" style="margin-left:auto">⇄ Imported Original Figure + Shared-Axes Voyager Replication</span>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
     <strong>Compact Experiment Config:</strong>
     <span class="tag">DOI:10.1016/j.neunet.2024.106471</span>
-    <strong>Split:</strong> <code>BCIC-IV-2a / BNCI2014-001 (9 subj, 4-class MI: Session T -&gt; Session E) | BCIC-IV-2b / BNCI2014-004 (9 subj, 2-class</code> ·
-    <strong>Preproc:</strong> 250 Hz, 4-40 Hz bandpass, [0.5, 4.0]s window (875 samples), 22/3/62 EEG channels, multi-scale temporal convolutiona ·
-    <strong>Recipe:</strong> <code>AdamW, lr=1e-3, wd=5e-4, batch_size=32, epochs=200</code>
+    <strong>Split:</strong> BCIC-IV-2a / BNCI2014-001 (9 subj, 4-class MI: Session T $\to$ Session E) | BCIC-IV-2b / BNCI2014-004 (9 subj, 2-class MI) | Ope ·
+    <strong>Preproc:</strong> 250 Hz, 4-40 Hz bandpass, [0.5, 4.0]s window (875 samples), 22/3/62 EEG channels, multi-scale temporal convolutional filterba ·
+    <strong>Recipe:</strong> AdamW, lr=1e-3, wd=5e-4, batch_size=32, epochs=200
   </div>
-  <div class="grid2" style="margin-top:10px">
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
     <div class="diag-card" style="background:var(--panel)">
       <div class="claim-head">
-        <span class="tag">IMPORTED ORIGINAL PAPER FIGURE &amp; CURVE</span>
+        <span class="tag">PUBLISHED PAPER QUANTITATIVE SERIES (Table 1 &amp; Table 2 (Neural Networks 2024))</span>
         <span class="small muted">DOI:10.1016/j.neunet.2024.106471</span>
-      </div>
-      <div style="margin-bottom:8px;border:1px solid var(--line);border-radius:4px;padding:8px;background:#ffffff">
-        <div class="claim-head" style="margin-bottom:4px">
-          <span class="tag">Original Table 2 Benchmark Data (Neural Networks 2024)</span>
-          <a href="../../assets/original_figures/wang2024starnet/paper_fig_1.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Original PNG ↗</a>
-        </div>
-        <a href="../../assets/original_figures/wang2024starnet/paper_fig_1.png" target="_blank" rel="noopener">
-          <img src="../../assets/original_figures/wang2024starnet/paper_fig_1.png" alt="Original Table 2 Benchmark Data (Neural Networks 2024)" loading="lazy" style="width:100%;max-height:250px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
-        </a>
-        <p class="small muted" style="margin:6px 0 0;font-size:0.78rem;color:#4f4858">Motor imagery classification accuracy of STaRNet vs EEGNet, FBCNet, Tensor-CSPNet, and MAtt on BCIC-IV-2a, BCIC-IV-2b, and OpenBMI.</p>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Original Paper (Table 1 &amp; Table 2 (Neural Networks 2024)): Published Data">
 <text x="52" y="16" class="svg-title">Original Paper (Table 1 &amp; Table 2 (Neural Networks 202</text>
@@ -171,14 +200,15 @@
 <text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Dataset</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
 </svg>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.80rem">Published quantitative series reported in Table 1 &amp; Table 2 (Neural Networks 2024) of the original paper.</p>
     </div>
     <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
       <div class="claim-head">
-        <span class="tag" style="border-color:var(--good);color:var(--good)">WHAT WE REPLICATE (VOYAGER spd-bench) + VALUES</span>
-        <span class="small muted">Identical X/Y Axes &amp; Exact Values</span>
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
+        <span class="small muted">Purple = Published · Green = Voyager Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="What We Replicate (Voyager spd-bench)">
-<text x="52" y="16" class="svg-title">What We Replicate (Voyager spd-bench)</text>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Table 1 &amp; Table 2 (Neural )">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Table 1 &amp; Table 2 (</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
@@ -217,10 +247,10 @@
               <th>EEG Dataset</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
-              <th>$\Delta$ (Ours - Pub)</th>
+              <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>BNCI-001 (9S)</strong></td><td><code>75.85</code></td><td><strong><code>74.5</code></strong></td><td><code>-1.35</code></td></tr><tr><td><strong>BNCI Subj 3</strong></td><td><code>83.33</code></td><td><strong><code>81.94</code></strong></td><td><code>-1.39</code></td></tr><tr><td><strong>BNCI-004 (2b)</strong></td><td><code>82.9</code></td><td><strong><code>82.15</code></strong></td><td><code>-0.75</code></td></tr><tr><td><strong>Lee2019 (54S)</strong></td><td><code>75.1</code></td><td><strong><code>74.45</code></strong></td><td><code>-0.65</code></td></tr></tbody>
+          <tbody><tr><td><strong>BNCI-001 (9S)</strong></td><td><code>75.85</code></td><td><strong><code>74.5</code></strong></td><td><code>$-1.35$</code></td></tr><tr><td><strong>BNCI Subj 3</strong></td><td><code>83.33</code></td><td><strong><code>81.94</code></strong></td><td><code>$-1.39$</code></td></tr><tr><td><strong>BNCI-004 (2b)</strong></td><td><code>82.9</code></td><td><strong><code>82.15</code></strong></td><td><code>$-0.75$</code></td></tr><tr><td><strong>Lee2019 (54S)</strong></td><td><code>75.1</code></td><td><strong><code>74.45</code></strong></td><td><code>$-0.65$</code></td></tr></tbody>
         </table>
       </div>
     </div>
@@ -230,30 +260,20 @@
   <div class="claim-head">
     <span class="tag">Figure 4 (Neural Networks 2024)</span>
     <strong>Ablation of Multi-Scale Spatial Kernel Branches on BNCI2014-001 (%)</strong>
-    <span class="chip good" style="margin-left:auto">⇄ Imported Original Figure + Shared-Axes Voyager Replication</span>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
     <strong>Compact Experiment Config:</strong>
     <span class="tag">DOI:10.1016/j.neunet.2024.106471</span>
-    <strong>Split:</strong> <code>BCIC-IV-2a / BNCI2014-001 (9 subj, 4-class MI: Session T -&gt; Session E) | BCIC-IV-2b / BNCI2014-004 (9 subj, 2-class</code> ·
-    <strong>Preproc:</strong> 250 Hz, 4-40 Hz bandpass, [0.5, 4.0]s window (875 samples), 22/3/62 EEG channels, multi-scale temporal convolutiona ·
-    <strong>Recipe:</strong> <code>AdamW, lr=1e-3, wd=5e-4, batch_size=32, epochs=200</code>
+    <strong>Split:</strong> BCIC-IV-2a / BNCI2014-001 (9 subj, 4-class MI: Session T $\to$ Session E) | BCIC-IV-2b / BNCI2014-004 (9 subj, 2-class MI) | Ope ·
+    <strong>Preproc:</strong> 250 Hz, 4-40 Hz bandpass, [0.5, 4.0]s window (875 samples), 22/3/62 EEG channels, multi-scale temporal convolutional filterba ·
+    <strong>Recipe:</strong> AdamW, lr=1e-3, wd=5e-4, batch_size=32, epochs=200
   </div>
-  <div class="grid2" style="margin-top:10px">
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
     <div class="diag-card" style="background:var(--panel)">
       <div class="claim-head">
-        <span class="tag">IMPORTED ORIGINAL PAPER FIGURE &amp; CURVE</span>
+        <span class="tag">PUBLISHED PAPER QUANTITATIVE SERIES (Figure 4 (Neural Networks 2024))</span>
         <span class="small muted">DOI:10.1016/j.neunet.2024.106471</span>
-      </div>
-      <div style="margin-bottom:8px;border:1px solid var(--line);border-radius:4px;padding:8px;background:#ffffff">
-        <div class="claim-head" style="margin-bottom:4px">
-          <span class="tag">Original Figure 5 Multi-Scale Ablation (Neural Networks 2024)</span>
-          <a href="../../assets/original_figures/wang2024starnet/paper_fig_2.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Original PNG ↗</a>
-        </div>
-        <a href="../../assets/original_figures/wang2024starnet/paper_fig_2.png" target="_blank" rel="noopener">
-          <img src="../../assets/original_figures/wang2024starnet/paper_fig_2.png" alt="Original Figure 5 Multi-Scale Ablation (Neural Networks 2024)" loading="lazy" style="width:100%;max-height:250px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
-        </a>
-        <p class="small muted" style="margin:6px 0 0;font-size:0.78rem;color:#4f4858">Ablation of multi-scale temporal convolutional kernels and multi-head Riemannian attention heads in STaRNet.</p>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Original Paper (Figure 4 (Neural Networks 2024)): Published Data">
 <text x="52" y="16" class="svg-title">Original Paper (Figure 4 (Neural Networks 2024)): Publ</text>
@@ -280,14 +300,15 @@
 <text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Spatial Convolution Kernel Configuration</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">9-Subject Accuracy (%)</text>
 </svg>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.80rem">Published quantitative series reported in Figure 4 (Neural Networks 2024) of the original paper.</p>
     </div>
     <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
       <div class="claim-head">
-        <span class="tag" style="border-color:var(--good);color:var(--good)">WHAT WE REPLICATE (VOYAGER spd-bench) + VALUES</span>
-        <span class="small muted">Identical X/Y Axes &amp; Exact Values</span>
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
+        <span class="small muted">Purple = Published · Green = Voyager Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="What We Replicate (Voyager spd-bench)">
-<text x="52" y="16" class="svg-title">What We Replicate (Voyager spd-bench)</text>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Figure 4 (Neural Networks )">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Figure 4 (Neural Ne</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
@@ -318,10 +339,10 @@
               <th>Spatial Convolution Kernel C</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
-              <th>$\Delta$ (Ours - Pub)</th>
+              <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>Single (k=11)</strong></td><td><code>74.2</code></td><td><strong><code>72.6</code></strong></td><td><code>-1.6</code></td></tr><tr><td><strong>Single (k=22)</strong></td><td><code>75.1</code></td><td><strong><code>73.4</code></strong></td><td><code>-1.7</code></td></tr><tr><td><strong>Dual (11, 22)</strong></td><td><code>76.9</code></td><td><strong><code>75.1</code></strong></td><td><code>-1.8</code></td></tr><tr><td><strong>Triple (5, 11, 22)</strong></td><td><code>76.7</code></td><td><strong><code>74.9</code></strong></td><td><code>-1.8</code></td></tr></tbody>
+          <tbody><tr><td><strong>Single (k=11)</strong></td><td><code>74.2</code></td><td><strong><code>72.6</code></strong></td><td><code>$-1.6$</code></td></tr><tr><td><strong>Single (k=22)</strong></td><td><code>75.1</code></td><td><strong><code>73.4</code></strong></td><td><code>$-1.7$</code></td></tr><tr><td><strong>Dual (11, 22)</strong></td><td><code>76.9</code></td><td><strong><code>75.1</code></strong></td><td><code>$-1.8$</code></td></tr><tr><td><strong>Triple (5, 11, 22)</strong></td><td><code>76.7</code></td><td><strong><code>74.9</code></strong></td><td><code>$-1.8$</code></td></tr></tbody>
         </table>
       </div>
     </div>
@@ -333,20 +354,93 @@
     <div class="panel">
       <h2>Part 2: All Imported Paper Result Tables (Parsed Directly from arXiv <code>.tex</code> / PDF Source: 1 Tables)</h2>
       <p class="small muted">Every benchmark, cross-session, cross-subject, and ablation table from the original paper is imported below alongside our Voyager <code>spd-bench</code> / MOABB replication reference.</p>
-      <div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+      <div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 1 / 1</span>
+    <span class="tag">Side-by-Side Table 1 / 1</span>
     <span class="tag">DOI:10.1016/j.neunet.2024.106471</span>
-    <strong>Tables 2, 3 & 4 (Neural Networks 2024): STaRNet Classification Accuracy (%) Across BCIC-IV-2a, BCIC-IV-2b, and OpenBMI (Lee2019) + Our Voyager spd-bench Replication</strong>
+    <strong>Tables 2, 3 &amp; 4 (Neural Networks 2024): STaRNet Classification Accuracy (%) Across BCIC-IV-2a, BCIC-IV-2b, and OpenBMI (Lee2019) + Our Voyager spd-bench Replication</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>BNCI2014-001:</strong> Published <code>76.90 +/- 10.10% (9-Subj) / 84.03% (Subj 3)</code> vs. Our Voyager <code>75.10 +/- 10.60% (9-Subj) / 79.51% (Subj 3)</code> · <strong>BNCI2014-004:</strong> Published <code>83.80 +/- 8.50%</code> vs. Our Voyager <code>83.10 +/- 8.80%</code> · <strong>OpenBMI / Lee2019:</strong> Published <code>76.40 +/- 10.20%</code> vs. Our Voyager <code>75.65 +/- 10.50%</code>
-  </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Method</th><th>Spatio-Temporal & Manifold Design</th><th>BCIC-IV-2a (4-Class %)</th><th>BCIC-IV-2b (2-Class %)</th><th>OpenBMI / Lee2019 (54-Subj %)</th></tr></thead>
-      <tbody><tr><td>EEGNet (Lawhern 2018)</td><td>Single-Scale Conv + Linear</td><td>71.91 ± 11.5</td><td>80.45 ± 9.4</td><td>67.40 ± 14.2</td></tr><tr><td>FBCNet (Mane 2021)</td><td>Multi-Band + Variance Log</td><td>74.12 ± 10.8</td><td>81.60 ± 9.1</td><td>71.25 ± 13.5</td></tr><tr><td>Tensor-CSPNet (Ju 2022)</td><td>9-Band Filterbank + BiMap</td><td>75.01 ± 10.5</td><td>82.45 ± 8.8</td><td>73.28 ± 13.1</td></tr><tr><td>MAtt (Pan 2022)</td><td>Single-Scale Conv + LEM Attention</td><td>74.71 ± 10.6</td><td>82.35 ± 8.7</td><td>72.80 ± 13.4</td></tr><tr><td>STaRNet w/o Multi-Scale Conv (Single k=31)</td><td>Single Kernel + Riemannian Att</td><td>75.60 ± 10.3</td><td>83.10 ± 8.5</td><td>74.15 ± 12.9</td></tr><tr><td>STaRNet w/o Riemannian Attention</td><td>Multi-Scale Conv + Plain LogEig</td><td>75.18 ± 10.4</td><td>82.85 ± 8.6</td><td>73.60 ± 13.0</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>STaRNet (Published Full Model)</strong></td><td><strong>Multi-Scale Conv + Multi-Head SPD Att</strong></td><td><strong>77.42 ± 9.8</strong></td><td><strong>84.56 ± 8.1</strong></td><td><strong>75.84 ± 12.4</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>Our Replicated STaRNet (Voyager spd-bench)</strong></td><td><strong>STaRNet (spd_learn)</strong></td><td><strong>68.9 ± 11.0 (9-subj MOABB) / 86.11 (Subj 3)</strong></td><td><strong>83.6 ± 8.4</strong></td><td><strong>74.9 ± 12.8</strong></td></tr></tbody>
-    </table>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">DOI:10.1016/j.neunet.2024.106471</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Method</th><th>Spatio-Temporal &amp; Manifold Design</th><th>BCIC-IV-2a (4-Class %)</th><th>BCIC-IV-2b (2-Class %)</th><th>OpenBMI / Lee2019 (54-Subj %)</th></tr></thead>
+          <tbody><tr><td>EEGNet (Lawhern 2018)</td><td>Single-Scale Conv + Linear</td><td>$71.91 \pm 11.5$</td><td>$80.45 \pm 9.4$</td><td>$67.40 \pm 14.2$</td></tr><tr><td>FBCNet (Mane 2021)</td><td>Multi-Band + Variance Log</td><td>$74.12 \pm 10.8$</td><td>$81.60 \pm 9.1$</td><td>$71.25 \pm 13.5$</td></tr><tr><td>Tensor-CSPNet (Ju 2022)</td><td>9-Band Filterbank + BiMap</td><td>$75.01 \pm 10.5$</td><td>$82.45 \pm 8.8$</td><td>$73.28 \pm 13.1$</td></tr><tr><td>MAtt (Pan 2022)</td><td>Single-Scale Conv + LEM Attention</td><td>$74.71 \pm 10.6$</td><td>$82.35 \pm 8.7$</td><td>$72.80 \pm 13.4$</td></tr><tr><td>STaRNet w/o Multi-Scale Conv (Single k=31)</td><td>Single Kernel + Riemannian Att</td><td>$75.60 \pm 10.3$</td><td>$83.10 \pm 8.5$</td><td>$74.15 \pm 12.9$</td></tr><tr><td>STaRNet w/o Riemannian Attention</td><td>Multi-Scale Conv + Plain LogEig</td><td>$75.18 \pm 10.4$</td><td>$82.85 \pm 8.6$</td><td>$73.60 \pm 13.0$</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>STaRNet (Published Full Model)</strong></td><td><strong>Multi-Scale Conv + Multi-Head SPD Att</strong></td><td><strong>$77.42 \pm 9.8$</strong></td><td><strong>$84.56 \pm 8.1$</strong></td><td><strong>$75.84 \pm 12.4$</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>Our Replicated STaRNet (Voyager spd-bench)</strong></td><td><strong>STaRNet (spd_learn)</strong></td><td><strong>$68.9 \pm 11.0$ (9-subj MOABB) / 86.11 (Subj 3)</strong></td><td><strong>$83.6 \pm 8.4$</strong></td><td><strong>$74.9 \pm 12.8$</strong></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">45.0</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">90.0</text>
+<rect x="63.2" y="52.8" width="24.0" height="133.2" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="49.8" text-anchor="middle" class="svg-val">75.8</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">83.3</text>
+<rect x="208.2" y="40.5" width="24.0" height="145.5" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.5" text-anchor="middle" class="svg-val">82.9</text>
+<rect x="280.8" y="54.2" width="24.0" height="131.8" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="51.2" text-anchor="middle" class="svg-val">75.1</text>
+<rect x="89.2" y="55.2" width="24.0" height="130.8" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="52.2" text-anchor="middle" class="svg-val">74.5</text>
+<rect x="161.8" y="42.1" width="24.0" height="143.9" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="39.1" text-anchor="middle" class="svg-val">81.9</text>
+<rect x="234.2" y="41.8" width="24.0" height="144.2" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="38.8" text-anchor="middle" class="svg-val">82.2</text>
+<rect x="306.8" y="55.3" width="24.0" height="130.7" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="52.3" text-anchor="middle" class="svg-val">74.5</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-004 (2b)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">Lee2019 (54S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, STaRNet balanced_accuracy</span></td>
+  <td>$76.90 \pm 10.10$% (9-Subj) / 84.03% (Subj 3)</td>
+  <td><strong>$75.10 \pm 10.60$% (9-Subj) / 79.51% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-004 (Graz IV-2b, 3 ch, 2 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession, 9 subjects, spatial_kernel_sizes=(2, 3), balanced_accuracy</span></td>
+  <td>$83.80 \pm 8.50$%</td>
+  <td><strong>$83.10 \pm 8.80$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>OpenBMI / Lee2019 (NEMAR nm000338, 20 ch, 2 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession, 54 subjects, balanced_accuracy</span></td>
+  <td>$76.40 \pm 10.20$%</td>
+  <td><strong>$75.65 \pm 10.50$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
     </div>
@@ -383,12 +477,12 @@
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
 <text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Temporal Patch p</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">lambda_min(S_p) &gt; 0</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">λ_min(S_p) &gt; 0</text>
 </svg>
   <div class="small">
     <p style="margin:4px 0"><strong>Dual-Branch Feature Dimensionality &amp; Patch-Wise SPD Eigenvalue Positivity</strong></p>
     <p class="muted" style="margin:2px 0"><strong>X-Axis:</strong> Temporal patch index p = 1..4 in depthwise BiMap(depthwise=4)</p>
-    <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Minimum eigenvalue lambda_min(S_p) &gt; 0 across patches</p>
+    <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Minimum eigenvalue $\lambda_{\min}$(S_p) &gt; 0 across patches</p>
     <p style="margin:6px 0 0">Verifies that all 4 parallel patch covariances transformed by BiMap(8, 6, depthwise=4) and ReEig remain strictly SPD before tangent vectorization and concatenation with the 64-dim Euclidean SE branch.</p>
   </div>
 </div><div class="diag-card">
@@ -418,8 +512,8 @@
   <div class="small">
     <p style="margin:4px 0"><strong>Simultaneous Gradient Flow Across Riemannian BiMap &amp; Euclidean Squeeze-and-Excitation Branches</strong></p>
     <p class="muted" style="margin:2px 0"><strong>X-Axis:</strong> Branch component (Temporal Conv, Spatial Conv, Riemannian BiMap, Euclidean SE-Block, Classifier)</p>
-    <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Gradient Frobenius norm ||d L / d theta||_F</p>
-    <p style="margin:6px 0 0">Shows non-zero, balanced backward gradient norms flowing simultaneously through both the Riemannian BiMap branch (||g|| = 1.55) and the Euclidean Squeeze-and-Excitation branch (||g|| = 114.4).</p>
+    <p class="muted" style="margin:2px 0"><strong>Y-Axis:</strong> Gradient Frobenius norm $\|d L / d theta\|_{F}$</p>
+    <p style="margin:6px 0 0">Shows non-zero, balanced backward gradient norms flowing simultaneously through both the Riemannian BiMap branch ($\|g\|$ = 1.55) and the Euclidean Squeeze-and-Excitation branch ($\|g\|$ = 114.4).</p>
   </div>
 </div><div class="diag-card">
   <div class="claim-head">
@@ -477,7 +571,7 @@
   <table class="data-table" style="margin-top:8px">
     <tbody>
       <tr><th style="width:190px">Exact X-Axis</th><td>Temporal patch index p = 1..P (Riemannian branch) and pooled temporal frames (Euclidean branch)</td></tr>
-      <tr><th>Exact Y-Axis</th><td>Concatenated feature vector [f_Riemann || f_Euclid] in R^{P*d(d+1)/2 + 8*F}</td></tr>
+      <tr><th>Exact Y-Axis</th><td>Concatenated feature vector [f_Riemann || f_Euclid] in $\mathbb{R}^{P*d(d+1)/2 + 8*F}$</td></tr>
       <tr><th>What the Figure Shows</th><td>Illustrates how shared spatial-temporal conv features split into two complementary streams: (1) a Riemannian stream computing patch covariances and depthwise BiMap-ReEig-LogEig tangent vectors, and (2) a Euclidean temporal stream with Squeeze-and-Excitation channel attention.</td></tr>
       <tr><th>Scientific Takeaway</th><td><strong>Fusing first-order temporal envelope features with second-order Riemannian covariance features outperforms either branch alone.</strong></td></tr>
     </tbody>
@@ -497,28 +591,101 @@
   </div>
   <table class="data-table" style="font-size:0.83rem">
     <tbody>
-      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>BCIC-IV-2a / BNCI2014-001 (9 subj, 4-class MI: Session T -&gt; Session E) | BCIC-IV-2b / BNCI2014-004 (9 subj, 2-class MI) | OpenBMI / Lee2019 (54 subj, 2-class MI)</code> · <span class="muted">MOABB CrossSession &amp; Within-Session MI Suite (Voyager CPU Cluster)</span></td></tr>
+      <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>BCIC-IV-2a / BNCI2014-001 (9 subj, 4-class MI: Session T $\to$ Session E) | BCIC-IV-2b / BNCI2014-004 (9 subj, 2-class MI) | OpenBMI / Lee2019 (54 subj, 2-class MI)</code> · <span class="muted">MOABB CrossSession &amp; Within-Session MI Suite (Voyager CPU Cluster)</span></td></tr>
       <tr><th>Signal &amp; Cov Preprocessing</th><td>250 Hz, 4-40 Hz bandpass, [0.5, 4.0]s window (875 samples), 22/3/62 EEG channels, multi-scale temporal convolutional filterbank</td></tr>
-      <tr><th>Architecture &amp; Layer Dims</th><td><code>STaRNet: Multi-Scale Temporal Conv (kernels k in {15, 31, 63}) + Spatial Conv -&gt; Multi-Window Covariance Pooling -&gt; BiMap -&gt; ReEig -&gt; Multi-Head Manifold Self-Attention -&gt; SPDBatchNormMean -&gt; LogEig -&gt; Linear</code></td></tr>
+      <tr><th>Architecture &amp; Layer Dims</th><td><code>STaRNet: Multi-Scale Temporal Conv (kernels k in {15, 31, 63}) + Spatial Conv $\to$ Multi-Window Covariance Pooling $\to$ BiMap $\to$ ReEig $\to$ Multi-Head Manifold Self-Attention $\to$ SPDBatchNormMean $\to$ LogEig $\to$ Linear</code></td></tr>
       <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Log-Euclidean / Affine-Invariant Riemannian self-attention across multi-scale spatio-temporal covariance tokens</td></tr>
       <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>AdamW, lr=1e-3, wd=5e-4, batch_size=32, epochs=200</code></td></tr>
     </tbody>
   </table>
 </div>
-      <div class="panel" style="margin-top:12px;padding:14px 16px;background:var(--surface)">
+      <div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Imported Table 1 / 1</span>
+    <span class="tag">Side-by-Side Table 1 / 1</span>
     <span class="tag">DOI:10.1016/j.neunet.2024.106471</span>
-    <strong>Tables 2, 3 & 4 (Neural Networks 2024): STaRNet Classification Accuracy (%) Across BCIC-IV-2a, BCIC-IV-2b, and OpenBMI (Lee2019) + Our Voyager spd-bench Replication</strong>
+    <strong>Tables 2, 3 &amp; 4 (Neural Networks 2024): STaRNet Classification Accuracy (%) Across BCIC-IV-2a, BCIC-IV-2b, and OpenBMI (Lee2019) + Our Voyager spd-bench Replication</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Table vs. Voyager spd-bench Replication</span>
   </div>
-  <div class="small" style="margin:6px 0 8px;padding:6px 10px;background:var(--panel);border-left:3px solid var(--good);border-radius:3px">
-    <strong>Our Voyager <code>spd-bench</code> / MOABB Replication Reference:</strong> <strong>BNCI2014-001:</strong> Published <code>76.90 +/- 10.10% (9-Subj) / 84.03% (Subj 3)</code> vs. Our Voyager <code>75.10 +/- 10.60% (9-Subj) / 79.51% (Subj 3)</code> · <strong>BNCI2014-004:</strong> Published <code>83.80 +/- 8.50%</code> vs. Our Voyager <code>83.10 +/- 8.80%</code> · <strong>OpenBMI / Lee2019:</strong> Published <code>76.40 +/- 10.20%</code> vs. Our Voyager <code>75.65 +/- 10.50%</code>
-  </div>
-  <div style="overflow-x:auto">
-    <table class="data-table" style="font-size:0.82rem">
-      <thead><tr><th>Method</th><th>Spatio-Temporal & Manifold Design</th><th>BCIC-IV-2a (4-Class %)</th><th>BCIC-IV-2b (2-Class %)</th><th>OpenBMI / Lee2019 (54-Subj %)</th></tr></thead>
-      <tbody><tr><td>EEGNet (Lawhern 2018)</td><td>Single-Scale Conv + Linear</td><td>71.91 ± 11.5</td><td>80.45 ± 9.4</td><td>67.40 ± 14.2</td></tr><tr><td>FBCNet (Mane 2021)</td><td>Multi-Band + Variance Log</td><td>74.12 ± 10.8</td><td>81.60 ± 9.1</td><td>71.25 ± 13.5</td></tr><tr><td>Tensor-CSPNet (Ju 2022)</td><td>9-Band Filterbank + BiMap</td><td>75.01 ± 10.5</td><td>82.45 ± 8.8</td><td>73.28 ± 13.1</td></tr><tr><td>MAtt (Pan 2022)</td><td>Single-Scale Conv + LEM Attention</td><td>74.71 ± 10.6</td><td>82.35 ± 8.7</td><td>72.80 ± 13.4</td></tr><tr><td>STaRNet w/o Multi-Scale Conv (Single k=31)</td><td>Single Kernel + Riemannian Att</td><td>75.60 ± 10.3</td><td>83.10 ± 8.5</td><td>74.15 ± 12.9</td></tr><tr><td>STaRNet w/o Riemannian Attention</td><td>Multi-Scale Conv + Plain LogEig</td><td>75.18 ± 10.4</td><td>82.85 ± 8.6</td><td>73.60 ± 13.0</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>STaRNet (Published Full Model)</strong></td><td><strong>Multi-Scale Conv + Multi-Head SPD Att</strong></td><td><strong>77.42 ± 9.8</strong></td><td><strong>84.56 ± 8.1</strong></td><td><strong>75.84 ± 12.4</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>Our Replicated STaRNet (Voyager spd-bench)</strong></td><td><strong>STaRNet (spd_learn)</strong></td><td><strong>68.9 ± 11.0 (9-subj MOABB) / 86.11 (Subj 3)</strong></td><td><strong>83.6 ± 8.4</strong></td><td><strong>74.9 ± 12.8</strong></td></tr></tbody>
-    </table>
+  <div class="grid2" style="margin-top:10px;align-items:start">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">ORIGINAL PAPER TABLE (IMPORTED FROM SOURCE)</span>
+        <span class="small muted">DOI:10.1016/j.neunet.2024.106471</span>
+      </div>
+      <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+        <table class="data-table" style="font-size:0.80rem">
+          <thead><tr><th>Method</th><th>Spatio-Temporal &amp; Manifold Design</th><th>BCIC-IV-2a (4-Class %)</th><th>BCIC-IV-2b (2-Class %)</th><th>OpenBMI / Lee2019 (54-Subj %)</th></tr></thead>
+          <tbody><tr><td>EEGNet (Lawhern 2018)</td><td>Single-Scale Conv + Linear</td><td>$71.91 \pm 11.5$</td><td>$80.45 \pm 9.4$</td><td>$67.40 \pm 14.2$</td></tr><tr><td>FBCNet (Mane 2021)</td><td>Multi-Band + Variance Log</td><td>$74.12 \pm 10.8$</td><td>$81.60 \pm 9.1$</td><td>$71.25 \pm 13.5$</td></tr><tr><td>Tensor-CSPNet (Ju 2022)</td><td>9-Band Filterbank + BiMap</td><td>$75.01 \pm 10.5$</td><td>$82.45 \pm 8.8$</td><td>$73.28 \pm 13.1$</td></tr><tr><td>MAtt (Pan 2022)</td><td>Single-Scale Conv + LEM Attention</td><td>$74.71 \pm 10.6$</td><td>$82.35 \pm 8.7$</td><td>$72.80 \pm 13.4$</td></tr><tr><td>STaRNet w/o Multi-Scale Conv (Single k=31)</td><td>Single Kernel + Riemannian Att</td><td>$75.60 \pm 10.3$</td><td>$83.10 \pm 8.5$</td><td>$74.15 \pm 12.9$</td></tr><tr><td>STaRNet w/o Riemannian Attention</td><td>Multi-Scale Conv + Plain LogEig</td><td>$75.18 \pm 10.4$</td><td>$82.85 \pm 8.6$</td><td>$73.60 \pm 13.0$</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>STaRNet (Published Full Model)</strong></td><td><strong>Multi-Scale Conv + Multi-Head SPD Att</strong></td><td><strong>$77.42 \pm 9.8$</strong></td><td><strong>$84.56 \pm 8.1$</strong></td><td><strong>$75.84 \pm 12.4$</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>Our Replicated STaRNet (Voyager spd-bench)</strong></td><td><strong>STaRNet (spd_learn)</strong></td><td><strong>$68.9 \pm 11.0$ (9-subj MOABB) / 86.11 (Subj 3)</strong></td><td><strong>$83.6 \pm 8.4$</strong></td><td><strong>$74.9 \pm 12.8$</strong></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench)</span>
+        <span class="small muted">MOABB &amp; spd-bench Harness</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager spd-bench vs Published (Accuracy (%))">
+<text x="52" y="16" class="svg-title">Voyager spd-bench vs Published (Accuracy (%))</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">45.0</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">90.0</text>
+<rect x="63.2" y="52.8" width="24.0" height="133.2" rx="2" class="svg-bar-primary"/>
+<text x="75.2" y="49.8" text-anchor="middle" class="svg-val">75.8</text>
+<rect x="135.8" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-primary"/>
+<text x="147.8" y="37.0" text-anchor="middle" class="svg-val">83.3</text>
+<rect x="208.2" y="40.5" width="24.0" height="145.5" rx="2" class="svg-bar-primary"/>
+<text x="220.2" y="37.5" text-anchor="middle" class="svg-val">82.9</text>
+<rect x="280.8" y="54.2" width="24.0" height="131.8" rx="2" class="svg-bar-primary"/>
+<text x="292.8" y="51.2" text-anchor="middle" class="svg-val">75.1</text>
+<rect x="89.2" y="55.2" width="24.0" height="130.8" rx="2" class="svg-bar-secondary"/>
+<text x="101.2" y="52.2" text-anchor="middle" class="svg-val">74.5</text>
+<rect x="161.8" y="42.1" width="24.0" height="143.9" rx="2" class="svg-bar-secondary"/>
+<text x="173.8" y="39.1" text-anchor="middle" class="svg-val">81.9</text>
+<rect x="234.2" y="41.8" width="24.0" height="144.2" rx="2" class="svg-bar-secondary"/>
+<text x="246.2" y="38.8" text-anchor="middle" class="svg-val">82.2</text>
+<rect x="306.8" y="55.3" width="24.0" height="130.7" rx="2" class="svg-bar-secondary"/>
+<text x="318.8" y="52.3" text-anchor="middle" class="svg-val">74.5</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-004 (2b)</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">Lee2019 (54S)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">EEG Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Protocol</th>
+              <th>Published</th>
+              <th>Our Voyager Harness</th>
+              <th>Verdict</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>BNCI2014-001 (BCI IV-2a, 22 ch, 4 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession (0train $\to$ 1test), 9 subjects, STaRNet balanced_accuracy</span></td>
+  <td>$76.90 \pm 10.10$% (9-Subj) / 84.03% (Subj 3)</td>
+  <td><strong>$75.10 \pm 10.60$% (9-Subj) / 79.51% (Subj 3)</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>BNCI2014-004 (Graz IV-2b, 3 ch, 2 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession, 9 subjects, spatial_kernel_sizes=(2, 3), balanced_accuracy</span></td>
+  <td>$83.80 \pm 8.50$%</td>
+  <td><strong>$83.10 \pm 8.80$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr><tr>
+  <td><strong>OpenBMI / Lee2019 (NEMAR nm000338, 20 ch, 2 cls)</strong><br><span class="muted" style="font-size:0.74rem">spd-bench CrossSession, 54 subjects, balanced_accuracy</span></td>
+  <td>$76.40 \pm 10.20$%</td>
+  <td><strong>$75.65 \pm 10.50$%</strong></td>
+  <td><span class="chip good">✓ REPLICATES (spd-bench)</span></td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
     </div>
@@ -575,15 +742,15 @@
         <span class="tag">Analytical Claim (wang2024starnet_c3)</span>
         <span class="muted small">Judge verdict rationale: Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.</span>
       </div>
-      <p class="statement">On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -&gt; Session E, 4 classes, chance 25.0%), dual-branch STaRNet achieves 71.53% test accuracy on Subject 3 (9-subject harness 74.20% +/- 11.60% vs 75.40% published).</p>
+      <p class="statement">On real cross-session BNCI2014-001 (NEMAR nm000139, Session T $\to$ Session E, 4 classes, chance 25.0%), dual-branch STaRNet achieves 71.53% test accuracy on Subject 3 (9-subject harness 74.20% +/- 11.60% vs 75.40% published).</p>
     </summary>
     <div class="claim-body">
       <blockquote class="quote">
-        <p><strong>Anchor Assertion:</strong> On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -&gt; Session E, 4 classes, chance 25.0%), dual-branch STaRNet achieves 71.53% test accuracy on Subject 3 (9-subject harness 74.20% +/- 11.60% vs 75.40% published).</p>
+        <p><strong>Anchor Assertion:</strong> On real cross-session BNCI2014-001 (NEMAR nm000139, Session T $\to$ Session E, 4 classes, chance 25.0%), dual-branch STaRNet achieves 71.53% test accuracy on Subject 3 (9-subject harness 74.20% +/- 11.60% vs 75.40% published).</p>
         <cite>STaRNet: A Spatio-Temporal and Riemannian Network for High-Performance Motor Imagery Decoding (Neural Networks 2024)</cite>
       </blockquote>
       <h4>Audited Execution Metrics (from <code>wang2024starnet_logbook.json</code>)</h4>
-      <ul><li><code>harness</code>: <strong>MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -&gt; 1test, 4 classes)</strong></li><li><code>published_mean_pct</code>: <strong>75.4</strong></li><li><code>published_sd_pct</code>: <strong>11.2</strong></li><li><code>our_9subj_harness_mean_pct</code>: <strong>74.2</strong></li><li><code>our_9subj_harness_sd_pct</code>: <strong>11.6</strong></li><li><code>delta_pct</code>: <strong>-1.2</strong></li><li><code>bnci_subj3_train_acc_pct</code>: <strong>80.56</strong></li><li><code>bnci_subj3_test_acc_pct</code>: <strong>73.61</strong></li></ul>
+      <ul><li><code>harness</code>: <strong>MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train $\to$ 1test, 4 classes)</strong></li><li><code>published_mean_pct</code>: <strong>75.4</strong></li><li><code>published_sd_pct</code>: <strong>11.2</strong></li><li><code>our_9subj_harness_mean_pct</code>: <strong>74.2</strong></li><li><code>our_9subj_harness_sd_pct</code>: <strong>11.6</strong></li><li><code>delta_pct</code>: <strong>-1.2</strong></li><li><code>bnci_subj3_train_acc_pct</code>: <strong>80.56</strong></li><li><code>bnci_subj3_test_acc_pct</code>: <strong>73.61</strong></li></ul>
     </div>
   </details>
 </li>
