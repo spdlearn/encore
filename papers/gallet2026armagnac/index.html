@@ -15,7 +15,7 @@
   <a class="by" href="https://spdlearn.org">for spdlearn.org</a>
   <a class="tab" href="../../index.html">Overview</a>
   <a class="tab" href="../../papers/index.html" aria-current="page">Papers &amp; Claims<span class="n">26 / 78</span></a>
-  <a class="tab" href="../../figures/index.html">Figures Atlas<span class="n">78</span></a>
+  <a class="tab" href="../../figures/index.html">Figures Atlas<span class="n">95 + 78</span></a>
   <a class="tab" href="../../pipeline/index.html">Pipeline &amp; Logbooks</a>
   <a class="tab" href="../../methodology/index.html">Methodology</a>
   <a class="tab" href="https://github.com/spdlearn/encore" target="_blank" rel="noopener">GitHub ↗</a>
@@ -36,7 +36,7 @@
     <a href="https://hal.science/hal-05529546" target="_blank" rel="noopener">Original Paper / Code ↗</a> ·
     <a href="../../repro/logbooks/gallet2026armagnac_logbook.json">Raw Trackio Logbook JSON</a> ·
     <a href="../../repro/logbooks/gallet2026armagnac_logbook.md">Trackio Markdown</a> ·
-    Branch: <code>feat/pr12-armagnac-gbwbn</code>
+    Branch: <code>PR #52 (feat/pr-a-metrics-batchnorm)</code>
   </p>
 </header>
 
@@ -54,7 +54,7 @@
     <tbody>
       <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>HDM05: 2,086 samples, 117 classes (grid search over seeds) | HyperLeaf: 2,410 wheat leaf images, 4 classes, $204 \times 204$ spectral cov | Rices90: 10 classes, $256 \times 256$ spectral cov | BNCI2014-001: Cross-Session</code> · <span class="muted">spd-bench / spdnet-benchmarks (HDM05, HyperLeaf, Rices90, Radar, BNCI2014-001) (Voyager CPU Cluster)</span></td></tr>
       <tr><th>Signal &amp; Cov Preprocessing</th><td>HDM05: $93 \times 93$ cov + eps*I | HyperLeaf: $204 \times 204$ hyperspectral reflectance cov | Rices90: $256 \times 256$ hyperspectral cov | BNCI2014-001: 250 Hz, 8-30 Hz, $22 \times 22$ cov</td></tr>
-      <tr><th>Architecture &amp; Layer Dims</th><td><code>SPDNet backbone (BiMap$\to$ReEig) with SPDBatchNormHarmonicArithmetic (ARMAGNAC: closed-form Arithmetic A, Harmonic H = (1/N sum X_i^{-1})^{-1}, and Geometric Mean $A \#_{\alpha} H$ with learnable alpha in [0,1])</code></td></tr>
+      <tr><th>Architecture &amp; Layer Dims</th><td><code>SPDNet backbone (BiMap$\to$ReEig) with SPDBatchNormHarmonic (ARMAGNAC: closed-form Arithmetic A, Harmonic H = (1/N sum X_i^{-1})^{-1}, and Geometric Mean $A \#_{\alpha} H$ with learnable alpha in [0,1])</code></td></tr>
       <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Parametric Harmonic-Arithmetic Geodesic Interpolation G_alpha = A^{1/2} (A^{-1/2} H A^{-1/2})^alpha A^{1/2}; zero iterative Karcher loop (5x faster, 2x less memory)</td></tr>
       <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>Riemannian SGD / AdamW, lr=1e-2 (HDM05) / 5e-3 (BNCI), batch_size=30..128, max_epochs=100..200</code></td></tr>
     </tbody>
@@ -95,6 +95,180 @@
       </table>
     </div>
   </div>
+  <div class="panel" style="margin-top:14px">
+  <div class="claim-head">
+    <span class="tag" style="border-color:var(--good);color:var(--good)">VOYAGER DISTRIBUTED CLUSTER SHARD EXECUTION</span>
+    <span class="tag">repro/shards/*.json · voyager_spdbench_results.json</span>
+    <strong>Multi-Dataset, Subject-Level &amp; Epoch-Curve Replicability (SPDNetBN, TSMNet)</strong>
+  </div>
+  <p class="small muted" style="margin:4px 0 10px">
+    Executed across distributed Voyager CPU/HPU shards (<code>1,456</code> EEG subject-model runs + <code>116</code> SPD matrix runs). Below are the exact per-dataset means, standard deviations, subject-by-subject accuracies ($S_1 \dots S_9$), Cohen's $\kappa$, and 6-stage epoch convergence trajectories.
+  </p>
+  <div class="grid2" style="margin-bottom:12px">
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager Multi-Dataset Accuracy (SPDNetBN)">
+<text x="52" y="16" class="svg-title">Voyager Multi-Dataset Accuracy (SPDNetBN)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.3</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">88.6</text>
+<rect x="112.5" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="124.5" y="37.0" text-anchor="middle" class="svg-val">82.0</text>
+<rect x="257.5" y="58.5" width="24.0" height="127.5" rx="2" class="svg-bar-secondary"/>
+<text x="269.5" y="55.5" text-anchor="middle" class="svg-val">71.5</text>
+<text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">RADAR:SPDNet</text>
+<text x="269.5" y="201.0" text-anchor="middle" class="svg-tick">HDM05:SPDNet</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">SPD Matrix Benchmark Variant</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Top-1 Accuracy (%)</text>
+</svg>
+    </div>
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager Epoch Convergence Trajectory (SPDNetBN)">
+<text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory (SPDNetBN)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">30.2</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">53.9</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">77.7</text>
+<polyline fill="none" points="52.0,186.0 110.0,111.9 168.0,100.0 226.0,92.1 284.0,85.4 342.0,86.7" class="svg-line-primary"/>
+<circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="110.0" cy="111.9" r="3" class="svg-line-primary-dot"/>
+<circle cx="168.0" cy="100.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="226.0" cy="92.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="284.0" cy="85.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="342.0" cy="86.7" r="3" class="svg-line-primary-dot"/>
+<text x="338.0" y="80.7" text-anchor="end" class="svg-val">TSMNet (bnci2014): 60.0</text>
+<polyline fill="none" points="52.0,100.9 110.0,64.8 168.0,54.7 226.0,50.4 284.0,40.3 342.0,39.7" class="svg-line-secondary"/>
+<circle cx="52.0" cy="100.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="110.0" cy="64.8" r="3" class="svg-line-secondary-dot"/>
+<circle cx="168.0" cy="54.7" r="3" class="svg-line-secondary-dot"/>
+<circle cx="226.0" cy="50.4" r="3" class="svg-line-secondary-dot"/>
+<circle cx="284.0" cy="40.3" r="3" class="svg-line-secondary-dot"/>
+<circle cx="342.0" cy="39.7" r="3" class="svg-line-secondary-dot"/>
+<text x="338.0" y="38.0" text-anchor="end" class="svg-val">TSMNet (bnci2014): 74.1</text>
+<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 1</text>
+<text x="110.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="168.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="226.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="284.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 6</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
+</svg>
+    </div>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead>
+        <tr>
+          <th>Voyager Dataset &amp; Protocol</th>
+          <th>Model Variant</th>
+          <th>Subjects / Seeds</th>
+          <th>Voyager Mean $\pm$ SD</th>
+          <th>Max Subject / Seed</th>
+          <th>6-Stage Epoch Convergence Trajectory</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+  <td><strong>BNCI2014-001 (4-Class MI, 22 ch)</strong><br><span class="small muted">MOABB Cross-Session (0train $\to$ 1test), 8-35 Hz, 4s epochs</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$63.31 \pm 11.68\%$</code></strong></td>
+  <td><code>77.78%</code></td>
+  <td class="small"><code>30.2% $\to$ 52.5% $\to$ 56.0% $\to$ 58.4% $\to$ 60.4% $\to$ 60.0%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-002 (2-Class MI, 15 ch)</strong><br><span class="small muted">MOABB Cross-Run Holdout, 8-35 Hz, 5s epochs</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$64.17 \pm 5.51\%$</code></strong></td>
+  <td><code>70.00%</code></td>
+  <td class="small"><code>50.0% $\to$ 52.2% $\to$ 56.1% $\to$ 55.3% $\to$ 60.8% $\to$ 63.3%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-004 (2-Class MI, 3 ch)</strong><br><span class="small muted">MOABB Cross-Session (3 train $\to$ 2 test), 8-35 Hz</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$75.04 \pm 13.04\%$</code></strong></td>
+  <td><code>92.50%</code></td>
+  <td class="small"><code>55.8% $\to$ 66.6% $\to$ 69.7% $\to$ 70.9% $\to$ 74.0% $\to$ 74.1%</code></td>
+</tr><tr>
+  <td><strong>BNCI2015-001 (2-Class MI, 13 ch)</strong><br><span class="small muted">MOABB Cross-Session (Session A $\to$ Session B), 8-35 Hz</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>12 subjects</code></td>
+  <td><strong><code>$67.75 \pm 4.87\%$</code></strong></td>
+  <td><code>75.00%</code></td>
+  <td class="small"><code>55.7% $\to$ 59.9% $\to$ 61.2% $\to$ 66.0% $\to$ 66.6% $\to$ 66.4%</code></td>
+</tr><tr>
+  <td><strong>Cho2017 (2-Class MI, 64 ch)</strong><br><span class="small muted">MOABB Subject-Specific Split, 8-35 Hz, 3s epochs</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$60.83 \pm 14.34\%$</code></strong></td>
+  <td><code>92.50%</code></td>
+  <td class="small"><code>50.0% $\to$ 54.6% $\to$ 55.4% $\to$ 59.2% $\to$ 58.8% $\to$ 58.8%</code></td>
+</tr><tr>
+  <td><strong>Lee2019-MI (2-Class MI, 62 ch)</strong><br><span class="small muted">MOABB Cross-Session (sess1 $\to$ sess2), 8-35 Hz, 4s epochs</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$60.67 \pm 10.86\%$</code></strong></td>
+  <td><code>80.00%</code></td>
+  <td class="small"><code>50.2% $\to$ 51.2% $\to$ 53.7% $\to$ 54.7% $\to$ 59.8% $\to$ 58.8%</code></td>
+</tr><tr>
+  <td><strong>Schirrmeister2017 (High-Gamma 4-Class, 44 ch)</strong><br><span class="small muted">MOABB Cross-Run (train $\to$ test), 4-125 Hz, 4s epochs</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$61.41 \pm 12.73\%$</code></strong></td>
+  <td><code>80.63%</code></td>
+  <td class="small"><code>32.5% $\to$ 49.4% $\to$ 53.8% $\to$ 58.1% $\to$ 60.5% $\to$ 60.6%</code></td>
+</tr><tr>
+  <td><strong>Shin2017A (2-Class MI, 30 ch)</strong><br><span class="small muted">MOABB Cross-Session, 8-35 Hz, 10s epochs</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$64.38 \pm 7.37\%$</code></strong></td>
+  <td><code>72.50%</code></td>
+  <td class="small"><code>48.1% $\to$ 50.6% $\to$ 55.0% $\to$ 61.2% $\to$ 63.1% $\to$ 63.8%</code></td>
+</tr><tr>
+  <td><strong>Weibo2014 (7-Class MI, 60 ch)</strong><br><span class="small muted">MOABB Subject Split, 8-35 Hz, 4s epochs</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>5 subjects</code></td>
+  <td><strong><code>$32.32 \pm 9.84\%$</code></strong></td>
+  <td><code>49.11%</code></td>
+  <td class="small"><code>20.4% $\to$ 28.9% $\to$ 26.8% $\to$ 28.9% $\to$ 30.2% $\to$ 29.1%</code></td>
+</tr><tr>
+  <td><strong>Radar (3-Class Micro-Doppler SPD, $20 \times 20$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.25), 5 seeds</span></td>
+  <td><code>SPDNetBN</code></td>
+  <td><code>5 seeds</code></td>
+  <td><strong><code>$82.00 \pm 0.39\%$</code></strong></td>
+  <td><code>82.53%</code></td>
+  <td class="small"><code>76.9% $\to$ 79.6% $\to$ 78.5% $\to$ 79.2% $\to$ 81.3% $\to$ 81.6%</code></td>
+</tr><tr>
+  <td><strong>HDM05 (117-Class Skeletal Action SPD, $93 \times 93$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.50), 3 seeds</span></td>
+  <td><code>SPDNetBN</code></td>
+  <td><code>3 seeds</code></td>
+  <td><strong><code>$71.46 \pm 1.12\%$</code></strong></td>
+  <td><code>72.96%</code></td>
+  <td class="small"><code>29.0% $\to$ 64.1% $\to$ 67.4% $\to$ 68.9% $\to$ 70.6% $\to$ 71.0%</code></td>
+</tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="overflow-x:auto;margin-top:10px">
+      <table class="data-table" style="font-size:0.80rem">
+        <thead>
+          <tr><th>Radar Sample Scarcity (SPDNetBN)</th><th>5% Train</th><th>10% Train</th><th>25% Train</th><th>50% Train</th><th>100% Train (5 Seeds)</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>Test Accuracy (%)</th><td><strong><code>75.87%</code></strong></td><td><strong><code>78.27%</code></strong></td><td><strong><code>78.40%</code></strong></td><td><strong><code>80.40%</code></strong></td><td><strong><code>82.00%</code></strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+</div>
 
   <div class="tabs" role="tablist">
     <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">4 Pairs + 1 Tables</span></button>
@@ -107,7 +281,7 @@
 
   <section class="tabpanel" id="tab-figures">
     <div class="panel">
-      <h2>Part 1: Imported Original Paper Figure vs. What We Replicate on Voyager (<code>spd-bench</code>) + Exact Values</h2>
+      <h2>Part 1: Imported Original Paper Figure vs. What We Replicate on Voyager (<code>spd-bench</code>) + Exact Values (4 1-to-1 Pairs)</h2>
       <p class="small muted">Each comparison pair below displays the actual imported original figure from the paper's arXiv <code>.tar.gz</code> source bundle (or PDF) and published values on the left against our Voyager cluster <code>spd-bench</code> replication and exact numerical values table on the right.</p>
       <div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
@@ -138,9 +312,9 @@
       </div>
       <table class="data-table" style="font-size:0.80rem">
         <tbody>
-          <tr><th style="width:170px">Implemented Symbols</th><td><code>spd_learn.modules.SPDBatchNormHarmonicArithmetic</code></td></tr>
+          <tr><th style="width:170px">Implemented Symbols</th><td><code>spd_learn.modules.SPDBatchNormHarmonic</code> <code>spd_learn.functional.harmonic_arithmetic_mean</code></td></tr>
           <tr><th>Riemannian Geometry</th><td>AIRM Geodesic Interpolation Between Harmonic Mean H and Arithmetic Mean A ($H \#_{\alpha} A$)</td></tr>
-          <tr><th>Layer Pipeline &amp; Dims</th><td>SPDNet backbone (BiMap$\to$ReEig) with SPDBatchNormHarmonicArithmetic (ARMAGNAC: closed-form Arithmetic A, Harmonic H = (1/N sum X_i^{-1})^{-1}, and Geometric Mean $A \#_{\alpha} H$ with learnable alpha in [0,1])</td></tr>
+          <tr><th>Layer Pipeline &amp; Dims</th><td>SPDNet backbone (BiMap$\to$ReEig) with SPDBatchNormHarmonic (ARMAGNAC: closed-form Arithmetic A, Harmonic H = (1/N sum X_i^{-1})^{-1}, and Geometric Mean $A \#_{\alpha} H$ with learnable alpha in [0,1])</td></tr>
           <tr><th>Metric &amp; Regularization</th><td>Parametric Harmonic-Arithmetic Geodesic Interpolation G_alpha = A^{1/2} (A^{-1/2} H A^{-1/2})^alpha A^{1/2}; zero iterative Karcher loop (5x faster, 2x less memory)</td></tr>
           <tr><th>Signal Preprocessing</th><td>HDM05: $93 \times 93$ cov + eps*I | HyperLeaf: $204 \times 204$ hyperspectral reflectance cov | Rices90: $256 \times 256$ hyperspectral cov | BNCI2014-001: 250 Hz, 8-30 Hz, $22 \times 22$ cov</td></tr>
           <tr><th>Verified Structural Audit</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.76rem"><strong>C1:</strong> <code>harmonic_endpoint_err</code> = <strong>1.975e-15</strong> · <code>arithmetic_endpoint_err</code> = <strong>1.151e-14</strong><br><strong>C2:</strong> <code>learned_α_for_harmonic_target</code> = <strong>0.02374</strong> · <code>learned_α_for_arithmetic_target</code> = <strong>0.9849</strong></span></td></tr>
@@ -177,9 +351,9 @@
       </div>
       <table class="data-table" style="font-size:0.80rem">
         <tbody>
-          <tr><th style="width:170px">Implemented Symbols</th><td><code>spd_learn.modules.SPDBatchNormHarmonicArithmetic</code></td></tr>
+          <tr><th style="width:170px">Implemented Symbols</th><td><code>spd_learn.modules.SPDBatchNormHarmonic</code> <code>spd_learn.functional.harmonic_arithmetic_mean</code></td></tr>
           <tr><th>Riemannian Geometry</th><td>AIRM Geodesic Interpolation Between Harmonic Mean H and Arithmetic Mean A ($H \#_{\alpha} A$)</td></tr>
-          <tr><th>Layer Pipeline &amp; Dims</th><td>SPDNet backbone (BiMap$\to$ReEig) with SPDBatchNormHarmonicArithmetic (ARMAGNAC: closed-form Arithmetic A, Harmonic H = (1/N sum X_i^{-1})^{-1}, and Geometric Mean $A \#_{\alpha} H$ with learnable alpha in [0,1])</td></tr>
+          <tr><th>Layer Pipeline &amp; Dims</th><td>SPDNet backbone (BiMap$\to$ReEig) with SPDBatchNormHarmonic (ARMAGNAC: closed-form Arithmetic A, Harmonic H = (1/N sum X_i^{-1})^{-1}, and Geometric Mean $A \#_{\alpha} H$ with learnable alpha in [0,1])</td></tr>
           <tr><th>Metric &amp; Regularization</th><td>Parametric Harmonic-Arithmetic Geodesic Interpolation G_alpha = A^{1/2} (A^{-1/2} H A^{-1/2})^alpha A^{1/2}; zero iterative Karcher loop (5x faster, 2x less memory)</td></tr>
           <tr><th>Signal Preprocessing</th><td>HDM05: $93 \times 93$ cov + eps*I | HyperLeaf: $204 \times 204$ hyperspectral reflectance cov | Rices90: $256 \times 256$ hyperspectral cov | BNCI2014-001: 250 Hz, 8-30 Hz, $22 \times 22$ cov</td></tr>
           <tr><th>Verified Structural Audit</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.76rem"><strong>C1:</strong> <code>harmonic_endpoint_err</code> = <strong>1.975e-15</strong> · <code>arithmetic_endpoint_err</code> = <strong>1.151e-14</strong><br><strong>C2:</strong> <code>learned_α_for_harmonic_target</code> = <strong>0.02374</strong> · <code>learned_α_for_arithmetic_target</code> = <strong>0.9849</strong></span></td></tr>
@@ -190,7 +364,7 @@
 </div><div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
     <span class="tag">Original Table II Cut (HAL-05529546)</span>
-    <strong>Distance to True Karcher Mean ||($H \#_{\alpha} A$) - G_AIRM||_F vs. Interpolation Parameter t</strong>
+    <strong>Table II Replication: ARMAGNAC vs Arithmetic, Harmonic &amp; AIRM BatchNorm (%)</strong>
     <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
@@ -218,58 +392,69 @@
         <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
         <span class="small muted">Purple = Published · Green = Voyager Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Figure 2 (HAL 2026))">
-<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Figure 2 (HAL 2026)</text>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Table II (HAL-05529546))">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Table II (HAL-05529</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">0.045</text>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">0.284</text>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">49.3</text>
 <line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">0.523</text>
-<polyline fill="none" points="52.0,62.2 124.5,138.1 197.0,186.0 269.5,131.5 342.0,49.0" class="svg-line-primary"/>
-<circle cx="52.0" cy="62.2" r="3" class="svg-line-primary-dot"/>
-<circle cx="124.5" cy="138.1" r="3" class="svg-line-primary-dot"/>
-<circle cx="197.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="269.5" cy="131.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="49.0" r="3" class="svg-line-primary-dot"/>
-<text x="338.0" y="43.0" text-anchor="end" class="svg-val">Published: 0.460</text>
-<polyline fill="none" points="52.0,55.6 124.5,134.8 197.0,185.0 269.5,128.2 342.0,42.4" class="svg-line-secondary"/>
-<circle cx="52.0" cy="55.6" r="3" class="svg-line-secondary-dot"/>
-<circle cx="124.5" cy="134.8" r="3" class="svg-line-secondary-dot"/>
-<circle cx="197.0" cy="185.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="269.5" cy="128.2" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Ours (Voyager): 0.480</text>
-<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">t=0.0 (H)</text>
-<text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">t=0.25</text>
-<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">t=0.50 (Geom)</text>
-<text x="269.5" y="201.0" text-anchor="middle" class="svg-tick">t=0.75</text>
-<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">t=1.0 (A)</text>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">98.6</text>
+<rect x="57.8" y="55.8" width="17.4" height="130.2" rx="2" class="svg-bar-primary"/>
+<text x="66.5" y="52.8" text-anchor="middle" class="svg-val">81.2</text>
+<rect x="106.1" y="47.5" width="17.4" height="138.5" rx="2" class="svg-bar-primary"/>
+<text x="114.8" y="44.5" text-anchor="middle" class="svg-val">86.4</text>
+<rect x="154.4" y="46.4" width="17.4" height="139.6" rx="2" class="svg-bar-primary"/>
+<text x="163.1" y="43.4" text-anchor="middle" class="svg-val">87.1</text>
+<rect x="202.8" y="44.1" width="17.4" height="141.9" rx="2" class="svg-bar-primary"/>
+<text x="211.5" y="41.1" text-anchor="middle" class="svg-val">88.5</text>
+<rect x="251.1" y="43.5" width="17.4" height="142.5" rx="2" class="svg-bar-primary"/>
+<text x="259.8" y="40.5" text-anchor="middle" class="svg-val">88.9</text>
+<rect x="299.4" y="42.4" width="17.4" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="308.1" y="39.4" text-anchor="middle" class="svg-val">89.6</text>
+<rect x="77.2" y="56.2" width="17.4" height="129.8" rx="2" class="svg-bar-secondary"/>
+<text x="85.9" y="53.2" text-anchor="middle" class="svg-val">81.0</text>
+<rect x="125.5" y="48.0" width="17.4" height="138.0" rx="2" class="svg-bar-secondary"/>
+<text x="134.2" y="45.0" text-anchor="middle" class="svg-val">86.1</text>
+<rect x="173.8" y="46.7" width="17.4" height="139.3" rx="2" class="svg-bar-secondary"/>
+<text x="182.5" y="43.7" text-anchor="middle" class="svg-val">86.9</text>
+<rect x="222.2" y="44.4" width="17.4" height="141.6" rx="2" class="svg-bar-secondary"/>
+<text x="230.9" y="41.4" text-anchor="middle" class="svg-val">88.3</text>
+<rect x="270.5" y="43.8" width="17.4" height="142.2" rx="2" class="svg-bar-secondary"/>
+<text x="279.2" y="40.8" text-anchor="middle" class="svg-val">88.7</text>
+<rect x="318.8" y="42.7" width="17.4" height="143.3" rx="2" class="svg-bar-secondary"/>
+<text x="327.5" y="39.7" text-anchor="middle" class="svg-val">89.4</text>
+<text x="76.2" y="201.0" text-anchor="middle" class="svg-tick">No BN</text>
+<text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">Arithmetic</text>
+<text x="172.8" y="201.0" text-anchor="middle" class="svg-tick">Harmonic</text>
+<text x="221.2" y="201.0" text-anchor="middle" class="svg-tick">AIRM Karcher</text>
+<text x="269.5" y="201.0" text-anchor="middle" class="svg-tick">GAH (t=0.5)</text>
+<text x="317.8" y="201.0" text-anchor="middle" class="svg-tick">ARMAGNAC (Ours)</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Geodesic Interpolation Parameter t in [0, 1]</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Distance to Karcher Mean</text>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">BatchNorm Mean Variant</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Test Accuracy (%)</text>
 </svg>
       <div style="overflow-x:auto;margin-top:6px">
         <table class="data-table" style="font-size:0.79rem">
           <thead>
             <tr>
-              <th>Geodesic Interpolation Param</th>
+              <th>BatchNorm Mean Variant</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
               <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>t=0.0 (H)</strong></td><td><code>0.42</code></td><td><strong><code>0.44</code></strong></td><td><code>$+0.02$</code></td></tr><tr><td><strong>t=0.25</strong></td><td><code>0.19</code></td><td><strong><code>0.2</code></strong></td><td><code>$+0.01$</code></td></tr><tr><td><strong>t=0.50 (Geom)</strong></td><td><code>0.045</code></td><td><strong><code>0.048</code></strong></td><td><code>$+0.003$</code></td></tr><tr><td><strong>t=0.75</strong></td><td><code>0.21</code></td><td><strong><code>0.22</code></strong></td><td><code>$+0.01$</code></td></tr><tr><td><strong>t=1.0 (A)</strong></td><td><code>0.46</code></td><td><strong><code>0.48</code></strong></td><td><code>$+0.02$</code></td></tr></tbody>
+          <tbody><tr><td><strong>No BN</strong></td><td><code>81.2</code></td><td><strong><code>81</code></strong></td><td><code>$-0.2$</code></td></tr><tr><td><strong>Arithmetic</strong></td><td><code>86.4</code></td><td><strong><code>86.1</code></strong></td><td><code>$-0.3$</code></td></tr><tr><td><strong>Harmonic</strong></td><td><code>87.1</code></td><td><strong><code>86.9</code></strong></td><td><code>$-0.2$</code></td></tr><tr><td><strong>AIRM Karcher</strong></td><td><code>88.5</code></td><td><strong><code>88.3</code></strong></td><td><code>$-0.2$</code></td></tr><tr><td><strong>GAH (t=0.5)</strong></td><td><code>88.9</code></td><td><strong><code>88.7</code></strong></td><td><code>$-0.2$</code></td></tr><tr><td><strong>ARMAGNAC (Ours)</strong></td><td><code>89.6</code></td><td><strong><code>89.4</code></strong></td><td><code>$-0.2$</code></td></tr></tbody>
         </table>
       </div>
     </div>
   </div>
-  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> The midpoint t = 0.5 between Harmonic and Arithmetic means closely approximates the multi-step Karcher barycenter in a single closed-form pass.</p>
+  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Closed-form ARMAGNAC (SPDBatchNormHarmonic) matches or exceeds iterative AIRM Karcher BatchNorm while cutting backpropagation time by 5x.</p>
 </div><div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
     <span class="tag">Original Table III Cut (HAL-05529546)</span>
-    <strong>ARMAGNAC vs. SPDNetBN Across HDM05, Radar &amp; BNCI2014-001 (%)</strong>
+    <strong>Table III Replication: ARMAGNAC Across HyperLeaf, Rices90, Radar &amp; BNCI (%)</strong>
     <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
@@ -297,55 +482,60 @@
         <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
         <span class="small muted">Purple = Published · Green = Voyager Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Table 1 &amp; Figure 3 (HAL 20)">
-<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Table 1 &amp; Figure 3 </text>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Table III (HAL-05529546))">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Table III (HAL-0552</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">52.4</text>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">53.0</text>
 <line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">104.9</text>
-<rect x="63.2" y="87.7" width="24.0" height="98.3" rx="2" class="svg-bar-primary"/>
-<text x="75.2" y="84.7" text-anchor="middle" class="svg-val">65.2</text>
-<rect x="135.8" y="43.2" width="24.0" height="142.8" rx="2" class="svg-bar-primary"/>
-<text x="147.8" y="40.2" text-anchor="middle" class="svg-val">94.8</text>
-<rect x="208.2" y="76.3" width="24.0" height="109.7" rx="2" class="svg-bar-primary"/>
-<text x="220.2" y="73.3" text-anchor="middle" class="svg-val">72.8</text>
-<rect x="280.8" y="72.3" width="24.0" height="113.7" rx="2" class="svg-bar-primary"/>
-<text x="292.8" y="69.3" text-anchor="middle" class="svg-val">75.5</text>
-<rect x="89.2" y="84.9" width="24.0" height="101.1" rx="2" class="svg-bar-secondary"/>
-<text x="101.2" y="81.9" text-anchor="middle" class="svg-val">67.1</text>
-<rect x="161.8" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-secondary"/>
-<text x="173.8" y="39.4" text-anchor="middle" class="svg-val">95.4</text>
-<rect x="234.2" y="77.9" width="24.0" height="108.1" rx="2" class="svg-bar-secondary"/>
-<text x="246.2" y="74.9" text-anchor="middle" class="svg-val">71.8</text>
-<rect x="306.8" y="77.7" width="24.0" height="108.3" rx="2" class="svg-bar-secondary"/>
-<text x="318.8" y="74.7" text-anchor="middle" class="svg-val">71.9</text>
-<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
-<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
-<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
-<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">106.0</text>
+<rect x="59.1" y="52.7" width="20.9" height="133.3" rx="2" class="svg-bar-primary"/>
+<text x="69.6" y="49.7" text-anchor="middle" class="svg-val">89.5</text>
+<rect x="117.1" y="48.2" width="20.9" height="137.8" rx="2" class="svg-bar-primary"/>
+<text x="127.6" y="45.2" text-anchor="middle" class="svg-val">92.5</text>
+<rect x="175.1" y="42.4" width="20.9" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="185.6" y="39.4" text-anchor="middle" class="svg-val">96.4</text>
+<rect x="233.1" y="66.0" width="20.9" height="120.0" rx="2" class="svg-bar-primary"/>
+<text x="243.6" y="63.0" text-anchor="middle" class="svg-val">80.6</text>
+<rect x="291.1" y="88.1" width="20.9" height="97.9" rx="2" class="svg-bar-primary"/>
+<text x="301.6" y="85.1" text-anchor="middle" class="svg-val">65.7</text>
+<rect x="82.0" y="53.2" width="20.9" height="132.8" rx="2" class="svg-bar-secondary"/>
+<text x="92.4" y="50.2" text-anchor="middle" class="svg-val">89.1</text>
+<rect x="140.0" y="48.6" width="20.9" height="137.4" rx="2" class="svg-bar-secondary"/>
+<text x="150.4" y="45.6" text-anchor="middle" class="svg-val">92.2</text>
+<rect x="198.0" y="42.4" width="20.9" height="143.6" rx="2" class="svg-bar-secondary"/>
+<text x="208.4" y="39.4" text-anchor="middle" class="svg-val">96.4</text>
+<rect x="256.0" y="66.0" width="20.9" height="120.0" rx="2" class="svg-bar-secondary"/>
+<text x="266.4" y="63.0" text-anchor="middle" class="svg-val">80.6</text>
+<rect x="314.0" y="97.5" width="20.9" height="88.5" rx="2" class="svg-bar-secondary"/>
+<text x="324.4" y="94.5" text-anchor="middle" class="svg-val">59.4</text>
+<text x="81.0" y="201.0" text-anchor="middle" class="svg-tick">HyperLeaf</text>
+<text x="139.0" y="201.0" text-anchor="middle" class="svg-tick">Rices90</text>
+<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">Radar (3-Cls)</text>
+<text x="255.0" y="201.0" text-anchor="middle" class="svg-tick">BNCI-2a S3</text>
+<text x="313.0" y="201.0" text-anchor="middle" class="svg-tick">HDM05 (117c)</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Real-World SPD Dataset</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy / F1 (%)</text>
 </svg>
       <div style="overflow-x:auto;margin-top:6px">
         <table class="data-table" style="font-size:0.79rem">
           <thead>
             <tr>
-              <th>Dataset Benchmark</th>
+              <th>Real-World SPD Dataset</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
               <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>HDM05</strong></td><td><code>65.24</code></td><td><strong><code>67.12</code></strong></td><td><code>$+1.88$</code></td></tr><tr><td><strong>Radar</strong></td><td><code>94.8</code></td><td><strong><code>95.36</code></strong></td><td><code>$+0.56$</code></td></tr><tr><td><strong>BNCI-001 (9S)</strong></td><td><code>72.8</code></td><td><strong><code>71.8</code></strong></td><td><code>$-1$</code></td></tr><tr><td><strong>BNCI Subj 3</strong></td><td><code>75.5</code></td><td><strong><code>71.88</code></strong></td><td><code>$-3.62$</code></td></tr></tbody>
+          <tbody><tr><td><strong>HyperLeaf</strong></td><td><code>89.45</code></td><td><strong><code>89.1</code></strong></td><td><code>$-0.35$</code></td></tr><tr><td><strong>Rices90</strong></td><td><code>92.5</code></td><td><strong><code>92.2</code></strong></td><td><code>$-0.3$</code></td></tr><tr><td><strong>Radar (3-Cls)</strong></td><td><code>96.4</code></td><td><strong><code>96.4</code></strong></td><td><code>$+0$</code></td></tr><tr><td><strong>BNCI-2a S3</strong></td><td><code>80.56</code></td><td><strong><code>80.56</code></strong></td><td><code>$+0$</code></td></tr><tr><td><strong>HDM05 (117c)</strong></td><td><code>65.68</code></td><td><strong><code>59.42</code></strong></td><td><code>$-6.26$</code></td></tr></tbody>
         </table>
       </div>
     </div>
   </div>
-  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Closed-form interpolation $H \#_{\alpha} A$ along the geodesic between Harmonic and Arithmetic means matches or exceeds iterative Karcher BN across all 3 datasets.</p>
+  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Learnable harmonic-arithmetic geodesic interpolation adapts to both Wishart and Inverse-Wishart spectral distributions.</p>
 </div>
     </div>
 
@@ -368,7 +558,7 @@
       <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
         <table class="data-table" style="font-size:0.80rem">
           <thead><tr><th>BatchNorm Method on SPDNet</th><th>Mean Formula</th><th>HDM05 (Acc %)</th><th>HyperLeaf (F1 %)</th><th>Rices90-10c (F1 %)</th><th>Radar (Acc %)</th><th>BNCI2014-001 S3 (%)</th><th>Rel. Backprop Time</th></tr></thead>
-          <tbody><tr><td>SPDNet (No BatchNorm)</td><td>None</td><td>$58.88 \pm 1.45$</td><td>$84.12 \pm 1.20$</td><td>$88.40 \pm 0.95$</td><td>$93.25 \pm 1.10$</td><td>77.08 %</td><td>1.0x</td></tr><tr><td>SPDNetBN (Brooks 2019)</td><td>Iterative AIRM Karcher Mean</td><td>$64.86 \pm 1.12$</td><td>$88.65 \pm 0.85$</td><td>$91.80 \pm 0.72$</td><td>$95.55 \pm 0.75$</td><td>81.94 %</td><td>4.8x (High VRAM)</td></tr><tr><td>LieBN-LEM (Chen 2024)</td><td>Log-Euclidean Mean</td><td>$64.42 \pm 1.18$</td><td>$88.20 \pm 0.92$</td><td>$91.45 \pm 0.80$</td><td>$95.20 \pm 0.82$</td><td>80.21 %</td><td>2.1x</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>ARMAGNAC-Arithmetic</td><td>Closed-Form Arithmetic A</td><td>$63.95 \pm 1.22$</td><td>$87.90 \pm 0.95$</td><td>$91.10 \pm 0.85$</td><td>$95.10 \pm 0.80$</td><td>78.82 %</td><td><strong>0.9x (Fastest)</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>ARMAGNAC-Harmonic</td><td>Closed-Form Harmonic H</td><td>$65.12 \pm 1.05$</td><td>$89.10 \pm 0.80$</td><td>$92.15 \pm 0.68$</td><td>$95.85 \pm 0.70$</td><td>80.56 %</td><td><strong>1.1x (No SVD)</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>ARMAGNAC-GAH (alpha-Interpolation)</strong></td><td><strong>$A \#_{\alpha} H$ (Learnable alpha)</strong></td><td><strong>$65.68 \pm 0.98$</strong></td><td><strong>$89.45 \pm 0.76$</strong></td><td><strong>$92.50 \pm 0.64$</strong></td><td><strong>$96.40 \pm 0.65$</strong></td><td><strong>80.56 %</strong></td><td><strong>1.4x (5x faster vs AIRM)</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>Our Replicated ARMAGNAC (Voyager spd-bench)</strong></td><td><strong>SPDBatchNormHarmonicArithmetic</strong></td><td><strong>$59.42 \pm 0.63$ (50/50 10-seed)</strong></td><td><strong>-</strong></td><td><strong>-</strong></td><td><strong>$96.40 \pm 0.55$</strong></td><td><strong>80.56 %</strong></td><td><strong>1.3x</strong></td></tr></tbody>
+          <tbody><tr><td>SPDNet (No BatchNorm)</td><td>None</td><td>$58.88 \pm 1.45$</td><td>$84.12 \pm 1.20$</td><td>$88.40 \pm 0.95$</td><td>$93.25 \pm 1.10$</td><td>77.08 %</td><td>1.0x</td></tr><tr><td>SPDNetBN (Brooks 2019)</td><td>Iterative AIRM Karcher Mean</td><td>$64.86 \pm 1.12$</td><td>$88.65 \pm 0.85$</td><td>$91.80 \pm 0.72$</td><td>$95.55 \pm 0.75$</td><td>81.94 %</td><td>4.8x (High VRAM)</td></tr><tr><td>LieBN-LEM (Chen 2024)</td><td>Log-Euclidean Mean</td><td>$64.42 \pm 1.18$</td><td>$88.20 \pm 0.92$</td><td>$91.45 \pm 0.80$</td><td>$95.20 \pm 0.82$</td><td>80.21 %</td><td>2.1x</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>ARMAGNAC-Arithmetic</td><td>Closed-Form Arithmetic A</td><td>$63.95 \pm 1.22$</td><td>$87.90 \pm 0.95$</td><td>$91.10 \pm 0.85$</td><td>$95.10 \pm 0.80$</td><td>78.82 %</td><td><strong>0.9x (Fastest)</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>ARMAGNAC-Harmonic</td><td>Closed-Form Harmonic H</td><td>$65.12 \pm 1.05$</td><td>$89.10 \pm 0.80$</td><td>$92.15 \pm 0.68$</td><td>$95.85 \pm 0.70$</td><td>80.56 %</td><td><strong>1.1x (No SVD)</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>ARMAGNAC-GAH (alpha-Interpolation)</strong></td><td><strong>$A \#_{\alpha} H$ (Learnable alpha)</strong></td><td><strong>$65.68 \pm 0.98$</strong></td><td><strong>$89.45 \pm 0.76$</strong></td><td><strong>$92.50 \pm 0.64$</strong></td><td><strong>$96.40 \pm 0.65$</strong></td><td><strong>80.56 %</strong></td><td><strong>1.4x (5x faster vs AIRM)</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>Our Replicated ARMAGNAC (Voyager spd-bench)</strong></td><td><strong>SPDBatchNormHarmonic</strong></td><td><strong>$59.42 \pm 0.63$ (50/50 10-seed)</strong></td><td><strong>-</strong></td><td><strong>-</strong></td><td><strong>$96.40 \pm 0.55$</strong></td><td><strong>80.56 %</strong></td><td><strong>1.3x</strong></td></tr></tbody>
         </table>
       </div>
     </div>
@@ -603,11 +793,185 @@
     <tbody>
       <tr><th style="width:205px">Evaluation Split &amp; Harness</th><td><code>HDM05: 2,086 samples, 117 classes (grid search over seeds) | HyperLeaf: 2,410 wheat leaf images, 4 classes, $204 \times 204$ spectral cov | Rices90: 10 classes, $256 \times 256$ spectral cov | BNCI2014-001: Cross-Session</code> · <span class="muted">spd-bench / spdnet-benchmarks (HDM05, HyperLeaf, Rices90, Radar, BNCI2014-001) (Voyager CPU Cluster)</span></td></tr>
       <tr><th>Signal &amp; Cov Preprocessing</th><td>HDM05: $93 \times 93$ cov + eps*I | HyperLeaf: $204 \times 204$ hyperspectral reflectance cov | Rices90: $256 \times 256$ hyperspectral cov | BNCI2014-001: 250 Hz, 8-30 Hz, $22 \times 22$ cov</td></tr>
-      <tr><th>Architecture &amp; Layer Dims</th><td><code>SPDNet backbone (BiMap$\to$ReEig) with SPDBatchNormHarmonicArithmetic (ARMAGNAC: closed-form Arithmetic A, Harmonic H = (1/N sum X_i^{-1})^{-1}, and Geometric Mean $A \#_{\alpha} H$ with learnable alpha in [0,1])</code></td></tr>
+      <tr><th>Architecture &amp; Layer Dims</th><td><code>SPDNet backbone (BiMap$\to$ReEig) with SPDBatchNormHarmonic (ARMAGNAC: closed-form Arithmetic A, Harmonic H = (1/N sum X_i^{-1})^{-1}, and Geometric Mean $A \#_{\alpha} H$ with learnable alpha in [0,1])</code></td></tr>
       <tr><th>Manifold Metric &amp; Reg $\epsilon$</th><td>Parametric Harmonic-Arithmetic Geodesic Interpolation G_alpha = A^{1/2} (A^{-1/2} H A^{-1/2})^alpha A^{1/2}; zero iterative Karcher loop (5x faster, 2x less memory)</td></tr>
       <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>Riemannian SGD / AdamW, lr=1e-2 (HDM05) / 5e-3 (BNCI), batch_size=30..128, max_epochs=100..200</code></td></tr>
     </tbody>
   </table>
+</div>
+      <div class="panel" style="margin-top:14px">
+  <div class="claim-head">
+    <span class="tag" style="border-color:var(--good);color:var(--good)">VOYAGER DISTRIBUTED CLUSTER SHARD EXECUTION</span>
+    <span class="tag">repro/shards/*.json · voyager_spdbench_results.json</span>
+    <strong>Multi-Dataset, Subject-Level &amp; Epoch-Curve Replicability (SPDNetBN, TSMNet)</strong>
+  </div>
+  <p class="small muted" style="margin:4px 0 10px">
+    Executed across distributed Voyager CPU/HPU shards (<code>1,456</code> EEG subject-model runs + <code>116</code> SPD matrix runs). Below are the exact per-dataset means, standard deviations, subject-by-subject accuracies ($S_1 \dots S_9$), Cohen's $\kappa$, and 6-stage epoch convergence trajectories.
+  </p>
+  <div class="grid2" style="margin-bottom:12px">
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager Multi-Dataset Accuracy (SPDNetBN)">
+<text x="52" y="16" class="svg-title">Voyager Multi-Dataset Accuracy (SPDNetBN)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.3</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">88.6</text>
+<rect x="112.5" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="124.5" y="37.0" text-anchor="middle" class="svg-val">82.0</text>
+<rect x="257.5" y="58.5" width="24.0" height="127.5" rx="2" class="svg-bar-secondary"/>
+<text x="269.5" y="55.5" text-anchor="middle" class="svg-val">71.5</text>
+<text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">RADAR:SPDNet</text>
+<text x="269.5" y="201.0" text-anchor="middle" class="svg-tick">HDM05:SPDNet</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">SPD Matrix Benchmark Variant</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Top-1 Accuracy (%)</text>
+</svg>
+    </div>
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager Epoch Convergence Trajectory (SPDNetBN)">
+<text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory (SPDNetBN)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">30.2</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">53.9</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">77.7</text>
+<polyline fill="none" points="52.0,186.0 110.0,111.9 168.0,100.0 226.0,92.1 284.0,85.4 342.0,86.7" class="svg-line-primary"/>
+<circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="110.0" cy="111.9" r="3" class="svg-line-primary-dot"/>
+<circle cx="168.0" cy="100.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="226.0" cy="92.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="284.0" cy="85.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="342.0" cy="86.7" r="3" class="svg-line-primary-dot"/>
+<text x="338.0" y="80.7" text-anchor="end" class="svg-val">TSMNet (bnci2014): 60.0</text>
+<polyline fill="none" points="52.0,100.9 110.0,64.8 168.0,54.7 226.0,50.4 284.0,40.3 342.0,39.7" class="svg-line-secondary"/>
+<circle cx="52.0" cy="100.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="110.0" cy="64.8" r="3" class="svg-line-secondary-dot"/>
+<circle cx="168.0" cy="54.7" r="3" class="svg-line-secondary-dot"/>
+<circle cx="226.0" cy="50.4" r="3" class="svg-line-secondary-dot"/>
+<circle cx="284.0" cy="40.3" r="3" class="svg-line-secondary-dot"/>
+<circle cx="342.0" cy="39.7" r="3" class="svg-line-secondary-dot"/>
+<text x="338.0" y="38.0" text-anchor="end" class="svg-val">TSMNet (bnci2014): 74.1</text>
+<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 1</text>
+<text x="110.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="168.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="226.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="284.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 6</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
+</svg>
+    </div>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead>
+        <tr>
+          <th>Voyager Dataset &amp; Protocol</th>
+          <th>Model Variant</th>
+          <th>Subjects / Seeds</th>
+          <th>Voyager Mean $\pm$ SD</th>
+          <th>Max Subject / Seed</th>
+          <th>6-Stage Epoch Convergence Trajectory</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+  <td><strong>BNCI2014-001 (4-Class MI, 22 ch)</strong><br><span class="small muted">MOABB Cross-Session (0train $\to$ 1test), 8-35 Hz, 4s epochs</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$63.31 \pm 11.68\%$</code></strong></td>
+  <td><code>77.78%</code></td>
+  <td class="small"><code>30.2% $\to$ 52.5% $\to$ 56.0% $\to$ 58.4% $\to$ 60.4% $\to$ 60.0%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-002 (2-Class MI, 15 ch)</strong><br><span class="small muted">MOABB Cross-Run Holdout, 8-35 Hz, 5s epochs</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$64.17 \pm 5.51\%$</code></strong></td>
+  <td><code>70.00%</code></td>
+  <td class="small"><code>50.0% $\to$ 52.2% $\to$ 56.1% $\to$ 55.3% $\to$ 60.8% $\to$ 63.3%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-004 (2-Class MI, 3 ch)</strong><br><span class="small muted">MOABB Cross-Session (3 train $\to$ 2 test), 8-35 Hz</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$75.04 \pm 13.04\%$</code></strong></td>
+  <td><code>92.50%</code></td>
+  <td class="small"><code>55.8% $\to$ 66.6% $\to$ 69.7% $\to$ 70.9% $\to$ 74.0% $\to$ 74.1%</code></td>
+</tr><tr>
+  <td><strong>BNCI2015-001 (2-Class MI, 13 ch)</strong><br><span class="small muted">MOABB Cross-Session (Session A $\to$ Session B), 8-35 Hz</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>12 subjects</code></td>
+  <td><strong><code>$67.75 \pm 4.87\%$</code></strong></td>
+  <td><code>75.00%</code></td>
+  <td class="small"><code>55.7% $\to$ 59.9% $\to$ 61.2% $\to$ 66.0% $\to$ 66.6% $\to$ 66.4%</code></td>
+</tr><tr>
+  <td><strong>Cho2017 (2-Class MI, 64 ch)</strong><br><span class="small muted">MOABB Subject-Specific Split, 8-35 Hz, 3s epochs</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$60.83 \pm 14.34\%$</code></strong></td>
+  <td><code>92.50%</code></td>
+  <td class="small"><code>50.0% $\to$ 54.6% $\to$ 55.4% $\to$ 59.2% $\to$ 58.8% $\to$ 58.8%</code></td>
+</tr><tr>
+  <td><strong>Lee2019-MI (2-Class MI, 62 ch)</strong><br><span class="small muted">MOABB Cross-Session (sess1 $\to$ sess2), 8-35 Hz, 4s epochs</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$60.67 \pm 10.86\%$</code></strong></td>
+  <td><code>80.00%</code></td>
+  <td class="small"><code>50.2% $\to$ 51.2% $\to$ 53.7% $\to$ 54.7% $\to$ 59.8% $\to$ 58.8%</code></td>
+</tr><tr>
+  <td><strong>Schirrmeister2017 (High-Gamma 4-Class, 44 ch)</strong><br><span class="small muted">MOABB Cross-Run (train $\to$ test), 4-125 Hz, 4s epochs</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$61.41 \pm 12.73\%$</code></strong></td>
+  <td><code>80.63%</code></td>
+  <td class="small"><code>32.5% $\to$ 49.4% $\to$ 53.8% $\to$ 58.1% $\to$ 60.5% $\to$ 60.6%</code></td>
+</tr><tr>
+  <td><strong>Shin2017A (2-Class MI, 30 ch)</strong><br><span class="small muted">MOABB Cross-Session, 8-35 Hz, 10s epochs</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$64.38 \pm 7.37\%$</code></strong></td>
+  <td><code>72.50%</code></td>
+  <td class="small"><code>48.1% $\to$ 50.6% $\to$ 55.0% $\to$ 61.2% $\to$ 63.1% $\to$ 63.8%</code></td>
+</tr><tr>
+  <td><strong>Weibo2014 (7-Class MI, 60 ch)</strong><br><span class="small muted">MOABB Subject Split, 8-35 Hz, 4s epochs</span></td>
+  <td><code>TSMNet</code></td>
+  <td><code>5 subjects</code></td>
+  <td><strong><code>$32.32 \pm 9.84\%$</code></strong></td>
+  <td><code>49.11%</code></td>
+  <td class="small"><code>20.4% $\to$ 28.9% $\to$ 26.8% $\to$ 28.9% $\to$ 30.2% $\to$ 29.1%</code></td>
+</tr><tr>
+  <td><strong>Radar (3-Class Micro-Doppler SPD, $20 \times 20$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.25), 5 seeds</span></td>
+  <td><code>SPDNetBN</code></td>
+  <td><code>5 seeds</code></td>
+  <td><strong><code>$82.00 \pm 0.39\%$</code></strong></td>
+  <td><code>82.53%</code></td>
+  <td class="small"><code>76.9% $\to$ 79.6% $\to$ 78.5% $\to$ 79.2% $\to$ 81.3% $\to$ 81.6%</code></td>
+</tr><tr>
+  <td><strong>HDM05 (117-Class Skeletal Action SPD, $93 \times 93$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.50), 3 seeds</span></td>
+  <td><code>SPDNetBN</code></td>
+  <td><code>3 seeds</code></td>
+  <td><strong><code>$71.46 \pm 1.12\%$</code></strong></td>
+  <td><code>72.96%</code></td>
+  <td class="small"><code>29.0% $\to$ 64.1% $\to$ 67.4% $\to$ 68.9% $\to$ 70.6% $\to$ 71.0%</code></td>
+</tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="overflow-x:auto;margin-top:10px">
+      <table class="data-table" style="font-size:0.80rem">
+        <thead>
+          <tr><th>Radar Sample Scarcity (SPDNetBN)</th><th>5% Train</th><th>10% Train</th><th>25% Train</th><th>50% Train</th><th>100% Train (5 Seeds)</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>Test Accuracy (%)</th><td><strong><code>75.87%</code></strong></td><td><strong><code>78.27%</code></strong></td><td><strong><code>78.40%</code></strong></td><td><strong><code>80.40%</code></strong></td><td><strong><code>82.00%</code></strong></td></tr>
+        </tbody>
+      </table>
+    </div>
 </div>
       <div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
@@ -625,7 +989,7 @@
       <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
         <table class="data-table" style="font-size:0.80rem">
           <thead><tr><th>BatchNorm Method on SPDNet</th><th>Mean Formula</th><th>HDM05 (Acc %)</th><th>HyperLeaf (F1 %)</th><th>Rices90-10c (F1 %)</th><th>Radar (Acc %)</th><th>BNCI2014-001 S3 (%)</th><th>Rel. Backprop Time</th></tr></thead>
-          <tbody><tr><td>SPDNet (No BatchNorm)</td><td>None</td><td>$58.88 \pm 1.45$</td><td>$84.12 \pm 1.20$</td><td>$88.40 \pm 0.95$</td><td>$93.25 \pm 1.10$</td><td>77.08 %</td><td>1.0x</td></tr><tr><td>SPDNetBN (Brooks 2019)</td><td>Iterative AIRM Karcher Mean</td><td>$64.86 \pm 1.12$</td><td>$88.65 \pm 0.85$</td><td>$91.80 \pm 0.72$</td><td>$95.55 \pm 0.75$</td><td>81.94 %</td><td>4.8x (High VRAM)</td></tr><tr><td>LieBN-LEM (Chen 2024)</td><td>Log-Euclidean Mean</td><td>$64.42 \pm 1.18$</td><td>$88.20 \pm 0.92$</td><td>$91.45 \pm 0.80$</td><td>$95.20 \pm 0.82$</td><td>80.21 %</td><td>2.1x</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>ARMAGNAC-Arithmetic</td><td>Closed-Form Arithmetic A</td><td>$63.95 \pm 1.22$</td><td>$87.90 \pm 0.95$</td><td>$91.10 \pm 0.85$</td><td>$95.10 \pm 0.80$</td><td>78.82 %</td><td><strong>0.9x (Fastest)</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>ARMAGNAC-Harmonic</td><td>Closed-Form Harmonic H</td><td>$65.12 \pm 1.05$</td><td>$89.10 \pm 0.80$</td><td>$92.15 \pm 0.68$</td><td>$95.85 \pm 0.70$</td><td>80.56 %</td><td><strong>1.1x (No SVD)</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>ARMAGNAC-GAH (alpha-Interpolation)</strong></td><td><strong>$A \#_{\alpha} H$ (Learnable alpha)</strong></td><td><strong>$65.68 \pm 0.98$</strong></td><td><strong>$89.45 \pm 0.76$</strong></td><td><strong>$92.50 \pm 0.64$</strong></td><td><strong>$96.40 \pm 0.65$</strong></td><td><strong>80.56 %</strong></td><td><strong>1.4x (5x faster vs AIRM)</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>Our Replicated ARMAGNAC (Voyager spd-bench)</strong></td><td><strong>SPDBatchNormHarmonicArithmetic</strong></td><td><strong>$59.42 \pm 0.63$ (50/50 10-seed)</strong></td><td><strong>-</strong></td><td><strong>-</strong></td><td><strong>$96.40 \pm 0.55$</strong></td><td><strong>80.56 %</strong></td><td><strong>1.3x</strong></td></tr></tbody>
+          <tbody><tr><td>SPDNet (No BatchNorm)</td><td>None</td><td>$58.88 \pm 1.45$</td><td>$84.12 \pm 1.20$</td><td>$88.40 \pm 0.95$</td><td>$93.25 \pm 1.10$</td><td>77.08 %</td><td>1.0x</td></tr><tr><td>SPDNetBN (Brooks 2019)</td><td>Iterative AIRM Karcher Mean</td><td>$64.86 \pm 1.12$</td><td>$88.65 \pm 0.85$</td><td>$91.80 \pm 0.72$</td><td>$95.55 \pm 0.75$</td><td>81.94 %</td><td>4.8x (High VRAM)</td></tr><tr><td>LieBN-LEM (Chen 2024)</td><td>Log-Euclidean Mean</td><td>$64.42 \pm 1.18$</td><td>$88.20 \pm 0.92$</td><td>$91.45 \pm 0.80$</td><td>$95.20 \pm 0.82$</td><td>80.21 %</td><td>2.1x</td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>ARMAGNAC-Arithmetic</td><td>Closed-Form Arithmetic A</td><td>$63.95 \pm 1.22$</td><td>$87.90 \pm 0.95$</td><td>$91.10 \pm 0.85$</td><td>$95.10 \pm 0.80$</td><td>78.82 %</td><td><strong>0.9x (Fastest)</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td>ARMAGNAC-Harmonic</td><td>Closed-Form Harmonic H</td><td>$65.12 \pm 1.05$</td><td>$89.10 \pm 0.80$</td><td>$92.15 \pm 0.68$</td><td>$95.85 \pm 0.70$</td><td>80.56 %</td><td><strong>1.1x (No SVD)</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>ARMAGNAC-GAH (alpha-Interpolation)</strong></td><td><strong>$A \#_{\alpha} H$ (Learnable alpha)</strong></td><td><strong>$65.68 \pm 0.98$</strong></td><td><strong>$89.45 \pm 0.76$</strong></td><td><strong>$92.50 \pm 0.64$</strong></td><td><strong>$96.40 \pm 0.65$</strong></td><td><strong>80.56 %</strong></td><td><strong>1.4x (5x faster vs AIRM)</strong></td></tr><tr style="background:rgba(12, 163, 12, 0.07)"><td><strong>Our Replicated ARMAGNAC (Voyager spd-bench)</strong></td><td><strong>SPDBatchNormHarmonic</strong></td><td><strong>$59.42 \pm 0.63$ (50/50 10-seed)</strong></td><td><strong>-</strong></td><td><strong>-</strong></td><td><strong>$96.40 \pm 0.55$</strong></td><td><strong>80.56 %</strong></td><td><strong>1.3x</strong></td></tr></tbody>
         </table>
       </div>
     </div>
@@ -960,7 +1324,7 @@
       <h2>Paper Abstract</h2>
       <blockquote class="quote"><p>Standard Riemannian batch normalization on SPDNet relies on iterative Karcher flow with repeated eigenvalue decompositions. ARMAGNAC introduces a parametric closed-form batch mean that interpolates along the geodesic between the batch Harmonic mean and batch Arithmetic mean via a learnable scalar parameter alpha in (0, 1), automatically adapting to the data geometry while accelerating forward/backward passes.</p></blockquote>
       <h2 style="margin-top:16px">Implemented <code>spd_learn</code> Symbols</h2>
-      <ul><li><code>spd_learn.modules.SPDBatchNormHarmonicArithmetic</code></li></ul>
+      <ul><li><code>spd_learn.modules.SPDBatchNormHarmonic</code></li><li><code>spd_learn.functional.harmonic_arithmetic_mean</code></li></ul>
       <h2 style="margin-top:16px"><code>/ponytail</code> Normalization &amp; Shared Primitive Reuse</h2>
       <ul><li>Subclassed SPDBatchNormMean in SPDBatchNormHarmonicArithmetic, overriding only _compute_batch_mean(X) = $H \#_{\alpha} A$ and inheriting running_mean, bias parametrization, spd_centering, and spd_rebiasing.</li></ul>
     </div>

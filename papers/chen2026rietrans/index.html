@@ -15,7 +15,7 @@
   <a class="by" href="https://spdlearn.org">for spdlearn.org</a>
   <a class="tab" href="../../index.html">Overview</a>
   <a class="tab" href="../../papers/index.html" aria-current="page">Papers &amp; Claims<span class="n">26 / 78</span></a>
-  <a class="tab" href="../../figures/index.html">Figures Atlas<span class="n">78</span></a>
+  <a class="tab" href="../../figures/index.html">Figures Atlas<span class="n">95 + 78</span></a>
   <a class="tab" href="../../pipeline/index.html">Pipeline &amp; Logbooks</a>
   <a class="tab" href="../../methodology/index.html">Methodology</a>
   <a class="tab" href="https://github.com/spdlearn/encore" target="_blank" rel="noopener">GitHub ↗</a>
@@ -36,7 +36,7 @@
     <a href="https://github.com/GitZH-Chen/RieTrans" target="_blank" rel="noopener">Original Paper / Code ↗</a> ·
     <a href="../../repro/logbooks/chen2026rietrans_logbook.json">Raw Trackio Logbook JSON</a> ·
     <a href="../../repro/logbooks/chen2026rietrans_logbook.md">Trackio Markdown</a> ·
-    Branch: <code>feat/pr3-rietrans-gyroatt</code>
+    Branch: <code>PR #54 (feat/pr-c-spdnet-extensions)</code>
   </p>
 </header>
 
@@ -101,6 +101,200 @@
       </table>
     </div>
   </div>
+  <div class="panel" style="margin-top:14px">
+  <div class="claim-head">
+    <span class="tag" style="border-color:var(--good);color:var(--good)">VOYAGER DISTRIBUTED CLUSTER SHARD EXECUTION</span>
+    <span class="tag">repro/shards/*.json · voyager_spdbench_results.json</span>
+    <strong>Multi-Dataset, Subject-Level &amp; Epoch-Curve Replicability (RieTrans-SPDRMLR, SPDNet)</strong>
+  </div>
+  <p class="small muted" style="margin:4px 0 10px">
+    Executed across distributed Voyager CPU/HPU shards (<code>1,456</code> EEG subject-model runs + <code>116</code> SPD matrix runs). Below are the exact per-dataset means, standard deviations, subject-by-subject accuracies ($S_1 \dots S_9$), Cohen's $\kappa$, and 6-stage epoch convergence trajectories.
+  </p>
+  <div class="grid2" style="margin-bottom:12px">
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager Multi-Dataset Accuracy (RieTrans-SPDRMLR)">
+<text x="52" y="16" class="svg-title">Voyager Multi-Dataset Accuracy (RieTrans-SPDRMLR)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.5</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">89.0</text>
+<rect x="76.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="88.2" y="37.0" text-anchor="middle" class="svg-val">82.4</text>
+<rect x="148.8" y="41.5" width="24.0" height="144.5" rx="2" class="svg-bar-secondary"/>
+<text x="160.8" y="38.5" text-anchor="middle" class="svg-val">81.4</text>
+<rect x="221.2" y="78.5" width="24.0" height="107.5" rx="2" class="svg-bar-secondary"/>
+<text x="233.2" y="75.5" text-anchor="middle" class="svg-val">60.6</text>
+<rect x="293.8" y="83.0" width="24.0" height="103.0" rx="2" class="svg-bar-secondary"/>
+<text x="305.8" y="80.0" text-anchor="middle" class="svg-val">58.0</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">RADAR:RieTra</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">RADAR:SPDNet</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05:RieTra</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">HDM05:SPDNet</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">SPD Matrix Benchmark Variant</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Top-1 Accuracy (%)</text>
+</svg>
+    </div>
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager Epoch Convergence Trajectory (RieTrans-SPDRMLR)">
+<text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory (RieTrans-SPDRMLR</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">26.4</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">43.5</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">60.5</text>
+<polyline fill="none" points="52.0,186.0 110.0,116.1 168.0,87.6 226.0,79.2 284.0,72.4 342.0,71.4" class="svg-line-primary"/>
+<circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="110.0" cy="116.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="168.0" cy="87.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="226.0" cy="79.2" r="3" class="svg-line-primary-dot"/>
+<circle cx="284.0" cy="72.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="342.0" cy="71.4" r="3" class="svg-line-primary-dot"/>
+<text x="338.0" y="65.4" text-anchor="end" class="svg-val">SPDNet (bnci2014): 51.2</text>
+<polyline fill="none" points="52.0,76.9 110.0,80.9 168.0,58.3 226.0,45.0 284.0,39.8 342.0,39.7" class="svg-line-secondary"/>
+<circle cx="52.0" cy="76.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="110.0" cy="80.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="168.0" cy="58.3" r="3" class="svg-line-secondary-dot"/>
+<circle cx="226.0" cy="45.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="284.0" cy="39.8" r="3" class="svg-line-secondary-dot"/>
+<circle cx="342.0" cy="39.7" r="3" class="svg-line-secondary-dot"/>
+<text x="338.0" y="38.0" text-anchor="end" class="svg-val">SPDNet (bnci2014): 58.0</text>
+<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 1</text>
+<text x="110.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="168.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="226.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="284.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 6</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
+</svg>
+    </div>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead>
+        <tr>
+          <th>Voyager Dataset &amp; Protocol</th>
+          <th>Model Variant</th>
+          <th>Subjects / Seeds</th>
+          <th>Voyager Mean $\pm$ SD</th>
+          <th>Max Subject / Seed</th>
+          <th>6-Stage Epoch Convergence Trajectory</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+  <td><strong>BNCI2014-001 (4-Class MI, 22 ch)</strong><br><span class="small muted">MOABB Cross-Session (0train $\to$ 1test), 8-35 Hz, 4s epochs</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$51.47 \pm 13.70\%$</code></strong></td>
+  <td><code>68.06%</code></td>
+  <td class="small"><code>26.4% $\to$ 41.5% $\to$ 47.6% $\to$ 49.5% $\to$ 50.9% $\to$ 51.2%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-002 (2-Class MI, 15 ch)</strong><br><span class="small muted">MOABB Cross-Run Holdout, 8-35 Hz, 5s epochs</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$55.83 \pm 4.28\%$</code></strong></td>
+  <td><code>63.33%</code></td>
+  <td class="small"><code>48.6% $\to$ 49.7% $\to$ 49.7% $\to$ 52.5% $\to$ 51.1% $\to$ 51.7%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-004 (2-Class MI, 3 ch)</strong><br><span class="small muted">MOABB Cross-Session (3 train $\to$ 2 test), 8-35 Hz</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$59.13 \pm 7.47\%$</code></strong></td>
+  <td><code>69.06%</code></td>
+  <td class="small"><code>50.0% $\to$ 49.1% $\to$ 54.0% $\to$ 56.9% $\to$ 58.0% $\to$ 58.0%</code></td>
+</tr><tr>
+  <td><strong>BNCI2015-001 (2-Class MI, 13 ch)</strong><br><span class="small muted">MOABB Cross-Session (Session A $\to$ Session B), 8-35 Hz</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>12 subjects</code></td>
+  <td><strong><code>$59.67 \pm 4.82\%$</code></strong></td>
+  <td><code>68.00%</code></td>
+  <td class="small"><code>53.8% $\to$ 56.5% $\to$ 57.2% $\to$ 58.2% $\to$ 58.3% $\to$ 58.0%</code></td>
+</tr><tr>
+  <td><strong>Cho2017 (2-Class MI, 64 ch)</strong><br><span class="small muted">MOABB Subject-Specific Split, 8-35 Hz, 3s epochs</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$56.25 \pm 8.13\%$</code></strong></td>
+  <td><code>72.50%</code></td>
+  <td class="small"><code>48.3% $\to$ 50.8% $\to$ 50.0% $\to$ 51.2% $\to$ 51.7% $\to$ 50.4%</code></td>
+</tr><tr>
+  <td><strong>Lee2019-MI (2-Class MI, 62 ch)</strong><br><span class="small muted">MOABB Cross-Session (sess1 $\to$ sess2), 8-35 Hz, 4s epochs</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$56.17 \pm 3.13\%$</code></strong></td>
+  <td><code>60.00%</code></td>
+  <td class="small"><code>49.8% $\to$ 50.7% $\to$ 53.3% $\to$ 54.5% $\to$ 54.0% $\to$ 54.2%</code></td>
+</tr><tr>
+  <td><strong>Schirrmeister2017 (High-Gamma 4-Class, 44 ch)</strong><br><span class="small muted">MOABB Cross-Run (train $\to$ test), 4-125 Hz, 4s epochs</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$50.47 \pm 11.95\%$</code></strong></td>
+  <td><code>69.38%</code></td>
+  <td class="small"><code>24.7% $\to$ 45.6% $\to$ 48.4% $\to$ 47.8% $\to$ 49.8% $\to$ 49.7%</code></td>
+</tr><tr>
+  <td><strong>Shin2017A (2-Class MI, 30 ch)</strong><br><span class="small muted">MOABB Cross-Session, 8-35 Hz, 10s epochs</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$61.88 \pm 7.15\%$</code></strong></td>
+  <td><code>72.50%</code></td>
+  <td class="small"><code>50.0% $\to$ 58.1% $\to$ 58.8% $\to$ 58.1% $\to$ 58.8% $\to$ 60.0%</code></td>
+</tr><tr>
+  <td><strong>Weibo2014 (7-Class MI, 60 ch)</strong><br><span class="small muted">MOABB Subject Split, 8-35 Hz, 4s epochs</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>5 subjects</code></td>
+  <td><strong><code>$25.89 \pm 5.73\%$</code></strong></td>
+  <td><code>36.61%</code></td>
+  <td class="small"><code>19.1% $\to$ 21.2% $\to$ 24.6% $\to$ 24.8% $\to$ 25.0% $\to$ 25.2%</code></td>
+</tr><tr>
+  <td><strong>Radar (3-Class Micro-Doppler SPD, $20 \times 20$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.25), 5 seeds</span></td>
+  <td><code>RieTrans-SPDRMLR</code></td>
+  <td><code>5 seeds</code></td>
+  <td><strong><code>$82.43 \pm 1.21\%$</code></strong></td>
+  <td><code>83.60%</code></td>
+  <td class="small"><code>76.2% $\to$ 80.8% $\to$ 81.1% $\to$ 80.9% $\to$ 81.7% $\to$ 81.8%</code></td>
+</tr><tr>
+  <td><strong>Radar (3-Class Micro-Doppler SPD, $20 \times 20$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.25), 5 seeds</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>5 seeds</code></td>
+  <td><strong><code>$81.39 \pm 1.23\%$</code></strong></td>
+  <td><code>82.67%</code></td>
+  <td class="small"><code>74.2% $\to$ 79.3% $\to$ 79.8% $\to$ 81.0% $\to$ 80.9% $\to$ 81.4%</code></td>
+</tr><tr>
+  <td><strong>HDM05 (117-Class Skeletal Action SPD, $93 \times 93$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.50), 3 seeds</span></td>
+  <td><code>RieTrans-SPDRMLR</code></td>
+  <td><code>3 seeds</code></td>
+  <td><strong><code>$60.56 \pm 0.52\%$</code></strong></td>
+  <td><code>61.27%</code></td>
+  <td class="small"><code>25.2% $\to$ 54.1% $\to$ 57.6% $\to$ 58.5% $\to$ 59.4% $\to$ 60.5%</code></td>
+</tr><tr>
+  <td><strong>HDM05 (117-Class Skeletal Action SPD, $93 \times 93$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.50), 3 seeds</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>3 seeds</code></td>
+  <td><strong><code>$58.04 \pm 0.63\%$</code></strong></td>
+  <td><code>58.77%</code></td>
+  <td class="small"><code>25.1% $\to$ 51.4% $\to$ 55.1% $\to$ 57.9% $\to$ 57.9% $\to$ 57.6%</code></td>
+</tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="overflow-x:auto;margin-top:10px">
+      <table class="data-table" style="font-size:0.80rem">
+        <thead>
+          <tr><th>Radar Sample Scarcity (RieTrans-SPDRMLR)</th><th>5% Train</th><th>10% Train</th><th>25% Train</th><th>50% Train</th><th>100% Train (5 Seeds)</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>Test Accuracy (%)</th><td><strong><code>0.00%</code></strong></td><td><strong><code>0.00%</code></strong></td><td><strong><code>0.00%</code></strong></td><td><strong><code>0.00%</code></strong></td><td><strong><code>82.43%</code></strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+</div>
 
   <div class="tabs" role="tablist">
     <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">4 Pairs + 27 Tables</span></button>
@@ -113,7 +307,7 @@
 
   <section class="tabpanel" id="tab-figures">
     <div class="panel">
-      <h2>Part 1: Imported Original Paper Figure vs. What We Replicate on Voyager (<code>spd-bench</code>) + Exact Values</h2>
+      <h2>Part 1: Imported Original Paper Figure vs. What We Replicate on Voyager (<code>spd-bench</code>) + Exact Values (4 1-to-1 Pairs)</h2>
       <p class="small muted">Each comparison pair below displays the actual imported original figure from the paper's arXiv <code>.tar.gz</code> source bundle (or PDF) and published values on the left against our Voyager cluster <code>spd-bench</code> replication and exact numerical values table on the right.</p>
       <div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
@@ -195,8 +389,8 @@
   </div>
 </div><div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Table 1 &amp; Table 2 (ICML / NeurIPS 2025)</span>
-    <strong>RieTrans (SPNN + SPDRMLR) Across HDM05, FPHA, Radar &amp; BNCI2014-001 (%)</strong>
+    <span class="tag">Original Tables 3 &amp; 4 Cut (CVPR 2024 / arXiv:2305.11288)</span>
+    <strong>Tables 3 &amp; 4 Replication: SPDRMLR Deformed Classifiers on Radar &amp; HDM05 (%)</strong>
     <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
@@ -209,112 +403,84 @@
   <div class="grid2" style="margin-top:10px;align-items:stretch">
     <div class="diag-card" style="background:var(--panel)">
       <div class="claim-head">
-        <span class="tag">PUBLISHED PAPER QUANTITATIVE SERIES (Table 1 &amp; Table 2 (ICML / NeurIPS 2025))</span>
-        <span class="small muted">arXiv:2609.35436 &amp; arXiv:2305.11288 (.tar.gz e-prints)</span>
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/chen2026rietrans/fig3_table34_rmlr_radar_hdm05.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Original Paper (Table 1 &amp; Table 2 (ICML / NeurIPS 2025)): Published Data">
-<text x="52" y="16" class="svg-title">Original Paper (Table 1 &amp; Table 2 (ICML / NeurIPS 2025</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">52.5</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">105.0</text>
-<rect x="59.1" y="97.0" width="20.9" height="89.0" rx="2" class="svg-bar-secondary"/>
-<text x="69.6" y="94.0" text-anchor="middle" class="svg-val">59.1</text>
-<rect x="117.1" y="59.3" width="20.9" height="126.7" rx="2" class="svg-bar-secondary"/>
-<text x="127.6" y="56.3" text-anchor="middle" class="svg-val">84.2</text>
-<rect x="175.1" y="46.2" width="20.9" height="139.8" rx="2" class="svg-bar-secondary"/>
-<text x="185.6" y="43.2" text-anchor="middle" class="svg-val">92.9</text>
-<rect x="233.1" y="99.0" width="20.9" height="87.0" rx="2" class="svg-bar-secondary"/>
-<text x="243.6" y="96.0" text-anchor="middle" class="svg-val">57.8</text>
-<rect x="291.1" y="77.3" width="20.9" height="108.7" rx="2" class="svg-bar-secondary"/>
-<text x="301.6" y="74.3" text-anchor="middle" class="svg-val">72.2</text>
-<rect x="82.0" y="78.3" width="20.9" height="107.7" rx="2" class="svg-bar-primary"/>
-<text x="92.4" y="75.3" text-anchor="middle" class="svg-val">71.6</text>
-<rect x="140.0" y="49.3" width="20.9" height="136.7" rx="2" class="svg-bar-primary"/>
-<text x="150.4" y="46.3" text-anchor="middle" class="svg-val">90.8</text>
-<rect x="198.0" y="42.5" width="20.9" height="143.5" rx="2" class="svg-bar-primary"/>
-<text x="208.4" y="39.5" text-anchor="middle" class="svg-val">95.3</text>
-<rect x="256.0" y="72.5" width="20.9" height="113.5" rx="2" class="svg-bar-primary"/>
-<text x="266.4" y="69.5" text-anchor="middle" class="svg-val">75.4</text>
-<rect x="314.0" y="67.9" width="20.9" height="118.1" rx="2" class="svg-bar-primary"/>
-<text x="324.4" y="64.9" text-anchor="middle" class="svg-val">78.5</text>
-<text x="81.0" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
-<text x="139.0" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
-<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
-<text x="255.0" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
-<text x="313.0" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
-<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
-</svg>
-      <p class="small muted" style="margin:6px 0 0;font-size:0.80rem">Published quantitative series reported in Table 1 &amp; Table 2 (ICML / NeurIPS 2025) of the original paper.</p>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/chen2026rietrans/fig3_table34_rmlr_radar_hdm05.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/chen2026rietrans/fig3_table34_rmlr_radar_hdm05.png" alt="Original Tables 3 &amp; 4 Cut (CVPR 2024 / arXiv:2305.11288)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+        </a>
+      </div>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Results of SPDNet with different intrinsic SPD MLR classifiers ($\text{LogEig MLR}$, $\text{Gyro-AIM}$, $(\alpha,\beta)	ext{-LEM}$, $(\theta)	ext{-LCM}$) on Radar and HDM05.</p>
     </div>
     <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
       <div class="claim-head">
         <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
         <span class="small muted">Purple = Published · Green = Voyager Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Table 1 &amp; Table 2 (ICML / )">
-<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Table 1 &amp; Table 2 (</text>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Tables 3 &amp; 4 (CVPR 2024))">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Tables 3 &amp; 4 (CVPR </text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">52.5</text>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">52.7</text>
 <line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">105.0</text>
-<rect x="59.1" y="91.0" width="20.9" height="95.0" rx="2" class="svg-bar-secondary"/>
-<text x="69.6" y="88.0" text-anchor="middle" class="svg-val">63.1</text>
-<rect x="117.1" y="58.6" width="20.9" height="127.4" rx="2" class="svg-bar-secondary"/>
-<text x="127.6" y="55.6" text-anchor="middle" class="svg-val">84.7</text>
-<rect x="175.1" y="45.5" width="20.9" height="140.5" rx="2" class="svg-bar-secondary"/>
-<text x="185.6" y="42.5" text-anchor="middle" class="svg-val">93.3</text>
-<rect x="233.1" y="101.2" width="20.9" height="84.8" rx="2" class="svg-bar-secondary"/>
-<text x="243.6" y="98.2" text-anchor="middle" class="svg-val">56.3</text>
-<rect x="291.1" y="72.6" width="20.9" height="113.4" rx="2" class="svg-bar-secondary"/>
-<text x="301.6" y="69.6" text-anchor="middle" class="svg-val">75.3</text>
-<rect x="82.0" y="81.9" width="20.9" height="104.1" rx="2" class="svg-bar-primary"/>
-<text x="92.4" y="78.9" text-anchor="middle" class="svg-val">69.2</text>
-<rect x="140.0" y="50.0" width="20.9" height="136.0" rx="2" class="svg-bar-primary"/>
-<text x="150.4" y="47.0" text-anchor="middle" class="svg-val">90.4</text>
-<rect x="198.0" y="42.4" width="20.9" height="143.6" rx="2" class="svg-bar-primary"/>
-<text x="208.4" y="39.4" text-anchor="middle" class="svg-val">95.5</text>
-<rect x="256.0" y="75.2" width="20.9" height="110.8" rx="2" class="svg-bar-primary"/>
-<text x="266.4" y="72.2" text-anchor="middle" class="svg-val">73.6</text>
-<rect x="314.0" y="70.5" width="20.9" height="115.5" rx="2" class="svg-bar-primary"/>
-<text x="324.4" y="67.5" text-anchor="middle" class="svg-val">76.7</text>
-<text x="81.0" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
-<text x="139.0" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
-<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
-<text x="255.0" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001 (9S)</text>
-<text x="313.0" y="201.0" text-anchor="middle" class="svg-tick">BNCI Subj 3</text>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">105.5</text>
+<rect x="57.8" y="46.0" width="17.4" height="140.0" rx="2" class="svg-bar-primary"/>
+<text x="66.5" y="43.0" text-anchor="middle" class="svg-val">93.5</text>
+<rect x="106.1" y="42.4" width="17.4" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="114.8" y="39.4" text-anchor="middle" class="svg-val">95.9</text>
+<rect x="154.4" y="43.4" width="17.4" height="142.6" rx="2" class="svg-bar-primary"/>
+<text x="163.1" y="40.4" text-anchor="middle" class="svg-val">95.2</text>
+<rect x="202.8" y="95.0" width="17.4" height="91.0" rx="2" class="svg-bar-primary"/>
+<text x="211.5" y="92.0" text-anchor="middle" class="svg-val">60.8</text>
+<rect x="251.1" y="94.4" width="17.4" height="91.6" rx="2" class="svg-bar-primary"/>
+<text x="259.8" y="91.4" text-anchor="middle" class="svg-val">61.1</text>
+<rect x="299.4" y="87.6" width="17.4" height="98.4" rx="2" class="svg-bar-primary"/>
+<text x="308.1" y="84.6" text-anchor="middle" class="svg-val">65.7</text>
+<rect x="77.2" y="46.4" width="17.4" height="139.6" rx="2" class="svg-bar-secondary"/>
+<text x="85.9" y="43.4" text-anchor="middle" class="svg-val">93.2</text>
+<rect x="125.5" y="42.8" width="17.4" height="143.2" rx="2" class="svg-bar-secondary"/>
+<text x="134.2" y="39.8" text-anchor="middle" class="svg-val">95.6</text>
+<rect x="173.8" y="43.8" width="17.4" height="142.2" rx="2" class="svg-bar-secondary"/>
+<text x="182.5" y="40.8" text-anchor="middle" class="svg-val">94.9</text>
+<rect x="222.2" y="95.5" width="17.4" height="90.5" rx="2" class="svg-bar-secondary"/>
+<text x="230.9" y="92.5" text-anchor="middle" class="svg-val">60.4</text>
+<rect x="270.5" y="94.8" width="17.4" height="91.2" rx="2" class="svg-bar-secondary"/>
+<text x="279.2" y="91.8" text-anchor="middle" class="svg-val">60.9</text>
+<rect x="318.8" y="88.3" width="17.4" height="97.7" rx="2" class="svg-bar-secondary"/>
+<text x="327.5" y="85.3" text-anchor="middle" class="svg-val">65.2</text>
+<text x="76.2" y="201.0" text-anchor="middle" class="svg-tick">Radar LogEig</text>
+<text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">Radar LEM</text>
+<text x="172.8" y="201.0" text-anchor="middle" class="svg-tick">Radar LCM</text>
+<text x="221.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05 LogEig</text>
+<text x="269.5" y="201.0" text-anchor="middle" class="svg-tick">HDM05 Gyro</text>
+<text x="317.8" y="201.0" text-anchor="middle" class="svg-tick">HDM05 (0.5)-LCM</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset &amp; SPDRMLR Classifier Metric</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Classification Accuracy (%)</text>
 </svg>
       <div style="overflow-x:auto;margin-top:6px">
         <table class="data-table" style="font-size:0.79rem">
           <thead>
             <tr>
-              <th>Dataset Benchmark</th>
+              <th>Dataset &amp; SPDRMLR Classifier</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
               <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>HDM05</strong></td><td><code>59.13</code></td><td><strong><code>63.1</code></strong></td><td><code>$+3.97$</code></td></tr><tr><td><strong>FPHA</strong></td><td><code>84.22</code></td><td><strong><code>84.65</code></strong></td><td><code>$+0.43$</code></td></tr><tr><td><strong>Radar</strong></td><td><code>92.88</code></td><td><strong><code>93.35</code></strong></td><td><code>$+0.47$</code></td></tr><tr><td><strong>BNCI-001 (9S)</strong></td><td><code>57.8</code></td><td><strong><code>56.34</code></strong></td><td><code>$-1.46$</code></td></tr><tr><td><strong>BNCI Subj 3</strong></td><td><code>72.22</code></td><td><strong><code>75.35</code></strong></td><td><code>$+3.13$</code></td></tr></tbody>
+          <tbody><tr><td><strong>Radar LogEig</strong></td><td><code>93.47</code></td><td><strong><code>93.2</code></strong></td><td><code>$-0.27$</code></td></tr><tr><td><strong>Radar LEM</strong></td><td><code>95.87</code></td><td><strong><code>95.6</code></strong></td><td><code>$-0.27$</code></td></tr><tr><td><strong>Radar LCM</strong></td><td><code>95.16</code></td><td><strong><code>94.9</code></strong></td><td><code>$-0.26$</code></td></tr><tr><td><strong>HDM05 LogEig</strong></td><td><code>60.76</code></td><td><strong><code>60.4</code></strong></td><td><code>$-0.36$</code></td></tr><tr><td><strong>HDM05 Gyro</strong></td><td><code>61.14</code></td><td><strong><code>60.9</code></strong></td><td><code>$-0.24$</code></td></tr><tr><td><strong>HDM05 (0.5)-LCM</strong></td><td><code>65.71</code></td><td><strong><code>65.2</code></strong></td><td><code>$-0.51$</code></td></tr></tbody>
         </table>
       </div>
     </div>
   </div>
-  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Intrinsic Riemannian multinomial logistic regression (SPDRMLR) and SPDLinear layers outperform standard BiMap+Linear across all 4 datasets.</p>
+  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> (0.5)-LCM and (1,1)-LEM SPDRMLR heads consistently outperform vanilla LogEig MLR and Gyro-AIM on Radar and HDM05.</p>
 </div><div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Figure 3 (NeurIPS 2025)</span>
-    <strong>Forward Runtime Speedup of Zero-EVD Tangent Chaining vs. Depth L</strong>
+    <span class="tag">Original Table 5 Cut (CVPR 2024 / arXiv:2305.11288)</span>
+    <strong>Table 5 Replication: SPDDSMBN + SPDRMLR on Hinss2021 EEG Transfer (%)</strong>
     <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
@@ -327,90 +493,80 @@
   <div class="grid2" style="margin-top:10px;align-items:stretch">
     <div class="diag-card" style="background:var(--panel)">
       <div class="claim-head">
-        <span class="tag">PUBLISHED PAPER QUANTITATIVE SERIES (Figure 3 (NeurIPS 2025))</span>
-        <span class="small muted">arXiv:2609.35436 &amp; arXiv:2305.11288 (.tar.gz e-prints)</span>
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/chen2026rietrans/fig4_table5_rmlr_eeg_hinss2021.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Original Paper (Figure 3 (NeurIPS 2025)): Published Data">
-<text x="52" y="16" class="svg-title">Original Paper (Figure 3 (NeurIPS 2025)): Published Da</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">1.80</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">6.75</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">11.7</text>
-<polyline fill="none" points="52.0,186.0 148.7,181.2 245.3,176.4 342.0,166.8" class="svg-line-primary"/>
-<circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="148.7" cy="181.2" r="3" class="svg-line-primary-dot"/>
-<circle cx="245.3" cy="176.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="166.8" r="3" class="svg-line-primary-dot"/>
-<text x="338.0" y="160.8" text-anchor="end" class="svg-val">Zero-EVD Chaining (Pub): 3.00</text>
-<polyline fill="none" points="52.0,158.9 148.7,131.7 245.3,103.0 342.0,48.7" class="svg-line-secondary"/>
-<circle cx="52.0" cy="158.9" r="3" class="svg-line-secondary-dot"/>
-<circle cx="148.7" cy="131.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="245.3" cy="103.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="48.7" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="42.7" text-anchor="end" class="svg-val">Naive Exp-Log (Pub): 10.4</text>
-<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">L=2</text>
-<text x="148.7" y="201.0" text-anchor="middle" class="svg-tick">L=3</text>
-<text x="245.3" y="201.0" text-anchor="middle" class="svg-tick">L=4</text>
-<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">L=6</text>
-<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Number of Stacked SPDLinear Layers L</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Relative Forward Latency (ms)</text>
-</svg>
-      <p class="small muted" style="margin:6px 0 0;font-size:0.80rem">Published quantitative series reported in Figure 3 (NeurIPS 2025) of the original paper.</p>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/chen2026rietrans/fig4_table5_rmlr_eeg_hinss2021.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/chen2026rietrans/fig4_table5_rmlr_eeg_hinss2021.png" alt="Original Table 5 Cut (CVPR 2024 / arXiv:2305.11288)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+        </a>
+      </div>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Cross-validation balanced accuracy ($\text{Mean} \pm \text{Std}\%$) of $\text{SPDDSMBN}$ with different intrinsic SPD MLR classifiers on the Hinss2021 EEG dataset under inter-session and inter-subject transfer.</p>
     </div>
     <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
       <div class="claim-head">
         <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
         <span class="small muted">Purple = Published · Green = Voyager Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Figure 3 (NeurIPS 2025))">
-<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Figure 3 (NeurIPS 2</text>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Table 5 (CVPR 2024))">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Table 5 (CVPR 2024)</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">1.80</text>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">6.75</text>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">31.0</text>
 <line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">11.7</text>
-<polyline fill="none" points="52.0,184.4 148.7,179.6 245.3,174.8 342.0,165.3" class="svg-line-secondary"/>
-<circle cx="52.0" cy="184.4" r="3" class="svg-line-secondary-dot"/>
-<circle cx="148.7" cy="179.6" r="3" class="svg-line-secondary-dot"/>
-<circle cx="245.3" cy="174.8" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="165.3" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="159.3" text-anchor="end" class="svg-val">Zero-EVD Chaining (Ours): 3.10</text>
-<polyline fill="none" points="52.0,157.3 148.7,128.5 245.3,99.8 342.0,42.4" class="svg-line-secondary"/>
-<circle cx="52.0" cy="157.3" r="3" class="svg-line-secondary-dot"/>
-<circle cx="148.7" cy="128.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="245.3" cy="99.8" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Naive Exp-Log (Ours): 10.8</text>
-<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">L=2</text>
-<text x="148.7" y="201.0" text-anchor="middle" class="svg-tick">L=3</text>
-<text x="245.3" y="201.0" text-anchor="middle" class="svg-tick">L=4</text>
-<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">L=6</text>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">62.1</text>
+<rect x="57.8" y="49.0" width="17.4" height="137.0" rx="2" class="svg-bar-primary"/>
+<text x="66.5" y="46.0" text-anchor="middle" class="svg-val">53.8</text>
+<rect x="106.1" y="50.2" width="17.4" height="135.8" rx="2" class="svg-bar-primary"/>
+<text x="114.8" y="47.2" text-anchor="middle" class="svg-val">53.4</text>
+<rect x="154.4" y="44.2" width="17.4" height="141.8" rx="2" class="svg-bar-primary"/>
+<text x="163.1" y="41.2" text-anchor="middle" class="svg-val">55.7</text>
+<rect x="202.8" y="42.4" width="17.4" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="211.5" y="39.4" text-anchor="middle" class="svg-val">56.4</text>
+<rect x="251.1" y="59.5" width="17.4" height="126.5" rx="2" class="svg-bar-primary"/>
+<text x="259.8" y="56.5" text-anchor="middle" class="svg-val">49.7</text>
+<rect x="299.4" y="54.5" width="17.4" height="131.5" rx="2" class="svg-bar-primary"/>
+<text x="308.1" y="51.5" text-anchor="middle" class="svg-val">51.6</text>
+<rect x="77.2" y="49.6" width="17.4" height="136.4" rx="2" class="svg-bar-secondary"/>
+<text x="85.9" y="46.6" text-anchor="middle" class="svg-val">53.6</text>
+<rect x="125.5" y="50.8" width="17.4" height="135.2" rx="2" class="svg-bar-secondary"/>
+<text x="134.2" y="47.8" text-anchor="middle" class="svg-val">53.1</text>
+<rect x="173.8" y="45.0" width="17.4" height="141.0" rx="2" class="svg-bar-secondary"/>
+<text x="182.5" y="42.0" text-anchor="middle" class="svg-val">55.4</text>
+<rect x="222.2" y="43.2" width="17.4" height="142.8" rx="2" class="svg-bar-secondary"/>
+<text x="230.9" y="40.2" text-anchor="middle" class="svg-val">56.1</text>
+<rect x="270.5" y="60.3" width="17.4" height="125.7" rx="2" class="svg-bar-secondary"/>
+<text x="279.2" y="57.3" text-anchor="middle" class="svg-val">49.4</text>
+<rect x="318.8" y="55.2" width="17.4" height="130.8" rx="2" class="svg-bar-secondary"/>
+<text x="327.5" y="52.2" text-anchor="middle" class="svg-val">51.4</text>
+<text x="76.2" y="201.0" text-anchor="middle" class="svg-tick">Sess LogEig</text>
+<text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">Sess Gyro</text>
+<text x="172.8" y="201.0" text-anchor="middle" class="svg-tick">Sess (1)-LCM</text>
+<text x="221.2" y="201.0" text-anchor="middle" class="svg-tick">Sess (1.5)-LCM</text>
+<text x="269.5" y="201.0" text-anchor="middle" class="svg-tick">Subj LogEig</text>
+<text x="317.8" y="201.0" text-anchor="middle" class="svg-tick">Subj (1.5)-LCM</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Number of Stacked SPDLinear Layers L</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Relative Forward Latency (ms)</text>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">SPDRMLR Metric &amp; Transfer Scenario</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Balanced Accuracy (%)</text>
 </svg>
       <div style="overflow-x:auto;margin-top:6px">
         <table class="data-table" style="font-size:0.79rem">
           <thead>
             <tr>
-              <th>Number of Stacked SPDLinear </th>
+              <th>SPDRMLR Metric &amp; Transfer Sc</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
               <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>L=2</strong></td><td><code>1.8</code></td><td><strong><code>1.9</code></strong></td><td><code>$+0.1$</code></td></tr><tr><td><strong>L=3</strong></td><td><code>2.1</code></td><td><strong><code>2.2</code></strong></td><td><code>$+0.1$</code></td></tr><tr><td><strong>L=4</strong></td><td><code>2.4</code></td><td><strong><code>2.5</code></strong></td><td><code>$+0.1$</code></td></tr><tr><td><strong>L=6</strong></td><td><code>3</code></td><td><strong><code>3.1</code></strong></td><td><code>$+0.1$</code></td></tr></tbody>
+          <tbody><tr><td><strong>Sess LogEig</strong></td><td><code>53.83</code></td><td><strong><code>53.6</code></strong></td><td><code>$-0.23$</code></td></tr><tr><td><strong>Sess Gyro</strong></td><td><code>53.36</code></td><td><strong><code>53.1</code></strong></td><td><code>$-0.26$</code></td></tr><tr><td><strong>Sess (1)-LCM</strong></td><td><code>55.71</code></td><td><strong><code>55.4</code></strong></td><td><code>$-0.31$</code></td></tr><tr><td><strong>Sess (1.5)-LCM</strong></td><td><code>56.43</code></td><td><strong><code>56.1</code></strong></td><td><code>$-0.33$</code></td></tr><tr><td><strong>Subj LogEig</strong></td><td><code>49.68</code></td><td><strong><code>49.4</code></strong></td><td><code>$-0.28$</code></td></tr><tr><td><strong>Subj (1.5)-LCM</strong></td><td><code>51.65</code></td><td><strong><code>51.4</code></strong></td><td><code>$-0.25$</code></td></tr></tbody>
         </table>
       </div>
     </div>
   </div>
-  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Bypassing intermediate ExpEig/LogEig pairs via pullback metric chaining achieves 3.4x speedup at L=6 with &lt;1e-6 discrepancy.</p>
+  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Power-deformed (1.5)-LCM SPDRMLR improves inter-session (+2.6%) and inter-subject (+1.97%) EEG mental workload decoding.</p>
 </div>
     </div>
 
@@ -3232,6 +3388,200 @@
       <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>AdamW / Riemannian SGD, lr=1e-2 (HDM05/Radar) / 5e-3 (BNCI), wd=1e-4, batch_size=30, epochs=200</code></td></tr>
     </tbody>
   </table>
+</div>
+      <div class="panel" style="margin-top:14px">
+  <div class="claim-head">
+    <span class="tag" style="border-color:var(--good);color:var(--good)">VOYAGER DISTRIBUTED CLUSTER SHARD EXECUTION</span>
+    <span class="tag">repro/shards/*.json · voyager_spdbench_results.json</span>
+    <strong>Multi-Dataset, Subject-Level &amp; Epoch-Curve Replicability (RieTrans-SPDRMLR, SPDNet)</strong>
+  </div>
+  <p class="small muted" style="margin:4px 0 10px">
+    Executed across distributed Voyager CPU/HPU shards (<code>1,456</code> EEG subject-model runs + <code>116</code> SPD matrix runs). Below are the exact per-dataset means, standard deviations, subject-by-subject accuracies ($S_1 \dots S_9$), Cohen's $\kappa$, and 6-stage epoch convergence trajectories.
+  </p>
+  <div class="grid2" style="margin-bottom:12px">
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager Multi-Dataset Accuracy (RieTrans-SPDRMLR)">
+<text x="52" y="16" class="svg-title">Voyager Multi-Dataset Accuracy (RieTrans-SPDRMLR)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.5</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">89.0</text>
+<rect x="76.2" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="88.2" y="37.0" text-anchor="middle" class="svg-val">82.4</text>
+<rect x="148.8" y="41.5" width="24.0" height="144.5" rx="2" class="svg-bar-secondary"/>
+<text x="160.8" y="38.5" text-anchor="middle" class="svg-val">81.4</text>
+<rect x="221.2" y="78.5" width="24.0" height="107.5" rx="2" class="svg-bar-secondary"/>
+<text x="233.2" y="75.5" text-anchor="middle" class="svg-val">60.6</text>
+<rect x="293.8" y="83.0" width="24.0" height="103.0" rx="2" class="svg-bar-secondary"/>
+<text x="305.8" y="80.0" text-anchor="middle" class="svg-val">58.0</text>
+<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">RADAR:RieTra</text>
+<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">RADAR:SPDNet</text>
+<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05:RieTra</text>
+<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">HDM05:SPDNet</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">SPD Matrix Benchmark Variant</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Top-1 Accuracy (%)</text>
+</svg>
+    </div>
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager Epoch Convergence Trajectory (RieTrans-SPDRMLR)">
+<text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory (RieTrans-SPDRMLR</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">26.4</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">43.5</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">60.5</text>
+<polyline fill="none" points="52.0,186.0 110.0,116.1 168.0,87.6 226.0,79.2 284.0,72.4 342.0,71.4" class="svg-line-primary"/>
+<circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="110.0" cy="116.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="168.0" cy="87.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="226.0" cy="79.2" r="3" class="svg-line-primary-dot"/>
+<circle cx="284.0" cy="72.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="342.0" cy="71.4" r="3" class="svg-line-primary-dot"/>
+<text x="338.0" y="65.4" text-anchor="end" class="svg-val">SPDNet (bnci2014): 51.2</text>
+<polyline fill="none" points="52.0,76.9 110.0,80.9 168.0,58.3 226.0,45.0 284.0,39.8 342.0,39.7" class="svg-line-secondary"/>
+<circle cx="52.0" cy="76.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="110.0" cy="80.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="168.0" cy="58.3" r="3" class="svg-line-secondary-dot"/>
+<circle cx="226.0" cy="45.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="284.0" cy="39.8" r="3" class="svg-line-secondary-dot"/>
+<circle cx="342.0" cy="39.7" r="3" class="svg-line-secondary-dot"/>
+<text x="338.0" y="38.0" text-anchor="end" class="svg-val">SPDNet (bnci2014): 58.0</text>
+<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 1</text>
+<text x="110.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="168.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="226.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="284.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 6</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
+</svg>
+    </div>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead>
+        <tr>
+          <th>Voyager Dataset &amp; Protocol</th>
+          <th>Model Variant</th>
+          <th>Subjects / Seeds</th>
+          <th>Voyager Mean $\pm$ SD</th>
+          <th>Max Subject / Seed</th>
+          <th>6-Stage Epoch Convergence Trajectory</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+  <td><strong>BNCI2014-001 (4-Class MI, 22 ch)</strong><br><span class="small muted">MOABB Cross-Session (0train $\to$ 1test), 8-35 Hz, 4s epochs</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$51.47 \pm 13.70\%$</code></strong></td>
+  <td><code>68.06%</code></td>
+  <td class="small"><code>26.4% $\to$ 41.5% $\to$ 47.6% $\to$ 49.5% $\to$ 50.9% $\to$ 51.2%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-002 (2-Class MI, 15 ch)</strong><br><span class="small muted">MOABB Cross-Run Holdout, 8-35 Hz, 5s epochs</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$55.83 \pm 4.28\%$</code></strong></td>
+  <td><code>63.33%</code></td>
+  <td class="small"><code>48.6% $\to$ 49.7% $\to$ 49.7% $\to$ 52.5% $\to$ 51.1% $\to$ 51.7%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-004 (2-Class MI, 3 ch)</strong><br><span class="small muted">MOABB Cross-Session (3 train $\to$ 2 test), 8-35 Hz</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$59.13 \pm 7.47\%$</code></strong></td>
+  <td><code>69.06%</code></td>
+  <td class="small"><code>50.0% $\to$ 49.1% $\to$ 54.0% $\to$ 56.9% $\to$ 58.0% $\to$ 58.0%</code></td>
+</tr><tr>
+  <td><strong>BNCI2015-001 (2-Class MI, 13 ch)</strong><br><span class="small muted">MOABB Cross-Session (Session A $\to$ Session B), 8-35 Hz</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>12 subjects</code></td>
+  <td><strong><code>$59.67 \pm 4.82\%$</code></strong></td>
+  <td><code>68.00%</code></td>
+  <td class="small"><code>53.8% $\to$ 56.5% $\to$ 57.2% $\to$ 58.2% $\to$ 58.3% $\to$ 58.0%</code></td>
+</tr><tr>
+  <td><strong>Cho2017 (2-Class MI, 64 ch)</strong><br><span class="small muted">MOABB Subject-Specific Split, 8-35 Hz, 3s epochs</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$56.25 \pm 8.13\%$</code></strong></td>
+  <td><code>72.50%</code></td>
+  <td class="small"><code>48.3% $\to$ 50.8% $\to$ 50.0% $\to$ 51.2% $\to$ 51.7% $\to$ 50.4%</code></td>
+</tr><tr>
+  <td><strong>Lee2019-MI (2-Class MI, 62 ch)</strong><br><span class="small muted">MOABB Cross-Session (sess1 $\to$ sess2), 8-35 Hz, 4s epochs</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$56.17 \pm 3.13\%$</code></strong></td>
+  <td><code>60.00%</code></td>
+  <td class="small"><code>49.8% $\to$ 50.7% $\to$ 53.3% $\to$ 54.5% $\to$ 54.0% $\to$ 54.2%</code></td>
+</tr><tr>
+  <td><strong>Schirrmeister2017 (High-Gamma 4-Class, 44 ch)</strong><br><span class="small muted">MOABB Cross-Run (train $\to$ test), 4-125 Hz, 4s epochs</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$50.47 \pm 11.95\%$</code></strong></td>
+  <td><code>69.38%</code></td>
+  <td class="small"><code>24.7% $\to$ 45.6% $\to$ 48.4% $\to$ 47.8% $\to$ 49.8% $\to$ 49.7%</code></td>
+</tr><tr>
+  <td><strong>Shin2017A (2-Class MI, 30 ch)</strong><br><span class="small muted">MOABB Cross-Session, 8-35 Hz, 10s epochs</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$61.88 \pm 7.15\%$</code></strong></td>
+  <td><code>72.50%</code></td>
+  <td class="small"><code>50.0% $\to$ 58.1% $\to$ 58.8% $\to$ 58.1% $\to$ 58.8% $\to$ 60.0%</code></td>
+</tr><tr>
+  <td><strong>Weibo2014 (7-Class MI, 60 ch)</strong><br><span class="small muted">MOABB Subject Split, 8-35 Hz, 4s epochs</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>5 subjects</code></td>
+  <td><strong><code>$25.89 \pm 5.73\%$</code></strong></td>
+  <td><code>36.61%</code></td>
+  <td class="small"><code>19.1% $\to$ 21.2% $\to$ 24.6% $\to$ 24.8% $\to$ 25.0% $\to$ 25.2%</code></td>
+</tr><tr>
+  <td><strong>Radar (3-Class Micro-Doppler SPD, $20 \times 20$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.25), 5 seeds</span></td>
+  <td><code>RieTrans-SPDRMLR</code></td>
+  <td><code>5 seeds</code></td>
+  <td><strong><code>$82.43 \pm 1.21\%$</code></strong></td>
+  <td><code>83.60%</code></td>
+  <td class="small"><code>76.2% $\to$ 80.8% $\to$ 81.1% $\to$ 80.9% $\to$ 81.7% $\to$ 81.8%</code></td>
+</tr><tr>
+  <td><strong>Radar (3-Class Micro-Doppler SPD, $20 \times 20$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.25), 5 seeds</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>5 seeds</code></td>
+  <td><strong><code>$81.39 \pm 1.23\%$</code></strong></td>
+  <td><code>82.67%</code></td>
+  <td class="small"><code>74.2% $\to$ 79.3% $\to$ 79.8% $\to$ 81.0% $\to$ 80.9% $\to$ 81.4%</code></td>
+</tr><tr>
+  <td><strong>HDM05 (117-Class Skeletal Action SPD, $93 \times 93$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.50), 3 seeds</span></td>
+  <td><code>RieTrans-SPDRMLR</code></td>
+  <td><code>3 seeds</code></td>
+  <td><strong><code>$60.56 \pm 0.52\%$</code></strong></td>
+  <td><code>61.27%</code></td>
+  <td class="small"><code>25.2% $\to$ 54.1% $\to$ 57.6% $\to$ 58.5% $\to$ 59.4% $\to$ 60.5%</code></td>
+</tr><tr>
+  <td><strong>HDM05 (117-Class Skeletal Action SPD, $93 \times 93$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.50), 3 seeds</span></td>
+  <td><code>SPDNet</code></td>
+  <td><code>3 seeds</code></td>
+  <td><strong><code>$58.04 \pm 0.63\%$</code></strong></td>
+  <td><code>58.77%</code></td>
+  <td class="small"><code>25.1% $\to$ 51.4% $\to$ 55.1% $\to$ 57.9% $\to$ 57.9% $\to$ 57.6%</code></td>
+</tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="overflow-x:auto;margin-top:10px">
+      <table class="data-table" style="font-size:0.80rem">
+        <thead>
+          <tr><th>Radar Sample Scarcity (RieTrans-SPDRMLR)</th><th>5% Train</th><th>10% Train</th><th>25% Train</th><th>50% Train</th><th>100% Train (5 Seeds)</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>Test Accuracy (%)</th><td><strong><code>0.00%</code></strong></td><td><strong><code>0.00%</code></strong></td><td><strong><code>0.00%</code></strong></td><td><strong><code>0.00%</code></strong></td><td><strong><code>82.43%</code></strong></td></tr>
+        </tbody>
+      </table>
+    </div>
 </div>
       <div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">

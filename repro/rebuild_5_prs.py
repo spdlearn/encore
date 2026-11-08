@@ -6,15 +6,16 @@ from __future__ import annotations
 import subprocess
 from pathlib import Path
 
-WORKTREE = Path("/Users/bruaristimunha/Projects/spd/spd_learn/.worktrees/unified-normalized")
+WORKTREES_ROOT = Path("/Users/bruaristimunha/Projects/spd/spd_learn/.worktrees")
+WORKTREE = WORKTREES_ROOT / "unified-normalized"
 RUFF = "/Users/bruaristimunha/.cache/pre-commit/repoakt3esgl/py_env-python3.12/bin/ruff"
 MYPY = "/Users/bruaristimunha/.cache/pre-commit/repo146rjn67/py_env-python3/bin/mypy"
 SPHINX_LINT = "/Users/bruaristimunha/.cache/pre-commit/repoh355c1s6/py_env-python3/bin/sphinx-lint"
 CODESPELL = "/Users/bruaristimunha/.cache/pre-commit/repoa01y5naz/py_env-python3.12/bin/codespell"
 
 
-def run(cmd: list[str], check: bool = True) -> subprocess.CompletedProcess:
-    res = subprocess.run(cmd, cwd=WORKTREE, check=False, text=True, capture_output=True)
+def run(cmd: list[str], cwd: Path = WORKTREE, check: bool = True) -> subprocess.CompletedProcess:
+    res = subprocess.run(cmd, cwd=cwd, check=False, text=True, capture_output=True)
     if check and res.returncode != 0:
         print("STDOUT:", res.stdout)
         print("STDERR:", res.stderr)
@@ -71,6 +72,7 @@ BASE_MODULES = [
 PR_SPECS = [
     {
         "branch": "feat/pr-A-metrics-and-batchnorm",
+        "worktree": "pr-A-metrics-and-batchnorm",
         "title": "feat(metrics,batchnorm): add PCM, BWCM, ARMAGNAC, GBWBN, and Cholesky BatchNorm",
         "files": [
             "spd_learn/functional/metrics/cholesky_product.py",
@@ -82,49 +84,49 @@ PR_SPECS = [
             "docs/source/references.bib",
         ],
         "metrics_imports": """from .cholesky_product import (
-    bures_wasserstein_cholesky_distance,
-    bures_wasserstein_cholesky_exp,
-    bures_wasserstein_cholesky_geodesic,
-    bures_wasserstein_cholesky_log,
-    bures_wasserstein_cholesky_mean,
-    power_cholesky_coords,
-    power_cholesky_distance,
-    power_cholesky_exp,
-    power_cholesky_geodesic,
-    power_cholesky_inv_coords,
-    power_cholesky_log,
-    power_cholesky_mean,
+    bwcm_distance,
+    bwcm_geodesic,
+    bwcm_mean,
+    exp_map_bwcm,
+    exp_map_pcm,
+    log_map_bwcm,
+    log_map_pcm,
+    pcm_coords,
+    pcm_distance,
+    pcm_geodesic,
+    pcm_inv_coords,
+    pcm_mean,
 )""",
         "metrics_all": [
-            "power_cholesky_coords",
-            "power_cholesky_inv_coords",
-            "power_cholesky_log",
-            "power_cholesky_exp",
-            "power_cholesky_distance",
-            "power_cholesky_geodesic",
-            "power_cholesky_mean",
-            "bures_wasserstein_cholesky_log",
-            "bures_wasserstein_cholesky_exp",
-            "bures_wasserstein_cholesky_distance",
-            "bures_wasserstein_cholesky_geodesic",
-            "bures_wasserstein_cholesky_mean",
+            "pcm_coords",
+            "pcm_inv_coords",
+            "log_map_pcm",
+            "exp_map_pcm",
+            "pcm_distance",
+            "pcm_geodesic",
+            "pcm_mean",
+            "log_map_bwcm",
+            "exp_map_bwcm",
+            "bwcm_distance",
+            "bwcm_geodesic",
+            "bwcm_mean",
         ],
         "func_extra_imports": "",
         "func_extra_all": [],
         "modules_extra_imports": """from .batchnorm import (
     SPDBatchNormBW,
     SPDBatchNormCholesky,
-    SPDBatchNormHarmonicArithmetic,
+    SPDBatchNormHarmonic,
 )""",
         "modules_extra_all": [
-            "SPDBatchNormHarmonicArithmetic",
+            "SPDBatchNormHarmonic",
             "SPDBatchNormBW",
             "SPDBatchNormCholesky",
         ],
         "modules_top_extra": [
             "SPDBatchNormBW",
             "SPDBatchNormCholesky",
-            "SPDBatchNormHarmonicArithmetic",
+            "SPDBatchNormHarmonic",
         ],
         "models_extra_imports": "",
         "models_extra_all": [],
@@ -134,6 +136,7 @@ PR_SPECS = [
     },
     {
         "branch": "feat/pr-B-correlation-manifold",
+        "worktree": "pr-B-correlation-manifold",
         "title": "feat(correlation): add correlation manifold metrics (OLM, LSM) and CorAtt, CorNet models",
         "files": [
             "spd_learn/functional/correlation.py",
@@ -146,11 +149,11 @@ PR_SPECS = [
         "metrics_imports": "",
         "metrics_all": [],
         "func_extra_imports": """from .correlation import (
-    corr_lsm_exp,
-    corr_lsm_log,
-    corr_olm_exp,
-    corr_olm_log,
     cov_to_corr,
+    exp_map_lsm,
+    exp_map_olm,
+    log_map_lsm,
+    log_map_olm,
     off_diag,
     tril_embed,
     untril_embed,
@@ -158,10 +161,10 @@ PR_SPECS = [
         "func_extra_all": [
             "cov_to_corr",
             "off_diag",
-            "corr_lsm_log",
-            "corr_lsm_exp",
-            "corr_olm_log",
-            "corr_olm_exp",
+            "log_map_lsm",
+            "exp_map_lsm",
+            "log_map_olm",
+            "exp_map_olm",
             "tril_embed",
             "untril_embed",
         ],
@@ -177,7 +180,8 @@ from .cornet import CorNet""",
     },
     {
         "branch": "feat/pr-C-riemannian-attention-transformers",
-        "title": "feat(attention): add GBWAtt, SPDTransNet, SPDMetaFormer, GyroSPDAtt, SPNN/RieTrans, and RHOP",
+        "worktree": "pr-C-riemannian-attention-transformers",
+        "title": "feat(attention): add GBWAtt, SPDTransNet, SPDMetaFormer, GyroAtt, SPNN/RieTrans, and RHOP",
         "files": [
             "spd_learn/functional/metrics/generalized_bures_wasserstein.py",
             "spd_learn/functional/spdtransnet.py",
@@ -187,7 +191,7 @@ from .cornet import CorNet""",
             "spd_learn/modules/spdtransnet.py",
             "spd_learn/models/gbwatt.py",
             "spd_learn/models/gyroatt.py",
-            "spd_learn/models/spd_metaformer.py",
+            "spd_learn/models/spdmetaformer.py",
             "spd_learn/models/spdtransnet.py",
             "spd_learn/models/spnn.py",
             "tests/test_gbwatt.py",
@@ -224,7 +228,7 @@ from .cornet import CorNet""",
             "triangular_dimension",
         ],
         "modules_extra_imports": """from .gbw import GBWAttention, GBWGeometry, GBWPatchCovariance  # noqa: F401
-from .pooling import GaussianSPDDescriptor, RiemannianHighOrderPooling
+from .pooling import RHOP, GaussianSPD
 from .rietrans import SPDRMLR, SPDLinear
 from .spdtransnet import (  # noqa: F401
     LearnedSinusoidalPosition,
@@ -234,40 +238,29 @@ from .spdtransnet import (  # noqa: F401
     SPDTemporalEncoder,
     SPDTransformerEncoderLayer,
     SPMultiheadAttention,
-    StructurePreservingMultiheadAttention,
 )""",
         "modules_extra_all": [
-            "GaussianSPDDescriptor",
-            "RiemannianHighOrderPooling",
+            "GaussianSPD",
+            "RHOP",
             "SPDRMLR",
             "SPDLinear",
         ],
         "modules_top_extra": [
-            "GaussianSPDDescriptor",
-            "GBWAttention",
-            "GBWGeometry",
-            "GBWPatchCovariance",
-            "LearnedSinusoidalPosition",
-            "RiemannianHighOrderPooling",
-            "SPDInterEpochEncoder",
-            "SPDIntraEpochEncoder",
+            "GaussianSPD",
+            "RHOP",
             "SPDLinear",
-            "SPDLogTokenizer",
             "SPDRMLR",
-            "SPDTemporalEncoder",
-            "SPDTransformerEncoderLayer",
             "SPMultiheadAttention",
-            "StructurePreservingMultiheadAttention",
         ],
         "models_extra_imports": """from .gbwatt import GBWAtt
-from .gyroatt import GyroSPDAtt, GyroSPDAttention, SymSPDAttention  # noqa: F401
-from .spd_metaformer import SPDMetaFormer, SPDMetaFormerBlock  # noqa: F401
+from .gyroatt import GyroAtt, GyroSPDAttention, SymSPDAttention  # noqa: F401
+from .spdmetaformer import SPDMetaFormer, SPDMetaFormerBlock  # noqa: F401
 from .spdtransnet import SPDTransNet  # noqa: F401
 from .spnn import SPNN""",
         "models_extra_all": [
             "GBWAtt",
             "SPNN",
-            "GyroSPDAtt",
+            "GyroAtt",
             "SPDMetaFormer",
         ],
         "models_top_extra": ["SPDTransNet"],
@@ -275,7 +268,7 @@ from .spnn import SPNN""",
         "sequence_models": ["SPDTransNet"],
         "sequence_modules": [
             "SPDLogTokenizer",
-            "StructurePreservingMultiheadAttention",
+            "SPMultiheadAttention",
             "SPDTransformerEncoderLayer",
             "LearnedSinusoidalPosition",
             "SPDTemporalEncoder",
@@ -285,13 +278,14 @@ from .spnn import SPNN""",
     },
     {
         "branch": "feat/pr-D-graph-and-multiview-spd",
+        "worktree": "pr-D-graph-and-multiview-spd",
         "title": "feat(graph,multiview): add GraphCSPNet, DeepGeoCCA, SPDNetAE, and SSGCNet",
         "files": [
             "spd_learn/functional/graph.py",
             "spd_learn/modules/graph.py",
             "spd_learn/models/graphcsp.py",
             "spd_learn/models/deepgeocca.py",
-            "spd_learn/models/spdnet_ae.py",
+            "spd_learn/models/spdnetae.py",
             "spd_learn/models/ssgcnet.py",
             "tests/test_graphcsp.py",
             "tests/test_deepgeocca.py",
@@ -311,14 +305,10 @@ from .spnn import SPNN""",
     TimeFrequencyGraph,
 )""",
         "modules_extra_all": [],
-        "modules_top_extra": [
-            "GraphBiMap",
-            "TimeFrequencyCovariances",
-            "TimeFrequencyGraph",
-        ],
+        "modules_top_extra": [],
         "models_extra_imports": """from .deepgeocca import DeepGeoCCA, GeodesicCCALoss  # noqa: F401
 from .graphcsp import GraphCSPNet
-from .spdnet_ae import SPDDecoderBlock, SPDNetAE  # noqa: F401
+from .spdnetae import SPDDecoderBlock, SPDNetAE  # noqa: F401
 from .ssgcnet import SSGCNet, TangentGraphSPDAggregation  # noqa: F401""",
         "models_extra_all": [
             "GraphCSPNet",
@@ -332,6 +322,7 @@ from .ssgcnet import SSGCNet, TangentGraphSPDAggregation  # noqa: F401""",
     },
     {
         "branch": "feat/pr-E-residual-and-spatiotemporal-spd",
+        "worktree": "pr-E-residual-and-spatiotemporal-spd",
         "title": "feat(models): add RCEEGNet, STaRNet, SPDResNet, AdaptiveLogEuclidean (ALEM), and GyroSPD",
         "files": [
             "spd_learn/models/rceegnet.py",
@@ -369,9 +360,9 @@ from .starnet import STaRNet""",
 ]
 
 
-def write_init_files(spec: dict) -> None:
+def write_init_files(spec: dict, wt: Path) -> None:
     # 1. spd_learn/functional/metrics/__init__.py
-    base_metrics = run(["git", "show", "origin/main:spd_learn/functional/metrics/__init__.py"]).stdout
+    base_metrics = run(["git", "show", "origin/main:spd_learn/functional/metrics/__init__.py"], cwd=wt).stdout
     if spec["metrics_imports"]:
         base_metrics = base_metrics.replace(
             "from .log_cholesky import (",
@@ -382,10 +373,10 @@ def write_init_files(spec: dict) -> None:
             '    "log_cholesky_mean",\n]',
             f'    "log_cholesky_mean",\n{extra_all_str}]',
         )
-    (WORKTREE / "spd_learn/functional/metrics/__init__.py").write_text(base_metrics)
+    (wt / "spd_learn/functional/metrics/__init__.py").write_text(base_metrics)
 
     # 2. spd_learn/functional/__init__.py
-    base_func = run(["git", "show", "origin/main:spd_learn/functional/__init__.py"]).stdout
+    base_func = run(["git", "show", "origin/main:spd_learn/functional/__init__.py"], cwd=wt).stdout
     if spec["metrics_all"]:
         extra_m_imports = "".join(f"    {x},\n" for x in spec["metrics_all"])
         base_func = base_func.replace(
@@ -404,10 +395,10 @@ def write_init_files(spec: dict) -> None:
             '    "uwedge",\n]',
             f'    "uwedge",\n{extra_f_all}]',
         )
-    (WORKTREE / "spd_learn/functional/__init__.py").write_text(base_func)
+    (wt / "spd_learn/functional/__init__.py").write_text(base_func)
 
     # 3. spd_learn/modules/__init__.py
-    base_mod = run(["git", "show", "origin/main:spd_learn/modules/__init__.py"]).stdout
+    base_mod = run(["git", "show", "origin/main:spd_learn/modules/__init__.py"], cwd=wt).stdout
     if spec["modules_extra_imports"]:
         base_mod = base_mod.replace(
             "from .wavelet import WaveletConv",
@@ -424,10 +415,10 @@ def write_init_files(spec: dict) -> None:
             f'    "{x}",\n' for x in spec["sequence_modules"]
         ) + "]\n"
         base_mod += seq_str
-    (WORKTREE / "spd_learn/modules/__init__.py").write_text(base_mod)
+    (wt / "spd_learn/modules/__init__.py").write_text(base_mod)
 
     # 4. spd_learn/models/__init__.py
-    base_mdl = run(["git", "show", "origin/main:spd_learn/models/__init__.py"]).stdout
+    base_mdl = run(["git", "show", "origin/main:spd_learn/models/__init__.py"], cwd=wt).stdout
     if spec["models_extra_imports"]:
         base_mdl = base_mdl.replace(
             "from .tsmnet import TSMNet",
@@ -444,10 +435,10 @@ def write_init_files(spec: dict) -> None:
     if spec["sequence_models"]:
         seq_m_str = "\n__sequence_models__ = [" + ", ".join(f'"{x}"' for x in spec["sequence_models"]) + "]\n"
         base_mdl += seq_m_str
-    (WORKTREE / "spd_learn/models/__init__.py").write_text(base_mdl)
+    (wt / "spd_learn/models/__init__.py").write_text(base_mdl)
 
     # 5. spd_learn/__init__.py
-    base_top = run(["git", "show", "origin/main:spd_learn/__init__.py"]).stdout
+    base_top = run(["git", "show", "origin/main:spd_learn/__init__.py"], cwd=wt).stdout
     top_models = BASE_MODELS + spec["models_extra_all"] + spec.get("models_top_extra", [])
     top_models_import = "from .models import (\n" + "".join(f"    {m},\n" for m in sorted(top_models)) + ")"
     base_top = base_top.replace(
@@ -467,7 +458,7 @@ def write_init_files(spec: dict) -> None:
             '    "WaveletConv",\n]',
             f'    "WaveletConv",\n{extra_top_all_str}]',
         )
-    (WORKTREE / "spd_learn/__init__.py").write_text(base_top)
+    (wt / "spd_learn/__init__.py").write_text(base_top)
 
 
 def main() -> None:
@@ -476,20 +467,23 @@ def main() -> None:
 
     for spec in PR_SPECS:
         branch = spec["branch"]
-        print(f"\n=== Rebuilding {branch} ===")
-        run(["git", "checkout", "-f", "--detach", "origin/main"])
+        wt = WORKTREES_ROOT / spec["worktree"]
+        print(f"\n=== Rebuilding {branch} in {wt.name} ===")
+        run(["git", "checkout", "-f", branch], cwd=wt)
+        run(["git", "reset", "--hard", "origin/main"], cwd=wt)
+        run(["git", "clean", "-fd"], cwd=wt)
         # Checkout PR-specific files from unified_sha
-        run(["git", "checkout", unified_sha, "--", *spec["files"]])
-        write_init_files(spec)
+        run(["git", "checkout", unified_sha, "--", *spec["files"]], cwd=wt)
+        write_init_files(spec, wt)
 
         # Format & lint with ruff
-        run([RUFF, "check", "--fix", "spd_learn", "tests"])
-        run([RUFF, "format", "spd_learn", "tests"])
-        run([RUFF, "check", "spd_learn", "tests"])
-        run([RUFF, "format", "--check", "spd_learn", "tests"])
+        run([RUFF, "check", "--fix", "spd_learn", "tests"], cwd=wt)
+        run([RUFF, "format", "spd_learn", "tests"], cwd=wt)
+        run([RUFF, "check", "spd_learn", "tests"], cwd=wt)
+        run([RUFF, "format", "--check", "spd_learn", "tests"], cwd=wt)
 
         # Run mypy
-        res_mypy = run([MYPY, "--ignore-missing-imports", "--no-strict-optional", "--warn-unused-ignores", "spd_learn"])
+        res_mypy = run([MYPY, "--ignore-missing-imports", "--no-strict-optional", "--warn-unused-ignores", "spd_learn"], cwd=wt)
         print("  mypy:", res_mypy.stdout.strip())
 
         # Stage and commit
@@ -503,15 +497,13 @@ def main() -> None:
                 "spd_learn/modules/__init__.py",
                 "spd_learn/models/__init__.py",
                 *spec["files"],
-            ]
+            ],
+            cwd=wt,
         )
         commit_msg = f"{spec['title']}\n\nCo-authored-by: Lucas Heck <lucasheck17@gmail.com>"
-        run(["git", "commit", "-m", commit_msg])
-        run(["git", "update-ref", f"refs/heads/{branch}", "HEAD"])
-        print(f"  Committed {branch}: {run(['git', 'rev-parse', '--short', 'HEAD']).stdout.strip()}")
+        run(["git", "commit", "-m", commit_msg], cwd=wt)
+        print(f"  Committed {branch}: {run(['git', 'rev-parse', '--short', 'HEAD'], cwd=wt).stdout.strip()}")
 
-    # Return to feat/unified-normalized
-    run(["git", "checkout", "-f", "feat/unified-normalized"])
     print("\nAll 5 PR branches rebuilt and verified cleanly!")
 
 

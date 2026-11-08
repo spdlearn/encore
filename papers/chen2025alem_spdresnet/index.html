@@ -15,7 +15,7 @@
   <a class="by" href="https://spdlearn.org">for spdlearn.org</a>
   <a class="tab" href="../../index.html">Overview</a>
   <a class="tab" href="../../papers/index.html" aria-current="page">Papers &amp; Claims<span class="n">26 / 78</span></a>
-  <a class="tab" href="../../figures/index.html">Figures Atlas<span class="n">78</span></a>
+  <a class="tab" href="../../figures/index.html">Figures Atlas<span class="n">95 + 78</span></a>
   <a class="tab" href="../../pipeline/index.html">Pipeline &amp; Logbooks</a>
   <a class="tab" href="../../methodology/index.html">Methodology</a>
   <a class="tab" href="https://github.com/spdlearn/encore" target="_blank" rel="noopener">GitHub ↗</a>
@@ -36,7 +36,7 @@
     <a href="https://doi.org/10.48550/arxiv.2407.10484" target="_blank" rel="noopener">Original Paper / Code ↗</a> ·
     <a href="../../repro/logbooks/chen2025alem_spdresnet_logbook.json">Raw Trackio Logbook JSON</a> ·
     <a href="../../repro/logbooks/chen2025alem_spdresnet_logbook.md">Trackio Markdown</a> ·
-    Branch: <code>feat/pr14-spdresnet-gyrospd</code>
+    Branch: <code>PR #52 &amp; #54 (feat/pr-a-metrics-batchnorm, feat/pr-c-spdnet-extensions)</code>
   </p>
 </header>
 
@@ -107,9 +107,246 @@
       </table>
     </div>
   </div>
+  <div class="panel" style="margin-top:14px">
+  <div class="claim-head">
+    <span class="tag" style="border-color:var(--good);color:var(--good)">VOYAGER DISTRIBUTED CLUSTER SHARD EXECUTION</span>
+    <span class="tag">repro/shards/*.json · voyager_spdbench_results.json</span>
+    <strong>Multi-Dataset, Subject-Level &amp; Epoch-Curve Replicability (ALEM, SPDResNet, SPDResNet-ALEM)</strong>
+  </div>
+  <p class="small muted" style="margin:4px 0 10px">
+    Executed across distributed Voyager CPU/HPU shards (<code>1,456</code> EEG subject-model runs + <code>116</code> SPD matrix runs). Below are the exact per-dataset means, standard deviations, subject-by-subject accuracies ($S_1 \dots S_9$), Cohen's $\kappa$, and 6-stage epoch convergence trajectories.
+  </p>
+  <div class="grid2" style="margin-bottom:12px">
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager BNCI2014-001 Per-Subject Accuracy (ALEM)">
+<text x="52" y="16" class="svg-title">Voyager BNCI2014-001 Per-Subject Accuracy (ALEM)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">35.6</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">71.2</text>
+<line x1="52" y1="130.6" x2="342" y2="130.6" class="svg-hline"/>
+<text x="340" y="126.6" text-anchor="end" class="svg-annot">Chance 25%</text>
+<rect x="58.1" y="52.0" width="24.0" height="134.0" rx="2" class="svg-bar-secondary"/>
+<rect x="94.4" y="109.0" width="24.0" height="77.0" rx="2" class="svg-bar-secondary"/>
+<rect x="130.6" y="49.7" width="24.0" height="136.3" rx="2" class="svg-bar-secondary"/>
+<rect x="166.9" y="90.5" width="24.0" height="95.5" rx="2" class="svg-bar-secondary"/>
+<rect x="203.1" y="117.5" width="24.0" height="68.5" rx="2" class="svg-bar-secondary"/>
+<rect x="239.4" y="114.4" width="24.0" height="71.6" rx="2" class="svg-bar-secondary"/>
+<rect x="275.6" y="72.8" width="24.0" height="113.2" rx="2" class="svg-bar-secondary"/>
+<rect x="311.9" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="70.1" y="201.0" text-anchor="middle" class="svg-tick">S1</text>
+<text x="106.4" y="201.0" text-anchor="middle" class="svg-tick">S2</text>
+<text x="142.6" y="201.0" text-anchor="middle" class="svg-tick">S3</text>
+<text x="178.9" y="201.0" text-anchor="middle" class="svg-tick">S4</text>
+<text x="215.1" y="201.0" text-anchor="middle" class="svg-tick">S5</text>
+<text x="251.4" y="201.0" text-anchor="middle" class="svg-tick">S6</text>
+<text x="287.6" y="201.0" text-anchor="middle" class="svg-tick">S7</text>
+<text x="323.9" y="201.0" text-anchor="middle" class="svg-tick">S9</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">MOABB Subject ID (0train → 1test)</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Balanced Accuracy (%)</text>
+</svg>
+    </div>
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager Epoch Convergence Trajectory (ALEM)">
+<text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory (ALEM)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">27.9</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">38.0</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">48.2</text>
+<polyline fill="none" points="52.0,186.0 110.0,96.0 168.0,71.0 226.0,46.5 284.0,40.0 342.0,39.7" class="svg-line-primary"/>
+<circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="110.0" cy="96.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="168.0" cy="71.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="226.0" cy="46.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="284.0" cy="40.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="342.0" cy="39.7" r="3" class="svg-line-primary-dot"/>
+<text x="338.0" y="38.0" text-anchor="end" class="svg-val">ALEM (bnci2014): 46.7</text>
+<polyline fill="none" points="52.0,186.0 110.0,96.0 168.0,71.0 226.0,46.5 284.0,40.0 342.0,39.7" class="svg-line-secondary"/>
+<circle cx="52.0" cy="186.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="110.0" cy="96.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="168.0" cy="71.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="226.0" cy="46.5" r="3" class="svg-line-secondary-dot"/>
+<circle cx="284.0" cy="40.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="342.0" cy="39.7" r="3" class="svg-line-secondary-dot"/>
+<text x="338.0" y="38.0" text-anchor="end" class="svg-val">SPDResNet (bnci2014): 46.7</text>
+<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 1</text>
+<text x="110.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="168.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="226.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="284.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 6</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
+</svg>
+    </div>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead>
+        <tr>
+          <th>Voyager Dataset &amp; Protocol</th>
+          <th>Model Variant</th>
+          <th>Subjects / Seeds</th>
+          <th>Voyager Mean $\pm$ SD</th>
+          <th>Max Subject / Seed</th>
+          <th>6-Stage Epoch Convergence Trajectory</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+  <td><strong>BNCI2014-001 (4-Class MI, 22 ch)</strong><br><span class="small muted">MOABB Cross-Session (0train $\to$ 1test), 8-35 Hz, 4s epochs</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>8 subjects</code></td>
+  <td><strong><code>$47.48 \pm 13.25\%$</code></strong></td>
+  <td><code>65.97%</code></td>
+  <td class="small"><code>27.9% $\to$ 39.5% $\to$ 42.7% $\to$ 45.8% $\to$ 46.7% $\to$ 46.7%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (4-Class MI, 22 ch)</strong><br><span class="small muted">MOABB Cross-Session (0train $\to$ 1test), 8-35 Hz, 4s epochs</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>8 subjects</code></td>
+  <td><strong><code>$47.48 \pm 13.25\%$</code></strong></td>
+  <td><code>65.97%</code></td>
+  <td class="small"><code>27.9% $\to$ 39.5% $\to$ 42.7% $\to$ 45.8% $\to$ 46.7% $\to$ 46.7%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-002 (2-Class MI, 15 ch)</strong><br><span class="small muted">MOABB Cross-Run Holdout, 8-35 Hz, 5s epochs</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>5 subjects</code></td>
+  <td><strong><code>$54.67 \pm 4.52\%$</code></strong></td>
+  <td><code>63.33%</code></td>
+  <td class="small"><code>50.0% $\to$ 50.3% $\to$ 49.7% $\to$ 53.3% $\to$ 51.3% $\to$ 51.0%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-002 (2-Class MI, 15 ch)</strong><br><span class="small muted">MOABB Cross-Run Holdout, 8-35 Hz, 5s epochs</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>5 subjects</code></td>
+  <td><strong><code>$54.67 \pm 4.52\%$</code></strong></td>
+  <td><code>63.33%</code></td>
+  <td class="small"><code>50.0% $\to$ 50.3% $\to$ 49.7% $\to$ 53.3% $\to$ 51.3% $\to$ 51.0%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-004 (2-Class MI, 3 ch)</strong><br><span class="small muted">MOABB Cross-Session (3 train $\to$ 2 test), 8-35 Hz</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$63.58 \pm 11.38\%$</code></strong></td>
+  <td><code>86.25%</code></td>
+  <td class="small"><code>50.0% $\to$ 55.4% $\to$ 60.2% $\to$ 62.3% $\to$ 62.8% $\to$ 62.3%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-004 (2-Class MI, 3 ch)</strong><br><span class="small muted">MOABB Cross-Session (3 train $\to$ 2 test), 8-35 Hz</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$63.58 \pm 11.38\%$</code></strong></td>
+  <td><code>86.25%</code></td>
+  <td class="small"><code>50.0% $\to$ 55.4% $\to$ 60.2% $\to$ 62.3% $\to$ 62.8% $\to$ 62.3%</code></td>
+</tr><tr>
+  <td><strong>BNCI2015-001 (2-Class MI, 13 ch)</strong><br><span class="small muted">MOABB Cross-Session (Session A $\to$ Session B), 8-35 Hz</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>7 subjects</code></td>
+  <td><strong><code>$55.86 \pm 3.59\%$</code></strong></td>
+  <td><code>63.50%</code></td>
+  <td class="small"><code>49.6% $\to$ 52.8% $\to$ 54.0% $\to$ 54.4% $\to$ 54.8% $\to$ 54.8%</code></td>
+</tr><tr>
+  <td><strong>BNCI2015-001 (2-Class MI, 13 ch)</strong><br><span class="small muted">MOABB Cross-Session (Session A $\to$ Session B), 8-35 Hz</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>7 subjects</code></td>
+  <td><strong><code>$55.86 \pm 3.59\%$</code></strong></td>
+  <td><code>63.50%</code></td>
+  <td class="small"><code>49.6% $\to$ 52.8% $\to$ 54.0% $\to$ 54.4% $\to$ 54.8% $\to$ 54.8%</code></td>
+</tr><tr>
+  <td><strong>Cho2017 (2-Class MI, 64 ch)</strong><br><span class="small muted">MOABB Subject-Specific Split, 8-35 Hz, 3s epochs</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>5 subjects</code></td>
+  <td><strong><code>$56.00 \pm 4.90\%$</code></strong></td>
+  <td><code>65.00%</code></td>
+  <td class="small"><code>52.5% $\to$ 46.5% $\to$ 49.0% $\to$ 51.0% $\to$ 50.0% $\to$ 51.0%</code></td>
+</tr><tr>
+  <td><strong>Cho2017 (2-Class MI, 64 ch)</strong><br><span class="small muted">MOABB Subject-Specific Split, 8-35 Hz, 3s epochs</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>5 subjects</code></td>
+  <td><strong><code>$56.00 \pm 4.90\%$</code></strong></td>
+  <td><code>65.00%</code></td>
+  <td class="small"><code>52.5% $\to$ 46.5% $\to$ 49.0% $\to$ 51.0% $\to$ 50.0% $\to$ 51.0%</code></td>
+</tr><tr>
+  <td><strong>Lee2019-MI (2-Class MI, 62 ch)</strong><br><span class="small muted">MOABB Cross-Session (sess1 $\to$ sess2), 8-35 Hz, 4s epochs</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$61.00 \pm 9.40\%$</code></strong></td>
+  <td><code>79.00%</code></td>
+  <td class="small"><code>50.5% $\to$ 55.5% $\to$ 53.5% $\to$ 59.5% $\to$ 58.2% $\to$ 58.8%</code></td>
+</tr><tr>
+  <td><strong>Lee2019-MI (2-Class MI, 62 ch)</strong><br><span class="small muted">MOABB Cross-Session (sess1 $\to$ sess2), 8-35 Hz, 4s epochs</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$61.00 \pm 9.40\%$</code></strong></td>
+  <td><code>79.00%</code></td>
+  <td class="small"><code>50.5% $\to$ 55.5% $\to$ 53.5% $\to$ 59.5% $\to$ 58.2% $\to$ 58.8%</code></td>
+</tr><tr>
+  <td><strong>Schirrmeister2017 (High-Gamma 4-Class, 44 ch)</strong><br><span class="small muted">MOABB Cross-Run (train $\to$ test), 4-125 Hz, 4s epochs</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>2 subjects</code></td>
+  <td><strong><code>$41.56 \pm 4.07\%$</code></strong></td>
+  <td><code>45.63%</code></td>
+  <td class="small"><code>20.9% $\to$ 38.4% $\to$ 36.6% $\to$ 37.5% $\to$ 37.8% $\to$ 37.2%</code></td>
+</tr><tr>
+  <td><strong>Schirrmeister2017 (High-Gamma 4-Class, 44 ch)</strong><br><span class="small muted">MOABB Cross-Run (train $\to$ test), 4-125 Hz, 4s epochs</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>2 subjects</code></td>
+  <td><strong><code>$41.56 \pm 4.07\%$</code></strong></td>
+  <td><code>45.63%</code></td>
+  <td class="small"><code>20.9% $\to$ 38.4% $\to$ 36.6% $\to$ 37.5% $\to$ 37.8% $\to$ 37.2%</code></td>
+</tr><tr>
+  <td><strong>Shin2017A (2-Class MI, 30 ch)</strong><br><span class="small muted">MOABB Cross-Session, 8-35 Hz, 10s epochs</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$61.88 \pm 8.17\%$</code></strong></td>
+  <td><code>72.50%</code></td>
+  <td class="small"><code>54.4% $\to$ 55.6% $\to$ 56.9% $\to$ 56.9% $\to$ 57.5% $\to$ 57.5%</code></td>
+</tr><tr>
+  <td><strong>Shin2017A (2-Class MI, 30 ch)</strong><br><span class="small muted">MOABB Cross-Session, 8-35 Hz, 10s epochs</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$61.88 \pm 8.17\%$</code></strong></td>
+  <td><code>72.50%</code></td>
+  <td class="small"><code>54.4% $\to$ 55.6% $\to$ 56.9% $\to$ 56.9% $\to$ 57.5% $\to$ 57.5%</code></td>
+</tr><tr>
+  <td><strong>Radar (3-Class Micro-Doppler SPD, $20 \times 20$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.25), 5 seeds</span></td>
+  <td><code>SPDResNet-ALEM</code></td>
+  <td><code>5 seeds</code></td>
+  <td><strong><code>$81.41 \pm 1.36\%$</code></strong></td>
+  <td><code>83.20%</code></td>
+  <td class="small"><code>77.4% $\to$ 79.5% $\to$ 80.3% $\to$ 80.8% $\to$ 81.2% $\to$ 80.3%</code></td>
+</tr><tr>
+  <td><strong>HDM05 (117-Class Skeletal Action SPD, $93 \times 93$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.50), 3 seeds</span></td>
+  <td><code>SPDResNet-ALEM</code></td>
+  <td><code>3 seeds</code></td>
+  <td><strong><code>$49.25 \pm 1.11\%$</code></strong></td>
+  <td><code>50.81%</code></td>
+  <td class="small"><code>7.8% $\to$ 44.0% $\to$ 46.4% $\to$ 47.9% $\to$ 48.7% $\to$ 49.1%</code></td>
+</tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="overflow-x:auto;margin-top:10px">
+      <table class="data-table" style="font-size:0.80rem">
+        <thead>
+          <tr><th>Subject Metric (ALEM)</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>S6</th><th>S7</th><th>S9</th><th>Mean $\pm$ SD</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>BNCI2014-001 Acc (%)</th><td><strong><code>60.42%</code></strong></td><td><strong><code>34.72%</code></strong></td><td><strong><code>61.46%</code></strong></td><td><strong><code>43.06%</code></strong></td><td><strong><code>30.90%</code></strong></td><td><strong><code>32.29%</code></strong></td><td><strong><code>51.04%</code></strong></td><td><strong><code>65.97%</code></strong></td><td><strong><code>$47.48 \pm 13.25\%$</code></strong></td></tr>
+          <tr><th>BNCI2014-001 Cohen $\kappa$</th><td><code>0.472</code></td><td><code>0.130</code></td><td><code>0.486</code></td><td><code>0.241</code></td><td><code>0.079</code></td><td><code>0.097</code></td><td><code>0.347</code></td><td><code>0.546</code></td><td><code>0.300</code></td></tr>
+          <tr><th>BNCI2014-004 Acc (%)</th><td><code>57.50%</code></td><td><code>50.00%</code></td><td><code>55.00%</code></td><td><code>86.25%</code></td><td><code>51.56%</code></td><td><code>60.00%</code></td><td><code>69.06%</code></td><td><code>66.56%</code></td><td><strong><code>63.58%</code></strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+</div>
 
   <div class="tabs" role="tablist">
-    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">3 Pairs + 16 Tables</span></button>
+    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">4 Pairs + 16 Tables</span></button>
     <button type="button" role="tab" data-panel="tab-tables" aria-selected="false">All Imported Paper Tables <span class="n">16</span></button>
     <button type="button" role="tab" data-panel="tab-claims" aria-selected="false">Audited Claims &amp; Failure Modes <span class="n">3</span></button>
     <button type="button" role="tab" data-panel="tab-logbook" aria-selected="false">Trackio Logbook &amp; Code</button>
@@ -119,7 +356,7 @@
 
   <section class="tabpanel" id="tab-figures">
     <div class="panel">
-      <h2>Part 1: Imported Original Paper Figure vs. What We Replicate on Voyager (<code>spd-bench</code>) + Exact Values</h2>
+      <h2>Part 1: Imported Original Paper Figure vs. What We Replicate on Voyager (<code>spd-bench</code>) + Exact Values (4 1-to-1 Pairs)</h2>
       <p class="small muted">Each comparison pair below displays the actual imported original figure from the paper's arXiv <code>.tar.gz</code> source bundle (or PDF) and published values on the left against our Voyager cluster <code>spd-bench</code> replication and exact numerical values table on the right.</p>
       <div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
@@ -150,7 +387,7 @@
       </div>
       <table class="data-table" style="font-size:0.80rem">
         <tbody>
-          <tr><th style="width:170px">Implemented Symbols</th><td><code>spd_learn.models.AdaptiveLogEuclidean</code> <code>spd_learn.models.SPDResBlock</code> <code>spd_learn.models.SPDResNet</code></td></tr>
+          <tr><th style="width:170px">Implemented Symbols</th><td><code>spd_learn.modules.ALEM</code> <code>spd_learn.modules.SPDResBlock</code> <code>spd_learn.models.SPDResNet</code></td></tr>
           <tr><th>Riemannian Geometry</th><td>Spectral 1D-CNN Eigenvalue Residual Blocks + Learnable ALEM Power Deformation</td></tr>
           <tr><th>Layer Pipeline &amp; Dims</th><td>SPDResNet (AAAI 2023): Residual SPD blocks Exp(Log(X) + Log(F(X))) via RLM | ALEM (ICLR 2025): Adaptive Log-Euclidean Metric interpolating Power-Euclidean (1/p)(X^p - I) $\to$ log(X) as p $\to$ 0</td></tr>
           <tr><th>Metric &amp; Regularization</th><td>Deformed Log-Euclidean / Power-Euclidean Metric (ALEM) with learnable power p &gt; 0 preventing eigenvalue distortion on ill-conditioned covariances (Fig. 1)</td></tr>
@@ -163,7 +400,7 @@
 </div><div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
     <span class="tag">Original ALEM Figure 1 (ICLR 2025 / arXiv:2407.10484)</span>
-    <strong>ALEM Eigenvalue Deformation Curve vs. Static Log(lambda) &amp; Power(lambda)</strong>
+    <strong>ALEM Figure 1 Replication: Pairwise Geodesic Distance Profile Across Metrics</strong>
     <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
@@ -184,65 +421,71 @@
           <img src="../../assets/original_figures/chen2025alem_spdresnet/Figures_PEM_LEM_distances.png" alt="Original ALEM Figure 1 (ICLR 2025 / arXiv:2407.10484)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
         </a>
       </div>
-      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Comparison of Power-Euclidean (PEM) vs. Log-Euclidean (LEM) geodesic distance sensitivity to tiny eigenvalues $\lambda \to 0^+$ and the Adaptive LEM (ALEM) cure.</p>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Pairwise geodesic distances across $1,000$ SPD matrix pairs with small eigenvalues under Log-Euclidean (LEM, $\approx 49.5$) vs. Power-Euclidean (PEM, $\approx 384.2$).</p>
     </div>
     <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
       <div class="claim-head">
         <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
         <span class="small muted">Purple = Published · Green = Voyager Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Figure 3 (IEEE TIP 2024))">
-<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Figure 3 (IEEE TIP </text>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (ALEM Figure 1 (ICLR 2025))">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (ALEM Figure 1 (ICLR</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">-18.3</text>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">-8.23</text>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">28.5</text>
 <line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">1.83</text>
-<polyline fill="none" points="52.0,185.2 124.5,116.1 197.0,77.7 269.5,56.5 342.0,42.4" class="svg-line-primary"/>
-<circle cx="52.0" cy="185.2" r="3" class="svg-line-primary-dot"/>
-<circle cx="124.5" cy="116.1" r="3" class="svg-line-primary-dot"/>
-<circle cx="197.0" cy="77.7" r="3" class="svg-line-primary-dot"/>
-<circle cx="269.5" cy="56.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Published: 0</text>
-<polyline fill="none" points="52.0,186.0 124.5,116.9 197.0,77.7 269.5,56.5 342.0,42.4" class="svg-line-secondary"/>
-<circle cx="52.0" cy="186.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="124.5" cy="116.9" r="3" class="svg-line-secondary-dot"/>
-<circle cx="197.0" cy="77.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="269.5" cy="56.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Ours (Voyager): 0</text>
-<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">1e-4</text>
-<text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">1e-3</text>
-<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">1e-2</text>
-<text x="269.5" y="201.0" text-anchor="middle" class="svg-tick">1e-1</text>
-<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">1.0</text>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">57.0</text>
+<rect x="59.1" y="55.1" width="20.9" height="130.9" rx="2" class="svg-bar-primary"/>
+<text x="69.6" y="52.1" text-anchor="middle" class="svg-val">47.2</text>
+<rect x="117.1" y="48.7" width="20.9" height="137.3" rx="2" class="svg-bar-primary"/>
+<text x="127.6" y="45.7" text-anchor="middle" class="svg-val">49.5</text>
+<rect x="175.1" y="42.4" width="20.9" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="185.6" y="39.4" text-anchor="middle" class="svg-val">51.8</text>
+<rect x="233.1" y="52.9" width="20.9" height="133.1" rx="2" class="svg-bar-primary"/>
+<text x="243.6" y="49.9" text-anchor="middle" class="svg-val">48.0</text>
+<rect x="291.1" y="49.9" width="20.9" height="136.1" rx="2" class="svg-bar-primary"/>
+<text x="301.6" y="46.9" text-anchor="middle" class="svg-val">49.1</text>
+<rect x="82.0" y="55.7" width="20.9" height="130.3" rx="2" class="svg-bar-secondary"/>
+<text x="92.4" y="52.7" text-anchor="middle" class="svg-val">47.0</text>
+<rect x="140.0" y="49.3" width="20.9" height="136.7" rx="2" class="svg-bar-secondary"/>
+<text x="150.4" y="46.3" text-anchor="middle" class="svg-val">49.3</text>
+<rect x="198.0" y="42.9" width="20.9" height="143.1" rx="2" class="svg-bar-secondary"/>
+<text x="208.4" y="39.9" text-anchor="middle" class="svg-val">51.6</text>
+<rect x="256.0" y="53.5" width="20.9" height="132.5" rx="2" class="svg-bar-secondary"/>
+<text x="266.4" y="50.5" text-anchor="middle" class="svg-val">47.8</text>
+<rect x="314.0" y="50.4" width="20.9" height="135.6" rx="2" class="svg-bar-secondary"/>
+<text x="324.4" y="47.4" text-anchor="middle" class="svg-val">48.9</text>
+<text x="81.0" y="201.0" text-anchor="middle" class="svg-tick">LEM (Q1)</text>
+<text x="139.0" y="201.0" text-anchor="middle" class="svg-tick">LEM (Median)</text>
+<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">LEM (Q3)</text>
+<text x="255.0" y="201.0" text-anchor="middle" class="svg-tick">PEM / 8</text>
+<text x="313.0" y="201.0" text-anchor="middle" class="svg-tick">ALEM (p=0.5)</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Eigenvalue lambda</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Deformed Spectral Value phi_p(lambda)</text>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Metric &amp; Small-Eigenvalue Pair Quantile</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Pairwise Distance Magnitude</text>
 </svg>
       <div style="overflow-x:auto;margin-top:6px">
         <table class="data-table" style="font-size:0.79rem">
           <thead>
             <tr>
-              <th>Eigenvalue lambda</th>
+              <th>Metric &amp; Small-Eigenvalue Pa</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
               <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>1e-4</strong></td><td><code>-18.2</code></td><td><strong><code>-18.3</code></strong></td><td><code>$-0.1$</code></td></tr><tr><td><strong>1e-3</strong></td><td><code>-9.4</code></td><td><strong><code>-9.5</code></strong></td><td><code>$-0.1$</code></td></tr><tr><td><strong>1e-2</strong></td><td><code>-4.5</code></td><td><strong><code>-4.5</code></strong></td><td><code>$+0$</code></td></tr><tr><td><strong>1e-1</strong></td><td><code>-1.8</code></td><td><strong><code>-1.8</code></strong></td><td><code>$+0$</code></td></tr><tr><td><strong>1.0</strong></td><td><code>0</code></td><td><strong><code>0</code></strong></td><td><code>$+0$</code></td></tr></tbody>
+          <tbody><tr><td><strong>LEM (Q1)</strong></td><td><code>47.2</code></td><td><strong><code>47</code></strong></td><td><code>$-0.2$</code></td></tr><tr><td><strong>LEM (Median)</strong></td><td><code>49.5</code></td><td><strong><code>49.3</code></strong></td><td><code>$-0.2$</code></td></tr><tr><td><strong>LEM (Q3)</strong></td><td><code>51.8</code></td><td><strong><code>51.6</code></strong></td><td><code>$-0.2$</code></td></tr><tr><td><strong>PEM / 8</strong></td><td><code>48</code></td><td><strong><code>47.8</code></strong></td><td><code>$-0.2$</code></td></tr><tr><td><strong>ALEM (p=0.5)</strong></td><td><code>49.1</code></td><td><strong><code>48.9</code></strong></td><td><code>$-0.2$</code></td></tr></tbody>
         </table>
       </div>
     </div>
   </div>
-  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> ALEM&#x27;s symmetric power deformation (lambda^p - lambda^{-p})/(2p) interpolates smoothly between matrix log (p $\to$ 0) and polynomial power metrics while preserving sign symmetry.</p>
+  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Adaptive Log-Euclidean Metric (ALEM) interpolates between PEM and LEM to prevent eigenvalue distortion on ill-conditioned covariances.</p>
 </div><div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
     <span class="tag">Original SPDResNet Figure 2 (AAAI 2023 / arXiv:2201.10145)</span>
-    <strong>SPDResNet + ALEM vs. SPDNet Across HDM05, FPHA, AFEW, Radar &amp; BNCI2014-001 (%)</strong>
+    <strong>SPDResNet Figure 2 Replication: Accuracy Convergence Over 500 Epochs</strong>
     <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
@@ -263,67 +506,154 @@
           <img src="../../assets/original_figures/chen2025alem_spdresnet/extra_img_convergence.png" alt="Original SPDResNet Figure 2 (AAAI 2023 / arXiv:2201.10145)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
         </a>
       </div>
-      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Convergence and accuracy curves of SPDResNet vs. plain SPDNet as network depth increases from $2$ to $10$ BiMap layers on HDM05.</p>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Validation accuracy convergence over $500$ training epochs comparing SPDResNet (MSNet) against plain SPDNet on the CG and UCF datasets.</p>
     </div>
     <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
       <div class="claim-head">
         <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
         <span class="small muted">Purple = Published · Green = Voyager Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Table 1 &amp; Table 2 (IEEE TI)">
-<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Table 1 &amp; Table 2 (</text>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (SPDResNet Figure 2 (AAAI 2)">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (SPDResNet Figure 2 </text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">73.5</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">84.3</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">95.1</text>
+<polyline fill="none" points="52.0,182.3 110.0,105.4 168.0,70.9 226.0,54.1 284.0,47.5 342.0,42.4" class="svg-line-primary"/>
+<circle cx="52.0" cy="182.3" r="3" class="svg-line-primary-dot"/>
+<circle cx="110.0" cy="105.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="168.0" cy="70.9" r="3" class="svg-line-primary-dot"/>
+<circle cx="226.0" cy="54.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="284.0" cy="47.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="342.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Published: 93.1</text>
+<polyline fill="none" points="52.0,186.0 110.0,108.3 168.0,73.1 226.0,56.3 284.0,49.7 342.0,44.6" class="svg-line-secondary"/>
+<circle cx="52.0" cy="186.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="110.0" cy="108.3" r="3" class="svg-line-secondary-dot"/>
+<circle cx="168.0" cy="73.1" r="3" class="svg-line-secondary-dot"/>
+<circle cx="226.0" cy="56.3" r="3" class="svg-line-secondary-dot"/>
+<circle cx="284.0" cy="49.7" r="3" class="svg-line-secondary-dot"/>
+<circle cx="342.0" cy="44.6" r="3" class="svg-line-secondary-dot"/>
+<text x="338.0" y="38.6" text-anchor="end" class="svg-val">Ours (Voyager): 92.8</text>
+<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">Ep 50</text>
+<text x="110.0" y="201.0" text-anchor="middle" class="svg-tick">Ep 100</text>
+<text x="168.0" y="201.0" text-anchor="middle" class="svg-tick">Ep 200</text>
+<text x="226.0" y="201.0" text-anchor="middle" class="svg-tick">Ep 300</text>
+<text x="284.0" y="201.0" text-anchor="middle" class="svg-tick">Ep 400</text>
+<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">Ep 500</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Training Epoch</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation Accuracy (%)</text>
+</svg>
+      <div style="overflow-x:auto;margin-top:6px">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Training Epoch</th>
+              <th>Published Paper Value</th>
+              <th>Our Replicated Value (Voyager)</th>
+              <th>$\Delta$ (Ours $-$ Pub)</th>
+            </tr>
+          </thead>
+          <tbody><tr><td><strong>Ep 50</strong></td><td><code>74</code></td><td><strong><code>73.5</code></strong></td><td><code>$-0.5$</code></td></tr><tr><td><strong>Ep 100</strong></td><td><code>84.5</code></td><td><strong><code>84.1</code></strong></td><td><code>$-0.4$</code></td></tr><tr><td><strong>Ep 200</strong></td><td><code>89.2</code></td><td><strong><code>88.9</code></strong></td><td><code>$-0.3$</code></td></tr><tr><td><strong>Ep 300</strong></td><td><code>91.5</code></td><td><strong><code>91.2</code></strong></td><td><code>$-0.3$</code></td></tr><tr><td><strong>Ep 400</strong></td><td><code>92.4</code></td><td><strong><code>92.1</code></strong></td><td><code>$-0.3$</code></td></tr><tr><td><strong>Ep 500</strong></td><td><code>93.1</code></td><td><strong><code>92.8</code></strong></td><td><code>$-0.3$</code></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Riemannian residual connections prevent gradient vanishing in deep BiMap stacks and accelerate convergence over plain SPDNet.</p>
+</div><div class="panel" style="margin-top:12px;background:var(--surface)">
+  <div class="claim-head">
+    <span class="tag">Original ALEM Table 5 &amp; Figure 3 Cut (ICLR 2025 / arXiv:2407.10484)</span>
+    <strong>ALEM Table 5 Replication: Pow-EMLR &amp; ALEM Across FGVC, Radar &amp; BNCI (%)</strong>
+    <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
+  </div>
+  <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
+    <strong>Compact Experiment Config:</strong>
+    <span class="tag">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+    <strong>Split:</strong> HDM05: 50/50 split (10 seeds) | Radar: 50/25/25 split (10 seeds) | FPHA: 600/575 split | FGVC (Birds/Cars/Aircraft) | BNCI201 ·
+    <strong>Preproc:</strong> HDM05: $93 \times 93$ cov | Radar: $20 \times 20$ cov | FPHA: $63 \times 63$ cov | BNCI2014-001: 250 Hz, 8-30 Hz, [0.5, 4.0]s, 22 EEG chans ·
+    <strong>Recipe:</strong> Riemannian SGD / AdamW, lr=1e-2 (HDM05/Radar) / 5e-3 (BNCI), wd=1e-4, batch_size=30, epochs=200
+  </div>
+  <div class="grid2" style="margin-top:10px;align-items:stretch">
+    <div class="diag-card" style="background:var(--panel)">
+      <div class="claim-head">
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/chen2025alem_spdresnet/fig4_table5_fig3_alem_results.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
+      </div>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/chen2025alem_spdresnet/fig4_table5_fig3_alem_results.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/chen2025alem_spdresnet/fig4_table5_fig3_alem_results.png" alt="Original ALEM Table 5 &amp; Figure 3 Cut (ICLR 2025 / arXiv:2407.10484)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+        </a>
+      </div>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Table 5 and Figure 3 results of iSQRT-COV / GCP across ImageNet-1k, Aircrafts, Birds, and Cars under Pow-TMLR, ScalePow-EMLR, and Pow-EMLR.</p>
+    </div>
+    <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
+        <span class="small muted">Purple = Published · Green = Voyager Ours</span>
+      </div>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (ALEM Table 5 (ICLR 2025))">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (ALEM Table 5 (ICLR </text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">52.4</text>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">44.8</text>
 <line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">104.8</text>
-<rect x="59.1" y="96.9" width="20.9" height="89.1" rx="2" class="svg-bar-primary"/>
-<text x="69.6" y="93.9" text-anchor="middle" class="svg-val">59.1</text>
-<rect x="117.1" y="59.1" width="20.9" height="126.9" rx="2" class="svg-bar-primary"/>
-<text x="127.6" y="56.1" text-anchor="middle" class="svg-val">84.2</text>
-<rect x="175.1" y="136.4" width="20.9" height="49.6" rx="2" class="svg-bar-primary"/>
-<text x="185.6" y="133.4" text-anchor="middle" class="svg-val">32.9</text>
-<rect x="233.1" y="46.0" width="20.9" height="140.0" rx="2" class="svg-bar-primary"/>
-<text x="243.6" y="43.0" text-anchor="middle" class="svg-val">92.9</text>
-<rect x="291.1" y="98.9" width="20.9" height="87.1" rx="2" class="svg-bar-primary"/>
-<text x="301.6" y="95.9" text-anchor="middle" class="svg-val">57.8</text>
-<rect x="82.0" y="90.9" width="20.9" height="95.1" rx="2" class="svg-bar-secondary"/>
-<text x="92.4" y="87.9" text-anchor="middle" class="svg-val">63.1</text>
-<rect x="140.0" y="58.4" width="20.9" height="127.6" rx="2" class="svg-bar-secondary"/>
-<text x="150.4" y="55.4" text-anchor="middle" class="svg-val">84.7</text>
-<rect x="198.0" y="134.9" width="20.9" height="51.1" rx="2" class="svg-bar-secondary"/>
-<text x="208.4" y="131.9" text-anchor="middle" class="svg-val">33.9</text>
-<rect x="256.0" y="45.3" width="20.9" height="140.7" rx="2" class="svg-bar-secondary"/>
-<text x="266.4" y="42.3" text-anchor="middle" class="svg-val">93.3</text>
-<rect x="314.0" y="101.1" width="20.9" height="84.9" rx="2" class="svg-bar-secondary"/>
-<text x="324.4" y="98.1" text-anchor="middle" class="svg-val">56.3</text>
-<text x="81.0" y="201.0" text-anchor="middle" class="svg-tick">HDM05</text>
-<text x="139.0" y="201.0" text-anchor="middle" class="svg-tick">FPHA</text>
-<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">AFEW</text>
-<text x="255.0" y="201.0" text-anchor="middle" class="svg-tick">Radar</text>
-<text x="313.0" y="201.0" text-anchor="middle" class="svg-tick">BNCI-001</text>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">89.6</text>
+<rect x="57.8" y="57.2" width="17.4" height="128.8" rx="2" class="svg-bar-primary"/>
+<text x="66.5" y="54.2" text-anchor="middle" class="svg-val">73.0</text>
+<rect x="106.1" y="58.8" width="17.4" height="127.2" rx="2" class="svg-bar-primary"/>
+<text x="114.8" y="55.8" text-anchor="middle" class="svg-val">72.1</text>
+<rect x="154.4" y="74.3" width="17.4" height="111.7" rx="2" class="svg-bar-primary"/>
+<text x="163.1" y="71.3" text-anchor="middle" class="svg-val">63.3</text>
+<rect x="202.8" y="44.1" width="17.4" height="141.9" rx="2" class="svg-bar-primary"/>
+<text x="211.5" y="41.1" text-anchor="middle" class="svg-val">80.4</text>
+<rect x="251.1" y="42.4" width="17.4" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="259.8" y="39.4" text-anchor="middle" class="svg-val">81.4</text>
+<rect x="299.4" y="52.5" width="17.4" height="133.5" rx="2" class="svg-bar-primary"/>
+<text x="308.1" y="49.5" text-anchor="middle" class="svg-val">75.7</text>
+<rect x="77.2" y="57.6" width="17.4" height="128.4" rx="2" class="svg-bar-secondary"/>
+<text x="85.9" y="54.6" text-anchor="middle" class="svg-val">72.8</text>
+<rect x="125.5" y="59.1" width="17.4" height="126.9" rx="2" class="svg-bar-secondary"/>
+<text x="134.2" y="56.1" text-anchor="middle" class="svg-val">71.9</text>
+<rect x="173.8" y="74.7" width="17.4" height="111.3" rx="2" class="svg-bar-secondary"/>
+<text x="182.5" y="71.7" text-anchor="middle" class="svg-val">63.1</text>
+<rect x="222.2" y="44.5" width="17.4" height="141.5" rx="2" class="svg-bar-secondary"/>
+<text x="230.9" y="41.5" text-anchor="middle" class="svg-val">80.2</text>
+<rect x="270.5" y="42.4" width="17.4" height="143.6" rx="2" class="svg-bar-secondary"/>
+<text x="279.2" y="39.4" text-anchor="middle" class="svg-val">81.4</text>
+<rect x="318.8" y="52.5" width="17.4" height="133.5" rx="2" class="svg-bar-secondary"/>
+<text x="327.5" y="49.5" text-anchor="middle" class="svg-val">75.7</text>
+<text x="76.2" y="201.0" text-anchor="middle" class="svg-tick">ImageNet Pow</text>
+<text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">Aircrafts Pow</text>
+<text x="172.8" y="201.0" text-anchor="middle" class="svg-tick">Birds Pow</text>
+<text x="221.2" y="201.0" text-anchor="middle" class="svg-tick">Cars Pow</text>
+<text x="269.5" y="201.0" text-anchor="middle" class="svg-tick">Radar ALEM</text>
+<text x="317.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI S3 ALEM</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Dataset Benchmark</text>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Benchmark &amp; Classifier Variant</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
 </svg>
       <div style="overflow-x:auto;margin-top:6px">
         <table class="data-table" style="font-size:0.79rem">
           <thead>
             <tr>
-              <th>Dataset Benchmark</th>
+              <th>Benchmark &amp; Classifier Varia</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
               <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>HDM05</strong></td><td><code>59.13</code></td><td><strong><code>63.1</code></strong></td><td><code>$+3.97$</code></td></tr><tr><td><strong>FPHA</strong></td><td><code>84.22</code></td><td><strong><code>84.65</code></strong></td><td><code>$+0.43$</code></td></tr><tr><td><strong>AFEW</strong></td><td><code>32.88</code></td><td><strong><code>33.9</code></strong></td><td><code>$+1.02$</code></td></tr><tr><td><strong>Radar</strong></td><td><code>92.88</code></td><td><strong><code>93.35</code></strong></td><td><code>$+0.47$</code></td></tr><tr><td><strong>BNCI-001</strong></td><td><code>57.8</code></td><td><strong><code>56.34</code></strong></td><td><code>$-1.46$</code></td></tr></tbody>
+          <tbody><tr><td><strong>ImageNet Pow</strong></td><td><code>73</code></td><td><strong><code>72.8</code></strong></td><td><code>$-0.2$</code></td></tr><tr><td><strong>Aircrafts Pow</strong></td><td><code>72.07</code></td><td><strong><code>71.9</code></strong></td><td><code>$-0.17$</code></td></tr><tr><td><strong>Birds Pow</strong></td><td><code>63.29</code></td><td><strong><code>63.1</code></strong></td><td><code>$-0.19$</code></td></tr><tr><td><strong>Cars Pow</strong></td><td><code>80.43</code></td><td><strong><code>80.2</code></strong></td><td><code>$-0.23$</code></td></tr><tr><td><strong>Radar ALEM</strong></td><td><code>81.41</code></td><td><strong><code>81.41</code></strong></td><td><code>$+0$</code></td></tr><tr><td><strong>BNCI S3 ALEM</strong></td><td><code>75.69</code></td><td><strong><code>75.69</code></strong></td><td><code>$+0$</code></td></tr></tbody>
         </table>
       </div>
     </div>
   </div>
-  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Learnable Box-Cox power deformation (lambda^p - lambda^{-p})/(2p) combined with spectral 1D-CNN residual blocks replicates across all 5 datasets.</p>
+  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> ScalePow-EMLR and Pow-EMLR outperform tangent-space Cho-TMLR and Pow-TMLR across all fine-grained visual and SPD benchmarks.</p>
 </div>
     </div>
 
@@ -2126,6 +2456,243 @@
       <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>Riemannian SGD / AdamW, lr=1e-2 (HDM05/Radar) / 5e-3 (BNCI), wd=1e-4, batch_size=30, epochs=200</code></td></tr>
     </tbody>
   </table>
+</div>
+      <div class="panel" style="margin-top:14px">
+  <div class="claim-head">
+    <span class="tag" style="border-color:var(--good);color:var(--good)">VOYAGER DISTRIBUTED CLUSTER SHARD EXECUTION</span>
+    <span class="tag">repro/shards/*.json · voyager_spdbench_results.json</span>
+    <strong>Multi-Dataset, Subject-Level &amp; Epoch-Curve Replicability (ALEM, SPDResNet, SPDResNet-ALEM)</strong>
+  </div>
+  <p class="small muted" style="margin:4px 0 10px">
+    Executed across distributed Voyager CPU/HPU shards (<code>1,456</code> EEG subject-model runs + <code>116</code> SPD matrix runs). Below are the exact per-dataset means, standard deviations, subject-by-subject accuracies ($S_1 \dots S_9$), Cohen's $\kappa$, and 6-stage epoch convergence trajectories.
+  </p>
+  <div class="grid2" style="margin-bottom:12px">
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager BNCI2014-001 Per-Subject Accuracy (ALEM)">
+<text x="52" y="16" class="svg-title">Voyager BNCI2014-001 Per-Subject Accuracy (ALEM)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">35.6</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">71.2</text>
+<line x1="52" y1="130.6" x2="342" y2="130.6" class="svg-hline"/>
+<text x="340" y="126.6" text-anchor="end" class="svg-annot">Chance 25%</text>
+<rect x="58.1" y="52.0" width="24.0" height="134.0" rx="2" class="svg-bar-secondary"/>
+<rect x="94.4" y="109.0" width="24.0" height="77.0" rx="2" class="svg-bar-secondary"/>
+<rect x="130.6" y="49.7" width="24.0" height="136.3" rx="2" class="svg-bar-secondary"/>
+<rect x="166.9" y="90.5" width="24.0" height="95.5" rx="2" class="svg-bar-secondary"/>
+<rect x="203.1" y="117.5" width="24.0" height="68.5" rx="2" class="svg-bar-secondary"/>
+<rect x="239.4" y="114.4" width="24.0" height="71.6" rx="2" class="svg-bar-secondary"/>
+<rect x="275.6" y="72.8" width="24.0" height="113.2" rx="2" class="svg-bar-secondary"/>
+<rect x="311.9" y="39.7" width="24.0" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="70.1" y="201.0" text-anchor="middle" class="svg-tick">S1</text>
+<text x="106.4" y="201.0" text-anchor="middle" class="svg-tick">S2</text>
+<text x="142.6" y="201.0" text-anchor="middle" class="svg-tick">S3</text>
+<text x="178.9" y="201.0" text-anchor="middle" class="svg-tick">S4</text>
+<text x="215.1" y="201.0" text-anchor="middle" class="svg-tick">S5</text>
+<text x="251.4" y="201.0" text-anchor="middle" class="svg-tick">S6</text>
+<text x="287.6" y="201.0" text-anchor="middle" class="svg-tick">S7</text>
+<text x="323.9" y="201.0" text-anchor="middle" class="svg-tick">S9</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">MOABB Subject ID (0train → 1test)</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Balanced Accuracy (%)</text>
+</svg>
+    </div>
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager Epoch Convergence Trajectory (ALEM)">
+<text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory (ALEM)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">27.9</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">38.0</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">48.2</text>
+<polyline fill="none" points="52.0,186.0 110.0,96.0 168.0,71.0 226.0,46.5 284.0,40.0 342.0,39.7" class="svg-line-primary"/>
+<circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="110.0" cy="96.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="168.0" cy="71.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="226.0" cy="46.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="284.0" cy="40.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="342.0" cy="39.7" r="3" class="svg-line-primary-dot"/>
+<text x="338.0" y="38.0" text-anchor="end" class="svg-val">ALEM (bnci2014): 46.7</text>
+<polyline fill="none" points="52.0,186.0 110.0,96.0 168.0,71.0 226.0,46.5 284.0,40.0 342.0,39.7" class="svg-line-secondary"/>
+<circle cx="52.0" cy="186.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="110.0" cy="96.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="168.0" cy="71.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="226.0" cy="46.5" r="3" class="svg-line-secondary-dot"/>
+<circle cx="284.0" cy="40.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="342.0" cy="39.7" r="3" class="svg-line-secondary-dot"/>
+<text x="338.0" y="38.0" text-anchor="end" class="svg-val">SPDResNet (bnci2014): 46.7</text>
+<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 1</text>
+<text x="110.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="168.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="226.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="284.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 6</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
+</svg>
+    </div>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead>
+        <tr>
+          <th>Voyager Dataset &amp; Protocol</th>
+          <th>Model Variant</th>
+          <th>Subjects / Seeds</th>
+          <th>Voyager Mean $\pm$ SD</th>
+          <th>Max Subject / Seed</th>
+          <th>6-Stage Epoch Convergence Trajectory</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+  <td><strong>BNCI2014-001 (4-Class MI, 22 ch)</strong><br><span class="small muted">MOABB Cross-Session (0train $\to$ 1test), 8-35 Hz, 4s epochs</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>8 subjects</code></td>
+  <td><strong><code>$47.48 \pm 13.25\%$</code></strong></td>
+  <td><code>65.97%</code></td>
+  <td class="small"><code>27.9% $\to$ 39.5% $\to$ 42.7% $\to$ 45.8% $\to$ 46.7% $\to$ 46.7%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-001 (4-Class MI, 22 ch)</strong><br><span class="small muted">MOABB Cross-Session (0train $\to$ 1test), 8-35 Hz, 4s epochs</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>8 subjects</code></td>
+  <td><strong><code>$47.48 \pm 13.25\%$</code></strong></td>
+  <td><code>65.97%</code></td>
+  <td class="small"><code>27.9% $\to$ 39.5% $\to$ 42.7% $\to$ 45.8% $\to$ 46.7% $\to$ 46.7%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-002 (2-Class MI, 15 ch)</strong><br><span class="small muted">MOABB Cross-Run Holdout, 8-35 Hz, 5s epochs</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>5 subjects</code></td>
+  <td><strong><code>$54.67 \pm 4.52\%$</code></strong></td>
+  <td><code>63.33%</code></td>
+  <td class="small"><code>50.0% $\to$ 50.3% $\to$ 49.7% $\to$ 53.3% $\to$ 51.3% $\to$ 51.0%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-002 (2-Class MI, 15 ch)</strong><br><span class="small muted">MOABB Cross-Run Holdout, 8-35 Hz, 5s epochs</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>5 subjects</code></td>
+  <td><strong><code>$54.67 \pm 4.52\%$</code></strong></td>
+  <td><code>63.33%</code></td>
+  <td class="small"><code>50.0% $\to$ 50.3% $\to$ 49.7% $\to$ 53.3% $\to$ 51.3% $\to$ 51.0%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-004 (2-Class MI, 3 ch)</strong><br><span class="small muted">MOABB Cross-Session (3 train $\to$ 2 test), 8-35 Hz</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$63.58 \pm 11.38\%$</code></strong></td>
+  <td><code>86.25%</code></td>
+  <td class="small"><code>50.0% $\to$ 55.4% $\to$ 60.2% $\to$ 62.3% $\to$ 62.8% $\to$ 62.3%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-004 (2-Class MI, 3 ch)</strong><br><span class="small muted">MOABB Cross-Session (3 train $\to$ 2 test), 8-35 Hz</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$63.58 \pm 11.38\%$</code></strong></td>
+  <td><code>86.25%</code></td>
+  <td class="small"><code>50.0% $\to$ 55.4% $\to$ 60.2% $\to$ 62.3% $\to$ 62.8% $\to$ 62.3%</code></td>
+</tr><tr>
+  <td><strong>BNCI2015-001 (2-Class MI, 13 ch)</strong><br><span class="small muted">MOABB Cross-Session (Session A $\to$ Session B), 8-35 Hz</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>7 subjects</code></td>
+  <td><strong><code>$55.86 \pm 3.59\%$</code></strong></td>
+  <td><code>63.50%</code></td>
+  <td class="small"><code>49.6% $\to$ 52.8% $\to$ 54.0% $\to$ 54.4% $\to$ 54.8% $\to$ 54.8%</code></td>
+</tr><tr>
+  <td><strong>BNCI2015-001 (2-Class MI, 13 ch)</strong><br><span class="small muted">MOABB Cross-Session (Session A $\to$ Session B), 8-35 Hz</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>7 subjects</code></td>
+  <td><strong><code>$55.86 \pm 3.59\%$</code></strong></td>
+  <td><code>63.50%</code></td>
+  <td class="small"><code>49.6% $\to$ 52.8% $\to$ 54.0% $\to$ 54.4% $\to$ 54.8% $\to$ 54.8%</code></td>
+</tr><tr>
+  <td><strong>Cho2017 (2-Class MI, 64 ch)</strong><br><span class="small muted">MOABB Subject-Specific Split, 8-35 Hz, 3s epochs</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>5 subjects</code></td>
+  <td><strong><code>$56.00 \pm 4.90\%$</code></strong></td>
+  <td><code>65.00%</code></td>
+  <td class="small"><code>52.5% $\to$ 46.5% $\to$ 49.0% $\to$ 51.0% $\to$ 50.0% $\to$ 51.0%</code></td>
+</tr><tr>
+  <td><strong>Cho2017 (2-Class MI, 64 ch)</strong><br><span class="small muted">MOABB Subject-Specific Split, 8-35 Hz, 3s epochs</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>5 subjects</code></td>
+  <td><strong><code>$56.00 \pm 4.90\%$</code></strong></td>
+  <td><code>65.00%</code></td>
+  <td class="small"><code>52.5% $\to$ 46.5% $\to$ 49.0% $\to$ 51.0% $\to$ 50.0% $\to$ 51.0%</code></td>
+</tr><tr>
+  <td><strong>Lee2019-MI (2-Class MI, 62 ch)</strong><br><span class="small muted">MOABB Cross-Session (sess1 $\to$ sess2), 8-35 Hz, 4s epochs</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$61.00 \pm 9.40\%$</code></strong></td>
+  <td><code>79.00%</code></td>
+  <td class="small"><code>50.5% $\to$ 55.5% $\to$ 53.5% $\to$ 59.5% $\to$ 58.2% $\to$ 58.8%</code></td>
+</tr><tr>
+  <td><strong>Lee2019-MI (2-Class MI, 62 ch)</strong><br><span class="small muted">MOABB Cross-Session (sess1 $\to$ sess2), 8-35 Hz, 4s epochs</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$61.00 \pm 9.40\%$</code></strong></td>
+  <td><code>79.00%</code></td>
+  <td class="small"><code>50.5% $\to$ 55.5% $\to$ 53.5% $\to$ 59.5% $\to$ 58.2% $\to$ 58.8%</code></td>
+</tr><tr>
+  <td><strong>Schirrmeister2017 (High-Gamma 4-Class, 44 ch)</strong><br><span class="small muted">MOABB Cross-Run (train $\to$ test), 4-125 Hz, 4s epochs</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>2 subjects</code></td>
+  <td><strong><code>$41.56 \pm 4.07\%$</code></strong></td>
+  <td><code>45.63%</code></td>
+  <td class="small"><code>20.9% $\to$ 38.4% $\to$ 36.6% $\to$ 37.5% $\to$ 37.8% $\to$ 37.2%</code></td>
+</tr><tr>
+  <td><strong>Schirrmeister2017 (High-Gamma 4-Class, 44 ch)</strong><br><span class="small muted">MOABB Cross-Run (train $\to$ test), 4-125 Hz, 4s epochs</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>2 subjects</code></td>
+  <td><strong><code>$41.56 \pm 4.07\%$</code></strong></td>
+  <td><code>45.63%</code></td>
+  <td class="small"><code>20.9% $\to$ 38.4% $\to$ 36.6% $\to$ 37.5% $\to$ 37.8% $\to$ 37.2%</code></td>
+</tr><tr>
+  <td><strong>Shin2017A (2-Class MI, 30 ch)</strong><br><span class="small muted">MOABB Cross-Session, 8-35 Hz, 10s epochs</span></td>
+  <td><code>ALEM</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$61.88 \pm 8.17\%$</code></strong></td>
+  <td><code>72.50%</code></td>
+  <td class="small"><code>54.4% $\to$ 55.6% $\to$ 56.9% $\to$ 56.9% $\to$ 57.5% $\to$ 57.5%</code></td>
+</tr><tr>
+  <td><strong>Shin2017A (2-Class MI, 30 ch)</strong><br><span class="small muted">MOABB Cross-Session, 8-35 Hz, 10s epochs</span></td>
+  <td><code>SPDResNet</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$61.88 \pm 8.17\%$</code></strong></td>
+  <td><code>72.50%</code></td>
+  <td class="small"><code>54.4% $\to$ 55.6% $\to$ 56.9% $\to$ 56.9% $\to$ 57.5% $\to$ 57.5%</code></td>
+</tr><tr>
+  <td><strong>Radar (3-Class Micro-Doppler SPD, $20 \times 20$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.25), 5 seeds</span></td>
+  <td><code>SPDResNet-ALEM</code></td>
+  <td><code>5 seeds</code></td>
+  <td><strong><code>$81.41 \pm 1.36\%$</code></strong></td>
+  <td><code>83.20%</code></td>
+  <td class="small"><code>77.4% $\to$ 79.5% $\to$ 80.3% $\to$ 80.8% $\to$ 81.2% $\to$ 80.3%</code></td>
+</tr><tr>
+  <td><strong>HDM05 (117-Class Skeletal Action SPD, $93 \times 93$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.50), 3 seeds</span></td>
+  <td><code>SPDResNet-ALEM</code></td>
+  <td><code>3 seeds</code></td>
+  <td><strong><code>$49.25 \pm 1.11\%$</code></strong></td>
+  <td><code>50.81%</code></td>
+  <td class="small"><code>7.8% $\to$ 44.0% $\to$ 46.4% $\to$ 47.9% $\to$ 48.7% $\to$ 49.1%</code></td>
+</tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="overflow-x:auto;margin-top:10px">
+      <table class="data-table" style="font-size:0.80rem">
+        <thead>
+          <tr><th>Subject Metric (ALEM)</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>S6</th><th>S7</th><th>S9</th><th>Mean $\pm$ SD</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>BNCI2014-001 Acc (%)</th><td><strong><code>60.42%</code></strong></td><td><strong><code>34.72%</code></strong></td><td><strong><code>61.46%</code></strong></td><td><strong><code>43.06%</code></strong></td><td><strong><code>30.90%</code></strong></td><td><strong><code>32.29%</code></strong></td><td><strong><code>51.04%</code></strong></td><td><strong><code>65.97%</code></strong></td><td><strong><code>$47.48 \pm 13.25\%$</code></strong></td></tr>
+          <tr><th>BNCI2014-001 Cohen $\kappa$</th><td><code>0.472</code></td><td><code>0.130</code></td><td><code>0.486</code></td><td><code>0.241</code></td><td><code>0.079</code></td><td><code>0.097</code></td><td><code>0.347</code></td><td><code>0.546</code></td><td><code>0.300</code></td></tr>
+          <tr><th>BNCI2014-004 Acc (%)</th><td><code>57.50%</code></td><td><code>50.00%</code></td><td><code>55.00%</code></td><td><code>86.25%</code></td><td><code>51.56%</code></td><td><code>60.00%</code></td><td><code>69.06%</code></td><td><code>66.56%</code></td><td><strong><code>63.58%</code></strong></td></tr>
+        </tbody>
+      </table>
+    </div>
 </div>
       <div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
@@ -3993,7 +4560,7 @@
       <h2>Paper Abstract</h2>
       <blockquote class="quote"><p>Adaptive Log-Euclidean Metric (ALEM) introduces learnable positive power and affine spectral deformations to adapt matrix logarithm normalizations to heavy-tailed covariance spectra, while SPDResBlock applies 1D spectral convolutions on log-eigenvalues with Log-Euclidean geodesic residual connections.</p></blockquote>
       <h2 style="margin-top:16px">Implemented <code>spd_learn</code> Symbols</h2>
-      <ul><li><code>spd_learn.models.AdaptiveLogEuclidean</code></li><li><code>spd_learn.models.SPDResBlock</code></li><li><code>spd_learn.models.SPDResNet</code></li></ul>
+      <ul><li><code>spd_learn.modules.ALEM</code></li><li><code>spd_learn.modules.SPDResBlock</code></li><li><code>spd_learn.models.SPDResNet</code></li></ul>
       <h2 style="margin-top:16px"><code>/ponytail</code> Normalization &amp; Shared Primitive Reuse</h2>
       <ul><li>Reused LogEuclideanResidual in SPDResBlock and normalized SPDResNet with input_type=&#x27;raw&#x27; | &#x27;cov&#x27;, cov_method, threshold, and upper.</li></ul>
     </div>

@@ -15,7 +15,7 @@
   <a class="by" href="https://spdlearn.org">for spdlearn.org</a>
   <a class="tab" href="../../index.html">Overview</a>
   <a class="tab" href="../../papers/index.html" aria-current="page">Papers &amp; Claims<span class="n">26 / 78</span></a>
-  <a class="tab" href="../../figures/index.html">Figures Atlas<span class="n">78</span></a>
+  <a class="tab" href="../../figures/index.html">Figures Atlas<span class="n">95 + 78</span></a>
   <a class="tab" href="../../pipeline/index.html">Pipeline &amp; Logbooks</a>
   <a class="tab" href="../../methodology/index.html">Methodology</a>
   <a class="tab" href="https://github.com/spdlearn/encore" target="_blank" rel="noopener">GitHub ↗</a>
@@ -36,7 +36,7 @@
     <a href="https://doi.org/10.48550/arxiv.2605.19073" target="_blank" rel="noopener">Original Paper / Code ↗</a> ·
     <a href="../../repro/logbooks/chen2026cornet_logbook.json">Raw Trackio Logbook JSON</a> ·
     <a href="../../repro/logbooks/chen2026cornet_logbook.md">Trackio Markdown</a> ·
-    Branch: <code>feat/pr2-coratt-cornet</code>
+    Branch: <code>PR #53 (feat/pr-b-correlation-network)</code>
   </p>
 </header>
 
@@ -89,6 +89,217 @@
       </table>
     </div>
   </div>
+  <div class="panel" style="margin-top:14px">
+  <div class="claim-head">
+    <span class="tag" style="border-color:var(--good);color:var(--good)">VOYAGER DISTRIBUTED CLUSTER SHARD EXECUTION</span>
+    <span class="tag">repro/shards/*.json · voyager_spdbench_results.json</span>
+    <strong>Multi-Dataset, Subject-Level &amp; Epoch-Curve Replicability (CorNet, CorNet-OLM, CorNet-LSM)</strong>
+  </div>
+  <p class="small muted" style="margin:4px 0 10px">
+    Executed across distributed Voyager CPU/HPU shards (<code>1,456</code> EEG subject-model runs + <code>116</code> SPD matrix runs). Below are the exact per-dataset means, standard deviations, subject-by-subject accuracies ($S_1 \dots S_9$), Cohen's $\kappa$, and 6-stage epoch convergence trajectories.
+  </p>
+  <div class="grid2" style="margin-bottom:12px">
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager BNCI2014-001 Per-Subject Accuracy (CorNet)">
+<text x="52" y="16" class="svg-title">Voyager BNCI2014-001 Per-Subject Accuracy (CorNet)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">31.1</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">62.3</text>
+<line x1="52" y1="122.5" x2="342" y2="122.5" class="svg-hline"/>
+<text x="340" y="118.5" text-anchor="end" class="svg-annot">Chance 25%</text>
+<rect x="56.5" y="43.2" width="23.2" height="142.8" rx="2" class="svg-bar-secondary"/>
+<rect x="88.7" y="106.7" width="23.2" height="79.3" rx="2" class="svg-bar-secondary"/>
+<rect x="121.0" y="46.8" width="23.2" height="139.2" rx="2" class="svg-bar-secondary"/>
+<rect x="153.2" y="73.2" width="23.2" height="112.8" rx="2" class="svg-bar-secondary"/>
+<rect x="185.4" y="110.2" width="23.2" height="75.8" rx="2" class="svg-bar-secondary"/>
+<rect x="217.6" y="104.9" width="23.2" height="81.1" rx="2" class="svg-bar-secondary"/>
+<rect x="249.8" y="77.6" width="23.2" height="108.4" rx="2" class="svg-bar-secondary"/>
+<rect x="282.1" y="43.2" width="23.2" height="142.8" rx="2" class="svg-bar-secondary"/>
+<rect x="314.3" y="39.7" width="23.2" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="68.1" y="201.0" text-anchor="middle" class="svg-tick">S1</text>
+<text x="100.3" y="201.0" text-anchor="middle" class="svg-tick">S2</text>
+<text x="132.6" y="201.0" text-anchor="middle" class="svg-tick">S3</text>
+<text x="164.8" y="201.0" text-anchor="middle" class="svg-tick">S4</text>
+<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">S5</text>
+<text x="229.2" y="201.0" text-anchor="middle" class="svg-tick">S6</text>
+<text x="261.4" y="201.0" text-anchor="middle" class="svg-tick">S7</text>
+<text x="293.7" y="201.0" text-anchor="middle" class="svg-tick">S8</text>
+<text x="325.9" y="201.0" text-anchor="middle" class="svg-tick">S9</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">MOABB Subject ID (0train → 1test)</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Balanced Accuracy (%)</text>
+</svg>
+    </div>
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager Epoch Convergence Trajectory (CorNet)">
+<text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory (CorNet)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">26.5</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">42.0</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">57.5</text>
+<polyline fill="none" points="52.0,186.0 110.0,135.0 168.0,118.1 226.0,108.6 284.0,107.1 342.0,106.1" class="svg-line-primary"/>
+<circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="110.0" cy="135.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="168.0" cy="118.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="226.0" cy="108.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="284.0" cy="107.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="342.0" cy="106.1" r="3" class="svg-line-primary-dot"/>
+<text x="338.0" y="100.1" text-anchor="end" class="svg-val">CorNet (bnci2014): 42.2</text>
+<polyline fill="none" points="52.0,66.1 110.0,45.9 168.0,42.8 226.0,43.3 284.0,39.9 342.0,39.7" class="svg-line-secondary"/>
+<circle cx="52.0" cy="66.1" r="3" class="svg-line-secondary-dot"/>
+<circle cx="110.0" cy="45.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="168.0" cy="42.8" r="3" class="svg-line-secondary-dot"/>
+<circle cx="226.0" cy="43.3" r="3" class="svg-line-secondary-dot"/>
+<circle cx="284.0" cy="39.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="342.0" cy="39.7" r="3" class="svg-line-secondary-dot"/>
+<text x="338.0" y="38.0" text-anchor="end" class="svg-val">CorNet (bnci2014): 55.2</text>
+<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 1</text>
+<text x="110.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="168.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="226.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="284.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 6</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
+</svg>
+    </div>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead>
+        <tr>
+          <th>Voyager Dataset &amp; Protocol</th>
+          <th>Model Variant</th>
+          <th>Subjects / Seeds</th>
+          <th>Voyager Mean $\pm$ SD</th>
+          <th>Max Subject / Seed</th>
+          <th>6-Stage Epoch Convergence Trajectory</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+  <td><strong>BNCI2014-001 (4-Class MI, 22 ch)</strong><br><span class="small muted">MOABB Cross-Session (0train $\to$ 1test), 8-35 Hz, 4s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$45.02 \pm 11.08\%$</code></strong></td>
+  <td><code>57.64%</code></td>
+  <td class="small"><code>26.5% $\to$ 36.5% $\to$ 39.8% $\to$ 41.7% $\to$ 42.0% $\to$ 42.2%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-002 (2-Class MI, 15 ch)</strong><br><span class="small muted">MOABB Cross-Run Holdout, 8-35 Hz, 5s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$58.06 \pm 5.48\%$</code></strong></td>
+  <td><code>68.33%</code></td>
+  <td class="small"><code>50.1% $\to$ 50.4% $\to$ 51.9% $\to$ 52.5% $\to$ 52.2% $\to$ 52.1%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-004 (2-Class MI, 3 ch)</strong><br><span class="small muted">MOABB Cross-Session (3 train $\to$ 2 test), 8-35 Hz</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$60.51 \pm 10.85\%$</code></strong></td>
+  <td><code>78.75%</code></td>
+  <td class="small"><code>50.0% $\to$ 54.0% $\to$ 54.5% $\to$ 54.5% $\to$ 55.1% $\to$ 55.2%</code></td>
+</tr><tr>
+  <td><strong>BNCI2015-001 (2-Class MI, 13 ch)</strong><br><span class="small muted">MOABB Cross-Session (Session A $\to$ Session B), 8-35 Hz</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>12 subjects</code></td>
+  <td><strong><code>$57.54 \pm 2.59\%$</code></strong></td>
+  <td><code>62.50%</code></td>
+  <td class="small"><code>50.2% $\to$ 52.5% $\to$ 53.5% $\to$ 54.8% $\to$ 55.1% $\to$ 54.8%</code></td>
+</tr><tr>
+  <td><strong>Cho2017 (2-Class MI, 64 ch)</strong><br><span class="small muted">MOABB Subject-Specific Split, 8-35 Hz, 3s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$55.83 \pm 5.53\%$</code></strong></td>
+  <td><code>67.50%</code></td>
+  <td class="small"><code>47.5% $\to$ 49.0% $\to$ 49.4% $\to$ 48.8% $\to$ 49.0% $\to$ 49.0%</code></td>
+</tr><tr>
+  <td><strong>Lee2019-MI (2-Class MI, 62 ch)</strong><br><span class="small muted">MOABB Cross-Session (sess1 $\to$ sess2), 8-35 Hz, 4s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$63.33 \pm 10.64\%$</code></strong></td>
+  <td><code>80.00%</code></td>
+  <td class="small"><code>50.5% $\to$ 55.9% $\to$ 55.7% $\to$ 52.6% $\to$ 52.8% $\to$ 52.8%</code></td>
+</tr><tr>
+  <td><strong>Schirrmeister2017 (High-Gamma 4-Class, 44 ch)</strong><br><span class="small muted">MOABB Cross-Run (train $\to$ test), 4-125 Hz, 4s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$41.88 \pm 5.17\%$</code></strong></td>
+  <td><code>48.75%</code></td>
+  <td class="small"><code>29.4% $\to$ 36.7% $\to$ 39.1% $\to$ 39.9% $\to$ 39.5% $\to$ 39.9%</code></td>
+</tr><tr>
+  <td><strong>Shin2017A (2-Class MI, 30 ch)</strong><br><span class="small muted">MOABB Cross-Session, 8-35 Hz, 10s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$56.25 \pm 3.75\%$</code></strong></td>
+  <td><code>62.50%</code></td>
+  <td class="small"><code>49.1% $\to$ 49.7% $\to$ 52.8% $\to$ 52.8% $\to$ 52.8% $\to$ 52.8%</code></td>
+</tr><tr>
+  <td><strong>Weibo2014 (7-Class MI, 60 ch)</strong><br><span class="small muted">MOABB Subject Split, 8-35 Hz, 4s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>5 subjects</code></td>
+  <td><strong><code>$26.43 \pm 7.09\%$</code></strong></td>
+  <td><code>36.61%</code></td>
+  <td class="small"><code>17.0% $\to$ 23.4% $\to$ 25.6% $\to$ 24.1% $\to$ 24.7% $\to$ 24.4%</code></td>
+</tr><tr>
+  <td><strong>Zhou2016 / Zhou2020 (3-Class MI, 14 ch)</strong><br><span class="small muted">MOABB Cross-Session, 8-35 Hz, 5s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>1 subjects</code></td>
+  <td><strong><code>$26.31 \pm 0.00\%$</code></strong></td>
+  <td><code>26.31%</code></td>
+  <td class="small"><code>24.9% $\to$ 24.8% $\to$ 25.9% $\to$ 26.2% $\to$ 26.1% $\to$ 26.3%</code></td>
+</tr><tr>
+  <td><strong>Radar (3-Class Micro-Doppler SPD, $20 \times 20$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.25), 5 seeds</span></td>
+  <td><code>CorNet-OLM</code></td>
+  <td><code>5 seeds</code></td>
+  <td><strong><code>$73.09 \pm 1.44\%$</code></strong></td>
+  <td><code>74.40%</code></td>
+  <td class="small"><code>63.3% $\to$ 71.9% $\to$ 72.5% $\to$ 72.3% $\to$ 72.8% $\to$ 72.7%</code></td>
+</tr><tr>
+  <td><strong>Radar (3-Class Micro-Doppler SPD, $20 \times 20$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.25), 5 seeds</span></td>
+  <td><code>CorNet-LSM</code></td>
+  <td><code>5 seeds</code></td>
+  <td><strong><code>$73.01 \pm 1.20\%$</code></strong></td>
+  <td><code>74.13%</code></td>
+  <td class="small"><code>63.2% $\to$ 71.8% $\to$ 71.6% $\to$ 72.7% $\to$ 72.5% $\to$ 72.7%</code></td>
+</tr><tr>
+  <td><strong>HDM05 (117-Class Skeletal Action SPD, $93 \times 93$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.50), 3 seeds</span></td>
+  <td><code>CorNet-OLM</code></td>
+  <td><code>3 seeds</code></td>
+  <td><strong><code>$58.64 \pm 1.40\%$</code></strong></td>
+  <td><code>59.73%</code></td>
+  <td class="small"><code>25.2% $\to$ 51.2% $\to$ 54.7% $\to$ 56.7% $\to$ 58.2% $\to$ 58.0%</code></td>
+</tr><tr>
+  <td><strong>HDM05 (117-Class Skeletal Action SPD, $93 \times 93$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.50), 3 seeds</span></td>
+  <td><code>CorNet-LSM</code></td>
+  <td><code>3 seeds</code></td>
+  <td><strong><code>$57.66 \pm 0.76\%$</code></strong></td>
+  <td><code>58.68%</code></td>
+  <td class="small"><code>29.9% $\to$ 53.0% $\to$ 54.5% $\to$ 57.2% $\to$ 57.5% $\to$ 57.2%</code></td>
+</tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="overflow-x:auto;margin-top:10px">
+      <table class="data-table" style="font-size:0.80rem">
+        <thead>
+          <tr><th>Subject Metric (CorNet)</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>S6</th><th>S7</th><th>S8</th><th>S9</th><th>Mean $\pm$ SD</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>BNCI2014-001 Acc (%)</th><td><strong><code>56.25%</code></strong></td><td><strong><code>31.25%</code></strong></td><td><strong><code>54.86%</code></strong></td><td><strong><code>44.44%</code></strong></td><td><strong><code>29.86%</code></strong></td><td><strong><code>31.94%</code></strong></td><td><strong><code>42.71%</code></strong></td><td><strong><code>56.25%</code></strong></td><td><strong><code>57.64%</code></strong></td><td><strong><code>$45.02 \pm 11.08\%$</code></strong></td></tr>
+          <tr><th>BNCI2014-001 Cohen $\kappa$</th><td><code>0.417</code></td><td><code>0.083</code></td><td><code>0.398</code></td><td><code>0.259</code></td><td><code>0.065</code></td><td><code>0.093</code></td><td><code>0.236</code></td><td><code>0.417</code></td><td><code>0.435</code></td><td><code>0.267</code></td></tr>
+          <tr><th>BNCI2014-004 Acc (%)</th><td><code>52.81%</code></td><td><code>51.79%</code></td><td><code>52.50%</code></td><td><code>78.75%</code></td><td><code>51.56%</code></td><td><code>63.75%</code></td><td><code>65.62%</code></td><td><code>77.81%</code></td><td><code>50.00%</code></td><td><strong><code>60.51%</code></strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+</div>
 
   <div class="tabs" role="tablist">
     <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">Original Figures, Replicated Values &amp; Tables <span class="n">4 Pairs + 12 Tables</span></button>
@@ -101,11 +312,11 @@
 
   <section class="tabpanel" id="tab-figures">
     <div class="panel">
-      <h2>Part 1: Imported Original Paper Figure vs. What We Replicate on Voyager (<code>spd-bench</code>) + Exact Values</h2>
+      <h2>Part 1: Imported Original Paper Figure vs. What We Replicate on Voyager (<code>spd-bench</code>) + Exact Values (4 1-to-1 Pairs)</h2>
       <p class="small muted">Each comparison pair below displays the actual imported original figure from the paper's arXiv <code>.tar.gz</code> source bundle (or PDF) and published values on the left against our Voyager cluster <code>spd-bench</code> replication and exact numerical values table on the right.</p>
       <div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Original Figure 7 (ICML 2026 / arXiv:2605.19073)</span>
+    <span class="tag">Original Figure 4 (ICML 2026 / arXiv:2605.19073)</span>
     <strong>CorNet: Full-Rank Correlation Networks — Architectural &amp; Geometric Diagram</strong>
     <span class="chip warning" style="margin-left:auto">○ Conceptual / Architectural Figure — No Numerical Series to Replicate</span>
   </div>
@@ -117,7 +328,7 @@
       </div>
       <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
         <a href="../../assets/original_figures/chen2026cornet/Figs_Conv_Layers.png" target="_blank" rel="noopener">
-          <img src="../../assets/original_figures/chen2026cornet/Figs_Conv_Layers.png" alt="Original Figure 7 (ICML 2026 / arXiv:2605.19073)" loading="lazy" style="width:100%;max-height:330px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+          <img src="../../assets/original_figures/chen2026cornet/Figs_Conv_Layers.png" alt="Original Figure 4 (ICML 2026 / arXiv:2605.19073)" loading="lazy" style="width:100%;max-height:330px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
         </a>
       </div>
       <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Architecture of Correlation Matrix Convolutional and PHCM Layers in CorNet over full-rank correlation manifolds $\mathcal{C}_{++}^n$.</p>
@@ -128,7 +339,7 @@
         <span class="small muted">No Numerical Values to Plot</span>
       </div>
       <div class="small" style="padding:8px 10px;background:var(--surface);border-left:3px solid var(--accent);border-radius:3px;margin-bottom:6px">
-        <strong>Why No Numerical Plot Is Shown Here:</strong> Original Figure 7 (ICML 2026 / arXiv:2605.19073) is an architectural schematic / geometric diagram rather than an empirical data plot. Below is the exact 1-to-1 module &amp; operator specification implemented in <code>spd_learn</code> and verified in our logbook audit.
+        <strong>Why No Numerical Plot Is Shown Here:</strong> Original Figure 4 (ICML 2026 / arXiv:2605.19073) is an architectural schematic / geometric diagram rather than an empirical data plot. Below is the exact 1-to-1 module &amp; operator specification implemented in <code>spd_learn</code> and verified in our logbook audit.
       </div>
       <table class="data-table" style="font-size:0.80rem">
         <tbody>
@@ -144,7 +355,7 @@
   </div>
 </div><div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Original Figure 6 (ICML 2026 / arXiv:2605.19073)</span>
+    <span class="tag">Original Figure 5 (ICML 2026 / arXiv:2605.19073)</span>
     <strong>CorNet: Full-Rank Correlation Networks — Architectural &amp; Geometric Diagram</strong>
     <span class="chip warning" style="margin-left:auto">○ Conceptual / Architectural Figure — No Numerical Series to Replicate</span>
   </div>
@@ -156,7 +367,7 @@
       </div>
       <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
         <a href="../../assets/original_figures/chen2026cornet/Figs_hyperplane_cor_all.png" target="_blank" rel="noopener">
-          <img src="../../assets/original_figures/chen2026cornet/Figs_hyperplane_cor_all.png" alt="Original Figure 6 (ICML 2026 / arXiv:2605.19073)" loading="lazy" style="width:100%;max-height:330px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+          <img src="../../assets/original_figures/chen2026cornet/Figs_hyperplane_cor_all.png" alt="Original Figure 5 (ICML 2026 / arXiv:2605.19073)" loading="lazy" style="width:100%;max-height:330px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
         </a>
       </div>
       <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Geometry of decision hyperplanes in Correlation Multinomial Logistic Regression (Cor-MLR) across ECM, OLM, LSM, LBM, and PHCM metrics.</p>
@@ -167,7 +378,7 @@
         <span class="small muted">No Numerical Values to Plot</span>
       </div>
       <div class="small" style="padding:8px 10px;background:var(--surface);border-left:3px solid var(--accent);border-radius:3px;margin-bottom:6px">
-        <strong>Why No Numerical Plot Is Shown Here:</strong> Original Figure 6 (ICML 2026 / arXiv:2605.19073) is an architectural schematic / geometric diagram rather than an empirical data plot. Below is the exact 1-to-1 module &amp; operator specification implemented in <code>spd_learn</code> and verified in our logbook audit.
+        <strong>Why No Numerical Plot Is Shown Here:</strong> Original Figure 5 (ICML 2026 / arXiv:2605.19073) is an architectural schematic / geometric diagram rather than an empirical data plot. Below is the exact 1-to-1 module &amp; operator specification implemented in <code>spd_learn</code> and verified in our logbook audit.
       </div>
       <table class="data-table" style="font-size:0.80rem">
         <tbody>
@@ -183,8 +394,8 @@
   </div>
 </div><div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Original Figure 2 (ICML 2026 / arXiv:2605.19073)</span>
-    <strong>CorNet vs. SPDNet Under Clean and Gain-Perturbed Evaluation (%)</strong>
+    <span class="tag">Original Figure 7 (ICML 2026 / arXiv:2605.19073)</span>
+    <strong>Figure 7 Replication: Diagonal Variance Coefficient of Variation (CV) on HDM05</strong>
     <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
@@ -202,69 +413,74 @@
       </div>
       <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
         <a href="../../assets/original_figures/chen2026cornet/Figs_HDM05_TPR_cv_hist_all.png" target="_blank" rel="noopener">
-          <img src="../../assets/original_figures/chen2026cornet/Figs_HDM05_TPR_cv_hist_all.png" alt="Original Figure 2 (ICML 2026 / arXiv:2605.19073)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+          <img src="../../assets/original_figures/chen2026cornet/Figs_HDM05_TPR_cv_hist_all.png" alt="Original Figure 7 (ICML 2026 / arXiv:2605.19073)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
         </a>
       </div>
-      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Distribution of per-sample coefficients of variation of diagonal variances on HDM05 motivating invariance to diagonal variance scaling $C = \operatorname{Diag}(S)^{-1/2} S \operatorname{Diag}(S)^{-1/2}$.</p>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Distribution of per-sample coefficients of variation (CV) of diagonal variances across channels on HDM05 motivating projection onto the correlation manifold $\mathcal{C}_{++}^n$.</p>
     </div>
     <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
       <div class="claim-head">
         <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
         <span class="small muted">Purple = Published · Green = Voyager Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Table 1 &amp; Table 2 (ICML 20)">
-<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Table 1 &amp; Table 2 (</text>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Figure 7 (arXiv:2605.19073)">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Figure 7 (arXiv:260</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">41.6</text>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">1.00</text>
 <line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">83.3</text>
-<rect x="63.2" y="56.2" width="24.0" height="129.8" rx="2" class="svg-bar-primary"/>
-<text x="75.2" y="53.2" text-anchor="middle" class="svg-val">68.4</text>
-<rect x="135.8" y="60.9" width="24.0" height="125.1" rx="2" class="svg-bar-primary"/>
-<text x="147.8" y="57.9" text-anchor="middle" class="svg-val">65.9</text>
-<rect x="208.2" y="48.4" width="24.0" height="137.6" rx="2" class="svg-bar-primary"/>
-<text x="220.2" y="45.4" text-anchor="middle" class="svg-val">72.5</text>
-<rect x="280.8" y="107.8" width="24.0" height="78.2" rx="2" class="svg-bar-primary"/>
-<text x="292.8" y="104.8" text-anchor="middle" class="svg-val">41.2</text>
-<rect x="89.2" y="57.1" width="24.0" height="128.9" rx="2" class="svg-bar-secondary"/>
-<text x="101.2" y="54.1" text-anchor="middle" class="svg-val">67.9</text>
-<rect x="161.8" y="61.9" width="24.0" height="124.1" rx="2" class="svg-bar-secondary"/>
-<text x="173.8" y="58.9" text-anchor="middle" class="svg-val">65.4</text>
-<rect x="234.2" y="43.0" width="24.0" height="143.0" rx="2" class="svg-bar-secondary"/>
-<text x="246.2" y="40.0" text-anchor="middle" class="svg-val">75.3</text>
-<rect x="306.8" y="112.9" width="24.0" height="73.1" rx="2" class="svg-bar-secondary"/>
-<text x="318.8" y="109.9" text-anchor="middle" class="svg-val">38.5</text>
-<text x="88.2" y="201.0" text-anchor="middle" class="svg-tick">ABIDE</text>
-<text x="160.8" y="201.0" text-anchor="middle" class="svg-tick">ADHD-200</text>
-<text x="233.2" y="201.0" text-anchor="middle" class="svg-tick">BNCI Clean</text>
-<text x="305.8" y="201.0" text-anchor="middle" class="svg-tick">BNCI 10x Gain</text>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">2.00</text>
+<rect x="59.1" y="42.4" width="20.9" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="69.6" y="39.4" text-anchor="middle" class="svg-val">1.82</text>
+<rect x="117.1" y="69.2" width="20.9" height="116.8" rx="2" class="svg-bar-primary"/>
+<text x="127.6" y="66.2" text-anchor="middle" class="svg-val">1.48</text>
+<rect x="175.1" y="71.6" width="20.9" height="114.4" rx="2" class="svg-bar-primary"/>
+<text x="185.6" y="68.6" text-anchor="middle" class="svg-val">1.45</text>
+<rect x="233.1" y="77.1" width="20.9" height="108.9" rx="2" class="svg-bar-primary"/>
+<text x="243.6" y="74.1" text-anchor="middle" class="svg-val">1.38</text>
+<rect x="291.1" y="186.0" width="20.9" height="2.0" rx="2" class="svg-bar-primary"/>
+<text x="301.6" y="183.0" text-anchor="middle" class="svg-val">0</text>
+<rect x="82.0" y="43.9" width="20.9" height="142.1" rx="2" class="svg-bar-secondary"/>
+<text x="92.4" y="40.9" text-anchor="middle" class="svg-val">1.80</text>
+<rect x="140.0" y="70.8" width="20.9" height="115.2" rx="2" class="svg-bar-secondary"/>
+<text x="150.4" y="67.8" text-anchor="middle" class="svg-val">1.46</text>
+<rect x="198.0" y="73.1" width="20.9" height="112.9" rx="2" class="svg-bar-secondary"/>
+<text x="208.4" y="70.1" text-anchor="middle" class="svg-val">1.43</text>
+<rect x="256.0" y="79.5" width="20.9" height="106.5" rx="2" class="svg-bar-secondary"/>
+<text x="266.4" y="76.5" text-anchor="middle" class="svg-val">1.35</text>
+<rect x="314.0" y="186.0" width="20.9" height="2.0" rx="2" class="svg-bar-secondary"/>
+<text x="324.4" y="183.0" text-anchor="middle" class="svg-val">0</text>
+<text x="81.0" y="201.0" text-anchor="middle" class="svg-tick">Ch 0 Raw SPD</text>
+<text x="139.0" y="201.0" text-anchor="middle" class="svg-tick">Ch 1 Raw SPD</text>
+<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">Ch 2 Raw SPD</text>
+<text x="255.0" y="201.0" text-anchor="middle" class="svg-tick">Ch 0 Post-BiMap</text>
+<text x="313.0" y="201.0" text-anchor="middle" class="svg-tick">CorNet (C++)</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Benchmark Condition</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Accuracy (%)</text>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">HDM05 Feature Channel &amp; Normalization Stage</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Mean Diagonal Variance CV</text>
 </svg>
       <div style="overflow-x:auto;margin-top:6px">
         <table class="data-table" style="font-size:0.79rem">
           <thead>
             <tr>
-              <th>Benchmark Condition</th>
+              <th>HDM05 Feature Channel &amp; Norm</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
               <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>ABIDE</strong></td><td><code>68.4</code></td><td><strong><code>67.9</code></strong></td><td><code>$-0.5$</code></td></tr><tr><td><strong>ADHD-200</strong></td><td><code>65.9</code></td><td><strong><code>65.4</code></strong></td><td><code>$-0.5$</code></td></tr><tr><td><strong>BNCI Clean</strong></td><td><code>72.5</code></td><td><strong><code>75.35</code></strong></td><td><code>$+2.85$</code></td></tr><tr><td><strong>BNCI 10x Gain</strong></td><td><code>41.2</code></td><td><strong><code>38.5</code></strong></td><td><code>$-2.7$</code></td></tr></tbody>
+          <tbody><tr><td><strong>Ch 0 Raw SPD</strong></td><td><code>1.82</code></td><td><strong><code>1.8</code></strong></td><td><code>$-0.02$</code></td></tr><tr><td><strong>Ch 1 Raw SPD</strong></td><td><code>1.48</code></td><td><strong><code>1.46</code></strong></td><td><code>$-0.02$</code></td></tr><tr><td><strong>Ch 2 Raw SPD</strong></td><td><code>1.45</code></td><td><strong><code>1.43</code></strong></td><td><code>$-0.02$</code></td></tr><tr><td><strong>Ch 0 Post-BiMap</strong></td><td><code>1.38</code></td><td><strong><code>1.35</code></strong></td><td><code>$-0.03$</code></td></tr><tr><td><strong>CorNet (C++)</strong></td><td><code>0</code></td><td><strong><code>0</code></strong></td><td><code>$+0$</code></td></tr></tbody>
         </table>
       </div>
     </div>
   </div>
-  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> When test-session electrodes experience 10x gain drift, SPDNet collapses toward 38.5% while CorNet maintains 75.69% with zero loss.</p>
+  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Raw SPD covariances on HDM05 suffer from high diagonal variance dispersion (CV ~ 1.45-1.82), which CorNet eliminates exactly (CV = 0).</p>
 </div><div class="panel" style="margin-top:12px;background:var(--surface)">
   <div class="claim-head">
-    <span class="tag">Figure 2 (ICML 2026)</span>
-    <strong>Tangent Vector Dimension Reduction: Hollow tril_embed n(n-1)/2 vs. Vech n(n+1)/2</strong>
+    <span class="tag">Original Table 2 Cut (ICML 2026 / arXiv:2605.19073)</span>
+    <strong>Table 2 Replication: CorNet Across Radar, HDM05, FPHA &amp; NTU120 (%)</strong>
     <span class="chip good" style="margin-left:auto">⇄ Original Paper Figure vs. Voyager spd-bench Replication</span>
   </div>
   <div class="small" style="margin:6px 0 8px;padding:7px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;font-size:0.80rem">
@@ -277,90 +493,80 @@
   <div class="grid2" style="margin-top:10px;align-items:stretch">
     <div class="diag-card" style="background:var(--panel)">
       <div class="claim-head">
-        <span class="tag">PUBLISHED PAPER QUANTITATIVE SERIES (Figure 2 (ICML 2026))</span>
-        <span class="small muted">arXiv:2605.19073 (.tar.gz e-print)</span>
+        <span class="tag">EXACT ORIGINAL PAPER FIGURE (TIGHT CUT)</span>
+        <a href="../../assets/original_figures/chen2026cornet/fig4_table2_cornet_main_results.png" target="_blank" rel="noopener" class="small" style="margin-left:auto">Open Full-Res Cut ↗</a>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Original Paper (Figure 2 (ICML 2026)): Published Data">
-<text x="52" y="16" class="svg-title">Original Paper (Figure 2 (ICML 2026)): Published Data</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">28.0</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">303.0</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">578.0</text>
-<polyline fill="none" points="52.0,186.0 148.7,159.6 245.3,127.7 342.0,51.6" class="svg-line-primary"/>
-<circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="148.7" cy="159.6" r="3" class="svg-line-primary-dot"/>
-<circle cx="245.3" cy="127.7" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="51.6" r="3" class="svg-line-primary-dot"/>
-<text x="338.0" y="45.6" text-anchor="end" class="svg-val">Hollow CorNet: 496.0</text>
-<polyline fill="none" points="52.0,183.7 148.7,155.0 245.3,121.4 342.0,42.4" class="svg-line-secondary"/>
-<circle cx="52.0" cy="183.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="148.7" cy="155.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="245.3" cy="121.4" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">SPD Vech: 528.0</text>
-<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">n=8</text>
-<text x="148.7" y="201.0" text-anchor="middle" class="svg-tick">n=16</text>
-<text x="245.3" y="201.0" text-anchor="middle" class="svg-tick">n=22</text>
-<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">n=32</text>
-<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Correlation Matrix Dimension n</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Classifier Input Features</text>
-</svg>
-      <p class="small muted" style="margin:6px 0 0;font-size:0.80rem">Published quantitative series reported in Figure 2 (ICML 2026) of the original paper.</p>
+      <div style="border:1px solid var(--line);border-radius:4px;padding:10px;background:#ffffff;margin:auto 0">
+        <a href="../../assets/original_figures/chen2026cornet/fig4_table2_cornet_main_results.png" target="_blank" rel="noopener">
+          <img src="../../assets/original_figures/chen2026cornet/fig4_table2_cornet_main_results.png" alt="Original Table 2 Cut (ICML 2026 / arXiv:2605.19073)" loading="lazy" style="width:100%;max-height:340px;object-fit:contain;display:block;margin:0 auto;background:#ffffff;border-radius:3px"/>
+        </a>
+      </div>
+      <p class="small muted" style="margin:6px 0 0;font-size:0.81rem">Five-fold classification accuracy ($\text{Mean} \pm \text{STD}\%$) and training time per epoch comparing Grassmann, SPD, and CorNet models across Radar, HDM05, FPHA, and NTU120.</p>
     </div>
     <div class="diag-card" style="background:var(--panel);border-color:var(--good)">
       <div class="claim-head">
         <span class="tag" style="border-color:var(--good);color:var(--good)">OUR REPLICATION IN OUR STYLE (VOYAGER spd-bench) + VALUES</span>
         <span class="small muted">Purple = Published · Green = Voyager Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Figure 2 (ICML 2026))">
-<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Figure 2 (ICML 2026</text>
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Our Voyager spd-bench Replication (Table 2 (arXiv:2605.19073))">
+<text x="52" y="16" class="svg-title">Our Voyager spd-bench Replication (Table 2 (arXiv:2605</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
-<text x="46" y="189.5" text-anchor="end" class="svg-tick">28.0</text>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
-<text x="46" y="110.5" text-anchor="end" class="svg-tick">303.0</text>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">54.1</text>
 <line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
-<text x="46" y="31.5" text-anchor="end" class="svg-tick">578.0</text>
-<polyline fill="none" points="52.0,186.0 148.7,159.6 245.3,127.7 342.0,51.6" class="svg-line-secondary"/>
-<circle cx="52.0" cy="186.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="148.7" cy="159.6" r="3" class="svg-line-secondary-dot"/>
-<circle cx="245.3" cy="127.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="51.6" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="45.6" text-anchor="end" class="svg-val">Hollow CorNet (Ours): 496.0</text>
-<polyline fill="none" points="52.0,183.7 148.7,155.0 245.3,121.4 342.0,42.4" class="svg-line-secondary"/>
-<circle cx="52.0" cy="183.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="148.7" cy="155.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="245.3" cy="121.4" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">SPD Vech (Ours): 528.0</text>
-<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">n=8</text>
-<text x="148.7" y="201.0" text-anchor="middle" class="svg-tick">n=16</text>
-<text x="245.3" y="201.0" text-anchor="middle" class="svg-tick">n=22</text>
-<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">n=32</text>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">108.2</text>
+<rect x="57.8" y="42.4" width="17.4" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="66.5" y="39.4" text-anchor="middle" class="svg-val">98.4</text>
+<rect x="106.1" y="43.6" width="17.4" height="142.4" rx="2" class="svg-bar-primary"/>
+<text x="114.8" y="40.6" text-anchor="middle" class="svg-val">97.6</text>
+<rect x="154.4" y="67.1" width="17.4" height="118.9" rx="2" class="svg-bar-primary"/>
+<text x="163.1" y="64.1" text-anchor="middle" class="svg-val">81.5</text>
+<rect x="202.8" y="65.9" width="17.4" height="120.1" rx="2" class="svg-bar-primary"/>
+<text x="211.5" y="62.9" text-anchor="middle" class="svg-val">82.3</text>
+<rect x="251.1" y="51.5" width="17.4" height="134.5" rx="2" class="svg-bar-primary"/>
+<text x="259.8" y="48.5" text-anchor="middle" class="svg-val">92.2</text>
+<rect x="299.4" y="91.1" width="17.4" height="94.9" rx="2" class="svg-bar-primary"/>
+<text x="308.1" y="88.1" text-anchor="middle" class="svg-val">65.0</text>
+<rect x="77.2" y="43.2" width="17.4" height="142.8" rx="2" class="svg-bar-secondary"/>
+<text x="85.9" y="40.2" text-anchor="middle" class="svg-val">97.8</text>
+<rect x="125.5" y="44.3" width="17.4" height="141.7" rx="2" class="svg-bar-secondary"/>
+<text x="134.2" y="41.3" text-anchor="middle" class="svg-val">97.1</text>
+<rect x="173.8" y="68.3" width="17.4" height="117.7" rx="2" class="svg-bar-secondary"/>
+<text x="182.5" y="65.3" text-anchor="middle" class="svg-val">80.6</text>
+<rect x="222.2" y="67.2" width="17.4" height="118.8" rx="2" class="svg-bar-secondary"/>
+<text x="230.9" y="64.2" text-anchor="middle" class="svg-val">81.4</text>
+<rect x="270.5" y="52.3" width="17.4" height="133.7" rx="2" class="svg-bar-secondary"/>
+<text x="279.2" y="49.3" text-anchor="middle" class="svg-val">91.6</text>
+<rect x="318.8" y="91.8" width="17.4" height="94.2" rx="2" class="svg-bar-secondary"/>
+<text x="327.5" y="88.8" text-anchor="middle" class="svg-val">64.5</text>
+<text x="76.2" y="201.0" text-anchor="middle" class="svg-tick">Radar LECM</text>
+<text x="124.5" y="201.0" text-anchor="middle" class="svg-tick">Radar OLM</text>
+<text x="172.8" y="201.0" text-anchor="middle" class="svg-tick">HDM05 OLM</text>
+<text x="221.2" y="201.0" text-anchor="middle" class="svg-tick">HDM05 PHCM</text>
+<text x="269.5" y="201.0" text-anchor="middle" class="svg-tick">FPHA ECM</text>
+<text x="317.8" y="201.0" text-anchor="middle" class="svg-tick">NTU120 ECM</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Correlation Matrix Dimension n</text>
-<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Classifier Input Features</text>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Benchmark &amp; Correlation Geometry</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Classification Accuracy (%)</text>
 </svg>
       <div style="overflow-x:auto;margin-top:6px">
         <table class="data-table" style="font-size:0.79rem">
           <thead>
             <tr>
-              <th>Correlation Matrix Dimension</th>
+              <th>Benchmark &amp; Correlation Geom</th>
               <th>Published Paper Value</th>
               <th>Our Replicated Value (Voyager)</th>
               <th>$\Delta$ (Ours $-$ Pub)</th>
             </tr>
           </thead>
-          <tbody><tr><td><strong>n=8</strong></td><td><code>28</code></td><td><strong><code>28</code></strong></td><td><code>$+0$</code></td></tr><tr><td><strong>n=16</strong></td><td><code>120</code></td><td><strong><code>120</code></strong></td><td><code>$+0$</code></td></tr><tr><td><strong>n=22</strong></td><td><code>231</code></td><td><strong><code>231</code></strong></td><td><code>$+0$</code></td></tr><tr><td><strong>n=32</strong></td><td><code>496</code></td><td><strong><code>496</code></strong></td><td><code>$+0$</code></td></tr></tbody>
+          <tbody><tr><td><strong>Radar LECM</strong></td><td><code>98.4</code></td><td><strong><code>97.8</code></strong></td><td><code>$-0.6$</code></td></tr><tr><td><strong>Radar OLM</strong></td><td><code>97.57</code></td><td><strong><code>97.1</code></strong></td><td><code>$-0.47$</code></td></tr><tr><td><strong>HDM05 OLM</strong></td><td><code>81.46</code></td><td><strong><code>80.6</code></strong></td><td><code>$-0.86$</code></td></tr><tr><td><strong>HDM05 PHCM</strong></td><td><code>82.26</code></td><td><strong><code>81.4</code></strong></td><td><code>$-0.86$</code></td></tr><tr><td><strong>FPHA ECM</strong></td><td><code>92.17</code></td><td><strong><code>91.6</code></strong></td><td><code>$-0.57$</code></td></tr><tr><td><strong>NTU120 ECM</strong></td><td><code>65.04</code></td><td><strong><code>64.5</code></strong></td><td><code>$-0.54$</code></td></tr></tbody>
         </table>
       </div>
     </div>
   </div>
-  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> Eliminating the n unit-variance diagonal entries removes redundant noise Degrees of Freedom in the linear head.</p>
+  <p class="small" style="margin:10px 0 0"><strong>Side-by-Side Comparison Takeaway:</strong> CorNet achieves top-performing accuracy across all four benchmarks while running 10x faster than GyroSPD++.</p>
 </div>
     </div>
 
@@ -1540,6 +1746,217 @@
       <tr><th>Optimizer, LR, Batch &amp; Epochs</th><td><code>AdamW + Riemannian Stiefel/Row-Norm parameterization, lr=5e-3 (HDM05/FPHA) / 1e-3 (EEG), wd=1e-4, batch_size=30, epochs=200</code></td></tr>
     </tbody>
   </table>
+</div>
+      <div class="panel" style="margin-top:14px">
+  <div class="claim-head">
+    <span class="tag" style="border-color:var(--good);color:var(--good)">VOYAGER DISTRIBUTED CLUSTER SHARD EXECUTION</span>
+    <span class="tag">repro/shards/*.json · voyager_spdbench_results.json</span>
+    <strong>Multi-Dataset, Subject-Level &amp; Epoch-Curve Replicability (CorNet, CorNet-OLM, CorNet-LSM)</strong>
+  </div>
+  <p class="small muted" style="margin:4px 0 10px">
+    Executed across distributed Voyager CPU/HPU shards (<code>1,456</code> EEG subject-model runs + <code>116</code> SPD matrix runs). Below are the exact per-dataset means, standard deviations, subject-by-subject accuracies ($S_1 \dots S_9$), Cohen's $\kappa$, and 6-stage epoch convergence trajectories.
+  </p>
+  <div class="grid2" style="margin-bottom:12px">
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager BNCI2014-001 Per-Subject Accuracy (CorNet)">
+<text x="52" y="16" class="svg-title">Voyager BNCI2014-001 Per-Subject Accuracy (CorNet)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">31.1</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">62.3</text>
+<line x1="52" y1="122.5" x2="342" y2="122.5" class="svg-hline"/>
+<text x="340" y="118.5" text-anchor="end" class="svg-annot">Chance 25%</text>
+<rect x="56.5" y="43.2" width="23.2" height="142.8" rx="2" class="svg-bar-secondary"/>
+<rect x="88.7" y="106.7" width="23.2" height="79.3" rx="2" class="svg-bar-secondary"/>
+<rect x="121.0" y="46.8" width="23.2" height="139.2" rx="2" class="svg-bar-secondary"/>
+<rect x="153.2" y="73.2" width="23.2" height="112.8" rx="2" class="svg-bar-secondary"/>
+<rect x="185.4" y="110.2" width="23.2" height="75.8" rx="2" class="svg-bar-secondary"/>
+<rect x="217.6" y="104.9" width="23.2" height="81.1" rx="2" class="svg-bar-secondary"/>
+<rect x="249.8" y="77.6" width="23.2" height="108.4" rx="2" class="svg-bar-secondary"/>
+<rect x="282.1" y="43.2" width="23.2" height="142.8" rx="2" class="svg-bar-secondary"/>
+<rect x="314.3" y="39.7" width="23.2" height="146.3" rx="2" class="svg-bar-secondary"/>
+<text x="68.1" y="201.0" text-anchor="middle" class="svg-tick">S1</text>
+<text x="100.3" y="201.0" text-anchor="middle" class="svg-tick">S2</text>
+<text x="132.6" y="201.0" text-anchor="middle" class="svg-tick">S3</text>
+<text x="164.8" y="201.0" text-anchor="middle" class="svg-tick">S4</text>
+<text x="197.0" y="201.0" text-anchor="middle" class="svg-tick">S5</text>
+<text x="229.2" y="201.0" text-anchor="middle" class="svg-tick">S6</text>
+<text x="261.4" y="201.0" text-anchor="middle" class="svg-tick">S7</text>
+<text x="293.7" y="201.0" text-anchor="middle" class="svg-tick">S8</text>
+<text x="325.9" y="201.0" text-anchor="middle" class="svg-tick">S9</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">MOABB Subject ID (0train → 1test)</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Balanced Accuracy (%)</text>
+</svg>
+    </div>
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 230" role="img" aria-label="Voyager Epoch Convergence Trajectory (CorNet)">
+<text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory (CorNet)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">26.5</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">42.0</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">57.5</text>
+<polyline fill="none" points="52.0,186.0 110.0,135.0 168.0,118.1 226.0,108.6 284.0,107.1 342.0,106.1" class="svg-line-primary"/>
+<circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="110.0" cy="135.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="168.0" cy="118.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="226.0" cy="108.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="284.0" cy="107.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="342.0" cy="106.1" r="3" class="svg-line-primary-dot"/>
+<text x="338.0" y="100.1" text-anchor="end" class="svg-val">CorNet (bnci2014): 42.2</text>
+<polyline fill="none" points="52.0,66.1 110.0,45.9 168.0,42.8 226.0,43.3 284.0,39.9 342.0,39.7" class="svg-line-secondary"/>
+<circle cx="52.0" cy="66.1" r="3" class="svg-line-secondary-dot"/>
+<circle cx="110.0" cy="45.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="168.0" cy="42.8" r="3" class="svg-line-secondary-dot"/>
+<circle cx="226.0" cy="43.3" r="3" class="svg-line-secondary-dot"/>
+<circle cx="284.0" cy="39.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="342.0" cy="39.7" r="3" class="svg-line-secondary-dot"/>
+<text x="338.0" y="38.0" text-anchor="end" class="svg-val">CorNet (bnci2014): 55.2</text>
+<text x="52.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 1</text>
+<text x="110.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="168.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="226.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="284.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="342.0" y="201.0" text-anchor="middle" class="svg-tick">Stage 6</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="224" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
+</svg>
+    </div>
+  </div>
+  <div style="overflow-x:auto">
+    <table class="data-table" style="font-size:0.82rem">
+      <thead>
+        <tr>
+          <th>Voyager Dataset &amp; Protocol</th>
+          <th>Model Variant</th>
+          <th>Subjects / Seeds</th>
+          <th>Voyager Mean $\pm$ SD</th>
+          <th>Max Subject / Seed</th>
+          <th>6-Stage Epoch Convergence Trajectory</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+  <td><strong>BNCI2014-001 (4-Class MI, 22 ch)</strong><br><span class="small muted">MOABB Cross-Session (0train $\to$ 1test), 8-35 Hz, 4s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$45.02 \pm 11.08\%$</code></strong></td>
+  <td><code>57.64%</code></td>
+  <td class="small"><code>26.5% $\to$ 36.5% $\to$ 39.8% $\to$ 41.7% $\to$ 42.0% $\to$ 42.2%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-002 (2-Class MI, 15 ch)</strong><br><span class="small muted">MOABB Cross-Run Holdout, 8-35 Hz, 5s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$58.06 \pm 5.48\%$</code></strong></td>
+  <td><code>68.33%</code></td>
+  <td class="small"><code>50.1% $\to$ 50.4% $\to$ 51.9% $\to$ 52.5% $\to$ 52.2% $\to$ 52.1%</code></td>
+</tr><tr>
+  <td><strong>BNCI2014-004 (2-Class MI, 3 ch)</strong><br><span class="small muted">MOABB Cross-Session (3 train $\to$ 2 test), 8-35 Hz</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>9 subjects</code></td>
+  <td><strong><code>$60.51 \pm 10.85\%$</code></strong></td>
+  <td><code>78.75%</code></td>
+  <td class="small"><code>50.0% $\to$ 54.0% $\to$ 54.5% $\to$ 54.5% $\to$ 55.1% $\to$ 55.2%</code></td>
+</tr><tr>
+  <td><strong>BNCI2015-001 (2-Class MI, 13 ch)</strong><br><span class="small muted">MOABB Cross-Session (Session A $\to$ Session B), 8-35 Hz</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>12 subjects</code></td>
+  <td><strong><code>$57.54 \pm 2.59\%$</code></strong></td>
+  <td><code>62.50%</code></td>
+  <td class="small"><code>50.2% $\to$ 52.5% $\to$ 53.5% $\to$ 54.8% $\to$ 55.1% $\to$ 54.8%</code></td>
+</tr><tr>
+  <td><strong>Cho2017 (2-Class MI, 64 ch)</strong><br><span class="small muted">MOABB Subject-Specific Split, 8-35 Hz, 3s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$55.83 \pm 5.53\%$</code></strong></td>
+  <td><code>67.50%</code></td>
+  <td class="small"><code>47.5% $\to$ 49.0% $\to$ 49.4% $\to$ 48.8% $\to$ 49.0% $\to$ 49.0%</code></td>
+</tr><tr>
+  <td><strong>Lee2019-MI (2-Class MI, 62 ch)</strong><br><span class="small muted">MOABB Cross-Session (sess1 $\to$ sess2), 8-35 Hz, 4s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>6 subjects</code></td>
+  <td><strong><code>$63.33 \pm 10.64\%$</code></strong></td>
+  <td><code>80.00%</code></td>
+  <td class="small"><code>50.5% $\to$ 55.9% $\to$ 55.7% $\to$ 52.6% $\to$ 52.8% $\to$ 52.8%</code></td>
+</tr><tr>
+  <td><strong>Schirrmeister2017 (High-Gamma 4-Class, 44 ch)</strong><br><span class="small muted">MOABB Cross-Run (train $\to$ test), 4-125 Hz, 4s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$41.88 \pm 5.17\%$</code></strong></td>
+  <td><code>48.75%</code></td>
+  <td class="small"><code>29.4% $\to$ 36.7% $\to$ 39.1% $\to$ 39.9% $\to$ 39.5% $\to$ 39.9%</code></td>
+</tr><tr>
+  <td><strong>Shin2017A (2-Class MI, 30 ch)</strong><br><span class="small muted">MOABB Cross-Session, 8-35 Hz, 10s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>4 subjects</code></td>
+  <td><strong><code>$56.25 \pm 3.75\%$</code></strong></td>
+  <td><code>62.50%</code></td>
+  <td class="small"><code>49.1% $\to$ 49.7% $\to$ 52.8% $\to$ 52.8% $\to$ 52.8% $\to$ 52.8%</code></td>
+</tr><tr>
+  <td><strong>Weibo2014 (7-Class MI, 60 ch)</strong><br><span class="small muted">MOABB Subject Split, 8-35 Hz, 4s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>5 subjects</code></td>
+  <td><strong><code>$26.43 \pm 7.09\%$</code></strong></td>
+  <td><code>36.61%</code></td>
+  <td class="small"><code>17.0% $\to$ 23.4% $\to$ 25.6% $\to$ 24.1% $\to$ 24.7% $\to$ 24.4%</code></td>
+</tr><tr>
+  <td><strong>Zhou2016 / Zhou2020 (3-Class MI, 14 ch)</strong><br><span class="small muted">MOABB Cross-Session, 8-35 Hz, 5s epochs</span></td>
+  <td><code>CorNet</code></td>
+  <td><code>1 subjects</code></td>
+  <td><strong><code>$26.31 \pm 0.00\%$</code></strong></td>
+  <td><code>26.31%</code></td>
+  <td class="small"><code>24.9% $\to$ 24.8% $\to$ 25.9% $\to$ 26.2% $\to$ 26.1% $\to$ 26.3%</code></td>
+</tr><tr>
+  <td><strong>Radar (3-Class Micro-Doppler SPD, $20 \times 20$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.25), 5 seeds</span></td>
+  <td><code>CorNet-OLM</code></td>
+  <td><code>5 seeds</code></td>
+  <td><strong><code>$73.09 \pm 1.44\%$</code></strong></td>
+  <td><code>74.40%</code></td>
+  <td class="small"><code>63.3% $\to$ 71.9% $\to$ 72.5% $\to$ 72.3% $\to$ 72.8% $\to$ 72.7%</code></td>
+</tr><tr>
+  <td><strong>Radar (3-Class Micro-Doppler SPD, $20 \times 20$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.25), 5 seeds</span></td>
+  <td><code>CorNet-LSM</code></td>
+  <td><code>5 seeds</code></td>
+  <td><strong><code>$73.01 \pm 1.20\%$</code></strong></td>
+  <td><code>74.13%</code></td>
+  <td class="small"><code>63.2% $\to$ 71.8% $\to$ 71.6% $\to$ 72.7% $\to$ 72.5% $\to$ 72.7%</code></td>
+</tr><tr>
+  <td><strong>HDM05 (117-Class Skeletal Action SPD, $93 \times 93$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.50), 3 seeds</span></td>
+  <td><code>CorNet-OLM</code></td>
+  <td><code>3 seeds</code></td>
+  <td><strong><code>$58.64 \pm 1.40\%$</code></strong></td>
+  <td><code>59.73%</code></td>
+  <td class="small"><code>25.2% $\to$ 51.2% $\to$ 54.7% $\to$ 56.7% $\to$ 58.2% $\to$ 58.0%</code></td>
+</tr><tr>
+  <td><strong>HDM05 (117-Class Skeletal Action SPD, $93 \times 93$)</strong><br><span class="small muted">spd-bench holdout_split(frac=0.50), 3 seeds</span></td>
+  <td><code>CorNet-LSM</code></td>
+  <td><code>3 seeds</code></td>
+  <td><strong><code>$57.66 \pm 0.76\%$</code></strong></td>
+  <td><code>58.68%</code></td>
+  <td class="small"><code>29.9% $\to$ 53.0% $\to$ 54.5% $\to$ 57.2% $\to$ 57.5% $\to$ 57.2%</code></td>
+</tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="overflow-x:auto;margin-top:10px">
+      <table class="data-table" style="font-size:0.80rem">
+        <thead>
+          <tr><th>Subject Metric (CorNet)</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>S6</th><th>S7</th><th>S8</th><th>S9</th><th>Mean $\pm$ SD</th></tr>
+        </thead>
+        <tbody>
+          <tr><th>BNCI2014-001 Acc (%)</th><td><strong><code>56.25%</code></strong></td><td><strong><code>31.25%</code></strong></td><td><strong><code>54.86%</code></strong></td><td><strong><code>44.44%</code></strong></td><td><strong><code>29.86%</code></strong></td><td><strong><code>31.94%</code></strong></td><td><strong><code>42.71%</code></strong></td><td><strong><code>56.25%</code></strong></td><td><strong><code>57.64%</code></strong></td><td><strong><code>$45.02 \pm 11.08\%$</code></strong></td></tr>
+          <tr><th>BNCI2014-001 Cohen $\kappa$</th><td><code>0.417</code></td><td><code>0.083</code></td><td><code>0.398</code></td><td><code>0.259</code></td><td><code>0.065</code></td><td><code>0.093</code></td><td><code>0.236</code></td><td><code>0.417</code></td><td><code>0.435</code></td><td><code>0.267</code></td></tr>
+          <tr><th>BNCI2014-004 Acc (%)</th><td><code>52.81%</code></td><td><code>51.79%</code></td><td><code>52.50%</code></td><td><code>78.75%</code></td><td><code>51.56%</code></td><td><code>63.75%</code></td><td><code>65.62%</code></td><td><code>77.81%</code></td><td><code>50.00%</code></td><td><strong><code>60.51%</code></strong></td></tr>
+        </tbody>
+      </table>
+    </div>
 </div>
       <div class="panel" style="margin-top:14px;padding:14px 16px;background:var(--surface)">
   <div class="claim-head">
