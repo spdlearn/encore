@@ -106,7 +106,7 @@
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with `autoreject` automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without `autoreject`.</p>
+        <p>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with <code>autoreject</code> automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without <code>autoreject</code>.</p>
       </div>
       <div class="diff-box">
         <div class="diff-label">Model &amp; Optimizer Diff</div>
@@ -114,17 +114,18 @@
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Fails / Struggles</div>
-        <p>Without `autoreject` epoch cleaning, high-amplitude ocular/muscular artifacts in raw MOABB motor-imagery trials (especially BNCI2014-001 S2: 47.6% and S5: 59.0%) skew the cross-frequency sample covariance spectrum, accounting for the -2.3% MI gap.</p>
+        <p>Without <code>autoreject</code> epoch cleaning, high-amplitude ocular/muscular artifacts in raw MOABB motor-imagery trials (especially BNCI2014-001 S2: 47.6% and S5: 59.0%) skew the cross-frequency sample covariance spectrum, accounting for the -2.3% MI gap.</p>
       </div>
     </div>
   </div>
 </div>
 
   <div class="tabs" role="tablist">
-    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">1. Figures: Original | Ours | The Gap <span class="n">5 + 3</span></button>
+    <button type="button" role="tab" data-panel="tab-figures" aria-selected="true">1. Figures: Original | Ours | The Gap <span class="n">5</span></button>
     <button type="button" role="tab" data-panel="tab-tables" aria-selected="false">2. Tables &amp; Voyager Benchmarks <span class="n">1</span></button>
     <button type="button" role="tab" data-panel="tab-claims" aria-selected="false">3. Pipeline Diffs, Failure Modes &amp; Claims <span class="n">3</span></button>
     <button type="button" role="tab" data-panel="tab-logbook" aria-selected="false">4. Trackio Logbook &amp; Code</button>
+    <button type="button" role="tab" data-panel="ALL" aria-selected="false">All Sections (Full Page)</button>
   </div>
 
   <section class="tabpanel" id="tab-figures">
@@ -158,7 +159,7 @@
         <span class="small muted">C1 Operator SVG + Spec</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C1: Learnable Gabor Wavelet Parameter Gradient Norms">
-<text x="52" y="16" class="svg-title">C1: Learnable Gabor Wavelet Parameter Gradient Norms</text>
+<text x="12" y="16" class="svg-title">C1: Learnable Gabor Wavelet Parameter Gradient Norms</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
@@ -192,7 +193,7 @@
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with `autoreject` automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without `autoreject`.</p>
+        <p>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with <code>autoreject</code> automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without <code>autoreject</code>.</p>
       </div>
       <div class="diff-box">
         <div class="diff-label">Implementation &amp; Optimizer Diff</div>
@@ -200,7 +201,7 @@
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Fails / Boundary Regime</div>
-        <p>Without `autoreject` epoch cleaning, high-amplitude ocular/muscular artifacts in raw MOABB motor-imagery trials (especially BNCI2014-001 S2: 47.6% and S5: 59.0%) skew the cross-frequency sample covariance spectrum, accounting for the -2.3% MI gap.</p>
+        <p>Without <code>autoreject</code> epoch cleaning, high-amplitude ocular/muscular artifacts in raw MOABB motor-imagery trials (especially BNCI2014-001 S2: 47.6% and S5: 59.0%) skew the cross-frequency sample covariance spectrum, accounting for the -2.3% MI gap.</p>
       </div>
     </div>
   </div>
@@ -228,9 +229,9 @@
         <span>2 · OUR REPLICABILITY</span>
         <span class="small muted">Blue = Pub · Red = Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Ours vs. Published (Figure 2 (Patterns 2025))">
-<text x="52" y="16" class="svg-title">Ours vs. Published</text>
-<rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Ours vs. Published (Figure 2)">
+<text x="12" y="16" class="svg-title">Ours vs. Published (Figure 2)</text>
+<rect x="260" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="270" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
@@ -254,7 +255,7 @@
 <text x="172.8" y="199.5" text-anchor="middle" class="svg-tick">Age (G3)</text>
 <text x="221.2" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="221.2" dy="0">CAU</tspan><tspan x="221.2" dy="9.5">Dementia</tspan></text>
 <text x="269.5" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="269.5" dy="0">TDBRAIN</tspan><tspan x="269.5" dy="9.5">EC/EO</tspan></text>
-<text x="317.8" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="317.8" dy="0">TUAB</tspan><tspan x="317.8" dy="9.5">Path</tspan></text>
+<text x="317.8" y="199.5" text-anchor="middle" class="svg-tick">TUAB Path</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
 <text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">EEG Biomarker Benchmark Task</text>
@@ -264,7 +265,7 @@
         <table class="data-table" style="font-size:0.76rem">
           <thead>
             <tr>
-              <th>EEG Biomarker Benchmar</th>
+              <th>EEG Biomarker Benchmark Task</th>
               <th>Published</th>
               <th>Ours</th>
               <th><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi></mrow><annotation encoding="application/x-tex">\Delta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">Δ</span></span></span></span></th>
@@ -319,11 +320,11 @@
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with `autoreject` automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without `autoreject`.</p>
+        <p>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with <code>autoreject</code> automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without <code>autoreject</code>.</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Struggles / Diverges</div>
-        <p>Without `autoreject` epoch cleaning, high-amplitude ocular/muscular artifacts in raw MOABB motor-imagery trials (especially BNCI2014-001 S2: 47.6% and S5: 59.0%) skew the cross-frequency sample covariance spectrum, accounting for the -2.3% MI gap.</p>
+        <p>Without <code>autoreject</code> epoch cleaning, high-amplitude ocular/muscular artifacts in raw MOABB motor-imagery trials (especially BNCI2014-001 S2: 47.6% and S5: 59.0%) skew the cross-frequency sample covariance spectrum, accounting for the -2.3% MI gap.</p>
       </div>
     </div>
   </div>
@@ -351,9 +352,9 @@
         <span>2 · OUR REPLICABILITY</span>
         <span class="small muted">Blue = Pub · Red = Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Ours vs. Published (Figure 3 (Patterns 2025))">
-<text x="52" y="16" class="svg-title">Ours vs. Published</text>
-<rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Ours vs. Published (Figure 3)">
+<text x="12" y="16" class="svg-title">Ours vs. Published (Figure 3)</text>
+<rect x="260" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="270" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
@@ -372,12 +373,12 @@
 <rect x="222.2" y="56.0" width="17.4" height="130.0" rx="2" class="svg-bar-secondary"/>
 <rect x="270.5" y="49.3" width="17.4" height="136.7" rx="2" class="svg-bar-secondary"/>
 <rect x="318.8" y="43.1" width="17.4" height="142.9" rx="2" class="svg-bar-secondary"/>
-<text x="76.2" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="76.2" dy="0">SVM</tspan><tspan x="76.2" dy="9.5">(5e4)</tspan></text>
+<text x="76.2" y="199.5" text-anchor="middle" class="svg-tick">SVM (5e4)</text>
 <text x="124.5" y="199.5" text-anchor="middle" class="svg-tick">G1 (2e4)</text>
 <text x="172.8" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="172.8" dy="0">ResNeXt</tspan><tspan x="172.8" dy="9.5">(2e7)</tspan></text>
-<text x="221.2" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="221.2" dy="0">ViT</tspan><tspan x="221.2" dy="9.5">(6e7)</tspan></text>
+<text x="221.2" y="199.5" text-anchor="middle" class="svg-tick">ViT (6e7)</text>
 <text x="269.5" y="199.5" text-anchor="middle" class="svg-tick">G3 (7e4)</text>
-<text x="317.8" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="317.8" dy="0">G3P</tspan><tspan x="317.8" dy="9.5">(7e4)</tspan></text>
+<text x="317.8" y="199.5" text-anchor="middle" class="svg-tick">G3P (7e4)</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
 <line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
 <text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Model Architecture (Parameter Count)</text>
@@ -387,7 +388,7 @@
         <table class="data-table" style="font-size:0.76rem">
           <thead>
             <tr>
-              <th>Model Architecture (Pa</th>
+              <th>Model Architecture</th>
               <th>Published</th>
               <th>Ours</th>
               <th><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi></mrow><annotation encoding="application/x-tex">\Delta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">Δ</span></span></span></span></th>
@@ -442,11 +443,11 @@
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with `autoreject` automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without `autoreject`.</p>
+        <p>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with <code>autoreject</code> automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without <code>autoreject</code>.</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Struggles / Diverges</div>
-        <p>Without `autoreject` epoch cleaning, high-amplitude ocular/muscular artifacts in raw MOABB motor-imagery trials (especially BNCI2014-001 S2: 47.6% and S5: 59.0%) skew the cross-frequency sample covariance spectrum, accounting for the -2.3% MI gap.</p>
+        <p>Without <code>autoreject</code> epoch cleaning, high-amplitude ocular/muscular artifacts in raw MOABB motor-imagery trials (especially BNCI2014-001 S2: 47.6% and S5: 59.0%) skew the cross-frequency sample covariance spectrum, accounting for the -2.3% MI gap.</p>
       </div>
     </div>
   </div>
@@ -474,53 +475,53 @@
         <span>2 · OUR REPLICABILITY</span>
         <span class="small muted">Blue = Pub · Red = Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Ours vs. Published (Figure 4 (Patterns 2025))">
-<text x="52" y="16" class="svg-title">Ours vs. Published</text>
-<rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
-<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Ours vs. Published (Figure 4)">
+<text x="12" y="16" class="svg-title">Ours vs. Published (Figure 4)</text>
+<rect x="260" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="270" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
+<line x1="52" y1="186.0" x2="302" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">50.2</text>
-<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="302" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">74.4</text>
-<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="302" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">98.6</text>
-<polyline fill="none" points="52.0,186.0 88.0,133.1 124.0,74.0 160.0,68.5 196.0,55.7 232.0,52.8 268.0,48.6 304.0,42.4" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 87.7,133.1 123.4,74.0 159.1,68.5 194.9,55.7 230.6,52.8 266.3,48.6 302.0,42.4" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="88.0" cy="133.1" r="3" class="svg-line-primary-dot"/>
-<circle cx="124.0" cy="74.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="160.0" cy="68.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="196.0" cy="55.7" r="3" class="svg-line-primary-dot"/>
-<circle cx="232.0" cy="52.8" r="3" class="svg-line-primary-dot"/>
-<circle cx="268.0" cy="48.6" r="3" class="svg-line-primary-dot"/>
-<circle cx="304.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,183.4 88.0,130.5 124.0,75.3 160.0,67.5 196.0,56.7 232.0,52.2 268.0,47.9 304.0,43.0" class="svg-line-secondary"/>
+<circle cx="87.7" cy="133.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="123.4" cy="74.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="159.1" cy="68.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="194.9" cy="55.7" r="3" class="svg-line-primary-dot"/>
+<circle cx="230.6" cy="52.8" r="3" class="svg-line-primary-dot"/>
+<circle cx="266.3" cy="48.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="302.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,183.4 87.7,130.5 123.4,75.3 159.1,67.5 194.9,56.7 230.6,52.2 266.3,47.9 302.0,43.0" class="svg-line-secondary"/>
 <circle cx="52.0" cy="183.4" r="3" class="svg-line-secondary-dot"/>
-<circle cx="88.0" cy="130.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="124.0" cy="75.3" r="3" class="svg-line-secondary-dot"/>
-<circle cx="160.0" cy="67.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="196.0" cy="56.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="232.0" cy="52.2" r="3" class="svg-line-secondary-dot"/>
-<circle cx="268.0" cy="47.9" r="3" class="svg-line-secondary-dot"/>
-<circle cx="304.0" cy="43.0" r="3" class="svg-line-secondary-dot"/>
-<text x="309.0" y="40.2" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Pub 94.2</text>
-<text x="309.0" y="51.2" text-anchor="start" class="svg-val" style="fill:var(--accent)">Ours 94.0</text>
+<circle cx="87.7" cy="130.5" r="3" class="svg-line-secondary-dot"/>
+<circle cx="123.4" cy="75.3" r="3" class="svg-line-secondary-dot"/>
+<circle cx="159.1" cy="67.5" r="3" class="svg-line-secondary-dot"/>
+<circle cx="194.9" cy="56.7" r="3" class="svg-line-secondary-dot"/>
+<circle cx="230.6" cy="52.2" r="3" class="svg-line-secondary-dot"/>
+<circle cx="266.3" cy="47.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="302.0" cy="43.0" r="3" class="svg-line-secondary-dot"/>
+<text x="307.0" y="40.2" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Pub 94.2</text>
+<text x="307.0" y="51.2" text-anchor="start" class="svg-val" style="fill:var(--accent)">Ours 94.0</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">F=1</text>
-<text x="88.0" y="199.5" text-anchor="middle" class="svg-tick">F=2</text>
-<text x="124.0" y="199.5" text-anchor="middle" class="svg-tick">F=3</text>
-<text x="160.0" y="199.5" text-anchor="middle" class="svg-tick">F=4</text>
-<text x="196.0" y="199.5" text-anchor="middle" class="svg-tick">F=5</text>
-<text x="232.0" y="199.5" text-anchor="middle" class="svg-tick">F=6</text>
-<text x="268.0" y="199.5" text-anchor="middle" class="svg-tick">F=7</text>
-<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">F=8</text>
+<text x="87.7" y="199.5" text-anchor="middle" class="svg-tick">F=2</text>
+<text x="123.4" y="199.5" text-anchor="middle" class="svg-tick">F=3</text>
+<text x="159.1" y="199.5" text-anchor="middle" class="svg-tick">F=4</text>
+<text x="194.9" y="199.5" text-anchor="middle" class="svg-tick">F=5</text>
+<text x="230.6" y="199.5" text-anchor="middle" class="svg-tick">F=6</text>
+<text x="266.3" y="199.5" text-anchor="middle" class="svg-tick">F=7</text>
+<text x="302.0" y="199.5" text-anchor="middle" class="svg-tick">F=8</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
-<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Number of Learnable Gabor Wavelets F</text>
+<line x1="52" y1="186" x2="302" y2="186" class="svg-axis"/>
+<text x="177.0" y="230" text-anchor="middle" class="svg-axis-label">Number of Learnable Gabor Wavelets F</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">% of Best Asymptotic Score</text>
 </svg>
       <div style="overflow-x:auto;margin-top:4px">
         <table class="data-table" style="font-size:0.76rem">
           <thead>
             <tr>
-              <th>Number of Learnable Ga</th>
+              <th>Number of Learnable Gabor</th>
               <th>Published</th>
               <th>Ours</th>
               <th><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi></mrow><annotation encoding="application/x-tex">\Delta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">Δ</span></span></span></span></th>
@@ -575,11 +576,11 @@
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with `autoreject` automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without `autoreject`.</p>
+        <p>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with <code>autoreject</code> automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without <code>autoreject</code>.</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Struggles / Diverges</div>
-        <p>Without `autoreject` epoch cleaning, high-amplitude ocular/muscular artifacts in raw MOABB motor-imagery trials (especially BNCI2014-001 S2: 47.6% and S5: 59.0%) skew the cross-frequency sample covariance spectrum, accounting for the -2.3% MI gap.</p>
+        <p>Without <code>autoreject</code> epoch cleaning, high-amplitude ocular/muscular artifacts in raw MOABB motor-imagery trials (especially BNCI2014-001 S2: 47.6% and S5: 59.0%) skew the cross-frequency sample covariance spectrum, accounting for the -2.3% MI gap.</p>
       </div>
     </div>
   </div>
@@ -607,47 +608,47 @@
         <span>2 · OUR REPLICABILITY</span>
         <span class="small muted">Blue = Pub · Red = Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Ours vs. Published (Figure 5 (Patterns 2025))">
-<text x="52" y="16" class="svg-title">Ours vs. Published</text>
-<rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
-<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Ours vs. Published (Figure 5)">
+<text x="12" y="16" class="svg-title">Ours vs. Published (Figure 5)</text>
+<rect x="260" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="270" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
+<line x1="52" y1="186.0" x2="302" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">1.50</text>
-<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="302" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">3.75</text>
-<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="302" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">6.01</text>
-<polyline fill="none" points="52.0,186.0 102.4,144.0 152.8,168.5 203.2,42.4 253.6,154.5 304.0,161.5" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 102.0,144.0 152.0,168.5 202.0,42.4 252.0,154.5 302.0,161.5" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="102.4" cy="144.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="152.8" cy="168.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="203.2" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="253.6" cy="154.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="304.0" cy="161.5" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,182.5 102.4,147.5 152.8,165.0 203.2,45.9 253.6,151.0 304.0,165.0" class="svg-line-secondary"/>
+<circle cx="102.0" cy="144.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="152.0" cy="168.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="202.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="252.0" cy="154.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="302.0" cy="161.5" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,182.5 102.0,147.5 152.0,165.0 202.0,45.9 252.0,151.0 302.0,165.0" class="svg-line-secondary"/>
 <circle cx="52.0" cy="182.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="102.4" cy="147.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="152.8" cy="165.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="203.2" cy="45.9" r="3" class="svg-line-secondary-dot"/>
-<circle cx="253.6" cy="151.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="304.0" cy="165.0" r="3" class="svg-line-secondary-dot"/>
-<text x="309.0" y="160.7" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Pub 2.20</text>
-<text x="309.0" y="171.7" text-anchor="start" class="svg-val" style="fill:var(--accent)">Ours 2.10</text>
+<circle cx="102.0" cy="147.5" r="3" class="svg-line-secondary-dot"/>
+<circle cx="152.0" cy="165.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="202.0" cy="45.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="252.0" cy="151.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="302.0" cy="165.0" r="3" class="svg-line-secondary-dot"/>
+<text x="307.0" y="160.7" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Pub 2.20</text>
+<text x="307.0" y="171.7" text-anchor="start" class="svg-val" style="fill:var(--accent)">Ours 2.10</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">0.2 Hz</text>
-<text x="102.4" y="199.5" text-anchor="middle" class="svg-tick">1.0 Hz</text>
-<text x="152.8" y="199.5" text-anchor="middle" class="svg-tick">4.9 Hz</text>
-<text x="203.2" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="203.2" dy="0">9.5 Hz</tspan><tspan x="203.2" dy="9.5">(Alpha)</tspan></text>
-<text x="253.6" y="199.5" text-anchor="middle" class="svg-tick">15.6 Hz</text>
-<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">30.2 Hz</text>
+<text x="102.0" y="199.5" text-anchor="middle" class="svg-tick">1.0 Hz</text>
+<text x="152.0" y="199.5" text-anchor="middle" class="svg-tick">4.9 Hz</text>
+<text x="202.0" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="202.0" dy="0">9.5 Hz</tspan><tspan x="202.0" dy="9.5">(Alpha)</tspan></text>
+<text x="252.0" y="199.5" text-anchor="middle" class="svg-tick">15.6 Hz</text>
+<text x="302.0" y="199.5" text-anchor="middle" class="svg-tick">30.2 Hz</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
-<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Wavelet Center Frequency [Hz]</text>
+<line x1="52" y1="186" x2="302" y2="186" class="svg-axis"/>
+<text x="177.0" y="230" text-anchor="middle" class="svg-axis-label">Wavelet Center Frequency [Hz]</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Power Ratio P_EC / P_EO [dB]</text>
 </svg>
       <div style="overflow-x:auto;margin-top:4px">
         <table class="data-table" style="font-size:0.76rem">
           <thead>
             <tr>
-              <th>Wavelet Center Frequen</th>
+              <th>Wavelet Center Frequency [Hz]</th>
               <th>Published</th>
               <th>Ours</th>
               <th><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi></mrow><annotation encoding="application/x-tex">\Delta</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">Δ</span></span></span></span></th>
@@ -702,27 +703,31 @@
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with `autoreject` automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without `autoreject`.</p>
+        <p>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with <code>autoreject</code> automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without <code>autoreject</code>.</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Struggles / Diverges</div>
-        <p>Without `autoreject` epoch cleaning, high-amplitude ocular/muscular artifacts in raw MOABB motor-imagery trials (especially BNCI2014-001 S2: 47.6% and S5: 59.0%) skew the cross-frequency sample covariance spectrum, accounting for the -2.3% MI gap.</p>
+        <p>Without <code>autoreject</code> epoch cleaning, high-amplitude ocular/muscular artifacts in raw MOABB motor-imagery trials (especially BNCI2014-001 S2: 47.6% and S5: 59.0%) skew the cross-frequency sample covariance spectrum, accounting for the -2.3% MI gap.</p>
       </div>
     </div>
   </div>
 </div>
     </div>
 
-    <div class="panel">
-      <h2>3-Tier Deterministic Diagnostic Traces (C1 Structural · C2 Signal · C3 Analytical)</h2>
-      <div class="grid3" style="margin-top:10px">
-        <div class="diag-card">
+    <details class="panel-collapse">
+      <summary>
+        <span>3-Tier Deterministic Diagnostic Traces (C1 Structural · C2 Signal · C3 Analytical)</span>
+        <span class="tag">Expand 3 Panels ▾</span>
+      </summary>
+      <div class="collapse-body">
+        <div class="grid3" style="margin-top:10px">
+          <div class="diag-card">
   <div class="claim-head">
     <span class="tag">Panel A (Structural)</span>
     <span class="chip good">✓ Verified (2 pts)</span>
   </div>
   <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C1: Learnable Gabor Wavelet Parameter Gradient Norms">
-<text x="52" y="16" class="svg-title">C1: Learnable Gabor Wavelet Parameter Gradient Norms</text>
+<text x="12" y="16" class="svg-title">C1: Learnable Gabor Wavelet Parameter Gradient Norms</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
@@ -750,28 +755,28 @@
     <span class="chip good">✓ Verified (2 pts)</span>
   </div>
   <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C2: Wavelet Center Frequency Shift During Training">
-<text x="52" y="16" class="svg-title">C2: Wavelet Center Frequency Shift During Training</text>
-<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
+<text x="12" y="16" class="svg-title">C2: Wavelet Center Frequency Shift During Training</text>
+<line x1="52" y1="186.0" x2="302" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
-<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="302" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">0.062</text>
-<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="302" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">0.125</text>
-<polyline fill="none" points="52.0,186.0 115.0,145.5 178.0,99.9 241.0,67.0 304.0,42.4" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 114.5,145.5 177.0,99.9 239.5,67.0 302.0,42.4" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="115.0" cy="145.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="178.0" cy="99.9" r="3" class="svg-line-primary-dot"/>
-<circle cx="241.0" cy="67.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="304.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<text x="309.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Freq  0.113</text>
+<circle cx="114.5" cy="145.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="177.0" cy="99.9" r="3" class="svg-line-primary-dot"/>
+<circle cx="239.5" cy="67.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="302.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<text x="307.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Freq 0.113</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Epoch 0</text>
-<text x="115.0" y="199.5" text-anchor="middle" class="svg-tick">Epoch 5</text>
-<text x="178.0" y="199.5" text-anchor="middle" class="svg-tick">Epoch 10</text>
-<text x="241.0" y="199.5" text-anchor="middle" class="svg-tick">Epoch 15</text>
-<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Epoch 20</text>
+<text x="114.5" y="199.5" text-anchor="middle" class="svg-tick">Epoch 5</text>
+<text x="177.0" y="199.5" text-anchor="middle" class="svg-tick">Epoch 10</text>
+<text x="239.5" y="199.5" text-anchor="middle" class="svg-tick">Epoch 15</text>
+<text x="302.0" y="199.5" text-anchor="middle" class="svg-tick">Epoch 20</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
-<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Optimization Epoch</text>
+<line x1="52" y1="186" x2="302" y2="186" class="svg-axis"/>
+<text x="177.0" y="230" text-anchor="middle" class="svg-axis-label">Optimization Epoch</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Mean |delta foi| (rad/s)</text>
 </svg>
   <div class="small">
@@ -784,7 +789,7 @@
     <span class="chip good">✓ Verified (2 pts)</span>
   </div>
   <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C3: GREEN MOABB BNCI2014-001 Cross-Session Accuracy (%)">
-<text x="52" y="16" class="svg-title">C3: GREEN MOABB BNCI2014-001 Cross-Session Accuracy </text>
+<text x="12" y="16" class="svg-title">C3: GREEN MOABB BNCI2014-001 Cross-Session Accuracy (%)</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
@@ -815,8 +820,9 @@
     <p class="muted" style="margin:2px 0;font-size:0.78rem">Compares published BNCI2014-001 accuracy (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>73.80</mn><mo>±</mo><mn>11.20</mn></mrow><annotation encoding="application/x-tex">73.80 \pm 11.20</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">73.80</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.20</span></span></span></span>%) against our 9-subject MOABB harness (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>73.15</mn><mo>±</mo><mn>11.40</mn></mrow><annotation encoding="application/x-tex">73.15 \pm 11.40</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">73.15</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.40</span></span></span></span>%, delta -0.65%) and Subject 3 cross-session accuracy (78.47%).</p>
   </div>
 </div>
+        </div>
       </div>
-    </div>
+    </details>
   </section>
 
   <section class="tabpanel" id="tab-tables" hidden>
@@ -846,9 +852,9 @@
         <span>2 · OUR REPLICABILITY</span>
         <span class="small muted">Pub vs. Ours</span>
       </div>
-      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Score (% / R^2 x 100))">
-<text x="52" y="16" class="svg-title">Published vs. Ours</text>
-<rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Score)">
+<text x="12" y="16" class="svg-title">Published vs. Ours (Score)</text>
+<rect x="260" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="270" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
@@ -908,7 +914,7 @@
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with `autoreject` automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without `autoreject`.</p>
+        <p>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with <code>autoreject</code> automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without <code>autoreject</code>.</p>
       </div>
       <div class="diff-box">
         <div class="diff-label">Where It Replicates vs. Diverges</div>
@@ -948,7 +954,7 @@
   <div class="grid2" style="margin-bottom:12px">
     <div class="diag-card" style="background:var(--panel)">
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Voyager BNCI2014-001 Per-Subject Accuracy (Green)">
-<text x="52" y="16" class="svg-title">Voyager BNCI2014-001 Per-Subject Accuracy (Green)</text>
+<text x="12" y="16" class="svg-title">Voyager BNCI2014-001 Per-Subject Accuracy (Green)</text>
 <line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
 <line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
@@ -983,39 +989,39 @@
     </div>
     <div class="diag-card" style="background:var(--panel)">
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Voyager Epoch Convergence Trajectory (Green)">
-<text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory</text>
-<rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Green (</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Green (</text>
-<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
+<text x="12" y="16" class="svg-title">Voyager Epoch Convergence Trajectory</text>
+<rect x="260" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="270" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">BNCI001</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">BNCI004</text>
+<line x1="52" y1="186.0" x2="302" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">26.8</text>
-<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="302" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">46.3</text>
-<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="302" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">65.8</text>
-<polyline fill="none" points="52.0,186.0 102.4,98.5 152.8,88.8 203.2,84.7 253.6,81.9 304.0,83.9" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 102.0,98.5 152.0,88.8 202.0,84.7 252.0,81.9 302.0,83.9" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="102.4" cy="98.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="152.8" cy="88.8" r="3" class="svg-line-primary-dot"/>
-<circle cx="203.2" cy="84.7" r="3" class="svg-line-primary-dot"/>
-<circle cx="253.6" cy="81.9" r="3" class="svg-line-primary-dot"/>
-<circle cx="304.0" cy="83.9" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,69.1 102.4,52.5 152.8,46.1 203.2,46.9 253.6,47.6 304.0,42.4" class="svg-line-secondary"/>
+<circle cx="102.0" cy="98.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="152.0" cy="88.8" r="3" class="svg-line-primary-dot"/>
+<circle cx="202.0" cy="84.7" r="3" class="svg-line-primary-dot"/>
+<circle cx="252.0" cy="81.9" r="3" class="svg-line-primary-dot"/>
+<circle cx="302.0" cy="83.9" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,69.1 102.0,52.5 152.0,46.1 202.0,46.9 252.0,47.6 302.0,42.4" class="svg-line-secondary"/>
 <circle cx="52.0" cy="69.1" r="3" class="svg-line-secondary-dot"/>
-<circle cx="102.4" cy="52.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="152.8" cy="46.1" r="3" class="svg-line-secondary-dot"/>
-<circle cx="203.2" cy="46.9" r="3" class="svg-line-secondary-dot"/>
-<circle cx="253.6" cy="47.6" r="3" class="svg-line-secondary-dot"/>
-<circle cx="304.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="309.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--accent)">Green 62.2</text>
-<text x="309.0" y="86.9" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Green 52.0</text>
+<circle cx="102.0" cy="52.5" r="3" class="svg-line-secondary-dot"/>
+<circle cx="152.0" cy="46.1" r="3" class="svg-line-secondary-dot"/>
+<circle cx="202.0" cy="46.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="252.0" cy="47.6" r="3" class="svg-line-secondary-dot"/>
+<circle cx="302.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
+<text x="307.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--accent)">BNCI004 62.2</text>
+<text x="307.0" y="86.9" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">BNCI001 52.0</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 1</text>
-<text x="102.4" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
-<text x="152.8" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
-<text x="203.2" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
-<text x="253.6" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
-<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
+<text x="102.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="152.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="202.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="252.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="302.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
-<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<line x1="52" y1="186" x2="302" y2="186" class="svg-axis"/>
+<text x="177.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
 </svg>
     </div>
@@ -1120,9 +1126,9 @@
       <h2>Deep-Dive Gap Analysis, Failure Modes &amp; Practitioner Guidance</h2>
       <table class="data-table">
         <tbody>
-          <tr><th style="width:210px">Dataloader &amp; Preprocessing Diff</th><td>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with `autoreject` automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without `autoreject`.</td></tr>
+          <tr><th style="width:210px">Dataloader &amp; Preprocessing Diff</th><td>CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with <code>autoreject</code> automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without <code>autoreject</code>.</td></tr>
           <tr><th>Architecture &amp; Optimizer Diff</th><td>spd_learn implements Green with ComplexMorlet/Gabor WaveletConv, CovPool, Ledoit-Wolf Shrinkage, BiMap, and LogEig; delegates shrinkage regularization cleanly without external custom C extensions.</td></tr>
-          <tr><th>Where It Struggles / Diverges</th><td>Without `autoreject` epoch cleaning, high-amplitude ocular/muscular artifacts in raw MOABB motor-imagery trials (especially BNCI2014-001 S2: 47.6% and S5: 59.0%) skew the cross-frequency sample covariance spectrum, accounting for the -2.3% MI gap.</td></tr>
+          <tr><th>Where It Struggles / Diverges</th><td>Without <code>autoreject</code> epoch cleaning, high-amplitude ocular/muscular artifacts in raw MOABB motor-imagery trials (especially BNCI2014-001 S2: 47.6% and S5: 59.0%) skew the cross-frequency sample covariance spectrum, accounting for the -2.3% MI gap.</td></tr>
           <tr><th>Primary Mathematical Failure Mode</th><td>Initializing wavelet center frequencies outside the physiological passband of interest or using overly narrow wavelet widths (kernel_width_s &lt; 0.15s) causes high spectral leakage and rank-deficient cross-frequency covariances.</td></tr>
           <tr><th>Silent Diagnostic Risk</th><td>Omitting shrinkage regularization after WaveletConv causes LogEig eigendecompositions to amplify noise in low-energy high-frequency wavelets.</td></tr>
           <tr><th>Practitioner Recommendation</th><td><strong>Initialize foi on a logarithmic octaves grid covering 4-40 Hz with kernel_width_s &gt;= 0.25s and retain the learnable Shrinkage layer before BiMap.</strong></td></tr>
@@ -1298,10 +1304,12 @@
 </main>
 <script>(function(){
 var tabs=[].slice.call(document.querySelectorAll('.tabs button')),
-panels=tabs.map(function(t){return document.getElementById(t.dataset.panel);});
+panels=[].slice.call(document.querySelectorAll('.tabpanel'));
 tabs.forEach(function(btn,idx){
   btn.addEventListener('click',function(){
-    tabs.forEach(function(b,i){b.setAttribute('aria-selected',i===idx);panels[i].hidden=i!==idx;});
+    var target=btn.getAttribute('data-panel');
+    tabs.forEach(function(b,i){b.setAttribute('aria-selected',i===idx);});
+    panels.forEach(function(p){p.hidden=(target!=='ALL'&&p.id!==target);});
   });
 });
 })();</script>
