@@ -18,7 +18,7 @@
           "claim_id": "huang2017spdnet_c2",
           "category": "Signal",
           "text": "On real HDM05 skeletal action covariance matrices (93 x 93, median condition number kappa = 9.59e5), BiMap(93 -> 30) + ReEig(1e-4) compresses the condition number by more than three orders of magnitude and yields finite backward gradients.",
-          "status": "FALSIFIED",
+          "status": "VERIFIED",
           "points": 2
         },
         {
@@ -38,7 +38,7 @@
           "claim_id": "brooks2019spdnetbn_c1",
           "category": "Structural",
           "text": "SPDBatchNormMean centers a batch of SPD matrices via inverse square-root congruence G^{-1/2} P_i G^{-1/2} such that the centered batch Fr\u00e9chet mean under AIRM converges to the identity matrix I_d, and updates the running mean along the AIRM geodesic.",
-          "status": "FALSIFIED",
+          "status": "VERIFIED",
           "points": 2
         },
         {
@@ -65,7 +65,7 @@
           "claim_id": "kobler2022tsmnet_c1",
           "category": "Structural",
           "text": "SPDBatchNormMeanVar centers SPD batches via parallel transport congruence to the identity and normalizes scalar tangent-space dispersion via matrix power P^{(w / sqrt(v^2 + eps))} so that unit-weight un-rebiased outputs have unit tangent dispersion.",
-          "status": "FALSIFIED",
+          "status": "VERIFIED",
           "points": 2
         },
         {
@@ -99,7 +99,7 @@
           "claim_id": "ju2022tensorcspnet_c2",
           "category": "Signal",
           "text": "Multi-band filter-bank decomposition (8-14 Hz mu, 14-22 Hz low-beta, 22-30 Hz high-beta) captures complementary sensorimotor desynchronization patterns that yield higher tangent-space class separability (Fisher ratio) than a single wide band.",
-          "status": "FALSIFIED",
+          "status": "VERIFIED",
           "points": 2
         },
         {
@@ -133,7 +133,7 @@
           "claim_id": "pan2022matt_c3",
           "category": "Analytical",
           "text": "On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -> Session E, 4 classes, chance 25.0%), MAtt achieves 77.43% on Subject 3 and 72.90% +/- 12.40% across 9 subjects (matching the published 74.68% Table 1 target within CI), while our entropy audit shows its accuracy stems from the Conv2d + TraceNorm + BiMap backbone rather than selective Q/K token weighting.",
-          "status": "FALSIFIED",
+          "status": "BASELINE_ADJUSTED",
           "points": 2
         }
       ]
@@ -160,7 +160,7 @@
           "claim_id": "chen2024liebn_c3",
           "category": "Analytical",
           "text": "In our 10-seed spd-bench replication of LieBN Table 4 on real HDM05 [93, 30], LieBN-LCM-(0.5) reaches 67.92% +/- 1.61% (69.45% +/- 2.51% on stratified splits vs 70.84% +/- 0.92% published), and our baseline audit reveals that +3.97 pp (58%) of LieBN's reported +11.71 pp gain over SPDNet comes from an under-tuned SPDNet baseline (59.13% in LieBN vs 63.10% +/- 1.53% in our harness and 61.60% +/- 1.35% in Brooks 2019).",
-          "status": "FALSIFIED",
+          "status": "BASELINE_ADJUSTED",
           "points": 2
         }
       ]
@@ -200,7 +200,7 @@
           "claim_id": "carrara2024phasespdnet_c1",
           "category": "Structural",
           "text": "PhaseDelay(order=m, lag=tau) augments (B, C, T) EEG signals into (B, m*C, T - (m-1)*tau) Takens phase-space trajectories whose block-Hankel SPD covariance matrix (m*C x m*C) captures both instantaneous spatial covariance and lagged cross-channel dynamical couplings across BiMap and ReEig layers.",
-          "status": "VERIFIED",
+          "status": "FALSIFIED",
           "points": 2
         },
         {
@@ -241,7 +241,7 @@
           "claim_id": "wilson2025eegspdnet_c3",
           "category": "Analytical",
           "text": "In Wilson et al. Table 2 (Imaging Neuroscience 2025), EEGSPDNet achieves 74.4% on BNCI2014001, 77.8% on BNCI2014004, 67.9% on Lee2019 MI, 95.2% on Schirrmeister2017, and 74.0% on Shin2017A under 800-epoch cyclical cosine schedules, whereas short 50-epoch training without covariance normalization underfits large 88x88 SPD matrices (68.40% on Subject 3).",
-          "status": "FALSIFIED",
+          "status": "BASELINE_ADJUSTED",
           "points": 2
         }
       ]
@@ -322,7 +322,7 @@
           "claim_id": "chen2026cornet_c3",
           "category": "Analytical",
           "text": "On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -> Session E, 4 classes, chance 25.0%) with test-time channel amplitude rescaling, CorNet maintains identical test predictions before and after diagonal gain corruption (55.21% cross-session 4-class accuracy, >2.2x chance).",
-          "status": "FALSIFIED",
+          "status": "VERIFIED",
           "points": 2
         }
       ]
@@ -403,7 +403,7 @@
           "claim_id": "ju2023graphcspnet_c3",
           "category": "Analytical",
           "text": "On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -> Session E, 4 classes, chance 25.0%), GraphCSPNet achieves 85.07% test accuracy on Subject 3 (22 channels) and 76.80% +/- 10.90% across 9 subjects (replicating the published 77.55% Table I target within CI).",
-          "status": "FALSIFIED",
+          "status": "VERIFIED",
           "points": 2
         }
       ]
@@ -457,7 +457,7 @@
           "claim_id": "seraphim2023spdtransnet_c3",
           "category": "Analytical",
           "text": "On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -> Session E, 4 classes, chance 25.0%), SPDTransNet achieves 83.68% train and 61.81% test accuracy on Subject 3, while auditing reveals a 21.87 pp train-test generalization gap caused by unconstrained head-combination weights overfitting source-session tangent coordinates.",
-          "status": "BASELINE_ADJUSTED",
+          "status": "FALSIFIED",
           "points": 2
         }
       ]
@@ -511,7 +511,7 @@
           "claim_id": "hu2026rhop_c3",
           "category": "Analytical",
           "text": "On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -> Session E, 4 classes, chance 25.0%) where bandpass-filtered EEG tokens have near-zero temporal mean, RHOP (PEM, power=0.5) achieves 71.18% test accuracy on Subject 3 whereas first-order temporal mean pooling collapses to 27.08% (near 25.0% chance).",
-          "status": "FALSIFIED",
+          "status": "VERIFIED",
           "points": 2
         }
       ]
@@ -592,7 +592,7 @@
           "claim_id": "zhou2025gbwbn_cbn_c3",
           "category": "Analytical",
           "text": "On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -> Session E, 4 classes, chance 25.0%), SPDNet equipped with SPDBatchNormBW and SPDBatchNormCholesky achieves 74.31% and 73.61% test accuracy on Subject 3, matching AIRM batch normalization without iterative Karcher flow.",
-          "status": "FALSIFIED",
+          "status": "VERIFIED",
           "points": 2
         }
       ]
@@ -619,7 +619,7 @@
           "claim_id": "tibermacine2025rceegnet_c3",
           "category": "Analytical",
           "text": "On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -> Session E, 4 classes, chance 25.0%), RCEEGNet achieves 64.58% test accuracy on Subject 3 when batch-norm momentum is calibrated (momentum=0.4), whereas default low momentum (0.1) under short training schedules causes running-mean lag that collapses evaluation accuracy to 26.39% (near chance).",
-          "status": "FALSIFIED",
+          "status": "BASELINE_ADJUSTED",
           "points": 2
         }
       ]
@@ -673,7 +673,7 @@
           "claim_id": "chen2025alem_spdresnet_c3",
           "category": "Analytical",
           "text": "On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -> Session E, 4 classes, chance 25.0%), SPDResNet with ALEM achieves 68.75% test accuracy on Subject 3 (22 channels).",
-          "status": "FALSIFIED",
+          "status": "VERIFIED",
           "points": 2
         }
       ]
@@ -700,7 +700,7 @@
           "claim_id": "nguyen2023gyrospd_c3",
           "category": "Analytical",
           "text": "On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -> Session E, 4 classes, chance 25.0%), GyroSPD achieves 72.92% test accuracy on Subject 3 when gyro-bias translation is combined with full-rank initialization (vs 55.56% under aggressive rank compression).",
-          "status": "FALSIFIED",
+          "status": "VERIFIED",
           "points": 2
         }
       ]
@@ -727,7 +727,7 @@
           "claim_id": "boucherie2026spdnetae_ssgcnet_c3",
           "category": "Analytical",
           "text": "On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -> Session E, 4 classes, chance 25.0%), joint supervised + geodesic autoencoder training in SPDNetAE achieves 65.97% test accuracy and SSGCNet achieves 66.32% test accuracy on Subject 3.",
-          "status": "VERIFIED",
+          "status": "FALSIFIED",
           "points": 2
         }
       ]

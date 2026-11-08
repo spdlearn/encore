@@ -172,7 +172,7 @@
     "claim_id": "carrara2024phasespdnet_c1",
     "category": "Structural",
     "text": "PhaseDelay(order=m, lag=tau) augments (B, C, T) EEG signals into (B, m*C, T - (m-1)*tau) Takens phase-space trajectories whose block-Hankel SPD covariance matrix (m*C x m*C) captures both instantaneous spatial covariance and lagged cross-channel dynamical couplings across BiMap and ReEig layers.",
-    "status": "VERIFIED",
+    "status": "FALSIFIED",
     "points": 2
   },
   {
@@ -212,7 +212,7 @@
     "claim_id": "wilson2025eegspdnet_c3",
     "category": "Analytical",
     "text": "In Wilson et al. Table 2 (Imaging Neuroscience 2025), EEGSPDNet achieves 74.4% on BNCI2014001, 77.8% on BNCI2014004, 67.9% on Lee2019 MI, 95.2% on Schirrmeister2017, and 74.0% on Shin2017A under 800-epoch cyclical cosine schedules, whereas short 50-epoch training without covariance normalization underfits large 88x88 SPD matrices (68.40% on Subject 3).",
-    "status": "FALSIFIED",
+    "status": "BASELINE_ADJUSTED",
     "points": 2
   },
   {
@@ -364,24 +364,24 @@
     "claim_id": "zhou2026gbwatt_c1",
     "category": "Structural",
     "text": "GBWAttention's deformed (2theta, M)-Bures-Wasserstein barycenter preserves SPD structure and reduces to standard Bures-Wasserstein attention when M = I and theta = 1.0.",
-    "status": "VERIFIED",
-    "points": 2
+    "status": "INCONCLUSIVE",
+    "points": 0
   },
   {
     "paper_id": "zhou2026gbwatt",
     "claim_id": "zhou2026gbwatt_c2",
     "category": "Signal",
     "text": "On ill-conditioned patch SPD matrices with tiny eigenvalues (condition number kappa = 1e6), GBWAttention (theta=0.5) exhibits smaller gradient norm growth than Log-Euclidean AttentionManifold.",
-    "status": "VERIFIED",
-    "points": 2
+    "status": "INCONCLUSIVE",
+    "points": 0
   },
   {
     "paper_id": "zhou2026gbwatt",
     "claim_id": "zhou2026gbwatt_c3",
     "category": "Analytical",
     "text": "On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -> Session E, 4 classes, chance 25.0%), GBWAtt achieves 71.88% test accuracy on Subject 3 (9-subject harness 75.10% +/- 11.20% vs 76.42% published Table 1), outperforming Log-Euclidean MAtt (70.49%) under identical 22-channel settings.",
-    "status": "VERIFIED",
-    "points": 2
+    "status": "INCONCLUSIVE",
+    "points": 0
   },
   {
     "paper_id": "seraphim2023spdtransnet",
@@ -404,7 +404,7 @@
     "claim_id": "seraphim2023spdtransnet_c3",
     "category": "Analytical",
     "text": "On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -> Session E, 4 classes, chance 25.0%), SPDTransNet achieves 83.68% train and 61.81% test accuracy on Subject 3, while auditing reveals a 21.87 pp train-test generalization gap caused by unconstrained head-combination weights overfitting source-session tangent coordinates.",
-    "status": "BASELINE_ADJUSTED",
+    "status": "FALSIFIED",
     "points": 2
   },
   {
@@ -644,7 +644,7 @@
     "claim_id": "boucherie2026spdnetae_ssgcnet_c3",
     "category": "Analytical",
     "text": "On real cross-session BNCI2014-001 (NEMAR nm000139, Session T -> Session E, 4 classes, chance 25.0%), joint supervised + geodesic autoencoder training in SPDNetAE achieves 65.97% test accuracy and SSGCNet achieves 66.32% test accuracy on Subject 3.",
-    "status": "VERIFIED",
+    "status": "FALSIFIED",
     "points": 2
   }
 ]

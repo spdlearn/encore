@@ -1,38 +1,44 @@
 {
   "schema": "trackio-logbook-v2",
   "paper_id": "carrara2024phasespdnet",
-  "paper_name": "Phase-SPDNet: Geometric Neural Network Based on Phase Space for BCI-EEG Decoding (Carrara, Aristimunha et al., J. Neural Eng. 2024)",
-  "timestamp": "2026-11-08T17:40:00.000000+00:00",
-  "git_commit": "3a9e18d",
+  "paper_name": "Phase-SPDNet: Geometric Neural Network Based on Phase Space for BCI-EEG Decoding (J. Neural Eng. 2024)",
+  "timestamp": "2026-11-08T21:37:23.739629+00:00",
+  "git_commit": "db38483",
   "command": "python -m repro.trackio_runner run --paper-id carrara2024phasespdnet",
   "exit_code": 0,
-  "duration_sec": 9.8421,
+  "duration_sec": 0.8738,
   "error": null,
   "claim_traces": {
     "carrara2024phasespdnet_c1": {
-      "delayed_shape": [
+      "delayed_shape_3ch_m7_tau2": [
+        4,
+        21,
+        986
+      ],
+      "delayed_shape_22ch_m2_tau2": [
         4,
         44,
         246
       ],
-      "expected_channels": 44,
-      "min_eig": 0.00010000000474974513,
-      "passed": true,
+      "min_eig_block_hankel_cov": 0.00024108,
+      "passed": false,
       "scope": "full"
     },
     "carrara2024phasespdnet_c2": {
-      "spdnet_order1_auc_pct": 73.1,
-      "phasespdnet_d2_tau9_auc_pct": 79.4,
-      "optuna_auc_pct": 80.6,
+      "cho2017_spdnet_val_loss": 0.69,
+      "cho2017_phasespdnet_opt_val_loss": 0.57,
+      "riemannian_fisher_ratio_gain_pct": 28.4,
       "passed": true,
       "scope": "full"
     },
     "carrara2024phasespdnet_c3": {
-      "harness": "MOABB WithinSession 2-Class & CrossSession 4-Class BNCI2014-001 / BNCI2014-004 / Cho2017",
-      "bnci2014_001_2cls_auc_pct": 80.6,
-      "bnci2014_004_2cls_auc_pct": 83.2,
-      "cho2017_2cls_auc_pct": 73.1,
-      "bnci2014_001_4cls_subj3_acc_pct": 77.43,
+      "harness": "MOABB WithinSession 6-Dataset Benchmark (C3, Cz, C4, [8-32] Hz) & CrossSession BNCI2014-001",
+      "published_bnci2014001_auc_pct": 78.4,
+      "our_3ch_bnci2014001_auc_pct": 78.12,
+      "published_bnci2014004_auc_pct": 82.29,
+      "our_3ch_bnci2014004_auc_pct": 81.95,
+      "bnci_22ch_subj3_m1_acc_pct": 72.57,
+      "bnci_22ch_subj3_m2_tau2_acc_pct": 77.78,
       "passed": true,
       "scope": "full"
     }

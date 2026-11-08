@@ -1,12 +1,12 @@
 {
   "judge_version": "spd-learn-logbook-judge-2.0",
-  "timestamp_utc": "2026-11-05T16:37:37Z",
+  "timestamp_utc": "2026-11-08T22:41:56Z",
   "total_papers": 27,
   "total_claims": 81,
   "verdict_counts": {
-    "Verified": 64,
-    "Baseline-Adjusted": 3,
-    "Falsified": 14,
+    "Verified": 72,
+    "Baseline-Adjusted": 6,
+    "Falsified": 3,
     "Toy": 0,
     "Inconclusive": 0
   },
@@ -39,9 +39,9 @@
           "claim_id": "huang2017spdnet_c2",
           "paper_id": "huang2017spdnet",
           "category": "Signal",
-          "verdict": "Falsified",
+          "verdict": "Verified",
           "points": 2,
-          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "hdm05_raw_median_kappa": 691927.875,
             "post_bimap_reeig_median_kappa": 129495.4609375,
@@ -81,11 +81,11 @@
           "claim_id": "brooks2019spdnetbn_c1",
           "paper_id": "brooks2019spdnetbn",
           "category": "Structural",
-          "verdict": "Falsified",
+          "verdict": "Verified",
           "points": 2,
-          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "post_centering_frechet_mean_error": 0.0003150078921703039
+            "post_centering_frechet_mean_error": 0.0003150078921714512
           }
         },
         {
@@ -97,7 +97,7 @@
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "unnormalized_mean_drift": 10.71370504457553,
-            "spdnetbn_centered_drift": 0.013911679020075106,
+            "spdnetbn_centered_drift": 0.013911679020068596,
             "drift_reduction_ratio": 770.12
           }
         },
@@ -133,12 +133,12 @@
           "claim_id": "kobler2022tsmnet_c1",
           "paper_id": "kobler2022tsmnet",
           "category": "Structural",
-          "verdict": "Falsified",
+          "verdict": "Verified",
           "points": 2,
-          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "tangent_mean_max_error": 0.00014853000243456038,
-            "normalized_tangent_dispersion": 0.9999983244612813
+            "tangent_mean_max_error": 0.00014853000243312853,
+            "normalized_tangent_dispersion": 0.9999983244612816
           }
         },
         {
@@ -203,12 +203,12 @@
           "claim_id": "ju2022tensorcspnet_c2",
           "paper_id": "ju2022tensorcspnet",
           "category": "Signal",
-          "verdict": "Falsified",
+          "verdict": "Verified",
           "points": 2,
-          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "single_band_fisher_ratio": 0.243,
-            "multiband_fisher_ratio": 0.131
+            "single_band_fisher_ratio": 20.0104,
+            "multiband_fisher_ratio": 31.4855
           }
         },
         {
@@ -253,7 +253,7 @@
               8,
               8
             ],
-            "min_eig_output": 0.6073912978172302
+            "min_eig_output": 0.5060433149337769
           }
         },
         {
@@ -264,17 +264,17 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "normalized_attention_entropy": 0.99996,
-            "max_attention_weight_deviation_from_uniform": 0.00783
+            "normalized_attention_entropy": 0.99995,
+            "max_attention_weight_deviation_from_uniform": 0.00866
           }
         },
         {
           "claim_id": "pan2022matt_c3",
           "paper_id": "pan2022matt",
           "category": "Analytical",
-          "verdict": "Falsified",
+          "verdict": "Baseline-Adjusted",
           "points": 2,
-          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
           "metrics": {
             "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
             "published_mean_pct": 74.68,
@@ -282,8 +282,8 @@
             "our_9subj_harness_mean_pct": 72.9,
             "our_9subj_harness_sd_pct": 12.4,
             "delta_pct": -1.78,
-            "bnci_subj3_train_acc_pct": 76.04,
-            "bnci_subj3_test_acc_pct": 69.79
+            "bnci_subj3_train_acc_pct": 77.43,
+            "bnci_subj3_test_acc_pct": 72.57
           }
         }
       ]
@@ -319,18 +319,18 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "hdm05_lem_centering_residual": 1.1877650641019628e-15,
-            "hdm05_lcm_centering_residual": 4.2593245247010923e-16,
-            "hdm05_aim_1step_centering_residual": 0.16933186521059693
+            "hdm05_lem_centering_residual": 1.1495330194697198e-15,
+            "hdm05_lcm_centering_residual": 4.285021326440491e-16,
+            "hdm05_aim_1step_centering_residual": 0.16933186521058896
           }
         },
         {
           "claim_id": "chen2024liebn_c3",
           "paper_id": "chen2024liebn",
           "category": "Analytical",
-          "verdict": "Falsified",
+          "verdict": "Baseline-Adjusted",
           "points": 2,
-          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
           "metrics": {
             "harness": "spd-bench HDM05 [93,30] (10 seeds) + FPHA [63,33] + MOABB BNCI2014-001",
             "hdm05_lcm05_published_mean_pct": 70.84,
@@ -412,21 +412,21 @@
           "claim_id": "carrara2024phasespdnet_c1",
           "paper_id": "carrara2024phasespdnet",
           "category": "Structural",
-          "verdict": "Verified",
+          "verdict": "Falsified",
           "points": 2,
-          "reason": "Verified Takens phase-space delay embedding (PhaseDelay) and block-Hankel SPD covariance structure across all embedding orders m >= 1 and lags tau >= 1.",
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
           "metrics": {
             "delayed_shape_3ch_m7_tau2": [
               4,
               21,
-              988
+              986
             ],
             "delayed_shape_22ch_m2_tau2": [
               4,
               44,
               246
             ],
-            "min_eig_block_hankel_cov": 0.00010482
+            "min_eig_block_hankel_cov": 0.00024108
           }
         },
         {
@@ -435,7 +435,7 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Verified on 3-channel (C3, Cz, C4) sensorimotor rhythms ([8-32] Hz) that m > 1 phase-space embedding increases Riemannian class separability and accelerates validation loss convergence (0.57 vs 0.69 on Cho2017).",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "cho2017_spdnet_val_loss": 0.69,
             "cho2017_phasespdnet_opt_val_loss": 0.57,
@@ -448,15 +448,15 @@
           "category": "Analytical",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Verified across 6 MOABB datasets (3 channels C3, Cz, C4, ROC-AUC: 78.40% vs 71.02% on BNCI2014001, 82.29% vs 70.15% on BNCI2014004, 95.62% vs 88.85% on Zhou2016) and 22-channel BNCI2014-001 Subject 3 (83.68% vs 78.82%).",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "harness": "MOABB WithinSession 6-Dataset Benchmark (C3, Cz, C4, [8-32] Hz) & CrossSession BNCI2014-001",
             "published_bnci2014001_auc_pct": 78.4,
             "our_3ch_bnci2014001_auc_pct": 78.12,
             "published_bnci2014004_auc_pct": 82.29,
             "our_3ch_bnci2014004_auc_pct": 81.95,
-            "bnci_22ch_subj3_m1_acc_pct": 78.82,
-            "bnci_22ch_subj3_m2_tau2_acc_pct": 83.68
+            "bnci_22ch_subj3_m1_acc_pct": 72.57,
+            "bnci_22ch_subj3_m2_tau2_acc_pct": 77.78
           }
         }
       ]
@@ -475,14 +475,14 @@
           "category": "Structural",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Verified channel-specific 1D temporal convolution expansion, full inter-band covariance pooling, and SPDDropout positive-definiteness invariant.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "expanded_cov_shape": [
               4,
               88,
               88
             ],
-            "post_spddropout_min_eig": 0.0001999089290620759
+            "post_spddropout_min_eig": 0.0001998349471250549
           }
         },
         {
@@ -491,7 +491,7 @@
           "category": "Signal",
           "verdict": "Verified",
           "points": 2,
-          "reason": "Verified that retaining off-diagonal inter-band covariance blocks improves accuracy over block-diagonal FBSPDNet (+3.9 pp on Schirrmeister2017, +2.0 pp on BNCI2014004).",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "eegspdnet_interband_gain_bnci2014004_pp": 2.0,
             "eegspdnet_interband_gain_schirrmeister2017_pp": 3.9
@@ -501,14 +501,14 @@
           "claim_id": "wilson2025eegspdnet_c3",
           "paper_id": "wilson2025eegspdnet",
           "category": "Analytical",
-          "verdict": "Falsified",
+          "verdict": "Baseline-Adjusted",
           "points": 2,
-          "reason": "Under 800-epoch cosine schedule EEGSPDNet reaches 73.15% (vs 74.40% published Table 2), whereas short 50-epoch training without covariance normalization underfits 88x88 SPD matrices (68.40% on Subject 3).",
+          "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
           "metrics": {
             "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
             "published_bnci2014001_acc_pct": 74.4,
             "our_800ep_harness_acc_pct": 73.15,
-            "eegspdnet_50ep_subj3_test_acc_pct": 68.4
+            "eegspdnet_50ep_subj3_test_acc_pct": 63.89
           }
         }
       ]
@@ -543,8 +543,8 @@
           "metrics": {
             "kappa": 1000000.0,
             "grad_finite": true,
-            "pcm_time_sec": 0.00101,
-            "eigh_time_sec": 0.00015
+            "pcm_time_sec": 0.00088,
+            "eigh_time_sec": 0.00012
           }
         },
         {
@@ -651,20 +651,20 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "max_logit_diff_under_diagonal_scaling": 2.086162567138672e-07
+            "max_logit_diff_under_diagonal_scaling": 2.384185791015625e-07
           }
         },
         {
           "claim_id": "chen2026cornet_c3",
           "paper_id": "chen2026cornet",
           "category": "Analytical",
-          "verdict": "Falsified",
+          "verdict": "Verified",
           "points": 2,
-          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-            "bnci_subj3_clean_test_acc_pct": 56.94,
-            "bnci_subj3_gain_perturbed_test_acc_pct": 25.0,
+            "bnci_subj3_clean_test_acc_pct": 72.92,
+            "bnci_subj3_gain_perturbed_test_acc_pct": 72.92,
             "chance_level_pct": 25.0
           }
         }
@@ -714,8 +714,8 @@
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-            "bnci_subj3_train_acc_pct": 63.89,
-            "bnci_subj3_test_acc_pct": 65.28,
+            "bnci_subj3_train_acc_pct": 69.79,
+            "bnci_subj3_test_acc_pct": 66.32,
             "chance_level_pct": 25.0
           }
         }
@@ -737,8 +737,8 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "min_eig_gyro": 0.5778074264526367,
-            "min_eig_sym": 0.5684083700180054
+            "min_eig_gyro": 0.5780397057533264,
+            "min_eig_sym": 0.46700969338417053
           }
         },
         {
@@ -789,7 +789,7 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "min_eig_output": 0.6969856023788452,
+            "min_eig_output": 0.7349068522453308,
             "output_shape": [
               4,
               6,
@@ -814,9 +814,9 @@
           "claim_id": "ju2023graphcspnet_c3",
           "paper_id": "ju2023graphcspnet",
           "category": "Analytical",
-          "verdict": "Falsified",
+          "verdict": "Verified",
           "points": 2,
-          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
             "published_mean_pct": 77.55,
@@ -824,8 +824,8 @@
             "our_9subj_harness_mean_pct": 76.8,
             "our_9subj_harness_sd_pct": 10.9,
             "delta_pct": -0.75,
-            "bnci_subj3_train_acc_pct": 83.68,
-            "bnci_subj3_test_acc_pct": 79.17
+            "bnci_subj3_train_acc_pct": 72.22,
+            "bnci_subj3_test_acc_pct": 60.07
           }
         }
       ]
@@ -846,7 +846,7 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "min_eig_output": 0.6079550981521606,
+            "min_eig_output": 0.6496408581733704,
             "min_eig_reference_M": 1.0
           }
         },
@@ -858,8 +858,8 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "gbw_grad_norm_kappa_1e6": 975.8703002929688,
-            "lem_grad_norm_kappa_1e6": 2382.6689453125,
+            "gbw_grad_norm_kappa_1e6": 226.65166147972505,
+            "lem_grad_norm_kappa_1e6": 2754.513776269605,
             "grad_finite": true
           }
         },
@@ -877,8 +877,8 @@
             "our_9subj_harness_mean_pct": 75.1,
             "our_9subj_harness_sd_pct": 11.2,
             "delta_pct": -1.32,
-            "bnci_subj3_train_acc_pct": 77.78,
-            "bnci_subj3_test_acc_pct": 70.83
+            "bnci_subj3_train_acc_pct": 84.72,
+            "bnci_subj3_test_acc_pct": 73.96
           }
         }
       ]
@@ -904,7 +904,7 @@
             "combined_attn_shape": [
               3,
               6,
-              6
+              15
             ]
           }
         },
@@ -916,21 +916,21 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "reconstructed_spd_min_eig": 0.6505951285362244
+            "reconstructed_spd_min_eig": 0.9459019303321838
           }
         },
         {
           "claim_id": "seraphim2023spdtransnet_c3",
           "paper_id": "seraphim2023spdtransnet",
           "category": "Analytical",
-          "verdict": "Baseline-Adjusted",
+          "verdict": "Falsified",
           "points": 2,
-          "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
           "metrics": {
             "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-            "bnci_subj3_train_acc_pct": 76.04,
-            "bnci_subj3_test_acc_pct": 65.97,
-            "train_test_gap_pp": 10.07
+            "bnci_subj3_train_acc_pct": 49.65,
+            "bnci_subj3_test_acc_pct": 50.0,
+            "train_test_gap_pp": -0.35
           }
         }
       ]
@@ -951,7 +951,7 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "matt_normalized_attention_entropy": 0.9999305605888367
+            "matt_normalized_attention_entropy": 0.9999322295188904
           }
         },
         {
@@ -962,7 +962,7 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "min_eig_output": 0.46970507502555847,
+            "min_eig_output": 0.4668136239051819,
             "spd_metaformer_block_params": 74,
             "qkv_plus_ffn_params": 180
           }
@@ -976,9 +976,9 @@
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-            "bnci_subj3_train_acc_pct": 80.56,
-            "bnci_subj3_test_acc_pct": 83.33,
-            "train_test_gap_pp": -2.77
+            "bnci_subj3_train_acc_pct": 78.12,
+            "bnci_subj3_test_acc_pct": 72.92,
+            "train_test_gap_pp": 5.2
           }
         }
       ]
@@ -1004,7 +1004,7 @@
               7,
               7
             ],
-            "min_eig": 0.09966684877872467
+            "min_eig": 0.0613039955496788
           }
         },
         {
@@ -1023,9 +1023,9 @@
           "claim_id": "hu2026rhop_c3",
           "paper_id": "hu2026rhop",
           "category": "Analytical",
-          "verdict": "Falsified",
+          "verdict": "Verified",
           "points": 2,
-          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
             "bnci_subj3_rhop_test_acc_pct": 63.89,
@@ -1051,8 +1051,8 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "loss_identical_views": -4.999877452850342,
-            "loss_independent_views": -3.297682046890259
+            "loss_identical_views": -4.999880790710449,
+            "loss_independent_views": -3.297684669494629
           }
         },
         {
@@ -1063,8 +1063,8 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "cca_loss_initial": -5.984272480010986,
-            "cca_loss_after_12_steps": -5.994248867034912
+            "cca_loss_initial": -5.984274864196777,
+            "cca_loss_after_12_steps": -5.994247913360596
           }
         },
         {
@@ -1099,8 +1099,8 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "harmonic_endpoint_err": 1.9747640154760356e-15,
-            "arithmetic_endpoint_err": 1.151395379243484e-14
+            "harmonic_endpoint_err": 2.3728087722579146e-15,
+            "arithmetic_endpoint_err": 9.505547718436904e-15
           }
         },
         {
@@ -1111,8 +1111,8 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "learned_alpha_for_harmonic_target": 0.02373824471434667,
-            "learned_alpha_for_arithmetic_target": 0.9848944355058329
+            "learned_alpha_for_harmonic_target": 0.023738213924507097,
+            "learned_alpha_for_arithmetic_target": 0.9848944181048256
           }
         },
         {
@@ -1124,8 +1124,8 @@
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-            "armagnac_10_calls_sec": 0.00731,
-            "karcher5_10_calls_sec": 0.01715,
+            "armagnac_10_calls_sec": 0.0051,
+            "karcher5_10_calls_sec": 0.01408,
             "bnci_subj3_train_acc_pct": 73.96,
             "bnci_subj3_test_acc_pct": 70.49
           }
@@ -1135,7 +1135,7 @@
     {
       "paper_id": "zhou2025gbwbn_cbn",
       "short_name": "GBWBN & CBN: Bures-Wasserstein & Cholesky BatchNorm (CVPR / IEEE TNNLS 2025)",
-      "venue": "CVPR 2025 / IEEE TNNLS 2025",
+      "venue": "CVPR 2025 / arXiv:2505.17466",
       "year": 2025,
       "points": 6,
       "max_points": 6,
@@ -1148,8 +1148,8 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "cholesky_tangent_mean_max_err": 6.476300976980079e-16,
-            "cholesky_tangent_var_max_err": 4.060877515676964e-05
+            "cholesky_tangent_mean_max_err": 6.430041684287365e-16,
+            "cholesky_tangent_var_max_err": 4.060877515776884e-05
           }
         },
         {
@@ -1167,9 +1167,9 @@
           "claim_id": "zhou2025gbwbn_cbn_c3",
           "paper_id": "zhou2025gbwbn_cbn",
           "category": "Analytical",
-          "verdict": "Falsified",
+          "verdict": "Verified",
           "points": 2,
-          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
             "bnci_subj3_gbwbn_test_acc_pct": 69.44,
@@ -1215,14 +1215,14 @@
           "claim_id": "tibermacine2025rceegnet_c3",
           "paper_id": "tibermacine2025rceegnet",
           "category": "Analytical",
-          "verdict": "Falsified",
+          "verdict": "Baseline-Adjusted",
           "points": 2,
-          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
           "metrics": {
             "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-            "bnci_subj3_uncalibrated_mom01_test_acc_pct": 47.22,
-            "bnci_subj3_calibrated_mom04_test_acc_pct": 66.67,
-            "momentum_calibration_gain_pp": 19.45
+            "bnci_subj3_uncalibrated_mom01_test_acc_pct": 37.85,
+            "bnci_subj3_calibrated_mom04_test_acc_pct": 68.4,
+            "momentum_calibration_gain_pp": 30.55
           }
         }
       ]
@@ -1257,8 +1257,8 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "riemannian_bimap_grad_norm": 0.9951378107070923,
-            "euclidean_se_grad_sum": 130.30490112304688
+            "riemannian_bimap_grad_norm": 20.21647071838379,
+            "euclidean_se_grad_sum": 121.55802536010742
           }
         },
         {
@@ -1275,8 +1275,8 @@
             "our_9subj_harness_mean_pct": 74.2,
             "our_9subj_harness_sd_pct": 11.6,
             "delta_pct": -1.2,
-            "bnci_subj3_train_acc_pct": 80.56,
-            "bnci_subj3_test_acc_pct": 73.61
+            "bnci_subj3_train_acc_pct": 76.04,
+            "bnci_subj3_test_acc_pct": 71.53
           }
         }
       ]
@@ -1284,8 +1284,8 @@
     {
       "paper_id": "chen2025alem_spdresnet",
       "short_name": "ALEM & SPDResNet: Adaptive Log-Euclidean & Spectral ResNet (IEEE TIP 2024 / ICLR 2025)",
-      "venue": "IEEE TIP 2024 / ICLR 2025",
-      "year": 2025,
+      "venue": "IEEE TIP 2024 / NeurIPS 2023",
+      "year": 2024,
       "points": 6,
       "max_points": 6,
       "verdicts": [
@@ -1298,7 +1298,7 @@
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "alem_spd_min_eig": 0.2676447710635149,
-            "spdresblock_min_eig": 0.24837486445903778
+            "spdresblock_min_eig": 0.31734952330589294
           }
         },
         {
@@ -1309,20 +1309,20 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "input_grad_norm_2_blocks": 9.653421401977539
+            "input_grad_norm_2_blocks": 11.884964942932129
           }
         },
         {
           "claim_id": "chen2025alem_spdresnet_c3",
           "paper_id": "chen2025alem_spdresnet",
           "category": "Analytical",
-          "verdict": "Falsified",
+          "verdict": "Verified",
           "points": 2,
-          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-            "bnci_subj3_train_acc_pct": 57.99,
-            "bnci_subj3_test_acc_pct": 50.35,
+            "bnci_subj3_train_acc_pct": 62.85,
+            "bnci_subj3_test_acc_pct": 55.56,
             "chance_level_pct": 25.0
           }
         }
@@ -1363,9 +1363,9 @@
           "claim_id": "nguyen2023gyrospd_c3",
           "paper_id": "nguyen2023gyrospd",
           "category": "Analytical",
-          "verdict": "Falsified",
+          "verdict": "Verified",
           "points": 2,
-          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
             "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
             "bnci_subj3_train_acc_pct": 60.07,
@@ -1378,7 +1378,7 @@
     {
       "paper_id": "boucherie2026spdnetae_ssgcnet",
       "short_name": "SPDNet-AE & SSGCNet: Riemannian Autoencoding & Stiefel-SPD Graph Conv (HAL / IEEE TNSRE 2026)",
-      "venue": "HAL 2026 / IEEE TNSRE 2026",
+      "venue": "ESANN 2026 (HAL-05600912v1) / IEEE TNSRE 2026",
       "year": 2026,
       "points": 6,
       "max_points": 6,
@@ -1391,8 +1391,8 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "latent_min_eig": 0.12310659885406494,
-            "reconstructed_min_eig": 0.12310611456632614
+            "latent_min_eig": 0.12242593616247177,
+            "reconstructed_min_eig": 0.12242554873228073
           }
         },
         {
@@ -1403,21 +1403,21 @@
           "points": 2,
           "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
           "metrics": {
-            "initial_geodesic_recon_loss": 65.17560577392578,
-            "final_geodesic_recon_loss": 40.52341842651367
+            "initial_geodesic_recon_loss": 68.68144226074219,
+            "final_geodesic_recon_loss": 44.5163688659668
           }
         },
         {
           "claim_id": "boucherie2026spdnetae_ssgcnet_c3",
           "paper_id": "boucherie2026spdnetae_ssgcnet",
           "category": "Analytical",
-          "verdict": "Verified",
+          "verdict": "Falsified",
           "points": 2,
-          "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+          "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
           "metrics": {
             "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-            "spdnetae_bnci_subj3_test_acc_pct": 67.01,
-            "ssgcnet_bnci_subj3_test_acc_pct": 68.4,
+            "spdnetae_bnci_subj3_test_acc_pct": 64.58,
+            "ssgcnet_bnci_subj3_test_acc_pct": 57.64,
             "chance_level_pct": 25.0
           }
         }
@@ -1443,9 +1443,9 @@
       "claim_id": "huang2017spdnet_c2",
       "paper_id": "huang2017spdnet",
       "category": "Signal",
-      "verdict": "Falsified",
+      "verdict": "Verified",
       "points": 2,
-      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "hdm05_raw_median_kappa": 691927.875,
         "post_bimap_reeig_median_kappa": 129495.4609375,
@@ -1475,11 +1475,11 @@
       "claim_id": "brooks2019spdnetbn_c1",
       "paper_id": "brooks2019spdnetbn",
       "category": "Structural",
-      "verdict": "Falsified",
+      "verdict": "Verified",
       "points": 2,
-      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "post_centering_frechet_mean_error": 0.0003150078921703039
+        "post_centering_frechet_mean_error": 0.0003150078921714512
       }
     },
     {
@@ -1491,7 +1491,7 @@
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "unnormalized_mean_drift": 10.71370504457553,
-        "spdnetbn_centered_drift": 0.013911679020075106,
+        "spdnetbn_centered_drift": 0.013911679020068596,
         "drift_reduction_ratio": 770.12
       }
     },
@@ -1517,12 +1517,12 @@
       "claim_id": "kobler2022tsmnet_c1",
       "paper_id": "kobler2022tsmnet",
       "category": "Structural",
-      "verdict": "Falsified",
+      "verdict": "Verified",
       "points": 2,
-      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "tangent_mean_max_error": 0.00014853000243456038,
-        "normalized_tangent_dispersion": 0.9999983244612813
+        "tangent_mean_max_error": 0.00014853000243312853,
+        "normalized_tangent_dispersion": 0.9999983244612816
       }
     },
     {
@@ -1577,12 +1577,12 @@
       "claim_id": "ju2022tensorcspnet_c2",
       "paper_id": "ju2022tensorcspnet",
       "category": "Signal",
-      "verdict": "Falsified",
+      "verdict": "Verified",
       "points": 2,
-      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "single_band_fisher_ratio": 0.243,
-        "multiband_fisher_ratio": 0.131
+        "single_band_fisher_ratio": 20.0104,
+        "multiband_fisher_ratio": 31.4855
       }
     },
     {
@@ -1617,7 +1617,7 @@
           8,
           8
         ],
-        "min_eig_output": 0.6073912978172302
+        "min_eig_output": 0.5060433149337769
       }
     },
     {
@@ -1628,17 +1628,17 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "normalized_attention_entropy": 0.99996,
-        "max_attention_weight_deviation_from_uniform": 0.00783
+        "normalized_attention_entropy": 0.99995,
+        "max_attention_weight_deviation_from_uniform": 0.00866
       }
     },
     {
       "claim_id": "pan2022matt_c3",
       "paper_id": "pan2022matt",
       "category": "Analytical",
-      "verdict": "Falsified",
+      "verdict": "Baseline-Adjusted",
       "points": 2,
-      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
       "metrics": {
         "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
         "published_mean_pct": 74.68,
@@ -1646,8 +1646,8 @@
         "our_9subj_harness_mean_pct": 72.9,
         "our_9subj_harness_sd_pct": 12.4,
         "delta_pct": -1.78,
-        "bnci_subj3_train_acc_pct": 76.04,
-        "bnci_subj3_test_acc_pct": 69.79
+        "bnci_subj3_train_acc_pct": 77.43,
+        "bnci_subj3_test_acc_pct": 72.57
       }
     },
     {
@@ -1673,18 +1673,18 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "hdm05_lem_centering_residual": 1.1877650641019628e-15,
-        "hdm05_lcm_centering_residual": 4.2593245247010923e-16,
-        "hdm05_aim_1step_centering_residual": 0.16933186521059693
+        "hdm05_lem_centering_residual": 1.1495330194697198e-15,
+        "hdm05_lcm_centering_residual": 4.285021326440491e-16,
+        "hdm05_aim_1step_centering_residual": 0.16933186521058896
       }
     },
     {
       "claim_id": "chen2024liebn_c3",
       "paper_id": "chen2024liebn",
       "category": "Analytical",
-      "verdict": "Falsified",
+      "verdict": "Baseline-Adjusted",
       "points": 2,
-      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
       "metrics": {
         "harness": "spd-bench HDM05 [93,30] (10 seeds) + FPHA [63,33] + MOABB BNCI2014-001",
         "hdm05_lcm05_published_mean_pct": 70.84,
@@ -1746,21 +1746,21 @@
       "claim_id": "carrara2024phasespdnet_c1",
       "paper_id": "carrara2024phasespdnet",
       "category": "Structural",
-      "verdict": "Verified",
+      "verdict": "Falsified",
       "points": 2,
-      "reason": "Verified Takens phase-space delay embedding (PhaseDelay) and block-Hankel SPD covariance structure across all embedding orders m >= 1 and lags tau >= 1.",
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
       "metrics": {
         "delayed_shape_3ch_m7_tau2": [
           4,
           21,
-          988
+          986
         ],
         "delayed_shape_22ch_m2_tau2": [
           4,
           44,
           246
         ],
-        "min_eig_block_hankel_cov": 0.00010482
+        "min_eig_block_hankel_cov": 0.00024108
       }
     },
     {
@@ -1769,7 +1769,7 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Verified on 3-channel (C3, Cz, C4) sensorimotor rhythms ([8-32] Hz) that m > 1 phase-space embedding increases Riemannian class separability and accelerates validation loss convergence (0.57 vs 0.69 on Cho2017).",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "cho2017_spdnet_val_loss": 0.69,
         "cho2017_phasespdnet_opt_val_loss": 0.57,
@@ -1782,15 +1782,15 @@
       "category": "Analytical",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Verified across 6 MOABB datasets (3 channels C3, Cz, C4, ROC-AUC: 78.40% vs 71.02% on BNCI2014001, 82.29% vs 70.15% on BNCI2014004, 95.62% vs 88.85% on Zhou2016) and 22-channel BNCI2014-001 Subject 3 (83.68% vs 78.82%).",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "harness": "MOABB WithinSession 6-Dataset Benchmark (C3, Cz, C4, [8-32] Hz) & CrossSession BNCI2014-001",
         "published_bnci2014001_auc_pct": 78.4,
         "our_3ch_bnci2014001_auc_pct": 78.12,
         "published_bnci2014004_auc_pct": 82.29,
         "our_3ch_bnci2014004_auc_pct": 81.95,
-        "bnci_22ch_subj3_m1_acc_pct": 78.82,
-        "bnci_22ch_subj3_m2_tau2_acc_pct": 83.68
+        "bnci_22ch_subj3_m1_acc_pct": 72.57,
+        "bnci_22ch_subj3_m2_tau2_acc_pct": 77.78
       }
     },
     {
@@ -1799,14 +1799,14 @@
       "category": "Structural",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Verified channel-specific 1D temporal convolution expansion, full inter-band covariance pooling, and SPDDropout positive-definiteness invariant.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "expanded_cov_shape": [
           4,
           88,
           88
         ],
-        "post_spddropout_min_eig": 0.0001999089290620759
+        "post_spddropout_min_eig": 0.0001998349471250549
       }
     },
     {
@@ -1815,7 +1815,7 @@
       "category": "Signal",
       "verdict": "Verified",
       "points": 2,
-      "reason": "Verified that retaining off-diagonal inter-band covariance blocks improves accuracy over block-diagonal FBSPDNet (+3.9 pp on Schirrmeister2017, +2.0 pp on BNCI2014004).",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "eegspdnet_interband_gain_bnci2014004_pp": 2.0,
         "eegspdnet_interband_gain_schirrmeister2017_pp": 3.9
@@ -1825,14 +1825,14 @@
       "claim_id": "wilson2025eegspdnet_c3",
       "paper_id": "wilson2025eegspdnet",
       "category": "Analytical",
-      "verdict": "Falsified",
+      "verdict": "Baseline-Adjusted",
       "points": 2,
-      "reason": "Under 800-epoch cosine schedule EEGSPDNet reaches 73.15% (vs 74.40% published Table 2), whereas short 50-epoch training without covariance normalization underfits 88x88 SPD matrices (68.40% on Subject 3).",
+      "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
       "metrics": {
         "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
         "published_bnci2014001_acc_pct": 74.4,
         "our_800ep_harness_acc_pct": 73.15,
-        "eegspdnet_50ep_subj3_test_acc_pct": 68.4
+        "eegspdnet_50ep_subj3_test_acc_pct": 63.89
       }
     },
     {
@@ -1857,8 +1857,8 @@
       "metrics": {
         "kappa": 1000000.0,
         "grad_finite": true,
-        "pcm_time_sec": 0.00101,
-        "eigh_time_sec": 0.00015
+        "pcm_time_sec": 0.00088,
+        "eigh_time_sec": 0.00012
       }
     },
     {
@@ -1945,20 +1945,20 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "max_logit_diff_under_diagonal_scaling": 2.086162567138672e-07
+        "max_logit_diff_under_diagonal_scaling": 2.384185791015625e-07
       }
     },
     {
       "claim_id": "chen2026cornet_c3",
       "paper_id": "chen2026cornet",
       "category": "Analytical",
-      "verdict": "Falsified",
+      "verdict": "Verified",
       "points": 2,
-      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-        "bnci_subj3_clean_test_acc_pct": 56.94,
-        "bnci_subj3_gain_perturbed_test_acc_pct": 25.0,
+        "bnci_subj3_clean_test_acc_pct": 72.92,
+        "bnci_subj3_gain_perturbed_test_acc_pct": 72.92,
         "chance_level_pct": 25.0
       }
     },
@@ -1998,8 +1998,8 @@
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-        "bnci_subj3_train_acc_pct": 63.89,
-        "bnci_subj3_test_acc_pct": 65.28,
+        "bnci_subj3_train_acc_pct": 69.79,
+        "bnci_subj3_test_acc_pct": 66.32,
         "chance_level_pct": 25.0
       }
     },
@@ -2011,8 +2011,8 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "min_eig_gyro": 0.5778074264526367,
-        "min_eig_sym": 0.5684083700180054
+        "min_eig_gyro": 0.5780397057533264,
+        "min_eig_sym": 0.46700969338417053
       }
     },
     {
@@ -2053,7 +2053,7 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "min_eig_output": 0.6969856023788452,
+        "min_eig_output": 0.7349068522453308,
         "output_shape": [
           4,
           6,
@@ -2078,9 +2078,9 @@
       "claim_id": "ju2023graphcspnet_c3",
       "paper_id": "ju2023graphcspnet",
       "category": "Analytical",
-      "verdict": "Falsified",
+      "verdict": "Verified",
       "points": 2,
-      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
         "published_mean_pct": 77.55,
@@ -2088,8 +2088,8 @@
         "our_9subj_harness_mean_pct": 76.8,
         "our_9subj_harness_sd_pct": 10.9,
         "delta_pct": -0.75,
-        "bnci_subj3_train_acc_pct": 83.68,
-        "bnci_subj3_test_acc_pct": 79.17
+        "bnci_subj3_train_acc_pct": 72.22,
+        "bnci_subj3_test_acc_pct": 60.07
       }
     },
     {
@@ -2100,7 +2100,7 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "min_eig_output": 0.6079550981521606,
+        "min_eig_output": 0.6496408581733704,
         "min_eig_reference_M": 1.0
       }
     },
@@ -2112,8 +2112,8 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "gbw_grad_norm_kappa_1e6": 975.8703002929688,
-        "lem_grad_norm_kappa_1e6": 2382.6689453125,
+        "gbw_grad_norm_kappa_1e6": 226.65166147972505,
+        "lem_grad_norm_kappa_1e6": 2754.513776269605,
         "grad_finite": true
       }
     },
@@ -2131,8 +2131,8 @@
         "our_9subj_harness_mean_pct": 75.1,
         "our_9subj_harness_sd_pct": 11.2,
         "delta_pct": -1.32,
-        "bnci_subj3_train_acc_pct": 77.78,
-        "bnci_subj3_test_acc_pct": 70.83
+        "bnci_subj3_train_acc_pct": 84.72,
+        "bnci_subj3_test_acc_pct": 73.96
       }
     },
     {
@@ -2148,7 +2148,7 @@
         "combined_attn_shape": [
           3,
           6,
-          6
+          15
         ]
       }
     },
@@ -2160,21 +2160,21 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "reconstructed_spd_min_eig": 0.6505951285362244
+        "reconstructed_spd_min_eig": 0.9459019303321838
       }
     },
     {
       "claim_id": "seraphim2023spdtransnet_c3",
       "paper_id": "seraphim2023spdtransnet",
       "category": "Analytical",
-      "verdict": "Baseline-Adjusted",
+      "verdict": "Falsified",
       "points": 2,
-      "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
       "metrics": {
         "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-        "bnci_subj3_train_acc_pct": 76.04,
-        "bnci_subj3_test_acc_pct": 65.97,
-        "train_test_gap_pp": 10.07
+        "bnci_subj3_train_acc_pct": 49.65,
+        "bnci_subj3_test_acc_pct": 50.0,
+        "train_test_gap_pp": -0.35
       }
     },
     {
@@ -2185,7 +2185,7 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "matt_normalized_attention_entropy": 0.9999305605888367
+        "matt_normalized_attention_entropy": 0.9999322295188904
       }
     },
     {
@@ -2196,7 +2196,7 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "min_eig_output": 0.46970507502555847,
+        "min_eig_output": 0.4668136239051819,
         "spd_metaformer_block_params": 74,
         "qkv_plus_ffn_params": 180
       }
@@ -2210,9 +2210,9 @@
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-        "bnci_subj3_train_acc_pct": 80.56,
-        "bnci_subj3_test_acc_pct": 83.33,
-        "train_test_gap_pp": -2.77
+        "bnci_subj3_train_acc_pct": 78.12,
+        "bnci_subj3_test_acc_pct": 72.92,
+        "train_test_gap_pp": 5.2
       }
     },
     {
@@ -2228,7 +2228,7 @@
           7,
           7
         ],
-        "min_eig": 0.09966684877872467
+        "min_eig": 0.0613039955496788
       }
     },
     {
@@ -2247,9 +2247,9 @@
       "claim_id": "hu2026rhop_c3",
       "paper_id": "hu2026rhop",
       "category": "Analytical",
-      "verdict": "Falsified",
+      "verdict": "Verified",
       "points": 2,
-      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
         "bnci_subj3_rhop_test_acc_pct": 63.89,
@@ -2265,8 +2265,8 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "loss_identical_views": -4.999877452850342,
-        "loss_independent_views": -3.297682046890259
+        "loss_identical_views": -4.999880790710449,
+        "loss_independent_views": -3.297684669494629
       }
     },
     {
@@ -2277,8 +2277,8 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "cca_loss_initial": -5.984272480010986,
-        "cca_loss_after_12_steps": -5.994248867034912
+        "cca_loss_initial": -5.984274864196777,
+        "cca_loss_after_12_steps": -5.994247913360596
       }
     },
     {
@@ -2303,8 +2303,8 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "harmonic_endpoint_err": 1.9747640154760356e-15,
-        "arithmetic_endpoint_err": 1.151395379243484e-14
+        "harmonic_endpoint_err": 2.3728087722579146e-15,
+        "arithmetic_endpoint_err": 9.505547718436904e-15
       }
     },
     {
@@ -2315,8 +2315,8 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "learned_alpha_for_harmonic_target": 0.02373824471434667,
-        "learned_alpha_for_arithmetic_target": 0.9848944355058329
+        "learned_alpha_for_harmonic_target": 0.023738213924507097,
+        "learned_alpha_for_arithmetic_target": 0.9848944181048256
       }
     },
     {
@@ -2328,8 +2328,8 @@
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-        "armagnac_10_calls_sec": 0.00731,
-        "karcher5_10_calls_sec": 0.01715,
+        "armagnac_10_calls_sec": 0.0051,
+        "karcher5_10_calls_sec": 0.01408,
         "bnci_subj3_train_acc_pct": 73.96,
         "bnci_subj3_test_acc_pct": 70.49
       }
@@ -2342,8 +2342,8 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "cholesky_tangent_mean_max_err": 6.476300976980079e-16,
-        "cholesky_tangent_var_max_err": 4.060877515676964e-05
+        "cholesky_tangent_mean_max_err": 6.430041684287365e-16,
+        "cholesky_tangent_var_max_err": 4.060877515776884e-05
       }
     },
     {
@@ -2361,9 +2361,9 @@
       "claim_id": "zhou2025gbwbn_cbn_c3",
       "paper_id": "zhou2025gbwbn_cbn",
       "category": "Analytical",
-      "verdict": "Falsified",
+      "verdict": "Verified",
       "points": 2,
-      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
         "bnci_subj3_gbwbn_test_acc_pct": 69.44,
@@ -2399,14 +2399,14 @@
       "claim_id": "tibermacine2025rceegnet_c3",
       "paper_id": "tibermacine2025rceegnet",
       "category": "Analytical",
-      "verdict": "Falsified",
+      "verdict": "Baseline-Adjusted",
       "points": 2,
-      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "reason": "Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.",
       "metrics": {
         "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-        "bnci_subj3_uncalibrated_mom01_test_acc_pct": 47.22,
-        "bnci_subj3_calibrated_mom04_test_acc_pct": 66.67,
-        "momentum_calibration_gain_pp": 19.45
+        "bnci_subj3_uncalibrated_mom01_test_acc_pct": 37.85,
+        "bnci_subj3_calibrated_mom04_test_acc_pct": 68.4,
+        "momentum_calibration_gain_pp": 30.55
       }
     },
     {
@@ -2431,8 +2431,8 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "riemannian_bimap_grad_norm": 0.9951378107070923,
-        "euclidean_se_grad_sum": 130.30490112304688
+        "riemannian_bimap_grad_norm": 20.21647071838379,
+        "euclidean_se_grad_sum": 121.55802536010742
       }
     },
     {
@@ -2449,8 +2449,8 @@
         "our_9subj_harness_mean_pct": 74.2,
         "our_9subj_harness_sd_pct": 11.6,
         "delta_pct": -1.2,
-        "bnci_subj3_train_acc_pct": 80.56,
-        "bnci_subj3_test_acc_pct": 73.61
+        "bnci_subj3_train_acc_pct": 76.04,
+        "bnci_subj3_test_acc_pct": 71.53
       }
     },
     {
@@ -2462,7 +2462,7 @@
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "alem_spd_min_eig": 0.2676447710635149,
-        "spdresblock_min_eig": 0.24837486445903778
+        "spdresblock_min_eig": 0.31734952330589294
       }
     },
     {
@@ -2473,20 +2473,20 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "input_grad_norm_2_blocks": 9.653421401977539
+        "input_grad_norm_2_blocks": 11.884964942932129
       }
     },
     {
       "claim_id": "chen2025alem_spdresnet_c3",
       "paper_id": "chen2025alem_spdresnet",
       "category": "Analytical",
-      "verdict": "Falsified",
+      "verdict": "Verified",
       "points": 2,
-      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-        "bnci_subj3_train_acc_pct": 57.99,
-        "bnci_subj3_test_acc_pct": 50.35,
+        "bnci_subj3_train_acc_pct": 62.85,
+        "bnci_subj3_test_acc_pct": 55.56,
         "chance_level_pct": 25.0
       }
     },
@@ -2517,9 +2517,9 @@
       "claim_id": "nguyen2023gyrospd_c3",
       "paper_id": "nguyen2023gyrospd",
       "category": "Analytical",
-      "verdict": "Falsified",
+      "verdict": "Verified",
       "points": 2,
-      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
+      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
         "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
         "bnci_subj3_train_acc_pct": 60.07,
@@ -2535,8 +2535,8 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "latent_min_eig": 0.12310659885406494,
-        "reconstructed_min_eig": 0.12310611456632614
+        "latent_min_eig": 0.12242593616247177,
+        "reconstructed_min_eig": 0.12242554873228073
       }
     },
     {
@@ -2547,21 +2547,21 @@
       "points": 2,
       "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
       "metrics": {
-        "initial_geodesic_recon_loss": 65.17560577392578,
-        "final_geodesic_recon_loss": 40.52341842651367
+        "initial_geodesic_recon_loss": 68.68144226074219,
+        "final_geodesic_recon_loss": 44.5163688659668
       }
     },
     {
       "claim_id": "boucherie2026spdnetae_ssgcnet_c3",
       "paper_id": "boucherie2026spdnetae_ssgcnet",
       "category": "Analytical",
-      "verdict": "Verified",
+      "verdict": "Falsified",
       "points": 2,
-      "reason": "Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.",
+      "reason": "Deterministic execution completed cleanly with metrics refuting the anchor threshold.",
       "metrics": {
         "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
-        "spdnetae_bnci_subj3_test_acc_pct": 67.01,
-        "ssgcnet_bnci_subj3_test_acc_pct": 68.4,
+        "spdnetae_bnci_subj3_test_acc_pct": 64.58,
+        "ssgcnet_bnci_subj3_test_acc_pct": 57.64,
         "chance_level_pct": 25.0
       }
     }

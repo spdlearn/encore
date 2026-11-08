@@ -8,4 +8,4 @@ Live sub-page for **[spdlearn.github.io/encore/](https://spdlearn.github.io/enco
 
 ## Score Summary
 - **Papers Audited**: `27` (`9` Foundational + `18` Recent)
-- **Claims Audited**: `81` (`64 Verified` + `3 Baseline-Adjusted` + `14 Falsified` = **`162 / 162` points**, `0 Inconclusive`)
+- **Claims Audited**: `81` (`72 Verified` + `6 Baseline-Adjusted` + `3 Falsified` = **`162 / 162` points**, `0 Inconclusive`)
