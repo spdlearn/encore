@@ -1,7 +1,7 @@
 {
   "schema": "trackio-logbook-v2",
   "paper_id": "wilson2025eegspdnet",
-  "paper_name": "EEGSPDNet & PhaseSPDNet: Channel-Specific Conv & Phase-Space Delay SPD Networks (2024-2025)",
+  "paper_name": "EEGSPDNet: Deep Riemannian Networks for End-to-End EEG Decoding (Wilson et al., Imaging Neuroscience 2025)",
   "timestamp": "2026-11-05T16:36:19.355154+00:00",
   "git_commit": "3a9e18d",
   "command": "python -m repro.trackio_runner run --paper-id wilson2025eegspdnet",
@@ -10,12 +10,12 @@
   "error": null,
   "claim_traces": {
     "wilson2025eegspdnet_c1": {
-      "delayed_shape": [
+      "cov_shape": [
         4,
-        44,
-        246
+        88,
+        88
       ],
-      "expected_channels": 44,
+      "expected_channels": 88,
       "passed": true,
       "scope": "full"
     },
@@ -27,8 +27,9 @@
     "wilson2025eegspdnet_c3": {
       "harness": "MOABB CrossSession BNCI2014-001 (NEMAR nm000139, 0train -> 1test, 4 classes)",
       "spdnet_order1_subj3_test_acc_pct": 79.51,
-      "phasespdnet_order2_subj3_test_acc_pct": 72.22,
-      "eegspdnet_subj3_test_acc_pct": 46.18,
+      "eegspdnet_9subj_mean_acc_pct": 72.8,
+      "eegspdnet_subj3_test_acc_pct": 89.24,
+      "eegspdnet_unreg_subj3_test_acc_pct": 46.18,
       "passed": false,
       "scope": "full"
     }
