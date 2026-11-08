@@ -12,11 +12,11 @@
   --accent-dark: #C03216;
   --accent-secondary: #F7941D;
   --spd-blue: #2f6fed;
-  --good: #059669;
-  --warning: #d97706;
-  --critical: #dc2626;
-  --unresolved: #dc2626;
-  --blocked: #64748b;
+  --good: #047857;
+  --warning: #b45309;
+  --critical: #b91c1c;
+  --unresolved: #b91c1c;
+  --blocked: #475569;
   --link: #C03216;
   --hover: #f1f5f9;
   --bar: #2f6fed;
@@ -71,12 +71,14 @@
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; max-width: 100%; overflow-x: hidden; }
 body {
   margin: 0;
   background: var(--surface);
   color: var(--text);
   font: 15.5px/1.5 var(--font-body);
+  max-width: 100%;
+  overflow-x: hidden;
 }
 h1, h2, h3, h4, .brand, .eyebrow, .col-banner {
   font-family: var(--font-heading);
@@ -248,12 +250,15 @@ h3 { font-size: 0.98rem; margin: 0 0 6px; }
    Col 1 (Original Figure) | Col 2 (Our Replicability) | Col 3 (The Gap & Pipeline Diffs) */
 .tri-grid {
   display: grid;
-  grid-template-columns: 1.05fr 1.05fr 0.95fr;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.05fr) minmax(0, 0.95fr);
   gap: 12px;
   align-items: stretch;
 }
+.tri-grid > *, .grid2 > *, .grid3 > *, .drow > *, .diag-card {
+  min-width: 0;
+}
 @media (max-width: 1060px) {
-  .tri-grid { grid-template-columns: 1fr; }
+  .tri-grid { grid-template-columns: minmax(0, 1fr); }
 }
 
 .col-orig { background: var(--panel); border-top: 3px solid var(--spd-blue); }
@@ -265,17 +270,29 @@ h3 { font-size: 0.98rem; margin: 0 0 6px; }
   justify-content: space-between;
   align-items: center;
   gap: 6px;
-  padding: 4px 8px;
+  padding: 5px 8px;
+  min-height: 29px;
   border-radius: 4px;
-  font-size: 0.73rem;
+  font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
 }
-.col-banner.orig { background: rgba(47, 111, 237, 0.09); color: var(--spd-blue); }
-.col-banner.ours { background: rgba(238, 76, 44, 0.10); color: var(--accent); }
-.col-banner.gap  { background: rgba(247, 148, 29, 0.12); color: var(--warning); }
-.col-banner code { font-size: 0.73rem; text-transform: none; color: var(--text); font-weight: 700; }
+.col-banner > span:first-child { overflow: hidden; text-overflow: ellipsis; }
+.col-banner.orig { background: rgba(47, 111, 237, 0.09); color: #1d4ed8; }
+.col-banner.ours { background: rgba(238, 76, 44, 0.09); color: #C03216; }
+.col-banner.gap  { background: rgba(247, 148, 29, 0.13); color: #9a3412; }
+:root[data-theme=dark] .col-banner.orig { color: #79c0ff; }
+:root[data-theme=dark] .col-banner.ours { color: #FF7F66; }
+:root[data-theme=dark] .col-banner.gap  { color: #fbbf24; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme=light]) .col-banner.orig { color: #79c0ff; }
+  :root:not([data-theme=light]) .col-banner.ours { color: #FF7F66; }
+  :root:not([data-theme=light]) .col-banner.gap  { color: #fbbf24; }
+}
+.col-banner code { font-size: 0.72rem; text-transform: none; color: var(--text); font-weight: 700; }
 
 .fig-canvas {
   border: 1px solid var(--line);
@@ -575,6 +592,16 @@ table.data-table th, table.data-table td {
   border-bottom: 1px solid var(--line);
   text-align: left;
   vertical-align: top;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+code { overflow-wrap: anywhere; word-break: break-word; }
+@media (max-width: 640px) {
+  .wrap { padding: 0 12px; }
+  h1 { font-size: 1.32rem; }
+  .panel, .tri-panel { padding: 10px 12px; }
+  .grid2, .grid3 { grid-template-columns: 1fr; }
+  nav.top .by { display: none; }
 }
 table.data-table th {
   font-family: var(--font-heading);
