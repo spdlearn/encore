@@ -54,7 +54,7 @@
   <div class="tri-grid" style="margin-top:8px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER PROTOCOL</span>
+        <span>1 · ORIGINAL PROTOCOL</span>
         <span class="small muted">AAAI 2017</span>
       </div>
       <table class="data-table" style="font-size:0.78rem">
@@ -69,8 +69,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">5 Datasets Audited</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">5 Datasets</span>
       </div>
       <div class="small" style="margin-bottom:4px">
         <strong>Implemented:</strong> <code>spd_learn.models.SPDNet</code> <code>spd_learn.modules.BiMap</code> <code>spd_learn.modules.ReEig</code> <code>spd_learn.modules.LogEig</code> · <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
@@ -111,12 +111,12 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>+0.28% mean Δ (5 datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>+0.28% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (ε = 1e-4) for rank-deficient FPHA trials (T &lt; 63).</p>
+        <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>) for rank-deficient FPHA trials (T &lt; 63).</p>
       </div>
       <div class="diff-box">
         <div class="diff-label">Model &amp; Optimizer Diff</div>
@@ -146,7 +146,7 @@
       <div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
     <span class="tag">Original Figure 1 (AAAI 2017 / arXiv:1608.04233)</span>
-    <strong>SPDNet: Foundational Stiefel BiMap, ReEig &amp; LogEig Network: Architectural &amp; Geometric Specification</strong>
+    <strong>SPDNet: Foundational Stiefel BiMap, ReEig &amp; LogEig Network: Architectural &amp; Operator Verification</strong>
     <span class="chip good" style="margin-left:auto">✓ 1-to-1 Operator Match in spd_learn</span>
   </div>
   <div class="tri-grid" style="margin-top:10px">
@@ -164,28 +164,48 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Module &amp; Manifold Pipeline</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">C1 Operator SVG + Spec</span>
       </div>
-      <table class="data-table" style="font-size:0.78rem">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C1: Stiefel Orthogonality &amp; Post-ReEig Min Eigenvalue">
+<text x="52" y="16" class="svg-title">C1: Stiefel Orthogonality &amp; Post-ReEig Min Eigenvalu</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">0.550</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">1.10</text>
+<rect x="88.3" y="186.0" width="24.0" height="2.0" rx="2" class="svg-bar-primary"/>
+<text x="100.3" y="183.0" text-anchor="middle" class="svg-val">3.8e-07</text>
+<rect x="185.0" y="182.2" width="24.0" height="3.8" rx="2" class="svg-bar-primary"/>
+<text x="197.0" y="179.2" text-anchor="middle" class="svg-val">0.026</text>
+<rect x="281.7" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="293.7" y="39.4" text-anchor="middle" class="svg-val">1.00</text>
+<text x="100.3" y="199.5" text-anchor="middle" class="svg-tick">Stiefel Err</text>
+<text x="197.0" y="199.5" text-anchor="middle" class="svg-tick">Min Eig (ReEig)</text>
+<text x="293.7" y="199.5" text-anchor="middle" class="svg-tick">Tangent Dim / 36</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Invariant Check</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Magnitude</text>
+</svg>
+      <table class="data-table" style="font-size:0.76rem;margin-top:2px">
         <tbody>
-          <tr><th style="width:125px">spd_learn Classes</th><td><code>spd_learn.models.SPDNet</code> <code>spd_learn.modules.BiMap</code> <code>spd_learn.modules.ReEig</code> <code>spd_learn.modules.LogEig</code></td></tr>
+          <tr><th style="width:118px">spd_learn Classes</th><td><code>spd_learn.models.SPDNet</code> <code>spd_learn.modules.BiMap</code> <code>spd_learn.modules.ReEig</code> <code>spd_learn.modules.LogEig</code></td></tr>
           <tr><th>Manifold</th><td>Stiefel Congruence Projection (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mi>X</mi><msup><mi>W</mi><mi mathvariant="normal">⊤</mi></msup></mrow><annotation encoding="application/x-tex">W X W^\top</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8491em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span></span></span></span>) + Spectral Rectification (ReEig) + Log-Euclidean Tangent Map (LogEig)</td></tr>
           <tr><th>Layer Pipeline</th><td><code>HDM05: BiMap(93<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>70)<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>ReEig<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>BiMap(70<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>50)<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>ReEig<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>BiMap(50<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>30)<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>ReEig<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>LogEig<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>Linear | BNCI: BiMap(22<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>16)<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>ReEig(1e-4)<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>LogEig<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>Linear(136<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>4)</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>Log-Euclidean tangent projection LogEig; eigenvalue rectification threshold <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span> (ablation swept 1e-5 to 1e-1 in Fig. 2a)</td></tr>
-          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>stiefel_orthogonality_error</code> = <strong>3.782e-07</strong> · <code>post_reeig_min_eig</code> = <strong>0.0263</strong> · <code>tangent_vec_dim</code> = <strong>36</strong></span></td></tr>
-          <tr><th>C2 Conditioning</th><td><span class="chip unresolved">! Falsified / Refuted (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>hdm05_raw_median_κ</code> = <strong>6.919e+05</strong> · <code>post_bimap_reeig_median_κ</code> = <strong>1.295e+05</strong></span></td></tr>
+          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span> · <span class="muted" style="font-size:0.74rem"><code>stiefel_orthogonality_error</code> = <strong>3.782e-07</strong> · <code>post_reeig_min_eig</code> = <strong>0.0263</strong> · <code>tangent_vec_dim</code> = <strong>36</strong></span></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>+0.28% mean Δ (5 datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>+0.28% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (ε = 1e-4) for rank-deficient FPHA trials (T &lt; 63).</p>
+        <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>) for rank-deficient FPHA trials (T &lt; 63).</p>
       </div>
       <div class="diff-box">
         <div class="diff-label">Implementation &amp; Optimizer Diff</div>
@@ -224,37 +244,37 @@
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Ours vs. Published (Figure 2 (AAAI 2017))">
 <text x="52" y="16" class="svg-title">Ours vs. Published</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">18.5</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">27.3</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">36.0</text>
-<polyline fill="none" points="52.0,186.0 110.0,71.6 168.0,51.8 226.0,47.3 284.0,45.5 342.0,44.3" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 102.4,71.6 152.8,51.8 203.2,47.3 253.6,45.5 304.0,44.3" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="110.0" cy="71.6" r="3" class="svg-line-primary-dot"/>
-<circle cx="168.0" cy="51.8" r="3" class="svg-line-primary-dot"/>
-<circle cx="226.0" cy="47.3" r="3" class="svg-line-primary-dot"/>
-<circle cx="284.0" cy="45.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="44.3" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,179.7 110.0,66.2 168.0,50.0 226.0,46.4 284.0,43.7 342.0,42.4" class="svg-line-secondary"/>
+<circle cx="102.4" cy="71.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="152.8" cy="51.8" r="3" class="svg-line-primary-dot"/>
+<circle cx="203.2" cy="47.3" r="3" class="svg-line-primary-dot"/>
+<circle cx="253.6" cy="45.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="44.3" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,179.7 102.4,66.2 152.8,50.0 203.2,46.4 253.6,43.7 304.0,42.4" class="svg-line-secondary"/>
 <circle cx="52.0" cy="179.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="110.0" cy="66.2" r="3" class="svg-line-secondary-dot"/>
-<circle cx="168.0" cy="50.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="226.0" cy="46.4" r="3" class="svg-line-secondary-dot"/>
-<circle cx="284.0" cy="43.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Ours: 34.5</text>
-<text x="338.0" y="48.0" text-anchor="end" class="svg-val">Pub: 34.2</text>
+<circle cx="102.4" cy="66.2" r="3" class="svg-line-secondary-dot"/>
+<circle cx="152.8" cy="50.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="203.2" cy="46.4" r="3" class="svg-line-secondary-dot"/>
+<circle cx="253.6" cy="43.7" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="40.9" text-anchor="start" class="svg-val" style="fill:var(--accent)">Ours 34.5</text>
+<text x="309.0" y="51.9" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Pub 34.2</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Ep 10</text>
-<text x="110.0" y="199.5" text-anchor="middle" class="svg-tick">Ep 100</text>
-<text x="168.0" y="199.5" text-anchor="middle" class="svg-tick">Ep 200</text>
-<text x="226.0" y="199.5" text-anchor="middle" class="svg-tick">Ep 300</text>
-<text x="284.0" y="199.5" text-anchor="middle" class="svg-tick">Ep 400</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">Ep 500</text>
+<text x="102.4" y="199.5" text-anchor="middle" class="svg-tick">Ep 100</text>
+<text x="152.8" y="199.5" text-anchor="middle" class="svg-tick">Ep 200</text>
+<text x="203.2" y="199.5" text-anchor="middle" class="svg-tick">Ep 300</text>
+<text x="253.6" y="199.5" text-anchor="middle" class="svg-tick">Ep 400</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Ep 500</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Training Epoch</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Training Epoch</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation Accuracy (%)</text>
 </svg>
       <div style="overflow-x:auto;margin-top:4px">
@@ -316,7 +336,7 @@
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (ε = 1e-4) for rank-deficient FPHA trials (T &lt; 63).</p>
+        <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>) for rank-deficient FPHA trials (T &lt; 63).</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Struggles / Diverges</div>
@@ -439,7 +459,7 @@
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (ε = 1e-4) for rank-deficient FPHA trials (T &lt; 63).</p>
+        <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>) for rank-deficient FPHA trials (T &lt; 63).</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Struggles / Diverges</div>
@@ -565,8 +585,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:1608.04233 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:1608.04233 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -577,8 +597,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -650,12 +670,12 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>+0.28% mean Δ (5 datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>+0.28% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (ε = 1e-4) for rank-deficient FPHA trials (T &lt; 63).</p>
+        <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>) for rank-deficient FPHA trials (T &lt; 63).</p>
       </div>
       <div class="diff-box">
         <div class="diff-label">Where It Replicates vs. Diverges</div>
@@ -738,37 +758,37 @@
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Voyager Epoch Convergence Trajectory (SPDNet)">
 <text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">SPDNet </text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">SPDNet </text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">26.4</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">43.8</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">61.1</text>
-<polyline fill="none" points="52.0,186.0 110.0,117.4 168.0,89.4 226.0,81.2 284.0,74.5 342.0,73.4" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 102.4,117.4 152.8,89.4 203.2,81.2 253.6,74.5 304.0,73.4" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="110.0" cy="117.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="168.0" cy="89.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="226.0" cy="81.2" r="3" class="svg-line-primary-dot"/>
-<circle cx="284.0" cy="74.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="73.4" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,78.9 110.0,82.8 168.0,60.6 226.0,47.6 284.0,42.5 342.0,42.4" class="svg-line-secondary"/>
+<circle cx="102.4" cy="117.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="152.8" cy="89.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="203.2" cy="81.2" r="3" class="svg-line-primary-dot"/>
+<circle cx="253.6" cy="74.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="73.4" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,78.9 102.4,82.8 152.8,60.6 203.2,47.6 253.6,42.5 304.0,42.4" class="svg-line-secondary"/>
 <circle cx="52.0" cy="78.9" r="3" class="svg-line-secondary-dot"/>
-<circle cx="110.0" cy="82.8" r="3" class="svg-line-secondary-dot"/>
-<circle cx="168.0" cy="60.6" r="3" class="svg-line-secondary-dot"/>
-<circle cx="226.0" cy="47.6" r="3" class="svg-line-secondary-dot"/>
-<circle cx="284.0" cy="42.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">SPDNet (bnci2014): 58.0</text>
-<text x="338.0" y="67.4" text-anchor="end" class="svg-val">SPDNet (bnci2014): 51.2</text>
+<circle cx="102.4" cy="82.8" r="3" class="svg-line-secondary-dot"/>
+<circle cx="152.8" cy="60.6" r="3" class="svg-line-secondary-dot"/>
+<circle cx="203.2" cy="47.6" r="3" class="svg-line-secondary-dot"/>
+<circle cx="253.6" cy="42.5" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--accent)">SPDNe 58.0</text>
+<text x="309.0" y="76.4" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">SPDNe 51.2</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 1</text>
-<text x="110.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
-<text x="168.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
-<text x="226.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
-<text x="284.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
+<text x="102.4" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="152.8" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="203.2" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="253.6" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
 </svg>
     </div>
@@ -887,7 +907,7 @@
       <h2>Deep-Dive Gap Analysis, Failure Modes &amp; Practitioner Guidance</h2>
       <table class="data-table">
         <tbody>
-          <tr><th style="width:210px">Dataloader &amp; Preprocessing Diff</th><td>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (ε = 1e-4) for rank-deficient FPHA trials (T &lt; 63).</td></tr>
+          <tr><th style="width:210px">Dataloader &amp; Preprocessing Diff</th><td>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>) for rank-deficient FPHA trials (T &lt; 63).</td></tr>
           <tr><th>Architecture &amp; Optimizer Diff</th><td>Paper uses custom MATLAB Riemannian SGD with manual QR Stiefel retraction; spd_learn uses PyTorch orthogonal trivialization (Cayley/Householder) + AdamW/AMSGrad.</td></tr>
           <tr><th>Where It Struggles / Diverges</th><td>Struggles on raw multi-channel EEG (BNCI2014-001 S2: 37.5%, S6: 43.1%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</td></tr>
           <tr><th>Primary Mathematical Failure Mode</th><td>Loewner matrix entries 1 / (lambda_i - lambda_j) during eigendecomposition backward passes blow up when adjacent eigenvalues coalesce or fall below float32 precision.</td></tr>

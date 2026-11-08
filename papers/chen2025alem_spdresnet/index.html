@@ -54,8 +54,8 @@
   <div class="tri-grid" style="margin-top:8px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER PROTOCOL</span>
-        <span class="small muted">IEEE TIP 2024 / ICLR 2025</span>
+        <span>1 · ORIGINAL PROTOCOL</span>
+        <span class="small muted">IEEE TIP 2024 / IC</span>
       </div>
       <table class="data-table" style="font-size:0.78rem">
         <tbody>
@@ -69,8 +69,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">5 Datasets Audited</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">5 Datasets</span>
       </div>
       <div class="small" style="margin-bottom:4px">
         <strong>Implemented:</strong> <code>spd_learn.modules.ALEM</code> <code>spd_learn.modules.SPDResBlock</code> <code>spd_learn.models.SPDResNet</code> · <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
@@ -111,8 +111,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -146,7 +146,7 @@
       <div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
     <span class="tag">Original SPDResNet Figure 1 (AAAI 2023 / arXiv:2201.10145)</span>
-    <strong>ALEM &amp; SPDResNet: Adaptive Log-Euclidean Residual Network: Architectural &amp; Geometric Specification</strong>
+    <strong>ALEM &amp; SPDResNet: Adaptive Log-Euclidean Residual Network: Architectural &amp; Operator Verification</strong>
     <span class="chip good" style="margin-left:auto">✓ 1-to-1 Operator Match in spd_learn</span>
   </div>
   <div class="tri-grid" style="margin-top:10px">
@@ -164,24 +164,41 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Module &amp; Manifold Pipeline</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">C1 Operator SVG + Spec</span>
       </div>
-      <table class="data-table" style="font-size:0.78rem">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C1: ALEM &amp; SPDResBlock Output Minimum Eigenvalues">
+<text x="52" y="16" class="svg-title">C1: ALEM &amp; SPDResBlock Output Minimum Eigenvalues</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">0.147</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">0.294</text>
+<rect x="112.5" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="124.5" y="39.4" text-anchor="middle" class="svg-val">0.268</text>
+<rect x="257.5" y="52.7" width="24.0" height="133.3" rx="2" class="svg-bar-primary"/>
+<text x="269.5" y="49.7" text-anchor="middle" class="svg-val">0.248</text>
+<text x="124.5" y="199.5" text-anchor="middle" class="svg-tick">AdaptiveLogEuclidean (SPD)</text>
+<text x="269.5" y="199.5" text-anchor="middle" class="svg-tick">SPDResBlock (1D-CNN)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Residual Module</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Minimum Eigenvalue &gt; 0</text>
+</svg>
+      <table class="data-table" style="font-size:0.76rem;margin-top:2px">
         <tbody>
-          <tr><th style="width:125px">spd_learn Classes</th><td><code>spd_learn.modules.ALEM</code> <code>spd_learn.modules.SPDResBlock</code> <code>spd_learn.models.SPDResNet</code></td></tr>
+          <tr><th style="width:118px">spd_learn Classes</th><td><code>spd_learn.modules.ALEM</code> <code>spd_learn.modules.SPDResBlock</code> <code>spd_learn.models.SPDResNet</code></td></tr>
           <tr><th>Manifold</th><td>Spectral 1D-CNN Eigenvalue Residual Blocks + Learnable ALEM Power Deformation</td></tr>
           <tr><th>Layer Pipeline</th><td><code>SPDResNet (AAAI 2023): Residual SPD blocks Exp(Log(X) + Log(F(X))) via RLM | ALEM (ICLR 2025): Adaptive Log-Euclidean Metric interpolating Power-Euclidean (1/p)(X^p - I) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> log(X) as p <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> 0</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>Deformed Log-Euclidean / Power-Euclidean Metric (ALEM) with learnable power p &gt; 0 preventing eigenvalue distortion on ill-conditioned covariances (Fig. 1)</td></tr>
-          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>alem_spd_min_eig</code> = <strong>0.2676</strong> · <code>spdresblock_min_eig</code> = <strong>0.2484</strong></span></td></tr>
-          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>input_grad_norm_2_blocks</code> = <strong>9.653</strong></span></td></tr>
+          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span> · <span class="muted" style="font-size:0.74rem"><code>alem_spd_min_eig</code> = <strong>0.2676</strong> · <code>spdresblock_min_eig</code> = <strong>0.2484</strong></span></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -340,37 +357,37 @@
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Ours vs. Published (SPDResNet Figure 2 (AAAI 2)">
 <text x="52" y="16" class="svg-title">Ours vs. Published</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">73.5</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">84.3</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">95.1</text>
-<polyline fill="none" points="52.0,182.3 110.0,105.4 168.0,70.9 226.0,54.1 284.0,47.5 342.0,42.4" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,182.3 102.4,105.4 152.8,70.9 203.2,54.1 253.6,47.5 304.0,42.4" class="svg-line-primary"/>
 <circle cx="52.0" cy="182.3" r="3" class="svg-line-primary-dot"/>
-<circle cx="110.0" cy="105.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="168.0" cy="70.9" r="3" class="svg-line-primary-dot"/>
-<circle cx="226.0" cy="54.1" r="3" class="svg-line-primary-dot"/>
-<circle cx="284.0" cy="47.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,186.0 110.0,108.3 168.0,73.1 226.0,56.3 284.0,49.7 342.0,44.6" class="svg-line-secondary"/>
+<circle cx="102.4" cy="105.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="152.8" cy="70.9" r="3" class="svg-line-primary-dot"/>
+<circle cx="203.2" cy="54.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="253.6" cy="47.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,186.0 102.4,108.3 152.8,73.1 203.2,56.3 253.6,49.7 304.0,44.6" class="svg-line-secondary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="110.0" cy="108.3" r="3" class="svg-line-secondary-dot"/>
-<circle cx="168.0" cy="73.1" r="3" class="svg-line-secondary-dot"/>
-<circle cx="226.0" cy="56.3" r="3" class="svg-line-secondary-dot"/>
-<circle cx="284.0" cy="49.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="44.6" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Pub: 93.1</text>
-<text x="338.0" y="48.0" text-anchor="end" class="svg-val">Ours: 92.8</text>
+<circle cx="102.4" cy="108.3" r="3" class="svg-line-secondary-dot"/>
+<circle cx="152.8" cy="73.1" r="3" class="svg-line-secondary-dot"/>
+<circle cx="203.2" cy="56.3" r="3" class="svg-line-secondary-dot"/>
+<circle cx="253.6" cy="49.7" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="44.6" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="41.0" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Pub 93.1</text>
+<text x="309.0" y="52.0" text-anchor="start" class="svg-val" style="fill:var(--accent)">Ours 92.8</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Ep 50</text>
-<text x="110.0" y="199.5" text-anchor="middle" class="svg-tick">Ep 100</text>
-<text x="168.0" y="199.5" text-anchor="middle" class="svg-tick">Ep 200</text>
-<text x="226.0" y="199.5" text-anchor="middle" class="svg-tick">Ep 300</text>
-<text x="284.0" y="199.5" text-anchor="middle" class="svg-tick">Ep 400</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">Ep 500</text>
+<text x="102.4" y="199.5" text-anchor="middle" class="svg-tick">Ep 100</text>
+<text x="152.8" y="199.5" text-anchor="middle" class="svg-tick">Ep 200</text>
+<text x="203.2" y="199.5" text-anchor="middle" class="svg-tick">Ep 300</text>
+<text x="253.6" y="199.5" text-anchor="middle" class="svg-tick">Ep 400</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Ep 500</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Training Epoch</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Training Epoch</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation Accuracy (%)</text>
 </svg>
       <div style="overflow-x:auto;margin-top:4px">
@@ -604,25 +621,25 @@
   </div>
   <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C2: Input Gradient Norm Across Stacked SPDResBlocks">
 <text x="52" y="16" class="svg-title">C2: Input Gradient Norm Across Stacked SPDResBlocks</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">6.20</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">13.5</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">20.8</text>
-<polyline fill="none" points="52.0,186.0 148.7,148.7 245.3,93.1 342.0,42.4" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 136.0,148.7 220.0,93.1 304.0,42.4" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="148.7" cy="148.7" r="3" class="svg-line-primary-dot"/>
-<circle cx="245.3" cy="93.1" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Grad Norm: 19.5</text>
+<circle cx="136.0" cy="148.7" r="3" class="svg-line-primary-dot"/>
+<circle cx="220.0" cy="93.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<text x="309.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Grad  19.5</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">K=1</text>
-<text x="148.7" y="199.5" text-anchor="middle" class="svg-tick">K=2</text>
-<text x="245.3" y="199.5" text-anchor="middle" class="svg-tick">K=3</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">K=4</text>
+<text x="136.0" y="199.5" text-anchor="middle" class="svg-tick">K=2</text>
+<text x="220.0" y="199.5" text-anchor="middle" class="svg-tick">K=3</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">K=4</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Number of ResBlocks K</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Number of ResBlocks K</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">||grad_X0 L||_F</text>
 </svg>
   <div class="small">
@@ -676,8 +693,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -688,8 +705,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -761,8 +778,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -807,8 +824,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -819,8 +836,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -892,8 +909,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -938,8 +955,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -950,8 +967,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1023,8 +1040,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1069,8 +1086,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1081,8 +1098,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1154,8 +1171,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1200,8 +1217,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1212,8 +1229,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1285,8 +1302,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1331,8 +1348,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1343,8 +1360,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1416,8 +1433,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1462,8 +1479,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1474,8 +1491,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1547,8 +1564,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1593,8 +1610,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1605,8 +1622,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1678,8 +1695,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1724,8 +1741,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1736,8 +1753,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1809,8 +1826,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1855,8 +1872,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1867,8 +1884,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1940,8 +1957,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1986,8 +2003,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1998,8 +2015,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -2071,8 +2088,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -2117,8 +2134,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -2129,8 +2146,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -2202,8 +2219,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -2248,8 +2265,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -2260,8 +2277,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -2333,8 +2350,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -2379,8 +2396,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -2391,8 +2408,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -2464,8 +2481,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -2510,8 +2527,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -2522,8 +2539,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -2595,8 +2612,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -2641,8 +2658,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2407.10484 &amp; arXiv:2201.10145 (.tar.gz e-prints)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2407.10484 &amp;</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -2653,8 +2670,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -2726,8 +2743,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.98% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -2812,37 +2829,37 @@
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Voyager Epoch Convergence Trajectory (ALEM)">
 <text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">ALEM (b</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">SPDResN</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">27.9</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">38.2</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">48.6</text>
-<polyline fill="none" points="52.0,186.0 110.0,97.7 168.0,73.1 226.0,49.0 284.0,42.7 342.0,42.4" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 102.4,97.7 152.8,73.1 203.2,49.0 253.6,42.7 304.0,42.4" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="110.0" cy="97.7" r="3" class="svg-line-primary-dot"/>
-<circle cx="168.0" cy="73.1" r="3" class="svg-line-primary-dot"/>
-<circle cx="226.0" cy="49.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="284.0" cy="42.7" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,186.0 110.0,97.7 168.0,73.1 226.0,49.0 284.0,42.7 342.0,42.4" class="svg-line-secondary"/>
+<circle cx="102.4" cy="97.7" r="3" class="svg-line-primary-dot"/>
+<circle cx="152.8" cy="73.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="203.2" cy="49.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="253.6" cy="42.7" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,186.0 102.4,97.7 152.8,73.1 203.2,49.0 253.6,42.7 304.0,42.4" class="svg-line-secondary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="110.0" cy="97.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="168.0" cy="73.1" r="3" class="svg-line-secondary-dot"/>
-<circle cx="226.0" cy="49.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="284.0" cy="42.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">ALEM (bnci2014): 46.7</text>
-<text x="338.0" y="48.0" text-anchor="end" class="svg-val">SPDResNet (bnci2014): 46.7</text>
+<circle cx="102.4" cy="97.7" r="3" class="svg-line-secondary-dot"/>
+<circle cx="152.8" cy="73.1" r="3" class="svg-line-secondary-dot"/>
+<circle cx="203.2" cy="49.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="253.6" cy="42.7" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="39.9" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">ALEM  46.7</text>
+<text x="309.0" y="50.9" text-anchor="start" class="svg-val" style="fill:var(--accent)">SPDRe 46.7</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 1</text>
-<text x="110.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
-<text x="168.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
-<text x="226.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
-<text x="284.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
+<text x="102.4" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="152.8" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="203.2" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="253.6" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
 </svg>
     </div>

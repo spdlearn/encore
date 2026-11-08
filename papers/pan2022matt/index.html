@@ -54,7 +54,7 @@
   <div class="tri-grid" style="margin-top:8px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER PROTOCOL</span>
+        <span>1 · ORIGINAL PROTOCOL</span>
         <span class="small muted">NeurIPS 2022</span>
       </div>
       <table class="data-table" style="font-size:0.78rem">
@@ -69,8 +69,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">3 Datasets Audited</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">3 Datasets</span>
       </div>
       <div class="small" style="margin-bottom:4px">
         <strong>Implemented:</strong> <code>spd_learn.models.MAtt</code> <code>spd_learn.models.AttentionManifold</code> <code>spd_learn.functional.log_euclidean_distance</code> <code>spd_learn.functional.log_euclidean_mean</code> · <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
@@ -101,12 +101,12 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-1.45% mean Δ (4 EEG datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.45% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (ε = 1e-4).</p>
+        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>).</p>
       </div>
       <div class="diff-box">
         <div class="diff-label">Model &amp; Optimizer Diff</div>
@@ -136,7 +136,7 @@
       <div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
     <span class="tag">Original Figure 1 (NeurIPS 2022 / arXiv:2210.01986)</span>
-    <strong>MAtt: Manifold Attention Network for EEG Decoding: Architectural &amp; Geometric Specification</strong>
+    <strong>MAtt: Manifold Attention Network for EEG Decoding: Architectural &amp; Operator Verification</strong>
     <span class="chip good" style="margin-left:auto">✓ 1-to-1 Operator Match in spd_learn</span>
   </div>
   <div class="tri-grid" style="margin-top:10px">
@@ -154,28 +154,51 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Module &amp; Manifold Pipeline</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">C1 Operator SVG + Spec</span>
       </div>
-      <table class="data-table" style="font-size:0.78rem">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C1: Patchwise Log-Euclidean Attention Min Eigenvalues">
+<text x="52" y="16" class="svg-title">C1: Patchwise Log-Euclidean Attention Min Eigenvalue</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">0.384</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">0.767</text>
+<rect x="76.2" y="60.9" width="24.0" height="125.1" rx="2" class="svg-bar-primary"/>
+<text x="88.2" y="57.9" text-anchor="middle" class="svg-val">0.607</text>
+<rect x="148.8" y="54.7" width="24.0" height="131.3" rx="2" class="svg-bar-primary"/>
+<text x="160.8" y="51.7" text-anchor="middle" class="svg-val">0.637</text>
+<rect x="221.2" y="48.5" width="24.0" height="137.5" rx="2" class="svg-bar-primary"/>
+<text x="233.2" y="45.5" text-anchor="middle" class="svg-val">0.667</text>
+<rect x="293.8" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="305.8" y="39.4" text-anchor="middle" class="svg-val">0.697</text>
+<text x="88.2" y="199.5" text-anchor="middle" class="svg-tick">Patch 1</text>
+<text x="160.8" y="199.5" text-anchor="middle" class="svg-tick">Patch 2</text>
+<text x="233.2" y="199.5" text-anchor="middle" class="svg-tick">Patch 3</text>
+<text x="305.8" y="199.5" text-anchor="middle" class="svg-tick">Patch 4</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Temporal Patch Epoch</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">λ_min(Y_p) &gt; 0</text>
+</svg>
+      <table class="data-table" style="font-size:0.76rem;margin-top:2px">
         <tbody>
-          <tr><th style="width:125px">spd_learn Classes</th><td><code>spd_learn.models.MAtt</code> <code>spd_learn.models.AttentionManifold</code> <code>spd_learn.functional.log_euclidean_distance</code> <code>spd_learn.functional.log_euclidean_mean</code></td></tr>
+          <tr><th style="width:118px">spd_learn Classes</th><td><code>spd_learn.models.MAtt</code> <code>spd_learn.models.AttentionManifold</code> <code>spd_learn.functional.log_euclidean_distance</code> <code>spd_learn.functional.log_euclidean_mean</code></td></tr>
           <tr><th>Manifold</th><td>Log-Euclidean Geodesic Distance Attention 1/(1 + log(1 + <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mtext>LEM</mtext></msub></mrow><annotation encoding="application/x-tex">d_{\text{LEM}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">LEM</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>(Q_i, K_j))) &amp; Tangent Aggregation</td></tr>
           <tr><th>Layer Pipeline</th><td><code>Conv2d(1<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>D1, spatial) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Conv2d(D1<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>D2, temporal) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Split m epochs <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> TraceNormCov(D2xD2, +<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>5</mn></mrow></msup><mi>I</mi></mrow><annotation encoding="application/x-tex">10^{-5} I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">5</span></span></span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span></span>) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> BiMap <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> ReEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> AttentionManifold(Log-Euclidean) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> SPDBatchNormMean <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> LogEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Linear</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>Log-Euclidean Metric (LEM) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mtext>LEM</mtext></msub></mrow><annotation encoding="application/x-tex">d_{\text{LEM}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">LEM</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>(Q_i, K_j) = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∥</mi><mi>l</mi><mi>o</mi><mi>g</mi><mo stretchy="false">(</mo><msub><mi>Q</mi><mi>i</mi></msub><mo stretchy="false">)</mo><mo>−</mo><mi>l</mi><mi>o</mi><mi>g</mi><mo stretchy="false">(</mo><msub><mi>K</mi><mi>j</mi></msub><mo stretchy="false">)</mo><msub><mi mathvariant="normal">∥</mi><mi>F</mi></msub></mrow><annotation encoding="application/x-tex">\|log(Q_i) - log(K_j)\|_{F}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∥</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">Q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord"><span class="mord">∥</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">F</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>; attention weights w_ij = softmax(-<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mtext>LEM</mtext></msub></mrow><annotation encoding="application/x-tex">d_{\text{LEM}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">LEM</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>) or 1/(1+log(1+d))</td></tr>
-          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>output_shape</code> = <strong>[4, 4, 8, 8]</strong> · <code>min_eig_output</code> = <strong>0.6074</strong></span></td></tr>
-          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>normalized_attention_entropy</code> = <strong>1</strong> · <code>max_attention_weight_deviation_from_uniform</code> = <strong>0.00783</strong></span></td></tr>
+          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span> · <span class="muted" style="font-size:0.74rem"><code>output_shape</code> = <strong>[4, 4, 8, 8]</strong> · <code>min_eig_output</code> = <strong>0.6074</strong></span></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-1.45% mean Δ (4 EEG datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.45% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (ε = 1e-4).</p>
+        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>).</p>
       </div>
       <div class="diff-box">
         <div class="diff-label">Implementation &amp; Optimizer Diff</div>
@@ -302,7 +325,7 @@
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (ε = 1e-4).</p>
+        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>).</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Struggles / Diverges</div>
@@ -436,7 +459,7 @@
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (ε = 1e-4).</p>
+        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>).</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Struggles / Diverges</div>
@@ -579,8 +602,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2210.01986 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -591,8 +614,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy / AUC (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours</text>
@@ -651,12 +674,12 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.45% mean Δ (4 EEG datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.45% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (ε = 1e-4).</p>
+        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>).</p>
       </div>
       <div class="diff-box">
         <div class="diff-label">Where It Replicates vs. Diverges</div>
@@ -691,8 +714,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2210.01986 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -703,8 +726,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy / AUC (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours</text>
@@ -763,12 +786,12 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.45% mean Δ (4 EEG datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.45% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (ε = 1e-4).</p>
+        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>).</p>
       </div>
       <div class="diff-box">
         <div class="diff-label">Where It Replicates vs. Diverges</div>
@@ -803,8 +826,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2210.01986 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -815,8 +838,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy / AUC (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours</text>
@@ -875,12 +898,12 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.45% mean Δ (4 EEG datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.45% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (ε = 1e-4).</p>
+        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>).</p>
       </div>
       <div class="diff-box">
         <div class="diff-label">Where It Replicates vs. Diverges</div>
@@ -915,8 +938,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2210.01986 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -927,8 +950,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy / AUC (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours</text>
@@ -987,12 +1010,12 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.45% mean Δ (4 EEG datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.45% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (ε = 1e-4).</p>
+        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>).</p>
       </div>
       <div class="diff-box">
         <div class="diff-label">Where It Replicates vs. Diverges</div>
@@ -1027,8 +1050,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2210.01986 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1039,8 +1062,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy / AUC (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours</text>
@@ -1099,12 +1122,12 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.45% mean Δ (4 EEG datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.45% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (ε = 1e-4).</p>
+        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>).</p>
       </div>
       <div class="diff-box">
         <div class="diff-label">Where It Replicates vs. Diverges</div>
@@ -1139,8 +1162,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2210.01986 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2210.01986 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1151,8 +1174,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy / AUC (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours</text>
@@ -1211,12 +1234,12 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.45% mean Δ (4 EEG datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.45% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (ε = 1e-4).</p>
+        <p>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>).</p>
       </div>
       <div class="diff-box">
         <div class="diff-label">Where It Replicates vs. Diverges</div>
@@ -1293,37 +1316,37 @@
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Voyager Epoch Convergence Trajectory (MAtt)">
 <text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">MAtt (b</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">MAtt (b</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">28.3</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">53.2</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">78.1</text>
-<polyline fill="none" points="52.0,186.0 110.0,105.1 168.0,94.6 226.0,75.5 284.0,73.4 342.0,72.5" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 102.4,105.1 152.8,94.6 203.2,75.5 253.6,73.4 304.0,72.5" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="110.0" cy="105.1" r="3" class="svg-line-primary-dot"/>
-<circle cx="168.0" cy="94.6" r="3" class="svg-line-primary-dot"/>
-<circle cx="226.0" cy="75.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="284.0" cy="73.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="72.5" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,98.0 110.0,58.7 168.0,46.4 226.0,44.4 284.0,42.9 342.0,42.4" class="svg-line-secondary"/>
+<circle cx="102.4" cy="105.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="152.8" cy="94.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="203.2" cy="75.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="253.6" cy="73.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="72.5" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,98.0 102.4,58.7 152.8,46.4 203.2,44.4 253.6,42.9 304.0,42.4" class="svg-line-secondary"/>
 <circle cx="52.0" cy="98.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="110.0" cy="58.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="168.0" cy="46.4" r="3" class="svg-line-secondary-dot"/>
-<circle cx="226.0" cy="44.4" r="3" class="svg-line-secondary-dot"/>
-<circle cx="284.0" cy="42.9" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">MAtt (bnci2014): 73.5</text>
-<text x="338.0" y="66.5" text-anchor="end" class="svg-val">MAtt (bnci2014): 64.0</text>
+<circle cx="102.4" cy="58.7" r="3" class="svg-line-secondary-dot"/>
+<circle cx="152.8" cy="46.4" r="3" class="svg-line-secondary-dot"/>
+<circle cx="203.2" cy="44.4" r="3" class="svg-line-secondary-dot"/>
+<circle cx="253.6" cy="42.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--accent)">MAtt  73.5</text>
+<text x="309.0" y="75.5" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">MAtt  64.0</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 1</text>
-<text x="110.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
-<text x="168.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
-<text x="226.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
-<text x="284.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
+<text x="102.4" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="152.8" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="203.2" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="253.6" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
 </svg>
     </div>
@@ -1428,7 +1451,7 @@
       <h2>Deep-Dive Gap Analysis, Failure Modes &amp; Practitioner Guidance</h2>
       <table class="data-table">
         <tbody>
-          <tr><th style="width:210px">Dataloader &amp; Preprocessing Diff</th><td>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (ε = 1e-4).</td></tr>
+          <tr><th style="width:210px">Dataloader &amp; Preprocessing Diff</th><td>On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>).</td></tr>
           <tr><th>Architecture &amp; Optimizer Diff</th><td>spd_learn implements Log-Euclidean metric attention (AttentionManifold) with vectorized pairwise <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">∥</mi><mi>l</mi><mi>o</mi><mi>g</mi><mo stretchy="false">(</mo><msub><mi>Q</mi><mi>i</mi></msub><mo stretchy="false">)</mo><mo>−</mo><mi>l</mi><mi>o</mi><mi>g</mi><mo stretchy="false">(</mo><msub><mi>K</mi><mi>j</mi></msub><mo stretchy="false">)</mo><msub><mi mathvariant="normal">∥</mi><mi>F</mi></msub></mrow><annotation encoding="application/x-tex">\|log(Q_i) - log(K_j)\|_{F}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">∥</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal">Q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1.0361em;vertical-align:-0.2861em;"></span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3117em;"><span style="top:-2.55em;margin-left:-0.0715em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mord"><span class="mord">∥</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.13889em;">F</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> distances and SPDBatchNormMean.</td></tr>
           <tr><th>Where It Struggles / Diverges</th><td>Attention weights collapse toward uniform 1/P (entropy H/log(P) &gt; 0.99) when temporal patch count P &gt; 6 because bounded pairwise Log-Euclidean distances lack a learnable temperature scale.</td></tr>
           <tr><th>Primary Mathematical Failure Mode</th><td>Because 1 / (1 + log(1 + d)) maps all non-negative geodesic distances into (0, 1] without a learnable temperature parameter, softmax(sim) cannot produce sharp attention weights.</td></tr>

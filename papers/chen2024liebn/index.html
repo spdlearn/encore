@@ -54,7 +54,7 @@
   <div class="tri-grid" style="margin-top:8px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER PROTOCOL</span>
+        <span>1 · ORIGINAL PROTOCOL</span>
         <span class="small muted">ICLR 2024</span>
       </div>
       <table class="data-table" style="font-size:0.78rem">
@@ -69,8 +69,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">5 Datasets Audited</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">5 Datasets</span>
       </div>
       <div class="small" style="margin-bottom:4px">
         <strong>Implemented:</strong> <code>spd_learn.modules.SPDBatchNormLie</code> <code>spd_learn.functional.lie_group_variance</code> <code>spd_learn.functional.spd_cholesky_congruence</code> · <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
@@ -111,8 +111,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-1.15% vs Pub (+3.97% SPDNet baseline shift)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% vs Pub</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -146,7 +146,7 @@
       <div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
     <span class="tag">Original Table 1 Cut (ICLR 2024 / arXiv:2403.11261)</span>
-    <strong>LieBN: A Lie Group Approach to Riemannian Batch Normalization: Architectural &amp; Geometric Specification</strong>
+    <strong>LieBN: A Lie Group Approach to Riemannian Batch Normalization: Architectural &amp; Operator Verification</strong>
     <span class="chip good" style="margin-left:auto">✓ 1-to-1 Operator Match in spd_learn</span>
   </div>
   <div class="tri-grid" style="margin-top:10px">
@@ -164,24 +164,44 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Module &amp; Manifold Pipeline</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">C1 Operator SVG + Spec</span>
       </div>
-      <table class="data-table" style="font-size:0.78rem">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C1: LieBN Post-Normalization Dispersion Error |Var - 1|">
+<text x="52" y="16" class="svg-title">C1: LieBN Post-Normalization Dispersion Error |Var -</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">5.5e-08</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">1.1e-07</text>
+<rect x="88.3" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="100.3" y="39.4" text-anchor="middle" class="svg-val">1.0e-07</text>
+<rect x="185.0" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="197.0" y="39.4" text-anchor="middle" class="svg-val">1.0e-07</text>
+<rect x="281.7" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="293.7" y="39.4" text-anchor="middle" class="svg-val">1.0e-07</text>
+<text x="100.3" y="199.5" text-anchor="middle" class="svg-tick">AIM (θ=1)</text>
+<text x="197.0" y="199.5" text-anchor="middle" class="svg-tick">LEM (θ=1)</text>
+<text x="293.7" y="199.5" text-anchor="middle" class="svg-tick">LCM (θ=0.5)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Deformed Lie Metric</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">|Tangent Variance - 1.0|</text>
+</svg>
+      <table class="data-table" style="font-size:0.76rem;margin-top:2px">
         <tbody>
-          <tr><th style="width:125px">spd_learn Classes</th><td><code>spd_learn.modules.SPDBatchNormLie</code> <code>spd_learn.functional.lie_group_variance</code> <code>spd_learn.functional.spd_cholesky_congruence</code></td></tr>
+          <tr><th style="width:118px">spd_learn Classes</th><td><code>spd_learn.modules.SPDBatchNormLie</code> <code>spd_learn.functional.lie_group_variance</code> <code>spd_learn.functional.spd_cholesky_congruence</code></td></tr>
           <tr><th>Manifold</th><td>Deformed Pullback Lie Group Structures (AIM, LEM, LCM) with Exact Mean &amp; Dispersion Control</td></tr>
           <tr><th>Layer Pipeline</th><td><code>SPDNet backbone (BiMap<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>ReEig) equipped with SPDBatchNormLie(metric in {&#x27;AIM&#x27;, &#x27;LEM&#x27;, &#x27;LCM&#x27;}, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\theta = 1.0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.0</span></span></span></span>) before LogEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Linear</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>Pullback Lie Group Structures on <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">S</mi><mrow><mo>+</mo><mo>+</mo></mrow><mi>d</mi></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{S}_{++}^{d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1544em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.075em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.453em;margin-left:-0.075em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span>: AIM (Affine-Invariant), LEM (Log-Euclidean), LCM (Log-Cholesky) with closed-form group mean &amp; variance scaling</td></tr>
-          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>dispersion_error_from_unit</code> = <strong>{&#x27;AIM&#x27;: 0.0, &#x27;LEM&#x27;: 0.0, &#x27;LCM&#x27;: 0.0}</strong></span></td></tr>
-          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>hdm05_lem_centering_residual</code> = <strong>1.188e-15</strong> · <code>hdm05_lcm_centering_residual</code> = <strong>4.259e-16</strong></span></td></tr>
+          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span> · <span class="muted" style="font-size:0.74rem"><code>dispersion_error_from_unit</code> = <strong>{&#x27;AIM&#x27;: 0.0, &#x27;LEM&#x27;: 0.0, &#x27;LCM&#x27;: 0.0}</strong></span></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-1.15% vs Pub (+3.97% SPDNet baseline shift)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% vs Pub</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -200,7 +220,7 @@
 </div><div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
     <span class="tag">Original Table 3 Cut (ICLR 2024 / arXiv:2403.11261)</span>
-    <strong>LieBN: A Lie Group Approach to Riemannian Batch Normalization: Architectural &amp; Geometric Specification</strong>
+    <strong>Explicit Riemannian centering and scaling operators of <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext>LieBN</mtext></mrow><annotation encoding="application/x-tex">\text{LieBN}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord text"><span class="mord">LieBN</span></span></span></span></span> on $\... (Conditioning &amp; Signal Verification)</strong>
     <span class="chip good" style="margin-left:auto">✓ 1-to-1 Operator Match in spd_learn</span>
   </div>
   <div class="tri-grid" style="margin-top:10px">
@@ -218,24 +238,44 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Module &amp; Manifold Pipeline</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">C2 Signal SVG + Regime</span>
       </div>
-      <table class="data-table" style="font-size:0.78rem">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C2: Single-Pass Centering Residual log10(||Mean||_F)">
+<text x="52" y="16" class="svg-title">C2: Single-Pass Centering Residual log10(||Mean||_F)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">-15.4</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">-7.34</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">0.689</text>
+<rect x="88.3" y="34.8" width="24.0" height="146.8" rx="2" class="svg-bar-primary"/>
+<text x="100.3" y="37.0" text-anchor="middle" class="svg-val">-14.9</text>
+<rect x="185.0" y="34.8" width="24.0" height="151.2" rx="2" class="svg-bar-primary"/>
+<text x="197.0" y="37.0" text-anchor="middle" class="svg-val">-15.4</text>
+<rect x="281.7" y="34.8" width="24.0" height="7.6" rx="2" class="svg-bar-primary"/>
+<text x="293.7" y="37.0" text-anchor="middle" class="svg-val">-0.771</text>
+<text x="100.3" y="199.5" text-anchor="middle" class="svg-tick">LEM (Abelian)</text>
+<text x="197.0" y="199.5" text-anchor="middle" class="svg-tick">LCM (Abelian)</text>
+<text x="293.7" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="293.7" dy="0">AIM</tspan><tspan x="293.7" dy="9.5">(1-Step Karcher)</tspan></text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">LieBN Metric on HDM05</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">log10(Residual Norm)</text>
+</svg>
+      <table class="data-table" style="font-size:0.76rem;margin-top:2px">
         <tbody>
-          <tr><th style="width:125px">spd_learn Classes</th><td><code>spd_learn.modules.SPDBatchNormLie</code> <code>spd_learn.functional.lie_group_variance</code> <code>spd_learn.functional.spd_cholesky_congruence</code></td></tr>
-          <tr><th>Manifold</th><td>Deformed Pullback Lie Group Structures (AIM, LEM, LCM) with Exact Mean &amp; Dispersion Control</td></tr>
-          <tr><th>Layer Pipeline</th><td><code>SPDNet backbone (BiMap<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>ReEig) equipped with SPDBatchNormLie(metric in {&#x27;AIM&#x27;, &#x27;LEM&#x27;, &#x27;LCM&#x27;}, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>θ</mi><mo>=</mo><mn>1.0</mn></mrow><annotation encoding="application/x-tex">\theta = 1.0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">θ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.0</span></span></span></span>) before LogEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Linear</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>Pullback Lie Group Structures on <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">S</mi><mrow><mo>+</mo><mo>+</mo></mrow><mi>d</mi></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{S}_{++}^{d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1544em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.075em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.453em;margin-left:-0.075em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span>: AIM (Affine-Invariant), LEM (Log-Euclidean), LCM (Log-Cholesky) with closed-form group mean &amp; variance scaling</td></tr>
-          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>dispersion_error_from_unit</code> = <strong>{&#x27;AIM&#x27;: 0.0, &#x27;LEM&#x27;: 0.0, &#x27;LCM&#x27;: 0.0}</strong></span></td></tr>
-          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>hdm05_lem_centering_residual</code> = <strong>1.188e-15</strong> · <code>hdm05_lcm_centering_residual</code> = <strong>4.259e-16</strong></span></td></tr>
+          <tr><th style="width:118px">Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>Pullback Lie Group Structures on <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">S</mi><mrow><mo>+</mo><mo>+</mo></mrow><mi>d</mi></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{S}_{++}^{d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1544em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.075em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.453em;margin-left:-0.075em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span>: AIM (Affine-Invariant), LEM (Log-Euclidean), LCM (Log-Cholesky) with closed-form group mean &amp; variance scaling</td></tr>
+          <tr><th>Preprocessing</th><td>HDM05: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>93</mn><mo>×</mo><mn>93</mn></mrow><annotation encoding="application/x-tex">93 \times 93</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">93</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">93</span></span></span></span> cov | Radar: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>20</mn><mo>×</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">20 \times 20</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">20</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">20</span></span></span></span> Toeplitz complex-to-real SPD cov | FPHA: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>63</mn><mo>×</mo><mn>63</mn></mrow><annotation encoding="application/x-tex">63 \times 63</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">63</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">63</span></span></span></span> skeleton cov | BNCI2014-001: 250 Hz, 8-30 Hz, [0.5, 4.0]s, 22 chans</td></tr>
+          <tr><th>Optimizer</th><td><code>Riemannian SGD / AdamW, lr=1e-2 (HDM05/Radar) / 5e-3 (BNCI), wd=1e-4, batch_size=30, epochs=200</code></td></tr>
+          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span> · <span class="muted" style="font-size:0.74rem"><code>hdm05_lem_centering_residual</code> = <strong>1.188e-15</strong> · <code>hdm05_lcm_centering_residual</code> = <strong>4.259e-16</strong></span></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-1.15% vs Pub (+3.97% SPDNet baseline shift)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% vs Pub</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -619,8 +659,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2403.11261 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -631,8 +671,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -704,8 +744,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.15% vs Pub (+3.97% SPDNet baseline shift)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% vs Pub</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -750,8 +790,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2403.11261 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -762,8 +802,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -835,8 +875,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.15% vs Pub (+3.97% SPDNet baseline shift)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% vs Pub</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -881,8 +921,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2403.11261 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -903,8 +943,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v0 v585 h43z"/></svg></span></span></
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -976,8 +1016,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v0 v585 h43z"/></svg></span></span></
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.15% vs Pub (+3.97% SPDNet baseline shift)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% vs Pub</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1022,8 +1062,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v0 v585 h43z"/></svg></span></span></
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2403.11261 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1034,8 +1074,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v0 v585 h43z"/></svg></span></span></
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1107,8 +1147,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v0 v585 h43z"/></svg></span></span></
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.15% vs Pub (+3.97% SPDNet baseline shift)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% vs Pub</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1153,8 +1193,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v0 v585 h43z"/></svg></span></span></
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2403.11261 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1165,8 +1205,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v0 v585 h43z"/></svg></span></span></
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1238,8 +1278,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v0 v585 h43z"/></svg></span></span></
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.15% vs Pub (+3.97% SPDNet baseline shift)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% vs Pub</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1284,8 +1324,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v0 v585 h43z"/></svg></span></span></
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2403.11261 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1296,8 +1336,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v0 v585 h43z"/></svg></span></span></
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1369,8 +1409,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v0 v585 h43z"/></svg></span></span></
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.15% vs Pub (+3.97% SPDNet baseline shift)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% vs Pub</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1415,8 +1455,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v0 v585 h43z"/></svg></span></span></
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2403.11261 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1427,8 +1467,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v0 v585 h43z"/></svg></span></span></
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1500,8 +1540,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v0 v585 h43z"/></svg></span></span></
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.15% vs Pub (+3.97% SPDNet baseline shift)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% vs Pub</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1546,8 +1586,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v0 v585 h43z"/></svg></span></span></
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2403.11261 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1568,8 +1608,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v600 v585 h43z"/></svg></span></span>
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1641,8 +1681,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v600 v585 h43z"/></svg></span></span>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.15% vs Pub (+3.97% SPDNet baseline shift)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% vs Pub</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1687,8 +1727,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v600 v585 h43z"/></svg></span></span>
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2403.11261 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1699,8 +1739,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v600 v585 h43z"/></svg></span></span>
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1772,8 +1812,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v600 v585 h43z"/></svg></span></span>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.15% vs Pub (+3.97% SPDNet baseline shift)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% vs Pub</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1818,8 +1858,8 @@ c-10,0,-16.667,5,-20,15z M410 15 H367 v585 v600 v585 h43z"/></svg></span></span>
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2403.11261 (.tar.gz e-print + PDF)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2403.11261 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1849,8 +1889,8 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1922,8 +1962,8 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.15% vs Pub (+3.97% SPDNet baseline shift)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% vs Pub</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -2008,37 +2048,37 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Voyager Epoch Convergence Trajectory (LieBN-AIM)">
 <text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">LieBN-A</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">LieBN-L</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">72.1</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">77.2</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">82.2</text>
-<polyline fill="none" points="52.0,173.5 110.0,65.8 168.0,97.9 226.0,76.6 284.0,50.8 342.0,42.8" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,173.5 102.4,65.8 152.8,97.9 203.2,76.6 253.6,50.8 304.0,42.8" class="svg-line-primary"/>
 <circle cx="52.0" cy="173.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="110.0" cy="65.8" r="3" class="svg-line-primary-dot"/>
-<circle cx="168.0" cy="97.9" r="3" class="svg-line-primary-dot"/>
-<circle cx="226.0" cy="76.6" r="3" class="svg-line-primary-dot"/>
-<circle cx="284.0" cy="50.8" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="42.8" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,186.0 110.0,60.8 168.0,99.2 226.0,67.1 284.0,42.4 342.0,44.6" class="svg-line-secondary"/>
+<circle cx="102.4" cy="65.8" r="3" class="svg-line-primary-dot"/>
+<circle cx="152.8" cy="97.9" r="3" class="svg-line-primary-dot"/>
+<circle cx="203.2" cy="76.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="253.6" cy="50.8" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="42.8" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,186.0 102.4,60.8 152.8,99.2 203.2,67.1 253.6,42.4 304.0,44.6" class="svg-line-secondary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="110.0" cy="60.8" r="3" class="svg-line-secondary-dot"/>
-<circle cx="168.0" cy="99.2" r="3" class="svg-line-secondary-dot"/>
-<circle cx="226.0" cy="67.1" r="3" class="svg-line-secondary-dot"/>
-<circle cx="284.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="44.6" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">LieBN-AIM (RADAR): 81.3</text>
-<text x="338.0" y="48.0" text-anchor="end" class="svg-val">LieBN-LEM (RADAR): 81.2</text>
+<circle cx="102.4" cy="60.8" r="3" class="svg-line-secondary-dot"/>
+<circle cx="152.8" cy="99.2" r="3" class="svg-line-secondary-dot"/>
+<circle cx="203.2" cy="67.1" r="3" class="svg-line-secondary-dot"/>
+<circle cx="253.6" cy="42.4" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="44.6" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="41.2" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">LieBN 81.3</text>
+<text x="309.0" y="52.2" text-anchor="start" class="svg-val" style="fill:var(--accent)">LieBN 81.2</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 1</text>
-<text x="110.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
-<text x="168.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
-<text x="226.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
-<text x="284.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
+<text x="102.4" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="152.8" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="203.2" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="253.6" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
 </svg>
     </div>

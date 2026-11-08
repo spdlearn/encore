@@ -54,7 +54,7 @@
   <div class="tri-grid" style="margin-top:8px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER PROTOCOL</span>
+        <span>1 · ORIGINAL PROTOCOL</span>
         <span class="small muted">ICLR 2024</span>
       </div>
       <table class="data-table" style="font-size:0.78rem">
@@ -69,8 +69,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">2 Datasets Audited</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">2 Datasets</span>
       </div>
       <div class="small" style="margin-bottom:4px">
         <strong>Implemented:</strong> <code>spd_learn.models.GeodesicCCALoss</code> <code>spd_learn.models.DeepGeoCCA</code> · <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:3" title="Verified: 3"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 3 Verified</span></span>
@@ -96,8 +96,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-1.05% mean Δ (Two-View EEG &amp; Vision)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.05% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -131,7 +131,7 @@
       <div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
     <span class="tag">Original Figure 1 (ICLR 2024)</span>
-    <strong>DeepGeoCCA: Deep Geodesic Canonical Correlation Analysis: Architectural &amp; Geometric Specification</strong>
+    <strong>DeepGeoCCA: Deep Geodesic Canonical Correlation Analysis: Architectural &amp; Operator Verification</strong>
     <span class="chip good" style="margin-left:auto">✓ 1-to-1 Operator Match in spd_learn</span>
   </div>
   <div class="tri-grid" style="margin-top:10px">
@@ -149,24 +149,41 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Module &amp; Manifold Pipeline</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">C1 Operator SVG + Spec</span>
       </div>
-      <table class="data-table" style="font-size:0.78rem">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C1: GeodesicCCALoss (Identical Views vs Random Views)">
+<text x="52" y="16" class="svg-title">C1: GeodesicCCALoss (Identical Views vs Random Views</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">-5.00</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">-4.06</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">-3.13</text>
+<rect x="112.5" y="186.0" width="24.0" height="2.0" rx="2" class="svg-bar-primary"/>
+<text x="124.5" y="183.0" text-anchor="middle" class="svg-val">-5.00</text>
+<rect x="257.5" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="269.5" y="39.4" text-anchor="middle" class="svg-val">-3.30</text>
+<text x="124.5" y="199.5" text-anchor="middle" class="svg-tick">Identical Views (Y1, Y1)</text>
+<text x="269.5" y="199.5" text-anchor="middle" class="svg-tick">Random Views (Y1, Y2)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">View Alignment</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">GeodesicCCALoss (Lower = Aligned)</text>
+</svg>
+      <table class="data-table" style="font-size:0.76rem;margin-top:2px">
         <tbody>
-          <tr><th style="width:125px">spd_learn Classes</th><td><code>spd_learn.models.GeodesicCCALoss</code> <code>spd_learn.models.DeepGeoCCA</code></td></tr>
+          <tr><th style="width:118px">spd_learn Classes</th><td><code>spd_learn.models.GeodesicCCALoss</code> <code>spd_learn.models.DeepGeoCCA</code></td></tr>
           <tr><th>Manifold</th><td>Log-Euclidean Tangent Whitened Cross-Covariance Nuclear Norm (-Tr((Sigma_11^{-1/2} Sigma_12 Sigma_22^{-1/2} ...)^{1/2}))</td></tr>
           <tr><th>Layer Pipeline</th><td><code>Dual SPD Encoders f_1, f_2 (Dimension Adaptation BiMap <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Transformation BiMap+ReEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Center-Parallel Riemannian BN* <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Projection Head) trained with Geodesic Correlation Loss L_GeoCCA <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Downstream Classifier</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>Geodesic Correlation along geodesics through Identity I_d under AIRM/LEM with epsilon-geodesic constraint L_eps (eps=0.05..0.75) + variance regularization L_sigma</td></tr>
-          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>loss_identical_views</code> = <strong>-5</strong> · <code>loss_independent_views</code> = <strong>-3.298</strong></span></td></tr>
-          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>cca_loss_initial</code> = <strong>-5.984</strong> · <code>cca_loss_after_12_steps</code> = <strong>-5.994</strong></span></td></tr>
+          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span> · <span class="muted" style="font-size:0.74rem"><code>loss_identical_views</code> = <strong>-5</strong> · <code>loss_independent_views</code> = <strong>-3.298</strong></span></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-1.05% mean Δ (Two-View EEG &amp; Vision)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.05% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -185,7 +202,7 @@
 </div><div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
     <span class="tag">Original Figure 2 (ICLR 2024)</span>
-    <strong>DeepGeoCCA: Deep Geodesic Canonical Correlation Analysis: Architectural &amp; Geometric Specification</strong>
+    <strong>Geometric definition of Geodesic Correlation along <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span>-cones around ... (Conditioning &amp; Signal Verification)</strong>
     <span class="chip good" style="margin-left:auto">✓ 1-to-1 Operator Match in spd_learn</span>
   </div>
   <div class="tri-grid" style="margin-top:10px">
@@ -203,24 +220,47 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Module &amp; Manifold Pipeline</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">C2 Signal SVG + Regime</span>
       </div>
-      <table class="data-table" style="font-size:0.78rem">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C2: Self-Supervised GeodesicCCALoss Optimization">
+<text x="52" y="16" class="svg-title">C2: Self-Supervised GeodesicCCALoss Optimization</text>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">-5.99</text>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">-5.99</text>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">-5.98</text>
+<polyline fill="none" points="52.0,42.4 115.0,78.4 178.0,114.4 241.0,150.3 304.0,186.0" class="svg-line-primary"/>
+<circle cx="52.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="115.0" cy="78.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="178.0" cy="114.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="241.0" cy="150.3" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
+<text x="309.0" y="184.0" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">CCA L -5.99</text>
+<text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Step 0</text>
+<text x="115.0" y="199.5" text-anchor="middle" class="svg-tick">Step 3</text>
+<text x="178.0" y="199.5" text-anchor="middle" class="svg-tick">Step 6</text>
+<text x="241.0" y="199.5" text-anchor="middle" class="svg-tick">Step 9</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Step 12</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Gradient Step</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">GeodesicCCALoss</text>
+</svg>
+      <table class="data-table" style="font-size:0.76rem;margin-top:2px">
         <tbody>
-          <tr><th style="width:125px">spd_learn Classes</th><td><code>spd_learn.models.GeodesicCCALoss</code> <code>spd_learn.models.DeepGeoCCA</code></td></tr>
-          <tr><th>Manifold</th><td>Log-Euclidean Tangent Whitened Cross-Covariance Nuclear Norm (-Tr((Sigma_11^{-1/2} Sigma_12 Sigma_22^{-1/2} ...)^{1/2}))</td></tr>
-          <tr><th>Layer Pipeline</th><td><code>Dual SPD Encoders f_1, f_2 (Dimension Adaptation BiMap <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Transformation BiMap+ReEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Center-Parallel Riemannian BN* <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Projection Head) trained with Geodesic Correlation Loss L_GeoCCA <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Downstream Classifier</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>Geodesic Correlation along geodesics through Identity I_d under AIRM/LEM with epsilon-geodesic constraint L_eps (eps=0.05..0.75) + variance regularization L_sigma</td></tr>
-          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>loss_identical_views</code> = <strong>-5</strong> · <code>loss_independent_views</code> = <strong>-3.298</strong></span></td></tr>
-          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>cca_loss_initial</code> = <strong>-5.984</strong> · <code>cca_loss_after_12_steps</code> = <strong>-5.994</strong></span></td></tr>
+          <tr><th style="width:118px">Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>Geodesic Correlation along geodesics through Identity I_d under AIRM/LEM with epsilon-geodesic constraint L_eps (eps=0.05..0.75) + variance regularization L_sigma</td></tr>
+          <tr><th>Preprocessing</th><td>Multi-View EEG: View 1 = 2-ch C3/C4 x 9 bands (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>18</mn><mo>×</mo><mn>18</mn></mrow><annotation encoding="application/x-tex">18 \times 18</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">18</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">18</span></span></span></span> SPD), View 2 = 20-ch motor cortex x 9 bands (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>180</mn><mo>×</mo><mn>180</mn></mrow><annotation encoding="application/x-tex">180 \times 180</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">180</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">180</span></span></span></span> SPD) | EEG-fMRI: 10s sliding windows (2s step), EEG bandpower cov + fMRI ROI Bold cov</td></tr>
+          <tr><th>Optimizer</th><td><code>Self-supervised pretraining: Adam, lr=1e-3, alpha_1=alpha_2=1.0, alpha_3=0.1, eps=0.05, batch_size=64, epochs=100; Downstream fine-tuning: epochs=100</code></td></tr>
+          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span> · <span class="muted" style="font-size:0.74rem"><code>cca_loss_initial</code> = <strong>-5.984</strong> · <code>cca_loss_after_12_steps</code> = <strong>-5.994</strong></span></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-1.05% mean Δ (Two-View EEG &amp; Vision)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.05% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -523,27 +563,27 @@
   </div>
   <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C2: Self-Supervised GeodesicCCALoss Optimization">
 <text x="52" y="16" class="svg-title">C2: Self-Supervised GeodesicCCALoss Optimization</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">-5.99</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">-5.99</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">-5.98</text>
-<polyline fill="none" points="52.0,42.4 124.5,78.4 197.0,114.4 269.5,150.3 342.0,186.0" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,42.4 115.0,78.4 178.0,114.4 241.0,150.3 304.0,186.0" class="svg-line-primary"/>
 <circle cx="52.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="124.5" cy="78.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="197.0" cy="114.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="269.5" cy="150.3" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<text x="338.0" y="180.0" text-anchor="end" class="svg-val">CCA Loss: -5.99</text>
+<circle cx="115.0" cy="78.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="178.0" cy="114.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="241.0" cy="150.3" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
+<text x="309.0" y="184.0" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">CCA L -5.99</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Step 0</text>
-<text x="124.5" y="199.5" text-anchor="middle" class="svg-tick">Step 3</text>
-<text x="197.0" y="199.5" text-anchor="middle" class="svg-tick">Step 6</text>
-<text x="269.5" y="199.5" text-anchor="middle" class="svg-tick">Step 9</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">Step 12</text>
+<text x="115.0" y="199.5" text-anchor="middle" class="svg-tick">Step 3</text>
+<text x="178.0" y="199.5" text-anchor="middle" class="svg-tick">Step 6</text>
+<text x="241.0" y="199.5" text-anchor="middle" class="svg-tick">Step 9</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Step 12</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Gradient Step</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Gradient Step</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">GeodesicCCALoss</text>
 </svg>
   <div class="small">
@@ -597,8 +637,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">ICLR 2024 Proceedings PDF</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">ICLR 2024 Proceedi</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -609,8 +649,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -664,8 +704,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.05% mean Δ (Two-View EEG &amp; Vision)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.05% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -698,8 +738,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">ICLR 2024 Proceedings PDF</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">ICLR 2024 Proceedi</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -710,8 +750,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -765,8 +805,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.05% mean Δ (Two-View EEG &amp; Vision)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.05% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -841,37 +881,37 @@
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Voyager Epoch Convergence Trajectory (DeepGeoCCA)">
 <text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">DeepGeo</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">DeepGeo</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">26.5</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">51.6</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">76.7</text>
-<polyline fill="none" points="52.0,186.0 110.0,133.7 168.0,120.0 226.0,115.6 284.0,115.5 342.0,114.4" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 102.4,133.7 152.8,120.0 203.2,115.6 253.6,115.5 304.0,114.4" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="110.0" cy="133.7" r="3" class="svg-line-primary-dot"/>
-<circle cx="168.0" cy="120.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="226.0" cy="115.6" r="3" class="svg-line-primary-dot"/>
-<circle cx="284.0" cy="115.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="114.4" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,92.5 110.0,48.0 168.0,46.3 226.0,43.2 284.0,42.4 342.0,43.6" class="svg-line-secondary"/>
+<circle cx="102.4" cy="133.7" r="3" class="svg-line-primary-dot"/>
+<circle cx="152.8" cy="120.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="203.2" cy="115.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="253.6" cy="115.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="114.4" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,92.5 102.4,48.0 152.8,46.3 203.2,43.2 253.6,42.4 304.0,43.6" class="svg-line-secondary"/>
 <circle cx="52.0" cy="92.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="110.0" cy="48.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="168.0" cy="46.3" r="3" class="svg-line-secondary-dot"/>
-<circle cx="226.0" cy="43.2" r="3" class="svg-line-secondary-dot"/>
-<circle cx="284.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="43.6" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">DeepGeoCCA (bnci2014): 71.8</text>
-<text x="338.0" y="108.4" text-anchor="end" class="svg-val">DeepGeoCCA (bnci2014): 49.2</text>
+<circle cx="102.4" cy="48.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="152.8" cy="46.3" r="3" class="svg-line-secondary-dot"/>
+<circle cx="203.2" cy="43.2" r="3" class="svg-line-secondary-dot"/>
+<circle cx="253.6" cy="42.4" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="43.6" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="46.6" text-anchor="start" class="svg-val" style="fill:var(--accent)">DeepG 71.8</text>
+<text x="309.0" y="117.4" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">DeepG 49.2</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 1</text>
-<text x="110.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
-<text x="168.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
-<text x="226.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
-<text x="284.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
+<text x="102.4" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="152.8" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="203.2" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="253.6" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
 </svg>
     </div>

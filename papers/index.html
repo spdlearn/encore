@@ -31,8 +31,294 @@
   <p class="lede">Each row summarizes (1) Paper &amp; Datasets, (2) Published vs. Our Replicated Benchmark, and (3) The Gap &amp; Dataloader/Protocol Differences.</p>
 </header>
 <main>
+  <div class="panel">
+    <div class="claim-head" style="margin-bottom:8px">
+      <span class="tag" style="border-color:var(--accent);color:var(--accent)">26-PAPER VISUAL SUMMARY</span>
+      <strong>Cleveland Paired Dot Plot (Published vs. Ours) &amp; Diverging Gap Forest Plot (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Δ</mi><mo>=</mo><mtext>Ours</mtext><mo>−</mo><mtext>Published</mtext></mrow><annotation encoding="application/x-tex">\Delta = \text{Ours} - \text{Published}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">Δ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord text"><span class="mord">Ours</span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord">Published</span></span></span></span></span>)</strong>
+    </div>
+    <svg class="diag-svg" viewBox="0 0 1120 650" role="img" aria-label="26-Paper Cleveland Paired Dot Plot and Diverging Replication Gap Forest Plot">
+<text x="12" y="20" class="svg-title" style="fill:var(--spd-blue)">1 · PAPER &amp; PRIMARY BENCHMARK</text>
+<text x="245" y="20" class="svg-title" style="fill:var(--accent)">2 · OUR REPLICABILITY (PUB vs. OURS %)</text>
+<circle cx="468" cy="16.5" r="3.8" class="svg-line-primary-dot"/>
+<text x="475" y="19.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text>
+<circle cx="502" cy="16.5" r="3.8" class="svg-line-secondary-dot"/>
+<text x="509" y="19.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
+<text x="555" y="20" class="svg-title" style="fill:var(--warning)">3 · THE GAP (MEAN Δ %) &amp; ROOT PIPELINE DIFFERENCE</text>
+<rect x="674.1" y="42" width="57.5" height="576.8" fill="rgba(4, 120, 87, 0.07)"/>
+<text x="702.9" y="36" text-anchor="middle" class="svg-tick" style="fill:var(--good);font-weight:700">±1.75% Tight Band</text>
+<line x1="245.0" y1="46" x2="245.0" y2="622.8" class="svg-grid"/>
+<text x="245.0" y="38" text-anchor="middle" class="svg-tick">40%</text>
+<line x1="338.3" y1="46" x2="338.3" y2="622.8" class="svg-grid"/>
+<text x="338.3" y="38" text-anchor="middle" class="svg-tick">60%</text>
+<line x1="431.7" y1="46" x2="431.7" y2="622.8" class="svg-grid"/>
+<text x="431.7" y="38" text-anchor="middle" class="svg-tick">80%</text>
+<line x1="525.0" y1="46" x2="525.0" y2="622.8" class="svg-grid"/>
+<text x="525.0" y="38" text-anchor="middle" class="svg-tick">100%</text>
+<line x1="571.4" y1="46" x2="571.4" y2="622.8" class="svg-grid"/>
+<text x="571.4" y="38" text-anchor="middle" class="svg-tick">-8%</text>
+<line x1="637.1" y1="46" x2="637.1" y2="622.8" class="svg-grid"/>
+<text x="637.1" y="38" text-anchor="middle" class="svg-tick">-4%</text>
+<line x1="702.9" y1="46" x2="702.9" y2="622.8" class="svg-axis"/>
+<line x1="768.6" y1="46" x2="768.6" y2="622.8" class="svg-grid"/>
+<text x="768.6" y="38" text-anchor="middle" class="svg-tick">+4%</text>
+<circle cx="16" cy="60.5" r="3.2" fill="var(--good)"/>
+<text x="24" y="64.0" class="svg-tick" style="font-weight:700;fill:var(--text)">huang2017spdnet</text>
+<text x="234" y="64.0" text-anchor="end" class="svg-tick">HDM05</text>
+<line x1="345.1" y1="60.5" x2="352.8" y2="60.5" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="345.1" cy="60.5" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="352.8" cy="60.5" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="702.9" y="56.0" width="4.6" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="711.5" y="63.5" text-anchor="start" class="svg-val" style="font-size:8.2px;fill:var(--good)">+0.3%</text>
+<text x="798" y="64.0" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (|Δ| ≤ 1.65%)</text>
+<rect x="8" y="73.3" width="1104" height="21.8" rx="2" fill="var(--hover)" opacity="0.55"/>
+<circle cx="16" cy="82.3" r="3.2" fill="var(--good)"/>
+<text x="24" y="85.8" class="svg-tick" style="font-weight:700;fill:var(--text)">brooks2019spdnetbn</text>
+<text x="234" y="85.8" text-anchor="end" class="svg-tick">Radar</text>
+<line x1="500.7" y1="82.3" x2="503.3" y2="82.3" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="500.7" cy="82.3" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="503.3" cy="82.3" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="702.9" y="77.8" width="14.9" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="721.8" y="85.3" text-anchor="start" class="svg-val" style="font-size:8.2px;fill:var(--good)">+0.9%</text>
+<text x="798" y="85.8" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (+0.91% mean Δ)</text>
+<circle cx="16" cy="104.1" r="3.2" fill="var(--warning)"/>
+<text x="24" y="107.6" class="svg-tick" style="font-weight:700;fill:var(--text)">kobler2022tsmnet</text>
+<text x="234" y="107.6" text-anchor="end" class="svg-tick">BNCI2014-001</text>
+<line x1="393.9" y1="104.1" x2="406.5" y2="104.1" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="406.5" cy="104.1" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="393.9" cy="104.1" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="684.0" y="99.6" width="18.9" height="9.0" rx="1.8" fill="var(--warning)" opacity="0.88"/>
+<text x="680.0" y="107.1" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--warning)">-1.1%</text>
+<text x="798" y="107.6" class="svg-tick" style="fill:var(--text2)">◐ Domain-BN Protocol Gap (-1.15% mean Δ)</text>
+<rect x="8" y="116.9" width="1104" height="21.8" rx="2" fill="var(--hover)" opacity="0.55"/>
+<circle cx="16" cy="125.9" r="3.2" fill="var(--warning)"/>
+<text x="24" y="129.4" class="svg-tick" style="font-weight:700;fill:var(--text)">ju2022tensorcspnet</text>
+<text x="234" y="129.4" text-anchor="end" class="svg-tick">BNCI2014-001</text>
+<line x1="391.8" y1="125.9" x2="401.8" y2="125.9" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="401.8" cy="125.9" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="391.8" cy="125.9" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="673.3" y="121.4" width="29.6" height="9.0" rx="1.8" fill="var(--warning)" opacity="0.88"/>
+<text x="669.3" y="128.9" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--warning)">-1.8%</text>
+<text x="798" y="129.4" class="svg-tick" style="fill:var(--text2)">◐ Filterbank Dataloader Gap (-1.80% mean Δ)</text>
+<circle cx="16" cy="147.7" r="3.2" fill="var(--good)"/>
+<text x="24" y="151.2" class="svg-tick" style="font-weight:700;fill:var(--text)">pan2022matt</text>
+<text x="234" y="151.2" text-anchor="end" class="svg-tick">BNCI2014-001</text>
+<line x1="396.2" y1="147.7" x2="407.0" y2="147.7" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="407.0" cy="147.7" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="396.2" cy="147.7" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="679.0" y="143.2" width="23.8" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="675.0" y="150.7" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--good)">-1.4%</text>
+<text x="798" y="151.2" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (-1.45% mean Δ)</text>
+<rect x="8" y="160.5" width="1104" height="21.8" rx="2" fill="var(--hover)" opacity="0.55"/>
+<circle cx="16" cy="169.5" r="3.2" fill="var(--critical)"/>
+<text x="24" y="173.0" class="svg-tick" style="font-weight:700;fill:var(--text)">chen2024liebn</text>
+<text x="234" y="173.0" text-anchor="end" class="svg-tick">Radar</text>
+<line x1="498.3" y1="169.5" x2="501.0" y2="169.5" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="498.3" cy="169.5" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="501.0" cy="169.5" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="684.0" y="165.0" width="18.9" height="9.0" rx="1.8" fill="var(--critical)" opacity="0.88"/>
+<text x="680.0" y="172.5" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--critical)">-1.1%</text>
+<text x="798" y="173.0" class="svg-tick" style="fill:var(--text2)">! Baseline &amp; 1-Step Karcher Gap (Falsified C2)</text>
+<circle cx="16" cy="191.3" r="3.2" fill="var(--warning)"/>
+<text x="24" y="194.8" class="svg-tick" style="font-weight:700;fill:var(--text)">paillard2024green</text>
+<text x="234" y="194.8" text-anchor="end" class="svg-tick">TUAB</text>
+<line x1="453.8" y1="191.3" x2="455.5" y2="191.3" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="455.5" cy="191.3" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="453.8" cy="191.3" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="665.1" y="186.8" width="37.8" height="9.0" rx="1.8" fill="var(--warning)" opacity="0.88"/>
+<text x="661.1" y="194.3" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--warning)">-2.3%</text>
+<text x="798" y="194.8" class="svg-tick" style="fill:var(--text2)">◐ Custom BIDS + Autoreject Dataloader Gap (-1.</text>
+<rect x="8" y="204.1" width="1104" height="21.8" rx="2" fill="var(--hover)" opacity="0.55"/>
+<circle cx="16" cy="213.1" r="3.2" fill="var(--critical)"/>
+<text x="24" y="216.6" class="svg-tick" style="font-weight:700;fill:var(--text)">wilson2025eegspdne</text>
+<text x="234" y="216.6" text-anchor="end" class="svg-tick">BNCI2014-001</text>
+<line x1="365.4" y1="213.1" x2="397.1" y2="213.1" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="397.1" cy="213.1" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="365.4" cy="213.1" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="566.5" y="208.6" width="136.4" height="9.0" rx="1.8" fill="var(--critical)" opacity="0.88"/>
+<text x="562.5" y="216.1" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--critical)">-8.3%</text>
+<text x="798" y="216.6" class="svg-tick" style="fill:var(--text2)">! Over-Parameterization Gap (-8.3% on Small Sa</text>
+<circle cx="16" cy="234.9" r="3.2" fill="var(--good)"/>
+<text x="24" y="238.4" class="svg-tick" style="font-weight:700;fill:var(--text)">chen2026pcm_bwcm</text>
+<text x="234" y="238.4" text-anchor="end" class="svg-tick">HDM05</text>
+<line x1="377.5" y1="234.9" x2="390.4" y2="234.9" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="390.4" cy="234.9" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="377.5" cy="234.9" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="685.6" y="230.4" width="17.2" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="681.6" y="237.9" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--good)">-1.1%</text>
+<text x="798" y="238.4" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (-1.05% mean Δ)</text>
+<rect x="8" y="247.7" width="1104" height="21.8" rx="2" fill="var(--hover)" opacity="0.55"/>
+<circle cx="16" cy="256.7" r="3.2" fill="var(--good)"/>
+<text x="24" y="260.2" class="svg-tick" style="font-weight:700;fill:var(--text)">hu2025coratt</text>
+<text x="234" y="260.2" text-anchor="end" class="svg-tick">BNCI2014-001</text>
+<line x1="400.9" y1="256.7" x2="412.1" y2="256.7" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="412.1" cy="256.7" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="400.9" cy="256.7" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="684.0" y="252.2" width="18.9" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="680.0" y="259.7" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--good)">-1.1%</text>
+<text x="798" y="260.2" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (-1.15% mean Δ)</text>
+<circle cx="16" cy="278.5" r="3.2" fill="var(--good)"/>
+<text x="24" y="282.0" class="svg-tick" style="font-weight:700;fill:var(--text)">chen2026cornet</text>
+<text x="234" y="282.0" text-anchor="end" class="svg-tick">ABIDE &amp; ADHD</text>
+<line x1="390.8" y1="278.5" x2="393.4" y2="278.5" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="393.4" cy="278.5" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="390.8" cy="278.5" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="686.8" y="274.0" width="16.1" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="682.8" y="281.5" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--good)">-1.0%</text>
+<text x="798" y="282.0" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (-0.98% mean Δ)</text>
+<rect x="8" y="291.3" width="1104" height="21.8" rx="2" fill="var(--hover)" opacity="0.55"/>
+<circle cx="16" cy="300.3" r="3.2" fill="var(--good)"/>
+<text x="24" y="303.8" class="svg-tick" style="font-weight:700;fill:var(--text)">chen2026rietrans</text>
+<text x="234" y="303.8" text-anchor="end" class="svg-tick">HDM05</text>
+<line x1="381.0" y1="300.3" x2="392.5" y2="300.3" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="392.5" cy="300.3" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="381.0" cy="300.3" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="687.2" y="295.8" width="15.6" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="683.2" y="303.3" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--good)">-0.9%</text>
+<text x="798" y="303.8" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (-0.95% mean Δ)</text>
+<circle cx="16" cy="322.1" r="3.2" fill="var(--good)"/>
+<text x="24" y="325.6" class="svg-tick" style="font-weight:700;fill:var(--text)">wang2025gyroatt</text>
+<text x="234" y="325.6" text-anchor="end" class="svg-tick">HDM05</text>
+<line x1="376.6" y1="322.1" x2="384.3" y2="322.1" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="384.3" cy="322.1" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="376.6" cy="322.1" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="683.1" y="317.6" width="19.7" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="679.1" y="325.1" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--good)">-1.2%</text>
+<text x="798" y="325.6" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (-1.20% mean Δ)</text>
+<rect x="8" y="334.9" width="1104" height="21.8" rx="2" fill="var(--hover)" opacity="0.55"/>
+<circle cx="16" cy="343.9" r="3.2" fill="var(--warning)"/>
+<text x="24" y="347.4" class="svg-tick" style="font-weight:700;fill:var(--text)">ju2023graphcspnet</text>
+<text x="234" y="347.4" text-anchor="end" class="svg-tick">BNCI2014-001</text>
+<line x1="398.3" y1="343.9" x2="405.9" y2="343.9" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="405.9" cy="343.9" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="398.3" cy="343.9" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="676.2" y="339.4" width="26.6" height="9.0" rx="1.8" fill="var(--warning)" opacity="0.88"/>
+<text x="672.2" y="346.9" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--warning)">-1.6%</text>
+<text x="798" y="347.4" class="svg-tick" style="fill:var(--text2)">◐ Time-Freq Graph Resolution Gap (-1.62% Δ)</text>
+<circle cx="16" cy="365.7" r="3.2" fill="var(--good)"/>
+<text x="24" y="369.2" class="svg-tick" style="font-weight:700;fill:var(--text)">zhou2026gbwatt</text>
+<text x="234" y="369.2" text-anchor="end" class="svg-tick">BNCI2014-001</text>
+<line x1="399.5" y1="365.7" x2="409.0" y2="365.7" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="409.0" cy="365.7" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="399.5" cy="365.7" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="684.0" y="361.2" width="18.9" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="680.0" y="368.7" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--good)">-1.1%</text>
+<text x="798" y="369.2" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (-1.15% mean Δ)</text>
+<rect x="8" y="378.5" width="1104" height="21.8" rx="2" fill="var(--hover)" opacity="0.55"/>
+<circle cx="16" cy="387.5" r="3.2" fill="var(--warning)"/>
+<text x="24" y="391.0" class="svg-tick" style="font-weight:700;fill:var(--text)">seraphim2023spdtra</text>
+<text x="234" y="391.0" text-anchor="end" class="svg-tick">Sleep-EDFX</text>
+<line x1="448.2" y1="387.5" x2="450.8" y2="387.5" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="450.8" cy="387.5" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="448.2" cy="387.5" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="672.5" y="383.0" width="30.4" height="9.0" rx="1.8" fill="var(--warning)" opacity="0.88"/>
+<text x="668.5" y="390.5" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--warning)">-1.9%</text>
+<text x="798" y="391.0" class="svg-tick" style="fill:var(--text2)">◐ Window Grid Dataloader Gap (-1.85% mean Δ)</text>
+<circle cx="16" cy="409.3" r="3.2" fill="var(--good)"/>
+<text x="24" y="412.8" class="svg-tick" style="font-weight:700;fill:var(--text)">wang2026spdmetafor</text>
+<text x="234" y="412.8" text-anchor="end" class="svg-tick">BNCI2014-001</text>
+<line x1="404.4" y1="409.3" x2="415.0" y2="409.3" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="415.0" cy="409.3" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="404.4" cy="409.3" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="684.0" y="404.8" width="18.9" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="680.0" y="412.3" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--good)">-1.1%</text>
+<text x="798" y="412.8" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (-1.15% mean Δ)</text>
+<rect x="8" y="422.1" width="1104" height="21.8" rx="2" fill="var(--hover)" opacity="0.55"/>
+<circle cx="16" cy="431.1" r="3.2" fill="var(--good)"/>
+<text x="24" y="434.6" class="svg-tick" style="font-weight:700;fill:var(--text)">hu2026rhop</text>
+<text x="234" y="434.6" text-anchor="end" class="svg-tick">TUAB &amp; TUEV</text>
+<line x1="442.9" y1="431.1" x2="445.4" y2="431.1" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="445.4" cy="431.1" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="442.9" cy="431.1" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="688.9" y="426.6" width="14.0" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="684.9" y="434.1" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--good)">-0.8%</text>
+<text x="798" y="434.6" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (-0.85% mean Δ)</text>
+<circle cx="16" cy="452.9" r="3.2" fill="var(--good)"/>
+<text x="24" y="456.4" class="svg-tick" style="font-weight:700;fill:var(--text)">ju2024deepgeocca</text>
+<text x="234" y="456.4" text-anchor="end" class="svg-tick">SEED &amp; DEAP</text>
+<line x1="458.5" y1="452.9" x2="461.5" y2="452.9" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="461.5" cy="452.9" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="458.5" cy="452.9" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="685.6" y="448.4" width="17.2" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="681.6" y="455.9" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--good)">-1.1%</text>
+<text x="798" y="456.4" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (-1.05% mean Δ)</text>
+<rect x="8" y="465.7" width="1104" height="21.8" rx="2" fill="var(--hover)" opacity="0.55"/>
+<circle cx="16" cy="474.7" r="3.2" fill="var(--good)"/>
+<text x="24" y="478.2" class="svg-tick" style="font-weight:700;fill:var(--text)">gallet2026armagnac</text>
+<text x="234" y="478.2" text-anchor="end" class="svg-tick">HDM05</text>
+<line x1="370.1" y1="474.7" x2="373.1" y2="474.7" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="370.1" cy="474.7" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="373.1" cy="474.7" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="702.9" y="470.2" width="6.9" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="713.8" y="477.7" text-anchor="start" class="svg-val" style="font-size:8.2px;fill:var(--good)">+0.4%</text>
+<text x="798" y="478.2" class="svg-tick" style="fill:var(--text2)">✓ Exact Match (+0.42% Δ · 3.1× Faster BN)</text>
+<circle cx="16" cy="496.5" r="3.2" fill="var(--good)"/>
+<text x="24" y="500.0" class="svg-tick" style="font-weight:700;fill:var(--text)">zhou2025gbwbn_cbn</text>
+<text x="234" y="500.0" text-anchor="end" class="svg-tick">HDM05</text>
+<line x1="373.1" y1="496.5" x2="373.8" y2="496.5" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="373.1" cy="496.5" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="373.8" cy="496.5" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="694.6" y="492.0" width="8.2" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="690.6" y="499.5" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--good)">-0.5%</text>
+<text x="798" y="500.0" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (-0.50% mean Δ)</text>
+<rect x="8" y="509.3" width="1104" height="21.8" rx="2" fill="var(--hover)" opacity="0.55"/>
+<circle cx="16" cy="518.3" r="3.2" fill="var(--warning)"/>
+<text x="24" y="521.8" class="svg-tick" style="font-weight:700;fill:var(--text)">tibermacine2025rce</text>
+<text x="234" y="521.8" text-anchor="end" class="svg-tick">BNCI2014-001</text>
+<line x1="406.0" y1="518.3" x2="412.3" y2="518.3" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="412.3" cy="518.3" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="406.0" cy="518.3" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="681.5" y="513.8" width="21.4" height="9.0" rx="1.8" fill="var(--warning)" opacity="0.88"/>
+<text x="677.5" y="521.3" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--warning)">-1.3%</text>
+<text x="798" y="521.8" class="svg-tick" style="fill:var(--text2)">◐ BN Momentum Calibration Gap (-1.30% Δ)</text>
+<circle cx="16" cy="540.1" r="3.2" fill="var(--good)"/>
+<text x="24" y="543.6" class="svg-tick" style="font-weight:700;fill:var(--text)">wang2024starnet</text>
+<text x="234" y="543.6" text-anchor="end" class="svg-tick">BNCI2014-001</text>
+<line x1="408.8" y1="540.1" x2="417.2" y2="540.1" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="417.2" cy="540.1" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="408.8" cy="540.1" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="679.9" y="535.6" width="23.0" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="675.9" y="543.1" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--good)">-1.4%</text>
+<text x="798" y="543.6" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (-1.40% mean Δ)</text>
+<rect x="8" y="552.9" width="1104" height="21.8" rx="2" fill="var(--hover)" opacity="0.55"/>
+<circle cx="16" cy="561.9" r="3.2" fill="var(--good)"/>
+<text x="24" y="565.4" class="svg-tick" style="font-weight:700;fill:var(--text)">chen2025alem_spdre</text>
+<text x="234" y="565.4" text-anchor="end" class="svg-tick">HDM05</text>
+<line x1="378.2" y1="561.9" x2="387.0" y2="561.9" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="387.0" cy="561.9" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="378.2" cy="561.9" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="686.8" y="557.4" width="16.1" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="682.8" y="564.9" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--good)">-1.0%</text>
+<text x="798" y="565.4" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (-0.98% mean Δ)</text>
+<circle cx="16" cy="583.7" r="3.2" fill="var(--good)"/>
+<text x="24" y="587.2" class="svg-tick" style="font-weight:700;fill:var(--text)">nguyen2023gyrospd</text>
+<text x="234" y="587.2" text-anchor="end" class="svg-tick">HDM05</text>
+<line x1="372.9" y1="583.7" x2="378.0" y2="583.7" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="378.0" cy="583.7" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="372.9" cy="583.7" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="689.2" y="579.2" width="13.6" height="9.0" rx="1.8" fill="var(--good)" opacity="0.88"/>
+<text x="685.2" y="586.7" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--good)">-0.8%</text>
+<text x="798" y="587.2" class="svg-tick" style="fill:var(--text2)">✓ Replicates Closely (-0.83% mean Δ)</text>
+<rect x="8" y="596.5" width="1104" height="21.8" rx="2" fill="var(--hover)" opacity="0.55"/>
+<circle cx="16" cy="605.5" r="3.2" fill="var(--warning)"/>
+<text x="24" y="609.0" class="svg-tick" style="font-weight:700;fill:var(--text)">boucherie2026spdne</text>
+<text x="234" y="609.0" text-anchor="end" class="svg-tick">BNCI2014-001</text>
+<line x1="396.7" y1="605.5" x2="404.1" y2="605.5" stroke="var(--text2)" stroke-width="1.4" opacity="0.55"/>
+<circle cx="404.1" cy="605.5" r="3.6" class="svg-line-primary-dot"/>
+<circle cx="396.7" cy="605.5" r="3.6" class="svg-line-secondary-dot"/>
+<rect x="684.0" y="601.0" width="18.9" height="9.0" rx="1.8" fill="var(--warning)" opacity="0.88"/>
+<text x="680.0" y="608.5" text-anchor="end" class="svg-val" style="font-size:8.2px;fill:var(--warning)">-1.1%</text>
+<text x="798" y="609.0" class="svg-tick" style="fill:var(--text2)">◐ Low-Label Semi-Supervised Split Gap (-1.15% </text>
+</svg>
+  </div>
   <div class="panel" style="padding:0">
-    <div class="drow" data-category="foundational backbone">
+    <div class="filter-bar">
+      <button type="button" class="filter-btn active" data-filter="all">All 26 Papers</button>
+      <button type="button" class="filter-btn" data-filter="exact"><span style="color:var(--good)">●</span> Tight Replication (17)</button>
+      <button type="button" class="filter-btn" data-filter="moderate"><span style="color:var(--warning)">●</span> Dataloader / Protocol Gap (7)</button>
+      <button type="button" class="filter-btn" data-filter="large"><span style="color:var(--critical)">●</span> Baseline / Regime Shift (2)</button>
+      <input type="search" class="search-input" id="paper-search" placeholder="Filter by paper, dataset, or dataloader (e.g. GREEN, autoreject)..." aria-label="Filter papers"/>
+    </div>
+    <div class="drow" data-gap="exact" data-category="foundational backbone">
   <div class="id">
     <a href="huang2017spdnet/index.html"><strong><code>huang2017spdnet</code></strong></a><br>
     <span class="tag">AAAI 2017</span>
@@ -52,13 +338,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (|Δ| ≤ 1.65%)</span>
-      <code>+0.28% mean Δ (5 datasets)</code>
+      <code>+0.28% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
-      <strong>Pipeline Diff:</strong> Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (ε = 1e-4) for rank-deficient FPHA trials (T &lt; 63).
+      <strong>Pipeline Diff:</strong> Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>) for rank-deficient FPHA trials (T &lt; 63).
     </p>
   </div>
-</div><div class="drow" data-category="foundational batchnorm">
+</div><div class="drow" data-gap="exact" data-category="foundational batchnorm">
   <div class="id">
     <a href="brooks2019spdnetbn/index.html"><strong><code>brooks2019spdnetbn</code></strong></a><br>
     <span class="tag">NeurIPS 2019</span>
@@ -78,13 +364,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (+0.91% mean Δ)</span>
-      <code>+0.91% mean Δ (5 public datasets)</code>
+      <code>+0.91% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> NATO SET245 military X-band radar dataset is confidential (BLOCKED); on public Radar, HDM05, FPHA, AFEW, and BNCI2014-001, spd-bench uses standardized holdout and MOABB cross-session splits.
     </p>
   </div>
-</div><div class="drow" data-category="domain adaptation">
+</div><div class="drow" data-gap="moderate" data-category="domain adaptation">
   <div class="id">
     <a href="kobler2022tsmnet/index.html"><strong><code>kobler2022tsmnet</code></strong></a><br>
     <span class="tag">NeurIPS 2022</span>
@@ -104,13 +390,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip warning">◐ Domain-BN Protocol Gap (-1.15% mean Δ)</span>
-      <code>-1.15% mean Δ (5 NEMAR datasets)</code>
+      <code>-1.15% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper uses custom NEMAR BIDS caching with dataset-specific channel picks (e.g., 20 sensorimotor ch on Lee2019, Fpz drop on Hinss2021) and evaluates transductive domain-specific batch statistics on the full test session; Stieger2021 has violin plots only (NO TARGET).
     </p>
   </div>
-</div><div class="drow" data-category="filterbank spd">
+</div><div class="drow" data-gap="moderate" data-category="filterbank spd">
   <div class="id">
     <a href="ju2022tensorcspnet/index.html"><strong><code>ju2022tensorcspnet</code></strong></a><br>
     <span class="tag">IEEE TNNLS 2022</span>
@@ -130,13 +416,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip warning">◐ Filterbank Dataloader Gap (-1.80% mean Δ)</span>
-      <code>-1.80% mean Δ (BNCI &amp; Korea U.)</code>
+      <code>-1.80% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Original Tensor-CSPNet dataloader pre-filters raw EEG into 9 Chebyshev Type-II sub-bands (4–40 Hz in 4 Hz steps) × 3 time windows before training; our fast Voyager MOABB harness uses a compact 3-band × 2-window tensor grid unless the full 9-band cache is enabled.
     </p>
   </div>
-</div><div class="drow" data-category="foundational attention">
+</div><div class="drow" data-gap="exact" data-category="foundational attention">
   <div class="id">
     <a href="pan2022matt/index.html"><strong><code>pan2022matt</code></strong></a><br>
     <span class="tag">NeurIPS 2022</span>
@@ -156,13 +442,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (-1.45% mean Δ)</span>
-      <code>-1.45% mean Δ (4 EEG datasets)</code>
+      <code>-1.45% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
-      <strong>Pipeline Diff:</strong> On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (ε = 1e-4).
+      <strong>Pipeline Diff:</strong> On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>).
     </p>
   </div>
-</div><div class="drow" data-category="lie group batchnorm">
+</div><div class="drow" data-gap="large" data-category="lie group batchnorm">
   <div class="id">
     <a href="chen2024liebn/index.html"><strong><code>chen2024liebn</code></strong></a><br>
     <span class="tag">ICLR 2024</span>
@@ -182,13 +468,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip unresolved">! Baseline &amp; 1-Step Karcher Gap (Falsified C2)</span>
-      <code>-1.15% vs Pub (+3.97% SPDNet baseline shift)</code>
+      <code>-1.15% vs Pub</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper compares against an under-tuned SPDNet [93,30] baseline (59.13% on HDM05) on a single random split; spd-bench evaluates multi-seed holdout_split(frac=0.5) where properly tuned SPDNet already reaches 63.10%, shrinking LieBN&#x27;s apparent margin from +8.8% to +4.1%.
     </p>
   </div>
-</div><div class="drow" data-category="wavelet spd network">
+</div><div class="drow" data-gap="moderate" data-category="wavelet spd network">
   <div class="id">
     <a href="paillard2024green/index.html"><strong><code>paillard2024green</code></strong></a><br>
     <span class="tag">Patterns 2024</span>
@@ -208,13 +494,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip warning">◐ Custom BIDS + Autoreject Dataloader Gap (-1.75% Δ)</span>
-      <code>-2.30% MI Δ · -0.01 R² Age Δ</code>
+      <code>-2.30% MI Δ · -0.01 R² A</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with `autoreject` automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without `autoreject`.
     </p>
   </div>
-</div><div class="drow" data-category="delay-embedding spd">
+</div><div class="drow" data-gap="large" data-category="delay-embedding spd">
   <div class="id">
     <a href="wilson2025eegspdnet/index.html"><strong><code>wilson2025eegspdnet</code></strong></a><br>
     <span class="tag">Neural Networks / IEEE TNSRE 2024-2025</span>
@@ -234,13 +520,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip unresolved">! Over-Parameterization Gap (-8.3% on Small Sample)</span>
-      <code>-8.30% EEGSPDNet vs PhaseSPDNet (d=2)</code>
+      <code>-8.30% EEGSPDNet vs Phas</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper uses within-subject k-fold CV with heavy data augmentation on long windows; spd-bench enforces strict chronological CrossSession (Session 0 train → Session 1 test, 288 trials/session) without test leakage.
     </p>
   </div>
-</div><div class="drow" data-category="riemannian metric">
+</div><div class="drow" data-gap="exact" data-category="riemannian metric">
   <div class="id">
     <a href="chen2026pcm_bwcm/index.html"><strong><code>chen2026pcm_bwcm</code></strong></a><br>
     <span class="tag">ICLR 2026</span>
@@ -260,13 +546,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (-1.05% mean Δ)</span>
-      <code>-1.05% mean Δ (HDM05 &amp; BNCI)</code>
+      <code>-1.05% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper evaluates pre-regularized SPD matrices with fixed θ grid search; spd-bench runs closed-form θ = 0.5 BWCM across standardized MOABB and HDM05 holdout splits.
     </p>
   </div>
-</div><div class="drow" data-category="manifold attention">
+</div><div class="drow" data-gap="exact" data-category="manifold attention">
   <div class="id">
     <a href="hu2025coratt/index.html"><strong><code>hu2025coratt</code></strong></a><br>
     <span class="tag">IJCAI 2025</span>
@@ -286,13 +572,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (-1.15% mean Δ)</span>
-      <code>-1.15% mean Δ · 3.3e-7 Scale Drift</code>
+      <code>-1.15% mean Δ · 3.3e-7 S</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper uses custom sliding-window segmentation on BNCI2014-001/004 andSEED; spd-bench uses standardized MOABB 4s epochs split into P = 4 non-overlapping temporal correlation patches.
     </p>
   </div>
-</div><div class="drow" data-category="correlation manifold">
+</div><div class="drow" data-gap="exact" data-category="correlation manifold">
   <div class="id">
     <a href="chen2026cornet/index.html"><strong><code>chen2026cornet</code></strong></a><br>
     <span class="tag">ICML 2026</span>
@@ -312,13 +598,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (-0.98% mean Δ)</span>
-      <code>-0.98% mean Δ · Gain-Invariant</code>
+      <code>-0.98% mean Δ · Gain-Inv</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper evaluates 10-fold cross-validation on pre-epoched arrays; spd-bench evaluates chronological MOABB CrossSession (0train → 1test) plus synthetic 5× electrode impedance gain perturbations.
     </p>
   </div>
-</div><div class="drow" data-category="riemannian mlp / mlr">
+</div><div class="drow" data-gap="exact" data-category="riemannian mlp / mlr">
   <div class="id">
     <a href="chen2026rietrans/index.html"><strong><code>chen2026rietrans</code></strong></a><br>
     <span class="tag">NeurIPS 2024 / NeurIPS 2026</span>
@@ -338,13 +624,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (-0.95% mean Δ)</span>
-      <code>-0.95% mean Δ · Zero Internal EVDs</code>
+      <code>-0.95% mean Δ · Zero Int</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper benchmarks custom image/skeleton covariance features alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 CrossSession under identical preprocessing.
     </p>
   </div>
-</div><div class="drow" data-category="gyrovector attention">
+</div><div class="drow" data-gap="exact" data-category="gyrovector attention">
   <div class="id">
     <a href="wang2025gyroatt/index.html"><strong><code>wang2025gyroatt</code></strong></a><br>
     <span class="tag">NeurIPS 2025</span>
@@ -364,13 +650,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (-1.20% mean Δ)</span>
-      <code>-1.20% mean Δ (BNCI-001 &amp; 004)</code>
+      <code>-1.20% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper uses subject-specific band-pass tuning and custom epoch windows; spd-bench uses fixed 8–35 Hz MOABB bandpass and 4s epochs across all 9 subjects.
     </p>
   </div>
-</div><div class="drow" data-category="spd graph network">
+</div><div class="drow" data-gap="moderate" data-category="spd graph network">
   <div class="id">
     <a href="ju2023graphcspnet/index.html"><strong><code>ju2023graphcspnet</code></strong></a><br>
     <span class="tag">IEEE TNNLS 2023</span>
@@ -390,13 +676,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip warning">◐ Time-Freq Graph Resolution Gap (-1.62% Δ)</span>
-      <code>-1.62% mean Δ (BNCI &amp; Korea U.)</code>
+      <code>-1.62% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper constructs a dense 9-band × 4-window (36-node) time-frequency SPD graph with pre-computed Laplacian diffusion; our Voyager MOABB harness uses a 6-node time-frequency graph with normalized adjacency diffusion.
     </p>
   </div>
-</div><div class="drow" data-category="manifold attention">
+</div><div class="drow" data-gap="exact" data-category="manifold attention">
   <div class="id">
     <a href="zhou2026gbwatt/index.html"><strong><code>zhou2026gbwatt</code></strong></a><br>
     <span class="tag">KDD 2026</span>
@@ -416,13 +702,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (-1.15% mean Δ)</span>
-      <code>-1.15% mean Δ (3 EEG benchmarks)</code>
+      <code>-1.15% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> On Sleep-EDFX and SEED, paper uses custom 30s hypnogram and 4s DE-feature windows; spd-bench standardizes EEG channel picks and trace-regularized patch covariances.
     </p>
   </div>
-</div><div class="drow" data-category="riemannian transformer">
+</div><div class="drow" data-gap="moderate" data-category="riemannian transformer">
   <div class="id">
     <a href="seraphim2023spdtransnet/index.html"><strong><code>seraphim2023spdtransnet</code></strong></a><br>
     <span class="tag">arXiv 2023</span>
@@ -442,13 +728,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip warning">◐ Window Grid Dataloader Gap (-1.85% mean Δ)</span>
-      <code>-1.85% mean Δ (BNCI-001 &amp; 004)</code>
+      <code>-1.85% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper extracts dense overlapping multi-scale temporal windows with custom artifact filtering; spd-bench uses 6 non-overlapping temporal SPD tokens per 4s MOABB trial.
     </p>
   </div>
-</div><div class="drow" data-category="manifold metaformer">
+</div><div class="drow" data-gap="exact" data-category="manifold metaformer">
   <div class="id">
     <a href="wang2026spdmetaformer/index.html"><strong><code>wang2026spdmetaformer</code></strong></a><br>
     <span class="tag">arXiv 2026</span>
@@ -468,13 +754,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (-1.15% mean Δ)</span>
-      <code>-1.15% mean Δ · 65% Fewer Params</code>
+      <code>-1.15% mean Δ · 65% Fewe</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper evaluates 10-fold CV and cross-session splits on pre-cleaned trials; spd-bench runs strict MOABB 0train → 1test CrossSession across all 9 subjects.
     </p>
   </div>
-</div><div class="drow" data-category="foundation model pooling">
+</div><div class="drow" data-gap="exact" data-category="foundation model pooling">
   <div class="id">
     <a href="hu2026rhop/index.html"><strong><code>hu2026rhop</code></strong></a><br>
     <span class="tag">ICLR 2026</span>
@@ -494,13 +780,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (-0.85% mean Δ)</span>
-      <code>-0.85% mean Δ · +49% on Zero-Mean Cov</code>
+      <code>-0.85% mean Δ · +49% on </code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper benchmarks video/skeleton Transformer tokens alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 under unified token extraction.
     </p>
   </div>
-</div><div class="drow" data-category="self-supervised / multi-view">
+</div><div class="drow" data-gap="exact" data-category="self-supervised / multi-view">
   <div class="id">
     <a href="ju2024deepgeocca/index.html"><strong><code>ju2024deepgeocca</code></strong></a><br>
     <span class="tag">ICLR 2024</span>
@@ -520,13 +806,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (-1.05% mean Δ)</span>
-      <code>-1.05% mean Δ (Two-View EEG &amp; Vision)</code>
+      <code>-1.05% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper splits multi-modal or bilateral hemisphere channels into two curated views; spd-bench splits sensorimotor channels into Left/Central vs Right/Central views on MOABB.
     </p>
   </div>
-</div><div class="drow" data-category="riemannian batchnorm">
+</div><div class="drow" data-gap="exact" data-category="riemannian batchnorm">
   <div class="id">
     <a href="gallet2026armagnac/index.html"><strong><code>gallet2026armagnac</code></strong></a><br>
     <span class="tag">HAL / Signal Processing 2026</span>
@@ -546,13 +832,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Exact Match (+0.42% Δ · 3.1× Faster BN)</span>
-      <code>+0.42% mean Δ · Closed-Form Geodesic BN</code>
+      <code>+0.42% mean Δ · Closed-F</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Evaluated on identicalNEMAR BIDS CrossSession splits (BNCI2014-001, BNCI2014-004, Lee2019) as TSMNet and SPDNetBN.
     </p>
   </div>
-</div><div class="drow" data-category="riemannian batchnorm">
+</div><div class="drow" data-gap="exact" data-category="riemannian batchnorm">
   <div class="id">
     <a href="zhou2025gbwbn_cbn/index.html"><strong><code>zhou2025gbwbn_cbn</code></strong></a><br>
     <span class="tag">CVPR 2025 / IEEE TNNLS 2025</span>
@@ -572,13 +858,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (-0.50% mean Δ)</span>
-      <code>-0.50% mean Δ (Radar, HDM05 &amp; BNCI)</code>
+      <code>-0.50% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper evaluates Radar, HDM05, and BNCI2014-001; spd-bench runs the exact same holdout and CrossSession splits in float32/float64.
     </p>
   </div>
-</div><div class="drow" data-category="hybrid cnn-spd">
+</div><div class="drow" data-gap="moderate" data-category="hybrid cnn-spd">
   <div class="id">
     <a href="tibermacine2025rceegnet/index.html"><strong><code>tibermacine2025rceegnet</code></strong></a><br>
     <span class="tag">IJCNN 2025</span>
@@ -598,13 +884,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip warning">◐ BN Momentum Calibration Gap (-1.30% Δ)</span>
-      <code>-1.30% Δ (After BN Momentum Calibration)</code>
+      <code>-1.30% Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper evaluates within-subject splits with default batch norm momentum; spd-bench evaluates strict CrossSession (0train → 1test) on BNCI2014-001 and BNCI2014-004.
     </p>
   </div>
-</div><div class="drow" data-category="dual-branch fusion">
+</div><div class="drow" data-gap="exact" data-category="dual-branch fusion">
   <div class="id">
     <a href="wang2024starnet/index.html"><strong><code>wang2024starnet</code></strong></a><br>
     <span class="tag">Neural Networks 2024</span>
@@ -624,13 +910,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (-1.40% mean Δ)</span>
-      <code>-1.40% mean Δ (Dual-Branch Fusion)</code>
+      <code>-1.40% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper uses custom trial normalization and 4s motor-imagery crops; spd-bench uses standardized MOABB CrossSession epochs across BNCI2014-001, BNCI2014-004, and Schirrmeister2017.
     </p>
   </div>
-</div><div class="drow" data-category="riemannian resnet">
+</div><div class="drow" data-gap="exact" data-category="riemannian resnet">
   <div class="id">
     <a href="chen2025alem_spdresnet/index.html"><strong><code>chen2025alem_spdresnet</code></strong></a><br>
     <span class="tag">IEEE TIP 2024 / ICLR 2025</span>
@@ -650,13 +936,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (-0.98% mean Δ)</span>
-      <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+      <code>-0.98% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper evaluates skeletal action (HDM05, FPHA) and EEG cov matrices; spd-bench matches the official splits with trace-scaled shrinkage on FPHA.
     </p>
   </div>
-</div><div class="drow" data-category="gyrovector network">
+</div><div class="drow" data-gap="exact" data-category="gyrovector network">
   <div class="id">
     <a href="nguyen2023gyrospd/index.html"><strong><code>nguyen2023gyrospd</code></strong></a><br>
     <span class="tag">ICML 2023</span>
@@ -676,13 +962,13 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip good">✓ Replicates Closely (-0.83% mean Δ)</span>
-      <code>-0.83% mean Δ (HDM05, Radar &amp; BNCI)</code>
+      <code>-0.83% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper evaluates HDM05 and Radar with custom gyro-calculus scripts; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 under unified holdout/CrossSession splits.
     </p>
   </div>
-</div><div class="drow" data-category="riemannian ae &amp; graph">
+</div><div class="drow" data-gap="moderate" data-category="riemannian ae &amp; graph">
   <div class="id">
     <a href="boucherie2026spdnetae_ssgcnet/index.html"><strong><code>boucherie2026spdnetae_ssgcnet</code></strong></a><br>
     <span class="tag">HAL 2026 / IEEE TNSRE 2026</span>
@@ -702,7 +988,7 @@
   <div>
     <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
       <span class="chip warning">◐ Low-Label Semi-Supervised Split Gap (-1.15% Δ)</span>
-      <code>-1.15% mean Δ (10%–100% Label Fractions)</code>
+      <code>-1.15% mean Δ</code>
     </div>
     <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
       <strong>Pipeline Diff:</strong> Paper evaluates custom random k-NN graph construction over combined train+test unlabeled sessions; spd-bench constructs the geodesic k-NN Laplacian strictly over available training/adaptation batches.
@@ -711,6 +997,34 @@
 </div>
   </div>
 </main>
+<script>(function(){
+var btns=[].slice.call(document.querySelectorAll('.filter-btn')),
+rows=[].slice.call(document.querySelectorAll('.drow, .atlas-sec')),
+pills=[].slice.call(document.querySelectorAll('.jump-pill[data-gap]')),
+inp=document.getElementById('paper-search'),active='all';
+function apply(){
+  var q=(inp&&inp.value||'').toLowerCase().trim();
+  rows.forEach(function(r){
+    var g=r.getAttribute('data-gap')||'all';
+    var mGap=(active==='all'||g===active);
+    var mTxt=(!q||r.textContent.toLowerCase().indexOf(q)!==-1);
+    r.hidden=!(mGap&&mTxt);
+  });
+  pills.forEach(function(p){
+    var g=p.getAttribute('data-gap')||'all';
+    p.hidden=!(active==='all'||g===active);
+  });
+}
+btns.forEach(function(b){
+  b.addEventListener('click',function(){
+    btns.forEach(function(x){x.classList.remove('active');});
+    b.classList.add('active');
+    active=b.getAttribute('data-filter')||'all';
+    apply();
+  });
+});
+if(inp)inp.addEventListener('input',apply);
+})();</script>
 <footer>
   SPD-Learn Encore Reproducibility Registry · Sub-Page for <a href="https://spdlearn.org">spdlearn.org</a> (modeled on <a href="https://encorescience.org/">Encore Science</a>, the ICML 2026 Open Reproductions Judge, and the NEMAR BIDS Auditing Protocol) ·
   <a href="../registry.json">Registry JSON</a> ·

@@ -54,7 +54,7 @@
   <div class="tri-grid" style="margin-top:8px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER PROTOCOL</span>
+        <span>1 · ORIGINAL PROTOCOL</span>
         <span class="small muted">ICLR 2026</span>
       </div>
       <table class="data-table" style="font-size:0.78rem">
@@ -69,8 +69,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">2 Datasets Audited</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">2 Datasets</span>
       </div>
       <div class="small" style="margin-bottom:4px">
         <strong>Implemented:</strong> <code>spd_learn.modules.GaussianSPD</code> <code>spd_learn.modules.BFM</code> <code>spd_learn.models.RHOP</code> · <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
@@ -96,8 +96,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-0.85% mean Δ · +49% on Zero-Mean Cov</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.85% mean Δ · +49% o</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -131,7 +131,7 @@
       <div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
     <span class="tag">Original Figure 1 (NeurIPS 2025 / ICLR 2026)</span>
-    <strong>RHOP: Riemannian High-Order Pooling for Brain Foundation Models: Architectural &amp; Geometric Specification</strong>
+    <strong>RHOP: Riemannian High-Order Pooling for Brain Foundation Models: Architectural &amp; Operator Verification</strong>
     <span class="chip good" style="margin-left:auto">✓ 1-to-1 Operator Match in spd_learn</span>
   </div>
   <div class="tri-grid" style="margin-top:10px">
@@ -149,24 +149,51 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Module &amp; Manifold Pipeline</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">C1 Operator SVG + Spec</span>
       </div>
-      <table class="data-table" style="font-size:0.78rem">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C1: GaussianSPDDescriptor (d+1)x(d+1) Eigenvalues">
+<text x="52" y="16" class="svg-title">C1: GaussianSPDDescriptor (d+1)x(d+1) Eigenvalues</text>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0.100</text>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">1.61</text>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">3.13</text>
+<polyline fill="none" points="52.0,186.0 94.0,176.6 136.0,162.5 178.0,143.2 220.0,120.7 262.0,92.0 304.0,42.4" class="svg-line-primary"/>
+<circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="94.0" cy="176.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="136.0" cy="162.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="178.0" cy="143.2" r="3" class="svg-line-primary-dot"/>
+<circle cx="220.0" cy="120.7" r="3" class="svg-line-primary-dot"/>
+<circle cx="262.0" cy="92.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<text x="309.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">lambd 2.85</text>
+<text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">k=1</text>
+<text x="94.0" y="199.5" text-anchor="middle" class="svg-tick">k=2</text>
+<text x="136.0" y="199.5" text-anchor="middle" class="svg-tick">k=3</text>
+<text x="178.0" y="199.5" text-anchor="middle" class="svg-tick">k=4</text>
+<text x="220.0" y="199.5" text-anchor="middle" class="svg-tick">k=5</text>
+<text x="262.0" y="199.5" text-anchor="middle" class="svg-tick">k=6</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">k=7</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Eigenvalue Index k=1..7</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Eigenvalue λ_k(G) &gt; 0</text>
+</svg>
+      <table class="data-table" style="font-size:0.76rem;margin-top:2px">
         <tbody>
-          <tr><th style="width:125px">spd_learn Classes</th><td><code>spd_learn.modules.GaussianSPD</code> <code>spd_learn.modules.BFM</code> <code>spd_learn.models.RHOP</code></td></tr>
+          <tr><th style="width:118px">spd_learn Classes</th><td><code>spd_learn.modules.GaussianSPD</code> <code>spd_learn.modules.BFM</code> <code>spd_learn.models.RHOP</code></td></tr>
           <tr><th>Manifold</th><td>Gaussian-Process SPD Descriptor G in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">S</mi><mrow><mo>+</mo><mo>+</mo></mrow><mrow><mi>d</mi><mo>+</mo><mn>1</mn></mrow></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{S}_{++}^{d+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1711em;vertical-align:-0.2819em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.075em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8892em;"><span style="top:-2.4765em;margin-left:-0.075em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.1031em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2819em;"><span></span></span></span></span></span></span></span></span></span> + Bilinear Contraction + PEM/LEM</td></tr>
           <tr><th>Layer Pipeline</th><td><code>Backbone Token Embeddings H <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Linear Projection (D <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> k=32) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Second-Order Sample Covariance C in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">S</mi><mrow><mo>+</mo><mo>+</mo></mrow><mi>k</mi></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{S}_{++}^{k}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1544em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.075em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.453em;margin-left:-0.075em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span> <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Riemannian BiMap(k <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> k&#x27;=16) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> ReEig(1e-4) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> LogEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Concat with CLS Token <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Classifier</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>Riemannian High-Order Pooling (RHOP) over Transformer token space; Log-Euclidean tangent vector vech(log(BiMap(Cov(H)))) fused with first-order CLS token</td></tr>
-          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>descriptor_shape</code> = <strong>[8, 7, 7]</strong> · <code>min_eig</code> = <strong>0.09967</strong></span></td></tr>
-          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>mean_pool_feature_norm</code> = <strong>4.231e-07</strong> · <code>rhop_zero_mean_cov_test_acc_pct</code> = <strong>100</strong></span></td></tr>
+          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span> · <span class="muted" style="font-size:0.74rem"><code>descriptor_shape</code> = <strong>[8, 7, 7]</strong> · <code>min_eig</code> = <strong>0.09967</strong></span></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-0.85% mean Δ · +49% on Zero-Mean Cov</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.85% mean Δ · +49% o</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -564,31 +591,31 @@
   </div>
   <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C1: GaussianSPDDescriptor (d+1)x(d+1) Eigenvalues">
 <text x="52" y="16" class="svg-title">C1: GaussianSPDDescriptor (d+1)x(d+1) Eigenvalues</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0.100</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">1.61</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">3.13</text>
-<polyline fill="none" points="52.0,186.0 100.3,176.6 148.7,162.5 197.0,143.2 245.3,120.7 293.7,92.0 342.0,42.4" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 94.0,176.6 136.0,162.5 178.0,143.2 220.0,120.7 262.0,92.0 304.0,42.4" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="100.3" cy="176.6" r="3" class="svg-line-primary-dot"/>
-<circle cx="148.7" cy="162.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="197.0" cy="143.2" r="3" class="svg-line-primary-dot"/>
-<circle cx="245.3" cy="120.7" r="3" class="svg-line-primary-dot"/>
-<circle cx="293.7" cy="92.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">λ_k: 2.85</text>
+<circle cx="94.0" cy="176.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="136.0" cy="162.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="178.0" cy="143.2" r="3" class="svg-line-primary-dot"/>
+<circle cx="220.0" cy="120.7" r="3" class="svg-line-primary-dot"/>
+<circle cx="262.0" cy="92.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<text x="309.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">lambd 2.85</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">k=1</text>
-<text x="100.3" y="199.5" text-anchor="middle" class="svg-tick">k=2</text>
-<text x="148.7" y="199.5" text-anchor="middle" class="svg-tick">k=3</text>
-<text x="197.0" y="199.5" text-anchor="middle" class="svg-tick">k=4</text>
-<text x="245.3" y="199.5" text-anchor="middle" class="svg-tick">k=5</text>
-<text x="293.7" y="199.5" text-anchor="middle" class="svg-tick">k=6</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">k=7</text>
+<text x="94.0" y="199.5" text-anchor="middle" class="svg-tick">k=2</text>
+<text x="136.0" y="199.5" text-anchor="middle" class="svg-tick">k=3</text>
+<text x="178.0" y="199.5" text-anchor="middle" class="svg-tick">k=4</text>
+<text x="220.0" y="199.5" text-anchor="middle" class="svg-tick">k=5</text>
+<text x="262.0" y="199.5" text-anchor="middle" class="svg-tick">k=6</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">k=7</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Eigenvalue Index k=1..7</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Eigenvalue Index k=1..7</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Eigenvalue λ_k(G) &gt; 0</text>
 </svg>
   <div class="small">
@@ -670,8 +697,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">NeurIPS 2025 / Zenodo 20184376 (PDF)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">NeurIPS 2025 / Zen</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -682,8 +709,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Balanced Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours</text>
@@ -737,8 +764,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.85% mean Δ · +49% on Zero-Mean Cov</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.85% mean Δ · +49% o</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -771,8 +798,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">NeurIPS 2025 / Zenodo 20184376 (PDF)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">NeurIPS 2025 / Zen</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -783,8 +810,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Balanced Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours</text>
@@ -838,8 +865,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.85% mean Δ · +49% on Zero-Mean Cov</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.85% mean Δ · +49% o</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -914,37 +941,37 @@
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Voyager Epoch Convergence Trajectory (RHOP)">
 <text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">RHOP (b</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">RHOP (b</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">26.0</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">49.9</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">73.9</text>
-<polyline fill="none" points="52.0,186.0 110.0,129.0 168.0,110.7 226.0,105.0 284.0,102.9 342.0,102.1" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 102.4,129.0 152.8,110.7 203.2,105.0 253.6,102.9 304.0,102.1" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="110.0" cy="129.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="168.0" cy="110.7" r="3" class="svg-line-primary-dot"/>
-<circle cx="226.0" cy="105.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="284.0" cy="102.9" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="102.1" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,80.7 110.0,55.2 168.0,46.5 226.0,43.7 284.0,42.4 342.0,42.4" class="svg-line-secondary"/>
+<circle cx="102.4" cy="129.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="152.8" cy="110.7" r="3" class="svg-line-primary-dot"/>
+<circle cx="203.2" cy="105.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="253.6" cy="102.9" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="102.1" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,80.7 102.4,55.2 152.8,46.5 203.2,43.7 253.6,42.4 304.0,42.4" class="svg-line-secondary"/>
 <circle cx="52.0" cy="80.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="110.0" cy="55.2" r="3" class="svg-line-secondary-dot"/>
-<circle cx="168.0" cy="46.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="226.0" cy="43.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="284.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">RHOP (bnci2014): 69.5</text>
-<text x="338.0" y="96.1" text-anchor="end" class="svg-val">RHOP (bnci2014): 51.4</text>
+<circle cx="102.4" cy="55.2" r="3" class="svg-line-secondary-dot"/>
+<circle cx="152.8" cy="46.5" r="3" class="svg-line-secondary-dot"/>
+<circle cx="203.2" cy="43.7" r="3" class="svg-line-secondary-dot"/>
+<circle cx="253.6" cy="42.4" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--accent)">RHOP  69.5</text>
+<text x="309.0" y="105.1" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">RHOP  51.4</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 1</text>
-<text x="110.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
-<text x="168.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
-<text x="226.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
-<text x="284.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
+<text x="102.4" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="152.8" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="203.2" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="253.6" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
 </svg>
     </div>

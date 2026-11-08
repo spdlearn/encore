@@ -54,8 +54,8 @@
   <div class="tri-grid" style="margin-top:8px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER PROTOCOL</span>
-        <span class="small muted">CVPR 2025 / IEEE TNNLS 2025</span>
+        <span>1 · ORIGINAL PROTOCOL</span>
+        <span class="small muted">CVPR 2025 / IEEE T</span>
       </div>
       <table class="data-table" style="font-size:0.78rem">
         <tbody>
@@ -69,8 +69,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">4 Datasets Audited</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">4 Datasets</span>
       </div>
       <div class="small" style="margin-bottom:4px">
         <strong>Implemented:</strong> <code>spd_learn.modules.SPDBatchNormBW</code> <code>spd_learn.modules.SPDBatchNormCholesky</code> · <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
@@ -106,8 +106,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-0.50% mean Δ (Radar, HDM05 &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.50% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -141,7 +141,7 @@
       <div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
     <span class="tag">Original Figure 1 (CVPR 2025 / arXiv:2504.00660)</span>
-    <strong>GBWBN (CVPR 2025) &amp; CBN (IEEE TNNLS 2025) SPD BatchNorms: Architectural &amp; Geometric Specification</strong>
+    <strong>GBWBN (CVPR 2025) &amp; CBN (IEEE TNNLS 2025) SPD BatchNorms: Architectural &amp; Operator Verification</strong>
     <span class="chip good" style="margin-left:auto">✓ 1-to-1 Operator Match in spd_learn</span>
   </div>
   <div class="tri-grid" style="margin-top:10px">
@@ -159,24 +159,41 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Module &amp; Manifold Pipeline</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">C1 Operator SVG + Spec</span>
       </div>
-      <table class="data-table" style="font-size:0.78rem">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C1: CBN Log-Cholesky Tangent Mean &amp; Variance Error">
+<text x="52" y="16" class="svg-title">C1: CBN Log-Cholesky Tangent Mean &amp; Variance Error</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">2.2e-05</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">4.5e-05</text>
+<rect x="112.5" y="186.0" width="24.0" height="2.0" rx="2" class="svg-bar-primary"/>
+<text x="124.5" y="183.0" text-anchor="middle" class="svg-val">6.5e-16</text>
+<rect x="257.5" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="269.5" y="39.4" text-anchor="middle" class="svg-val">4.1e-05</text>
+<text x="124.5" y="199.5" text-anchor="middle" class="svg-tick">|Mean - 0|</text>
+<text x="269.5" y="199.5" text-anchor="middle" class="svg-tick">|Var - 1|</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Standardization Statistic</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Max Absolute Error</text>
+</svg>
+      <table class="data-table" style="font-size:0.76rem;margin-top:2px">
         <tbody>
-          <tr><th style="width:125px">spd_learn Classes</th><td><code>spd_learn.modules.SPDBatchNormBW</code> <code>spd_learn.modules.SPDBatchNormCholesky</code></td></tr>
+          <tr><th style="width:118px">spd_learn Classes</th><td><code>spd_learn.modules.SPDBatchNormBW</code> <code>spd_learn.modules.SPDBatchNormCholesky</code></td></tr>
           <tr><th>Manifold</th><td>Generalized Bures-Wasserstein Barycenter &amp; Log-Cholesky Tangent Standardization</td></tr>
           <tr><th>Layer Pipeline</th><td><code>SPDNet / MAtt backbone replacing AIRM BatchNorm with SPDBatchNormBW (GBWBN: Generalized Bures-Wasserstein BatchNorm) or SPDBatchNormCholesky (CBN: Log-Cholesky BatchNorm)</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>GBWBN: Generalized Bures-Wasserstein geodesic transport (Lyapunov / Newton-Schulz square root, 1-step barycenter); CBN: Cholesky factor L = chol(S) normalization in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">L</mi><mrow><mo>+</mo><mo>+</mo></mrow><mi>d</mi></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{L}_{++}^{d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1544em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.453em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span></td></tr>
-          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>cholesky_tangent_mean_max_err</code> = <strong>6.476e-16</strong> · <code>cholesky_tangent_var_max_err</code> = <strong>4.061e-05</strong></span></td></tr>
-          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>κ_1e6_bwbn_grad_finite</code> = <strong>True</strong></span></td></tr>
+          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span> · <span class="muted" style="font-size:0.74rem"><code>cholesky_tangent_mean_max_err</code> = <strong>6.476e-16</strong> · <code>cholesky_tangent_var_max_err</code> = <strong>4.061e-05</strong></span></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-0.50% mean Δ (Radar, HDM05 &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.50% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -195,7 +212,7 @@
 </div><div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
     <span class="tag">Original Figure 4 (CVPR 2025 / arXiv:2504.00660)</span>
-    <strong>GBWBN (CVPR 2025) &amp; CBN (IEEE TNNLS 2025) SPD BatchNorms: Architectural &amp; Geometric Specification</strong>
+    <strong>Illustration of ill-conditioned <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mo>×</mo><mn>2</mn></mrow><annotation encoding="application/x-tex">2\times 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2</span></span></span></span> SPD matrices near the cone boun... (Conditioning &amp; Signal Verification)</strong>
     <span class="chip good" style="margin-left:auto">✓ 1-to-1 Operator Match in spd_learn</span>
   </div>
   <div class="tri-grid" style="margin-top:10px">
@@ -213,24 +230,45 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Module &amp; Manifold Pipeline</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">C2 Signal SVG + Regime</span>
       </div>
-      <table class="data-table" style="font-size:0.78rem">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C2: GBWBN Gradient Norm Across Condition Number κ">
+<text x="52" y="16" class="svg-title">C2: GBWBN Gradient Norm Across Condition Number kapp</text>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">1.40</text>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">38.3</text>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">75.2</text>
+<polyline fill="none" points="52.0,186.0 136.0,182.1 220.0,157.3 304.0,42.4" class="svg-line-primary"/>
+<circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="136.0" cy="182.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="220.0" cy="157.3" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<text x="309.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">GBWBN 68.5</text>
+<text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">10^1</text>
+<text x="136.0" y="199.5" text-anchor="middle" class="svg-tick">10^2</text>
+<text x="220.0" y="199.5" text-anchor="middle" class="svg-tick">10^4</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">10^6</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Condition Number κ</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">||grad_X GBWBN||_F (Finite)</text>
+</svg>
+      <table class="data-table" style="font-size:0.76rem;margin-top:2px">
         <tbody>
-          <tr><th style="width:125px">spd_learn Classes</th><td><code>spd_learn.modules.SPDBatchNormBW</code> <code>spd_learn.modules.SPDBatchNormCholesky</code></td></tr>
-          <tr><th>Manifold</th><td>Generalized Bures-Wasserstein Barycenter &amp; Log-Cholesky Tangent Standardization</td></tr>
-          <tr><th>Layer Pipeline</th><td><code>SPDNet / MAtt backbone replacing AIRM BatchNorm with SPDBatchNormBW (GBWBN: Generalized Bures-Wasserstein BatchNorm) or SPDBatchNormCholesky (CBN: Log-Cholesky BatchNorm)</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>GBWBN: Generalized Bures-Wasserstein geodesic transport (Lyapunov / Newton-Schulz square root, 1-step barycenter); CBN: Cholesky factor L = chol(S) normalization in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">L</mi><mrow><mo>+</mo><mo>+</mo></mrow><mi>d</mi></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{L}_{++}^{d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1544em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.453em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span></td></tr>
-          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>cholesky_tangent_mean_max_err</code> = <strong>6.476e-16</strong> · <code>cholesky_tangent_var_max_err</code> = <strong>4.061e-05</strong></span></td></tr>
-          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>κ_1e6_bwbn_grad_finite</code> = <strong>True</strong></span></td></tr>
+          <tr><th style="width:118px">Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>GBWBN: Generalized Bures-Wasserstein geodesic transport (Lyapunov / Newton-Schulz square root, 1-step barycenter); CBN: Cholesky factor L = chol(S) normalization in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">L</mi><mrow><mo>+</mo><mo>+</mo></mrow><mi>d</mi></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{L}_{++}^{d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1544em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal">L</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.453em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span></td></tr>
+          <tr><th>Preprocessing</th><td>HDM05: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>93</mn><mo>×</mo><mn>93</mn></mrow><annotation encoding="application/x-tex">93 \times 93</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">93</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">93</span></span></span></span> cov | Radar: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>20</mn><mo>×</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">20 \times 20</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">20</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">20</span></span></span></span> SPD cov | EEG (MI/MAMEM/ERN): MAtt backbone spatio-temporal conv <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> epoch-wise sample covariances</td></tr>
+          <tr><th>Optimizer</th><td><code>Riemannian SGD / AdamW, lr=1e-2 (HDM05/Radar) / 1e-3 (EEG), wd=1e-4, batch_size=30..32, epochs=200</code></td></tr>
+          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span> · <span class="muted" style="font-size:0.74rem"><code>κ_1e6_bwbn_grad_finite</code> = <strong>True</strong></span></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-0.50% mean Δ (Radar, HDM05 &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.50% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -539,40 +577,40 @@
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Ours vs. Published (Figure 5 (CVPR 2025))">
 <text x="52" y="16" class="svg-title">Ours vs. Published</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">-1.98</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">1.12</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">4.22</text>
-<polyline fill="none" points="52.0,186.0 100.3,170.5 148.7,150.6 197.0,135.6 245.3,114.4 293.7,84.6 342.0,42.4" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 94.0,170.5 136.0,150.6 178.0,135.6 220.0,114.4 262.0,84.6 304.0,42.4" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="100.3" cy="170.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="148.7" cy="150.6" r="3" class="svg-line-primary-dot"/>
-<circle cx="197.0" cy="135.6" r="3" class="svg-line-primary-dot"/>
-<circle cx="245.3" cy="114.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="293.7" cy="84.6" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,186.0 100.3,170.5 148.7,150.6 197.0,135.6 245.3,114.4 293.7,84.6 342.0,42.4" class="svg-line-secondary"/>
+<circle cx="94.0" cy="170.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="136.0" cy="150.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="178.0" cy="135.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="220.0" cy="114.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="262.0" cy="84.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,186.0 94.0,170.5 136.0,150.6 178.0,135.6 220.0,114.4 262.0,84.6 304.0,42.4" class="svg-line-secondary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="100.3" cy="170.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="148.7" cy="150.6" r="3" class="svg-line-secondary-dot"/>
-<circle cx="197.0" cy="135.6" r="3" class="svg-line-secondary-dot"/>
-<circle cx="245.3" cy="114.4" r="3" class="svg-line-secondary-dot"/>
-<circle cx="293.7" cy="84.6" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Pub: 3.66</text>
-<text x="338.0" y="48.0" text-anchor="end" class="svg-val">Ours: 3.66</text>
+<circle cx="94.0" cy="170.5" r="3" class="svg-line-secondary-dot"/>
+<circle cx="136.0" cy="150.6" r="3" class="svg-line-secondary-dot"/>
+<circle cx="178.0" cy="135.6" r="3" class="svg-line-secondary-dot"/>
+<circle cx="220.0" cy="114.4" r="3" class="svg-line-secondary-dot"/>
+<circle cx="262.0" cy="84.6" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="39.9" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Pub 3.66</text>
+<text x="309.0" y="50.9" text-anchor="start" class="svg-val" style="fill:var(--accent)">Ours 3.66</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">x=1e-4</text>
-<text x="100.3" y="199.5" text-anchor="middle" class="svg-tick">x=0.1</text>
-<text x="148.7" y="199.5" text-anchor="middle" class="svg-tick">x=0.5</text>
-<text x="197.0" y="199.5" text-anchor="middle" class="svg-tick">x=1.0</text>
-<text x="245.3" y="199.5" text-anchor="middle" class="svg-tick">x=2.0</text>
-<text x="293.7" y="199.5" text-anchor="middle" class="svg-tick">x=4.0</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">x=8.0</text>
+<text x="94.0" y="199.5" text-anchor="middle" class="svg-tick">x=0.1</text>
+<text x="136.0" y="199.5" text-anchor="middle" class="svg-tick">x=0.5</text>
+<text x="178.0" y="199.5" text-anchor="middle" class="svg-tick">x=1.0</text>
+<text x="220.0" y="199.5" text-anchor="middle" class="svg-tick">x=2.0</text>
+<text x="262.0" y="199.5" text-anchor="middle" class="svg-tick">x=4.0</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">x=8.0</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Input Eigenvalue eig_i(X)</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Input Eigenvalue eig_i(X)</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Output Eigenvalue eig_i(Log_I(X))</text>
 </svg>
       <div style="overflow-x:auto;margin-top:4px">
@@ -683,25 +721,25 @@
   </div>
   <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C2: GBWBN Gradient Norm Across Condition Number κ">
 <text x="52" y="16" class="svg-title">C2: GBWBN Gradient Norm Across Condition Number kapp</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">1.40</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">38.3</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">75.2</text>
-<polyline fill="none" points="52.0,186.0 148.7,182.1 245.3,157.3 342.0,42.4" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 136.0,182.1 220.0,157.3 304.0,42.4" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="148.7" cy="182.1" r="3" class="svg-line-primary-dot"/>
-<circle cx="245.3" cy="157.3" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">GBWBN: 68.5</text>
+<circle cx="136.0" cy="182.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="220.0" cy="157.3" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<text x="309.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">GBWBN 68.5</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">10^1</text>
-<text x="148.7" y="199.5" text-anchor="middle" class="svg-tick">10^2</text>
-<text x="245.3" y="199.5" text-anchor="middle" class="svg-tick">10^4</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">10^6</text>
+<text x="136.0" y="199.5" text-anchor="middle" class="svg-tick">10^2</text>
+<text x="220.0" y="199.5" text-anchor="middle" class="svg-tick">10^4</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">10^6</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Condition Number κ</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Condition Number κ</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">||grad_X GBWBN||_F (Finite)</text>
 </svg>
   <div class="small">
@@ -755,8 +793,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2504.00660 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -767,8 +805,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -832,8 +870,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.50% mean Δ (Radar, HDM05 &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.50% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -878,8 +916,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2504.00660 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -890,8 +928,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -955,8 +993,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.50% mean Δ (Radar, HDM05 &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.50% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1001,8 +1039,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2504.00660 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1013,8 +1051,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1078,8 +1116,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.50% mean Δ (Radar, HDM05 &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.50% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1124,8 +1162,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2504.00660 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1136,8 +1174,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1201,8 +1239,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.50% mean Δ (Radar, HDM05 &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.50% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1247,8 +1285,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2504.00660 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1259,8 +1297,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1324,8 +1362,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.50% mean Δ (Radar, HDM05 &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.50% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1370,8 +1408,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2504.00660 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1382,8 +1420,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1447,8 +1485,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.50% mean Δ (Radar, HDM05 &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.50% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1493,8 +1531,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2504.00660 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1505,8 +1543,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1570,8 +1608,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.50% mean Δ (Radar, HDM05 &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.50% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1616,8 +1654,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2504.00660 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2504.00660 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -1628,8 +1666,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -1693,8 +1731,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-0.50% mean Δ (Radar, HDM05 &amp; BNCI)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-0.50% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1773,37 +1811,37 @@
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Voyager Epoch Convergence Trajectory (GBWBN)">
 <text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">GBWBN (</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">CBN (RA</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">76.7</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">79.8</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">82.9</text>
-<polyline fill="none" points="52.0,153.5 110.0,61.4 168.0,68.0 226.0,42.4 284.0,43.6 342.0,44.4" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,153.5 102.4,61.4 152.8,68.0 203.2,42.4 253.6,43.6 304.0,44.4" class="svg-line-primary"/>
 <circle cx="52.0" cy="153.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="110.0" cy="61.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="168.0" cy="68.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="226.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="284.0" cy="43.6" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="44.4" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,186.0 110.0,111.5 168.0,102.6 226.0,129.1 284.0,111.5 342.0,114.8" class="svg-line-secondary"/>
+<circle cx="102.4" cy="61.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="152.8" cy="68.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="203.2" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="253.6" cy="43.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="44.4" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,186.0 102.4,111.5 152.8,102.6 203.2,129.1 253.6,111.5 304.0,114.8" class="svg-line-secondary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="110.0" cy="111.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="168.0" cy="102.6" r="3" class="svg-line-secondary-dot"/>
-<circle cx="226.0" cy="129.1" r="3" class="svg-line-secondary-dot"/>
-<circle cx="284.0" cy="111.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="114.8" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.4" text-anchor="end" class="svg-val">GBWBN (RADAR): 82.2</text>
-<text x="338.0" y="108.8" text-anchor="end" class="svg-val">CBN (RADAR): 79.5</text>
+<circle cx="102.4" cy="111.5" r="3" class="svg-line-secondary-dot"/>
+<circle cx="152.8" cy="102.6" r="3" class="svg-line-secondary-dot"/>
+<circle cx="203.2" cy="129.1" r="3" class="svg-line-secondary-dot"/>
+<circle cx="253.6" cy="111.5" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="114.8" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="47.4" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">GBWBN 82.2</text>
+<text x="309.0" y="117.8" text-anchor="start" class="svg-val" style="fill:var(--accent)">CBN ( 79.5</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 1</text>
-<text x="110.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
-<text x="168.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
-<text x="226.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
-<text x="284.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
+<text x="102.4" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="152.8" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="203.2" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="253.6" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
 </svg>
     </div>

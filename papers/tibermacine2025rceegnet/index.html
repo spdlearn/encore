@@ -54,7 +54,7 @@
   <div class="tri-grid" style="margin-top:8px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER PROTOCOL</span>
+        <span>1 · ORIGINAL PROTOCOL</span>
         <span class="small muted">IJCNN 2025</span>
       </div>
       <table class="data-table" style="font-size:0.78rem">
@@ -69,8 +69,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">3 Datasets Audited</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">3 Datasets</span>
       </div>
       <div class="small" style="margin-bottom:4px">
         <strong>Implemented:</strong> <code>spd_learn.models.RCEEGNet</code> · <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
@@ -101,8 +101,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-1.30% Δ (After BN Momentum Calibration)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.30% Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -136,7 +136,7 @@
       <div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
     <span class="tag">Original Figure 1 Schematic (IJCNN / Neurocomputing 2025)</span>
-    <strong>RCEEGNet: Riemannian Convolutional EEG Network (Issue #31): Architectural &amp; Geometric Specification</strong>
+    <strong>RCEEGNet: Riemannian Convolutional EEG Network (Issue #31): Architectural &amp; Operator Verification</strong>
     <span class="chip good" style="margin-left:auto">✓ 1-to-1 Operator Match in spd_learn</span>
   </div>
   <div class="tri-grid" style="margin-top:10px">
@@ -154,24 +154,50 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Module &amp; Manifold Pipeline</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">C1 Operator SVG + Spec</span>
       </div>
-      <table class="data-table" style="font-size:0.78rem">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C1: RCEEGNet Stage-Wise SPD Minimum Eigenvalues">
+<text x="52" y="16" class="svg-title">C1: RCEEGNet Stage-Wise SPD Minimum Eigenvalues</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">0.121</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">0.242</text>
+<rect x="69.0" y="159.9" width="24.0" height="26.1" rx="2" class="svg-bar-primary"/>
+<text x="81.0" y="156.9" text-anchor="middle" class="svg-val">0.040</text>
+<rect x="127.0" y="68.5" width="24.0" height="117.5" rx="2" class="svg-bar-primary"/>
+<text x="139.0" y="65.5" text-anchor="middle" class="svg-val">0.180</text>
+<rect x="185.0" y="88.1" width="24.0" height="97.9" rx="2" class="svg-bar-primary"/>
+<text x="197.0" y="85.1" text-anchor="middle" class="svg-val">0.150</text>
+<rect x="243.0" y="88.1" width="24.0" height="97.9" rx="2" class="svg-bar-primary"/>
+<text x="255.0" y="85.1" text-anchor="middle" class="svg-val">0.150</text>
+<rect x="301.0" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="313.0" y="39.4" text-anchor="middle" class="svg-val">0.220</text>
+<text x="81.0" y="199.5" text-anchor="middle" class="svg-tick">CovLayer</text>
+<text x="139.0" y="199.5" text-anchor="middle" class="svg-tick">Shrinkage</text>
+<text x="197.0" y="199.5" text-anchor="middle" class="svg-tick">BiMap 1</text>
+<text x="255.0" y="199.5" text-anchor="middle" class="svg-tick">ReEig 1</text>
+<text x="313.0" y="199.5" text-anchor="middle" class="svg-tick">BiMap 2</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Internal SPD Stage</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">λ_min &gt; 0</text>
+</svg>
+      <table class="data-table" style="font-size:0.76rem;margin-top:2px">
         <tbody>
-          <tr><th style="width:125px">spd_learn Classes</th><td><code>spd_learn.models.RCEEGNet</code></td></tr>
+          <tr><th style="width:118px">spd_learn Classes</th><td><code>spd_learn.models.RCEEGNet</code></td></tr>
           <tr><th>Manifold</th><td>EEGNet Depthwise-Separable Frontend + SPD BiMap/ReEig/LogEig + 1D-CNN Classifier</td></tr>
           <tr><th>Layer Pipeline</th><td><code>RCEEGNet: EEGNet Depthwise-Separable Conv Stem (Temporal Conv 1<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>F1=8 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Depthwise Spatial Conv <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Separable Conv F2=16) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Temporal Window CovPool <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Residual BiMap + ReEig + SPDBatchNormMeanVar <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> LogEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Linear</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>Residual SPD BiMap block with Log-Euclidean / AIRM BatchNorm bridging Euclidean Conv features and SPD manifold classification</td></tr>
-          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>output_shape</code> = <strong>[4, 4]</strong></span></td></tr>
-          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>frontend_input_grad_flowing</code> = <strong>True</strong></span></td></tr>
+          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span> · <span class="muted" style="font-size:0.74rem"><code>output_shape</code> = <strong>[4, 4]</strong></span></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-1.30% Δ (After BN Momentum Calibration)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.30% Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -337,34 +363,34 @@
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Ours vs. Published (Figure 3 (2025))">
 <text x="52" y="16" class="svg-title">Ours vs. Published (Figure 3 (2025))</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">72.2</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">74.5</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">76.8</text>
-<polyline fill="none" points="52.0,172.3 124.5,97.1 197.0,59.5 269.5,83.4 342.0,42.4" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,172.3 115.0,97.1 178.0,59.5 241.0,83.4 304.0,42.4" class="svg-line-primary"/>
 <circle cx="52.0" cy="172.3" r="3" class="svg-line-primary-dot"/>
-<circle cx="124.5" cy="97.1" r="3" class="svg-line-primary-dot"/>
-<circle cx="197.0" cy="59.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="269.5" cy="83.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,186.0 124.5,110.8 197.0,73.1 269.5,93.7 342.0,62.9" class="svg-line-secondary"/>
+<circle cx="115.0" cy="97.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="178.0" cy="59.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="241.0" cy="83.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,186.0 115.0,110.8 178.0,73.1 241.0,93.7 304.0,62.9" class="svg-line-secondary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="124.5" cy="110.8" r="3" class="svg-line-secondary-dot"/>
-<circle cx="197.0" cy="73.1" r="3" class="svg-line-secondary-dot"/>
-<circle cx="269.5" cy="93.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="62.9" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Pub: 76.4</text>
-<text x="338.0" y="56.9" text-anchor="end" class="svg-val">Ours: 75.8</text>
+<circle cx="115.0" cy="110.8" r="3" class="svg-line-secondary-dot"/>
+<circle cx="178.0" cy="73.1" r="3" class="svg-line-secondary-dot"/>
+<circle cx="241.0" cy="93.7" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="62.9" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Pub 76.4</text>
+<text x="309.0" y="65.9" text-anchor="start" class="svg-val" style="fill:var(--accent)">Ours 75.8</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">α=0.0</text>
-<text x="124.5" y="199.5" text-anchor="middle" class="svg-tick">α=0.25</text>
-<text x="197.0" y="199.5" text-anchor="middle" class="svg-tick">α=0.50</text>
-<text x="269.5" y="199.5" text-anchor="middle" class="svg-tick">α=0.75</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">Learned α</text>
+<text x="115.0" y="199.5" text-anchor="middle" class="svg-tick">α=0.25</text>
+<text x="178.0" y="199.5" text-anchor="middle" class="svg-tick">α=0.50</text>
+<text x="241.0" y="199.5" text-anchor="middle" class="svg-tick">α=0.75</text>
+<text x="304.0" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="304.0" dy="0">Learned</tspan><tspan x="304.0" dy="9.5">α</tspan></text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Residual Mixing Parameter α</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Residual Mixing Parameter α</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Mean Accuracy on BCIC-IV-2a (%)</text>
 </svg>
       <div style="overflow-x:auto;margin-top:4px">
@@ -557,8 +583,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">DOI:10.1016/j.neucom.2025.130206</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">DOI:10.1016/j.neuc</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -569,8 +595,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours (Accuracy (%))</text>
@@ -629,8 +655,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.30% Δ (After BN Momentum Calibration)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.30% Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -711,37 +737,37 @@
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Voyager Epoch Convergence Trajectory (RCEEGNet)">
 <text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">RCEEGNe</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">RCEEGNe</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">31.4</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">52.7</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">74.0</text>
-<polyline fill="none" points="52.0,186.0 110.0,143.4 168.0,134.1 226.0,131.9 284.0,128.4 342.0,129.1" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 102.4,143.4 152.8,134.1 203.2,131.9 253.6,128.4 304.0,129.1" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="110.0" cy="143.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="168.0" cy="134.1" r="3" class="svg-line-primary-dot"/>
-<circle cx="226.0" cy="131.9" r="3" class="svg-line-primary-dot"/>
-<circle cx="284.0" cy="128.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="129.1" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,72.9 110.0,49.9 168.0,45.3 226.0,43.8 284.0,42.4 342.0,42.6" class="svg-line-secondary"/>
+<circle cx="102.4" cy="143.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="152.8" cy="134.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="203.2" cy="131.9" r="3" class="svg-line-primary-dot"/>
+<circle cx="253.6" cy="128.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="129.1" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,72.9 102.4,49.9 152.8,45.3 203.2,43.8 253.6,42.4 304.0,42.6" class="svg-line-secondary"/>
 <circle cx="52.0" cy="72.9" r="3" class="svg-line-secondary-dot"/>
-<circle cx="110.0" cy="49.9" r="3" class="svg-line-secondary-dot"/>
-<circle cx="168.0" cy="45.3" r="3" class="svg-line-secondary-dot"/>
-<circle cx="226.0" cy="43.8" r="3" class="svg-line-secondary-dot"/>
-<circle cx="284.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="42.6" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">RCEEGNet (bnci2014): 70.0</text>
-<text x="338.0" y="123.1" text-anchor="end" class="svg-val">RCEEGNet (bnci2014): 46.8</text>
+<circle cx="102.4" cy="49.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="152.8" cy="45.3" r="3" class="svg-line-secondary-dot"/>
+<circle cx="203.2" cy="43.8" r="3" class="svg-line-secondary-dot"/>
+<circle cx="253.6" cy="42.4" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="42.6" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="45.6" text-anchor="start" class="svg-val" style="fill:var(--accent)">RCEEG 70.0</text>
+<text x="309.0" y="132.1" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">RCEEG 46.8</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 1</text>
-<text x="110.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
-<text x="168.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
-<text x="226.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
-<text x="284.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
+<text x="102.4" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="152.8" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="203.2" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="253.6" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
 </svg>
     </div>

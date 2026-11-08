@@ -54,23 +54,23 @@
   <div class="tri-grid" style="margin-top:8px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER PROTOCOL</span>
+        <span>1 · ORIGINAL PROTOCOL</span>
         <span class="small muted">Patterns 2024</span>
       </div>
       <table class="data-table" style="font-size:0.78rem">
         <tbody>
           <tr><th style="width:115px">Split &amp; Harness</th><td><code>TUAB Age Regression &amp; Pathology (5-fold subject-wise CV) | Hinss2021 Mental Workload (15 subj, Cross-Session) | SEED Emotion | BNCI2014-001 Cross-Session</code></td></tr>
-          <tr><th>Preprocessing</th><td>125-250 Hz EEG epochs, no manual filterbank required: end-to-end learnable complex Gabor wavelet conv (WaveletConv, F=8..16 center frequencies f_0 and bandwidths FWHM)</td></tr>
+          <tr><th>Preprocessing</th><td>125-250 Hz EEG epochs, no manual filterbank required: end-to-end learnable complex Gabor wavelet conv (WaveletConv, F=8..16 center frequencies <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>f</mi><mn>0</mn></msub></mrow><annotation encoding="application/x-tex">f_0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10764em;">f</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3011em;"><span style="top:-2.55em;margin-left:-0.1076em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> and bandwidths FWHM)</td></tr>
           <tr><th>Architecture</th><td><code>WaveletConv(complex analytic signal Z) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Real/Hermitian Cross-Frequency Covariance Pool <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Shrinkage(alpha) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> BiMap <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>SPDBatchNormMeanVar <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> LogEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> MLP</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>Learnable shrinkage S_reg = (1-alpha)*S + alpha*(tr(S)/d)*I + Log-Euclidean / AIRM tangent projection</td></tr>
+          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>Learnable shrinkage <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>S</mi><mtext>reg</mtext></msub><mo>=</mo><mo stretchy="false">(</mo><mn>1</mn><mo>−</mo><mi>α</mi><mo stretchy="false">)</mo><mi>S</mi><mo>+</mo><mi>α</mi><mo stretchy="false">(</mo><mi mathvariant="normal">tr</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>S</mi><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mi>d</mi><mo stretchy="false">)</mo><mi>I</mi></mrow><annotation encoding="application/x-tex">S_{\text{reg}} = (1-\alpha)S + \alpha(\operatorname{tr}(S)/d)I</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.9694em;vertical-align:-0.2861em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0576em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">reg</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2861em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.0037em;">α</span><span class="mopen">(</span><span class="mop"><span class="mord mathrm">tr</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.05764em;">S</span><span class="mclose">)</span><span class="mord">/</span><span class="mord mathnormal">d</span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span></span> + Log-Euclidean / AIRM tangent projection</td></tr>
           <tr><th>Optimizer</th><td><code>AdamW, lr=1e-3, wd=1e-3, cosine scheduler, batch_size=64, epochs=150</code></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">3 Datasets Audited</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">3 Datasets</span>
       </div>
       <div class="small" style="margin-bottom:4px">
         <strong>Implemented:</strong> <code>spd_learn.models.Green</code> <code>spd_learn.modules.WaveletConv</code> <code>spd_learn.modules.Shrinkage</code> · <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:3" title="Verified: 3"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 3 Verified</span></span>
@@ -101,8 +101,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-2.30% MI Δ · -0.01 R² Age Δ</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-2.30% MI Δ · -0.01 R²</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -136,7 +136,7 @@
       <div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
     <span class="tag">Original Figure 1 (Patterns 2025 / PMC11963017)</span>
-    <strong>GREEN: Gabor Riemann EEGNet with Learnable Wavelets: Architectural &amp; Geometric Specification</strong>
+    <strong>GREEN: Gabor Riemann EEGNet with Learnable Wavelets: Architectural &amp; Operator Verification</strong>
     <span class="chip good" style="margin-left:auto">✓ 1-to-1 Operator Match in spd_learn</span>
   </div>
   <div class="tri-grid" style="margin-top:10px">
@@ -154,24 +154,41 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Module &amp; Manifold Pipeline</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">C1 Operator SVG + Spec</span>
       </div>
-      <table class="data-table" style="font-size:0.78rem">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C1: Learnable Gabor Wavelet Parameter Gradient Norms">
+<text x="52" y="16" class="svg-title">C1: Learnable Gabor Wavelet Parameter Gradient Norms</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">2.92</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">5.85</text>
+<rect x="112.5" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="124.5" y="39.4" text-anchor="middle" class="svg-val">5.31</text>
+<rect x="257.5" y="178.7" width="24.0" height="7.3" rx="2" class="svg-bar-primary"/>
+<text x="269.5" y="175.7" text-anchor="middle" class="svg-val">0.269</text>
+<text x="124.5" y="199.5" text-anchor="middle" class="svg-tick">Center Freq (foi)</text>
+<text x="269.5" y="199.5" text-anchor="middle" class="svg-tick">Bandwidth (fwhm)</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Wavelet Parameter</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">||grad L||_2</text>
+</svg>
+      <table class="data-table" style="font-size:0.76rem;margin-top:2px">
         <tbody>
-          <tr><th style="width:125px">spd_learn Classes</th><td><code>spd_learn.models.Green</code> <code>spd_learn.modules.WaveletConv</code> <code>spd_learn.modules.Shrinkage</code></td></tr>
+          <tr><th style="width:118px">spd_learn Classes</th><td><code>spd_learn.models.Green</code> <code>spd_learn.modules.WaveletConv</code> <code>spd_learn.modules.Shrinkage</code></td></tr>
           <tr><th>Manifold</th><td>Complex Morlet Wavelet Convolution (WaveletConv) + Ledoit-Wolf Shrinkage + BiMap/LogEig</td></tr>
           <tr><th>Layer Pipeline</th><td><code>WaveletConv(complex analytic signal Z) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Real/Hermitian Cross-Frequency Covariance Pool <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Shrinkage(alpha) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> BiMap <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>SPDBatchNormMeanVar <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> LogEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> MLP</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>Learnable shrinkage S_reg = (1-alpha)*S + alpha*(tr(S)/d)*I + Log-Euclidean / AIRM tangent projection</td></tr>
-          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>output_shape</code> = <strong>[8, 4]</strong> · <code>wavelet_foi_grad_norm</code> = <strong>5.315</strong> · <code>wavelet_fwhm_grad_norm</code> = <strong>0.2694</strong></span></td></tr>
-          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>mean_wavelet_frequency_adaptation_shift</code> = <strong>0.1134</strong></span></td></tr>
+          <tr><th>C1 Invariant</th><td><span class="chip good">✓ Verified (2 pts)</span> · <span class="muted" style="font-size:0.74rem"><code>output_shape</code> = <strong>[8, 4]</strong> · <code>wavelet_foi_grad_norm</code> = <strong>5.315</strong> · <code>wavelet_fwhm_grad_norm</code> = <strong>0.2694</strong></span></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-2.30% MI Δ · -0.01 R² Age Δ</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-2.30% MI Δ · -0.01 R²</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -460,43 +477,43 @@
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Ours vs. Published (Figure 4 (Patterns 2025))">
 <text x="52" y="16" class="svg-title">Ours vs. Published</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">50.2</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">74.4</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">98.6</text>
-<polyline fill="none" points="52.0,186.0 93.4,133.1 134.9,74.0 176.3,68.5 217.7,55.7 259.1,52.8 300.6,48.6 342.0,42.4" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 88.0,133.1 124.0,74.0 160.0,68.5 196.0,55.7 232.0,52.8 268.0,48.6 304.0,42.4" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="93.4" cy="133.1" r="3" class="svg-line-primary-dot"/>
-<circle cx="134.9" cy="74.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="176.3" cy="68.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="217.7" cy="55.7" r="3" class="svg-line-primary-dot"/>
-<circle cx="259.1" cy="52.8" r="3" class="svg-line-primary-dot"/>
-<circle cx="300.6" cy="48.6" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,183.4 93.4,130.5 134.9,75.3 176.3,67.5 217.7,56.7 259.1,52.2 300.6,47.9 342.0,43.0" class="svg-line-secondary"/>
+<circle cx="88.0" cy="133.1" r="3" class="svg-line-primary-dot"/>
+<circle cx="124.0" cy="74.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="160.0" cy="68.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="196.0" cy="55.7" r="3" class="svg-line-primary-dot"/>
+<circle cx="232.0" cy="52.8" r="3" class="svg-line-primary-dot"/>
+<circle cx="268.0" cy="48.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,183.4 88.0,130.5 124.0,75.3 160.0,67.5 196.0,56.7 232.0,52.2 268.0,47.9 304.0,43.0" class="svg-line-secondary"/>
 <circle cx="52.0" cy="183.4" r="3" class="svg-line-secondary-dot"/>
-<circle cx="93.4" cy="130.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="134.9" cy="75.3" r="3" class="svg-line-secondary-dot"/>
-<circle cx="176.3" cy="67.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="217.7" cy="56.7" r="3" class="svg-line-secondary-dot"/>
-<circle cx="259.1" cy="52.2" r="3" class="svg-line-secondary-dot"/>
-<circle cx="300.6" cy="47.9" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="43.0" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Pub: 94.2</text>
-<text x="338.0" y="48.0" text-anchor="end" class="svg-val">Ours: 94.0</text>
+<circle cx="88.0" cy="130.5" r="3" class="svg-line-secondary-dot"/>
+<circle cx="124.0" cy="75.3" r="3" class="svg-line-secondary-dot"/>
+<circle cx="160.0" cy="67.5" r="3" class="svg-line-secondary-dot"/>
+<circle cx="196.0" cy="56.7" r="3" class="svg-line-secondary-dot"/>
+<circle cx="232.0" cy="52.2" r="3" class="svg-line-secondary-dot"/>
+<circle cx="268.0" cy="47.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="43.0" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="40.2" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Pub 94.2</text>
+<text x="309.0" y="51.2" text-anchor="start" class="svg-val" style="fill:var(--accent)">Ours 94.0</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">F=1</text>
-<text x="93.4" y="199.5" text-anchor="middle" class="svg-tick">F=2</text>
-<text x="134.9" y="199.5" text-anchor="middle" class="svg-tick">F=3</text>
-<text x="176.3" y="199.5" text-anchor="middle" class="svg-tick">F=4</text>
-<text x="217.7" y="199.5" text-anchor="middle" class="svg-tick">F=5</text>
-<text x="259.1" y="199.5" text-anchor="middle" class="svg-tick">F=6</text>
-<text x="300.6" y="199.5" text-anchor="middle" class="svg-tick">F=7</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">F=8</text>
+<text x="88.0" y="199.5" text-anchor="middle" class="svg-tick">F=2</text>
+<text x="124.0" y="199.5" text-anchor="middle" class="svg-tick">F=3</text>
+<text x="160.0" y="199.5" text-anchor="middle" class="svg-tick">F=4</text>
+<text x="196.0" y="199.5" text-anchor="middle" class="svg-tick">F=5</text>
+<text x="232.0" y="199.5" text-anchor="middle" class="svg-tick">F=6</text>
+<text x="268.0" y="199.5" text-anchor="middle" class="svg-tick">F=7</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">F=8</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Number of Learnable Gabor Wavelets F</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Number of Learnable Gabor Wavelets F</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">% of Best Asymptotic Score</text>
 </svg>
       <div style="overflow-x:auto;margin-top:4px">
@@ -593,37 +610,37 @@
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Ours vs. Published (Figure 5 (Patterns 2025))">
 <text x="52" y="16" class="svg-title">Ours vs. Published</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Pub</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Ours</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">1.50</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">3.75</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">6.01</text>
-<polyline fill="none" points="52.0,186.0 110.0,144.0 168.0,168.5 226.0,42.4 284.0,154.5 342.0,161.5" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 102.4,144.0 152.8,168.5 203.2,42.4 253.6,154.5 304.0,161.5" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="110.0" cy="144.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="168.0" cy="168.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="226.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<circle cx="284.0" cy="154.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="161.5" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,182.5 110.0,147.5 168.0,165.0 226.0,45.9 284.0,151.0 342.0,165.0" class="svg-line-secondary"/>
+<circle cx="102.4" cy="144.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="152.8" cy="168.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="203.2" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<circle cx="253.6" cy="154.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="161.5" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,182.5 102.4,147.5 152.8,165.0 203.2,45.9 253.6,151.0 304.0,165.0" class="svg-line-secondary"/>
 <circle cx="52.0" cy="182.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="110.0" cy="147.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="168.0" cy="165.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="226.0" cy="45.9" r="3" class="svg-line-secondary-dot"/>
-<circle cx="284.0" cy="151.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="165.0" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="155.5" text-anchor="end" class="svg-val">Pub: 2.20</text>
-<text x="338.0" y="165.5" text-anchor="end" class="svg-val">Ours: 2.10</text>
+<circle cx="102.4" cy="147.5" r="3" class="svg-line-secondary-dot"/>
+<circle cx="152.8" cy="165.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="203.2" cy="45.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="253.6" cy="151.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="165.0" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="160.7" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Pub 2.20</text>
+<text x="309.0" y="171.7" text-anchor="start" class="svg-val" style="fill:var(--accent)">Ours 2.10</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">0.2 Hz</text>
-<text x="110.0" y="199.5" text-anchor="middle" class="svg-tick">1.0 Hz</text>
-<text x="168.0" y="199.5" text-anchor="middle" class="svg-tick">4.9 Hz</text>
-<text x="226.0" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="226.0" dy="0">9.5 Hz</tspan><tspan x="226.0" dy="9.5">(Alpha)</tspan></text>
-<text x="284.0" y="199.5" text-anchor="middle" class="svg-tick">15.6 Hz</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">30.2 Hz</text>
+<text x="102.4" y="199.5" text-anchor="middle" class="svg-tick">1.0 Hz</text>
+<text x="152.8" y="199.5" text-anchor="middle" class="svg-tick">4.9 Hz</text>
+<text x="203.2" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="203.2" dy="0">9.5 Hz</tspan><tspan x="203.2" dy="9.5">(Alpha)</tspan></text>
+<text x="253.6" y="199.5" text-anchor="middle" class="svg-tick">15.6 Hz</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">30.2 Hz</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Wavelet Center Frequency [Hz]</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Wavelet Center Frequency [Hz]</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Power Ratio P_EC / P_EO [dB]</text>
 </svg>
       <div style="overflow-x:auto;margin-top:4px">
@@ -734,27 +751,27 @@
   </div>
   <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C2: Wavelet Center Frequency Shift During Training">
 <text x="52" y="16" class="svg-title">C2: Wavelet Center Frequency Shift During Training</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">0.062</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">0.125</text>
-<polyline fill="none" points="52.0,186.0 124.5,145.5 197.0,99.9 269.5,67.0 342.0,42.4" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 115.0,145.5 178.0,99.9 241.0,67.0 304.0,42.4" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="124.5" cy="145.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="197.0" cy="99.9" r="3" class="svg-line-primary-dot"/>
-<circle cx="269.5" cy="67.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Freq Shift: 0.113</text>
+<circle cx="115.0" cy="145.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="178.0" cy="99.9" r="3" class="svg-line-primary-dot"/>
+<circle cx="241.0" cy="67.0" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-primary-dot"/>
+<text x="309.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Freq  0.113</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Epoch 0</text>
-<text x="124.5" y="199.5" text-anchor="middle" class="svg-tick">Epoch 5</text>
-<text x="197.0" y="199.5" text-anchor="middle" class="svg-tick">Epoch 10</text>
-<text x="269.5" y="199.5" text-anchor="middle" class="svg-tick">Epoch 15</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">Epoch 20</text>
+<text x="115.0" y="199.5" text-anchor="middle" class="svg-tick">Epoch 5</text>
+<text x="178.0" y="199.5" text-anchor="middle" class="svg-tick">Epoch 10</text>
+<text x="241.0" y="199.5" text-anchor="middle" class="svg-tick">Epoch 15</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Epoch 20</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Optimization Epoch</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Optimization Epoch</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Mean |delta foi| (rad/s)</text>
 </svg>
   <div class="small">
@@ -814,8 +831,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">PMC11963017 / Roche/neuro-green</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">PMC11963017 / Roch</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -826,8 +843,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Score (% / R^2 x 100))">
 <text x="52" y="16" class="svg-title">Published vs. Ours</text>
@@ -886,8 +903,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-2.30% MI Δ · -0.01 R² Age Δ</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-2.30% MI Δ · -0.01 R²</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -968,37 +985,37 @@
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Voyager Epoch Convergence Trajectory (Green)">
 <text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Green (</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Green (</text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">26.8</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">46.3</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">65.8</text>
-<polyline fill="none" points="52.0,186.0 110.0,98.5 168.0,88.8 226.0,84.7 284.0,81.9 342.0,83.9" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 102.4,98.5 152.8,88.8 203.2,84.7 253.6,81.9 304.0,83.9" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="110.0" cy="98.5" r="3" class="svg-line-primary-dot"/>
-<circle cx="168.0" cy="88.8" r="3" class="svg-line-primary-dot"/>
-<circle cx="226.0" cy="84.7" r="3" class="svg-line-primary-dot"/>
-<circle cx="284.0" cy="81.9" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="83.9" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,69.1 110.0,52.5 168.0,46.1 226.0,46.9 284.0,47.6 342.0,42.4" class="svg-line-secondary"/>
+<circle cx="102.4" cy="98.5" r="3" class="svg-line-primary-dot"/>
+<circle cx="152.8" cy="88.8" r="3" class="svg-line-primary-dot"/>
+<circle cx="203.2" cy="84.7" r="3" class="svg-line-primary-dot"/>
+<circle cx="253.6" cy="81.9" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="83.9" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,69.1 102.4,52.5 152.8,46.1 203.2,46.9 253.6,47.6 304.0,42.4" class="svg-line-secondary"/>
 <circle cx="52.0" cy="69.1" r="3" class="svg-line-secondary-dot"/>
-<circle cx="110.0" cy="52.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="168.0" cy="46.1" r="3" class="svg-line-secondary-dot"/>
-<circle cx="226.0" cy="46.9" r="3" class="svg-line-secondary-dot"/>
-<circle cx="284.0" cy="47.6" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">Green (bnci2014): 62.2</text>
-<text x="338.0" y="77.9" text-anchor="end" class="svg-val">Green (bnci2014): 52.0</text>
+<circle cx="102.4" cy="52.5" r="3" class="svg-line-secondary-dot"/>
+<circle cx="152.8" cy="46.1" r="3" class="svg-line-secondary-dot"/>
+<circle cx="203.2" cy="46.9" r="3" class="svg-line-secondary-dot"/>
+<circle cx="253.6" cy="47.6" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--accent)">Green 62.2</text>
+<text x="309.0" y="86.9" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">Green 52.0</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 1</text>
-<text x="110.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
-<text x="168.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
-<text x="226.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
-<text x="284.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
+<text x="102.4" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="152.8" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="203.2" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="253.6" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
 </svg>
     </div>

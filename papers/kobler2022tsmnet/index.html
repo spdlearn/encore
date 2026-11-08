@@ -54,7 +54,7 @@
   <div class="tri-grid" style="margin-top:8px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER PROTOCOL</span>
+        <span>1 · ORIGINAL PROTOCOL</span>
         <span class="small muted">NeurIPS 2022</span>
       </div>
       <table class="data-table" style="font-size:0.78rem">
@@ -62,15 +62,15 @@
           <tr><th style="width:115px">Split &amp; Harness</th><td><code>BNCI2014-001 (9 subj, 4-class), BNCI2014-004 (9 subj, 2-class), BNCI2015-001 (12 subj, 2-class), Lee2019 (54 subj), Zhou2016 (4 subj), Stieger2021 (62 subj): Session-to-Session &amp; LOSO</code></td></tr>
           <tr><th>Preprocessing</th><td>250 Hz resampling, 4-40 Hz 4th-order Butterworth causal bandpass, [0.5, 4.0]s epoch window (875 samples), 22/13/62 EEG chans, regularized temporal-spatial sample cov</td></tr>
           <tr><th>Architecture</th><td><code>Conv2d(1<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>4, temporal=(1,25)) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> SpatialConv(4<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>40, (C,1)) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> CovPool(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>40</mn><mo>×</mo><mn>40</mn></mrow><annotation encoding="application/x-tex">40 \times 40</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">40</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">40</span></span></span></span>) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> BiMap(40<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>20, Stiefel) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> ReEig(1e-4) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> SPDDSMBN(20, domain-specific mean+disp) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> LogEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Linear</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>AIRM Fréchet mean + scalar tangent-space dispersion nu^2 per domain/session; unsupervised test-domain recalibration before inference</td></tr>
+          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>AIRM Fréchet mean + scalar tangent-space dispersion <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>ν</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\nu^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.06366em;">ν</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> per domain/session; unsupervised test-domain recalibration before inference</td></tr>
           <tr><th>Optimizer</th><td><code>AdamW + Riemannian Stiefel projection, lr=1e-3, wd=1e-4, cosine annealing, batch_size=64 (balanced across domains), epochs=200</code></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">6 Datasets Audited</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">6 Datasets</span>
       </div>
       <div class="small" style="margin-bottom:4px">
         <strong>Implemented:</strong> <code>spd_learn.models.TSMNet</code> <code>spd_learn.modules.SPDBatchNormMeanVar</code> <code>spd_learn.functional.tangent_space_variance</code> · <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:1" title="Verified: 1"></span><span class="seg warning" style="flex:1" title="Baseline-Adjusted: 1"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 1 Verified</span> <span class="swatch warning">◐ 1 Baseline-Adjusted</span> <span class="swatch unresolved">! 1 Falsified</span></span>
@@ -116,8 +116,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-1.15% mean Δ (5 NEMAR datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -151,7 +151,7 @@
       <div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
     <span class="tag">Original Figure 1 (NeurIPS 2022 / arXiv:2206.01323)</span>
-    <strong>TSMNet &amp; SPDDSMBN: Tangent Space Momentum BatchNorm for EEG Domain Adaptation: Architectural &amp; Geometric Specification</strong>
+    <strong>TSMNet &amp; SPDDSMBN: Tangent Space Momentum BatchNorm for EEG Domain Adaptation: Architectural &amp; Operator Verification</strong>
     <span class="chip good" style="margin-left:auto">✓ 1-to-1 Operator Match in spd_learn</span>
   </div>
   <div class="tri-grid" style="margin-top:10px">
@@ -169,24 +169,41 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Module &amp; Manifold Pipeline</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">C1 Operator SVG + Spec</span>
       </div>
-      <table class="data-table" style="font-size:0.78rem">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C1: SPDDSMBN Tangent Mean &amp; Unit Dispersion">
+<text x="52" y="16" class="svg-title">C1: SPDDSMBN Tangent Mean &amp; Unit Dispersion</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">0.550</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">1.10</text>
+<rect x="112.5" y="186.0" width="24.0" height="2.0" rx="2" class="svg-bar-primary"/>
+<text x="124.5" y="183.0" text-anchor="middle" class="svg-val">1.5e-04</text>
+<rect x="257.5" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="269.5" y="39.4" text-anchor="middle" class="svg-val">1.000</text>
+<text x="124.5" y="199.5" text-anchor="middle" class="svg-tick">Tangent Mean Err</text>
+<text x="269.5" y="199.5" text-anchor="middle" class="svg-tick">Unit Dispersion</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Statistic</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Measured Value</text>
+</svg>
+      <table class="data-table" style="font-size:0.76rem;margin-top:2px">
         <tbody>
-          <tr><th style="width:125px">spd_learn Classes</th><td><code>spd_learn.models.TSMNet</code> <code>spd_learn.modules.SPDBatchNormMeanVar</code> <code>spd_learn.functional.tangent_space_variance</code></td></tr>
+          <tr><th style="width:118px">spd_learn Classes</th><td><code>spd_learn.models.TSMNet</code> <code>spd_learn.modules.SPDBatchNormMeanVar</code> <code>spd_learn.functional.tangent_space_variance</code></td></tr>
           <tr><th>Manifold</th><td>Joint Mean-Variance AIRM Normalization (SPDBatchNormMeanVar) + Target-Session Test-Time Alignment</td></tr>
           <tr><th>Layer Pipeline</th><td><code>Conv2d(1<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>4, temporal=(1,25)) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> SpatialConv(4<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>40, (C,1)) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> CovPool(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>40</mn><mo>×</mo><mn>40</mn></mrow><annotation encoding="application/x-tex">40 \times 40</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">40</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">40</span></span></span></span>) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> BiMap(40<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>20, Stiefel) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> ReEig(1e-4) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> SPDDSMBN(20, domain-specific mean+disp) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> LogEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Linear</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>AIRM Fréchet mean + scalar tangent-space dispersion nu^2 per domain/session; unsupervised test-domain recalibration before inference</td></tr>
-          <tr><th>C1 Invariant</th><td><span class="chip unresolved">! Falsified / Refuted (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>tangent_mean_max_error</code> = <strong>0.0001485</strong> · <code>normalized_tangent_dispersion</code> = <strong>1</strong></span></td></tr>
-          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>bnci_subj3_frozen_source_stats_acc_pct</code> = <strong>79.17</strong> · <code>bnci_subj3_spddsmbn_target_adapted_acc_pct</code> = <strong>87.5</strong></span></td></tr>
+          <tr><th>C1 Invariant</th><td><span class="chip unresolved">! Falsified / Refuted (2 pts)</span> · <span class="muted" style="font-size:0.74rem"><code>tangent_mean_max_error</code> = <strong>0.0001485</strong> · <code>normalized_tangent_dispersion</code> = <strong>1</strong></span></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-1.15% mean Δ (5 NEMAR datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -205,7 +222,7 @@
 </div><div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
     <span class="tag">Original Figure 2 (NeurIPS 2022 / arXiv:2206.01323)</span>
-    <strong>TSMNet &amp; SPDDSMBN: Tangent Space Momentum BatchNorm for EEG Domain Adaptation: Architectural &amp; Geometric Specification</strong>
+    <strong>TSMNet architecture combining temporal-spatial convolutions, Stiefel BiMap ... (Conditioning &amp; Signal Verification)</strong>
     <span class="chip good" style="margin-left:auto">✓ 1-to-1 Operator Match in spd_learn</span>
   </div>
   <div class="tri-grid" style="margin-top:10px">
@@ -223,24 +240,43 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Module &amp; Manifold Pipeline</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">C2 Signal SVG + Regime</span>
       </div>
-      <table class="data-table" style="font-size:0.78rem">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="C2: Cross-Session BNCI2014-001 Subj 3 Adaptation (%)">
+<text x="52" y="16" class="svg-title">C2: Cross-Session BNCI2014-001 Subj 3 Adaptation (%)</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">48.1</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">96.2</text>
+<line x1="52" y1="145.0" x2="342" y2="145.0" class="svg-hline"/>
+<text x="340" y="141.0" text-anchor="end" class="svg-annot">Chance 25%</text>
+<rect x="112.5" y="56.0" width="24.0" height="130.0" rx="2" class="svg-bar-primary"/>
+<text x="124.5" y="53.0" text-anchor="middle" class="svg-val">79.2</text>
+<rect x="257.5" y="42.4" width="24.0" height="143.6" rx="2" class="svg-bar-primary"/>
+<text x="269.5" y="39.4" text-anchor="middle" class="svg-val">87.5</text>
+<text x="124.5" y="199.5" text-anchor="middle" class="svg-tick">Frozen Source Stats</text>
+<text x="269.5" y="199.5" text-anchor="middle" class="svg-tick">Target-Adapted SPDDSMBN</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">BatchNorm Mode (0train → 1test)</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Test Accuracy (%)</text>
+</svg>
+      <table class="data-table" style="font-size:0.76rem;margin-top:2px">
         <tbody>
-          <tr><th style="width:125px">spd_learn Classes</th><td><code>spd_learn.models.TSMNet</code> <code>spd_learn.modules.SPDBatchNormMeanVar</code> <code>spd_learn.functional.tangent_space_variance</code></td></tr>
-          <tr><th>Manifold</th><td>Joint Mean-Variance AIRM Normalization (SPDBatchNormMeanVar) + Target-Session Test-Time Alignment</td></tr>
-          <tr><th>Layer Pipeline</th><td><code>Conv2d(1<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>4, temporal=(1,25)) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> SpatialConv(4<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>40, (C,1)) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> CovPool(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>40</mn><mo>×</mo><mn>40</mn></mrow><annotation encoding="application/x-tex">40 \times 40</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">40</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">40</span></span></span></span>) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> BiMap(40<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>20, Stiefel) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> ReEig(1e-4) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> SPDDSMBN(20, domain-specific mean+disp) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> LogEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Linear</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>AIRM Fréchet mean + scalar tangent-space dispersion nu^2 per domain/session; unsupervised test-domain recalibration before inference</td></tr>
-          <tr><th>C1 Invariant</th><td><span class="chip unresolved">! Falsified / Refuted (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>tangent_mean_max_error</code> = <strong>0.0001485</strong> · <code>normalized_tangent_dispersion</code> = <strong>1</strong></span></td></tr>
-          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span><br><span class="muted" style="font-size:0.74rem"><code>bnci_subj3_frozen_source_stats_acc_pct</code> = <strong>79.17</strong> · <code>bnci_subj3_spddsmbn_target_adapted_acc_pct</code> = <strong>87.5</strong></span></td></tr>
+          <tr><th style="width:118px">Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>AIRM Fréchet mean + scalar tangent-space dispersion <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>ν</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\nu^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.06366em;">ν</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> per domain/session; unsupervised test-domain recalibration before inference</td></tr>
+          <tr><th>Preprocessing</th><td>250 Hz resampling, 4-40 Hz 4th-order Butterworth causal bandpass, [0.5, 4.0]s epoch window (875 samples), 22/13/62 EEG chans, regularized temporal-spatial sample cov</td></tr>
+          <tr><th>Optimizer</th><td><code>AdamW + Riemannian Stiefel projection, lr=1e-3, wd=1e-4, cosine annealing, batch_size=64 (balanced across domains), epochs=200</code></td></tr>
+          <tr><th>C2 Conditioning</th><td><span class="chip good">✓ Verified (2 pts)</span> · <span class="muted" style="font-size:0.74rem"><code>bnci_subj3_frozen_source_stats_acc_pct</code> = <strong>79.17</strong> · <code>bnci_subj3_spddsmbn_target_adapted_acc_pct</code> = <strong>87.5</strong></span></td></tr>
         </tbody>
       </table>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PIPELINE DIFFERENCES</span>
-        <code>-1.15% mean Δ (5 NEMAR datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -493,8 +529,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2206.01323 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2206.01323 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -505,8 +541,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Balanced Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours</text>
@@ -583,8 +619,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.15% mean Δ (5 NEMAR datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -629,8 +665,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2206.01323 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2206.01323 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -641,8 +677,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Balanced Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours</text>
@@ -719,8 +755,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.15% mean Δ (5 NEMAR datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -765,8 +801,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2206.01323 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2206.01323 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -777,8 +813,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Balanced Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours</text>
@@ -855,8 +891,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.15% mean Δ (5 NEMAR datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -901,8 +937,8 @@
   <div class="tri-grid" style="margin-top:10px">
     <div class="diag-card col-orig">
       <div class="col-banner orig">
-        <span>1 · ORIGINAL PAPER TABLE</span>
-        <span class="small muted">arXiv:2206.01323 (.tar.gz e-print)</span>
+        <span>1 · ORIGINAL TABLE</span>
+        <span class="small muted">arXiv:2206.01323 (</span>
       </div>
       <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -913,8 +949,8 @@
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
-        <span>2 · OUR REPLICABILITY (spd_learn)</span>
-        <span class="small muted">Blue = Pub · Red = Ours</span>
+        <span>2 · OUR REPLICABILITY</span>
+        <span class="small muted">Pub vs. Ours</span>
       </div>
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Published vs. Ours (Balanced Accuracy (%))">
 <text x="52" y="16" class="svg-title">Published vs. Ours</text>
@@ -991,8 +1027,8 @@
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap">
-        <span>3 · THE GAP &amp; PROTOCOL DIFFERENCES</span>
-        <code>-1.15% mean Δ (5 NEMAR datasets)</code>
+        <span>3 · THE GAP &amp; WHY</span>
+        <code>-1.15% mean Δ</code>
       </div>
       <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
@@ -1079,37 +1115,37 @@
       <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Voyager Epoch Convergence Trajectory (TSMNet)">
 <text x="52" y="16" class="svg-title">Voyager Epoch Convergence Trajectory</text>
 <rect x="264" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="274" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">TSMNet </text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">TSMNet </text>
-<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<line x1="52" y1="186.0" x2="304" y2="186.0" class="svg-grid"/>
 <text x="46" y="189.5" text-anchor="end" class="svg-tick">30.2</text>
-<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<line x1="52" y1="107.0" x2="304" y2="107.0" class="svg-grid"/>
 <text x="46" y="110.5" text-anchor="end" class="svg-tick">54.4</text>
-<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<line x1="52" y1="28.0" x2="304" y2="28.0" class="svg-grid"/>
 <text x="46" y="31.5" text-anchor="end" class="svg-tick">78.5</text>
-<polyline fill="none" points="52.0,186.0 110.0,113.2 168.0,101.6 226.0,93.8 284.0,87.2 342.0,88.5" class="svg-line-primary"/>
+<polyline fill="none" points="52.0,186.0 102.4,113.2 152.8,101.6 203.2,93.8 253.6,87.2 304.0,88.5" class="svg-line-primary"/>
 <circle cx="52.0" cy="186.0" r="3" class="svg-line-primary-dot"/>
-<circle cx="110.0" cy="113.2" r="3" class="svg-line-primary-dot"/>
-<circle cx="168.0" cy="101.6" r="3" class="svg-line-primary-dot"/>
-<circle cx="226.0" cy="93.8" r="3" class="svg-line-primary-dot"/>
-<circle cx="284.0" cy="87.2" r="3" class="svg-line-primary-dot"/>
-<circle cx="342.0" cy="88.5" r="3" class="svg-line-primary-dot"/>
-<polyline fill="none" points="52.0,102.5 110.0,67.0 168.0,57.0 226.0,52.8 284.0,43.0 342.0,42.4" class="svg-line-secondary"/>
+<circle cx="102.4" cy="113.2" r="3" class="svg-line-primary-dot"/>
+<circle cx="152.8" cy="101.6" r="3" class="svg-line-primary-dot"/>
+<circle cx="203.2" cy="93.8" r="3" class="svg-line-primary-dot"/>
+<circle cx="253.6" cy="87.2" r="3" class="svg-line-primary-dot"/>
+<circle cx="304.0" cy="88.5" r="3" class="svg-line-primary-dot"/>
+<polyline fill="none" points="52.0,102.5 102.4,67.0 152.8,57.0 203.2,52.8 253.6,43.0 304.0,42.4" class="svg-line-secondary"/>
 <circle cx="52.0" cy="102.5" r="3" class="svg-line-secondary-dot"/>
-<circle cx="110.0" cy="67.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="168.0" cy="57.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="226.0" cy="52.8" r="3" class="svg-line-secondary-dot"/>
-<circle cx="284.0" cy="43.0" r="3" class="svg-line-secondary-dot"/>
-<circle cx="342.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
-<text x="338.0" y="38.0" text-anchor="end" class="svg-val">TSMNet (bnci2014): 74.1</text>
-<text x="338.0" y="82.5" text-anchor="end" class="svg-val">TSMNet (bnci2014): 60.0</text>
+<circle cx="102.4" cy="67.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="152.8" cy="57.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="203.2" cy="52.8" r="3" class="svg-line-secondary-dot"/>
+<circle cx="253.6" cy="43.0" r="3" class="svg-line-secondary-dot"/>
+<circle cx="304.0" cy="42.4" r="3" class="svg-line-secondary-dot"/>
+<text x="309.0" y="45.4" text-anchor="start" class="svg-val" style="fill:var(--accent)">TSMNe 74.1</text>
+<text x="309.0" y="91.5" text-anchor="start" class="svg-val" style="fill:var(--spd-blue)">TSMNe 60.0</text>
 <text x="52.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 1</text>
-<text x="110.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
-<text x="168.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
-<text x="226.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
-<text x="284.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
-<text x="342.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
+<text x="102.4" y="199.5" text-anchor="middle" class="svg-tick">Stage 2</text>
+<text x="152.8" y="199.5" text-anchor="middle" class="svg-tick">Stage 3</text>
+<text x="203.2" y="199.5" text-anchor="middle" class="svg-tick">Stage 4</text>
+<text x="253.6" y="199.5" text-anchor="middle" class="svg-tick">Stage 5</text>
+<text x="304.0" y="199.5" text-anchor="middle" class="svg-tick">Stage 6</text>
 <line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
-<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
-<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
+<line x1="52" y1="186" x2="304" y2="186" class="svg-axis"/>
+<text x="178.0" y="230" text-anchor="middle" class="svg-axis-label">Training Checkpoint Stage (E1 → E6)</text>
 <text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Validation / Test Accuracy (%)</text>
 </svg>
     </div>
