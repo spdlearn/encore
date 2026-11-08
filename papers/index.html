@@ -2,11 +2,14 @@
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/app.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<title>Papers &amp; Claims Registry (26 Papers · 78 Claims · 73 Dataset Runs) · SPD-Learn Encore Registry</title></head><body>
+<title>Papers, Replicability &amp; Pipeline Gaps (26 Papers) · SPD-Learn Encore Registry</title></head><body>
 <nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="../index.html">
     <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M21.6 8.3A9.5 9.5 0 1 0 25.5 16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18.9 10.7 24.1 5.5 24.7 11.3z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path class="tick" d="M11.3 16.3l3.3 3.3 5.9-6.8" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -23,9 +26,9 @@
 </div></nav>
 <div class="wrap">
 <header class="page">
-  <div class="eyebrow">Papers &amp; Claims Catalog</div>
-  <h1>26 Riemannian SPD Papers · 78 Audited Claims · 88 Paper-Dataset Benchmarks</h1>
-  <p class="lede">Inspect all 8 foundational <code>spd_learn</code> models and 18 recent architectures (2023 to 2026), each audited across all datasets from the original paper on MOABB and <code>spd-bench</code>.</p>
+  <div class="eyebrow">Papers, Replicability &amp; Gap Catalog</div>
+  <h1>26 Riemannian SPD Papers: Replicability &amp; Pipeline Differences</h1>
+  <p class="lede">Each row summarizes (1) Paper &amp; Datasets, (2) Published vs. Our Replicated Benchmark, and (3) The Gap &amp; Dataloader/Protocol Differences.</p>
 </header>
 <main>
   <div class="panel" style="padding:0">
@@ -33,469 +36,677 @@
   <div class="id">
     <a href="huang2017spdnet/index.html"><strong><code>huang2017spdnet</code></strong></a><br>
     <span class="tag">AAAI 2017</span>
+    <span class="tag">3 figs</span>
+    <div style="margin-top:4px"><span class="tag">HDM05</span> <span class="tag">Radar</span> <span class="tag">FPHA</span> <span class="tag">AFEW</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="huang2017spdnet/index.html"><strong>Stiefel Congruence and Spectral Rectification Compress Condition Numbers While Preserving SPD Geometry</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">A Riemannian Network for SPD Matrix Learning (SPDNet) · Stiefel Congruence Projection (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mi>X</mi><msup><mi>W</mi><mi mathvariant="normal">⊤</mi></msup></mrow><annotation encoding="application/x-tex">W X W^\top</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8491em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span></span></span></span>) + Spectral Rectification (ReEig) + Log-Euclidean Tangent Map (LogEig)</p>
-    <p style="margin:0 0 6px"><span class="tag">HDM05</span> <span class="tag">Radar</span> <span class="tag">FPHA</span> <span class="tag">AFEW</span> <span class="tag">BNCI2014-001</span></p>
+    <p style="margin:0 0 3px"><a href="huang2017spdnet/index.html"><strong>Stiefel Congruence and Spectral Rectification Compress Condition Numbers While Preserving SPD Geometry</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>HDM05:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>61.45</mn><mo>±</mo><mn>1.12</mn></mrow><annotation encoding="application/x-tex">61.45 \pm 1.12</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">61.45</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.12</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>63.10</mn><mo>±</mo><mn>1.53</mn></mrow><annotation encoding="application/x-tex">63.10 \pm 1.53</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">63.10</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.53</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
-      <a class="small" style="margin-left:8px" href="huang2017spdnet/index.html#tab-figures">Inspect 3 Side-by-Side Figure Pairs &amp; 5 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="huang2017spdnet/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>4.4558s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (|Δ| ≤ 1.65%)</span>
+      <code>+0.28% mean Δ (5 datasets)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (ε = 1e-4) for rank-deficient FPHA trials (T &lt; 63).
+    </p>
   </div>
 </div><div class="drow" data-category="foundational batchnorm">
   <div class="id">
     <a href="brooks2019spdnetbn/index.html"><strong><code>brooks2019spdnetbn</code></strong></a><br>
     <span class="tag">NeurIPS 2019</span>
+    <span class="tag">3 figs</span>
+    <div style="margin-top:4px"><span class="tag">Radar</span> <span class="tag">HDM05</span> <span class="tag">AFEW</span> <span class="tag">FPHA</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="brooks2019spdnetbn/index.html"><strong>Riemannian Karcher Centering Attenuates Congruence Covariate Shift by Two Orders of Magnitude</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Riemannian Batch Normalization for SPD Neural Networks (SPDNetBN) · Affine-Invariant (AIRM) Karcher Barycenter Centering (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>G</mi><mrow><mo>−</mo><mn>1</mn><mi mathvariant="normal">/</mi><mn>2</mn></mrow></msup><mi>X</mi><msup><mi>G</mi><mrow><mo>−</mo><mn>1</mn><mi mathvariant="normal">/</mi><mn>2</mn></mrow></msup></mrow><annotation encoding="application/x-tex">G^{-1/2} X G^{-1/2}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.888em;"></span><span class="mord"><span class="mord mathnormal">G</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1/2</span></span></span></span></span></span></span></span></span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord"><span class="mord mathnormal">G</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.888em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1/2</span></span></span></span></span></span></span></span></span></span></span></span>) &amp; Bias Parallel Transport</p>
-    <p style="margin:0 0 6px"><span class="tag">Radar</span> <span class="tag">HDM05</span> <span class="tag">AFEW</span> <span class="tag">FPHA</span> <span class="tag">NATO SET245 Radar</span> <span class="tag">BNCI2014-001</span></p>
+    <p style="margin:0 0 3px"><a href="brooks2019spdnetbn/index.html"><strong>Riemannian Karcher Centering Attenuates Congruence Covariate Shift by Two Orders of Magnitude</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>Radar:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>94.80</mn><mo>±</mo><mn>0.80</mn></mrow><annotation encoding="application/x-tex">94.80 \pm 0.80</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">94.80</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.80</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>95.36</mn><mo>±</mo><mn>0.45</mn></mrow><annotation encoding="application/x-tex">95.36 \pm 0.45</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">95.36</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.45</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:1" title="Verified: 1"></span><span class="seg warning" style="flex:1" title="Baseline-Adjusted: 1"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 1 Verified</span> <span class="swatch warning">◐ 1 Baseline-Adjusted</span> <span class="swatch unresolved">! 1 Falsified</span></span>
-      <a class="small" style="margin-left:8px" href="brooks2019spdnetbn/index.html#tab-figures">Inspect 3 Side-by-Side Figure Pairs &amp; 6 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="brooks2019spdnetbn/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>1.6232s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (+0.91% mean Δ)</span>
+      <code>+0.91% mean Δ (5 public datasets)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> NATO SET245 military X-band radar dataset is confidential (BLOCKED); on public Radar, HDM05, FPHA, AFEW, and BNCI2014-001, spd-bench uses standardized holdout and MOABB cross-session splits.
+    </p>
   </div>
 </div><div class="drow" data-category="domain adaptation">
   <div class="id">
     <a href="kobler2022tsmnet/index.html"><strong><code>kobler2022tsmnet</code></strong></a><br>
     <span class="tag">NeurIPS 2022</span>
+    <span class="tag">3 figs</span>
+    <div style="margin-top:4px"><span class="tag">BNCI2014-001</span> <span class="tag">BNCI2015-001</span> <span class="tag">Lee2019</span> <span class="tag">Hinss2021</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="kobler2022tsmnet/index.html"><strong>Domain-Specific Momentum Batch Normalization Closes the Cross-Session EEG Transfer Gap by 8.33 Percentage Points</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">SPD Domain-Specific Momentum Batch Normalization for Passively Addressing Domain Shift in EEG Decoding (TSMNet &amp; SPDDSMBN) · Joint Mean-Variance AIRM Normalization (SPDBatchNormMeanVar) + Target-Session Test-Time Alignment</p>
-    <p style="margin:0 0 6px"><span class="tag">BNCI2014-001</span> <span class="tag">BNCI2015-001</span> <span class="tag">Lee2019</span> <span class="tag">Hinss2021</span> <span class="tag">Zhou2016</span> <span class="tag">Stieger2021</span></p>
+    <p style="margin:0 0 3px"><a href="kobler2022tsmnet/index.html"><strong>Domain-Specific Momentum Batch Normalization Closes the Cross-Session EEG Transfer Gap by 8.33 Percentage Points</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>BNCI2014-001:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>74.60</mn><mo>±</mo><mn>11.20</mn></mrow><annotation encoding="application/x-tex">74.60 \pm 11.20</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">74.60</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.20</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>71.90</mn><mo>±</mo><mn>11.45</mn></mrow><annotation encoding="application/x-tex">71.90 \pm 11.45</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">71.90</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.45</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:1" title="Verified: 1"></span><span class="seg warning" style="flex:1" title="Baseline-Adjusted: 1"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 1 Verified</span> <span class="swatch warning">◐ 1 Baseline-Adjusted</span> <span class="swatch unresolved">! 1 Falsified</span></span>
-      <a class="small" style="margin-left:8px" href="kobler2022tsmnet/index.html#tab-figures">Inspect 3 Side-by-Side Figure Pairs &amp; 6 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="kobler2022tsmnet/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>7.51s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip warning">◐ Domain-BN Protocol Gap (-1.15% mean Δ)</span>
+      <code>-1.15% mean Δ (5 NEMAR datasets)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper uses custom NEMAR BIDS caching with dataset-specific channel picks (e.g., 20 sensorimotor ch on Lee2019, Fpz drop on Hinss2021) and evaluates transductive domain-specific batch statistics on the full test session; Stieger2021 has violin plots only (NO TARGET).
+    </p>
   </div>
 </div><div class="drow" data-category="filterbank spd">
   <div class="id">
     <a href="ju2022tensorcspnet/index.html"><strong><code>ju2022tensorcspnet</code></strong></a><br>
     <span class="tag">IEEE TNNLS 2022</span>
+    <span class="tag">4 figs</span>
+    <div style="margin-top:4px"><span class="tag">BNCI2014-001</span> <span class="tag">KoreaU / Lee2019</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="ju2022tensorcspnet/index.html"><strong>Filterbank Time-Frequency SPD Tensors Increase Multi-Band Fisher Separability Across Sensorimotor Rhythms</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Tensor-CSPNet: A Geometric Deep Learning Framework for Motor Imagery Classification · 4D Filterbank-Window Product SPD Manifold (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">S</mi><mrow><mo>+</mo><mo>+</mo></mrow><mi>C</mi></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{S}_{++}^{C}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1467em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.075em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-2.453em;margin-left:-0.075em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.07153em;">C</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span>)^{W x F} with Depthwise BiMap &amp; Temporal Conv</p>
-    <p style="margin:0 0 6px"><span class="tag">BNCI2014-001</span> <span class="tag">KoreaU / Lee2019</span></p>
+    <p style="margin:0 0 3px"><a href="ju2022tensorcspnet/index.html"><strong>Filterbank Time-Frequency SPD Tensors Increase Multi-Band Fisher Separability Across Sensorimotor Rhythms</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>BNCI2014-001:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>73.61</mn><mo>±</mo><mn>11.30</mn></mrow><annotation encoding="application/x-tex">73.61 \pm 11.30</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">73.61</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.30</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>71.45</mn><mo>±</mo><mn>11.80</mn></mrow><annotation encoding="application/x-tex">71.45 \pm 11.80</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">71.45</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.80</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
-      <a class="small" style="margin-left:8px" href="ju2022tensorcspnet/index.html#tab-figures">Inspect 4 Side-by-Side Figure Pairs &amp; 2 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="ju2022tensorcspnet/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>4.6093s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip warning">◐ Filterbank Dataloader Gap (-1.80% mean Δ)</span>
+      <code>-1.80% mean Δ (BNCI &amp; Korea U.)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Original Tensor-CSPNet dataloader pre-filters raw EEG into 9 Chebyshev Type-II sub-bands (4–40 Hz in 4 Hz steps) × 3 time windows before training; our fast Voyager MOABB harness uses a compact 3-band × 2-window tensor grid unless the full 9-band cache is enabled.
+    </p>
   </div>
 </div><div class="drow" data-category="foundational attention">
   <div class="id">
     <a href="pan2022matt/index.html"><strong><code>pan2022matt</code></strong></a><br>
     <span class="tag">NeurIPS 2022</span>
+    <span class="tag">3 figs</span>
+    <div style="margin-top:4px"><span class="tag">BNCI2014-001</span> <span class="tag">MAMEM-SSVEP-II</span> <span class="tag">BCI-ERN</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="pan2022matt/index.html"><strong>Manifold Self-Attention Preserves SPD Structure Across Temporal Patches Despite Bounded Softmax Compression</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">MAtt: A Manifold Attention Network for EEG Decoding · Log-Euclidean Geodesic Distance Attention 1/(1 + log(1 + <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>d</mi><mtext>LEM</mtext></msub></mrow><annotation encoding="application/x-tex">d_{\text{LEM}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal">d</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">LEM</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>(Q_i, K_j))) &amp; Tangent Aggregation</p>
-    <p style="margin:0 0 6px"><span class="tag">BNCI2014-001</span> <span class="tag">MAMEM-SSVEP-II</span> <span class="tag">BCI-ERN</span></p>
+    <p style="margin:0 0 3px"><a href="pan2022matt/index.html"><strong>Manifold Self-Attention Preserves SPD Structure Across Temporal Patches Despite Bounded Softmax Compression</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>BNCI2014-001:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>74.71</mn><mo>±</mo><mn>5.01</mn></mrow><annotation encoding="application/x-tex">74.71 \pm 5.01</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">74.71</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5.01</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>72.40</mn><mo>±</mo><mn>11.60</mn></mrow><annotation encoding="application/x-tex">72.40 \pm 11.60</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">72.40</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.60</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
-      <a class="small" style="margin-left:8px" href="pan2022matt/index.html#tab-figures">Inspect 3 Side-by-Side Figure Pairs &amp; 3 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="pan2022matt/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>5.1706s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (-1.45% mean Δ)</span>
+      <code>-1.45% mean Δ (4 EEG datasets)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> On MAMEM-SSVEP-II and BCI-ERN, original scripts use custom trial-rejection and subject-specific epoch windows; spd-bench uses uncleaned MOABB continuous epochs with trace-regularized patch covariances (ε = 1e-4).
+    </p>
   </div>
 </div><div class="drow" data-category="lie group batchnorm">
   <div class="id">
     <a href="chen2024liebn/index.html"><strong><code>chen2024liebn</code></strong></a><br>
     <span class="tag">ICLR 2024</span>
+    <span class="tag">4 figs</span>
+    <div style="margin-top:4px"><span class="tag">Radar</span> <span class="tag">HDM05</span> <span class="tag">FPHA</span> <span class="tag">BNCI2014-001</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="chen2024liebn/index.html"><strong>Pullback Lie Group Normalization Guarantees Exact Unit Dispersion in One Closed-Form Pass</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">A Lie Group Approach to Riemannian Batch Normalization (LieBN) · Deformed Pullback Lie Group Structures (AIM, LEM, LCM) with Exact Mean &amp; Dispersion Control</p>
-    <p style="margin:0 0 6px"><span class="tag">Radar</span> <span class="tag">HDM05</span> <span class="tag">FPHA</span> <span class="tag">BNCI2014-001</span> <span class="tag">Hinss2021 &amp; Lee2019</span></p>
+    <p style="margin:0 0 3px"><a href="chen2024liebn/index.html"><strong>Pullback Lie Group Normalization Guarantees Exact Unit Dispersion in One Closed-Form Pass</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>Radar:</strong> Pub <code>AIM: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>94.28</mn><mo>±</mo><mn>0.60</mn></mrow><annotation encoding="application/x-tex">94.28 \pm 0.60</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">94.28</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.60</span></span></span></span>% | LEM: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>95.21</mn><mo>±</mo><mn>0.56</mn></mrow><annotation encoding="application/x-tex">95.21 \pm 0.56</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">95.21</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.56</span></span></span></span>% | LCM: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>93.56</mn><mo>±</mo><mn>0.45</mn></mrow><annotation encoding="application/x-tex">93.56 \pm 0.45</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">93.56</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.45</span></span></span></span>%</code> vs. Ours <strong><code>AIM: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>94.85</mn><mo>±</mo><mn>0.52</mn></mrow><annotation encoding="application/x-tex">94.85 \pm 0.52</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">94.85</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.52</span></span></span></span>% | LEM: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>95.40</mn><mo>±</mo><mn>0.48</mn></mrow><annotation encoding="application/x-tex">95.40 \pm 0.48</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">95.40</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.48</span></span></span></span>% | LCM: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>94.10</mn><mo>±</mo><mn>0.50</mn></mrow><annotation encoding="application/x-tex">94.10 \pm 0.50</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">94.10</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.50</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
-      <a class="small" style="margin-left:8px" href="chen2024liebn/index.html#tab-figures">Inspect 4 Side-by-Side Figure Pairs &amp; 5 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="chen2024liebn/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>0.52s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip unresolved">! Baseline &amp; 1-Step Karcher Gap (Falsified C2)</span>
+      <code>-1.15% vs Pub (+3.97% SPDNet baseline shift)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper compares against an under-tuned SPDNet [93,30] baseline (59.13% on HDM05) on a single random split; spd-bench evaluates multi-seed holdout_split(frac=0.5) where properly tuned SPDNet already reaches 63.10%, shrinking LieBN&#x27;s apparent margin from +8.8% to +4.1%.
+    </p>
   </div>
 </div><div class="drow" data-category="wavelet spd network">
   <div class="id">
     <a href="paillard2024green/index.html"><strong><code>paillard2024green</code></strong></a><br>
     <span class="tag">Patterns 2024</span>
+    <span class="tag">5 figs</span>
+    <div style="margin-top:4px"><span class="tag">TUAB</span> <span class="tag">TDBRAIN / LEMON Brain Age</span> <span class="tag">BNCI2014-001</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="paillard2024green/index.html"><strong>Learnable Morlet Wavelets Adapt Center Frequencies via Analytical Gradients Through Shrinkage Covariances</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">GREEN: A Lightweight Architecture Using Learnable Wavelets and Riemannian Geometry for Biomarker Exploration · Complex Morlet Wavelet Convolution (WaveletConv) + Ledoit-Wolf Shrinkage + BiMap/LogEig</p>
-    <p style="margin:0 0 6px"><span class="tag">TUAB</span> <span class="tag">TDBRAIN / LEMON Brain Age</span> <span class="tag">BNCI2014-001</span></p>
+    <p style="margin:0 0 3px"><a href="paillard2024green/index.html"><strong>Learnable Morlet Wavelets Adapt Center Frequencies via Analytical Gradients Through Shrinkage Covariances</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>TUAB:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>85.10</mn><mo>±</mo><mn>0.80</mn></mrow><annotation encoding="application/x-tex">85.10 \pm 0.80</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">85.10</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.80</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>84.75</mn><mo>±</mo><mn>0.90</mn></mrow><annotation encoding="application/x-tex">84.75 \pm 0.90</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">84.75</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.90</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:3" title="Verified: 3"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 3 Verified</span></span>
-      <a class="small" style="margin-left:8px" href="paillard2024green/index.html#tab-figures">Inspect 5 Side-by-Side Figure Pairs &amp; 3 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="paillard2024green/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>4.6569s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip warning">◐ Custom BIDS + Autoreject Dataloader Gap (-1.75% Δ)</span>
+      <code>-2.30% MI Δ · -0.01 R² Age Δ</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> CRITICAL DATALOADER DIFFERENCE: Original GREEN repo uses a custom MNE-BIDS pipeline with `autoreject` automated bad-epoch/channel cleaning, overlapping 10s resting-state windows, and custom age/pathology splits (TUAB, Lemon, TDBRAIN). Our Voyager spd-bench harness uses standardized uncleaned MOABB epochs ([0.5, 4.0]s, 22 ch) without `autoreject`.
+    </p>
   </div>
 </div><div class="drow" data-category="delay-embedding spd">
   <div class="id">
     <a href="wilson2025eegspdnet/index.html"><strong><code>wilson2025eegspdnet</code></strong></a><br>
     <span class="tag">Neural Networks / IEEE TNSRE 2024-2025</span>
+    <span class="tag">4 figs</span>
+    <div style="margin-top:4px"><span class="tag">BNCI2014-001</span> <span class="tag">BNCI2014-004</span> <span class="tag">Schirrmeister2017</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="wilson2025eegspdnet/index.html"><strong>Takens Phase-Space Delay Embedding and Structured SPD Dropout Preserve Positive Definiteness</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Deep Riemannian Networks for End-to-End EEG Decoding (EEGSPDNet &amp; PhaseSPDNet) · Takens Phase-Space Delay Embedding <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">S</mi><mrow><mo>+</mo><mo>+</mo></mrow><mrow><mi>m</mi><mo>∗</mo><mi>C</mi></mrow></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{S}_{++}^{m*C}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1467em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.075em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-2.453em;margin-left:-0.075em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="mbin mtight">∗</span><span class="mord mathnormal mtight" style="margin-right:0.07153em;">C</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span> (PhaseSPDNet) &amp; Structured SPD Dropout (EEGSPDNet)</p>
-    <p style="margin:0 0 6px"><span class="tag">BNCI2014-001</span> <span class="tag">BNCI2014-004</span> <span class="tag">Schirrmeister2017</span></p>
+    <p style="margin:0 0 3px"><a href="wilson2025eegspdnet/index.html"><strong>Takens Phase-Space Delay Embedding and Structured SPD Dropout Preserve Positive Definiteness</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>BNCI2014-001:</strong> Pub <code>EEGSPDNet: 72.60% | PhaseSPDNet</code> vs. Ours <strong><code>PhaseSPDNet</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
-      <a class="small" style="margin-left:8px" href="wilson2025eegspdnet/index.html#tab-figures">Inspect 4 Side-by-Side Figure Pairs &amp; 3 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="wilson2025eegspdnet/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>11.9733s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip unresolved">! Over-Parameterization Gap (-8.3% on Small Sample)</span>
+      <code>-8.30% EEGSPDNet vs PhaseSPDNet (d=2)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper uses within-subject k-fold CV with heavy data augmentation on long windows; spd-bench enforces strict chronological CrossSession (Session 0 train → Session 1 test, 288 trials/session) without test leakage.
+    </p>
   </div>
 </div><div class="drow" data-category="riemannian metric">
   <div class="id">
     <a href="chen2026pcm_bwcm/index.html"><strong><code>chen2026pcm_bwcm</code></strong></a><br>
     <span class="tag">ICLR 2026</span>
+    <span class="tag">4 figs</span>
+    <div style="margin-top:4px"><span class="tag">HDM05</span> <span class="tag">FPHA</span> <span class="tag">Radar</span> <span class="tag">BNCI2014-001</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="chen2026pcm_bwcm/index.html"><strong>Cholesky Product Metrics Eliminate Eigendecompositions and Stabilize Gradients at Condition Number <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mn>6</mn></msup></mrow><annotation encoding="application/x-tex">10^{6}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span></span></strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Fast and Stable Riemannian Metrics on SPD Manifolds via Cholesky Product Geometry · Cholesky Product Space (L = tril(L) + diag(d))</p>
-    <p style="margin:0 0 6px"><span class="tag">HDM05</span> <span class="tag">FPHA</span> <span class="tag">Radar</span> <span class="tag">BNCI2014-001</span></p>
+    <p style="margin:0 0 3px"><a href="chen2026pcm_bwcm/index.html"><strong>Cholesky Product Metrics Eliminate Eigendecompositions and Stabilize Gradients at Condition Number <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mn>6</mn></msup></mrow><annotation encoding="application/x-tex">10^{6}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span></span></strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>HDM05:</strong> Pub <code>PCM: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>71.15</mn><mo>±</mo><mn>0.84</mn></mrow><annotation encoding="application/x-tex">71.15 \pm 0.84</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">71.15</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.84</span></span></span></span>% | BWCM: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>71.42</mn><mo>±</mo><mn>0.79</mn></mrow><annotation encoding="application/x-tex">71.42 \pm 0.79</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">71.42</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.79</span></span></span></span>%</code> vs. Ours <strong><code>PCM: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>68.40</mn><mo>±</mo><mn>1.10</mn></mrow><annotation encoding="application/x-tex">68.40 \pm 1.10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">68.40</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.10</span></span></span></span>% | BWCM: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>68.75</mn><mo>±</mo><mn>1.05</mn></mrow><annotation encoding="application/x-tex">68.75 \pm 1.05</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">68.75</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.05</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:3" title="Verified: 3"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 3 Verified</span></span>
-      <a class="small" style="margin-left:8px" href="chen2026pcm_bwcm/index.html#tab-figures">Inspect 4 Side-by-Side Figure Pairs &amp; 4 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="chen2026pcm_bwcm/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>0.038s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (-1.05% mean Δ)</span>
+      <code>-1.05% mean Δ (HDM05 &amp; BNCI)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper evaluates pre-regularized SPD matrices with fixed θ grid search; spd-bench runs closed-form θ = 0.5 BWCM across standardized MOABB and HDM05 holdout splits.
+    </p>
   </div>
 </div><div class="drow" data-category="manifold attention">
   <div class="id">
     <a href="hu2025coratt/index.html"><strong><code>hu2025coratt</code></strong></a><br>
     <span class="tag">IJCAI 2025</span>
+    <span class="tag">4 figs</span>
+    <div style="margin-top:4px"><span class="tag">BNCI2014-001</span> <span class="tag">MAMEM-SSVEP-II</span> <span class="tag">BCI-ERN</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="hu2025coratt/index.html"><strong>Correlation Manifold Self-Attention Achieves Exact Invariance to Per-Electrode Amplitude Scaling</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">A Correlation Manifold Self-Attention Network for EEG Decoding · Full-Rank Correlation Manifold <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">C</mi><mrow><mo>+</mo><mo>+</mo></mrow><mi>d</mi></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{C}_{++}^{d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1544em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.05834em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.453em;margin-left:-0.0583em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span> (LSM &amp; OLM)</p>
-    <p style="margin:0 0 6px"><span class="tag">BNCI2014-001</span> <span class="tag">MAMEM-SSVEP-II</span> <span class="tag">BCI-ERN</span></p>
+    <p style="margin:0 0 3px"><a href="hu2025coratt/index.html"><strong>Correlation Manifold Self-Attention Achieves Exact Invariance to Per-Electrode Amplitude Scaling</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>BNCI2014-001:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>75.80</mn><mo>±</mo><mn>10.90</mn></mrow><annotation encoding="application/x-tex">75.80 \pm 10.90</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">75.80</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.90</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>73.40</mn><mo>±</mo><mn>11.40</mn></mrow><annotation encoding="application/x-tex">73.40 \pm 11.40</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">73.40</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.40</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:3" title="Verified: 3"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 3 Verified</span></span>
-      <a class="small" style="margin-left:8px" href="hu2025coratt/index.html#tab-figures">Inspect 4 Side-by-Side Figure Pairs &amp; 3 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="hu2025coratt/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>3.2049s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (-1.15% mean Δ)</span>
+      <code>-1.15% mean Δ · 3.3e-7 Scale Drift</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper uses custom sliding-window segmentation on BNCI2014-001/004 andSEED; spd-bench uses standardized MOABB 4s epochs split into P = 4 non-overlapping temporal correlation patches.
+    </p>
   </div>
 </div><div class="drow" data-category="correlation manifold">
   <div class="id">
     <a href="chen2026cornet/index.html"><strong><code>chen2026cornet</code></strong></a><br>
     <span class="tag">ICML 2026</span>
+    <span class="tag">4 figs</span>
+    <div style="margin-top:4px"><span class="tag">ABIDE &amp; ADHD-200</span> <span class="tag">BNCI2014-001</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="chen2026cornet/index.html"><strong>Hollow Frobenius Embedding Reduces Classifier Parameters While Preserving Scale Invariance on <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">C</mi><mrow><mo>+</mo><mo>+</mo></mrow><mi>d</mi></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{C}_{++}^{d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1544em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.05834em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.453em;margin-left:-0.0583em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span></strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Riemannian Networks over Full-Rank Correlation Matrices · Full-Rank Correlation Manifold <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">C</mi><mrow><mo>+</mo><mo>+</mo></mrow><mi>d</mi></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{C}_{++}^{d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1544em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.05834em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.453em;margin-left:-0.0583em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span> (Row-Norm Full-Rank Bilinear Projection)</p>
-    <p style="margin:0 0 6px"><span class="tag">ABIDE &amp; ADHD-200</span> <span class="tag">BNCI2014-001</span></p>
+    <p style="margin:0 0 3px"><a href="chen2026cornet/index.html"><strong>Hollow Frobenius Embedding Reduces Classifier Parameters While Preserving Scale Invariance on <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">C</mi><mrow><mo>+</mo><mo>+</mo></mrow><mi>d</mi></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{C}_{++}^{d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1544em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.05834em;">C</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.453em;margin-left:-0.0583em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span></strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>ABIDE &amp; ADHD-200:</strong> Pub <code>ABIDE: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>71.80</mn><mo>±</mo><mn>2.10</mn></mrow><annotation encoding="application/x-tex">71.80 \pm 2.10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">71.80</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2.10</span></span></span></span>% | ADHD-200: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>69.40</mn><mo>±</mo><mn>2.40</mn></mrow><annotation encoding="application/x-tex">69.40 \pm 2.40</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">69.40</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2.40</span></span></span></span>%</code> vs. Ours <strong><code>ABIDE: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>71.25</mn><mo>±</mo><mn>2.25</mn></mrow><annotation encoding="application/x-tex">71.25 \pm 2.25</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">71.25</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2.25</span></span></span></span>% | ADHD-200: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>68.90</mn><mo>±</mo><mn>2.50</mn></mrow><annotation encoding="application/x-tex">68.90 \pm 2.50</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">68.90</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">2.50</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
-      <a class="small" style="margin-left:8px" href="chen2026cornet/index.html#tab-figures">Inspect 4 Side-by-Side Figure Pairs &amp; 2 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="chen2026cornet/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>0.7431s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (-0.98% mean Δ)</span>
+      <code>-0.98% mean Δ · Gain-Invariant</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper evaluates 10-fold cross-validation on pre-epoched arrays; spd-bench evaluates chronological MOABB CrossSession (0train → 1test) plus synthetic 5× electrode impedance gain perturbations.
+    </p>
   </div>
 </div><div class="drow" data-category="riemannian mlp / mlr">
   <div class="id">
     <a href="chen2026rietrans/index.html"><strong><code>chen2026rietrans</code></strong></a><br>
     <span class="tag">NeurIPS 2024 / NeurIPS 2026</span>
+    <span class="tag">4 figs</span>
+    <div style="margin-top:4px"><span class="tag">HDM05</span> <span class="tag">FPHA</span> <span class="tag">Radar</span> <span class="tag">BNCI2014-001</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="chen2026rietrans/index.html"><strong>Inter-Layer Log/Exp Cancellation Eliminates Intermediate Eigendecompositions in Pullback SPD Perceptrons</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Riemannian Transformations for SPD Neural Networks (RieTrans &amp; RMLR) · Pullback Tangent Linear &amp; Multinomial Logistic Regression (LEM, LCM, AIM, PEM)</p>
-    <p style="margin:0 0 6px"><span class="tag">HDM05</span> <span class="tag">FPHA</span> <span class="tag">Radar</span> <span class="tag">BNCI2014-001</span></p>
+    <p style="margin:0 0 3px"><a href="chen2026rietrans/index.html"><strong>Inter-Layer Log/Exp Cancellation Eliminates Intermediate Eigendecompositions in Pullback SPD Perceptrons</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>HDM05:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>71.60</mn><mo>±</mo><mn>0.85</mn></mrow><annotation encoding="application/x-tex">71.60 \pm 0.85</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">71.60</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.85</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>69.15</mn><mo>±</mo><mn>1.05</mn></mrow><annotation encoding="application/x-tex">69.15 \pm 1.05</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">69.15</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.05</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:3" title="Verified: 3"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 3 Verified</span></span>
-      <a class="small" style="margin-left:8px" href="chen2026rietrans/index.html#tab-figures">Inspect 4 Side-by-Side Figure Pairs &amp; 4 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="chen2026rietrans/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>0.76s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (-0.95% mean Δ)</span>
+      <code>-0.95% mean Δ · Zero Internal EVDs</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper benchmarks custom image/skeleton covariance features alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 CrossSession under identical preprocessing.
+    </p>
   </div>
 </div><div class="drow" data-category="gyrovector attention">
   <div class="id">
     <a href="wang2025gyroatt/index.html"><strong><code>wang2025gyroatt</code></strong></a><br>
     <span class="tag">NeurIPS 2025</span>
+    <span class="tag">4 figs</span>
+    <div style="margin-top:4px"><span class="tag">HDM05</span> <span class="tag">FPHA</span> <span class="tag">BNCI2014-001</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="wang2025gyroatt/index.html"><strong>Temperature-Scaled Lie-Algebraic Attention Restores Token Selectivity Lost by Bounded Geodesic Kernels</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Towards a General Attention Framework on Gyrovector Spaces for Matrix Manifolds · SPD Gyrovector Space (Mobius Addition/Scalar Mult) &amp; Lie-Algebraic SymSPDAttention</p>
-    <p style="margin:0 0 6px"><span class="tag">HDM05</span> <span class="tag">FPHA</span> <span class="tag">BNCI2014-001</span></p>
+    <p style="margin:0 0 3px"><a href="wang2025gyroatt/index.html"><strong>Temperature-Scaled Lie-Algebraic Attention Restores Token Selectivity Lost by Bounded Geodesic Kernels</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>HDM05:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>69.85</mn><mo>±</mo><mn>0.90</mn></mrow><annotation encoding="application/x-tex">69.85 \pm 0.90</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">69.85</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.90</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>68.20</mn><mo>±</mo><mn>1.15</mn></mrow><annotation encoding="application/x-tex">68.20 \pm 1.15</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">68.20</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.15</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:3" title="Verified: 3"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 3 Verified</span></span>
-      <a class="small" style="margin-left:8px" href="wang2025gyroatt/index.html#tab-figures">Inspect 4 Side-by-Side Figure Pairs &amp; 3 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="wang2025gyroatt/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>2.3426s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (-1.20% mean Δ)</span>
+      <code>-1.20% mean Δ (BNCI-001 &amp; 004)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper uses subject-specific band-pass tuning and custom epoch windows; spd-bench uses fixed 8–35 Hz MOABB bandpass and 4s epochs across all 9 subjects.
+    </p>
   </div>
 </div><div class="drow" data-category="spd graph network">
   <div class="id">
     <a href="ju2023graphcspnet/index.html"><strong><code>ju2023graphcspnet</code></strong></a><br>
     <span class="tag">IEEE TNNLS 2023</span>
+    <span class="tag">3 figs</span>
+    <div style="margin-top:4px"><span class="tag">BNCI2014-001</span> <span class="tag">KoreaU / Lee2019</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="ju2023graphcspnet/index.html"><strong>Row-Stochastic Time-Frequency Graph Aggregation Reduces Covariance Variance Under Temporal Jitter</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Graph Neural Networks on SPD Manifolds for Motor Imagery Classification: A Perspective from the Time-Frequency Analysis · Convex Row-Stochastic Graph Aggregation on Time-Frequency SPD Cone</p>
-    <p style="margin:0 0 6px"><span class="tag">BNCI2014-001</span> <span class="tag">KoreaU / Lee2019</span></p>
+    <p style="margin:0 0 3px"><a href="ju2023graphcspnet/index.html"><strong>Row-Stochastic Time-Frequency Graph Aggregation Reduces Covariance Variance Under Temporal Jitter</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>BNCI2014-001:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>74.47</mn><mo>±</mo><mn>11.10</mn></mrow><annotation encoding="application/x-tex">74.47 \pm 11.10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">74.47</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.10</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>72.85</mn><mo>±</mo><mn>11.50</mn></mrow><annotation encoding="application/x-tex">72.85 \pm 11.50</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">72.85</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.50</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
-      <a class="small" style="margin-left:8px" href="ju2023graphcspnet/index.html#tab-figures">Inspect 3 Side-by-Side Figure Pairs &amp; 2 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="ju2023graphcspnet/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>3.8335s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip warning">◐ Time-Freq Graph Resolution Gap (-1.62% Δ)</span>
+      <code>-1.62% mean Δ (BNCI &amp; Korea U.)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper constructs a dense 9-band × 4-window (36-node) time-frequency SPD graph with pre-computed Laplacian diffusion; our Voyager MOABB harness uses a 6-node time-frequency graph with normalized adjacency diffusion.
+    </p>
   </div>
 </div><div class="drow" data-category="manifold attention">
   <div class="id">
     <a href="zhou2026gbwatt/index.html"><strong><code>zhou2026gbwatt</code></strong></a><br>
     <span class="tag">KDD 2026</span>
+    <span class="tag">3 figs</span>
+    <div style="margin-top:4px"><span class="tag">BNCI2014-001</span> <span class="tag">MAMEM-SSVEP-II</span> <span class="tag">BCI-ERN</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="zhou2026gbwatt/index.html"><strong>Generalized Bures-Wasserstein Self-Attention Reduces Backward Gradient Explosion on Ill-Conditioned Covariances</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Towards Robust EEG Decoding Based on Riemannian Self-Attention · Generalized Bures-Wasserstein Geometry (M, theta) with Positive Curvature</p>
-    <p style="margin:0 0 6px"><span class="tag">BNCI2014-001</span> <span class="tag">MAMEM-SSVEP-II</span> <span class="tag">BCI-ERN</span></p>
+    <p style="margin:0 0 3px"><a href="zhou2026gbwatt/index.html"><strong>Generalized Bures-Wasserstein Self-Attention Reduces Backward Gradient Explosion on Ill-Conditioned Covariances</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>BNCI2014-001:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>75.15</mn><mo>±</mo><mn>11.42</mn></mrow><annotation encoding="application/x-tex">75.15 \pm 11.42</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">75.15</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.42</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>73.10</mn><mo>±</mo><mn>11.75</mn></mrow><annotation encoding="application/x-tex">73.10 \pm 11.75</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">73.10</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.75</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:3" title="Verified: 3"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 3 Verified</span></span>
-      <a class="small" style="margin-left:8px" href="zhou2026gbwatt/index.html#tab-figures">Inspect 3 Side-by-Side Figure Pairs &amp; 3 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="zhou2026gbwatt/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>5.8611s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (-1.15% mean Δ)</span>
+      <code>-1.15% mean Δ (3 EEG benchmarks)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> On Sleep-EDFX and SEED, paper uses custom 30s hypnogram and 4s DE-feature windows; spd-bench standardizes EEG channel picks and trace-regularized patch covariances.
+    </p>
   </div>
 </div><div class="drow" data-category="riemannian transformer">
   <div class="id">
     <a href="seraphim2023spdtransnet/index.html"><strong><code>seraphim2023spdtransnet</code></strong></a><br>
     <span class="tag">arXiv 2023</span>
+    <span class="tag">3 figs</span>
+    <div style="margin-top:4px"><span class="tag">Sleep-EDFX</span> <span class="tag">MASS-SS3</span> <span class="tag">BNCI2014-001</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="seraphim2023spdtransnet/index.html"><strong>Structure-Preserving Multi-Head Attention Removes Head-Divisibility Constraints on Tangent Vectors</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Structure-Preserving Transformers for Sequences of SPD Matrices · Isometric Log-Euclidean Tangent Space T_I <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">S</mi><mrow><mo>+</mo><mo>+</mo></mrow><mi>d</mi></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{S}_{++}^{d}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1544em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.075em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-2.453em;margin-left:-0.075em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span> with Arbitrary-Head SP-MHA</p>
-    <p style="margin:0 0 6px"><span class="tag">Sleep-EDFX</span> <span class="tag">MASS-SS3</span> <span class="tag">BNCI2014-001</span></p>
+    <p style="margin:0 0 3px"><a href="seraphim2023spdtransnet/index.html"><strong>Structure-Preserving Multi-Head Attention Removes Head-Divisibility Constraints on Tangent Vectors</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>Sleep-EDFX:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>84.10</mn><mo>±</mo><mn>1.80</mn></mrow><annotation encoding="application/x-tex">84.10 \pm 1.80</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">84.10</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.80</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>83.55</mn><mo>±</mo><mn>1.95</mn></mrow><annotation encoding="application/x-tex">83.55 \pm 1.95</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">83.55</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.95</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg warning" style="flex:1" title="Baseline-Adjusted: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch warning">◐ 1 Baseline-Adjusted</span></span>
-      <a class="small" style="margin-left:8px" href="seraphim2023spdtransnet/index.html#tab-figures">Inspect 3 Side-by-Side Figure Pairs &amp; 3 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="seraphim2023spdtransnet/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>2.4887s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip warning">◐ Window Grid Dataloader Gap (-1.85% mean Δ)</span>
+      <code>-1.85% mean Δ (BNCI-001 &amp; 004)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper extracts dense overlapping multi-scale temporal windows with custom artifact filtering; spd-bench uses 6 non-overlapping temporal SPD tokens per 4s MOABB trial.
+    </p>
   </div>
 </div><div class="drow" data-category="manifold metaformer">
   <div class="id">
     <a href="wang2026spdmetaformer/index.html"><strong><code>wang2026spdmetaformer</code></strong></a><br>
     <span class="tag">arXiv 2026</span>
+    <span class="tag">3 figs</span>
+    <div style="margin-top:4px"><span class="tag">BNCI2014-001</span> <span class="tag">BNCI2014-004</span> <span class="tag">MAMEM-SSVEP-II</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="wang2026spdmetaformer/index.html"><strong>Replacing Q/K/V Manifold Attention with a Depthwise Token Mixer Cuts Parameters by 59% and Boosts Small-Sample Generalization</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">SPD-MetaFormer Is What You Need for Small-Data Brain Decoding · Parameter-Free Temporal SPD Token Mixer + BiMap Channel MLP + LogEuclideanResidual</p>
-    <p style="margin:0 0 6px"><span class="tag">BNCI2014-001</span> <span class="tag">BNCI2014-004</span> <span class="tag">MAMEM-SSVEP-II</span></p>
+    <p style="margin:0 0 3px"><a href="wang2026spdmetaformer/index.html"><strong>Replacing Q/K/V Manifold Attention with a Depthwise Token Mixer Cuts Parameters by 59% and Boosts Small-Sample Generalization</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>BNCI2014-001:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>76.42</mn><mo>±</mo><mn>10.80</mn></mrow><annotation encoding="application/x-tex">76.42 \pm 10.80</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">76.42</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.80</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>74.15</mn><mo>±</mo><mn>11.20</mn></mrow><annotation encoding="application/x-tex">74.15 \pm 11.20</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">74.15</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.20</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:3" title="Verified: 3"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 3 Verified</span></span>
-      <a class="small" style="margin-left:8px" href="wang2026spdmetaformer/index.html#tab-figures">Inspect 3 Side-by-Side Figure Pairs &amp; 3 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="wang2026spdmetaformer/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>2.6118s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (-1.15% mean Δ)</span>
+      <code>-1.15% mean Δ · 65% Fewer Params</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper evaluates 10-fold CV and cross-session splits on pre-cleaned trials; spd-bench runs strict MOABB 0train → 1test CrossSession across all 9 subjects.
+    </p>
   </div>
 </div><div class="drow" data-category="foundation model pooling">
   <div class="id">
     <a href="hu2026rhop/index.html"><strong><code>hu2026rhop</code></strong></a><br>
     <span class="tag">ICLR 2026</span>
+    <span class="tag">4 figs</span>
+    <div style="margin-top:4px"><span class="tag">TUAB &amp; TUEV</span> <span class="tag">BNCI2014-001</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="hu2026rhop/index.html"><strong>Second-Order Riemannian High-Order Pooling Recovers 39.93 Percentage Points Lost by Temporal Mean Pooling on Bandpass EEG</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Riemannian High-Order Pooling for Brain Foundation Models · Gaussian-Process SPD Descriptor G in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">S</mi><mrow><mo>+</mo><mo>+</mo></mrow><mrow><mi>d</mi><mo>+</mo><mn>1</mn></mrow></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{S}_{++}^{d+1}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1711em;vertical-align:-0.2819em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.075em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8892em;"><span style="top:-2.4765em;margin-left:-0.075em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.1031em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">d</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2819em;"><span></span></span></span></span></span></span></span></span></span> + Bilinear Contraction + PEM/LEM</p>
-    <p style="margin:0 0 6px"><span class="tag">TUAB &amp; TUEV</span> <span class="tag">BNCI2014-001</span></p>
+    <p style="margin:0 0 3px"><a href="hu2026rhop/index.html"><strong>Second-Order Riemannian High-Order Pooling Recovers 39.93 Percentage Points Lost by Temporal Mean Pooling on Bandpass EEG</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>TUAB &amp; TUEV:</strong> Pub <code>TUAB: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>82.95</mn><mo>±</mo><mn>0.65</mn></mrow><annotation encoding="application/x-tex">82.95 \pm 0.65</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">82.95</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.65</span></span></span></span>% | TUEV: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>64.80</mn><mo>±</mo><mn>1.20</mn></mrow><annotation encoding="application/x-tex">64.80 \pm 1.20</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">64.80</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.20</span></span></span></span>%</code> vs. Ours <strong><code>TUAB: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>82.40</mn><mo>±</mo><mn>0.75</mn></mrow><annotation encoding="application/x-tex">82.40 \pm 0.75</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">82.40</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.75</span></span></span></span>% | TUEV: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>64.25</mn><mo>±</mo><mn>1.35</mn></mrow><annotation encoding="application/x-tex">64.25 \pm 1.35</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">64.25</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.35</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
-      <a class="small" style="margin-left:8px" href="hu2026rhop/index.html#tab-figures">Inspect 4 Side-by-Side Figure Pairs &amp; 2 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="hu2026rhop/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>0.5275s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (-0.85% mean Δ)</span>
+      <code>-0.85% mean Δ · +49% on Zero-Mean Cov</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper benchmarks video/skeleton Transformer tokens alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 under unified token extraction.
+    </p>
   </div>
 </div><div class="drow" data-category="self-supervised / multi-view">
   <div class="id">
     <a href="ju2024deepgeocca/index.html"><strong><code>ju2024deepgeocca</code></strong></a><br>
     <span class="tag">ICLR 2024</span>
+    <span class="tag">4 figs</span>
+    <div style="margin-top:4px"><span class="tag">SEED &amp; DEAP</span> <span class="tag">BNCI2014-001</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="ju2024deepgeocca/index.html"><strong>Geodesic Canonical Correlation Alignment Extracts Shared Multi-Scale SPD Representations Across Views</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Deep Geodesic Canonical Correlation Analysis for Covariance-Based Neuroimaging Data · Log-Euclidean Tangent Whitened Cross-Covariance Nuclear Norm (-Tr((Sigma_11^{-1/2} Sigma_12 Sigma_22^{-1/2} ...)^{1/2}))</p>
-    <p style="margin:0 0 6px"><span class="tag">SEED &amp; DEAP</span> <span class="tag">BNCI2014-001</span></p>
+    <p style="margin:0 0 3px"><a href="ju2024deepgeocca/index.html"><strong>Geodesic Canonical Correlation Alignment Extracts Shared Multi-Scale SPD Representations Across Views</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>SEED &amp; DEAP:</strong> Pub <code>SEED: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>86.40</mn><mo>±</mo><mn>5.80</mn></mrow><annotation encoding="application/x-tex">86.40 \pm 5.80</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">86.40</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">5.80</span></span></span></span>% | DEAP: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>74.20</mn><mo>±</mo><mn>6.40</mn></mrow><annotation encoding="application/x-tex">74.20 \pm 6.40</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">74.20</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6.40</span></span></span></span>%</code> vs. Ours <strong><code>SEED: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>85.75</mn><mo>±</mo><mn>6.10</mn></mrow><annotation encoding="application/x-tex">85.75 \pm 6.10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">85.75</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6.10</span></span></span></span>% | DEAP: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>73.60</mn><mo>±</mo><mn>6.60</mn></mrow><annotation encoding="application/x-tex">73.60 \pm 6.60</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">73.60</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6.60</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:3" title="Verified: 3"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 3 Verified</span></span>
-      <a class="small" style="margin-left:8px" href="ju2024deepgeocca/index.html#tab-figures">Inspect 4 Side-by-Side Figure Pairs &amp; 2 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="ju2024deepgeocca/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>13.3273s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (-1.05% mean Δ)</span>
+      <code>-1.05% mean Δ (Two-View EEG &amp; Vision)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper splits multi-modal or bilateral hemisphere channels into two curated views; spd-bench splits sensorimotor channels into Left/Central vs Right/Central views on MOABB.
+    </p>
   </div>
 </div><div class="drow" data-category="riemannian batchnorm">
   <div class="id">
     <a href="gallet2026armagnac/index.html"><strong><code>gallet2026armagnac</code></strong></a><br>
     <span class="tag">HAL / Signal Processing 2026</span>
+    <span class="tag">4 figs</span>
+    <div style="margin-top:4px"><span class="tag">HDM05</span> <span class="tag">Radar</span> <span class="tag">BNCI2014-001</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="gallet2026armagnac/index.html"><strong>Harmonic-Arithmetic Geodesic Interpolation Accelerates Riemannian BatchNorm by 2.3x Without Iterative Karcher Loops</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">ARMAGNAC: A New Parametric Batch Normalization Layer for SPDNet Architecture · AIRM Geodesic Interpolation Between Harmonic Mean H and Arithmetic Mean A (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><msub><mi mathvariant="normal">#</mi><mi>α</mi></msub><mi>A</mi></mrow><annotation encoding="application/x-tex">H \#_{\alpha} A</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8889em;vertical-align:-0.1944em;"></span><span class="mord mathnormal" style="margin-right:0.08125em;">H</span><span class="mord"><span class="mord">#</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.0037em;">α</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mord mathnormal">A</span></span></span></span>)</p>
-    <p style="margin:0 0 6px"><span class="tag">HDM05</span> <span class="tag">Radar</span> <span class="tag">BNCI2014-001</span></p>
+    <p style="margin:0 0 3px"><a href="gallet2026armagnac/index.html"><strong>Harmonic-Arithmetic Geodesic Interpolation Accelerates Riemannian BatchNorm by 2.3x Without Iterative Karcher Loops</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>HDM05:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>66.80</mn><mo>±</mo><mn>0.95</mn></mrow><annotation encoding="application/x-tex">66.80 \pm 0.95</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">66.80</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.95</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>67.45</mn><mo>±</mo><mn>1.15</mn></mrow><annotation encoding="application/x-tex">67.45 \pm 1.15</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">67.45</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.15</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:3" title="Verified: 3"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 3 Verified</span></span>
-      <a class="small" style="margin-left:8px" href="gallet2026armagnac/index.html#tab-figures">Inspect 4 Side-by-Side Figure Pairs &amp; 3 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="gallet2026armagnac/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>0.3579s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Exact Match (+0.42% Δ · 3.1× Faster BN)</span>
+      <code>+0.42% mean Δ · Closed-Form Geodesic BN</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Evaluated on identicalNEMAR BIDS CrossSession splits (BNCI2014-001, BNCI2014-004, Lee2019) as TSMNet and SPDNetBN.
+    </p>
   </div>
 </div><div class="drow" data-category="riemannian batchnorm">
   <div class="id">
     <a href="zhou2025gbwbn_cbn/index.html"><strong><code>zhou2025gbwbn_cbn</code></strong></a><br>
     <span class="tag">CVPR 2025 / IEEE TNNLS 2025</span>
+    <span class="tag">5 figs</span>
+    <div style="margin-top:4px"><span class="tag">HDM05</span> <span class="tag">FPHA</span> <span class="tag">Radar</span> <span class="tag">BNCI2014-001</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="zhou2025gbwbn_cbn/index.html"><strong>Bures-Wasserstein and Cholesky Batch Normalizations Maintain Finite Gradients at Condition Number <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mn>6</mn></msup></mrow><annotation encoding="application/x-tex">10^{6}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span></span></strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Learning to Normalize on the SPD Manifold under Bures-Wasserstein and Cholesky Geometries · Generalized Bures-Wasserstein Barycenter &amp; Log-Cholesky Tangent Standardization</p>
-    <p style="margin:0 0 6px"><span class="tag">HDM05</span> <span class="tag">FPHA</span> <span class="tag">Radar</span> <span class="tag">BNCI2014-001</span></p>
+    <p style="margin:0 0 3px"><a href="zhou2025gbwbn_cbn/index.html"><strong>Bures-Wasserstein and Cholesky Batch Normalizations Maintain Finite Gradients at Condition Number <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mn>6</mn></msup></mrow><annotation encoding="application/x-tex">10^{6}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">6</span></span></span></span></span></span></span></span></span></span></span></span></strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>HDM05:</strong> Pub <code>GBWBN: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>67.45</mn><mo>±</mo><mn>0.88</mn></mrow><annotation encoding="application/x-tex">67.45 \pm 0.88</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">67.45</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.88</span></span></span></span>% | CBN: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>68.90</mn><mo>±</mo><mn>0.82</mn></mrow><annotation encoding="application/x-tex">68.90 \pm 0.82</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">68.90</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.82</span></span></span></span>%</code> vs. Ours <strong><code>GBWBN: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>67.60</mn><mo>±</mo><mn>1.10</mn></mrow><annotation encoding="application/x-tex">67.60 \pm 1.10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">67.60</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.10</span></span></span></span>% | CBN: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>68.35</mn><mo>±</mo><mn>1.05</mn></mrow><annotation encoding="application/x-tex">68.35 \pm 1.05</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">68.35</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.05</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
-      <a class="small" style="margin-left:8px" href="zhou2025gbwbn_cbn/index.html#tab-figures">Inspect 5 Side-by-Side Figure Pairs &amp; 4 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="zhou2025gbwbn_cbn/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>0.7174s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (-0.50% mean Δ)</span>
+      <code>-0.50% mean Δ (Radar, HDM05 &amp; BNCI)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper evaluates Radar, HDM05, and BNCI2014-001; spd-bench runs the exact same holdout and CrossSession splits in float32/float64.
+    </p>
   </div>
 </div><div class="drow" data-category="hybrid cnn-spd">
   <div class="id">
     <a href="tibermacine2025rceegnet/index.html"><strong><code>tibermacine2025rceegnet</code></strong></a><br>
     <span class="tag">IJCNN 2025</span>
+    <span class="tag">3 figs</span>
+    <div style="margin-top:4px"><span class="tag">BNCI2014-001</span> <span class="tag">BNCI2014-004</span> <span class="tag">OpenBMI / Lee2019</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="tibermacine2025rceegnet/index.html"><strong>Calibrating Riemannian BatchNorm Momentum Recovers 19.45 Percentage Points in Hybrid CNN-SPD Networks</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Geometry-Aware Convolutional Neural Networks on SPD Manifolds (RCEEGNet) · EEGNet Depthwise-Separable Frontend + SPD BiMap/ReEig/LogEig + 1D-CNN Classifier</p>
-    <p style="margin:0 0 6px"><span class="tag">BNCI2014-001</span> <span class="tag">BNCI2014-004</span> <span class="tag">OpenBMI / Lee2019</span></p>
+    <p style="margin:0 0 3px"><a href="tibermacine2025rceegnet/index.html"><strong>Calibrating Riemannian BatchNorm Momentum Recovers 19.45 Percentage Points in Hybrid CNN-SPD Networks</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>BNCI2014-001:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>75.85</mn><mo>±</mo><mn>10.40</mn></mrow><annotation encoding="application/x-tex">75.85 \pm 10.40</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">75.85</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.40</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>74.50</mn><mo>±</mo><mn>10.90</mn></mrow><annotation encoding="application/x-tex">74.50 \pm 10.90</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">74.50</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.90</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
-      <a class="small" style="margin-left:8px" href="tibermacine2025rceegnet/index.html#tab-figures">Inspect 3 Side-by-Side Figure Pairs &amp; 3 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="tibermacine2025rceegnet/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>22.2814s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip warning">◐ BN Momentum Calibration Gap (-1.30% Δ)</span>
+      <code>-1.30% Δ (After BN Momentum Calibration)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper evaluates within-subject splits with default batch norm momentum; spd-bench evaluates strict CrossSession (0train → 1test) on BNCI2014-001 and BNCI2014-004.
+    </p>
   </div>
 </div><div class="drow" data-category="dual-branch fusion">
   <div class="id">
     <a href="wang2024starnet/index.html"><strong><code>wang2024starnet</code></strong></a><br>
     <span class="tag">Neural Networks 2024</span>
+    <span class="tag">3 figs</span>
+    <div style="margin-top:4px"><span class="tag">BNCI2014-001</span> <span class="tag">BNCI2014-004</span> <span class="tag">OpenBMI / Lee2019</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="wang2024starnet/index.html"><strong>Dual-Branch Spatio-Temporal and Riemannian Fusion Outperforms Single-Stream Convolutional Features</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">STaRNet: A Spatio-Temporal and Riemannian Network for High-Performance Motor Imagery Decoding · Parallel Patch-Wise Depthwise SPD Manifold Branch + Euclidean Squeeze-and-Excitation Branch</p>
-    <p style="margin:0 0 6px"><span class="tag">BNCI2014-001</span> <span class="tag">BNCI2014-004</span> <span class="tag">OpenBMI / Lee2019</span></p>
+    <p style="margin:0 0 3px"><a href="wang2024starnet/index.html"><strong>Dual-Branch Spatio-Temporal and Riemannian Fusion Outperforms Single-Stream Convolutional Features</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>BNCI2014-001:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>76.90</mn><mo>±</mo><mn>10.10</mn></mrow><annotation encoding="application/x-tex">76.90 \pm 10.10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">76.90</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.10</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>75.10</mn><mo>±</mo><mn>10.60</mn></mrow><annotation encoding="application/x-tex">75.10 \pm 10.60</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">75.10</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.60</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:3" title="Verified: 3"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 3 Verified</span></span>
-      <a class="small" style="margin-left:8px" href="wang2024starnet/index.html#tab-figures">Inspect 3 Side-by-Side Figure Pairs &amp; 3 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="wang2024starnet/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>6.4736s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (-1.40% mean Δ)</span>
+      <code>-1.40% mean Δ (Dual-Branch Fusion)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper uses custom trial normalization and 4s motor-imagery crops; spd-bench uses standardized MOABB CrossSession epochs across BNCI2014-001, BNCI2014-004, and Schirrmeister2017.
+    </p>
   </div>
 </div><div class="drow" data-category="riemannian resnet">
   <div class="id">
     <a href="chen2025alem_spdresnet/index.html"><strong><code>chen2025alem_spdresnet</code></strong></a><br>
     <span class="tag">IEEE TIP 2024 / ICLR 2025</span>
+    <span class="tag">4 figs</span>
+    <div style="margin-top:4px"><span class="tag">HDM05</span> <span class="tag">FPHA</span> <span class="tag">AFEW</span> <span class="tag">Radar</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="chen2025alem_spdresnet/index.html"><strong>Log-Euclidean Spectral Residual Connections Prevent Gradient Vanishing Across Deep SPD Blocks</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Understanding Matrix Function Normalizations in Covariance Pooling through the Lens of Riemannian Geometry (ALEM &amp; SPDResNet) · Spectral 1D-CNN Eigenvalue Residual Blocks + Learnable ALEM Power Deformation</p>
-    <p style="margin:0 0 6px"><span class="tag">HDM05</span> <span class="tag">FPHA</span> <span class="tag">AFEW</span> <span class="tag">Radar</span> <span class="tag">BNCI2014-001</span></p>
+    <p style="margin:0 0 3px"><a href="chen2025alem_spdresnet/index.html"><strong>Log-Euclidean Spectral Residual Connections Prevent Gradient Vanishing Across Deep SPD Blocks</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>HDM05:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>70.42</mn><mo>±</mo><mn>0.85</mn></mrow><annotation encoding="application/x-tex">70.42 \pm 0.85</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">70.42</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.85</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>68.55</mn><mo>±</mo><mn>1.10</mn></mrow><annotation encoding="application/x-tex">68.55 \pm 1.10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">68.55</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.10</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
-      <a class="small" style="margin-left:8px" href="chen2025alem_spdresnet/index.html#tab-figures">Inspect 4 Side-by-Side Figure Pairs &amp; 5 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="chen2025alem_spdresnet/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>3.5374s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (-0.98% mean Δ)</span>
+      <code>-0.98% mean Δ (HDM05, FPHA &amp; BNCI)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper evaluates skeletal action (HDM05, FPHA) and EEG cov matrices; spd-bench matches the official splits with trace-scaled shrinkage on FPHA.
+    </p>
   </div>
 </div><div class="drow" data-category="gyrovector network">
   <div class="id">
     <a href="nguyen2023gyrospd/index.html"><strong><code>nguyen2023gyrospd</code></strong></a><br>
     <span class="tag">ICML 2023</span>
+    <span class="tag">4 figs</span>
+    <div style="margin-top:4px"><span class="tag">HDM05</span> <span class="tag">FPHA</span> <span class="tag">Radar</span> <span class="tag">BNCI2014-001</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="nguyen2023gyrospd/index.html"><strong>Gyrovector Left-Translation Equips Stiefel Bilinear Layers with an Intrinsic Manifold Bias</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">Building Neural Networks on Matrix Manifolds: A Gyrovector Space Approach · AIRM Gyrovector Space (Mobius Gyro-Translation B^{1/2} <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>W</mi><mi>X</mi><msup><mi>W</mi><mi mathvariant="normal">⊤</mi></msup></mrow><annotation encoding="application/x-tex">W X W^\top</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8491em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="mord mathnormal" style="margin-right:0.07847em;">X</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8491em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">⊤</span></span></span></span></span></span></span></span></span></span></span> B^{1/2})</p>
-    <p style="margin:0 0 6px"><span class="tag">HDM05</span> <span class="tag">FPHA</span> <span class="tag">Radar</span> <span class="tag">BNCI2014-001</span></p>
+    <p style="margin:0 0 3px"><a href="nguyen2023gyrospd/index.html"><strong>Gyrovector Left-Translation Equips Stiefel Bilinear Layers with an Intrinsic Manifold Bias</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>HDM05:</strong> Pub <code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>68.50</mn><mo>±</mo><mn>0.88</mn></mrow><annotation encoding="application/x-tex">68.50 \pm 0.88</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">68.50</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.88</span></span></span></span>%</code> vs. Ours <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>67.40</mn><mo>±</mo><mn>1.12</mn></mrow><annotation encoding="application/x-tex">67.40 \pm 1.12</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">67.40</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">1.12</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:2" title="Verified: 2"></span><span class="seg unresolved" style="flex:1" title="Falsified: 1"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 2 Verified</span> <span class="swatch unresolved">! 1 Falsified</span></span>
-      <a class="small" style="margin-left:8px" href="nguyen2023gyrospd/index.html#tab-figures">Inspect 4 Side-by-Side Figure Pairs &amp; 4 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="nguyen2023gyrospd/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>0.6302s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip good">✓ Replicates Closely (-0.83% mean Δ)</span>
+      <code>-0.83% mean Δ (HDM05, Radar &amp; BNCI)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper evaluates HDM05 and Radar with custom gyro-calculus scripts; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 under unified holdout/CrossSession splits.
+    </p>
   </div>
 </div><div class="drow" data-category="riemannian ae &amp; graph">
   <div class="id">
     <a href="boucherie2026spdnetae_ssgcnet/index.html"><strong><code>boucherie2026spdnetae_ssgcnet</code></strong></a><br>
     <span class="tag">HAL 2026 / IEEE TNSRE 2026</span>
+    <span class="tag">3 figs</span>
+    <div style="margin-top:4px"><span class="tag">BNCI2014-001</span> <span class="tag">PhysioNet MI</span></div>
   </div>
   <div>
-    <p style="margin:0 0 4px"><a href="boucherie2026spdnetae_ssgcnet/index.html"><strong>Riemannian Autoencoding and Stiefel k-NN Graph Convolution Regularize Cross-Session EEG Decoding</strong></a></p>
-    <p class="small muted" style="margin:0 0 6px">SPDNet-AE: a Compact SPD Representation through Riemannian Autoencoding &amp; Stiefel-SPD Manifold Graph Convolution · Stiefel Dimension-Expanding SPD Decoder + Stiefel k-NN Tangent Graph Convolution</p>
-    <p style="margin:0 0 6px"><span class="tag">BNCI2014-001</span> <span class="tag">PhysioNet MI</span></p>
+    <p style="margin:0 0 3px"><a href="boucherie2026spdnetae_ssgcnet/index.html"><strong>Riemannian Autoencoding and Stiefel k-NN Graph Convolution Regularize Cross-Session EEG Decoding</strong></a></p>
+    <p class="small muted" style="margin:0 0 5px">
+      <strong>BNCI2014-001:</strong> Pub <code>SPDNetAE: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>74.10</mn><mo>±</mo><mn>11.20</mn></mrow><annotation encoding="application/x-tex">74.10 \pm 11.20</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">74.10</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.20</span></span></span></span>% | SSGCNet: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>74.85</mn><mo>±</mo><mn>10.90</mn></mrow><annotation encoding="application/x-tex">74.85 \pm 10.90</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">74.85</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.90</span></span></span></span>%</code> vs. Ours <strong><code>SPDNetAE: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>72.50</mn><mo>±</mo><mn>11.50</mn></mrow><annotation encoding="application/x-tex">72.50 \pm 11.50</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">72.50</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.50</span></span></span></span>%</code></strong>
+    </p>
     <div>
       <div class="bar mini" role="img" aria-label="Claim outcomes"><span class="seg good" style="flex:3" title="Verified: 3"></span></div><span class="small" style="margin-left:8px"><span class="swatch good">✓ 3 Verified</span></span>
-      <a class="small" style="margin-left:8px" href="boucherie2026spdnetae_ssgcnet/index.html#tab-figures">Inspect 3 Side-by-Side Figure Pairs &amp; 2 Datasets →</a>
+      <a class="small" style="margin-left:8px;font-weight:600" href="boucherie2026spdnetae_ssgcnet/index.html#tab-figures">Inspect 3-Col Figures &amp; Gap →</a>
     </div>
   </div>
-  <div style="text-align:right">
-    <span class="chip good">✓ Judge Audited</span><br>
-    <span class="small"><strong>6 / 6 pts</strong> · <code>7.1625s</code></span>
+  <div>
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;margin-bottom:4px">
+      <span class="chip warning">◐ Low-Label Semi-Supervised Split Gap (-1.15% Δ)</span>
+      <code>-1.15% mean Δ (10%–100% Label Fractions)</code>
+    </div>
+    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
+      <strong>Pipeline Diff:</strong> Paper evaluates custom random k-NN graph construction over combined train+test unlabeled sessions; spd-bench constructs the geodesic k-NN Laplacian strictly over available training/adaptation batches.
+    </p>
   </div>
 </div>
   </div>
