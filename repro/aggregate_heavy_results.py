@@ -116,11 +116,24 @@ def main() -> None:
                 )
                 for r in recs_sorted
             }
+            subj_finals = {
+                str(int(r["subject"])): round(
+                    float(
+                        r.get(
+                            "final_balanced_accuracy",
+                            r.get("balanced_accuracy", r.get("accuracy", 0.0)),
+                        )
+                    ),
+                    2,
+                )
+                for r in recs_sorted
+            }
             subj_kappas = {
                 str(int(r["subject"])): round(float(r.get("kappa", 0.0)), 4)
                 for r in recs_sorted
             }
             vals = list(subj_means.values())
+            final_vals = list(subj_finals.values())
             curves = [r.get("curve", []) for r in recs_sorted if r.get("curve")]
             min_c = min((len(c) for c in curves), default=0)
             avg_curve = (
@@ -131,11 +144,17 @@ def main() -> None:
                 if min_c > 0
                 else []
             )
+            mean_best = round(float(np.mean(vals)), 2) if vals else 0.0
+            mean_final = round(float(np.mean(final_vals)), 2) if final_vals else 0.0
             eeg_datasets[ds][m] = {
                 "subject_means": subj_means,
+                "subject_finals": subj_finals,
                 "subject_kappas": subj_kappas,
-                "mean": round(float(np.mean(vals)), 2) if vals else 0.0,
+                "mean": mean_best,
                 "sd": round(float(np.std(vals)), 2) if vals else 0.0,
+                "final_mean": mean_final,
+                "final_sd": round(float(np.std(final_vals)), 2) if final_vals else 0.0,
+                "peek_inflation": round(mean_best - mean_final, 2),
                 "max": round(float(np.max(vals)), 2) if vals else 0.0,
                 "n_subjects": len(vals),
                 "curve": avg_curve,

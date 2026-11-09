@@ -451,8 +451,26 @@ def load_eeg_subject_data(dataset_name: str, subject_id: int) -> dict[str, Any]:
         w_len = int(np.min(stops - starts))
         if min_len is None or w_len < min_len:
             min_len = w_len
-        raw_data = raw.get_data()[:32, ::decim].astype(np.float32, copy=True)
-        del raw
+        full_data = raw.get_data()[:, ::decim]
+        if full_data.shape[0] > 32:
+            priority_chs = [
+                "C3", "CZ", "C4", "CP3", "CPZ", "CP4", "FC3", "FCZ", "FC4",
+                "C1", "C2", "C5", "C6", "CP1", "CP2", "CP5", "CP6",
+                "FC1", "FC2", "FC5", "FC6", "P3", "PZ", "P4", "F3", "FZ", "F4",
+                "P1", "P2", "F1", "F2", "POZ",
+            ]
+            upper_map = {ch.upper().strip(): idx for idx, ch in enumerate(raw.ch_names)}
+            sel_idx = [upper_map[c] for c in priority_chs if c in upper_map]
+            if len(sel_idx) < 32:
+                for idx in range(full_data.shape[0]):
+                    if idx not in sel_idx:
+                        sel_idx.append(idx)
+                    if len(sel_idx) == 32:
+                        break
+            raw_data = full_data[sel_idx[:32]].astype(np.float32, copy=True)
+        else:
+            raw_data = full_data.astype(np.float32, copy=True)
+        del raw, full_data
         raw_epochs.append((raw_data, starts, targets, str(desc.get("session", "0")), str(desc.get("run", "0"))))
 
     assert min_len is not None
@@ -824,9 +842,22 @@ def load_spd_matrix_dataset(name: str) -> tuple[torch.Tensor, torch.Tensor]:
         x_win = arr.reshape(arr.shape[0], 20, -1)
         x_win = x_win - x_win.mean(axis=-1, keepdims=True)
         cov = np.matmul(x_win, np.conj(np.swapaxes(x_win, -1, -2))) / x_win.shape[-1]
-        arr = np.real(cov).astype(np.float64)
+        if np.iscomplexobj(cov):
+            re_c = np.real(cov).astype(np.float64)
+            im_c = np.imag(cov).astype(np.float64)
+            arr = np.concatenate(
+                [np.concatenate([re_c, -im_c], axis=-1), np.concatenate([im_c, re_c], axis=-1)],
+                axis=-2,
+            )
+        else:
+            arr = np.real(cov).astype(np.float64)
     elif np.iscomplexobj(arr):
-        arr = np.real(arr).astype(np.float64)
+        re_c = np.real(arr).astype(np.float64)
+        im_c = np.imag(arr).astype(np.float64)
+        arr = np.concatenate(
+            [np.concatenate([re_c, -im_c], axis=-1), np.concatenate([im_c, re_c], axis=-1)],
+            axis=-2,
+        )
     else:
         arr = arr.astype(np.float64)
     arr = 0.5 * (arr + np.swapaxes(arr, -1, -2))
