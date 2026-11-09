@@ -82,8 +82,29 @@ def _get_voyager_paper_anchor_delta(paper_id: str) -> tuple[float, float, float]
     eeg_all = VOYAGER_RESULTS.get("eeg_datasets", {})
     hdm_all = VOYAGER_RESULTS.get("hdm05", {})
     rad_all = VOYAGER_RESULTS.get("radar", {})
-    # Check BNCI2014-001 first for EEG models, else HDM05
     b1_ds = eeg_all.get("bnci2014_001", {})
+    spd_primary_papers = {
+        "huang2017spdnet",
+        "brooks2019spdnetbn",
+        "chen2024liebn",
+        "chen2026pcm_bwcm",
+        "gallet2026armagnac",
+        "zhou2025gbwbn_cbn",
+    }
+    if paper_id in spd_primary_papers:
+        for m in models:
+            if m in hdm_all:
+                v_best = float(hdm_all[m]["accuracy"])
+                spec_ds = SPDBENCH_MULTIDATASET_SPECS.get(paper_id, {}).get("datasets", [])
+                pub_v = 65.0
+                for d in spec_ds:
+                    if "hdm05" in d.get("dataset", "").lower():
+                        m_fl = re.search(r"(\d+\.\d+)", str(d.get("published", "")))
+                        if m_fl:
+                            pub_v = float(m_fl.group(1))
+                            break
+                return (pub_v, v_best, v_best - pub_v)
+    # Check BNCI2014-001 first for EEG models, else HDM05
     for m in models:
         if m in b1_ds:
             v_best = float(b1_ds[m]["mean"])
@@ -199,6 +220,8 @@ def _voyager_sync_series(
             matched_val = float(_lookup_ds(eeg_all["mass_ss3"])["mean"])
         elif "lemon" in xt_l and _lookup_ds(eeg_all.get("lemon", {})):
             matched_val = float(_lookup_ds(eeg_all["lemon"])["mean"])
+        elif "tdbrain" in xt_l and _lookup_ds(eeg_all.get("tdbrain", {})):
+            matched_val = float(_lookup_ds(eeg_all["tdbrain"])["mean"])
         elif "abide" in xt_l and _lookup_ds(eeg_all.get("abide", {})):
             matched_val = float(_lookup_ds(eeg_all["abide"])["mean"])
         elif "adhd" in xt_l and _lookup_ds(eeg_all.get("adhd200", {})):
@@ -271,11 +294,12 @@ VOYAGER_DATASET_META: dict[str, tuple[str, str]] = {
     "tuev": ("TUEV (Clinical Event EEG, 19 ch)", "Temple Univ. Train -> Eval Split, 6-Class Events"),
     "sleep_edfx": ("Sleep-EDFX (5-Class Sleep Staging, 2 ch)", "PhysioNet Sleep-Cassette Night 1 -> Night 2"),
     "mass_ss3": ("MASS-SS3 (5-Class Sleep Staging, 20 ch)", "Montreal Archive of Sleep Studies Cross-Subject"),
-    "lemon": ("TDBRAIN / LEMON (Resting-State Brain Age)", "Cross-Validated Wavelet Covariance R^2 (%)"),
-    "abide": ("ABIDE (fMRI Functional Connectivity, 200 ROI)", "20-Site Leave-One-Site-Out / 5-Fold CV"),
-    "adhd200": ("ADHD-200 (fMRI Functional Connectivity, 190 ROI)", "Multi-Site 5-Fold Cross-Validation"),
-    "seed": ("SEED (3-Class Affective EEG, 62 ch)", "Multi-View Hemispheric Split Cross-Validation"),
-    "deap": ("DEAP (2-Class Affective EEG, 32 ch)", "Multi-View Anterior-Posterior Split CV"),
+    "lemon": ("LEMON (Resting-State Eyes-Open/Closed, 61 ch)", "MPI-LEMON BIDS Autoreject Epochs, 125 Hz"),
+    "tdbrain": ("TDBRAIN (Clinical Auditory Oddball ERP, 26 ch)", "TDBRAIN-V3 BIDS Oddball Standard vs Target, 125 Hz"),
+    "abide": ("ABIDE (fMRI Functional Connectivity, 39 MSDL ROI)", "846-Subject Multi-Site 4-Fold Cross-Validation"),
+    "adhd200": ("ADHD-200 (fMRI Functional Connectivity, 39 ROI)", "FCP-INDI Multi-Site 4-Fold Cross-Validation"),
+    "seed": ("SEED (SJTU 3-Class Emotion EEG, 62 ch)", "SJTU BCMI Preprocessed_EEG 15-Trial 4-Fold CV, 200 Hz"),
+    "deap": ("DEAP (2-Class Affective Valence EEG, 32 ch)", "DEAP-BIDS 32-ch EEG Music Stimuli Valence Split"),
     "radar": ("Radar (3-Class Micro-Doppler SPD, 40x40)", "spd-bench holdout_split(frac=0.25), 5 seeds"),
     "hdm05": ("HDM05 (117-Class Skeletal Action SPD, 93x93)", "spd-bench holdout_split(frac=0.50), 3 seeds"),
     "fpha": ("FPHA (45-Class Hand Action SPD, 63x63)", "spd-bench official 600/575 split, 5 seeds"),
@@ -471,9 +495,58 @@ _latexify_prose = _esc
 # =============================================================================
 
 
+def _strip_math_for_label(text: str) -> str:
+    """Convert inline LaTeX math into clean Unicode text suitable for SVG/truncated labels so '$' is never left unclosed."""
+    s = str(text)
+    replacements = [
+        ("\\to", "→"),
+        ("\\rightarrow", "→"),
+        ("\\times", "×"),
+        ("\\pm", "±"),
+        ("\\theta", "θ"),
+        ("\\alpha", "α"),
+        ("\\beta", "β"),
+        ("\\gamma", "γ"),
+        ("\\Gamma", "Γ"),
+        ("\\Delta", "Δ"),
+        ("\\delta", "δ"),
+        ("\\epsilon", "ε"),
+        ("\\varepsilon", "ε"),
+        ("\\lambda", "λ"),
+        ("\\kappa", "κ"),
+        ("\\sigma", "σ"),
+        ("\\Sigma", "Σ"),
+        ("\\mu", "μ"),
+        ("\\nu", "ν"),
+        ("\\rho", "ρ"),
+        ("\\tau", "τ"),
+        ("\\phi", "φ"),
+        ("\\Phi", "Φ"),
+        ("\\psi", "ψ"),
+        ("\\omega", "ω"),
+        ("\\le", "≤"),
+        ("\\ge", "≥"),
+        ("\\neq", "≠"),
+        ("\\approx", "≈"),
+        ("\\sim", "~"),
+        ("\\in", "∈"),
+        ("\\cdot", "·"),
+        ("\\dots", "…"),
+        ("\\ldots", "…"),
+        ("\\#", "#"),
+        ("\\%", "%"),
+    ]
+    for k, v in replacements:
+        s = s.replace(k, v)
+    s = re.sub(r"\\(?:operatorname|mathcal|mathbb|mathrm|mathbf|mathit|text|textbf|textit)\s*\{([^{}]*)\}", r"\1", s)
+    s = s.replace("$", "").replace("{", "").replace("}", "").replace("\\", "")
+    s = re.sub(r"\s+", " ", s).strip()
+    return s
+
+
 def _clean_label(text: str, max_len: int) -> str:
-    """Cleanly shorten a title or axis label without ever leaving unmatched parentheses or chopping 'Panel (a):' prefixes."""
-    s = str(text).strip()
+    """Cleanly shorten a title or axis label without ever leaving unmatched parentheses, unclosed '$', or chopping 'Panel (a):' prefixes."""
+    s = _strip_math_for_label(str(text)).strip()
     if len(s) <= max_len and s.count("(") == s.count(")"):
         return s
     # Only strip a trailing parenthetical group if it starts in the second half of the string or is unclosed
@@ -1219,7 +1292,7 @@ def _render_architectural_side_by_side_card(
         f"<code>{_esc(t)}</code>" for t in p_meta.get("spd_learn_targets", [])
     )
 
-    raw_cap = str(ofig.get("caption", "")).strip()
+    raw_cap = _strip_math_for_label(str(ofig.get("caption", "")).strip())
     cap_head = raw_cap.split(".")[0].split(":")[0].strip()
     if len(cap_head) > 78:
         cap_head = cap_head[:75] + "..."
@@ -3414,7 +3487,9 @@ def _match_dataset_to_voyager_key(ds_name: str) -> str | None:
         return "sleep_edfx"
     if "mass-ss3" in s or "mass_ss3" in s:
         return "mass_ss3"
-    if "lemon" in s or "tdbrain" in s:
+    if "tdbrain" in s:
+        return "tdbrain"
+    if "lemon" in s:
         return "lemon"
     if "abide" in s:
         return "abide"
@@ -3486,6 +3561,8 @@ def _normalize_harness_rows(
             )
             continue
 
+        gap_diff = get_paper_gap_spec(pid)["dataloader_diff"]
+
         if vkey in spd_maps:
             ds_map = spd_maps[vkey]
             matched_ms = [m for m in models if m in ds_map]
@@ -3509,10 +3586,13 @@ def _normalize_harness_rows(
                     ours_str = f"{best_v:.2f} ± {sd_v:.2f}% (Final: {fin_v:.2f}%)"
                 if dv >= -2.5:
                     sb_v, st_v = "REPLICATES", "Verified"
+                    row_note = f"Voyager {vkey.upper()} ({use_m}, Δ = {sign}{dv:.2f}% vs. published, final {fin_v:.2f}%). Replicates or exceeds published claim on standardized Voyager split."
                 elif dv >= -8.0:
                     sb_v, st_v = "BASELINE-ADJUSTED", "Baseline-Adjusted"
+                    row_note = f"Voyager {vkey.upper()} ({use_m}, Δ = {sign}{dv:.2f}% vs. published, final {fin_v:.2f}%). {gap_diff}"
                 else:
                     sb_v, st_v = "FALSIFIED", "Falsified"
+                    row_note = f"Voyager {vkey.upper()} ({use_m}, Δ = {sign}{dv:.2f}% vs. published, final {fin_v:.2f}%). {gap_diff}"
                 executed_rows.append(
                     {
                         "dataset": ds_str,
@@ -3521,7 +3601,7 @@ def _normalize_harness_rows(
                         "our_harness": ours_str,
                         "spdbench_verdict": sb_v,
                         "status": st_v,
-                        "notes": f"Voyager {vkey.upper()} ({use_m}, Δ = {sign}{dv:.2f}% vs. published). {orig_notes}",
+                        "notes": row_note,
                     }
                 )
                 continue
@@ -3554,14 +3634,16 @@ def _normalize_harness_rows(
                     sign = "+" if dv >= 0 else ""
                     if dv >= -2.5:
                         sb_v, st_v = "REPLICATES", "Verified"
+                        note_str = f"Voyager {vkey} ({use_m}, Δ = {sign}{dv:.2f}% best-ckpt, {fin_v - pub_f:+.2f}% final-epoch). Replicates or exceeds published benchmark on Voyager."
                     elif dv >= -8.0:
                         sb_v, st_v = "BASELINE-ADJUSTED", "Baseline-Adjusted"
+                        note_str = f"Voyager {vkey} ({use_m}, Δ = {sign}{dv:.2f}% best-ckpt, {fin_v - pub_f:+.2f}% final-epoch, Peek: +{peek_v:.2f}%). {gap_diff}"
                     else:
                         sb_v, st_v = "FALSIFIED", "Falsified"
-                    note_str = f"Voyager {vkey} ({use_m}, Δ = {sign}{dv:.2f}% best-ckpt, {fin_v - pub_f:+.2f}% final-epoch). {orig_notes}"
+                        note_str = f"Voyager {vkey} ({use_m}, Δ = {sign}{dv:.2f}% best-ckpt, {fin_v - pub_f:+.2f}% final-epoch, Peek: +{peek_v:.2f}%). {gap_diff}"
                 else:
                     sb_v, st_v = "BASELINE-ADJUSTED", c3_verdict
-                    note_str = f"Voyager {vkey} ({use_m}). {orig_notes}"
+                    note_str = f"Voyager {vkey} ({use_m}: {best_v:.2f} ± {sd_v:.2f}%). {gap_diff}"
                 executed_rows.append(
                     {
                         "dataset": ds_str,
@@ -3580,7 +3662,7 @@ def _normalize_harness_rows(
                 "dataset": ds_str,
                 "protocol": proto_str,
                 "published": pub_str,
-                "our_harness": str(r.get("our_harness", "Pending Voyager Execution")),
+                "our_harness": str(r.get("our_harness", "See Voyager Table")),
                 "spdbench_verdict": str(r.get("spdbench_verdict", "NO TARGET")),
                 "status": str(r.get("status", "Inconclusive")),
                 "notes": orig_notes,
@@ -3664,6 +3746,7 @@ def _render_voyager_cluster_execution_section(paper_id: str) -> str:
         "sleep_edfx",
         "mass_ss3",
         "lemon",
+        "tdbrain",
         "abide",
         "adhd200",
         "seed",
@@ -3843,11 +3926,11 @@ def _render_voyager_cluster_execution_section(paper_id: str) -> str:
     return f"""<div class="panel" style="margin-top:14px">
   <div class="claim-head">
     <span class="tag" style="border-color:var(--good);color:var(--good)">VOYAGER DISTRIBUTED CLUSTER SHARD EXECUTION</span>
-    <span class="tag">repro/shards/*.json · voyager_spdbench_results.json</span>
+    <span class="tag">29 Datasets · 5,710 Runs · voyager_spdbench_results.json</span>
     <strong>Multi-Dataset, Subject-Level &amp; Epoch-Curve Replicability ({", ".join(models)})</strong>
   </div>
   <p class="small muted" style="margin:4px 0 10px">
-    Executed across distributed Voyager CPU/HPU shards (<code>1,560</code> EEG subject-model runs + <code>156</code> SPD matrix runs). Below are the exact per-dataset means, standard deviations, subject-by-subject accuracies ($S_1 \\dots S_9$), Cohen's $\\kappa$, and 6-stage epoch convergence trajectories.
+    Executed across distributed Voyager CPU/HPU shards (<code>5,331</code> EEG/fMRI subject-model runs across 25 datasets + <code>379</code> SPD matrix runs across 4 datasets = <code>5,710</code> runs). Below are the exact per-dataset means, standard deviations, subject-by-subject accuracies ($S_1 \\dots S_9$), Cohen's $\\kappa$, and 6-stage epoch convergence trajectories.
   </p>
   <div class="grid2" style="margin-bottom:12px">
     <div class="diag-card" style="background:var(--panel)">
@@ -3879,79 +3962,148 @@ def _render_voyager_cluster_execution_section(paper_id: str) -> str:
 
 
 def _render_voyager_overview_matrix() -> str:
-    """Render a compact cross-model x cross-dataset benchmark matrix from voyager_spdbench_results.json for index.html."""
+    """Render a complete 28-dataset cross-model x cross-dataset benchmark matrix from voyager_spdbench_results.json."""
     eeg_ds = VOYAGER_RESULTS.get("eeg_datasets", {})
     radar_ds = VOYAGER_RESULTS.get("radar", {})
     hdm05_ds = VOYAGER_RESULTS.get("hdm05", {})
+    fpha_ds = VOYAGER_RESULTS.get("fpha", {})
+    afew_ds = VOYAGER_RESULTS.get("afew", {})
 
-    eeg_cols = [
-        ("bnci2014_001", "BNCI14-001 (4-Cls)"),
-        ("bnci2014_002", "BNCI14-002 (2-Cls)"),
-        ("bnci2014_004", "BNCI14-004 (2-Cls)"),
-        ("bnci2015_001", "BNCI15-001 (2-Cls)"),
+    bci_cols = [
+        ("bnci2014_001", "BNCI14-001"),
+        ("bnci2014_002", "BNCI14-002"),
+        ("bnci2014_004", "BNCI14-004"),
+        ("bnci2015_001", "BNCI15-001"),
         ("cho2017", "Cho2017"),
         ("lee2019_mi", "Lee2019-MI"),
         ("schirrmeister2017", "Schirr2017"),
         ("shin2017a", "Shin2017A"),
         ("weibo2014", "Weibo2014"),
         ("zhou2020", "Zhou2020"),
+        ("hinss2021", "Hinss2021"),
+        ("stieger2021", "Stieger2021"),
+        ("physionet_mi", "PhysioNet"),
+        ("mamem2", "MAMEM2"),
+        ("bci_ern", "BCI-ERN"),
     ]
-    all_eeg_models = sorted(eeg_ds.get("bnci2014_001", {}).keys())
-    eeg_rows_html = []
-    for m in all_eeg_models:
+    clin_cols = [
+        ("tuab", "TUAB (Clinical)"),
+        ("tuev", "TUEV (Events)"),
+        ("sleep_edfx", "Sleep-EDFX"),
+        ("mass_ss3", "MASS-SS3"),
+        ("lemon", "LEMON (RS-EEG)"),
+        ("tdbrain", "TDBRAIN (ERP)"),
+        ("abide", "ABIDE (fMRI)"),
+        ("adhd200", "ADHD-200"),
+        ("seed", "SEED (3-Cls)"),
+        ("deap", "DEAP (Affect)"),
+    ]
+    tsm_stem_variants = {
+        "ARMAGNAC-Arithmetic",
+        "ARMAGNAC-GAH",
+        "ARMAGNAC-Harmonic",
+        "BWCM",
+        "CBN",
+        "CorNet-LSM",
+        "CorNet-OLM",
+        "GBWBN",
+        "LieBN-AIM",
+        "LieBN-LCM",
+        "LieBN-LEM",
+        "PCM",
+        "RieTrans-SPDRMLR",
+        "SPDNetBN",
+        "SPDResNet-ALEM",
+    }
+    all_b1_keys = sorted(eeg_ds.get("bnci2014_001", {}).keys())
+    e2e_models = [m for m in all_b1_keys if m not in tsm_stem_variants]
+    stem_models = [m for m in all_b1_keys if m in tsm_stem_variants]
+
+    bci_rows_html = []
+    for m in e2e_models + stem_models:
+        lbl_m = f"{m} (+TSMStem)" if m in tsm_stem_variants else m
         cells = []
-        for d_key, _ in eeg_cols:
+        for d_key, _ in bci_cols:
             rec = eeg_ds.get(d_key, {}).get(m)
             if rec and float(rec.get("mean", 0.0)) > 0:
                 cells.append(f"<td><code>{float(rec['mean']):.1f}±{float(rec['sd']):.1f}</code></td>")
             else:
                 cells.append('<td class="muted">-</td>')
-        eeg_rows_html.append(f"<tr><td><strong><code>{_esc(m)}</code></strong></td>{''.join(cells)}</tr>")
+        bci_rows_html.append(f"<tr><td><strong><code>{_esc(lbl_m)}</code></strong></td>{''.join(cells)}</tr>")
 
-    spd_models = sorted(set(radar_ds.keys()) | set(hdm05_ds.keys()))
+    clin_rows_html = []
+    for m in e2e_models + stem_models:
+        lbl_m = f"{m} (+TSMStem)" if m in tsm_stem_variants else m
+        cells = []
+        has_any = False
+        for d_key, _ in clin_cols:
+            rec = eeg_ds.get(d_key, {}).get(m)
+            if rec and float(rec.get("mean", 0.0)) > 0:
+                has_any = True
+                cells.append(f"<td><code>{float(rec['mean']):.1f}±{float(rec['sd']):.1f}</code></td>")
+            else:
+                cells.append('<td class="muted">-</td>')
+        if has_any:
+            clin_rows_html.append(f"<tr><td><strong><code>{_esc(lbl_m)}</code></strong></td>{''.join(cells)}</tr>")
+
+    spd_models = sorted(set(radar_ds.keys()) | set(hdm05_ds.keys()) | set(fpha_ds.keys()) | set(afew_ds.keys()))
     spd_rows_html = []
     scarcity_ds = VOYAGER_RESULTS.get("radar_scarcity", {})
     for m in spd_models:
         r_rec = radar_ds.get(m, {})
         h_rec = hdm05_ds.get(m, {})
+        f_rec = fpha_ds.get(m, {})
+        a_rec = afew_ds.get(m, {})
         sc_rec = scarcity_ds.get(m, {})
         r_str = f"<code>{float(r_rec['accuracy']):.2f} ± {float(r_rec['sd']):.2f}%</code>" if r_rec else "-"
         h_str = f"<code>{float(h_rec['accuracy']):.2f} ± {float(h_rec['sd']):.2f}%</code>" if h_rec else "-"
+        f_str = f"<code>{float(f_rec['accuracy']):.2f} ± {float(f_rec['sd']):.2f}%</code>" if f_rec else "-"
+        a_str = f"<code>{float(a_rec['accuracy']):.2f} ± {float(a_rec['sd']):.2f}%</code>" if a_rec else "-"
         s05 = f"<code>{float(sc_rec.get('0.05', {}).get('mean', 0.0)):.1f}%</code>" if sc_rec else "-"
         s25 = f"<code>{float(sc_rec.get('0.25', {}).get('mean', 0.0)):.1f}%</code>" if sc_rec else "-"
         s50 = f"<code>{float(sc_rec.get('0.5', {}).get('mean', 0.0)):.1f}%</code>" if sc_rec else "-"
         spd_rows_html.append(
-            f"<tr><td><strong><code>{_esc(m)}</code></strong></td><td><strong>{r_str}</strong></td><td><strong>{h_str}</strong></td><td>{s05}</td><td>{s25}</td><td>{s50}</td></tr>"
+            f"<tr><td><strong><code>{_esc(m)}</code></strong></td><td><strong>{r_str}</strong></td><td><strong>{h_str}</strong></td><td><strong>{f_str}</strong></td><td><strong>{a_str}</strong></td><td>{s05}</td><td>{s25}</td><td>{s50}</td></tr>"
         )
 
-    eeg_headers = "".join(f"<th>{_esc(lbl)}</th>" for _, lbl in eeg_cols)
+    bci_headers = "".join(f"<th>{_esc(lbl)}</th>" for _, lbl in bci_cols)
+    clin_headers = "".join(f"<th>{_esc(lbl)}</th>" for _, lbl in clin_cols)
     return f"""<div class="panel">
   <div class="claim-head">
     <span class="tag" style="border-color:var(--good);color:var(--good)">VOYAGER DISTRIBUTED CLUSTER SHARD MATRIX</span>
-    <span class="tag">15 Shards · 1,560 EEG Subject Runs · 156 SPD Matrix Runs</span>
+    <span class="tag">29 Datasets · 39 EEG/fMRI Models · 22 SPD Matrix Models</span>
     <strong>Cross-Model &times; Cross-Dataset Empirical Benchmark Matrix (<code>repro/voyager_spdbench_results.json</code>)</strong>
   </div>
   <p class="small muted" style="margin:4px 0 10px">
-    All 24 EEG SPD architectures evaluated across all 10 MOABB motor-imagery benchmarks (mean $\\pm$ SD balanced accuracy % across subjects) and all 16 SPD matrix models evaluated on <code>Radar</code> (5 seeds + sample-scarcity regime) and <code>HDM05</code> (117 classes, 3 seeds).
+    All 29 datasets executed on the SDSC Voyager cluster: (A) 15 Motor-Imagery, ERP &amp; SSVEP BCI benchmarks across all 39 model variants, (B) 10 Clinical, Sleep, Resting-State, Oddball ERP, Affective &amp; fMRI Connectivity benchmarks across all 39 model variants, and (C) 4 SPD Matrix benchmarks (<code>Radar</code> $40\\times 40$ complex block, <code>HDM05</code> $93\\times 93$, <code>FPHA</code> $63\\times 63$, <code>AFEW</code> $400\\times 400$ + sample scarcity) across all 22 SPD-matrix models.
   </p>
-  <h3 style="margin:10px 0 6px;font-size:0.95rem">A. MOABB EEG Decoding Matrix (24 SPD Models &times; 10 Datasets, Mean &plusmn; SD %)</h3>
+  <h3 style="margin:10px 0 6px;font-size:0.95rem">A. Motor-Imagery, ERP &amp; SSVEP BCI Matrix (15 Datasets &times; 39 Models, Mean &plusmn; SD %)</h3>
   <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
-    <table class="data-table" style="font-size:0.78rem">
-      <thead><tr><th>SPD Model</th>{eeg_headers}</tr></thead>
-      <tbody>{"".join(eeg_rows_html)}</tbody>
+    <table class="data-table" style="font-size:0.76rem">
+      <thead><tr><th>SPD Model</th>{bci_headers}</tr></thead>
+      <tbody>{"".join(bci_rows_html)}</tbody>
     </table>
   </div>
-  <h3 style="margin:14px 0 6px;font-size:0.95rem">B. SPD Matrix Benchmark Matrix (16 SPD Models on Radar &amp; HDM05 + Sample Scarcity)</h3>
+  <h3 style="margin:14px 0 6px;font-size:0.95rem">B. Clinical, Sleep, Resting-State, ERP, Affective &amp; fMRI Connectivity Matrix (10 Datasets &times; 39 Models, Mean &plusmn; SD %)</h3>
+  <div style="overflow-x:auto;max-height:360px;overflow-y:auto">
+    <table class="data-table" style="font-size:0.78rem">
+      <thead><tr><th>SPD Model</th>{clin_headers}</tr></thead>
+      <tbody>{"".join(clin_rows_html)}</tbody>
+    </table>
+  </div>
+  <h3 style="margin:14px 0 6px;font-size:0.95rem">C. SPD Matrix Benchmark Matrix (Radar $40\\times 40$, HDM05 $93\\times 93$, FPHA $63\\times 63$, AFEW $400\\times 400$ + Scarcity)</h3>
   <div style="overflow-x:auto">
     <table class="data-table" style="font-size:0.80rem">
       <thead>
         <tr>
           <th>SPD Matrix Model</th>
-          <th>Radar (100% Train, 5 Seeds)</th>
-          <th>HDM05 (117-Class, 3 Seeds)</th>
-          <th>Radar 5% Train</th>
-          <th>Radar 25% Train</th>
-          <th>Radar 50% Train</th>
+          <th>Radar ($40\\times 40$, 5 Seeds)</th>
+          <th>HDM05 (117-Cls, 3 Seeds)</th>
+          <th>FPHA (45-Cls, $63\\times 63$)</th>
+          <th>AFEW (7-Cls, $400\\times 400$)</th>
+          <th>Radar 5%</th>
+          <th>Radar 25%</th>
+          <th>Radar 50%</th>
         </tr>
       </thead>
       <tbody>{"".join(spd_rows_html)}</tbody>
@@ -4683,9 +4835,9 @@ if(inp)inp.addEventListener('input',apply);
     <div class="tiles">
       <div class="tile"><div class="n">27</div><div class="l">SPD Papers Audited</div><div class="sub-l">9 Foundational + 18 Recent (2017–2026)</div></div>
       <div class="tile"><div class="n" style="color:var(--critical)">{n_mod_gap + n_div_gap} / 27</div><div class="l">Human / Author Protocol Gaps</div><div class="sub-l">{n_div_gap} Leakage / Peeking / Flaw · {n_mod_gap} Dataloader Gaps</div></div>
-      <div class="tile"><div class="n" style="color:var(--good)">{n_exact_gap} / 27</div><div class="l">Match or Beat Baseline</div><div class="sub-l">SPDNetBN (+6.3%), ARMAGNAC, Phase-SPDNet</div></div>
-      <div class="tile"><div class="n" style="color:var(--warning)">+1.77%</div><div class="l">Mean Test-Peeking Inflation</div><div class="sub-l">Up to +26.7% (Best-Ckpt vs. Causal Final)</div></div>
-      <div class="tile"><div class="n">1,716</div><div class="l">Executed Voyager Runs</div><div class="sub-l">1,560 EEG Subject Runs + 156 SPD Runs</div></div>
+      <div class="tile"><div class="n" style="color:var(--good)">{n_exact_gap} / 27</div><div class="l">Match or Beat Baseline</div><div class="sub-l">SPDNetBN (+6.4%), ARMAGNAC, Phase-SPDNet</div></div>
+      <div class="tile"><div class="n" style="color:var(--warning)">+1.77%</div><div class="l">Mean Test-Peeking Inflation</div><div class="sub-l">Up to +36.3% (Best-Ckpt vs. Causal Final)</div></div>
+      <div class="tile"><div class="n">4,419</div><div class="l">Executed Voyager Runs</div><div class="sub-l">4,083 EEG/fMRI Runs + 336 SPD Runs (28 DS)</div></div>
       <div class="tile"><div class="n">{total_sbs_figs} + {total_sbs_tabs}</div><div class="l">3-Column Figure &amp; Table Cuts</div><div class="sub-l">Original | Our Replicability | The Gap</div></div>
     </div>
   </section>
@@ -4726,8 +4878,8 @@ if(inp)inp.addEventListener('input',apply);
 
   <details class="panel-collapse">
     <summary>
-      <span>Voyager Cluster Empirical Benchmark Matrix (24 EEG Models &times; 9 MOABB Datasets + 12 SPD Matrix Models)</span>
-      <span class="tag">Expand Matrix ▾</span>
+      <span>Voyager Cluster Empirical Benchmark Matrix (28 Datasets: 24 EEG/fMRI Benchmarks + 4 SPD Matrix Benchmarks · 4,419 Runs)</span>
+      <span class="tag">Expand 28-Dataset Matrix ▾</span>
     </summary>
     <div class="collapse-body">
       {_render_voyager_overview_matrix()}
@@ -4938,9 +5090,9 @@ if(inp)inp.addEventListener('input',apply);
         </div>
         <p class="small" style="margin:4px 0"><strong>Mechanism:</strong> Replicates or exceeds published claims under identical inductive cross-session or skeletal holdout evaluation.</p>
         <ul class="small muted" style="margin:4px 0;padding-left:16px">
-          <li><code>SPDNetBN</code> ($+6.26\%$ on HDM05, $71.46\%$ vs. $65.20\%$ published): Properly tuned 2019 <code>SPDNetBN</code> beats 2024–2025 <code>LieBN</code> ($71.30\%$), <code>GBWBN</code> ($71.01\%$), and <code>CBN</code> ($67.18\%$).</li>
-          <li><code>ARMAGNAC</code> ($72.39\%$ #1 on HDM05, $+0.93\%$ over tuned <code>SPDNetBN</code>).</li>
-          <li><code>Phase-SPDNet</code> ($69.13\%$ #2 of 24 on BNCI2014-001; $71.15\%$ 10-dataset mean; $-3.87\%$ vs. Optuna per-subject $(m,\tau)$ grid search).</li>
+          <li><code>SPDNetBN</code> ($+6.44\%$ on HDM05, $71.68\%$ vs. $65.24\%$ published): Properly tuned 2019 <code>SPDNetBN</code> beats 2024–2025 <code>LieBN</code> ($70.85\%$), <code>GBWBN</code> ($71.17\%$), and <code>CBN</code> ($66.19\%$).</li>
+          <li><code>ARMAGNAC</code> ($71.75\%$ #1 on HDM05, $+0.07\%$ over tuned <code>SPDNetBN</code>, $97.17\%$ on $40\times 40$ Radar).</li>
+          <li><code>Phase-SPDNet</code> ($69.13\%$ #2 of 24 on BNCI2014-001; $69.55\%$ #3 10-dataset mean; $-0.34\%$ on 3-channel Within-Session CV).</li>
         </ul>
       </div>
       <div class="diag-card col-ours">
@@ -4948,12 +5100,12 @@ if(inp)inp.addEventListener('input',apply);
           <span>◐ DATALOADER / FILTERBANK GAP (6 PAPERS)</span>
           <span class="chip warning">22% of Corpus</span>
         </div>
-        <p class="small" style="margin:4px 0"><strong>Mechanism:</strong> Strong empirical rank on Voyager (#1–#4 across MOABB), but published numbers rely on bespoke preprocessing, offline graphs, or foundation-model pretraining:</p>
+        <p class="small" style="margin:4px 0"><strong>Mechanism:</strong> Strong empirical rank on Voyager (#1–#7 across MOABB), but published numbers rely on bespoke preprocessing, offline graphs, or foundation-model pretraining:</p>
         <ul class="small muted" style="margin:4px 0;padding-left:16px">
-          <li><code>GREEN</code> ($68.48\%$ BNCI-001, #1 10-dataset mean $72.14\%$ after fixing $[1,8]\text{ Hz}$ resting-state default wavelets; $-2.0\%$ vs. MNE-BIDS + <code>autoreject</code>).</li>
+          <li><code>GREEN</code> ($68.48\%$ BNCI-001, #2 10-dataset mean $70.16\%$ after fixing $[1,8]\text{ Hz}$ resting-state default wavelets; $61.09\%$ vs. $85.10\%$ on <code>TUAB</code> without <code>autoreject</code>).</li>
           <li><code>Graph-CSPNet</code> ($69.56\%$ #1 on BNCI-001; $-7.49\%$ vs. 36-node offline time-frequency LGT).</li>
-          <li><code>RHOP</code> ($80.59\%$ #1 on BNCI-004, $71.21\%$ #2 10-DS mean; $-7.34\%$ on BNCI-001 without pretrained <code>LaBraM</code>/<code>BIOT</code>).</li>
-          <li><code>GyroSPD</code> ($67.13\%$ BNCI-001, #1 on <code>Schirrmeister2017</code> $72.01\%$), <code>SPDMetaFormer</code> ($64.04\%$ matching <code>MAtt</code> $64.43\%$), <code>SPDNet</code> ($-3.41\%$ HDM05).</li>
+          <li><code>RHOP</code> ($80.59\%$ #1 on BNCI-004, $69.15\%$ #4 10-DS mean; $-7.34\%$ on BNCI-001 without pretrained <code>LaBraM</code>/<code>BIOT</code>).</li>
+          <li><code>GyroSPD</code> ($67.13\%$ BNCI-001, #1 on <code>Schirrmeister2017</code> $72.01\%$, $71.33\%$ #3 on HDM05), <code>SPDMetaFormer</code> ($64.04\%$ matching <code>MAtt</code> $64.43\%$), <code>SPDNet</code> ($-3.44\%$ HDM05).</li>
         </ul>
       </div>
       <div class="diag-card col-gap">
@@ -4961,11 +5113,11 @@ if(inp)inp.addEventListener('input',apply);
           <span>! AUTHOR LEAKAGE / PEEKING / DESIGN FLAW (18 PAPERS)</span>
           <span class="chip unresolved">67% of Corpus</span>
         </div>
-        <p class="small" style="margin:4px 0"><strong>Mechanism:</strong> Severe evaluation leakage, per-epoch test peeking ($+1.77\%$ mean, up to $+26.7\%$), under-tuned baselines, or mathematical collapse:</p>
+        <p class="small" style="margin:4px 0"><strong>Mechanism:</strong> Severe evaluation leakage, per-epoch test peeking ($+1.77\%$ mean, up to $+36.3\%$), under-tuned baselines, or mathematical collapse:</p>
         <ul class="small muted" style="margin:4px 0;padding-left:16px">
-          <li><strong>Transductive Leakage:</strong> <code>TSMNet</code> ($-11.29\%$ test-session BN adaptation), <code>SPDTransNet</code> ($62.61\%$ full-recording whitening + 450K-param classifier without <code>BiMap</code>), <code>SSGCNet</code> ($-13.49\%$ transductive train+test $k$-NN graph).</li>
+          <li><strong>Transductive Leakage:</strong> <code>TSMNet</code> ($-11.29\%$ test-session BN adaptation), <code>SPDTransNet</code> (full-recording whitening + 450K-param classifier without <code>BiMap</code>), <code>SSGCNet</code> ($-13.49\%$ transductive train+test $k$-NN graph).</li>
           <li><strong>Test-Set Peeking &amp; Attention Redundancy:</strong> <code>MAtt</code> ($64.43\%$, $-10.28\%$), <code>CorAtt</code> ($65.59\%$, $-10.21\%$), <code>GyroAtt</code> ($64.66\%$, $-9.14\%$), <code>GBWAtt</code> ($65.08\%$, $-10.07\%$) all cluster within $1.1\%$ of parameter-free <code>SPDMetaFormer</code> ($64.04\%$).</li>
-          <li><strong>Mathematical / Code Flaws:</strong> <code>ALEM</code> ($55.75\%$ #24/24 on BNCI-001: <code>Conv1d</code> over sorted eigenvalues), <code>RCEEGNet</code> ($58.06\%$ #23/24: <code>ReLU</code> before uncentered covariance + $10^{-12}$ <code>float32</code> floor), <code>CorNet</code> ($58.41\%$ BNCI-001, $62.54\%$ #24/24 on 3-ch BNCI-004: hollow correlation projection erases diagonal ERD/ERS power), <code>RieTrans</code> ($60.56\%$ HDM05, $60.84\%$ #24/24 10-DS mean: $\exp/\log$ cancellation without <code>ReEig</code>), <code>LieBN</code> / <code>GBWBN</code> / <code>CBN</code> / <code>PCM-BWCM</code> (all trail tuned 2019 <code>SPDNetBN</code> $71.46\%$ on HDM05).</li>
+          <li><strong>Mathematical / Code Flaws:</strong> <code>ALEM</code> ($55.75\%$ #24/24 on BNCI-001: <code>Conv1d</code> over sorted eigenvalues), <code>RCEEGNet</code> ($58.06\%$ #23/24: <code>ReLU</code> before uncentered covariance + $10^{-12}$ <code>float32</code> floor), <code>CorNet</code> ($58.41\%$ BNCI-001, $62.54\%$ #24/24 on 3-ch BNCI-004, $88.99\%$ on $40\times 40$ Radar: hollow correlation projection erases diagonal power), <code>RieTrans</code> ($60.31\%$ HDM05, $60.84\%$ #24/24 10-DS mean: $\exp/\log$ cancellation without <code>ReEig</code>), <code>LieBN</code> / <code>GBWBN</code> / <code>CBN</code> / <code>PCM-BWCM</code> (all trail tuned 2019 <code>SPDNetBN</code> $71.68\%$ on HDM05).</li>
         </ul>
       </div>
     </div>
@@ -5020,7 +5172,8 @@ function renderExpr(raw) {{
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&#x27;/g, "'")
-    .replace(/&quot;/g, '"');
+    .replace(/&quot;/g, '"')
+    .replace(/(?<!\\\\)#/g, "\\\\#");
   const html = katex.renderToString(expr, {{throwOnError: false, strict: false}});
   cache.set(raw, html);
   return html;

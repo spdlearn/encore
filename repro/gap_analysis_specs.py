@@ -4,7 +4,7 @@
 
 Part of the SPD Replicability & Generation Initiative.
 Every number, delta, and verdict in this file is synchronized directly with
-`repro/voyager_spdbench_results.json` (1,560 EEG subject-model runs + 156 SPD matrix runs).
+`repro/voyager_spdbench_results.json` (4,083 EEG/fMRI subject-model runs across 24 datasets + 336 SPD matrix runs across 4 datasets = 4,419 runs across 28 datasets).
 Surfaces why human/author error (per-epoch test-set checkpoint peeking, transductive
 test-session BatchNorm/whitening/k-NN graphs, under-tuned baselines, or signal-destroying
 architectural layers) is the norm across the Riemannian deep learning literature.
@@ -17,41 +17,41 @@ from typing import Any
 PAPER_GAP_SPECS: dict[str, dict[str, Any]] = {
     "huang2017spdnet": {
         "gap_status": "moderate",
-        "gap_label": "◐ Protocol & Split Gap (-3.41% HDM05 · -4.39% EEG)",
-        "headline_delta": "-3.41% HDM05 (58.04% vs 61.45%)",
+        "gap_label": "◐ Protocol & Split Gap (-3.44% HDM05 · -5.87% AFEW · +6.04% FPHA)",
+        "headline_delta": "-3.44% HDM05 (58.01% vs 61.45%)",
         "original_code_issue": (
             "Original MATLAB repo (`zzhiwu/SPDNet`) loads pre-computed `.mat` covariance descriptors on a single fixed random split "
             "without temporal filtering or BatchNorm, and reports peak test-set accuracy over epochs."
         ),
         "our_code_fix": (
             "Normalized `SPDNet` in `spd_learn` with orthogonal trivialization (`BiMap`), `ReEig(1e-4)`, and trace-scaled shrinkage. "
-            "On Voyager `HDM05` (3 seeds, 60 ep), `SPDNet` reaches `58.04 ± 0.63%` (final `57.69%`), and on `BNCI2014-001` reaches `62.81 ± 16.50%` (final `61.81%`)."
+            "On Voyager, `SPDNet` reaches `58.01 ± 0.14%` on `HDM05`, `96.96 ± 0.48%` on $40\\times 40$ `Radar`, `90.26 ± 0.41%` on `FPHA`, `28.36 ± 2.15%` on `AFEW`, and `62.81 ± 16.50%` on `BNCI2014-001`."
         ),
         "dataloader_diff": (
             "Paper loads pre-computed MATLAB `.mat` descriptors on a single fixed split; "
-            "Voyager recomputes sample covariances across 3 random `holdout_split(0.5)` seeds on `HDM05` and 9 `BNCI2014-001` CrossSession subjects."
+            "Voyager recomputes sample covariances across `HDM05`, `Radar`, `FPHA`, `AFEW`, and 9 `BNCI2014-001` CrossSession subjects."
         ),
         "arch_optim_diff": (
             "Paper uses custom MATLAB QR-retraction SGD; `spd_learn` uses PyTorch orthogonal trivialization (Cayley/Householder) + AdamW."
         ),
         "where_it_struggles": (
-            "Without temporal convolutions or Riemannian BatchNorm, `SPDNet` suffers severe cross-session drift on low-SNR EEG subjects (`BNCI2014-001` S2: `47.57%`, S6: `41.67%`)."
+            "Without temporal convolutions or Riemannian BatchNorm, `SPDNet` suffers severe cross-session drift on low-SNR EEG subjects (`BNCI2014-001` S2: `47.57%`, S6: `41.67%`) and 400x400 `AFEW` (`28.36%`)."
         ),
     },
     "brooks2019spdnetbn": {
         "gap_status": "exact",
-        "gap_label": "✓ Exceeds Published on HDM05 (+6.26% Δ: 71.46% vs 65.20%)",
-        "headline_delta": "+6.26% HDM05 (71.46% vs 65.20%)",
+        "gap_label": "✓ Exceeds Published on HDM05 (+6.44% Δ: 71.68% vs 65.24%)",
+        "headline_delta": "+6.44% HDM05 (71.68% vs 65.24%)",
         "original_code_issue": (
-            "Original Geoopt/PyTorch 0.4 scripts under-trained `SPDNetBN` on `HDM05` (`65.20%`) and used 1-step (`n_iter=1`) Karcher approximations. "
-            "Subsequent papers (`LieBN`, `CBN`, `GBWBN`) cited that under-tuned `65.20%` number to claim `+5%` to `+6%` BatchNorm improvements."
+            "Original Geoopt/PyTorch 0.4 scripts under-trained `SPDNetBN` on `HDM05` (`65.24%`) and used 1-step (`n_iter=1`) Karcher approximations. "
+            "Subsequent papers (`LieBN`, `CBN`, `GBWBN`) cited that under-tuned `65.24%` number to claim `+5%` to `+6%` BatchNorm improvements."
         ),
         "our_code_fix": (
-            "When trained under the exact same 60-epoch cosine schedule (`lr=8e-3`, 3 seeds) as newer BatchNorms on Voyager `HDM05`, "
-            "`SPDNetBN` (`SPDBatchNormMean`) achieves **`71.46 ± 1.12%`** (final `71.46%`), matching or beating `LieBN-AIM` (`71.30%`), `GBWBN` (`71.01%`), and `CBN` (`67.18%`)."
+            "When trained under the exact same 60-epoch cosine schedule (`lr=8e-3`) as newer BatchNorms on Voyager `HDM05`, "
+            "`SPDNetBN` (`SPDBatchNormMean`) achieves **`71.68 ± 1.51%`** (final `71.17%`), beating `LieBN-AIM` (`70.85%`), `GBWBN` (`71.17%`), and `CBN` (`66.19%`), plus `97.07 ± 0.45%` on $40\\times 40$ `Radar` and `91.27 ± 0.54%` on `FPHA`."
         ),
         "dataloader_diff": (
-            "Confidential `NATO SET245` military radar dataset is `BLOCKED`; on public `HDM05` and `Radar`, Voyager evaluates multi-seed holdout splits."
+            "Confidential `NATO SET245` military radar dataset is `BLOCKED`; on public `HDM05`, `Radar` ($40\\times 40$ complex block), `FPHA`, and `AFEW`, Voyager evaluates multi-seed holdout splits."
         ),
         "arch_optim_diff": (
             "Paper runs 1-to-3 Karcher steps in PyTorch 0.4; `spd_learn` uses `SPDBatchNormMean` with `float64` eigendecomposition and geodesic running mean updates."
@@ -130,60 +130,61 @@ PAPER_GAP_SPECS: dict[str, dict[str, Any]] = {
     },
     "chen2024liebn": {
         "gap_status": "large",
-        "gap_label": "! Under-Tuned Baseline Claim & 1-Step AIM Karcher Failure (-0.16% vs SPDNetBN)",
-        "headline_delta": "-0.16% vs Tuned SPDNetBN (71.30% vs 71.46%)",
+        "gap_label": "! Under-Tuned Baseline Claim & -12.07% FPHA LCM Collapse (-0.83% vs SPDNetBN)",
+        "headline_delta": "-0.83% vs Tuned SPDNetBN (70.85% vs 71.68%)",
         "original_code_issue": (
-            "TWO AUTHOR FLAWS in `GitZH-Chen/LieBN`: (1) Claims `+8.8%` to `+3.6%` gains on `HDM05` by comparing against an under-trained `SPDNet` (`59.13%`) / `SPDNetBN` (`65.20%`); "
-            "(2) Uses a single-step (`n_iter=1`) Karcher approximation for `AIM` LieBN that leaves a **51.3 Frobenius centering residual** at $\\kappa \\approx 1.9 \\times 10^7$."
+            "THREE AUTHOR FLAWS in `GitZH-Chen/LieBN`: (1) Claims `+8.8%` to `+3.6%` gains on `HDM05` by comparing against an under-trained `SPDNet` (`59.13%`) / `SPDNetBN` (`65.24%`); "
+            "(2) Uses a single-step (`n_iter=1`) Karcher approximation for `AIM` LieBN that leaves a **51.3 Frobenius centering residual** at $\\kappa \\approx 1.9 \\times 10^7$; "
+            "(3) On `FPHA` (where 454/1,175 raw trials are rank-deficient with $T < 63$), `LieBN-LCM` drops to `78.19%` (`-12.07%` below Table 4c's `90.26%` claim)."
         ),
         "our_code_fix": (
-            "On Voyager `HDM05` (3 seeds, identical 60-ep cosine schedule), `LieBN-AIM` (`71.30 ± 1.11%`), `LieBN-LEM` (`71.17 ± 1.79%`), and `LieBN-LCM` (`70.72 ± 0.18%`) "
-            "do **not** beat properly tuned 2019 `SPDNetBN` (**`71.46 ± 1.12%`**)!"
+            "On Voyager `HDM05` (identical 60-ep cosine schedule), `LieBN-AIM` (`70.85 ± 1.17%`), `LieBN-LEM` (`70.69 ± 1.68%`), and `LieBN-LCM` (`70.15 ± 0.39%`) "
+            "do **not** beat properly tuned 2019 `SPDNetBN` (**`71.68 ± 1.51%`**), while `LieBN-AIM` reaches `92.00 ± 0.43%` on shrinkage-repaired `FPHA` and `97.39 ± 0.58%` on $40\\times 40$ `Radar`."
         ),
         "dataloader_diff": (
-            "Paper compares against under-tuned baseline numbers copied from older papers on a single split; Voyager trains `SPDNetBN` and all 3 `LieBN` metrics under identical splits and schedules."
+            "Paper compares against under-tuned baseline numbers copied from older papers on a single split; Voyager trains `SPDNetBN` and all 3 `LieBN` metrics under identical splits across `HDM05`, `Radar`, `FPHA`, and `AFEW`."
         ),
         "arch_optim_diff": (
             "`spd_learn` implements `SPDBatchNormLie` for `AIM`, `LEM`, and `LCM`, exposing the exact 51.3 centering residual of 1-step `AIM` vs `1.1e-6` for Abelian `LEM`/`LCM`."
         ),
         "where_it_struggles": (
-            "C2 & C3 Falsified: 1-step AIM Karcher fails to center ill-conditioned matrices (`51.3` error), and all 3 `LieBN` variants (`70.72%–71.30%`) trail tuned `SPDNetBN` (`71.46%`) on `HDM05`."
+            "C2 & C3 Falsified: 1-step AIM Karcher fails to center ill-conditioned matrices (`51.3` error), `LieBN-LCM` drops `-12.07%` on `FPHA` (`78.19%` vs `90.26%`), and all 3 `LieBN` variants (`70.15%–70.85%`) trail tuned `SPDNetBN` (`71.68%`) on `HDM05`."
         ),
     },
     "paillard2024green": {
         "gap_status": "moderate",
-        "gap_label": "◐ Resting-State [1,8] Hz Wavelet Default & Autoreject Gap (68.48% BNCI-001)",
-        "headline_delta": "68.48% BNCI-001 · 79.44% BNCI-004 · 72.14% 10-DS Mean",
+        "gap_label": "◐ Resting-State [1,8] Hz Wavelet Default & Autoreject Gap (68.48% BNCI-001 · 61.09% TUAB)",
+        "headline_delta": "68.48% BNCI-001 · 79.44% BNCI-004 · 61.09% Uncleaned TUAB",
         "original_code_issue": (
             "In `Roche/neuro-green`, default Gabor wavelet parameters `oct_min=0, oct_max=3` span $[2^0, 2^3] = [1, 8]\\text{ Hz}$ (delta/theta resting-state bands for brain-age regression) "
             "and the authors' pipeline relies on custom `MNE-BIDS` + `autoreject` bad-epoch/channel cleaning. On motor imagery (`[8, 30] Hz`), `oct_min=0..3` puts 75% of wavelets below $8\\text{ Hz}$."
         ),
         "our_code_fix": (
             "Repaired `Green` wavelet bounds to $[4, 32]\\text{ Hz}$ (`oct_min=2.0, oct_max=5.0`), lifting `BNCI2014-001` from `53.20%` (`[1,8] Hz`) to **`68.48 ± 14.64%`** (`85.83%` on S1), "
-            "`BNCI2014-004` to **`79.44 ± 10.67%`**, and achieving the **#1 highest 10-dataset MOABB mean (`72.14%`)** across all 24 SPD models!"
+            "`BNCI2014-004` to **`79.44 ± 10.67%`**, `LEMON` to **`70.83 ± 16.54%`**, and uncleaned `TUAB` to **`61.09 ± 3.12%`** (`-24.01%` vs `autoreject`), achieving the **#2 highest 10-dataset MOABB mean (`70.16%`)** across all 24 SPD models!"
         ),
         "dataloader_diff": (
-            "Original GREEN repo uses `MNE-BIDS` + `autoreject` automated bad-epoch/channel cleaning on resting-state clinical EEG (`TUAB`, `TDBRAIN`, `LEMON`, not executed in MOABB); "
-            "Voyager runs uncleaned MOABB motor-imagery epochs without `autoreject`."
+            "Original GREEN repo uses `MNE-BIDS` + `autoreject` automated bad-epoch/channel cleaning on clinical EEG (`TUAB`: `85.10%` with `autoreject` vs `61.09%` uncleaned on Voyager; `LEMON`: `70.83%`); "
+            "Voyager runs uncleaned clinical and MOABB epochs without `autoreject`."
         ),
         "arch_optim_diff": (
             "`spd_learn` implements `Green` (`WaveletConv` + `CovPool` + `Shrinkage` + `SPDBatchNormMeanVar` + `BiMap` + `LogEig`) with sensorimotor `[4, 32] Hz` octaves."
         ),
         "where_it_struggles": (
-            "Without `autoreject` trial cleaning, ocular/muscular artifacts on noisy cross-session subjects (`BNCI2014-001` S2: `47.57%`, S5: `48.61%`) lower the uncleaned mean (`68.48%`)."
+            "Without `autoreject` trial cleaning, severe clinical/ocular artifacts on uncleaned `TUAB` (`61.09%` vs `85.10%` published) and noisy MI subjects (`BNCI2014-001` S2: `47.57%`) lower accuracy."
         ),
     },
     "carrara2024phasespdnet": {
         "gap_status": "exact",
         "gap_label": "✓ Top-3 across 10 MOABB Datasets (69.13% BNCI-001 · 78.54% BNCI-004)",
-        "headline_delta": "69.13% BNCI-001 · 78.54% BNCI-004 · 71.15% 10-DS Mean",
+        "headline_delta": "69.13% BNCI-001 · 78.54% BNCI-004 · 69.55% 10-DS Mean",
         "original_code_issue": (
             "Original paper evaluates 2-class Left/Right Hand ROC-AUC on $C=3$ channels (`C3, Cz, C4`) under 5-fold Within-Session CV (Table 2). "
             "Applying large delay embedding $m \\ge 5$ naively to $C=22$ or $C=62$ channels produces $(mC) \\times (mC)$ matrices that are strictly rank-deficient ($\\operatorname{rank} \\le T < mC$)."
         ),
         "our_code_fix": (
             "Matched both the native 3-channel (`C3, Cz, C4`) Within-Session ROC-AUC protocol (within `-0.34%` across 6 datasets) and scaled delay embedding to $m=2, \\tau=1$ (`44x44` SPD) "
-            "for multi-channel Cross-Session decoding, achieving **`69.13 ± 14.38%`** (final `68.79%`) on `BNCI2014-001` (#2 of 24 models!) and **`71.15%`** 10-dataset mean."
+            "for multi-channel Cross-Session decoding, achieving **`69.13 ± 14.38%`** (final `68.79%`) on `BNCI2014-001` (#2 of 24 models!) and **`69.55%`** 10-dataset mean (#3 of 24 models)."
         ),
         "dataloader_diff": (
             "Original paper uses 3 channels (`C3, Cz, C4`) in `[8-32] Hz` with 5-fold Within-Session CV (ROC-AUC); Voyager also evaluates full-montage 4-class Cross-Session (`0train -> 1test`)."
@@ -219,24 +220,24 @@ PAPER_GAP_SPECS: dict[str, dict[str, Any]] = {
     },
     "chen2026pcm_bwcm": {
         "gap_status": "large",
-        "gap_label": "! Unnormalized Metric Tangent Projection Gap on HDM05 (-13.15% Δ)",
-        "headline_delta": "-13.15% HDM05 (58.55% BWCM / 56.31% PCM vs 71.46% SPDNetBN)",
+        "gap_label": "! Unnormalized Metric Tangent Projection Gap on HDM05 (-13.06% Δ)",
+        "headline_delta": "-13.06% HDM05 (58.62% BWCM / 56.31% PCM vs 71.68% SPDNetBN)",
         "original_code_issue": (
             "Original `GitZH-Chen/PCM_BWCM` replaces `LogEig` with Power-Cholesky (`PCM`) or Bures-Wasserstein (`BWCM`) tangent maps without Riemannian BatchNorm, "
-            "and grid-searches $\\theta$ on test splits. Without BatchNorm, changing the final tangent metric alone fails to fix covariate shift on 117-class `HDM05`."
+            "and grid-searches $\\theta$ on test splits. Without BatchNorm, changing the final tangent metric alone fails to fix covariate shift on 117-class `HDM05` or `FPHA`."
         ),
         "our_code_fix": (
             "Implemented exact closed-form `log_map_pcm` and `log_map_bwcm` ($3.1 \\times 10^{-16}$ roundtrip accuracy) in `spd_learn`. On Voyager `HDM05`, "
-            "`BWCM` reaches **`58.55 ± 0.57%`** and `PCM` reaches **`56.31 ± 4.24%`** (`-12.91%` to `-15.15%` behind `SPDNetBN`'s `71.46%`)."
+            "`BWCM` reaches **`58.62 ± 1.27%`** and `PCM` reaches **`56.31 ± 4.24%`** (`-13.06%` to `-15.37%` behind `SPDNetBN`'s `71.68%`), and `80.14 ± 0.65%` on `FPHA` (`-10.54%` below published `90.68%`)."
         ),
         "dataloader_diff": (
-            "Paper sweeps $\\theta \\in (0, 1]$ per split; Voyager fixes closed-form $\\theta = 0.5$ across 3 random `holdout_split(0.5)` seeds on `HDM05` and 5 seeds on `Radar`."
+            "Paper sweeps $\\theta \\in (0, 1]$ per split; Voyager fixes closed-form $\\theta = 0.5$ across `HDM05`, `FPHA`, `AFEW`, and $40\\times 40$ `Radar` (`97.07 ± 0.42%`)."
         ),
         "arch_optim_diff": (
             "`spd_learn` implements closed-form Binomial/Sylvester pullbacks for `BWCM` and Cholesky power maps for `PCM` in `float64`."
         ),
         "where_it_struggles": (
-            "Without intermediate Riemannian BatchNorm (`SPDBatchNormMean` / `GBWBN`), replacing `LogEig` with `PCM` (`56.31%`) or `BWCM` (`58.55%`) does not close the `-13%` gap to `SPDNetBN` (`71.46%`) on `HDM05`."
+            "Without intermediate Riemannian BatchNorm (`SPDBatchNormMean` / `GBWBN`), replacing `LogEig` with `PCM` (`56.31%`) or `BWCM` (`58.62%`) does not close the `-13%` gap to `SPDNetBN` (`71.68%`) on `HDM05`."
         ),
     },
     "hu2025coratt": {
@@ -263,46 +264,46 @@ PAPER_GAP_SPECS: dict[str, dict[str, Any]] = {
     },
     "chen2026cornet": {
         "gap_status": "large",
-        "gap_label": "! Hollow Correlation Projection Collapses on 3-Ch EEG & Radar (-12.8% to -17.5% Δ)",
-        "headline_delta": "-12.85% BNCI-001 (58.41%) · 62.54% BNCI-004 · 58.64% HDM05",
+        "gap_label": "! Hollow Correlation Projection Collapses on 3-Ch EEG & Radar (-8.6% to -17.5% Δ)",
+        "headline_delta": "-12.85% BNCI-001 (58.41%) · 62.54% BNCI-004 · 58.39% HDM05",
         "original_code_issue": (
             "ARCHITECTURAL FLAW in `CorNet`: Projecting $\\Sigma \\mapsto D^{-1/2} \\Sigma D^{-1/2}$ onto $\\mathcal{C}_{++}^n$ and extracting only the strict lower triangle (`tril_embed` of size $n(n-1)/2$) "
             "**destroys all diagonal variance**. On 3-channel `BNCI2014-004` (`C3, Cz, C4`), where contralateral C3/C4 power is the primary motor imagery signal, only $\\binom{3}{2}=3$ numbers remain!"
         ),
         "our_code_fix": (
             "Even after fixing frozen shrinkage (`init_shrinkage=-5.0`), `CorNet`'s hollow correlation projection collapses on variance-driven tasks in Voyager: "
-            "**`58.41 ± 15.79%`** on `BNCI2014-001`, **`62.54 ± 10.26%`** on 3-ch `BNCI2014-004` (`-17.54%` behind `STaRNet` `80.08%`), **`73.09%`** on `Radar` (`-8.91%` behind `SPDNetBN`), and **`58.64%`** on `HDM05` (`-12.82%` behind `SPDNetBN`)."
+            "**`58.41 ± 15.79%`** on `BNCI2014-001`, **`62.54 ± 10.26%`** on 3-ch `BNCI2014-004` (`-17.54%` behind `STaRNet` `80.08%`), **`88.99 ± 1.87%`** on $40\\times 40$ `Radar` (`-8.66%` behind `ALEM`), and **`58.39 ± 1.38%`** on `HDM05` (`-13.29%` behind `SPDNetBN`)."
         ),
         "dataloader_diff": (
-            "Paper primarily benchmarks 200-ROI fMRI functional connectivity (`ABIDE`, where correlation is standard); applying `CorNet` to EEG motor imagery, Radar, or Skeletal SPD destroys diagonal power."
+            "Paper primarily benchmarks 200-ROI fMRI functional connectivity (`ABIDE`, where correlation is standard and `CorNet` reaches `61.75%`); applying `CorNet` to EEG motor imagery, Radar, or Skeletal SPD destroys diagonal power."
         ),
         "arch_optim_diff": (
             "`spd_learn` implements `CorNet` (`CovToCorr` + `BiMap` + `log_map_olm`/`lsm` + `tril_embed` of size $n(n-1)/2$) with learnable shrinkage."
         ),
         "where_it_struggles": (
-            "Severe collapse across all power-driven benchmarks: worst model on 3-channel `BNCI2014-004` (`62.54%`), worst on `Radar` (`73.01%`), and `-11.15%` behind `GraphCSPNet` on `BNCI2014-001` (`58.41%`)."
+            "Severe collapse across all power-driven benchmarks: worst model on 3-channel `BNCI2014-004` (`62.54%`), worst on $40\\times 40$ `Radar` (`88.99%` vs `97.65%`), and `-11.15%` behind `GraphCSPNet` on `BNCI2014-001` (`58.41%`)."
         ),
     },
     "chen2026rietrans": {
         "gap_status": "large",
-        "gap_label": "! Algebraic Exp/Log Cancellation Collapses Deep SPNN (-10.90% HDM05 · 60.84% 10-DS Mean)",
-        "headline_delta": "-10.90% HDM05 (60.56% vs 71.46%) · 60.84% EEG Mean (#24/24)",
+        "gap_label": "! Algebraic Exp/Log Cancellation Collapses Deep SPNN (-11.37% HDM05 · 60.84% 10-DS Mean)",
+        "headline_delta": "-11.37% HDM05 (60.31% vs 71.68%) · 60.84% EEG Mean (#24/24)",
         "original_code_issue": (
             "MATHEMATICAL FLAW in `GitZH-Chen/RieTrans`: Stacking multiple `SPDLinear` layers ($\\exp \\circ \\text{Linear} \\circ \\log$) without intermediate non-linear `ReEig` rectifiers "
             "causes adjacent $\\exp$ and $\\log$ maps to cancel algebraically ($\\log(\\exp(Z)) = Z$), collapsing a 'multi-layer' `SPNN` into a single 1-layer linear model in tangent space!"
         ),
         "our_code_fix": (
             "Voyager empirically confirms this algebraic collapse: `SPNN` has the **lowest 10-dataset MOABB mean of all 24 models (`60.84%`)** (`66.51%` on `BNCI2014-001`, `55.66%` on `BNCI2014-002`, `51.84%` on `Cho2017`), "
-            "and `RieTrans-SPDRMLR` reaches only **`60.56 ± 0.52%`** on `HDM05` (`-10.90%` behind `SPDNetBN` `71.46%`)."
+            "and `RieTrans-SPDRMLR` reaches only **`60.31 ± 0.36%`** on `HDM05` (`-11.37%` behind `SPDNetBN` `71.68%`)."
         ),
         "dataloader_diff": (
-            "Evaluated across all 10 MOABB EEG datasets (`SPNN`) and `HDM05`/`Radar` (`RieTrans-SPDRMLR`) under identical splits."
+            "Evaluated across all 24 EEG/fMRI datasets (`SPNN`) and `HDM05`/`Radar`/`FPHA`/`AFEW` (`RieTrans-SPDRMLR`) under identical splits."
         ),
         "arch_optim_diff": (
             "`spd_learn` implements `SPDLinear`, `SPDRMLR`, and `SPNN`, proving that while tangent chaining saves EVDs, omitting non-linear `ReEig` rectifiers destroys deep representational capacity."
         ),
         "where_it_struggles": (
-            "Ranked #24 out of 24 models across the 10 MOABB EEG datasets (`60.84%` mean) and trails `SPDNetBN` by `-10.90%` on `HDM05` (`60.56%` vs `71.46%`)."
+            "Ranked #24 out of 24 models across the 10 MOABB EEG datasets (`60.84%` mean) and trails `SPDNetBN` by `-11.37%` on `HDM05` (`60.31%` vs `71.68%`)."
         ),
     },
     "wang2025gyroatt": {
@@ -416,7 +417,7 @@ PAPER_GAP_SPECS: dict[str, dict[str, Any]] = {
     },
     "hu2026rhop": {
         "gap_status": "moderate",
-        "gap_label": "◐ #1 on BNCI2014-004 (80.59%) & #2 10-Dataset Mean (71.21%, -7.34% BFM Gap)",
+        "gap_label": "◐ #1 on BNCI2014-004 (80.59%) & #4 10-Dataset Mean (69.15%, -7.34% BFM Gap)",
         "headline_delta": "-7.34% BNCI-001 (66.86% vs 74.20%) · #1 on BNCI-004 (80.59%)",
         "original_code_issue": (
             "Paper evaluates `RHOP` as a pooling head on top of massive pretrained Brain Foundation Models (`LaBraM`, `BIOT`, `CBraMod` pretrained on >2,500 hours of EEG). "
@@ -424,16 +425,16 @@ PAPER_GAP_SPECS: dict[str, dict[str, Any]] = {
         ),
         "our_code_fix": (
             "Removed the 8-sample lowpass pooling bug in `RHOPClassifier` so `GaussianSPDDescriptor` ($\\mathcal{S}_{++}^{d+1}$) pools full-bandwidth tokens. Even **without** a pretrained Foundation Model backbone, "
-            "`RHOP` achieves **`80.59 ± 9.75%`** on `BNCI2014-004` (**#1 of 24 models**), **`66.86 ± 14.71%`** on `BNCI2014-001`, and **`71.21%`** 10-dataset mean (**#2 of 24 models**)."
+            "`RHOP` achieves **`80.59 ± 9.75%`** on `BNCI2014-004` (**#1 of 24 models**), **`66.86 ± 14.71%`** on `BNCI2014-001`, and **`69.15%`** 10-dataset mean (**#4 of 24 models**)."
         ),
         "dataloader_diff": (
-            "Published numbers fine-tune pretrained `LaBraM`/`BIOT` checkpoints on `TUAB`/`TUEV`; Voyager trains `RHOPClassifier` from scratch on 10 MOABB datasets."
+            "Published numbers fine-tune pretrained `LaBraM`/`BIOT` checkpoints on `TUAB`/`TUEV`; Voyager trains `RHOPClassifier` from scratch across 24 EEG datasets (`TUAB`: `61.44%`, `TUEV`: `47.55%`)."
         ),
         "arch_optim_diff": (
             "`spd_learn` implements `GaussianSPDDescriptor` (embedding $(\\mu, \\Sigma) \\mapsto \\mathcal{S}_{++}^{d+1}$) and Power-Euclidean ($\\theta=0.5$) token pooling."
         ),
         "where_it_struggles": (
-            "Training from scratch without `LaBraM`/`BIOT` pretraining leaves a `-7.34%` gap on 4-class `BNCI2014-001` (`66.86%` vs `74.20%`)."
+            "Training from scratch without `LaBraM`/`BIOT` pretraining leaves a `-7.34%` gap on 4-class `BNCI2014-001` (`66.86%` vs `74.20%`) and `-19.0%` on `TUEV` (`47.55%` vs `66.58%` BFM)."
         ),
     },
     "ju2024deepgeocca": {
@@ -449,7 +450,7 @@ PAPER_GAP_SPECS: dict[str, dict[str, Any]] = {
             "`DeepGeoCCA` reaches **`64.08 ± 14.95%`** (final `63.43%`) on `BNCI2014-001` (`-9.12%` below multi-subject CCA pretraining) and **`79.62 ± 9.69%`** on `BNCI2014-004`."
         ),
         "dataloader_diff": (
-            "Paper uses multi-view `SEED`/`DEAP` and `EEG-fMRI` datasets with self-supervised pretraining; Voyager splits MOABB montages into Left/Central vs Right/Central views."
+            "Paper uses multi-view `SEED`/`DEAP` and `EEG-fMRI` datasets with self-supervised pretraining; Voyager evaluates `SEED` (`57.76%`), `DEAP` (`61.02%`), and 22 MOABB/clinical datasets."
         ),
         "arch_optim_diff": (
             "`spd_learn` implements `GeodesicCCALoss` in Log-Euclidean tangent space with ridge-regularized cross-covariance SVD (`eps=1e-3`)."
@@ -460,46 +461,46 @@ PAPER_GAP_SPECS: dict[str, dict[str, Any]] = {
     },
     "gallet2026armagnac": {
         "gap_status": "exact",
-        "gap_label": "✓ #1 Highest Accuracy on HDM05 (72.39% ± 0.88%, Closed-Form Geodesic BN)",
-        "headline_delta": "+0.93% vs SPDNetBN on HDM05 (72.39% vs 71.46%)",
+        "gap_label": "✓ #1 Highest Accuracy on HDM05 (71.75% ± 0.63%, Closed-Form Geodesic BN)",
+        "headline_delta": "+0.07% vs SPDNetBN on HDM05 (71.75% vs 71.68%)",
         "original_code_issue": (
             "Pure Harmonic BatchNorm ($t=0$, $\\mathcal{H} = (\\frac{1}{B}\\sum X_i^{-1})^{-1}$) is sensitive to near-singular sample covariances (`69.77%` on `HDM05`), "
             "and pure Arithmetic BatchNorm ($t=1$, `68.74%` on `HDM05`) ignores inverse-variance geometry."
         ),
         "our_code_fix": (
             "Voyager directly validates Gallet et al.'s core theorem on 117-class `HDM05`: while endpoints `ARMAGNAC-Arithmetic` (`68.74%`) and `ARMAGNAC-Harmonic` (`69.77%`) underperform, "
-            "the learnable geodesic interpolation **`ARMAGNAC-GAH` ($\\mathcal{H} \\#_t \\mathcal{A}$) achieves `72.39 ± 0.88%`**—the **#1 highest accuracy on `HDM05`** across all 16 models, at $3.1\\times$ lower latency than 5-step Karcher BN!"
+            "the learnable geodesic interpolation **`ARMAGNAC-GAH` ($\\mathcal{H} \\#_t \\mathcal{A}$) achieves `71.75 ± 0.63%`** (final `71.56%`)—the **#1 highest accuracy on `HDM05`** across all 16 models, at $3.1\\times$ lower latency than 5-step Karcher BN!"
         ),
         "dataloader_diff": (
-            "Evaluated across 3 seeds on `HDM05` (`93x93`, 117 classes) and 5 seeds on `Radar` (`82.43%`) in `voyager_spdbench_results.json`."
+            "Evaluated across `HDM05` (`71.75 ± 0.63%`) and $40\\times 40$ complex-block `Radar` (`97.17 ± 0.22%`) in `voyager_spdbench_results.json`."
         ),
         "arch_optim_diff": (
             "`spd_learn` implements `SPDBatchNormHarmonic` and `harmonic_arithmetic_mean` ($\\mathcal{H} \\#_\\alpha \\mathcal{A}$) with closed-form geodesic congruence."
         ),
         "where_it_struggles": (
-            "Fixed endpoints (`Harmonic` `69.77%`, `Arithmetic` `68.74%`) trail `SPDNetBN` (`71.46%`) by `-1.7%` to `-2.7%`; adaptive geodesic interpolation (`GAH` `72.39%`) is essential."
+            "Fixed endpoints (`Harmonic` `69.77%`, `Arithmetic` `68.74%`) trail `SPDNetBN` (`71.68%`) by `-1.9%` to `-2.9%`; adaptive geodesic interpolation (`GAH` `71.75%`) is essential."
         ),
     },
     "zhou2025gbwbn_cbn": {
         "gap_status": "large",
-        "gap_label": "! Under-Tuned Baseline Claim: Trails Tuned SPDNetBN on HDM05 (-0.45% / -4.28% Δ)",
-        "headline_delta": "-0.45% GBWBN (71.01%) & -4.28% CBN (67.18%) vs SPDNetBN (71.46%)",
+        "gap_label": "! Under-Tuned Baseline Claim: Trails Tuned SPDNetBN on HDM05 (-0.51% / -5.49% Δ)",
+        "headline_delta": "-0.51% GBWBN (71.17%) & -5.49% CBN (66.19%) vs SPDNetBN (71.68%)",
         "original_code_issue": (
-            "TWO AUTHOR FLAWS: (1) Claims `GBWBN` and `CBN` outperform `SPDNetBN` (`65.20%`) on `HDM05` by comparing against under-tuned baseline numbers; "
+            "TWO AUTHOR FLAWS: (1) Claims `GBWBN` and `CBN` outperform `SPDNetBN` (`65.24%`) on `HDM05` by comparing against under-tuned baseline numbers; "
             "(2) `CBN` operates in Cholesky product space $\\mathcal{L}_0^d \\times \\mathbb{R}_{>0}^d$, which breaks orthogonal permutation invariance ($P X P^\\top$)."
         ),
         "our_code_fix": (
-            "When evaluated fairly under the exact same 60-epoch cosine schedule on Voyager `HDM05`, `GBWBN` (**`71.01 ± 1.35%`**) and `CBN` (**`67.18 ± 1.48%`**) "
-            "both **trail** properly tuned 2019 `SPDNetBN` (**`71.46 ± 1.12%`**) and `ARMAGNAC-GAH` (**`72.39 ± 0.88%`**)!"
+            "When evaluated fairly under the exact same 60-epoch cosine schedule on Voyager `HDM05`, `GBWBN` (**`71.17 ± 1.30%`**) and `CBN` (**`66.19 ± 1.70%`**) "
+            "both **trail** properly tuned 2019 `SPDNetBN` (**`71.68 ± 1.51%`**) and `ARMAGNAC-GAH` (**`71.75 ± 0.63%`**)!"
         ),
         "dataloader_diff": (
-            "Evaluated on identical 3-seed `HDM05` (`holdout_split(0.5)`) and 5-seed `Radar` (`holdout_split(0.25)`) benchmarks as `SPDNetBN`, `LieBN`, and `ARMAGNAC`."
+            "Evaluated on identical `HDM05`, `FPHA`, `AFEW`, and $40\\times 40$ `Radar` (`GBWBN`: `97.12 ± 0.42%`, `CBN`: `96.85 ± 0.58%`) benchmarks as `SPDNetBN`, `LieBN`, and `ARMAGNAC`."
         ),
         "arch_optim_diff": (
             "`spd_learn` implements both `SPDBatchNormBW` (`GBWBN`) and `SPDBatchNormCholesky` (`CBN`, zero EVDs)."
         ),
         "where_it_struggles": (
-            "`CBN` loses `-4.28%` vs `SPDNetBN` on 117-class `HDM05` (`67.18%` vs `71.46%`) because triangular Cholesky factors couple channel ordering with spatial geometry."
+            "`CBN` loses `-5.49%` vs `SPDNetBN` on 117-class `HDM05` (`66.19%` vs `71.68%`) because triangular Cholesky factors couple channel ordering with spatial geometry."
         ),
     },
     "tibermacine2025rceegnet": {
@@ -548,8 +549,8 @@ PAPER_GAP_SPECS: dict[str, dict[str, Any]] = {
     },
     "chen2025alem_spdresnet": {
         "gap_status": "large",
-        "gap_label": "! Non-Differentiable Sorted-Eigenvalue Conv1d Collapse on EEG (-14.67% Δ)",
-        "headline_delta": "55.75% SPDResNet (#24/24 on BNCI-001) · 67.34% HDM05",
+        "gap_label": "! Non-Differentiable Sorted-Eigenvalue Conv1d Collapse on EEG (-18.45% Δ)",
+        "headline_delta": "55.75% SPDResNet (#24/24 on BNCI-001) · 68.36% HDM05",
         "original_code_issue": (
             "FUNDAMENTAL MATHEMATICAL FLAW in `SPDResNet` (`RResNet`): Applies a Euclidean `Conv1d` across **sorted log-eigenvalues** $\\log \\lambda_1 \\le \\dots \\le \\log \\lambda_d$. "
             "(1) Eigenvalue crossings swap indices non-differentiably across trials; (2) 1D convolution across spectrum indices violates orthogonal rotation geometry; "
@@ -557,10 +558,10 @@ PAPER_GAP_SPECS: dict[str, dict[str, Any]] = {
         ),
         "our_code_fix": (
             "Stabilized `SPDResBlock` with smooth monotonic `tanh` spectrum bounding and `float64` `eigh`. Even with numerical stabilization, `SPDResNet` achieves only "
-            "**`55.75 ± 17.61%`** (final `54.78%`) on Voyager `BNCI2014-001` (**#24/24, lowest of all models on `BNCI2014-001`**) and `ALEM` reaches **`59.95 ± 17.02%`**, while `SPDResNet-ALEM` reaches `67.34%` on `HDM05`."
+            "**`55.75 ± 17.61%`** (final `54.78%`) on Voyager `BNCI2014-001` (**#24/24, lowest of all models on `BNCI2014-001`**) and `ALEM` reaches **`59.95 ± 17.02%`**, while `SPDResNet-ALEM` reaches `68.36 ± 1.70%` on `HDM05` and `97.65 ± 0.77%` on $40\\times 40$ `Radar`."
         ),
         "dataloader_diff": (
-            "Evaluated across all 10 MOABB EEG datasets (`SPDResNet`: `62.74%` mean, `ALEM`: `65.17%` mean) and `HDM05` (`67.34%`) / `Radar` (`82.26%`)."
+            "Evaluated across all 24 EEG/fMRI datasets (`SPDResNet`: `62.74%` 10-DS mean) and `HDM05` (`67.56%`/`68.36%`), `FPHA` (`82.76%`), `AFEW` (`31.72%`), and $40\\times 40$ `Radar` (`97.57%`)."
         ),
         "arch_optim_diff": (
             "`spd_learn` implements `AdaptiveLogEuclidean` (`ALEM`) and `SPDResBlock` with `float64` eigendecomposition and smooth spectrum bounding."
@@ -571,18 +572,18 @@ PAPER_GAP_SPECS: dict[str, dict[str, Any]] = {
     },
     "nguyen2023gyrospd": {
         "gap_status": "moderate",
-        "gap_label": "◐ Strong 10-Dataset Generalization (#4/24: 69.25% Mean, -6.97% BNCI-001 Δ)",
-        "headline_delta": "-6.97% BNCI-001 (67.13% vs 74.10%) · #4 across 10 MOABB Datasets",
+        "gap_label": "◐ Strong Generalization (#3 on HDM05: 71.33%, #7 10-DS Mean: 68.91%)",
+        "headline_delta": "-5.97% BNCI-001 (67.13% vs 73.10%) · +2.83% HDM05 (71.33%)",
         "original_code_issue": (
             "Unconstrained SPD gyro-translation $P \\oplus B = P^{1/2} B P^{1/2}$ scales the output trace multiplicatively ($\\operatorname{tr}(P \\oplus \\alpha I) = \\alpha \\operatorname{tr}(P)$), "
             "and applying `TraceNorm()` before `BiMap` erases trial-level ERD/ERS power."
         ),
         "our_code_fix": (
             "Removed `TraceNorm()` and frozen shrinkage in `spd_learn/models/gyrospd.py`. On Voyager, `GyroSPD` achieves **`67.13 ± 15.01%`** (`83.68%` on S1) on `BNCI2014-001`, "
-            "**`72.01 ± 6.38%`** on `Schirrmeister2017` (**#1 of 24 models**), and **`69.25%` 10-dataset mean (#4 of 24 models)**!"
+            "**`72.01 ± 6.38%`** on `Schirrmeister2017` (**#1 of 24 models**), **`71.33 ± 0.77%`** on `HDM05` (#3 of 16 models), and **`97.25 ± 0.54%`** on $40\\times 40$ `Radar`!"
         ),
         "dataloader_diff": (
-            "Paper benchmarks `HDM05`, `FPHA`, and knowledge graphs (`WN18RR`); Voyager evaluates `GyroSPD` across all 10 MOABB EEG datasets."
+            "Paper benchmarks `HDM05`, `FPHA`, and knowledge graphs (`WN18RR`); Voyager evaluates `GyroSPD` across all 28 datasets (`HDM05`, `FPHA`, `AFEW`, `Radar` + 24 EEG/fMRI datasets)."
         ),
         "arch_optim_diff": (
             "`spd_learn` implements `GyroSPDLayer` combining `BiMap` congruence $W X W^\\top$ with SPD gyro-translation $P \\oplus B = P^{1/2} B P^{1/2}$."

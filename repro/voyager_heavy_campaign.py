@@ -660,99 +660,10 @@ def load_eeg_subject_data(dataset_name: str, subject_id: int) -> dict[str, Any]:
         yte_np = np.array([cmap[c] for c in yte_np], dtype=np.int64)
         return _finalize_and_cache(Xtr_np, ytr_np, Xte_np, yte_np, 125)
 
-    if dataset_name == "MASS_SS3":
-        hmc_dir = Path("/voyager/ceph/users/bpinto/studies/Alvarez2022Haaglanden/download/hmc-sleep-staging/1.1/recordings")
-        psg_f = hmc_dir / f"SN{subject_id:03d}.edf"
-        hyp_f = hmc_dir / f"SN{subject_id:03d}_sleepscoring.edf"
-        raw = mne.io.read_raw_edf(str(psg_f), preload=True, verbose="ERROR")
-        annot = mne.read_annotations(str(hyp_f))
-        orig_sf = int(round(float(raw.info["sfreq"])))
-        dec = max(1, orig_sf // 128)
-        sf_use = max(64, orig_sf // dec)
-        data_ch = raw.get_data()[:4, ::dec].astype(np.float32)
-        stage_map = {
-            "Sleep stage W": 0,
-            "Sleep stage N1": 1,
-            "Sleep stage N2": 2,
-            "Sleep stage N3": 3,
-            "Sleep stage R": 4,
-        }
-        ep_l, y_l = [], []
-        for onset, _dur, desc_s in zip(annot.onset, annot.duration, annot.description):
-            if desc_s not in stage_map:
-                continue
-            s_i = int(onset * sf_use)
-            if 0 <= s_i and s_i + 384 <= data_ch.shape[1]:
-                ep_l.append(data_ch[:, s_i : s_i + 384])
-                y_l.append(stage_map[desc_s])
-                if len(ep_l) >= 320:
-                    break
-        X_ep = np.stack(ep_l, axis=0)
-        y_ep = np.array(y_l, dtype=np.int64)
-        uniq_c = sorted(set(y_ep.tolist()))
-        cmap = {c: i for i, c in enumerate(uniq_c)}
-        y_ep = np.array([cmap[c] for c in y_ep], dtype=np.int64)
-        tr_m = np.zeros(len(y_ep), dtype=bool)
-        for c_i in range(len(uniq_c)):
-            idx_c = np.where(y_ep == c_i)[0]
-            tr_m[idx_c[: max(1, int(0.75 * len(idx_c)))]] = True
-        return _finalize_and_cache(X_ep[tr_m], y_ep[tr_m], X_ep[~tr_m], y_ep[~tr_m], sf_use)
-
-    if dataset_name in ("LEMON", "ADHD200", "ABIDE"):
-        tuab_root = Path("/voyager/ceph/users/bpinto/studies/Lopez2017Tuab/edf/train")
-        norm_files = sorted((tuab_root / "normal" / "01_tcp_ar").glob("*.edf"))
-        abn_files = sorted((tuab_root / "abnormal" / "01_tcp_ar").glob("*.edf"))
-        offset = 40 if dataset_name == "LEMON" else (80 if dataset_name == "ADHD200" else 120)
-        ep_l, y_l = [], []
-        for lbl, flist in [(0, norm_files), (1, abn_files)]:
-            start_i = offset + (subject_id - 1) * 8
-            for edf_p in flist[start_i : start_i + 8]:
-                raw = mne.io.read_raw_edf(str(edf_p), preload=True, verbose="ERROR")
-                orig_sf = int(round(float(raw.info["sfreq"])))
-                dec = max(1, orig_sf // 125)
-                d_arr = raw.get_data()[:19, ::dec].astype(np.float32)
-                if d_arr.shape[0] < 19:
-                    continue
-                for w_i in range(6):
-                    s_i = (w_i + 2) * 250
-                    if s_i + 250 <= d_arr.shape[1]:
-                        ep_l.append(d_arr[:, s_i : s_i + 250])
-                        y_l.append(lbl)
-        X_ep = np.stack(ep_l, axis=0)
-        y_ep = np.array(y_l, dtype=np.int64)
-        tr_m = np.zeros(len(y_ep), dtype=bool)
-        for c_i in (0, 1):
-            idx_c = np.where(y_ep == c_i)[0]
-            tr_m[idx_c[: int(0.75 * len(idx_c))]] = True
-        return _finalize_and_cache(X_ep[tr_m], y_ep[tr_m], X_ep[~tr_m], y_ep[~tr_m], 125)
-
-    if dataset_name in ("SEED", "DEAP"):
-        zyma_dir = Path("/voyager/ceph/users/bpinto/studies/Zyma2019Electroencephalograms/download/eegmat/1.0.0")
-        ep_l, y_l = [], []
-        for k_sub in range((subject_id - 1) * 3, (subject_id - 1) * 3 + 4):
-            s_idx = k_sub % 36
-            for lbl, suffix in [(0, "1"), (1, "2")]:
-                edf_p = zyma_dir / f"Subject{s_idx:02d}_{suffix}.edf"
-                if not edf_p.exists():
-                    continue
-                raw = mne.io.read_raw_edf(str(edf_p), preload=True, verbose="ERROR")
-                orig_sf = int(round(float(raw.info["sfreq"])))
-                dec = max(1, orig_sf // 125)
-                d_arr = raw.get_data()[:19, ::dec].astype(np.float32)
-                if d_arr.shape[0] < 19:
-                    continue
-                for w_i in range(10):
-                    s_i = w_i * 250
-                    if s_i + 250 <= d_arr.shape[1]:
-                        ep_l.append(d_arr[:, s_i : s_i + 250])
-                        y_l.append(lbl)
-        X_ep = np.stack(ep_l, axis=0)
-        y_ep = np.array(y_l, dtype=np.int64)
-        tr_m = np.zeros(len(y_ep), dtype=bool)
-        for c_i in (0, 1):
-            idx_c = np.where(y_ep == c_i)[0]
-            tr_m[idx_c[: int(0.75 * len(idx_c))]] = True
-        return _finalize_and_cache(X_ep[tr_m], y_ep[tr_m], X_ep[~tr_m], y_ep[~tr_m], 125)
+    if dataset_name in ("MASS_SS3", "LEMON", "TDBRAIN", "ADHD200", "ABIDE", "SEED", "DEAP"):
+        raise FileNotFoundError(
+            f"Genuine pre-staged cache required for {dataset_name} subject {subject_id} at {cache_file}"
+        )
 
     ds_dir = BD_CACHE_ROOT / dataset_name
     subj_dir = ds_dir / f"4.0-38.0-{subject_id}"
@@ -1155,6 +1066,15 @@ class SPDMatrixClassifier(nn.Module):
         self.final_d = final_d
         feat_dim = final_d * (final_d + 1) // 2
 
+        self.decoder: nn.Module | None = None
+        if variant == "SPDNetAE":
+            from spd_learn.models.spdnetae import SPDDecoderBlock
+            dec_layers = [
+                SPDDecoderBlock(d_in, d_out, eps=reeig_eps, dtype=dtype)
+                for d_in, d_out in zip(reversed(dims[1:]), reversed(dims[:-1]))
+            ]
+            self.decoder = nn.Sequential(*dec_layers)
+
         if variant in ("SPDResNet-ALEM", "ALEM"):
             from spd_learn.models.spdresnet import AdaptiveLogEuclidean
             self.proj: nn.Module | None = nn.Sequential(
@@ -1210,24 +1130,6 @@ def load_spd_matrix_dataset(name: str) -> tuple[torch.Tensor, torch.Tensor, list
     if local_cache_pt.exists():
         d = torch.load(local_cache_pt, weights_only=False)
         return d["X"], d["y"].long(), d.get("split")
-
-    if name == "fpha":
-        hdm_pt = DATA_STAGE_DIR / "hdm05_cache.pt"
-        if not hdm_pt.exists():
-            hdm_pt = LOCAL_SPD_DATA_DIR / "hdm05_cache.pt"
-        if hdm_pt.exists():
-            d_hdm = torch.load(hdm_pt, weights_only=False)
-            X_h = d_hdm["X"][:, :63, :63].double()
-            y_h = d_hdm["y"].long()
-            vals, cnts = torch.unique(y_h, return_counts=True)
-            top45 = vals[torch.argsort(cnts, descending=True)[:45]].tolist()
-            cmap = {c: i for i, c in enumerate(sorted(top45))}
-            mask = torch.tensor([int(lbl.item()) in cmap for lbl in y_h], dtype=torch.bool)
-            X_f = X_h[mask]
-            y_f = torch.tensor([cmap[int(lbl.item())] for lbl in y_h[mask]], dtype=torch.long)
-            tr = torch.diagonal(X_f, dim1=-2, dim2=-1).sum(-1)[:, None, None] / 63.0
-            X_f = X_f + 1e-5 * tr * torch.eye(63, dtype=torch.float64)
-            return X_f, y_f, None
 
     folder_candidates = [
         DATA_STAGE_DIR / name,
@@ -1353,6 +1255,10 @@ def eval_spd_matrix_cell(args: tuple[str, str, int, int, float, int, float]) -> 
                 continue
             opt.zero_grad(set_to_none=True)
             loss = loss_fn(model(Xtr[b]), ytr[b])
+            if model.decoder is not None:
+                z_lat = model.backbone(Xtr[b])
+                x_rec = model.decoder(z_lat)
+                loss = loss + 0.01 * F_spd.log_euclidean_distance(Xtr[b], x_rec).square().mean()
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 5.0)
             opt.step()
@@ -1575,6 +1481,7 @@ def run_shard(
             "TUEV": [1, 2, 3, 4],
             "MASS_SS3": [1, 2, 3, 4],
             "LEMON": [1, 2, 3, 4],
+            "TDBRAIN": [1, 2, 3, 4],
             "SEED": [1, 2, 3, 4],
             "DEAP": [1, 2, 3, 4],
             "ADHD200": [1, 2, 3, 4],
