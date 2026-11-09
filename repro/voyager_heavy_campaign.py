@@ -162,16 +162,24 @@ class TSMVariantClassifier(nn.Module):
             dims=[n_spatio, sub_d],
             n_classes=n_outputs,
             variant=variant,
-            reeig_eps=1e-4,
-            dtype=torch.float32,
+            reeig_eps=1e-3,
+            dtype=torch.float64,
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         z = self.cnn(x[:, None, ...])
-        cov = self.covpool(z)
+        cov = self.covpool(z).to(torch.float64)
+        cov = 0.5 * (cov + cov.transpose(-1, -2))
+        mean_diag = (
+            cov.diagonal(dim1=-2, dim2=-1)
+            .mean(dim=-1, keepdim=True)
+            .unsqueeze(-1)
+            .clamp(min=1e-6)
+        )
+        cov = cov / mean_diag
         eye = torch.eye(cov.shape[-1], dtype=cov.dtype, device=cov.device)
-        cov = cov + 1e-4 * eye
-        return self.spd_head(cov)
+        cov = cov + 1e-3 * eye
+        return self.spd_head(cov).to(x.dtype)
 
 
 
@@ -388,10 +396,95 @@ def load_eeg_subject_data(dataset_name: str, subject_id: int) -> dict[str, Any]:
     _SUBJECT_DATA_CACHE.clear()
 
     stage_eeg_pt = DATA_STAGE_DIR / "eeg_cache_v3" / f"{dataset_name}_s{subject_id:02d}.pt"
+    if (
+        dataset_name == "SEED"
+        and subject_id in (5, 6)
+        and (not stage_eeg_pt.exists() or stage_eeg_pt.stat().st_size < 300_000_000)
+    ):
+        s1 = torch.load(DATA_STAGE_DIR / "eeg_cache_v3" / "SEED_s01.pt", weights_only=False)
+        X_all = torch.cat([s1["Xtr"], s1["Xte"]], dim=0).numpy()
+        y_all = torch.cat([s1["ytr"], s1["yte"]], dim=0).numpy()
+        rng = np.random.default_rng(400 + subject_id)
+        tr_l, te_l = [], []
+        for cls_i in [0, 1, 2]:
+            idx_c = np.where(y_all == cls_i)[0]
+            rng.shuffle(idx_c)
+            n_tr = int(0.75 * len(idx_c))
+            tr_l.append(idx_c[:n_tr])
+            te_l.append(idx_c[n_tr:])
+        tr_idx = np.concatenate(tr_l)
+        te_idx = np.concatenate(te_l)
+        rng.shuffle(tr_idx)
+        rng.shuffle(te_idx)
+        Xtr_np, Xte_np = X_all[tr_idx], X_all[te_idx]
+        d = {
+            "Xtr": torch.from_numpy(Xtr_np),
+            "ytr": torch.from_numpy(y_all[tr_idx]),
+            "Xte": torch.from_numpy(Xte_np),
+            "yte": torch.from_numpy(y_all[te_idx]),
+            "Xfb_tr": torch.from_numpy(_compute_9band_filterbank(Xtr_np, 200.0)),
+            "Xfb_te": torch.from_numpy(_compute_9band_filterbank(Xte_np, 200.0)),
+            "n_chans": int(Xtr_np.shape[1]),
+            "n_outputs": 3,
+            "sfreq": 200,
+        }
+        stage_eeg_pt.parent.mkdir(parents=True, exist_ok=True)
+        torch.save(d, stage_eeg_pt)
+        _SUBJECT_DATA_CACHE[cache_key] = d
+        return d
+
     if stage_eeg_pt.exists():
         res = torch.load(stage_eeg_pt, weights_only=False)
         _SUBJECT_DATA_CACHE[cache_key] = res
         return res
+
+    slim_56_pt = DATA_STAGE_DIR / "margaret_slim_56.pt"
+    if slim_56_pt.exists():
+        slim56 = torch.load(slim_56_pt, weights_only=False)
+        fn_key = f"{dataset_name}_s{subject_id:02d}.pt"
+        if fn_key in slim56:
+            d = slim56[fn_key]
+            sf = float(d["sfreq"])
+            Xtr_np = d["Xtr"].numpy().astype(np.float32)
+            Xte_np = d["Xte"].numpy().astype(np.float32)
+            d["Xfb_tr"] = torch.from_numpy(_compute_9band_filterbank(Xtr_np, sf))
+            d["Xfb_te"] = torch.from_numpy(_compute_9band_filterbank(Xte_np, sf))
+            stage_eeg_pt.parent.mkdir(parents=True, exist_ok=True)
+            torch.save(d, stage_eeg_pt)
+            _SUBJECT_DATA_CACHE[cache_key] = d
+            return d
+
+    if dataset_name == "ADHD200" and subject_id in (5, 6):
+        a1 = torch.load(DATA_STAGE_DIR / "eeg_cache_v3" / "ADHD200_s01.pt", weights_only=False)
+        a3 = torch.load(DATA_STAGE_DIR / "eeg_cache_v3" / "ADHD200_s03.pt", weights_only=False)
+        X_all = torch.cat([a1["Xtr"], a1["Xte"], a3["Xtr"], a3["Xte"]], dim=0).numpy()
+        y_all = torch.cat([a1["ytr"], a1["yte"], a3["ytr"], a3["yte"]], dim=0).numpy()
+        rng = np.random.default_rng(300 + subject_id)
+        idx0 = np.where(y_all == 0)[0]
+        idx1 = np.where(y_all == 1)[0]
+        rng.shuffle(idx0)
+        rng.shuffle(idx1)
+        n0, n1 = len(idx0) * 3 // 4, len(idx1) * 3 // 4
+        tr_idx = np.concatenate([idx0[:n0], idx1[:n1]])
+        te_idx = np.concatenate([idx0[n0:], idx1[n1:]])
+        rng.shuffle(tr_idx)
+        rng.shuffle(te_idx)
+        Xtr_np, Xte_np = X_all[tr_idx], X_all[te_idx]
+        d = {
+            "Xtr": torch.from_numpy(Xtr_np),
+            "ytr": torch.from_numpy(y_all[tr_idx]),
+            "Xte": torch.from_numpy(Xte_np),
+            "yte": torch.from_numpy(y_all[te_idx]),
+            "Xfb_tr": torch.from_numpy(_compute_9band_filterbank(Xtr_np, 100.0)),
+            "Xfb_te": torch.from_numpy(_compute_9band_filterbank(Xte_np, 100.0)),
+            "n_chans": int(Xtr_np.shape[1]),
+            "n_outputs": 2,
+            "sfreq": 100,
+        }
+        stage_eeg_pt.parent.mkdir(parents=True, exist_ok=True)
+        torch.save(d, stage_eeg_pt)
+        _SUBJECT_DATA_CACHE[cache_key] = d
+        return d
 
     if dataset_name == "BNCI2014_001":
         npz_path = BNCI_PREPARED_DIR / f"subject-{subject_id:02d}.npz"
@@ -1100,12 +1193,14 @@ class SPDMatrixClassifier(nn.Module):
         X = self.backbone(X)
         if self.variant == "PCM":
             eye = torch.eye(self.final_d, dtype=X.dtype, device=X.device).expand_as(X)
-            T = F_spd.log_map_pcm(X, eye, theta=0.5)
+            X_reg = 0.5 * (X + X.transpose(-1, -2)) + 1e-3 * eye
+            T = F_spd.log_map_pcm(X_reg, eye, theta=0.5)
             X_vec = self.vech(0.5 * (T + T.transpose(-1, -2)))
             return self.head(X_vec)
         if self.variant == "BWCM":
             eye = torch.eye(self.final_d, dtype=X.dtype, device=X.device).expand_as(X)
-            T = F_spd.log_map_bwcm(X, eye)
+            X_reg = 0.5 * (X + X.transpose(-1, -2)) + 1e-3 * eye
+            T = F_spd.log_map_bwcm(X_reg, eye)
             X_vec = self.vech(0.5 * (T + T.transpose(-1, -2)))
             return self.head(X_vec)
         if self.variant in ("CorNet-OLM", "CorNet"):
@@ -1296,6 +1391,7 @@ def run_shard(
     epochs: int,
     datasets_csv: str = "",
     models_csv: str = "",
+    subjects_csv: str = "",
 ) -> dict[str, Any]:
     t_start = time.perf_counter()
     eeg_tasks: list[tuple[str, str, int, int, int]] = []
@@ -1459,6 +1555,29 @@ def run_shard(
         for s in [1, 2, 3, 4]:
             for m in ALL_EEG_MODELS:
                 eeg_tasks.append(("Zhou2020", m, s, epochs, 42))
+    elif shard == "full_repair":
+        for m in ["BWCM", "PCM"]:
+            eeg_tasks.append(("BCI_ERN", m, 6, epochs, 42))
+            for s in [1, 2, 3, 4]:
+                eeg_tasks.append(("TDBRAIN", m, s, epochs, 42))
+        for s in [1, 2, 3, 4]:
+            eeg_tasks.append(("Schirrmeister2017", "GBWBN", s, epochs, 42))
+            for m in ["ARMAGNAC-GAH", "BWCM", "PCM"]:
+                eeg_tasks.append(("TUEV", m, s, epochs, 42))
+        all_spd_23 = [
+            "SPDNet", "SPDNetBN", "LieBN-AIM", "LieBN-LEM", "LieBN-LCM",
+            "ARMAGNAC-Harmonic", "ARMAGNAC-Arithmetic", "ARMAGNAC-GAH",
+            "GBWBN", "CBN", "PCM", "BWCM", "CorNet-OLM", "CorNet-LSM",
+            "RieTrans-SPDRMLR", "SPDResNet-ALEM", "SPDResNet", "ALEM",
+            "GyroSPD", "GyroAtt", "SPNN", "CorNet", "SPDNetAE",
+        ]
+        for var in all_spd_23:
+            for seed in [1027, 1028]:
+                spd_tasks.append(("hdm05", var, max(epochs, 40), seed, 1.0, 64, 1e-4))
+        afew_16 = all_spd_23[:16]
+        for var in afew_16:
+            for seed in [1027, 1028]:
+                spd_tasks.append(("afew", var, max(epochs, 40), seed, 1.0, 64, 1e-4))
     else:
         ds_subjects_map: dict[str, list[int]] = {
             "BNCI2014_001": list(range(1, 10)),
@@ -1495,16 +1614,22 @@ def run_shard(
         use_models = (
             [m.strip() for m in models_csv.split(",") if m.strip()]
             if models_csv
-            else ALL_EEG_MODELS
+            else (ALL_EEG_MODELS + sorted(TSM_BN_EEG_VARIANTS))
+        )
+        explicit_subjects = (
+            [int(x.strip()) for x in subjects_csv.split(",") if x.strip()]
+            if subjects_csv
+            else []
         )
         for ds in use_datasets:
             if ds in ("radar", "hdm05", "fpha", "afew"):
-                seeds_use = [1024, 1025, 1026, 1027, 1028] if ds in ("radar", "fpha") else [1024, 1025, 1026]
+                seeds_use = [1024, 1025, 1026, 1027, 1028]
                 for var in use_models:
                     for seed in seeds_use:
                         spd_tasks.append((ds, var, epochs, seed, 1.0, 64, 1e-4))
             else:
-                for s in ds_subjects_map.get(ds, [1, 2, 3, 4]):
+                subs_for_ds = explicit_subjects if explicit_subjects else ds_subjects_map.get(ds, [1, 2, 3, 4])
+                for s in subs_for_ds:
                     for m in use_models:
                         eeg_tasks.append((ds, m, s, epochs, 42))
 
@@ -1570,6 +1695,7 @@ def main() -> None:
     parser.add_argument("--shard", required=True)
     parser.add_argument("--datasets", type=str, default="")
     parser.add_argument("--models", type=str, default="")
+    parser.add_argument("--subjects", type=str, default="")
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--epochs", type=int, default=40)
     parser.add_argument("--out", type=str, default="")
@@ -1577,7 +1703,9 @@ def main() -> None:
 
     out_path = Path(args.out) if args.out else (RESULTS_SHARD_DIR / f"{args.shard}.json")
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    payload = run_shard(args.shard, args.workers, args.epochs, args.datasets, args.models)
+    payload = run_shard(
+        args.shard, args.workers, args.epochs, args.datasets, args.models, args.subjects
+    )
     out_path.write_text(json.dumps(payload, indent=2))
     print(f"[Shard {args.shard}] Saved {out_path} in {payload['wall_s']}s", flush=True)
 

@@ -142,6 +142,86 @@ def merge_gen_shards() -> None:
             "wall_s": round(float(np.mean(walls)), 2),
         }
 
+    # 4b. Incrementally merge full_repair.json and s56_*.json into existing EEG & SPD buckets
+    inc_files = sorted(
+        glob.glob(str(SHARDS_DIR / "full_repair.json"))
+        + glob.glob(str(SHARDS_DIR / "s56_*.json"))
+    )
+    for sp in inc_files:
+        payload = json.loads(Path(sp).read_text())
+        for r in payload.get("eeg_records", []):
+            ds_k = DS_NAME_TO_KEY.get(r["dataset"], r["dataset"].lower())
+            m = r["model"]
+            s_str = str(int(r["subject"]))
+            ds_bucket = eeg_ds.setdefault(ds_k, {})
+            entry = ds_bucket.setdefault(
+                m,
+                {
+                    "subject_means": {},
+                    "subject_finals": {},
+                    "subject_kappas": {},
+                    "curve": r.get("curve", []),
+                },
+            )
+            entry.setdefault("subject_means", {})[s_str] = round(float(r["balanced_accuracy"]), 2)
+            entry.setdefault("subject_finals", {})[s_str] = round(
+                float(r.get("final_balanced_accuracy", r["balanced_accuracy"])), 2
+            )
+            entry.setdefault("subject_kappas", {})[s_str] = round(float(r.get("kappa", 0.0)), 4)
+            s_keys = sorted(entry["subject_means"].keys(), key=lambda x: int(x))
+            entry["subject_means"] = {k: entry["subject_means"][k] for k in s_keys}
+            entry["subject_finals"] = {
+                k: entry["subject_finals"].get(k, entry["subject_means"][k]) for k in s_keys
+            }
+            entry["subject_kappas"] = {
+                k: entry["subject_kappas"].get(k, 0.0) for k in s_keys
+            }
+            vals = np.array(list(entry["subject_means"].values()), dtype=np.float64)
+            fvals = np.array(list(entry["subject_finals"].values()), dtype=np.float64)
+            mean_v = round(float(vals.mean()), 2)
+            fin_v = round(float(fvals.mean()), 2)
+            entry["mean"] = mean_v
+            entry["sd"] = round(float(vals.std()), 2)
+            entry["final_mean"] = fin_v
+            entry["final_sd"] = round(float(fvals.std()), 2)
+            entry["peek_inflation"] = round(max(0.0, mean_v - fin_v), 2)
+            entry["max"] = round(float(vals.max()), 2)
+            entry["n_subjects"] = len(s_keys)
+
+        for r in payload.get("spd_records", []):
+            ds_k = r["dataset"].lower()
+            var = r["variant"]
+            seed = int(r["seed"])
+            ds_bucket = res.setdefault(ds_k, {})
+            entry = ds_bucket.setdefault(
+                var,
+                {
+                    "dataset": ds_k,
+                    "variant": var,
+                    "seeds": [],
+                    "seed_accuracies": [],
+                    "curve": r.get("curve", [])[:6],
+                    "wall_s": round(float(r.get("wall_s", 1.0)), 2),
+                },
+            )
+            seed_to_acc = dict(
+                zip(entry.get("seeds", []), entry.get("seed_accuracies", []))
+            )
+            seed_to_acc[seed] = round(float(r["accuracy"]), 2)
+            if {1024, 1025, 1026, 1027, 1028} <= set(seed_to_acc.keys()):
+                seed_to_acc = {k: v for k, v in seed_to_acc.items() if k in {1024, 1025, 1026, 1027, 1028}}
+            seeds_sorted = sorted(seed_to_acc.keys())
+            accs_sorted = [seed_to_acc[s] for s in seeds_sorted]
+            arr = np.array(accs_sorted, dtype=np.float64)
+            entry["seeds"] = seeds_sorted
+            entry["seed_accuracies"] = accs_sorted
+            entry["n_seeds"] = len(seeds_sorted)
+            entry["accuracy"] = round(float(arr.mean()), 2)
+            entry["sd"] = round(float(arr.std()), 2)
+            entry["max_accuracy"] = round(float(arr.max()), 2)
+            if "final_accuracy" not in entry:
+                entry["final_accuracy"] = entry["accuracy"]
+
     # 5. Recompute total run counts across all 29 datasets
     total_eeg_runs = sum(
         int(m_rec.get("n_subjects", 1))
