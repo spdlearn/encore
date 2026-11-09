@@ -41,6 +41,12 @@ REPAIR_SHARDS = [
     "repair_schirr.json",
     "repair_weibo.json",
     "repair_zhou.json",
+    "rootfix_bnci001.json",
+    "rootfix_bnci002_weibo.json",
+    "rootfix_bnci004_2015.json",
+    "rootfix_lee_cho.json",
+    "rootfix_schirr_shin_zhou.json",
+    "rootfix_resnet_alem.json",
 ]
 
 

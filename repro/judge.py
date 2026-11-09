@@ -210,8 +210,9 @@ def run_judge() -> dict[str, Any]:
     (REPRO_DIR / "verdicts.json").write_text(json.dumps(summary, indent=2))
 
     md_lines = [
-        "# SPD-Learn ICML 2026 / NEMAR / MOABB / spd-bench Reproductions Leaderboard",
+        "# SPD Replicability & Generation Initiative — ICML 2026 / NEMAR / MOABB / spd-bench Leaderboard",
         "",
+        f"- **Initiative Branch**: `feat/spd-replicability-and-generation-initiative`",
         f"- **Judge**: `{summary['judge_version']}` (Untrusted-Narrative Execution Trace Auditor)",
         f"- **Audited Timestamp**: `{summary['timestamp_utc']}`",
         f"- **Papers Audited**: `{summary['total_papers']}` (9 Foundational + 18 Recent)",

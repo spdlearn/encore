@@ -9,11 +9,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<title>RieTrans: SPDLinear, SPDRMLR &amp; SPNN (NeurIPS 2024 / 2026) · SPD-Learn Encore Registry</title></head><body>
+<title>RieTrans: SPDLinear, SPDRMLR &amp; SPNN (NeurIPS 2024 / 2026) · SPD Replicability &amp; Generation Initiative</title></head><body>
 <nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="../../index.html">
     <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M21.6 8.3A9.5 9.5 0 1 0 25.5 16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18.9 10.7 24.1 5.5 24.7 11.3z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path class="tick" d="M11.3 16.3l3.3 3.3 5.9-6.8" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <span>SPD-Learn Encore</span>
+    <span>SPD Replicability &amp; Generation Initiative</span>
   </a>
   <a class="by" href="https://spdlearn.org">for spdlearn.org</a>
   <a class="tab" href="../../index.html">Overview</a>
@@ -110,12 +110,16 @@
         <code>-0.95% mean Δ · Zero I</code>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper benchmarks custom image/skeleton covariance features alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 CrossSession under identical preprocessing.</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>In <code>GitZH-Chen/RieTrans</code>, stacking multiple <code>SPDLinear</code> layers without intermediate non-linear <code>ReEig</code> rectification causes adjacent <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>exp</mi><mo>⁡</mo><mi mathvariant="normal">/</mi><mi>log</mi><mo>⁡</mo></mrow><annotation encoding="application/x-tex">\exp/\log</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">exp</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">/</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span></span></span></span> maps to cancel algebraically, collapsing a multi-layer <code>SPNN</code> into a single effective linear transformation in tangent space.</p>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Model &amp; Optimizer Diff</div>
-        <p>spd_learn implements algebraic tangent-space chaining across stacked SPDLinear layers (canceling exp/log pairs so intermediate layers require 0 eigendecompositions) + SPDRMLR head.</p>
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>Implemented <code>SPDLinear</code>, <code>SPDRMLR</code>, and <code>SPNN</code> in <code>spd_learn</code> with explicit tangent-space chaining (<code>0</code> internal EVDs across intermediate layers) and multi-metric RMLR support, reaching <code>74.42%</code> mean (<code>89.24%</code> S03) on <code>BNCI2014-001</code> and <code>93.60%</code> on <code>Radar</code>.</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
+        <p>Paper benchmarks custom image/skeleton covariance features alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 CrossSession under identical preprocessing.</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Fails / Struggles</div>
@@ -263,12 +267,16 @@
         <code>-0.95% mean Δ · Zero I</code>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper benchmarks custom image/skeleton covariance features alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 CrossSession under identical preprocessing.</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>In <code>GitZH-Chen/RieTrans</code>, stacking multiple <code>SPDLinear</code> layers without intermediate non-linear <code>ReEig</code> rectification causes adjacent <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>exp</mi><mo>⁡</mo><mi mathvariant="normal">/</mi><mi>log</mi><mo>⁡</mo></mrow><annotation encoding="application/x-tex">\exp/\log</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">exp</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">/</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span></span></span></span> maps to cancel algebraically, collapsing a multi-layer <code>SPNN</code> into a single effective linear transformation in tangent space.</p>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Implementation &amp; Optimizer Diff</div>
-        <p>spd_learn implements algebraic tangent-space chaining across stacked SPDLinear layers (canceling exp/log pairs so intermediate layers require 0 eigendecompositions) + SPDRMLR head.</p>
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>Implemented <code>SPDLinear</code>, <code>SPDRMLR</code>, and <code>SPNN</code> in <code>spd_learn</code> with explicit tangent-space chaining (<code>0</code> internal EVDs across intermediate layers) and multi-metric RMLR support, reaching <code>74.42%</code> mean (<code>89.24%</code> S03) on <code>BNCI2014-001</code> and <code>93.60%</code> on <code>Radar</code>.</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
+        <p>Paper benchmarks custom image/skeleton covariance features alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 CrossSession under identical preprocessing.</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Fails / Boundary Regime</div>
@@ -371,12 +379,16 @@
         <code>-0.95% mean Δ · Zero I</code>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper benchmarks custom image/skeleton covariance features alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 CrossSession under identical preprocessing.</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>In <code>GitZH-Chen/RieTrans</code>, stacking multiple <code>SPDLinear</code> layers without intermediate non-linear <code>ReEig</code> rectification causes adjacent <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>exp</mi><mo>⁡</mo><mi mathvariant="normal">/</mi><mi>log</mi><mo>⁡</mo></mrow><annotation encoding="application/x-tex">\exp/\log</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">exp</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">/</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span></span></span></span> maps to cancel algebraically, collapsing a multi-layer <code>SPNN</code> into a single effective linear transformation in tangent space.</p>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Implementation &amp; Optimizer Diff</div>
-        <p>spd_learn implements algebraic tangent-space chaining across stacked SPDLinear layers (canceling exp/log pairs so intermediate layers require 0 eigendecompositions) + SPDRMLR head.</p>
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>Implemented <code>SPDLinear</code>, <code>SPDRMLR</code>, and <code>SPNN</code> in <code>spd_learn</code> with explicit tangent-space chaining (<code>0</code> internal EVDs across intermediate layers) and multi-metric RMLR support, reaching <code>74.42%</code> mean (<code>89.24%</code> S03) on <code>BNCI2014-001</code> and <code>93.60%</code> on <code>Radar</code>.</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
+        <p>Paper benchmarks custom image/skeleton covariance features alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 CrossSession under identical preprocessing.</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Fails / Boundary Regime</div>
@@ -534,12 +546,16 @@
 </div>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper benchmarks custom image/skeleton covariance features alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 CrossSession under identical preprocessing.</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>In <code>GitZH-Chen/RieTrans</code>, stacking multiple <code>SPDLinear</code> layers without intermediate non-linear <code>ReEig</code> rectification causes adjacent <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>exp</mi><mo>⁡</mo><mi mathvariant="normal">/</mi><mi>log</mi><mo>⁡</mo></mrow><annotation encoding="application/x-tex">\exp/\log</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">exp</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">/</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span></span></span></span> maps to cancel algebraically, collapsing a multi-layer <code>SPNN</code> into a single effective linear transformation in tangent space.</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>Implemented <code>SPDLinear</code>, <code>SPDRMLR</code>, and <code>SPNN</code> in <code>spd_learn</code> with explicit tangent-space chaining (<code>0</code> internal EVDs across intermediate layers) and multi-metric RMLR support, reaching <code>74.42%</code> mean (<code>89.24%</code> S03) on <code>BNCI2014-001</code> and <code>93.60%</code> on <code>Radar</code>.</p>
       </div>
       <div class="diff-box warn">
-        <div class="diff-label">Where It Struggles / Diverges</div>
-        <p>When no non-linear ReEig rectification separates stacked SPDLinear layers, the multi-layer stack collapses algebraically to a single effective linear map in tangent space.</p>
+        <div class="diff-label">Dataloader &amp; Where It Struggles</div>
+        <p>Paper benchmarks custom image/skeleton covariance features alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 CrossSession under identical preprocessing. When no non-linear ReEig rectification separates stacked SPDLinear layers, the multi-layer stack collapses algebraically to a single effective linear map in tangent space.</p>
       </div>
     </div>
   </div>
@@ -696,12 +712,16 @@
 </div>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper benchmarks custom image/skeleton covariance features alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 CrossSession under identical preprocessing.</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>In <code>GitZH-Chen/RieTrans</code>, stacking multiple <code>SPDLinear</code> layers without intermediate non-linear <code>ReEig</code> rectification causes adjacent <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>exp</mi><mo>⁡</mo><mi mathvariant="normal">/</mi><mi>log</mi><mo>⁡</mo></mrow><annotation encoding="application/x-tex">\exp/\log</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">exp</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">/</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span></span></span></span> maps to cancel algebraically, collapsing a multi-layer <code>SPNN</code> into a single effective linear transformation in tangent space.</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>Implemented <code>SPDLinear</code>, <code>SPDRMLR</code>, and <code>SPNN</code> in <code>spd_learn</code> with explicit tangent-space chaining (<code>0</code> internal EVDs across intermediate layers) and multi-metric RMLR support, reaching <code>74.42%</code> mean (<code>89.24%</code> S03) on <code>BNCI2014-001</code> and <code>93.60%</code> on <code>Radar</code>.</p>
       </div>
       <div class="diff-box warn">
-        <div class="diff-label">Where It Struggles / Diverges</div>
-        <p>When no non-linear ReEig rectification separates stacked SPDLinear layers, the multi-layer stack collapses algebraically to a single effective linear map in tangent space.</p>
+        <div class="diff-label">Dataloader &amp; Where It Struggles</div>
+        <p>Paper benchmarks custom image/skeleton covariance features alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 CrossSession under identical preprocessing. When no non-linear ReEig rectification separates stacked SPDLinear layers, the multi-layer stack collapses algebraically to a single effective linear map in tangent space.</p>
       </div>
     </div>
   </div>
@@ -4223,10 +4243,12 @@ M1001 80h400000v40h-400000z"/></svg></span></span></span><span class="vlist-s">�
 
   <section class="tabpanel" id="tab-claims">
     <div class="panel">
-      <h2>Deep-Dive Gap Analysis, Failure Modes &amp; Practitioner Guidance</h2>
+      <h2>Deep-Dive Root-Cause Attribution (Original Code vs. Our Code), Failure Modes &amp; Practitioner Guidance</h2>
       <table class="data-table">
         <tbody>
-          <tr><th style="width:210px">Dataloader &amp; Preprocessing Diff</th><td>Paper benchmarks custom image/skeleton covariance features alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 CrossSession under identical preprocessing.</td></tr>
+          <tr><th style="width:230px;color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</th><td>In <code>GitZH-Chen/RieTrans</code>, stacking multiple <code>SPDLinear</code> layers without intermediate non-linear <code>ReEig</code> rectification causes adjacent <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>exp</mi><mo>⁡</mo><mi mathvariant="normal">/</mi><mi>log</mi><mo>⁡</mo></mrow><annotation encoding="application/x-tex">\exp/\log</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">exp</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">/</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span></span></span></span> maps to cancel algebraically, collapsing a multi-layer <code>SPNN</code> into a single effective linear transformation in tangent space.</td></tr>
+          <tr><th style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix Applied</th><td>Implemented <code>SPDLinear</code>, <code>SPDRMLR</code>, and <code>SPNN</code> in <code>spd_learn</code> with explicit tangent-space chaining (<code>0</code> internal EVDs across intermediate layers) and multi-metric RMLR support, reaching <code>74.42%</code> mean (<code>89.24%</code> S03) on <code>BNCI2014-001</code> and <code>93.60%</code> on <code>Radar</code>.</td></tr>
+          <tr><th>Dataloader &amp; Preprocessing Diff</th><td>Paper benchmarks custom image/skeleton covariance features alongside EEG; spd-bench evaluates HDM05, Radar, and MOABB BNCI2014-001 CrossSession under identical preprocessing.</td></tr>
           <tr><th>Architecture &amp; Optimizer Diff</th><td>spd_learn implements algebraic tangent-space chaining across stacked SPDLinear layers (canceling exp/log pairs so intermediate layers require 0 eigendecompositions) + SPDRMLR head.</td></tr>
           <tr><th>Where It Struggles / Diverges</th><td>When no non-linear ReEig rectification separates stacked SPDLinear layers, the multi-layer stack collapses algebraically to a single effective linear map in tangent space.</td></tr>
           <tr><th>Primary Mathematical Failure Mode</th><td>Full dense tangent-space weight matrices W in <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi mathvariant="double-struck">R</mi><mrow><msub><mi>m</mi><mi>o</mi></msub><mi>u</mi><mi>t</mi><mi>x</mi><msub><mi>m</mi><mi>i</mi></msub><mi>n</mi></mrow></msup></mrow><annotation encoding="application/x-tex">\mathbb{R}^{m_out x m_in}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7936em;"></span><span class="mord"><span class="mord mathbb">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7936em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1645em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">o</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mord mathnormal mtight">u</span><span class="mord mathnormal mtight">t</span><span class="mord mathnormal mtight">x</span><span class="mord mtight"><span class="mord mathnormal mtight">m</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3281em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.0714em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathnormal mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span><span class="mord mathnormal mtight">n</span></span></span></span></span></span></span></span></span></span></span></span> have O(d^4) parameters (since m = d(d+1)/2), which overfits rapidly when d &gt; 16 on small EEG datasets.</td></tr>
@@ -4412,11 +4434,11 @@ tabs.forEach(function(btn,idx){
 });
 })();</script>
 <footer>
-  SPD-Learn Encore Reproducibility Registry · Sub-Page for <a href="https://spdlearn.org">spdlearn.org</a> (modeled on <a href="https://encorescience.org/">Encore Science</a>, the ICML 2026 Open Reproductions Judge, and the NEMAR BIDS Auditing Protocol) ·
+  SPD Replicability &amp; Generation Initiative · Sub-Page for <a href="https://spdlearn.org">spdlearn.org</a> (modeled on <a href="https://encorescience.org/">Encore Science</a>, the ICML 2026 Open Reproductions Judge, and the NEMAR BIDS Auditing Protocol) ·
   <a href="../../registry.json">Registry JSON</a> ·
   <a href="../../repro/verdicts.json">Judge Verdicts JSON</a> ·
   <a href="https://github.com/spdlearn/spd_learn">spd_learn Repository</a>.
-  Every verdict is computed deterministically from raw Trackio execution traces on the Voyager cluster by an untrusted-narrative automated judge.
+  Every verdict and root-cause attribution (Original Authors' Code vs. Our Repaired <code>spd_learn</code> Code) is computed deterministically from raw Trackio execution traces on the Voyager cluster.
 </footer>
 </div>
 <script>(function(){

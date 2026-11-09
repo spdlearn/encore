@@ -9,11 +9,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<title>SPDNet: A Riemannian Network for SPD Matrix Learning (AAAI 2017) · SPD-Learn Encore Registry</title></head><body>
+<title>SPDNet: A Riemannian Network for SPD Matrix Learning (AAAI 2017) · SPD Replicability &amp; Generation Initiative</title></head><body>
 <nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="../../index.html">
     <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M21.6 8.3A9.5 9.5 0 1 0 25.5 16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18.9 10.7 24.1 5.5 24.7 11.3z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path class="tick" d="M11.3 16.3l3.3 3.3 5.9-6.8" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <span>SPD-Learn Encore</span>
+    <span>SPD Replicability &amp; Generation Initiative</span>
   </a>
   <a class="by" href="https://spdlearn.org">for spdlearn.org</a>
   <a class="tab" href="../../index.html">Overview</a>
@@ -115,16 +115,20 @@
         <code>+0.28% mean Δ</code>
       </div>
       <div class="diff-box">
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>Original MATLAB repo (<code>zzhiwu/SPDNet</code>) loads pre-computed <code>.mat</code> covariance descriptors on a single fixed random split and uses custom QR-retraction SGD without temporal filtering or Riemannian batch normalization.</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>Normalized <code>SPDNet</code> in <code>spd_learn</code> with PyTorch orthogonal trivialization (Cayley/Householder <code>BiMap</code>), <code>ReEig(threshold=1e-4)</code>, and trace-scaled shrinkage (<code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span></code>) for rank-deficient <code>FPHA</code> windows (<code>T &lt; 63</code>), reaching 82.29% S01 on <code>BNCI2014-001</code>.</p>
+      </div>
+      <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
         <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>) for rank-deficient FPHA trials (T &lt; 63).</p>
       </div>
-      <div class="diff-box">
-        <div class="diff-label">Model &amp; Optimizer Diff</div>
-        <p>Paper uses custom MATLAB Riemannian SGD with manual QR Stiefel retraction; spd_learn uses PyTorch orthogonal trivialization (Cayley/Householder) + AdamW/AMSGrad.</p>
-      </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Fails / Struggles</div>
-        <p>Struggles on raw multi-channel EEG (BNCI2014-001 S2: 37.5%, S6: 43.1%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</p>
+        <p>Struggles on low-SNR raw multi-channel EEG subjects (BNCI2014-001 S2: 53.8%, S6: 54.5%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</p>
       </div>
     </div>
   </div>
@@ -259,16 +263,20 @@
         <code>+0.28% mean Δ</code>
       </div>
       <div class="diff-box">
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>Original MATLAB repo (<code>zzhiwu/SPDNet</code>) loads pre-computed <code>.mat</code> covariance descriptors on a single fixed random split and uses custom QR-retraction SGD without temporal filtering or Riemannian batch normalization.</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>Normalized <code>SPDNet</code> in <code>spd_learn</code> with PyTorch orthogonal trivialization (Cayley/Householder <code>BiMap</code>), <code>ReEig(threshold=1e-4)</code>, and trace-scaled shrinkage (<code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span></code>) for rank-deficient <code>FPHA</code> windows (<code>T &lt; 63</code>), reaching 82.29% S01 on <code>BNCI2014-001</code>.</p>
+      </div>
+      <div class="diff-box">
         <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
         <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>) for rank-deficient FPHA trials (T &lt; 63).</p>
       </div>
-      <div class="diff-box">
-        <div class="diff-label">Implementation &amp; Optimizer Diff</div>
-        <p>Paper uses custom MATLAB Riemannian SGD with manual QR Stiefel retraction; spd_learn uses PyTorch orthogonal trivialization (Cayley/Householder) + AdamW/AMSGrad.</p>
-      </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Fails / Boundary Regime</div>
-        <p>Struggles on raw multi-channel EEG (BNCI2014-001 S2: 37.5%, S6: 43.1%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</p>
+        <p>Struggles on low-SNR raw multi-channel EEG subjects (BNCI2014-001 S2: 53.8%, S6: 54.5%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</p>
       </div>
     </div>
   </div>
@@ -430,12 +438,16 @@
 </div>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>) for rank-deficient FPHA trials (T &lt; 63).</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>Original MATLAB repo (<code>zzhiwu/SPDNet</code>) loads pre-computed <code>.mat</code> covariance descriptors on a single fixed random split and uses custom QR-retraction SGD without temporal filtering or Riemannian batch normalization.</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>Normalized <code>SPDNet</code> in <code>spd_learn</code> with PyTorch orthogonal trivialization (Cayley/Householder <code>BiMap</code>), <code>ReEig(threshold=1e-4)</code>, and trace-scaled shrinkage (<code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span></code>) for rank-deficient <code>FPHA</code> windows (<code>T &lt; 63</code>), reaching 82.29% S01 on <code>BNCI2014-001</code>.</p>
       </div>
       <div class="diff-box warn">
-        <div class="diff-label">Where It Struggles / Diverges</div>
-        <p>Struggles on raw multi-channel EEG (BNCI2014-001 S2: 37.5%, S6: 43.1%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</p>
+        <div class="diff-label">Dataloader &amp; Where It Struggles</div>
+        <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>) for rank-deficient FPHA trials (T &lt; 63). Struggles on low-SNR raw multi-channel EEG subjects (BNCI2014-001 S2: 53.8%, S6: 54.5%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</p>
       </div>
     </div>
   </div>
@@ -589,12 +601,16 @@
 </div>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>) for rank-deficient FPHA trials (T &lt; 63).</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>Original MATLAB repo (<code>zzhiwu/SPDNet</code>) loads pre-computed <code>.mat</code> covariance descriptors on a single fixed random split and uses custom QR-retraction SGD without temporal filtering or Riemannian batch normalization.</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>Normalized <code>SPDNet</code> in <code>spd_learn</code> with PyTorch orthogonal trivialization (Cayley/Householder <code>BiMap</code>), <code>ReEig(threshold=1e-4)</code>, and trace-scaled shrinkage (<code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span></code>) for rank-deficient <code>FPHA</code> windows (<code>T &lt; 63</code>), reaching 82.29% S01 on <code>BNCI2014-001</code>.</p>
       </div>
       <div class="diff-box warn">
-        <div class="diff-label">Where It Struggles / Diverges</div>
-        <p>Struggles on raw multi-channel EEG (BNCI2014-001 S2: 37.5%, S6: 43.1%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</p>
+        <div class="diff-label">Dataloader &amp; Where It Struggles</div>
+        <p>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>) for rank-deficient FPHA trials (T &lt; 63). Struggles on low-SNR raw multi-channel EEG subjects (BNCI2014-001 S2: 53.8%, S6: 54.5%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</p>
       </div>
     </div>
   </div>
@@ -831,7 +847,7 @@
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Struggles / Boundary Regime</div>
-        <p>Struggles on raw multi-channel EEG (BNCI2014-001 S2: 37.5%, S6: 43.1%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</p>
+        <p>Struggles on low-SNR raw multi-channel EEG subjects (BNCI2014-001 S2: 53.8%, S6: 54.5%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</p>
       </div>
     </div>
   </div>
@@ -940,7 +956,7 @@
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Struggles / Boundary Regime</div>
-        <p>Struggles on raw multi-channel EEG (BNCI2014-001 S2: 37.5%, S6: 43.1%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</p>
+        <p>Struggles on low-SNR raw multi-channel EEG subjects (BNCI2014-001 S2: 53.8%, S6: 54.5%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</p>
       </div>
     </div>
   </div>
@@ -1049,7 +1065,7 @@
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Struggles / Boundary Regime</div>
-        <p>Struggles on raw multi-channel EEG (BNCI2014-001 S2: 37.5%, S6: 43.1%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</p>
+        <p>Struggles on low-SNR raw multi-channel EEG subjects (BNCI2014-001 S2: 53.8%, S6: 54.5%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</p>
       </div>
     </div>
   </div>
@@ -1257,12 +1273,14 @@
 
   <section class="tabpanel" id="tab-claims">
     <div class="panel">
-      <h2>Deep-Dive Gap Analysis, Failure Modes &amp; Practitioner Guidance</h2>
+      <h2>Deep-Dive Root-Cause Attribution (Original Code vs. Our Code), Failure Modes &amp; Practitioner Guidance</h2>
       <table class="data-table">
         <tbody>
-          <tr><th style="width:210px">Dataloader &amp; Preprocessing Diff</th><td>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>) for rank-deficient FPHA trials (T &lt; 63).</td></tr>
+          <tr><th style="width:230px;color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</th><td>Original MATLAB repo (<code>zzhiwu/SPDNet</code>) loads pre-computed <code>.mat</code> covariance descriptors on a single fixed random split and uses custom QR-retraction SGD without temporal filtering or Riemannian batch normalization.</td></tr>
+          <tr><th style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix Applied</th><td>Normalized <code>SPDNet</code> in <code>spd_learn</code> with PyTorch orthogonal trivialization (Cayley/Householder <code>BiMap</code>), <code>ReEig(threshold=1e-4)</code>, and trace-scaled shrinkage (<code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span></code>) for rank-deficient <code>FPHA</code> windows (<code>T &lt; 63</code>), reaching 82.29% S01 on <code>BNCI2014-001</code>.</td></tr>
+          <tr><th>Dataloader &amp; Preprocessing Diff</th><td>Paper loads pre-computed MATLAB .mat covariance descriptors on fixed random splits; spd-bench recomputes sample covariances from raw skeletal/radar/EEG windows with trace-scaled shrinkage (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi><mo>=</mo><mn>1</mn><msup><mn>0</mn><mrow><mo>−</mo><mn>4</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\epsilon = 10^{-4}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">4</span></span></span></span></span></span></span></span></span></span></span></span>) for rank-deficient FPHA trials (T &lt; 63).</td></tr>
           <tr><th>Architecture &amp; Optimizer Diff</th><td>Paper uses custom MATLAB Riemannian SGD with manual QR Stiefel retraction; spd_learn uses PyTorch orthogonal trivialization (Cayley/Householder) + AdamW/AMSGrad.</td></tr>
-          <tr><th>Where It Struggles / Diverges</th><td>Struggles on raw multi-channel EEG (BNCI2014-001 S2: 37.5%, S6: 43.1%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</td></tr>
+          <tr><th>Where It Struggles / Diverges</th><td>Struggles on low-SNR raw multi-channel EEG subjects (BNCI2014-001 S2: 53.8%, S6: 54.5%) because SPDNet lacks temporal band-pass convolutions and Riemannian batch normalization.</td></tr>
           <tr><th>Primary Mathematical Failure Mode</th><td>Loewner matrix entries 1 / (lambda_i - lambda_j) during eigendecomposition backward passes blow up when adjacent eigenvalues coalesce or fall below float32 precision.</td></tr>
           <tr><th>Silent Diagnostic Risk</th><td>Silent NaN gradients in deep BiMap stacks when input sample covariances are rank-deficient (T &lt; C) and no Shrinkage or TraceNorm precedes the first BiMap layer.</td></tr>
           <tr><th>Practitioner Recommendation</th><td><strong>Precede SPDNet with trace normalization and shrinkage regularization on short-window EEG trials, and use float64 eigendecompositions when condition numbers exceed <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mn>5</mn></msup></mrow><annotation encoding="application/x-tex">10^{5}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span></span>.</strong></td></tr>
@@ -1459,11 +1477,11 @@ tabs.forEach(function(btn,idx){
 });
 })();</script>
 <footer>
-  SPD-Learn Encore Reproducibility Registry · Sub-Page for <a href="https://spdlearn.org">spdlearn.org</a> (modeled on <a href="https://encorescience.org/">Encore Science</a>, the ICML 2026 Open Reproductions Judge, and the NEMAR BIDS Auditing Protocol) ·
+  SPD Replicability &amp; Generation Initiative · Sub-Page for <a href="https://spdlearn.org">spdlearn.org</a> (modeled on <a href="https://encorescience.org/">Encore Science</a>, the ICML 2026 Open Reproductions Judge, and the NEMAR BIDS Auditing Protocol) ·
   <a href="../../registry.json">Registry JSON</a> ·
   <a href="../../repro/verdicts.json">Judge Verdicts JSON</a> ·
   <a href="https://github.com/spdlearn/spd_learn">spd_learn Repository</a>.
-  Every verdict is computed deterministically from raw Trackio execution traces on the Voyager cluster by an untrusted-narrative automated judge.
+  Every verdict and root-cause attribution (Original Authors' Code vs. Our Repaired <code>spd_learn</code> Code) is computed deterministically from raw Trackio execution traces on the Voyager cluster.
 </footer>
 </div>
 <script>(function(){

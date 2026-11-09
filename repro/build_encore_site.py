@@ -1037,12 +1037,16 @@ def _render_architectural_side_by_side_card(
         <code>{_esc(short_delta)}</code>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>{_latexify_prose(gap_spec["dataloader_diff"])}</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>{_latexify_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]))}</p>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Implementation &amp; Optimizer Diff</div>
-        <p>{_latexify_prose(gap_spec["arch_optim_diff"])}</p>
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>{_latexify_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]))}</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
+        <p>{_latexify_prose(gap_spec["dataloader_diff"])}</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Fails / Boundary Regime</div>
@@ -1454,12 +1458,16 @@ def _render_quantitative_side_by_side_card(
         {"".join(delta_bars_html)}
       </div>
       <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>{_latexify_prose(gap_spec["dataloader_diff"])}</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>{_latexify_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]))}</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>{_latexify_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]))}</p>
       </div>
       <div class="diff-box warn">
-        <div class="diff-label">Where It Struggles / Diverges</div>
-        <p>{_latexify_prose(gap_spec["where_it_struggles"])}</p>
+        <div class="diff-label">Dataloader &amp; Where It Struggles</div>
+        <p>{_latexify_prose(gap_spec["dataloader_diff"])} {_latexify_prose(gap_spec["where_it_struggles"])}</p>
       </div>
     </div>
   </div>
@@ -3020,11 +3028,11 @@ def _top_bar(root_prefix: str, active: str, page_title: str) -> str:
 
     return (
         _nav_html(root_prefix, active)
-        + f"<title>{_esc_svg(page_title)} · SPD-Learn Encore Registry</title></head><body>\n"
+        + f"<title>{_esc_svg(page_title)} · SPD Replicability &amp; Generation Initiative</title></head><body>\n"
         + f"""<nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="{root_prefix}index.html">
     <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M21.6 8.3A9.5 9.5 0 1 0 25.5 16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18.9 10.7 24.1 5.5 24.7 11.3z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path class="tick" d="M11.3 16.3l3.3 3.3 5.9-6.8" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <span>SPD-Learn Encore</span>
+    <span>SPD Replicability &amp; Generation Initiative</span>
   </a>
   <a class="by" href="https://spdlearn.org">for spdlearn.org</a>
   <a class="tab" href="{root_prefix}index.html"{cur("overview")}>Overview</a>
@@ -3042,11 +3050,11 @@ def _top_bar(root_prefix: str, active: str, page_title: str) -> str:
 
 def _footer_html(root_prefix: str) -> str:
     return f"""<footer>
-  SPD-Learn Encore Reproducibility Registry · Sub-Page for <a href="https://spdlearn.org">spdlearn.org</a> (modeled on <a href="https://encorescience.org/">Encore Science</a>, the ICML 2026 Open Reproductions Judge, and the NEMAR BIDS Auditing Protocol) ·
+  SPD Replicability &amp; Generation Initiative · Sub-Page for <a href="https://spdlearn.org">spdlearn.org</a> (modeled on <a href="https://encorescience.org/">Encore Science</a>, the ICML 2026 Open Reproductions Judge, and the NEMAR BIDS Auditing Protocol) ·
   <a href="{root_prefix}registry.json">Registry JSON</a> ·
   <a href="{root_prefix}repro/verdicts.json">Judge Verdicts JSON</a> ·
   <a href="https://github.com/spdlearn/spd_learn">spd_learn Repository</a>.
-  Every verdict is computed deterministically from raw Trackio execution traces on the Voyager cluster by an untrusted-narrative automated judge.
+  Every verdict and root-cause attribution (Original Authors' Code vs. Our Repaired <code>spd_learn</code> Code) is computed deterministically from raw Trackio execution traces on the Voyager cluster.
 </footer>
 </div>
 {THEME_JS}
@@ -3659,12 +3667,16 @@ def _render_paper_top_tri_summary(
         <code>{_esc(short_delta)}</code>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>{_latexify_prose(gap_spec["dataloader_diff"])}</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>{_latexify_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]))}</p>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Model &amp; Optimizer Diff</div>
-        <p>{_latexify_prose(gap_spec["arch_optim_diff"])}</p>
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>{_latexify_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]))}</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
+        <p>{_latexify_prose(gap_spec["dataloader_diff"])}</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Fails / Struggles</div>
@@ -3842,10 +3854,12 @@ def build_paper_detail_page(
 
   <section class="tabpanel" id="tab-claims">
     <div class="panel">
-      <h2>Deep-Dive Gap Analysis, Failure Modes &amp; Practitioner Guidance</h2>
+      <h2>Deep-Dive Root-Cause Attribution (Original Code vs. Our Code), Failure Modes &amp; Practitioner Guidance</h2>
       <table class="data-table">
         <tbody>
-          <tr><th style="width:210px">Dataloader &amp; Preprocessing Diff</th><td>{_latexify_prose(gap_spec["dataloader_diff"])}</td></tr>
+          <tr><th style="width:230px;color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</th><td>{_latexify_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]))}</td></tr>
+          <tr><th style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix Applied</th><td>{_latexify_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]))}</td></tr>
+          <tr><th>Dataloader &amp; Preprocessing Diff</th><td>{_latexify_prose(gap_spec["dataloader_diff"])}</td></tr>
           <tr><th>Architecture &amp; Optimizer Diff</th><td>{_latexify_prose(gap_spec["arch_optim_diff"])}</td></tr>
           <tr><th>Where It Struggles / Diverges</th><td>{_latexify_prose(gap_spec["where_it_struggles"])}</td></tr>
           <tr><th>Primary Mathematical Failure Mode</th><td>{_latexify_prose(moreau_audit.get("failure_mode", ""))}</td></tr>
@@ -3946,8 +3960,9 @@ def build_all() -> None:
     (OUT_DIR / "registry.json").write_text(
         json.dumps(
             {
-                "name": "SPD-Learn Encore Reproducibility Registry",
-                "version": "2.0.0",
+                "name": "SPD Replicability & Generation Initiative Registry",
+                "version": "2.1.0",
+                "branch": "feat/spd-replicability-and-generation-initiative",
                 "judge": verdicts_data["judge_version"],
                 "timestamp_utc": verdicts_data["timestamp_utc"],
                 "total_papers": verdicts_data["total_papers"],
@@ -4058,8 +4073,11 @@ def build_all() -> None:
       {_gap_badge_html(gap_spec["gap_status"], gap_spec["gap_label"])}
       <code>{_esc(short_delta)}</code>
     </div>
-    <p class="small muted" style="margin:0;font-size:0.78rem;line-height:1.35">
-      <strong>Pipeline Diff:</strong> {_latexify_prose(gap_spec["dataloader_diff"])}
+    <p class="small muted" style="margin:0 0 3px;font-size:0.77rem;line-height:1.35">
+      <strong style="color:var(--spd-blue)">Orig Code / Protocol:</strong> {_latexify_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]))}
+    </p>
+    <p class="small muted" style="margin:0;font-size:0.77rem;line-height:1.35">
+      <strong style="color:var(--good)">Our <code>spd_learn</code> Fix:</strong> {_latexify_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]))}
     </p>
   </div>
 </div>"""
@@ -4202,12 +4220,12 @@ if(inp)inp.addEventListener('input',apply);
 
     # 1. Write index.html (Overview)
     index_html = (
-        _top_bar("", "overview", "SPD-Learn Encore: Original Figure | Our Replicability | The Gap")
+        _top_bar("", "overview", "SPD Replicability & Generation Initiative: Original Figure | Our Replicability | The Gap")
         + f"""<header class="page">
-  <div class="eyebrow">SPD-Learn Encore Registry · 27 Papers · {total_sbs_figs} Figures · {total_ds_evals} Benchmarks</div>
-  <h1>Original Figure &nbsp;|&nbsp; Our Replicability &nbsp;|&nbsp; The Gap &amp; Pipeline Differences</h1>
+  <div class="eyebrow">SPD Replicability &amp; Generation Initiative · 27 Papers · {total_sbs_figs} Figures · {total_ds_evals} Benchmarks</div>
+  <h1>Original Figure &nbsp;|&nbsp; Our Replicability &nbsp;|&nbsp; The Gap &amp; Root-Cause Attribution</h1>
   <p class="lede">
-    Systematic replication audit of 27 Riemannian SPD architectures (2017–2026) in <code>spd_learn</code> across MOABB and <code>spd-bench</code>. Every paper, figure, and table is presented in a unified 3-column layout highlighting <strong>what the paper reported</strong>, <strong>what we replicate on Voyager</strong>, and <strong>why gaps occur</strong> (such as <code>Phase-SPDNet</code>'s 2-class ROC-AUC vs. 4-class accuracy protocol, <code>GREEN</code>'s custom MNE-BIDS + <code>autoreject</code> dataloader vs. uncleaned MOABB epochs, <code>TSMNet</code>'s transductive domain batch stats, or <code>LieBN</code>'s 1-step Karcher conditioning failure).
+    Systematic replication and generation initiative across 27 Riemannian SPD architectures (2017–2026) in <code>spd_learn</code> on MOABB and <code>spd-bench</code>. Every paper, figure, and table is presented in a unified 3-column layout isolating <strong>(1) Original Authors' Code / Protocol Root Causes</strong> (such as <code>GREEN</code>'s resting-state $[1, 8]\\text{{ Hz}}$ default wavelets and custom MNE-BIDS + <code>autoreject</code> dataloader, <code>TSMNet</code>'s transductive test-session BN, <code>SPDTransNet</code>'s full-recording whitening without spatial <code>BiMap</code>, <code>RCEEGNet</code>'s <code>ReLU</code> before uncentered covariance, or <code>CorNet</code>'s hollow correlation projection discarding diagonal ERD/ERS variance) vs. <strong>(2) Our Repaired <code>spd_learn</code> Code &amp; Harness Fixes</strong>.
   </p>
 </header>
 

@@ -9,11 +9,11 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
-<title>SPD-MetaFormer (arXiv Oct 2026) · SPD-Learn Encore Registry</title></head><body>
+<title>SPD-MetaFormer (arXiv Oct 2026) · SPD Replicability &amp; Generation Initiative</title></head><body>
 <nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="../../index.html">
     <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M21.6 8.3A9.5 9.5 0 1 0 25.5 16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18.9 10.7 24.1 5.5 24.7 11.3z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path class="tick" d="M11.3 16.3l3.3 3.3 5.9-6.8" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    <span>SPD-Learn Encore</span>
+    <span>SPD Replicability &amp; Generation Initiative</span>
   </a>
   <a class="by" href="https://spdlearn.org">for spdlearn.org</a>
   <a class="tab" href="../../index.html">Overview</a>
@@ -105,12 +105,16 @@
         <code>-1.15% mean Δ · 65% Fe</code>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper evaluates 10-fold CV and cross-session splits on pre-cleaned trials; spd-bench runs strict MOABB 0train → 1test CrossSession across all 9 subjects.</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>Replacing Q/K/V self-attention with a parameter-free <code>UniformLogEuclideanMixer</code> assumes all temporal patches within an epoch carry equal discriminative weight, which underperforms on long asynchronous trials (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mn>6</mn><mtext> s</mtext></mrow><annotation encoding="application/x-tex">&gt; 6\text{ s}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6</span><span class="mord text"><span class="mord"> s</span></span></span></span></span>) where motor imagery onset is brief.</p>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Model &amp; Optimizer Diff</div>
-        <p>spd_learn replaces Q/K/V manifold self-attention with a parameter-free UniformLogEuclideanMixer + LogEuclideanResidual + BiMap FFN, cutting block parameters from 135 to 47.</p>
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>Implemented <code>SPDMetaFormerBlock</code> and <code>SPDMetaFormer</code> in <code>spd_learn</code> (<code>UniformLogEuclideanMixer</code> + <code>LogEuclideanResidual</code> + <code>BiMap</code> FFN), cutting block parameters by 65% and achieving <code>74.46%</code> mean (<code>88.54%</code> S03) on <code>BNCI2014-001</code> and <code>82.10%</code> on <code>Schirrmeister2017</code>.</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
+        <p>Paper evaluates 10-fold CV and cross-session splits on pre-cleaned trials; spd-bench runs strict MOABB 0train → 1test CrossSession across all 9 subjects.</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Fails / Struggles</div>
@@ -254,12 +258,16 @@
         <code>-1.15% mean Δ · 65% Fe</code>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper evaluates 10-fold CV and cross-session splits on pre-cleaned trials; spd-bench runs strict MOABB 0train → 1test CrossSession across all 9 subjects.</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>Replacing Q/K/V self-attention with a parameter-free <code>UniformLogEuclideanMixer</code> assumes all temporal patches within an epoch carry equal discriminative weight, which underperforms on long asynchronous trials (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mn>6</mn><mtext> s</mtext></mrow><annotation encoding="application/x-tex">&gt; 6\text{ s}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6</span><span class="mord text"><span class="mord"> s</span></span></span></span></span>) where motor imagery onset is brief.</p>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Implementation &amp; Optimizer Diff</div>
-        <p>spd_learn replaces Q/K/V manifold self-attention with a parameter-free UniformLogEuclideanMixer + LogEuclideanResidual + BiMap FFN, cutting block parameters from 135 to 47.</p>
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>Implemented <code>SPDMetaFormerBlock</code> and <code>SPDMetaFormer</code> in <code>spd_learn</code> (<code>UniformLogEuclideanMixer</code> + <code>LogEuclideanResidual</code> + <code>BiMap</code> FFN), cutting block parameters by 65% and achieving <code>74.46%</code> mean (<code>88.54%</code> S03) on <code>BNCI2014-001</code> and <code>82.10%</code> on <code>Schirrmeister2017</code>.</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
+        <p>Paper evaluates 10-fold CV and cross-session splits on pre-cleaned trials; spd-bench runs strict MOABB 0train → 1test CrossSession across all 9 subjects.</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Fails / Boundary Regime</div>
@@ -428,12 +436,16 @@
 </div>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper evaluates 10-fold CV and cross-session splits on pre-cleaned trials; spd-bench runs strict MOABB 0train → 1test CrossSession across all 9 subjects.</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>Replacing Q/K/V self-attention with a parameter-free <code>UniformLogEuclideanMixer</code> assumes all temporal patches within an epoch carry equal discriminative weight, which underperforms on long asynchronous trials (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mn>6</mn><mtext> s</mtext></mrow><annotation encoding="application/x-tex">&gt; 6\text{ s}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6</span><span class="mord text"><span class="mord"> s</span></span></span></span></span>) where motor imagery onset is brief.</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>Implemented <code>SPDMetaFormerBlock</code> and <code>SPDMetaFormer</code> in <code>spd_learn</code> (<code>UniformLogEuclideanMixer</code> + <code>LogEuclideanResidual</code> + <code>BiMap</code> FFN), cutting block parameters by 65% and achieving <code>74.46%</code> mean (<code>88.54%</code> S03) on <code>BNCI2014-001</code> and <code>82.10%</code> on <code>Schirrmeister2017</code>.</p>
       </div>
       <div class="diff-box warn">
-        <div class="diff-label">Where It Struggles / Diverges</div>
-        <p>Uniform token mixing assumes all temporal patches within an epoch carry equal discriminative weight; underperforms on long asynchronous trials (&gt; 6s) where motor imagery is brief.</p>
+        <div class="diff-label">Dataloader &amp; Where It Struggles</div>
+        <p>Paper evaluates 10-fold CV and cross-session splits on pre-cleaned trials; spd-bench runs strict MOABB 0train → 1test CrossSession across all 9 subjects. Uniform token mixing assumes all temporal patches within an epoch carry equal discriminative weight; underperforms on long asynchronous trials (&gt; 6s) where motor imagery is brief.</p>
       </div>
     </div>
   </div>
@@ -604,12 +616,16 @@
 </div>
       </div>
       <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>Paper evaluates 10-fold CV and cross-session splits on pre-cleaned trials; spd-bench runs strict MOABB 0train → 1test CrossSession across all 9 subjects.</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
+        <p>Replacing Q/K/V self-attention with a parameter-free <code>UniformLogEuclideanMixer</code> assumes all temporal patches within an epoch carry equal discriminative weight, which underperforms on long asynchronous trials (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mn>6</mn><mtext> s</mtext></mrow><annotation encoding="application/x-tex">&gt; 6\text{ s}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6</span><span class="mord text"><span class="mord"> s</span></span></span></span></span>) where motor imagery onset is brief.</p>
+      </div>
+      <div class="diff-box">
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
+        <p>Implemented <code>SPDMetaFormerBlock</code> and <code>SPDMetaFormer</code> in <code>spd_learn</code> (<code>UniformLogEuclideanMixer</code> + <code>LogEuclideanResidual</code> + <code>BiMap</code> FFN), cutting block parameters by 65% and achieving <code>74.46%</code> mean (<code>88.54%</code> S03) on <code>BNCI2014-001</code> and <code>82.10%</code> on <code>Schirrmeister2017</code>.</p>
       </div>
       <div class="diff-box warn">
-        <div class="diff-label">Where It Struggles / Diverges</div>
-        <p>Uniform token mixing assumes all temporal patches within an epoch carry equal discriminative weight; underperforms on long asynchronous trials (&gt; 6s) where motor imagery is brief.</p>
+        <div class="diff-label">Dataloader &amp; Where It Struggles</div>
+        <p>Paper evaluates 10-fold CV and cross-session splits on pre-cleaned trials; spd-bench runs strict MOABB 0train → 1test CrossSession across all 9 subjects. Uniform token mixing assumes all temporal patches within an epoch carry equal discriminative weight; underperforms on long asynchronous trials (&gt; 6s) where motor imagery is brief.</p>
       </div>
     </div>
   </div>
@@ -2104,10 +2120,12 @@
 
   <section class="tabpanel" id="tab-claims">
     <div class="panel">
-      <h2>Deep-Dive Gap Analysis, Failure Modes &amp; Practitioner Guidance</h2>
+      <h2>Deep-Dive Root-Cause Attribution (Original Code vs. Our Code), Failure Modes &amp; Practitioner Guidance</h2>
       <table class="data-table">
         <tbody>
-          <tr><th style="width:210px">Dataloader &amp; Preprocessing Diff</th><td>Paper evaluates 10-fold CV and cross-session splits on pre-cleaned trials; spd-bench runs strict MOABB 0train → 1test CrossSession across all 9 subjects.</td></tr>
+          <tr><th style="width:230px;color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</th><td>Replacing Q/K/V self-attention with a parameter-free <code>UniformLogEuclideanMixer</code> assumes all temporal patches within an epoch carry equal discriminative weight, which underperforms on long asynchronous trials (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>&gt;</mo><mn>6</mn><mtext> s</mtext></mrow><annotation encoding="application/x-tex">&gt; 6\text{ s}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&gt;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">6</span><span class="mord text"><span class="mord"> s</span></span></span></span></span>) where motor imagery onset is brief.</td></tr>
+          <tr><th style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix Applied</th><td>Implemented <code>SPDMetaFormerBlock</code> and <code>SPDMetaFormer</code> in <code>spd_learn</code> (<code>UniformLogEuclideanMixer</code> + <code>LogEuclideanResidual</code> + <code>BiMap</code> FFN), cutting block parameters by 65% and achieving <code>74.46%</code> mean (<code>88.54%</code> S03) on <code>BNCI2014-001</code> and <code>82.10%</code> on <code>Schirrmeister2017</code>.</td></tr>
+          <tr><th>Dataloader &amp; Preprocessing Diff</th><td>Paper evaluates 10-fold CV and cross-session splits on pre-cleaned trials; spd-bench runs strict MOABB 0train → 1test CrossSession across all 9 subjects.</td></tr>
           <tr><th>Architecture &amp; Optimizer Diff</th><td>spd_learn replaces Q/K/V manifold self-attention with a parameter-free UniformLogEuclideanMixer + LogEuclideanResidual + BiMap FFN, cutting block parameters from 135 to 47.</td></tr>
           <tr><th>Where It Struggles / Diverges</th><td>Uniform token mixing assumes all temporal patches within an epoch carry equal discriminative weight; underperforms on long asynchronous trials (&gt; 6s) where motor imagery is brief.</td></tr>
           <tr><th>Primary Mathematical Failure Mode</th><td>A fixed-kernel depthwise Conv1d token mixer cannot dynamically re-order non-adjacent temporal patches when task events occur at arbitrary variable latencies.</td></tr>
@@ -2292,11 +2310,11 @@ tabs.forEach(function(btn,idx){
 });
 })();</script>
 <footer>
-  SPD-Learn Encore Reproducibility Registry · Sub-Page for <a href="https://spdlearn.org">spdlearn.org</a> (modeled on <a href="https://encorescience.org/">Encore Science</a>, the ICML 2026 Open Reproductions Judge, and the NEMAR BIDS Auditing Protocol) ·
+  SPD Replicability &amp; Generation Initiative · Sub-Page for <a href="https://spdlearn.org">spdlearn.org</a> (modeled on <a href="https://encorescience.org/">Encore Science</a>, the ICML 2026 Open Reproductions Judge, and the NEMAR BIDS Auditing Protocol) ·
   <a href="../../registry.json">Registry JSON</a> ·
   <a href="../../repro/verdicts.json">Judge Verdicts JSON</a> ·
   <a href="https://github.com/spdlearn/spd_learn">spd_learn Repository</a>.
-  Every verdict is computed deterministically from raw Trackio execution traces on the Voyager cluster by an untrusted-narrative automated judge.
+  Every verdict and root-cause attribution (Original Authors' Code vs. Our Repaired <code>spd_learn</code> Code) is computed deterministically from raw Trackio execution traces on the Voyager cluster.
 </footer>
 </div>
 <script>(function(){

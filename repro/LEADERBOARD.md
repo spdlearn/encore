@@ -1,7 +1,8 @@
-# SPD-Learn ICML 2026 / NEMAR / MOABB / spd-bench Reproductions Leaderboard
+# SPD Replicability & Generation Initiative — ICML 2026 / NEMAR / MOABB / spd-bench Leaderboard
 
+- **Initiative Branch**: `feat/spd-replicability-and-generation-initiative`
 - **Judge**: `spd-learn-logbook-judge-2.0` (Untrusted-Narrative Execution Trace Auditor)
-- **Audited Timestamp**: `2026-11-08T22:41:56Z`
+- **Audited Timestamp**: `2026-11-09T09:48:52Z`
 - **Papers Audited**: `27` (9 Foundational + 18 Recent)
 - **Claims Audited**: `81` (`27 Structural`, `27 Signal`, `27 Analytical`)
 - **Verdict Breakdown**: `Verified: 72` (2 pts) | `Baseline-Adjusted: 6` (2 pts) | `Falsified: 3` (2 pts) | `Inconclusive: 0` (0 pts)

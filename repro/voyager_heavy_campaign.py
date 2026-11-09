@@ -20,6 +20,7 @@ from __future__ import annotations
 import argparse
 import glob
 import json
+import math
 import os
 import pickle
 import platform
@@ -131,14 +132,12 @@ class RHOPClassifier(nn.Module):
     def __init__(self, n_chans: int, n_outputs: int) -> None:
         super().__init__()
         sub_d = max(4, min(16, n_chans))
-        feat_d = max(16, min(32, n_chans * 2))
+        feat_d = max(16, min(24, n_chans))
         self.conv = nn.Sequential(
-            nn.Conv2d(1, feat_d, kernel_size=(1, 15), padding=(0, 7), bias=False),
+            nn.Conv2d(1, feat_d, kernel_size=(1, 25), padding=(0, 12), bias=False),
             nn.BatchNorm2d(feat_d),
             nn.Conv2d(feat_d, feat_d, kernel_size=(n_chans, 1), groups=feat_d, bias=False),
             nn.BatchNorm2d(feat_d),
-            nn.ELU(),
-            nn.AvgPool2d(kernel_size=(1, 8), stride=(1, 8)),
         )
         self.rhop = modules.RHOP(in_features=feat_d, reduced_dim=sub_d, eps=1e-4)
         self.head = nn.Linear(feat_d, n_outputs)
@@ -147,6 +146,31 @@ class RHOPClassifier(nn.Module):
         z = self.conv(x.unsqueeze(1)).squeeze(2).transpose(1, 2)
         pooled = self.rhop(z)
         return self.head(pooled)
+
+
+def _init_spdtransnet_ident(m: nn.Module) -> None:
+    """Initialize SPDTransNet non-residual MLPs in the linear identity regime for single-trial EEG."""
+    with torch.no_grad():
+        nn.init.eye_(m.projection.weight)
+        nn.init.zeros_(m.projection.bias)
+        for enc in [m.intra_epoch.encoder, m.inter_epoch.encoder]:
+            enc.position.sinusoid.mul_(0.01)
+            d = enc.position.mapping[0].in_features
+            enc.position.mapping[0].weight.copy_(torch.eye(d))
+            enc.position.mapping[0].bias.fill_(4.0)
+            enc.position.mapping[2].weight.copy_(torch.eye(d))
+            enc.position.mapping[2].bias.fill_(-4.0)
+            for layer in enc.layers:
+                nn.init.zeros_(layer.attention.head_mix.weight)
+                nn.init.zeros_(layer.ff[3].weight)
+                nn.init.zeros_(layer.ff[3].bias)
+        d_hid = m.classifier[0].out_features
+        m.classifier[0].weight.zero_()
+        m.classifier[0].weight[:, :d_hid] = 0.5 * torch.eye(d_hid)
+        m.classifier[0].weight[:, d_hid : 2 * d_hid] = 0.5 * torch.eye(d_hid)
+        m.classifier[0].bias.fill_(4.0)
+        m.classifier[3].weight.copy_(torch.eye(d_hid))
+        m.classifier[3].bias.fill_(-4.0)
 
 
 def build_eeg_model(
@@ -164,29 +188,45 @@ def build_eeg_model(
             use_alem=True,
         )
     if model_name == "SPDTransNet":
-        tok_d = max(3, min(12, n_chans))
+        tok_d = max(8, n_chans)
+        if (tok_d * (tok_d + 1) // 2) % 2 != 0:
+            tok_d += 1
         ff_d = tok_d * (tok_d + 1) // 2
-        return models.SPDTransNet(
+        n_heads = 2 if ff_d % 2 == 0 else 1
+        m_tr = models.SPDTransNet(
             matrix_size=n_chans,
             n_bands=3,
             n_subwindows=2,
             context_epochs=1,
             token_matrix_size=tok_d,
             feature_tokens=2,
-            intra_heads=2,
-            inter_heads=2,
+            intra_heads=n_heads,
+            inter_heads=n_heads,
             intra_layers=1,
             inter_layers=1,
             feedforward_dim=ff_d,
             classifier_dim=ff_d,
             n_outputs=n_outputs,
             eigenvalue_floor=1e-4,
+            preserve_norm=True,
         )
+        _init_spdtransnet_ident(m_tr)
+        return m_tr
     cls_name = "GyroAtt" if model_name == "GyroSPDAtt" else model_name
     cls = getattr(models, cls_name)
     kw: dict[str, Any] = dict(n_chans=n_chans, n_outputs=n_outputs)
     if cls_name == "Green":
-        kw.update(sfreq=sfreq, n_freqs_init=8, kernel_width_s=0.5, bi_out=[sub_d], hidden_dim=None)
+        oct_hi = min(5.0, math.log2(max(sfreq / 2.0, 16.0)) - 0.1)
+        kw.update(
+            sfreq=sfreq,
+            n_freqs_init=8,
+            kernel_width_s=0.5,
+            oct_min=2.0,
+            oct_max=oct_hi,
+            bi_out=[sub_d],
+            hidden_dim=(32,),
+            dropout=0.2,
+        )
     elif cls_name == "TensorCSPNet":
         kw.update(dims=(n_chans, mid_d, mid_d, sub_d), parametrized=True)
     elif cls_name == "GraphCSPNet":
@@ -195,10 +235,12 @@ def build_eeg_model(
         kw.update(subspacedim=sub_d)
     elif cls_name == "SPDResNet":
         kw.update(bimap_dims=(mid_d, sub_d), use_alem=False)
-    elif cls_name == "CorNet":
+    elif cls_name in ("CorNet", "GyroSPD"):
         kw.update(bimap_dims=(sub_d,))
-    elif cls_name in ("GyroSPD", "SPNN", "SPDNetAE"):
+    elif cls_name in ("SPNN", "SPDNetAE"):
         kw.update(bimap_dims=(mid_d, sub_d))
+    elif cls_name == "RCEEGNet":
+        kw.update(n_spatial_filters=max(8, n_chans), reduced_dim=sub_d)
     elif cls_name == "DeepGeoCCA":
         kw.update(bimap_dims=(mid_d, sub_d), outdim_size=max(3, min(10, sub_d)))
     elif cls_name == "PhaseSPDNet":
@@ -294,7 +336,7 @@ def load_eeg_subject_data(dataset_name: str, subject_id: int) -> dict[str, Any]:
         return _SUBJECT_DATA_CACHE[cache_key]
     _SUBJECT_DATA_CACHE.clear()
 
-    stage_eeg_pt = DATA_STAGE_DIR / "eeg_cache_v2" / f"{dataset_name}_s{subject_id:02d}.pt"
+    stage_eeg_pt = DATA_STAGE_DIR / "eeg_cache_v3" / f"{dataset_name}_s{subject_id:02d}.pt"
     if stage_eeg_pt.exists():
         res = torch.load(stage_eeg_pt, weights_only=False)
         _SUBJECT_DATA_CACHE[cache_key] = res
@@ -540,20 +582,31 @@ def eval_eeg_cell(args: tuple[str, str, int, int, int]) -> dict[str, Any]:
     model = build_eeg_model(model_name, n_chans=n_chans, n_outputs=n_outputs, sfreq=sfreq)
 
     if model_name == "SPDTransNet":
-        # Use 3 sensorimotor frequency bands (8-12, 12-16, 16-20 Hz) x 2 subwindows -> (B, 1, 3, 2, C, C)
-        band_std = data["Xfb_tr"][:, 1:4].std(dim=(0, 2, 3), keepdim=True).clamp(min=1e-6)
+        hi_freq = min(30.0, sfreq / 2.0 - 1.0)
+        sos_mu_beta = butter(4, [8.0, hi_freq], btype="bandpass", fs=float(sfreq), output="sos")
+        Xtr_bp_np = sosfiltfilt(sos_mu_beta, Xtr.numpy(), axis=-1).astype(np.float32)
+        Xte_bp_np = sosfiltfilt(sos_mu_beta, Xte.numpy(), axis=-1).astype(np.float32)
+        ch_std = np.std(Xtr_bp_np, axis=(0, 2), keepdims=True) + 1e-6
+        Xtr_bp = torch.from_numpy(Xtr_bp_np / ch_std)
+        Xte_bp = torch.from_numpy(Xte_bp_np / ch_std)
+        band_std = data["Xfb_tr"][:, 1:3].std(dim=(0, 2, 3), keepdim=True).clamp(min=1e-6)
 
-        def _to_seq_spd(xfb_in: torch.Tensor) -> torch.Tensor:
-            B, _, C, T = xfb_in.shape
+        def _raw_seq_covs(x_bp: torch.Tensor, xfb_in: torch.Tensor) -> torch.Tensor:
+            B, C, T = x_bp.shape
             w = T // 2
-            xb = (xfb_in[:, 1:4, :, : w * 2] / band_std).reshape(B, 3, C, 2, w).permute(0, 1, 3, 2, 4)
-            covs = F_spd.covariance(xb)
-            tr = covs.diagonal(dim1=-2, dim2=-1).sum(-1, keepdim=True).unsqueeze(-1).clamp(min=1e-6)
-            covs = covs * (float(C) / tr) + 1e-2 * torch.eye(C)
-            return covs.unsqueeze(1)
+            b0 = x_bp[:, :, : w * 2].reshape(B, 1, C, 2, w)
+            b12 = (xfb_in[:, 1:3, :, : w * 2] / band_std).reshape(B, 2, C, 2, w)
+            xb = torch.cat([b0, b12], dim=1).permute(0, 1, 3, 2, 4)
+            return F_spd.covariance(xb) + 1e-3 * torch.eye(C)
 
-        Xtr = _to_seq_spd(data["Xfb_tr"])
-        Xte = _to_seq_spd(data["Xfb_te"])
+        cov_tr = _raw_seq_covs(Xtr_bp, data["Xfb_tr"])
+        cov_te = _raw_seq_covs(Xte_bp, data["Xfb_te"])
+        # Strictly inductive training-set whitening per frequency band
+        mean_tr = cov_tr.mean(dim=(0, 2), keepdim=True)
+        evals, evecs = torch.linalg.eigh(mean_tr)
+        inv_sqrt = evecs @ torch.diag_embed(evals.clamp(min=1e-5).rsqrt()) @ evecs.mT
+        Xtr = (F_spd.ensure_sym(inv_sqrt @ cov_tr @ inv_sqrt) + 1e-3 * torch.eye(n_chans)).unsqueeze(1)
+        Xte = (F_spd.ensure_sym(inv_sqrt @ cov_te @ inv_sqrt) + 1e-3 * torch.eye(n_chans)).unsqueeze(1)
     elif model_name == "GraphCSPNet":
         ch_std_fb = Xtr.std(dim=(0, 3), keepdim=True).clamp(min=1e-6)
         Xtr = (Xtr / ch_std_fb) * 10.0
@@ -561,16 +614,27 @@ def eval_eeg_cell(args: tuple[str, str, int, int, int]) -> dict[str, Any]:
         model.fit_graph(Xtr[: min(64, len(Xtr))])
 
     if model_name == "SPDTransNet":
-        lr = 4e-4
-    elif model_name == "CorNet":
-        lr = 8e-3
-    elif model_name in PURE_COV_EEG_MODELS:
-        lr = 3e-3
-    elif model_name in ("Green", "DeepGeoCCA", "RCEEGNet", "SSGCNet", "RHOP"):
-        lr = 4e-3
+        fast_params = list(model.classifier[6].parameters()) + [
+            p for n, p in model.named_parameters() if "attention" in n
+        ]
+        fast_ids = {id(p) for p in fast_params}
+        slow_params = [p for p in model.parameters() if id(p) not in fast_ids]
+        opt = torch.optim.AdamW(
+            [
+                {"params": fast_params, "lr": 5e-3, "weight_decay": 1e-2},
+                {"params": slow_params, "lr": 5e-5, "weight_decay": 1e-3},
+            ]
+        )
     else:
-        lr = 2e-3
-    opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
+        if model_name == "CorNet":
+            lr = 5e-3
+        elif model_name in PURE_COV_EEG_MODELS:
+            lr = 3e-3
+        elif model_name in ("Green", "DeepGeoCCA", "RCEEGNet", "SSGCNet", "RHOP"):
+            lr = 3e-3
+        else:
+            lr = 2e-3
+        opt = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=1e-4)
     sched = torch.optim.lr_scheduler.CosineAnnealingLR(opt, T_max=max(epochs, 1))
     loss_fn = nn.CrossEntropyLoss()
     batch_size = 32
@@ -859,7 +923,13 @@ def eval_spd_matrix_cell(args: tuple[str, str, int, int, float, int, float]) -> 
     }
 
 
-def run_shard(shard: str, workers: int, epochs: int) -> dict[str, Any]:
+def run_shard(
+    shard: str,
+    workers: int,
+    epochs: int,
+    datasets_csv: str = "",
+    models_csv: str = "",
+) -> dict[str, Any]:
     t_start = time.perf_counter()
     eeg_tasks: list[tuple[str, str, int, int, int]] = []
     spd_tasks: list[tuple[str, str, int, int, float, int, float]] = []
@@ -1022,6 +1092,33 @@ def run_shard(shard: str, workers: int, epochs: int) -> dict[str, Any]:
         for s in [1, 2, 3, 4]:
             for m in ALL_EEG_MODELS:
                 eeg_tasks.append(("Zhou2020", m, s, epochs, 42))
+    else:
+        ds_subjects_map: dict[str, list[int]] = {
+            "BNCI2014_001": list(range(1, 10)),
+            "BNCI2014_004": list(range(1, 10)),
+            "BNCI2015_001": list(range(1, 13)),
+            "BNCI2014_002": [1, 2, 3, 4, 5, 6],
+            "Weibo2014": [1, 2, 3, 4, 5],
+            "Lee2019_MI": [1, 2, 3, 4, 5, 6],
+            "Cho2017": [1, 2, 3, 4, 5, 6],
+            "Schirrmeister2017": [1, 2, 3, 4],
+            "Shin2017A": [1, 2, 3, 4],
+            "Zhou2020": [1, 2, 3, 4],
+        }
+        use_datasets = (
+            [d.strip() for d in datasets_csv.split(",") if d.strip()]
+            if datasets_csv
+            else list(ds_subjects_map.keys())
+        )
+        use_models = (
+            [m.strip() for m in models_csv.split(",") if m.strip()]
+            if models_csv
+            else ALL_EEG_MODELS
+        )
+        for ds in use_datasets:
+            for s in ds_subjects_map.get(ds, [1, 2, 3, 4]):
+                for m in use_models:
+                    eeg_tasks.append((ds, m, s, epochs, 42))
 
     eeg_records: list[dict[str, Any]] = []
     spd_records: list[dict[str, Any]] = []
@@ -1082,28 +1179,9 @@ def run_shard(shard: str, workers: int, epochs: int) -> dict[str, Any]:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--shard",
-        required=True,
-        choices=[
-            "bnci2014_001_p1",
-            "bnci2014_001_p2",
-            "bnci2014_004",
-            "bnci2015_001",
-            "bnci2014_002_weibo",
-            "schirr_shin_zhou",
-            "lee2019_cho2017",
-            "spd_matrices",
-            "spd_matrices_repair",
-            "bnci2014_001_repair",
-            "multids_repair_a",
-            "multids_repair_b",
-            "repair_schirr",
-            "repair_weibo",
-            "repair_zhou",
-            "missing5_all_datasets",
-        ],
-    )
+    parser.add_argument("--shard", required=True)
+    parser.add_argument("--datasets", type=str, default="")
+    parser.add_argument("--models", type=str, default="")
     parser.add_argument("--workers", type=int, default=8)
     parser.add_argument("--epochs", type=int, default=40)
     parser.add_argument("--out", type=str, default="")
@@ -1111,7 +1189,7 @@ def main() -> None:
 
     out_path = Path(args.out) if args.out else (RESULTS_SHARD_DIR / f"{args.shard}.json")
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    payload = run_shard(args.shard, args.workers, args.epochs)
+    payload = run_shard(args.shard, args.workers, args.epochs, args.datasets, args.models)
     out_path.write_text(json.dumps(payload, indent=2))
     print(f"[Shard {args.shard}] Saved {out_path} in {payload['wall_s']}s", flush=True)
 
