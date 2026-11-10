@@ -5099,7 +5099,8 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     lines_sc.append("</svg>")
     scarcity_curve_svg = "\n".join(lines_sc)
 
-    # Build 39-Model Complexity, Size Scaling, Data Volume & Peeking Table
+    # Build 39-Model Data-Volume Scaling & Sample-Scarcity Table (Table 2C) and Channel/Param Table (Table 3C)
+    datavol_rows_html = []
     size_scaling_rows_html = []
     for ms in model_stats:
         m = ms["model"]
@@ -5112,12 +5113,36 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         high_d_vals = [ds_model_vals[d][m] for d in ("bci_ern", "weibo2014", "lemon", "hinss2021", "lee2019_mi", "seed", "stieger2021", "fpha", "cho2017", "mamem2", "physionet_mi") if m in ds_model_vals.get(d, {})]
         ultra_d_vals = [ds_model_vals[d][m] for d in ("hdm05", "schirrmeister2017", "adhd200", "abide", "afew") if m in ds_model_vals.get(d, {})]
         few_n_vals = [ds_model_vals[d][m] for d in dv_few_keys if m in ds_model_vals.get(d, {})]
-        lrg_n_vals = [ds_model_vals[d][m] for d in (dv_mul_keys + dv_lrg_keys) if m in ds_model_vals.get(d, {})]
+        std_n_vals = [ds_model_vals[d][m] for d in dv_std_keys if m in ds_model_vals.get(d, {})]
+        mul_n_vals = [ds_model_vals[d][m] for d in dv_mul_keys if m in ds_model_vals.get(d, {})]
+        lrg_n_vals = [ds_model_vals[d][m] for d in dv_lrg_keys if m in ds_model_vals.get(d, {})]
         low_m = sum(low_d_vals) / max(len(low_d_vals), 1)
         high_m = sum(high_d_vals) / max(len(high_d_vals), 1)
         ultra_m = sum(ultra_d_vals) / max(len(ultra_d_vals), 1)
         few_n_m = sum(few_n_vals) / max(len(few_n_vals), 1)
+        std_n_m = sum(std_n_vals) / max(len(std_n_vals), 1)
+        mul_n_m = sum(mul_n_vals) / max(len(mul_n_vals), 1)
         lrg_n_m = sum(lrg_n_vals) / max(len(lrg_n_vals), 1)
+        dv_gain = 0.5 * (mul_n_m + lrg_n_m) - few_n_m
+        sc_rec_m = scarcity_map.get(m, {})
+        sc_5 = f"{float(sc_rec_m['0.05']['mean']):.2f}%" if "0.05" in sc_rec_m else "—"
+        sc_25 = f"{float(sc_rec_m['0.25']['mean']):.2f}%" if "0.25" in sc_rec_m else "—"
+        sc_100 = f"{float(sc_rec_m['1.0']['mean']):.2f}%" if "1.0" in sc_rec_m else f"{float(radar_ds.get(m, {}).get('accuracy', 0.0)):.2f}%"
+        dv_cls = "good" if dv_gain >= 6.0 else ("warning" if dv_gain >= 4.0 else "blocked")
+        datavol_rows_html.append(
+            f"""<tr class="bm-model-row" data-fam="{_esc(ms['fam_key'])}" data-grk="{g_rk}" data-params="{p22}" data-dmean="{ms['overall_mean']:.2f}">
+  <td style="white-space:nowrap"><span class="tag" style="padding:0 4px;font-size:0.68rem">#{g_rk:02d}</span> <strong><code>{_esc(m)}</code></strong></td>
+  <td><code>{few_n_m:.2f}%</code></td>
+  <td><code>{std_n_m:.2f}%</code></td>
+  <td><code>{mul_n_m:.2f}%</code></td>
+  <td><code>{lrg_n_m:.2f}%</code></td>
+  <td><span class="chip {dv_cls}" style="padding:0 5px;font-size:0.68rem">{'+' if dv_gain >= 0 else ''}{dv_gain:.2f} pp</span></td>
+  <td><code>{sc_5}</code></td>
+  <td><code>{sc_25}</code></td>
+  <td><code>{sc_100}</code></td>
+  <td><strong><code>{ms['overall_mean']:.2f}%</code></strong></td>
+</tr>"""
+        )
         mult_cls = "good" if mult <= 5.0 else ("warning" if mult <= 10.0 else "unresolved")
         size_scaling_rows_html.append(
             f"""<tr class="bm-model-row" data-fam="{_esc(ms['fam_key'])}" data-grk="{g_rk}" data-params="{p22}" data-dmean="{ms['overall_mean']:.2f}">
@@ -5128,24 +5153,14 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
   <td><code>{low_m:.2f}%</code></td>
   <td><code>{high_m:.2f}%</code></td>
   <td><code>{ultra_m:.2f}%</code></td>
-  <td><code>{few_n_m:.2f}%</code></td>
-  <td><code>{lrg_n_m:.2f}%</code></td>
   <td><strong><code>{ms['overall_mean']:.2f}%</code></strong></td>
   <td><code>+{mean_pk:.2f}%</code></td>
 </tr>"""
         )
 
-    scaling_section_html = f"""<div class="grid2" style="margin:14px 0">
-    <div class="diag-card" style="background:var(--panel)">
-      {dim_scaling_svg}
-    </div>
+    datavol_section_html = f"""<div class="grid2" style="margin:14px 0">
     <div class="diag-card" style="background:var(--panel)">
       {data_vol_scaling_svg}
-    </div>
-  </div>
-  <div class="grid2" style="margin:14px 0">
-    <div class="diag-card" style="background:var(--panel)">
-      {pareto_params_svg}
     </div>
     <div class="diag-card" style="background:var(--panel)">
       {scarcity_curve_svg}
@@ -5153,27 +5168,76 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
   </div>
   <div class="tri-grid" style="margin:10px 0 14px">
     <div class="diag-card col-orig">
-      <div class="col-banner orig"><span>CLAIM 1D-A · CHANNEL DENSITY ($d \\in [2, 400]$)</span><span class="chip good">29 Datasets</span></div>
+      <div class="col-banner orig"><span>LAW 2A · FEW-SHOT CALIBRATION ($N_{{\\text{{train}}}} \\le 150$)</span><span class="chip good">7 Datasets + 5% Radar</span></div>
       <p class="small" style="margin:4px 0">
-        On sparse montages ($d \\le 19$), correlation models drop <code>-5.25 pp</code> below BatchNorm (<code>56.88%</code> vs <code>62.13%</code>), while spatiotemporal filterbanks lead on 64-channel EEG (<code>64.45%</code>).
+        When training trials are scarce ($\\le 25$/class), <code>Riemannian BatchNorm</code> (<code>61.36%</code>, <code>#1 ARMAGNAC-GAH 64.07%</code>) and parameter-free <code>SPDMetaFormer</code> (<code>61.34%</code>) lead; at 5% data (75 trials), <code>GBWBN</code> (<code>76.8%</code>) retains <code>+6.7 to +8.4 pp</code> over No-BN/PCM.
       </p>
     </div>
     <div class="diag-card col-ours">
-      <div class="col-banner ours"><span>CLAIM 1D-B · AMOUNT OF DATA CROSSOVER ($N_{{\\text{{train}}}}$)</span><span class="chip warning">Few-Shot vs Large Cohort</span></div>
+      <div class="col-banner ours"><span>LAW 2B · ATTENTION CROSSOVER ($N_{{\\text{{train}}}} \\ge 600$)</span><span class="chip warning">$-1.5\\text{{ pp}} \\to +2.1\\text{{ pp}}$</span></div>
       <p class="small" style="margin:4px 0">
-        In Few-Shot calibration ($\\le 150$ trials), <code>BatchNorm</code> (<code>61.36%</code>) and parameter-free <code>SPDMetaFormer</code> beat $Q/K/V$ attention by <code>+1.5 pp</code>; once $N_{{\\text{{train}}}} \\ge 600\\text{{--}}150\\text{{K}}$, <code>GBWAtt</code>/<code>MAtt</code> (<code>+2.1 pp</code>) and <code>Green</code> (<code>66.80%</code> #1) cross over and lead.
+        In Few-Shot ($\\le 150$) and Standard ($200\\text{{--}}600$) sessions, $Q/K/V$ attention (<code>MAtt</code>, <code>GBWAtt</code>) loses by <code>-1.3 to -1.7 pp</code> to parameter-free <code>SPDMetaFormer</code>; once $N_{{\\text{{train}}}} \\ge 600$, <code>MAtt</code>/<code>GBWAtt</code> cross over and win by <code>+1.8 to +2.1 pp</code>.
       </p>
     </div>
     <div class="diag-card col-gap">
-      <div class="col-banner gap"><span>CLAIM 1E · PARAMETER &amp; SCARCITY SCALING</span><span class="chip unresolved">5% Data &amp; $O(C^4)$</span></div>
+      <div class="col-banner gap"><span>LAW 2C · LARGE CLINICAL COHORTS ($3\\text{{K--}}150\\text{{K}}$)</span><span class="chip unresolved">#1 Green 66.80%</span></div>
       <p class="small" style="margin:4px 0">
-        At 5% training data (75 trials), Riemannian BatchNorm retains a <code>+6.7 to +8.4 pp</code> buffer over un-normalized SPDNet/PCM, while un-bottlenecked tangent MLPs explode to <code>1.09B</code> params at $128\\text{{ ch}}$.
+        Across the 8 large clinical &amp; connectome cohorts (<code>TUAB</code> 150K windows, <code>MASS-SS3</code> 59K, <code>Sleep-EDFX</code> 42K), learnable Gabor wavelets (<code>Green</code> <code>66.80%</code> #1) and <code>SPDResNet-ALEM</code> (<code>66.50%</code> #2) overtake <code>SPDNetBN</code> (<code>65.43%</code>).
       </p>
     </div>
   </div>
-  <h3 style="margin:12px 0 6px;font-size:0.95rem">1F. 39-Model Parameter Complexity ($22\\text{{ ch}} \\to 128\\text{{ ch}}$), Channel Scaling ($d$), Data-Volume Scaling ($N_{{\\text{{train}}}}$) &amp; Peeking</h3>
+  <h3 style="margin:12px 0 6px;font-size:0.95rem">2C. 39-Model Performance by Training Data Volume ($N_{{\\text{{train}}}} \\le 150$ to $150\\text{{K}}$) &amp; Controlled Subsampling ($5\\% \\to 100\\%$)</h3>
   <div style="overflow-x:auto;margin-bottom:14px">
     <table class="data-table" style="font-size:0.77rem">
+      <thead>
+        <tr>
+          <th>Global Rank &amp; Model</th>
+          <th>Few-Shot ($\\le 150$, 7 DS)</th>
+          <th>Standard ($200\\text{{--}}600$, 8 DS)</th>
+          <th>Multi-Sess ($600\\text{{--}}3\\text{{K}}$, 6 DS)</th>
+          <th>Large Cohort ($3\\text{{K--}}150\\text{{K}}$, 8 DS)</th>
+          <th>Data-Volume Gain ($\\Delta_{{\\text{{Large}}-\\text{{Few}}}}$)</th>
+          <th>Radar 5% (75)</th>
+          <th>Radar 25% (375)</th>
+          <th>Radar 100% (1.5K)</th>
+          <th>All-29 Mean</th>
+        </tr>
+      </thead>
+      <tbody>{"".join(datavol_rows_html)}</tbody>
+    </table>
+  </div>"""
+
+    scaling_section_html = f"""<div class="grid2" style="margin:14px 0">
+    <div class="diag-card" style="background:var(--panel)">
+      {dim_scaling_svg}
+    </div>
+    <div class="diag-card" style="background:var(--panel)">
+      {pareto_params_svg}
+    </div>
+  </div>
+  <div class="tri-grid" style="margin:10px 0 14px">
+    <div class="diag-card col-orig">
+      <div class="col-banner orig"><span>CLAIM 3A · LOW-CHANNEL REGIME ($d \\le 19$)</span><span class="chip good">7 Datasets</span></div>
+      <p class="small" style="margin:4px 0">
+        On sparse montages ($d \\le 19$), correlation models drop <code>-5.25 pp</code> below BatchNorm (<code>56.88%</code> vs <code>62.13%</code>) because unit-diagonal normalization erases channel bandpower.
+      </p>
+    </div>
+    <div class="diag-card col-ours">
+      <div class="col-banner ours"><span>CLAIM 3B · HIGH-DENSITY EEG ($d \\in [56, 64]$)</span><span class="chip warning">11 Datasets</span></div>
+      <p class="small" style="margin:4px 0">
+        On high-density montages ($56\\text{{--}}64$ channels), foundational spatiotemporal filterbanks (<code>TSMNet</code>, <code>EEGSPDNet</code>, <code>Green</code>) rank #1 at <code>64.45%</code> by isolating focal cortical sources before covariance pooling.
+      </p>
+    </div>
+    <div class="diag-card col-gap">
+      <div class="col-banner gap"><span>CLAIM 3C · PARAMETER SCALING ($22\\text{{ch}} \\to 128\\text{{ch}}$)</span><span class="chip unresolved">$O(C)$ vs $O(C^4)$</span></div>
+      <p class="small" style="margin:4px 0">
+        Un-bottlenecked tangent MLPs scale as $O(C^4)$ (<code>SPDTransNet</code> grows from <code>1.22M</code> to <code>1.09B</code> params at $128\\text{{ ch}}$, rank #37), whereas spatial-stem bottleneck models like <code>#01 ARMAGNAC-GAH</code> require only <code>4.3K</code> to <code>17.8K</code> parameters.
+      </p>
+    </div>
+  </div>
+  <h3 style="margin:12px 0 6px;font-size:0.95rem">3C. 39-Model Parameter Complexity ($22\\text{{ ch}} \\to 128\\text{{ ch}}$), Channel Scaling ($d \\in [2, 400]$) &amp; Peeking Stability</h3>
+  <div style="overflow-x:auto;margin-bottom:14px">
+    <table class="data-table" style="font-size:0.78rem">
       <thead>
         <tr>
           <th>Global Rank &amp; Model</th>
@@ -5183,10 +5247,8 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
           <th>Low-D ($2\\text{{--}}19\\text{{ ch}}$)</th>
           <th>High-D ($56\\text{{--}}64\\text{{ ch}}$)</th>
           <th>Ultra-D ($93\\text{{--}}400\\text{{ D}}$)</th>
-          <th>Few-Shot ($\\le 150$)</th>
-          <th>Large-$N$ ($\\ge 600$)</th>
           <th>All-29 Mean</th>
-          <th>Peeking</th>
+          <th>Peeking Inflation</th>
         </tr>
       </thead>
       <tbody>{"".join(size_scaling_rows_html)}</tbody>
@@ -5531,9 +5593,8 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     renderH2H();
   }})();</script>"""
 
-    filter_controls_html = """<div class="filter-bar" style="margin:10px 0;display:flex;flex-direction:column;gap:8px">
-    <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
-      <span class="small muted" style="font-weight:700;margin-right:4px">Family:</span>
+    filter_controls_html = """<div class="filter-bar" style="margin:10px 0;display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+      <span class="small muted" style="font-weight:700;margin-right:4px">Family Filter:</span>
       <button type="button" class="filter-btn bm-fam-btn active" data-bmfam="all">All 39 Models</button>
       <button type="button" class="filter-btn bm-fam-btn" data-bmfam="batchnorm">Riemannian BatchNorm / Metric (11)</button>
       <button type="button" class="filter-btn bm-fam-btn" data-bmfam="foundational">Foundational SPD (5)</button>
@@ -5541,24 +5602,9 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
       <button type="button" class="filter-btn bm-fam-btn" data-bmfam="graph">Graph / Filterbank / Multi-View (5)</button>
       <button type="button" class="filter-btn bm-fam-btn" data-bmfam="residual">Residual / Gyro / Autoencoder (8)</button>
       <button type="button" class="filter-btn bm-fam-btn" data-bmfam="correlation">Correlation Manifold (3)</button>
-      <span class="tag bm-status-pill" style="margin-left:6px;border-color:var(--good);color:var(--good);font-weight:700">Showing 39/39 models &middot; Lens: Mean &plusmn; SD (%)</span>
+      <span class="tag bm-status-pill" style="margin-left:6px;border-color:var(--good);color:var(--good);font-weight:700">Showing 39/39 models</span>
       <input type="search" class="search-input bm-model-search" style="margin-left:auto;min-width:230px" placeholder="Search 39 models (e.g. ARMAGNAC, SPDMetaFormer, Green)..." aria-label="Search models"/>
-    </div>
-    <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding-top:6px;border-top:1px dashed var(--line)">
-      <span class="small" style="font-weight:700;color:var(--spd-blue);margin-right:4px">Cell Metric Lens:</span>
-      <button type="button" class="filter-btn bm-view-btn active" data-bmview="raw" title="Exact Mean ± SD (%) across subjects or seeds">📊 Mean &plusmn; SD (%)</button>
-      <button type="button" class="filter-btn bm-view-btn" data-bmview="heatmap" title="Column-normalized heatmap shading + proportional bottom sparkbar">🔥 Heatmap + Sparkbar</button>
-      <button type="button" class="filter-btn bm-view-btn" data-bmview="chance" title="Accuracy gain above theoretical chance (+Δ% vs 100/K)">🎯 Gain Over Chance (+&Delta;%)</button>
-      <button type="button" class="filter-btn bm-view-btn" data-bmview="kappa" title="Cohen's kappa (imbalance- and chance-adjusted agreement across subjects/seeds)">⚖️ Cohen's &kappa;</button>
-      <button type="button" class="filter-btn bm-view-btn" data-bmview="rank" title="Within-dataset ordinal rank (#01 to #39) with podium badges">🏆 Dataset Rank (#1&ndash;#39)</button>
-      <button type="button" class="filter-btn bm-view-btn" data-bmview="gap" title="Accuracy deficit relative to the #1 model on each dataset (−Δ%)">📏 Gap to #1 (&minus;&Delta;%)</button>
-      <button type="button" class="filter-btn bm-compact-btn" title="Hide ±SD to fit all 15 columns on one screen without scrolling">⊟ Compact (Hide &plusmn;SD)</button>
-      <span class="small muted" style="font-weight:700;margin-left:auto;margin-right:2px">Sort Rows:</span>
-      <button type="button" class="filter-btn bm-sort-btn active" data-bmsort="grk">Global Rank (#1&rarr;#39)</button>
-      <button type="button" class="filter-btn bm-sort-btn" data-bmsort="dmean">Domain Mean (&darr;)</button>
-      <button type="button" class="filter-btn bm-sort-btn" data-bmsort="params_asc">Smallest Params (&uarr;)</button>
-    </div>
-  </div>"""
+    </div>"""
 
     matrix_lens_bar_html = """<div class="filter-bar" style="margin:6px 0 8px;padding:6px 10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:rgba(29,78,216,0.03)">
       <span class="small" style="font-weight:700;color:var(--spd-blue);margin-right:2px">Matrix Lens:</span>
@@ -5847,42 +5893,40 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     if tabbed:
         return f"""<div class="tabs" role="tablist">
     <button type="button" role="tab" data-panel="ALL" aria-selected="true">All Sections (Full Suite)</button>
-    <button type="button" role="tab" data-panel="gen-ranking" aria-selected="false">1. Global Ranking &amp; Family Synthesis <span class="n">39 Models</span></button>
-    <button type="button" role="tab" data-panel="gen-scaling" aria-selected="false">2. Size, Data Volume &amp; Complexity (d, N, Params) <span class="n">O(C) vs O(C<sup>4</sup>)</span></button>
+    <button type="button" role="tab" data-panel="gen-datavol" aria-selected="false">1. Amount of Data vs. Performance ($N_{{\\text{{train}}}}$ &amp; Scarcity) <span class="n">50 &rarr; 150K</span></button>
+    <button type="button" role="tab" data-panel="gen-scaling" aria-selected="false">2. Channel &amp; Parameter Scaling ($d$, Params) <span class="n">O(C) vs O(C<sup>4</sup>)</span></button>
     <button type="button" role="tab" data-panel="gen-critical" aria-selected="false">3. Critical Audit &amp; Wilcoxon Lab <span class="n">N=306 Tests</span></button>
-    <button type="button" role="tab" data-panel="gen-bci" aria-selected="false">4. Motor, ERP &amp; SSVEP BCI <span class="n">15&times;39</span></button>
-    <button type="button" role="tab" data-panel="gen-clin" aria-selected="false">5. Clinical, Sleep, Affect &amp; fMRI <span class="n">10&times;39</span></button>
-    <button type="button" role="tab" data-panel="gen-spd" aria-selected="false">6. Action, Radar &amp; Emotion SPD <span class="n">4&times;39</span></button>
-    <button type="button" role="tab" data-panel="gen-inventory" aria-selected="false">7. 29-Dataset Geometry &amp; Winners <span class="n">29 DS</span></button>
+    <button type="button" role="tab" data-panel="gen-ranking" aria-selected="false">4. Global Ranking &amp; Family Synthesis <span class="n">39 Models</span></button>
+    <button type="button" role="tab" data-panel="gen-bci" aria-selected="false">5. Motor, ERP &amp; SSVEP BCI <span class="n">15&times;39</span></button>
+    <button type="button" role="tab" data-panel="gen-clin" aria-selected="false">6. Clinical, Sleep, Affect &amp; fMRI <span class="n">10&times;39</span></button>
+    <button type="button" role="tab" data-panel="gen-spd" aria-selected="false">7. Action, Radar &amp; Emotion SPD <span class="n">4&times;39</span></button>
+    <button type="button" role="tab" data-panel="gen-inventory" aria-selected="false">8. 29-Dataset Geometry &amp; Winners <span class="n">29 DS</span></button>
   </div>
   {filter_controls_html}
 
-  <section class="tabpanel" id="gen-ranking">
+  <section class="tabpanel" id="gen-datavol">
     <div class="panel">
       <div class="claim-head">
-        <span class="tag" style="border-color:var(--good);color:var(--good)">GLOBAL CRITICAL-DIFFERENCE FOREST PLOT</span>
-        <span class="tag">39 Models &times; 29 Datasets · {n_tot_runs:,} Voyager Runs</span>
-        <strong>1A. Global 39-Model Ranking, Interquartile Rank Spread &amp; Sub-Domain Accuracy</strong>
+        <span class="tag" style="border-color:var(--accent);color:var(--accent)">SAMPLE-VOLUME SCALING &amp; SCARCITY LAWS</span>
+        <span class="tag">Training Volume $N_{{\\text{{train}}}} \\in [50, 150\\text{{K}}]$ &middot; Subsampling $5\\% \\to 100\\%$</span>
+        <strong>1. Amount of Data vs. Model Performance: Sample-Volume Crossover ($N_{{\\text{{train}}}}$) &amp; Controlled Scarcity ($5\\% \\to 100\\%$)</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
-        Models ordered by mean rank across all 29 datasets (<code>#01 ARMAGNAC-GAH</code> at rank <code>11.2</code> to <code>#39 CorNet</code> at rank <code>30.5</code>), with IQR bars and sub-domain means.
+        How model families and architectures scale with the number of training trials/windows across all 29 datasets (from Few-Shot $\\le 150$ trials to $150\\text{{K}}$ clinical windows) and under controlled subsampling ($5\\%$ to $100\\%$ of training data).
       </p>
-      <div class="diag-card" style="background:var(--panel);margin-bottom:14px">
-        {ranking_forest_svg}
-      </div>
-      {family_and_ablation_html}
+      {datavol_section_html}
     </div>
   </section>
 
   <section class="tabpanel" id="gen-scaling">
     <div class="panel">
       <div class="claim-head">
-        <span class="tag" style="border-color:var(--spd-blue);color:var(--spd-blue)">SCALING LAWS: CHANNELS, DATA VOLUME &amp; PARAMETERS</span>
-        <span class="tag">Channels $d \\in [2, 400]$ &middot; Data Volume $N_{{\\text{{train}}}} \\in [50, 150\\text{{K}}]$ &middot; Params $22\\text{{ch}} \\to 128\\text{{ch}}$</span>
-        <strong>2. Channel Density ($d$), Training Data Volume ($N_{{\\text{{train}}}}$), Parameter Pareto Frontier &amp; Sample Scarcity</strong>
+        <span class="tag" style="border-color:var(--spd-blue);color:var(--spd-blue)">CHANNEL DENSITY &amp; PARAMETER PARETO FRONTIER</span>
+        <span class="tag">Channels $d \\in [2, 400]$ &middot; Params $22\\text{{ch}} \\to 128\\text{{ch}}$</span>
+        <strong>2. Channel Density ($d \\times d$), Parameter Complexity Pareto Frontier &amp; Peeking Stability</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
-        Accuracy across four covariance dimension regimes ($d \\in [2, 400]$), four training sample-volume regimes ($N_{{\\text{{train}}}} \\le 150$ to $150\\text{{K}}$), parameter complexity, and $5\\% \\to 100\\%$ scarcity.
+        Accuracy across four covariance dimension regimes ($d \\in [2, 19]$, $[20, 32]$, $[56, 64]$, and $[93, 400]$) and parameter growth from $22\\text{{ ch}}$ to $128\\text{{ ch}}$.
       </p>
       {scaling_section_html}
     </div>
@@ -5902,12 +5946,29 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     </div>
   </section>
 
+  <section class="tabpanel" id="gen-ranking">
+    <div class="panel">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">GLOBAL CRITICAL-DIFFERENCE FOREST PLOT</span>
+        <span class="tag">39 Models &times; 29 Datasets · {n_tot_runs:,} Voyager Runs</span>
+        <strong>4. Global 39-Model Ranking, Interquartile Rank Spread &amp; Sub-Domain Accuracy</strong>
+      </div>
+      <p class="small muted" style="margin:4px 0 10px">
+        Models ordered by mean rank across all 29 datasets (<code>#01 ARMAGNAC-GAH</code> at rank <code>11.2</code> to <code>#39 CorNet</code> at rank <code>30.5</code>), with IQR bars and sub-domain means.
+      </p>
+      <div class="diag-card" style="background:var(--panel);margin-bottom:14px">
+        {ranking_forest_svg}
+      </div>
+      {family_and_ablation_html}
+    </div>
+  </section>
+
   <section class="tabpanel" id="gen-bci">
     <div class="panel">
       <div class="claim-head">
         <span class="tag" style="border-color:var(--spd-blue);color:var(--spd-blue)">COHORT A · 15 BCI BENCHMARKS</span>
         <span class="tag">Motor Imagery, SSVEP, P300/ERN &amp; Mental Workload</span>
-        <strong>4. Motor-Imagery, ERP &amp; SSVEP BCI Generalization Matrix (15 Datasets &times; 39 Models, Mean &plusmn; SD %)</strong>
+        <strong>5. Motor-Imagery, ERP &amp; SSVEP BCI Generalization Matrix (15 Datasets &times; 39 Models, Mean &plusmn; SD %)</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
         Evaluated at 100% native channel counts (up to $128\\times 128$). <code>ARMAGNAC-Harmonic</code> (<code>64.62%</code>), <code>ARMAGNAC-GAH</code> (<code>64.12%</code>), and <code>GBWBN</code> (<code>63.97%</code>) lead overall; <code>SPDMetaFormer</code> (<code>62.85%</code>) leads standalone models.
@@ -5927,7 +5988,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
       <div class="claim-head">
         <span class="tag" style="border-color:var(--accent);color:var(--accent)">COHORT B · 10 CLINICAL, SLEEP, AFFECTIVE &amp; FMRI BENCHMARKS</span>
         <span class="tag">Pathology, Sleep Staging, Oddball ERP, Emotion &amp; Connectomes</span>
-        <strong>5. Clinical, Sleep, Resting-State, ERP, Affective &amp; fMRI Connectivity Matrix (10 Datasets &times; 39 Models, Mean &plusmn; SD %)</strong>
+        <strong>6. Clinical, Sleep, Resting-State, ERP, Affective &amp; fMRI Connectivity Matrix (10 Datasets &times; 39 Models, Mean &plusmn; SD %)</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
         Clinical EEG (<code>TUAB</code>, <code>TUEV</code>), sleep PSG (<code>Sleep-EDFX</code>, <code>MASS-SS3</code>), resting/ERP/affective EEG, and fMRI connectomes (<code>ABIDE</code> $200\\times 200$, <code>ADHD-200</code> $190\\times 190$). <code>Green</code> leads at <code>68.16%</code>.
@@ -5947,7 +6008,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
       <div class="claim-head">
         <span class="tag" style="border-color:var(--warning);color:var(--warning)">COHORT C · 4 NATIVE SPD MATRIX BENCHMARKS</span>
         <span class="tag">Radar ($20\\times 20$), HDM05 ($93\\times 93$), FPHA ($63\\times 63$), AFEW ($400\\times 400$) · 5 Seeds</span>
-        <strong>6. Action Recognition, Micro-Doppler Radar &amp; Video Emotion SPD Matrix Benchmark (39/39 Models &times; 5 Seeds)</strong>
+        <strong>7. Action Recognition, Micro-Doppler Radar &amp; Video Emotion SPD Matrix Benchmark (39/39 Models &times; 5 Seeds)</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
         Evaluated across 5 seeds with validation checkpoint selection. <code>ARMAGNAC-GAH</code> leads at <code>73.95%</code> (<code>71.75%</code> on <code>HDM05</code>), followed by <code>GBWBN</code> (<code>73.44%</code>) and <code>SPDNetBN</code> (<code>73.28%</code>).
@@ -5978,7 +6039,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
       <div class="claim-head">
         <span class="tag" style="border-color:var(--good);color:var(--good)">COMPLETE PROVENANCE &amp; GEOMETRY INVENTORY</span>
         <span class="tag">29 Datasets · From $\\mathcal{{S}}_{{++}}^2$ to $\\mathcal{{S}}_{{++}}^{{400}}$</span>
-        <strong>7. Complete 29-Dataset Native SPD Geometry, Tangent Dimensionality &amp; Winner Inventory</strong>
+        <strong>8. Complete 29-Dataset Native SPD Geometry, Tangent Dimensionality &amp; Winner Inventory</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
         Native covariance dimension $d\\times d$, tangent dimension $d(d+1)/2$, evaluation population, chance level, and top models per dataset.
@@ -6013,13 +6074,15 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     All 29 datasets evaluated with 100% native channel counts and validation checkpoint selection (zero test-set peeking). <strong style="color:var(--good)"><code>★</code></strong> marks the #1 model per dataset; green shading marks Top-3 finishes.
   </p>
 
-  <h3 style="margin:10px 0 6px;font-size:0.95rem">1. Global 39-Model Ranking &amp; Critical-Difference Forest Plot Across All 29 Datasets</h3>
+  {datavol_section_html}
+  {scaling_section_html}
+  <h3 style="margin:10px 0 6px;font-size:0.95rem">3. Global 39-Model Ranking &amp; Critical-Difference Forest Plot Across All 29 Datasets</h3>
   <div class="diag-card" style="background:var(--panel);margin-bottom:14px">
     {ranking_forest_svg}
   </div>
   {family_and_ablation_html}
-  {scaling_section_html}
   {filter_controls_html}
+  {matrix_lens_bar_html}
 
   <h3 style="margin:10px 0 6px;font-size:0.95rem">2A. Motor-Imagery, ERP &amp; SSVEP BCI Matrix (15 Datasets &times; 39 Models, Sorted by Global Rank, Mean &plusmn; SD %)</h3>
   <div class="bm-table-wrap">
