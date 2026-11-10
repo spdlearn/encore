@@ -281,27 +281,27 @@ VOYAGER_DATASET_META: dict[str, tuple[str, str]] = {
     "bnci2015_001": ("BNCI2015-001 (2-Class MI, 13 ch)", "MOABB Cross-Session (Session A -> Session B), 8-35 Hz"),
     "cho2017": ("Cho2017 (2-Class MI, 64 ch)", "MOABB Subject-Specific Split, 8-35 Hz, 3s epochs"),
     "lee2019_mi": ("Lee2019-MI / OpenBMI (2-Class MI, 62 ch)", "MOABB Cross-Session (sess1 -> sess2), 8-35 Hz, 4s epochs"),
-    "schirrmeister2017": ("Schirrmeister2017 (High-Gamma 4-Class, 44 ch)", "MOABB Cross-Run (train -> test), 4-125 Hz, 4s epochs"),
+    "schirrmeister2017": ("Schirrmeister2017 (High-Gamma 4-Class, 128 ch)", "MOABB Cross-Run (train -> test), 4-125 Hz, 4s epochs"),
     "shin2017a": ("Shin2017A (2-Class MI, 30 ch)", "MOABB Cross-Session, 8-35 Hz, 10s epochs"),
     "weibo2014": ("Weibo2014 (4-Class MI, 60 ch)", "MOABB Subject Split, 8-35 Hz, 4s epochs"),
     "zhou2020": ("Zhou2016 / Zhou2020 (3-Class MI, 14 ch)", "MOABB Cross-Session, 8-35 Hz, 5s epochs"),
-    "hinss2021": ("Hinss2021 (Mental Workload, 29 ch)", "NEMAR nm000343 Cross-Session (S1 -> S2), 2-Class MATB"),
+    "hinss2021": ("Hinss2021 (Mental Workload, 62 ch)", "NEMAR nm000343 Cross-Session (S1 -> S2), 3-Class MATB"),
     "stieger2021": ("Stieger2021 (4-Class MI, 62 ch)", "NEMAR nm000339 Multi-Session Holdout, 8-35 Hz"),
     "physionet_mi": ("PhysioNet MI (4-Class MI, 64 ch)", "PhysioNet EEGMMIDB Cross-Run Holdout, 8-35 Hz"),
-    "mamem2": ("MAMEM-SSVEP-II (5-Class SSVEP, 8 ch)", "MOABB Cross-Session (4 train -> 1 test), 125 Hz"),
-    "bci_ern": ("BCI-ERN (2-Class Feedback ERP, 32 ch)", "MOABB Cross-Session (s1 -> s2), 1-40 Hz"),
+    "mamem2": ("MAMEM-SSVEP-II (5-Class SSVEP, 64 ch)", "MOABB Cross-Session (4 train -> 1 test), 250 Hz"),
+    "bci_ern": ("BCI-ERN (2-Class Feedback ERP, 56 ch)", "MOABB Cross-Session (s1 -> s2), 1-40 Hz"),
     "tuab": ("TUAB (Clinical Abnormal EEG, 19 ch)", "Temple Univ. Train -> Eval Split, 2-Class Pathology"),
     "tuev": ("TUEV (Clinical Event EEG, 19 ch)", "Temple Univ. Train -> Eval Split, 6-Class Events"),
     "sleep_edfx": ("Sleep-EDFX (5-Class Sleep Staging, 2 ch)", "PhysioNet Sleep-Cassette Night 1 -> Night 2"),
     "mass_ss3": ("MASS-SS3 (5-Class Sleep Staging, 20 ch)", "Montreal Archive of Sleep Studies Cross-Subject"),
-    "lemon": ("LEMON (Resting-State Eyes-Open/Closed, 61 ch)", "MPI-LEMON BIDS Autoreject Epochs, 125 Hz"),
-    "tdbrain": ("TDBRAIN (Clinical Auditory Oddball ERP, 26 ch)", "TDBRAIN-V3 BIDS Oddball Standard vs Target, 125 Hz"),
-    "abide": ("ABIDE (fMRI Functional Connectivity, 39 MSDL ROI)", "846-Subject Multi-Site 4-Fold Cross-Validation"),
-    "adhd200": ("ADHD-200 (fMRI Functional Connectivity, 39 ROI)", "FCP-INDI Multi-Site 4-Fold Cross-Validation"),
+    "lemon": ("LEMON (Resting-State Eyes-Open/Closed, 61 ch)", "MPI-LEMON BIDS Autoreject Epochs, 250 Hz"),
+    "tdbrain": ("TDBRAIN (Clinical Auditory Oddball ERP, 26 ch)", "TDBRAIN-V3 BIDS Oddball Standard vs Target, 500 Hz"),
+    "abide": ("ABIDE (fMRI Functional Connectivity, 200 ROI)", "846-Subject Multi-Site 4-Fold Cross-Validation"),
+    "adhd200": ("ADHD-200 (fMRI Functional Connectivity, 190 ROI)", "FCP-INDI Multi-Site 4-Fold Cross-Validation"),
     "seed": ("SEED (SJTU 3-Class Emotion EEG, 62 ch)", "SJTU BCMI Preprocessed_EEG 15-Trial 4-Fold CV, 200 Hz"),
     "deap": ("DEAP (2-Class Affective Valence EEG, 32 ch)", "DEAP-BIDS 32-ch EEG Music Stimuli Valence Split"),
-    "radar": ("Radar (3-Class Micro-Doppler SPD, 40x40)", "spd-bench holdout_split(frac=0.25), 5 seeds"),
-    "hdm05": ("HDM05 (117-Class Skeletal Action SPD, 93x93)", "spd-bench holdout_split(frac=0.50), 3 seeds"),
+    "radar": ("Radar (3-Class Micro-Doppler SPD, 20x20)", "spd-bench holdout_split(frac=0.25), 5 seeds"),
+    "hdm05": ("HDM05 (117-Class Skeletal Action SPD, 93x93)", "spd-bench holdout_split(frac=0.50), 5 seeds"),
     "fpha": ("FPHA (45-Class Hand Action SPD, 63x63)", "spd-bench official 600/575 split, 5 seeds"),
     "afew": ("AFEW (7-Class Video Emotion SPD, 400x400)", "spd-bench official train/val split, 5 seeds"),
 }
@@ -3366,6 +3366,7 @@ def _top_bar(root_prefix: str, active: str, page_title: str) -> str:
   </a>
   <a class="by" href="https://spdlearn.org">for spdlearn.org</a>
   <a class="tab" href="{root_prefix}index.html"{cur("overview")}>Overview</a>
+  <a class="tab" href="{root_prefix}generalization/index.html"{cur("generalization")}>Generalization<span class="n">29&times;39</span></a>
   <a class="tab" href="{root_prefix}papers/index.html"{cur("papers")}>Papers &amp; Gaps<span class="n">27</span></a>
   <a class="tab" href="{root_prefix}figures/index.html"{cur("figures")}>Figures Atlas<span class="n">101</span></a>
   <a class="tab" href="{root_prefix}methodology/index.html"{cur("methodology")}>Methodology</a>
@@ -3981,7 +3982,7 @@ def _model_geo_family(m: str) -> tuple[str, str]:
     return ("batchnorm", "Riemannian BatchNorm / Metric")
 
 
-def _render_voyager_overview_matrix() -> str:
+def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     """Render a comprehensive 29-dataset x 39-model Tufte visual suite and empirical matrix from voyager_spdbench_results.json."""
     eeg_ds = VOYAGER_RESULTS.get("eeg_datasets", {})
     radar_ds = VOYAGER_RESULTS.get("radar", {})
@@ -3989,9 +3990,9 @@ def _render_voyager_overview_matrix() -> str:
     fpha_ds = VOYAGER_RESULTS.get("fpha", {})
     afew_ds = VOYAGER_RESULTS.get("afew", {})
     hc_sum = VOYAGER_RESULTS.get("heavy_campaign_summary", {})
-    n_tot_runs = int(hc_sum.get("n_total_runs", 8216))
-    n_eeg_runs = int(hc_sum.get("n_eeg_runs", 7716))
-    n_spd_runs = int(hc_sum.get("n_spd_runs", 500))
+    n_tot_runs = int(hc_sum.get("n_total_runs", 11884))
+    n_eeg_runs = int(hc_sum.get("n_eeg_runs", 11104))
+    n_spd_runs = int(hc_sum.get("n_spd_runs", 780))
 
     bci_cols = [
         ("bnci2014_001", "BNCI14-001"),
@@ -4023,7 +4024,7 @@ def _render_voyager_overview_matrix() -> str:
         ("deap", "DEAP (Affect)"),
     ]
     spd_cols = [
-        ("radar", "Radar (40×40)"),
+        ("radar", "Radar (20×20)"),
         ("hdm05", "HDM05 (93×93)"),
         ("fpha", "FPHA (63×63)"),
         ("afew", "AFEW (400×400)"),
@@ -4238,35 +4239,35 @@ def _render_voyager_overview_matrix() -> str:
 
     # Build 29-Dataset Provenance, Native Geometry & Winner Inventory Table
     ds_inventory_specs = [
-        ("bnci2014_001", "BNCI2014-001 (BCIC-IV-2a)", "4-Class Motor Imagery EEG", "22×22 (250 Hz)", 4, 25.0),
-        ("bnci2014_002", "BNCI2014-002", "2-Class Motor Imagery EEG", "15×15 (512 Hz)", 2, 50.0),
-        ("bnci2014_004", "BNCI2014-004 (BCIC-IV-2b)", "2-Class Motor Imagery EEG", "3×3 (250 Hz)", 2, 50.0),
-        ("bnci2015_001", "BNCI2015-001", "2-Class Motor Imagery EEG", "13×13 (256 Hz)", 2, 50.0),
-        ("cho2017", "Cho2017 (GigaDB MI)", "2-Class High-Density MI EEG", "64×64 (512 Hz)", 2, 50.0),
-        ("lee2019_mi", "Lee2019-MI (OpenBMI/KU)", "2-Class High-Density MI EEG", "62×62 (250 Hz)", 2, 50.0),
-        ("schirrmeister2017", "Schirrmeister2017 (High-Gamma)", "4-Class High-Density Motor EEG", "128×128 (500 Hz)", 4, 25.0),
-        ("shin2017a", "Shin2017A", "2-Class Motor Imagery EEG", "30×30 (200 Hz)", 2, 50.0),
-        ("weibo2014", "Weibo2014", "4-Class High-Density MI EEG", "60×60 (200 Hz)", 4, 25.0),
-        ("zhou2020", "Zhou2020", "3-Class Multi-Session MI EEG", "14×14 (250 Hz)", 3, 33.3),
-        ("hinss2021", "Hinss2021 (Mental Workload)", "3-Class Neuroergonomics EEG", "62×62 (500 Hz)", 3, 33.3),
-        ("stieger2021", "Stieger2021 (Continuous MI)", "4-Class High-Density MI EEG", "62×62 (250 Hz)", 4, 25.0),
-        ("physionet_mi", "PhysionetMI (EEGBCI)", "4-Class Motor Execution/Imagery", "64×64 (160 Hz)", 4, 25.0),
-        ("mamem2", "MAMEM2 (SSVEP)", "5-Class High-Density SSVEP", "64×64 (250 Hz)", 5, 20.0),
-        ("bci_ern", "BCI-ERN (Margaux P300/ERN)", "2-Class Error-Related Negativity", "56×56 (200 Hz)", 2, 50.0),
-        ("tuab", "TUH Abnormal EEG (TUAB)", "2-Class Clinical Pathology EEG", "19×19 (200 Hz)", 2, 50.0),
-        ("tuev", "TUH EEG Events (TUEV)", "6-Class Clinical Epileptiform EEG", "19×19 (200 Hz)", 6, 16.7),
-        ("sleep_edfx", "SleepPhysionet (Sleep-EDFX)", "5-Class Polysomnography Sleep", "2×2 (100 Hz)", 5, 20.0),
-        ("mass_ss3", "Montreal Archive of Sleep (MASS-SS3)", "5-Class Whole-Night Sleep PSG", "20×20 (256 Hz)", 5, 20.0),
-        ("lemon", "MPI-LEMON (Resting-State EEG)", "2-Class EC vs. EO Alpha/Beta SPD", "61×61 (250 Hz)", 2, 50.0),
-        ("tdbrain", "TDBRAIN (Clinical Oddball ERP)", "2-Class Target vs. Standard ERP", "26×26 (500 Hz)", 2, 50.0),
-        ("abide", "ABIDE (Autism Connectome fMRI)", "2-Class MSDL-39 Resting-State fMRI", "39×39 (BOLD)", 2, 50.0),
-        ("adhd200", "ADHD-200 (Connectome fMRI)", "2-Class Functional Connectivity SPD", "39×39 (BOLD)", 2, 50.0),
-        ("seed", "SJTU SEED (Affective EEG)", "3-Class Emotion Recognition EEG", "62×62 (200 Hz)", 3, 33.3),
-        ("deap", "DEAP (Affective Valence EEG)", "2-Class Affective Valence BIDS EEG", "32×32 (128 Hz)", 2, 50.0),
-        ("radar", "Synthetic Aperture Radar (Radar)", "3-Class Complex-to-Real Toeplitz SPD", "40×40 SPD", 3, 33.3),
-        ("hdm05", "HDM05 MoCap Action Recognition", "117-Class 3D Skeletal Joint Covariance", "93×93 SPD", 117, 0.85),
-        ("fpha", "First-Person Hand Action (FPHA)", "45-Class Hand Pose SPD Covariance", "63×63 SPD", 45, 2.22),
-        ("afew", "Acted Facial Expressions (AFEW)", "7-Class Video Deep Feature Covariance", "400×400 SPD", 7, 14.3),
+        ("bnci2014_001", "BNCI2014-001 (BCIC-IV-2a)", "4-Class Motor Imagery EEG", "22×22 (250 Hz, 253 tang.)", 4, 25.0),
+        ("bnci2014_002", "BNCI2014-002", "2-Class Motor Imagery EEG", "15×15 (512 Hz, 120 tang.)", 2, 50.0),
+        ("bnci2014_004", "BNCI2014-004 (BCIC-IV-2b)", "2-Class Motor Imagery EEG", "3×3 (250 Hz, 6 tang.)", 2, 50.0),
+        ("bnci2015_001", "BNCI2015-001", "2-Class Motor Imagery EEG", "13×13 (256 Hz, 91 tang.)", 2, 50.0),
+        ("cho2017", "Cho2017 (GigaDB MI)", "2-Class High-Density MI EEG", "64×64 (512 Hz, 2,080 tang.)", 2, 50.0),
+        ("lee2019_mi", "Lee2019-MI (OpenBMI/KU)", "2-Class High-Density MI EEG", "62×62 (250 Hz, 1,953 tang.)", 2, 50.0),
+        ("schirrmeister2017", "Schirrmeister2017 (High-Gamma)", "4-Class High-Density Motor EEG", "128×128 (500 Hz, 8,256 tang.)", 4, 25.0),
+        ("shin2017a", "Shin2017A", "2-Class Motor Imagery EEG", "30×30 (200 Hz, 465 tang.)", 2, 50.0),
+        ("weibo2014", "Weibo2014", "4-Class High-Density MI EEG", "60×60 (200 Hz, 1,830 tang.)", 4, 25.0),
+        ("zhou2020", "Zhou2020", "3-Class Multi-Session MI EEG", "14×14 (250 Hz, 105 tang.)", 3, 33.3),
+        ("hinss2021", "Hinss2021 (Mental Workload)", "3-Class Neuroergonomics EEG", "62×62 (500 Hz, 1,953 tang.)", 3, 33.3),
+        ("stieger2021", "Stieger2021 (Continuous MI)", "4-Class High-Density MI EEG", "62×62 (250 Hz, 1,953 tang.)", 4, 25.0),
+        ("physionet_mi", "PhysionetMI (EEGBCI)", "4-Class Motor Execution/Imagery", "64×64 (160 Hz, 2,080 tang.)", 4, 25.0),
+        ("mamem2", "MAMEM2 (SSVEP)", "5-Class High-Density SSVEP", "64×64 (250 Hz, 2,080 tang.)", 5, 20.0),
+        ("bci_ern", "BCI-ERN (Margaux P300/ERN)", "2-Class Error-Related Negativity", "56×56 (200 Hz, 1,596 tang.)", 2, 50.0),
+        ("tuab", "TUH Abnormal EEG (TUAB)", "2-Class Clinical Pathology EEG", "19×19 (200 Hz, 190 tang.)", 2, 50.0),
+        ("tuev", "TUH EEG Events (TUEV)", "6-Class Clinical Epileptiform EEG", "19×19 (200 Hz, 190 tang.)", 6, 16.7),
+        ("sleep_edfx", "SleepPhysionet (Sleep-EDFX)", "5-Class Polysomnography Sleep", "2×2 (100 Hz, 3 tang.)", 5, 20.0),
+        ("mass_ss3", "Montreal Archive of Sleep (MASS-SS3)", "5-Class Whole-Night Sleep PSG", "20×20 (256 Hz, 210 tang.)", 5, 20.0),
+        ("lemon", "MPI-LEMON (Resting-State EEG)", "2-Class EC vs. EO Alpha/Beta SPD", "61×61 (250 Hz, 1,891 tang.)", 2, 50.0),
+        ("tdbrain", "TDBRAIN (Clinical Oddball ERP)", "2-Class Target vs. Standard ERP", "26×26 (500 Hz, 351 tang.)", 2, 50.0),
+        ("abide", "ABIDE (Autism Connectome fMRI)", "2-Class Craddock-200 Resting-State fMRI", "200×200 (BOLD, 20,100 tang.)", 2, 50.0),
+        ("adhd200", "ADHD-200 (Connectome fMRI)", "2-Class Craddock-190 Connectivity SPD", "190×190 (BOLD, 18,145 tang.)", 2, 50.0),
+        ("seed", "SJTU SEED (Affective EEG)", "3-Class Emotion Recognition EEG", "62×62 (200 Hz, 1,953 tang.)", 3, 33.3),
+        ("deap", "DEAP (Affective Valence EEG)", "2-Class Affective Valence BIDS EEG", "32×32 (128 Hz, 528 tang.)", 2, 50.0),
+        ("radar", "Synthetic Aperture Radar (Radar)", "3-Class Micro-Doppler Toeplitz SPD", "20×20 SPD (210 tang.)", 3, 33.3),
+        ("hdm05", "HDM05 MoCap Action Recognition", "117-Class 3D Skeletal Joint Covariance", "93×93 SPD (4,371 tang.)", 117, 0.85),
+        ("fpha", "First-Person Hand Action (FPHA)", "45-Class Hand Pose SPD Covariance", "63×63 SPD (2,016 tang.)", 45, 2.22),
+        ("afew", "Acted Facial Expressions (AFEW)", "7-Class Video Deep Feature Covariance", "400×400 SPD (80,200 tang.)", 7, 14.3),
     ]
     inv_rows_html = []
     for d_key, d_title, d_mod, d_dim, n_cls, chance_v in ds_inventory_specs:
@@ -4297,13 +4298,316 @@ def _render_voyager_overview_matrix() -> str:
 </tr>"""
         )
 
+    # Compute 6-Family Cross-Domain Summary Table & Controlled Stem Ablation Table
+    fam_order = [
+        ("batchnorm", "Riemannian BatchNorm / Metric (11)", "Fréchet, Harmonic/GAH, Bures-Wasserstein, Cholesky, and Deformed Lie BatchNorm"),
+        ("foundational", "Foundational Spatiotemporal SPD (5)", "Sinc/Gabor/Depthwise Temporal-Spatial Filterbanks + BiMap/ReEig/LogEig"),
+        ("attention", "Riemannian Attention / Transformer (7)", "Manifold Self-Attention, Gyro/Corr/GBW Attention, and Parameter-Free Pooling"),
+        ("graph", "Graph / Filterbank / Multi-View SPD (5)", "Time-Frequency Graph BiMap, Lovrić Gaussian RHOP, Geodesic CCA, and Tangent k-NN"),
+        ("residual", "Residual / Gyrovector / Autoencoder (8)", "Log-Euclidean Residuals, Adaptive Log-Euclidean, GyroSPD, and SPD-RMLR"),
+        ("correlation", "Correlation Manifold OLM / LSM (3)", "Scale-Invariant Correlation Quotient Projection with Off-Diagonal / Cholesky Log"),
+    ]
+    fam_rows_html = []
+    fam_chart_ticks = []
+    fam_bci_series = []
+    fam_clin_series = []
+    fam_spd_series = []
+    for fk, flbl, fdesc in fam_order:
+        f_ms = [ms for ms in model_stats if ms["fam_key"] == fk]
+        if not f_ms:
+            continue
+        best_f = f_ms[0]
+        f_rk = sum(x["mean_rank"] for x in f_ms) / len(f_ms)
+        f_bci = sum(x["bci_mean"] for x in f_ms) / len(f_ms)
+        f_clin = sum(x["clin_mean"] for x in f_ms) / len(f_ms)
+        f_spd = sum(x["spd_mean"] for x in f_ms) / len(f_ms)
+        f_all = sum(x["overall_mean"] for x in f_ms) / len(f_ms)
+        f_wins = sum(x["wins_1"] for x in f_ms)
+        f_top3 = sum(x["top_3"] for x in f_ms)
+        fam_chart_ticks.append(flbl.split("(")[0].strip()[:14])
+        fam_bci_series.append(round(f_bci, 2))
+        fam_clin_series.append(round(f_clin, 2))
+        fam_spd_series.append(round(f_spd, 2))
+        fam_rows_html.append(
+            f"""<tr>
+  <td><strong>{_esc(flbl)}</strong><br><span class="small muted">{_esc(fdesc)}</span></td>
+  <td><strong style="color:var(--good)"><code>#{ rank_by_model[best_f['model']]:02d} {_esc(best_f['model'])}</code></strong> (<code>{best_f['overall_mean']:.2f}%</code>)</td>
+  <td><code>{f_rk:.1f}</code></td>
+  <td><code>{f_bci:.2f}%</code></td>
+  <td><code>{f_clin:.2f}%</code></td>
+  <td><code>{f_spd:.2f}%</code></td>
+  <td><strong><code>{f_all:.2f}%</code></strong> (<span class="muted">{f_top3} Top-3 · {f_wins} #1</span>)</td>
+</tr>"""
+        )
+
+    fam_domain_svg = _svg_line_or_bar_panel(
+        "6 Geometric Families: Cross-Domain Accuracy (15 BCI vs 10 Clinical/fMRI)",
+        "SPD Geometric Architecture Family",
+        "Mean Accuracy (%)",
+        fam_chart_ticks,
+        [
+            {"label": "15 BCI", "values": fam_bci_series, "class": "svg-bar-primary"},
+            {"label": "10 Clin/fMRI", "values": fam_clin_series, "class": "svg-bar-secondary"},
+        ],
+        chart_type="bar",
+        ymin=50.0,
+        ymax=72.0,
+    )
+
+    stem_pairs = [
+        ("SPDNet", "SPDNetBN", "Adding temporal-spatial Conv stem + Fréchet SPDBatchNormMean lifts rank by 29 places across 29 datasets."),
+        ("CorNet", "CorNet-OLM", "Raw correlation projection erases diagonal bandpower; adding TSMNet stem recovers +6.29% mean accuracy."),
+        ("CorNet", "CorNet-LSM", "Log-Scaled Correlation metric with TSMNet stem gains +5.99% and jumps 21 places in global rank."),
+        ("ALEM", "SPDResNet-ALEM", "Adding residual blocks + TSMNet stem prevents sorted-eigenvalue Conv1d overfitting (+4.41% global mean)."),
+        ("SPNN", "RieTrans-SPDRMLR", "Pairing Riemannian Multinomial Logistic Regression (SPDRMLR) with TSMNet stem lifts global rank from #28 to #08."),
+    ]
+    ms_by_name = {ms["model"]: ms for ms in model_stats}
+    stem_rows_html = []
+    stem_ticks = []
+    stem_raw_vals = []
+    stem_tsm_vals = []
+    for raw_m, tsm_m, reason_txt in stem_pairs:
+        if raw_m in ms_by_name and tsm_m in ms_by_name:
+            r_ms = ms_by_name[raw_m]
+            t_ms = ms_by_name[tsm_m]
+            d_all = t_ms["overall_mean"] - r_ms["overall_mean"]
+            d_bci = t_ms["bci_mean"] - r_ms["bci_mean"]
+            d_clin = t_ms["clin_mean"] - r_ms["clin_mean"]
+            rk_jump = int(rank_by_model[raw_m] - rank_by_model[tsm_m])
+            stem_ticks.append(tsm_m[:12])
+            stem_raw_vals.append(round(r_ms["overall_mean"], 2))
+            stem_tsm_vals.append(round(t_ms["overall_mean"], 2))
+            stem_rows_html.append(
+                f"""<tr>
+  <td><code>#{rank_by_model[raw_m]:02d} {_esc(raw_m)}</code> (<code>{r_ms['overall_mean']:.2f}%</code>)</td>
+  <td><strong style="color:var(--good)"><code>#{rank_by_model[tsm_m]:02d} {_esc(tsm_m)} (+TSM)</code></strong> (<code>{t_ms['overall_mean']:.2f}%</code>)</td>
+  <td><span class="chip good">+{rk_jump} ranks</span> · <strong><code>+{d_all:.2f}%</code></strong> (BCI <code>+{d_bci:.2f}%</code>, Clin <code>+{d_clin:.2f}%</code>)</td>
+  <td class="small muted">{_esc(reason_txt)}</td>
+</tr>"""
+            )
+
+    stem_ablation_svg = _svg_line_or_bar_panel(
+        "Controlled Stem Ablation: Raw Matrix Backbone vs +TSM Stem (29-DS Mean %)",
+        "Architecture Pair (Raw Covariance vs Spatiotemporal Stem)",
+        "29-Dataset Mean Accuracy (%)",
+        stem_ticks,
+        [
+            {"label": "Raw Matrix", "values": stem_raw_vals, "class": "svg-bar-primary"},
+            {"label": "+TSM Stem", "values": stem_tsm_vals, "class": "svg-bar-secondary"},
+        ],
+        chart_type="bar",
+        ymin=50.0,
+        ymax=70.0,
+    )
+
     bci_headers = "".join(f"<th>{_esc(lbl)}</th>" for _, lbl in bci_cols)
     clin_headers = "".join(f"<th>{_esc(lbl)}</th>" for _, lbl in clin_cols)
+
+    filter_controls_html = """<div class="filter-bar" style="margin:10px 0">
+    <button type="button" class="filter-btn bm-fam-btn active" data-bmfam="all">All 39 Models</button>
+    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="batchnorm">Riemannian BatchNorm / Metric (11)</button>
+    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="foundational">Foundational SPD (5)</button>
+    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="attention">Attention / Transformer (7)</button>
+    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="graph">Graph / Filterbank / Multi-View (5)</button>
+    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="residual">Residual / Gyro / Autoencoder (8)</button>
+    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="correlation">Correlation Manifold (3)</button>
+    <input type="search" class="search-input bm-model-search" placeholder="Search any of the 39 models (e.g. ARMAGNAC, EEGSPDNet, SPDMetaFormer, Green)..." aria-label="Search models"/>
+  </div>"""
+
+    filter_js_block = """<script>(function(){
+    var fbtns=[].slice.call(document.querySelectorAll('.bm-fam-btn'));
+    var mrows=[].slice.call(document.querySelectorAll('.bm-model-row'));
+    var minp=document.querySelector('.bm-model-search');
+    var curFam='all';
+    function applyFilter(){
+      var q=(minp&&minp.value||'').toLowerCase().trim();
+      mrows.forEach(function(r){
+        var okFam=(curFam==='all'||r.getAttribute('data-fam')===curFam);
+        var okTxt=(!q||r.textContent.toLowerCase().indexOf(q)!==-1);
+        r.style.display=(okFam&&okTxt)?'':'none';
+      });
+    }
+    fbtns.forEach(function(b){
+      b.addEventListener('click',function(){
+        curFam=b.getAttribute('data-bmfam')||'all';
+        fbtns.forEach(function(x){x.classList.toggle('active',x===b);});
+        applyFilter();
+      });
+    });
+    if(minp)minp.addEventListener('input',applyFilter);
+  })();</script>"""
+
+    family_and_ablation_html = f"""<div class="grid2" style="margin:14px 0">
+    <div class="diag-card" style="background:var(--panel)">
+      {fam_domain_svg}
+    </div>
+    <div class="diag-card" style="background:var(--panel)">
+      {stem_ablation_svg}
+    </div>
+  </div>
+  <h3 style="margin:12px 0 6px;font-size:0.95rem">1B. Synthesis by Geometric Family (6 Families Across 29 Datasets)</h3>
+  <div style="overflow-x:auto;margin-bottom:14px">
+    <table class="data-table" style="font-size:0.79rem">
+      <thead>
+        <tr>
+          <th>Geometric Family &amp; Operator Mechanism</th>
+          <th>Top Representative Model</th>
+          <th>Family Mean Rank</th>
+          <th>15 BCI Mean</th>
+          <th>10 Clinical/fMRI Mean</th>
+          <th>4 SPD Matrix Mean</th>
+          <th>All-29 Mean &amp; Podiums</th>
+        </tr>
+      </thead>
+      <tbody>{"".join(fam_rows_html)}</tbody>
+    </table>
+  </div>
+  <h3 style="margin:12px 0 6px;font-size:0.95rem">1C. Controlled Spatiotemporal Stem Ablation (Raw Matrix Input vs. +TSM Spatiotemporal Filterbank Stem)</h3>
+  <div style="overflow-x:auto;margin-bottom:14px">
+    <table class="data-table" style="font-size:0.79rem">
+      <thead>
+        <tr>
+          <th>Raw Covariance Backbone (No Temporal Conv)</th>
+          <th>Paired Spatiotemporal Stem Variant (+TSM)</th>
+          <th>29-Dataset Rank &amp; Accuracy Gain</th>
+          <th>Structural &amp; Neurophysiological Mechanism</th>
+        </tr>
+      </thead>
+      <tbody>{"".join(stem_rows_html)}</tbody>
+    </table>
+  </div>"""
+
+    if tabbed:
+        return f"""<div class="tabs" role="tablist">
+    <button type="button" role="tab" data-panel="ALL" aria-selected="true">All Sections (Full Suite)</button>
+    <button type="button" role="tab" data-panel="gen-ranking" aria-selected="false">1. Global Ranking &amp; Family Synthesis <span class="n">39 Models</span></button>
+    <button type="button" role="tab" data-panel="gen-bci" aria-selected="false">2. Motor, ERP &amp; SSVEP BCI <span class="n">15&times;39</span></button>
+    <button type="button" role="tab" data-panel="gen-clin" aria-selected="false">3. Clinical, Sleep, Affect &amp; fMRI <span class="n">10&times;39</span></button>
+    <button type="button" role="tab" data-panel="gen-spd" aria-selected="false">4. Action, Radar &amp; Emotion SPD <span class="n">4&times;39</span></button>
+    <button type="button" role="tab" data-panel="gen-inventory" aria-selected="false">5. 29-Dataset Geometry &amp; Winners <span class="n">29 DS</span></button>
+  </div>
+  {filter_controls_html}
+
+  <section class="tabpanel" id="gen-ranking">
+    <div class="panel">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">GLOBAL CRITICAL-DIFFERENCE FOREST PLOT</span>
+        <span class="tag">39 Models &times; 29 Datasets · {n_tot_runs:,} Voyager Runs</span>
+        <strong>1A. Global 39-Model Ranking, Interquartile Rank Spread &amp; Sub-Domain Accuracy</strong>
+      </div>
+      <p class="small muted" style="margin:4px 0 10px">
+        Models are ordered by mean rank across all 29 datasets (<code>#01 ARMAGNAC-GAH</code> at mean rank <code>11.2</code> to <code>#39 CorNet</code> at mean rank <code>30.5</code>). Horizontal bars span the 25th to 75th percentile rank across the 29 benchmarks; right-hand columns report Top-3 podium counts and sub-domain means across the 15 BCI datasets, 10 Clinical/fMRI cohorts, and 4 SPD-matrix benchmarks.
+      </p>
+      <div class="diag-card" style="background:var(--panel);margin-bottom:14px">
+        {ranking_forest_svg}
+      </div>
+      {family_and_ablation_html}
+    </div>
+  </section>
+
+  <section class="tabpanel" id="gen-bci">
+    <div class="panel">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--spd-blue);color:var(--spd-blue)">COHORT A · 15 BCI BENCHMARKS</span>
+        <span class="tag">Motor Imagery, SSVEP, P300/ERN &amp; Mental Workload</span>
+        <strong>2. Motor-Imagery, ERP &amp; SSVEP BCI Generalization Matrix (15 Datasets &times; 39 Models, Mean &plusmn; SD %)</strong>
+      </div>
+      <p class="small muted" style="margin:4px 0 10px">
+        Evaluated at 100% native channel dimensionality (up to <code>128×128</code> on <code>Schirrmeister2017</code>, <code>64×64</code> on <code>Cho2017</code>, <code>PhysionetMI</code>, and <code>MAMEM2</code>, <code>62×62</code> on <code>Lee2019-MI</code>, <code>Stieger2021</code>, and <code>Hinss2021</code>, and <code>60×60</code> on <code>Weibo2014</code>). Geodesic and harmonic batch normalization paired with spatiotemporal conv stems (<code>ARMAGNAC-Harmonic</code> <code>64.62%</code>, <code>ARMAGNAC-GAH</code> <code>64.12%</code>, <code>GBWBN</code> <code>63.97%</code>) and high-order Lovrić pooling (<code>RHOP</code> <code>63.96%</code>) lead across the 15 cohorts, while parameter-free <code>SPDMetaFormer</code> (<code>62.85%</code>) and channel-specific filterbank <code>EEGSPDNet</code> (<code>62.72%</code>) lead all standalone end-to-end models.
+      </p>
+      <div style="overflow-x:auto">
+        <table class="data-table" style="font-size:0.75rem">
+          <thead><tr><th>Global Rank &amp; Model</th>{bci_headers}</tr></thead>
+          <tbody>{"".join(bci_rows_html)}</tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="tabpanel" id="gen-clin">
+    <div class="panel">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--accent);color:var(--accent)">COHORT B · 10 CLINICAL, SLEEP, AFFECTIVE &amp; FMRI BENCHMARKS</span>
+        <span class="tag">Pathology, Sleep Staging, Oddball ERP, Emotion &amp; Connectomes</span>
+        <strong>3. Clinical, Sleep, Resting-State, ERP, Affective &amp; fMRI Connectivity Matrix (10 Datasets &times; 39 Models, Mean &plusmn; SD %)</strong>
+      </div>
+      <p class="small muted" style="margin:4px 0 10px">
+        Spans clinical neurology (<code>TUAB</code>, <code>TUEV</code>), polysomnography sleep staging (<code>Sleep-EDFX</code>, <code>MASS-SS3</code>), resting-state alpha/beta oscillatory topography (<code>LEMON</code> 61 ch), auditory oddball ERP (<code>TDBRAIN</code> 26 ch), affective EEG (<code>SEED</code> 62 ch, <code>DEAP</code> 32 ch), and whole-brain resting-state fMRI functional connectivity (<code>ABIDE</code> <code>200×200</code> Craddock ROI, <code>ADHD-200</code> <code>190×190</code> ROI). Learnable Gabor wavelets in <code>Green</code> achieve the highest domain mean (<code>68.16%</code>), closely followed by <code>SPDResNet-ALEM</code> (<code>68.13%</code>), <code>GBWAtt</code> (<code>67.63%</code>), and <code>SPDNetBN</code> (<code>67.37%</code>).
+      </p>
+      <div style="overflow-x:auto">
+        <table class="data-table" style="font-size:0.77rem">
+          <thead><tr><th>Global Rank &amp; Model</th>{clin_headers}</tr></thead>
+          <tbody>{"".join(clin_rows_html)}</tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="tabpanel" id="gen-spd">
+    <div class="panel">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--warning);color:var(--warning)">COHORT C · 4 NATIVE SPD MATRIX BENCHMARKS</span>
+        <span class="tag">Radar ($20\\times 20$), HDM05 ($93\\times 93$), FPHA ($63\\times 63$), AFEW ($400\\times 400$) · 5 Seeds</span>
+        <strong>4. Action Recognition, Micro-Doppler Radar &amp; Video Emotion SPD Matrix Benchmark (39/39 Models &times; 5 Seeds)</strong>
+      </div>
+      <p class="small muted" style="margin:4px 0 10px">
+        Evaluated across 5 random seeds (<code>1024..1028</code>) with held-out validation checkpoint selection on <code>spd-bench</code>. On high-dimensional SPD manifolds where no temporal EEG waveform exists, Riemannian batch normalization and gyrovector layers dominate: <code>ARMAGNAC-GAH</code> leads overall (<code>73.95%</code> mean across the 4 datasets, <code>71.75%</code> on 117-class <code>HDM05</code>), followed by <code>GBWBN</code> (<code>73.44%</code>), <code>SPDNetBN</code> (<code>73.28%</code>), <code>GyroSPD</code> (<code>73.14%</code>), and <code>LieBN-AIM</code> (<code>73.05%</code>).
+      </p>
+      <div style="overflow-x:auto">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Global Rank &amp; Model</th>
+              <th>Radar ($20\\times 20$, 5 Seeds)</th>
+              <th>HDM05 (117-Cls, $93\\times 93$, 5 Seeds)</th>
+              <th>FPHA (45-Cls, $63\\times 63$, 5 Seeds)</th>
+              <th>AFEW (7-Cls, $400\\times 400$, 5 Seeds)</th>
+              <th>Radar 5%</th>
+              <th>Radar 25%</th>
+              <th>Radar 50%</th>
+            </tr>
+          </thead>
+          <tbody>{"".join(spd_rows_html)}</tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="tabpanel" id="gen-inventory">
+    <div class="panel">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">COMPLETE PROVENANCE &amp; GEOMETRY INVENTORY</span>
+        <span class="tag">29 Datasets · From $\\mathcal{{S}}_{{++}}^2$ to $\\mathcal{{S}}_{{++}}^{{400}}$</span>
+        <strong>5. Complete 29-Dataset Native SPD Geometry, Tangent Dimensionality &amp; Winner Inventory</strong>
+      </div>
+      <p class="small muted" style="margin:4px 0 10px">
+        Every dataset's clinical or BCI paradigm, native covariance dimension $d\\times d$, tangent vector dimension $d(d+1)/2$, evaluation population (subjects or seeds), theoretical chance level, #1 winning architecture, #2 runner-up, and 39-model median and accuracy spread.
+      </p>
+      <div style="overflow-x:auto">
+        <table class="data-table" style="font-size:0.78rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Paradigm</th>
+              <th>Native SPD Geometry &amp; Tangent Dim</th>
+              <th>Population &amp; Chance</th>
+              <th>#1 Winner on Voyager (Mean &plusmn; SD)</th>
+              <th>#2 Runner-Up</th>
+              <th>39-Model Median &amp; Spread</th>
+            </tr>
+          </thead>
+          <tbody>{"".join(inv_rows_html)}</tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  {filter_js_block}"""
+
     return f"""<div class="panel">
   <div class="claim-head">
     <span class="tag" style="border-color:var(--good);color:var(--good)">VOYAGER DISTRIBUTED CLUSTER SHARD MATRIX</span>
     <span class="tag">29 Datasets · 39 Models · {n_tot_runs:,} Total Runs</span>
     <strong>Cross-Model &times; Cross-Dataset Empirical Benchmark Suite (<code>repro/voyager_spdbench_results.json</code>)</strong>
+    <a class="small" href="generalization/index.html" style="margin-left:auto;font-weight:700">Open Dedicated Generalization (29&times;39) Tab →</a>
   </div>
   <p class="small muted" style="margin:4px 0 10px">
     All 29 datasets executed on the SDSC Voyager cluster (<code>{n_eeg_runs:,}</code> EEG/fMRI runs + <code>{n_spd_runs:,}</code> SPD matrix runs = <code>{n_tot_runs:,}</code> total runs) using 100% native channel counts, stratified validation checkpoint selection (zero test-set peeking), and the unified <code>spd_learn</code> API. Cells marked <strong style="color:var(--good)"><code>★</code></strong> denote the #1 model on that dataset; shaded green cells denote Top-3 finishes.
@@ -4313,16 +4617,8 @@ def _render_voyager_overview_matrix() -> str:
   <div class="diag-card" style="background:var(--panel);margin-bottom:14px">
     {ranking_forest_svg}
   </div>
-
-  <div class="filter-bar" style="margin:10px 0">
-    <button type="button" class="filter-btn bm-fam-btn active" data-bmfam="all">All 39 Models</button>
-    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="attention">Attention / Transformer (7)</button>
-    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="graph">Graph / Filterbank / Multi-View (5)</button>
-    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="residual">Residual / Gyro / Autoencoder (8)</button>
-    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="correlation">Correlation Manifold (3)</button>
-    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="batchnorm">Riemannian BatchNorm / Metric (11)</button>
-    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="foundational">Foundational SPD (5)</button>
-  </div>
+  {family_and_ablation_html}
+  {filter_controls_html}
 
   <h3 style="margin:10px 0 6px;font-size:0.95rem">2A. Motor-Imagery, ERP &amp; SSVEP BCI Matrix (15 Datasets &times; 39 Models, Sorted by Global Rank, Mean &plusmn; SD %)</h3>
   <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
@@ -4340,13 +4636,13 @@ def _render_voyager_overview_matrix() -> str:
     </table>
   </div>
 
-  <h3 style="margin:14px 0 6px;font-size:0.95rem">2C. SPD Matrix Benchmark Matrix (Radar $40\\times 40$, HDM05 $93\\times 93$, FPHA $63\\times 63$, AFEW $400\\times 400$ + Scarcity)</h3>
+  <h3 style="margin:14px 0 6px;font-size:0.95rem">2C. SPD Matrix Benchmark Matrix (Radar $20\\times 20$, HDM05 $93\\times 93$, FPHA $63\\times 63$, AFEW $400\\times 400$ + Scarcity)</h3>
   <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
     <table class="data-table" style="font-size:0.79rem">
       <thead>
         <tr>
           <th>Global Rank &amp; Model</th>
-          <th>Radar ($40\\times 40$, 5 Seeds)</th>
+          <th>Radar ($20\\times 20$, 5 Seeds)</th>
           <th>HDM05 (117-Cls, 5 Seeds)</th>
           <th>FPHA (45-Cls, $63\\times 63$, 5 Seeds)</th>
           <th>AFEW (7-Cls, $400\\times 400$, 5 Seeds)</th>
@@ -4375,19 +4671,7 @@ def _render_voyager_overview_matrix() -> str:
       <tbody>{"".join(inv_rows_html)}</tbody>
     </table>
   </div>
-  <script>(function(){{
-    var fbtns=[].slice.call(document.querySelectorAll('.bm-fam-btn'));
-    var mrows=[].slice.call(document.querySelectorAll('.bm-model-row'));
-    fbtns.forEach(function(b){{
-      b.addEventListener('click',function(){{
-        var fam=b.getAttribute('data-bmfam');
-        fbtns.forEach(function(x){{x.classList.toggle('active',x===b);}});
-        mrows.forEach(function(r){{
-          r.style.display=(fam==='all'||r.getAttribute('data-fam')===fam)?'':'none';
-        }});
-      }});
-    }});
-  }})();</script>
+  {filter_js_block}
 </div>"""
 
 
@@ -4736,8 +5020,9 @@ def build_paper_detail_page(
   <div class="tabs" role="tablist">
     <button type="button" role="tab" data-panel="ALL" aria-selected="true">All Sections (Full Page)</button>
     <button type="button" role="tab" data-panel="tab-figures" aria-selected="false">1. Figures: Original | Ours | The Gap <span class="n">{len(sbs_cards)}</span></button>
-    <button type="button" role="tab" data-panel="tab-tables" aria-selected="false">2. Tables &amp; Voyager Benchmarks <span class="n">{n_imp_tables}</span></button>
-    <button type="button" role="tab" data-panel="tab-claims" aria-selected="false">3. Author Code Flaws, Protocol Diffs &amp; Claims <span class="n">3</span></button>
+    <button type="button" role="tab" data-panel="tab-tables" aria-selected="false">2. Paper Tables: Original | Ours | The Gap <span class="n">{n_imp_tables}</span></button>
+    <button type="button" role="tab" data-panel="tab-generalization" aria-selected="false">3. Generalization Experiments <span class="n">29 DS</span></button>
+    <button type="button" role="tab" data-panel="tab-claims" aria-selected="false">4. Author Code Flaws, Protocol Diffs &amp; Claims <span class="n">3</span></button>
   </div>
 
   <section class="tabpanel" id="tab-figures">
@@ -4754,6 +5039,16 @@ def build_paper_detail_page(
     <div class="panel">
       <h2>All Paper Tables: 1. Original Table | 2. Our Replicability | 3. The Gap &amp; Why ({n_imp_tables} Tables)</h2>
       {imp_tables_html}
+    </div>
+  </section>
+
+  <section class="tabpanel" id="tab-generalization">
+    <div class="panel" style="margin-bottom:10px;padding:10px 14px;background:var(--surface)">
+      <div class="claim-head" style="margin:0">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">CROSS-DOMAIN GENERALIZATION BENCHMARK</span>
+        <strong>How <code>{_esc(pid)}</code> Generalizes Across All 29 Voyager Datasets (25 EEG/fMRI + 4 SPD Matrix Benchmarks)</strong>
+        <a class="small" href="../../generalization/index.html" style="margin-left:auto;font-weight:600">Open Full 39-Model &times; 29-Dataset Generalization Suite →</a>
+      </div>
     </div>
     {voyager_exec_html}
   </section>
@@ -4810,6 +5105,7 @@ def build_all() -> None:
     (OUT_DIR / "assets").mkdir(parents=True, exist_ok=True)
     (OUT_DIR / "papers").mkdir(parents=True, exist_ok=True)
     (OUT_DIR / "figures").mkdir(parents=True, exist_ok=True)
+    (OUT_DIR / "generalization").mkdir(parents=True, exist_ok=True)
     (OUT_DIR / "pipeline").mkdir(parents=True, exist_ok=True)
     (OUT_DIR / "methodology").mkdir(parents=True, exist_ok=True)
     (OUT_DIR / ".nojekyll").write_text("")
@@ -5116,10 +5412,23 @@ if(inp)inp.addEventListener('input',apply);
       <div class="tile"><div class="n" style="color:var(--critical)">{n_mod_gap + n_div_gap} / 27</div><div class="l">Human / Author Protocol Gaps</div><div class="sub-l">{n_div_gap} Leakage / Peeking / Flaw · {n_mod_gap} Dataloader Gaps</div></div>
       <div class="tile"><div class="n" style="color:var(--good)">{n_exact_gap} / 27</div><div class="l">Match or Beat Baseline</div><div class="sub-l">SPDNetBN (+6.4%), ARMAGNAC, Phase-SPDNet</div></div>
       <div class="tile"><div class="n" style="color:var(--warning)">+1.77%</div><div class="l">Mean Test-Peeking Inflation</div><div class="sub-l">Up to +36.3% (Best-Ckpt vs. Causal Final)</div></div>
-      <div class="tile"><div class="n">4,419</div><div class="l">Executed Voyager Runs</div><div class="sub-l">4,083 EEG/fMRI Runs + 336 SPD Runs (28 DS)</div></div>
+      <div class="tile"><div class="n">11,884</div><div class="l">Executed Voyager Runs</div><div class="sub-l">11,104 EEG/fMRI + 780 SPD Runs (39&times;29)</div></div>
       <div class="tile"><div class="n">{total_sbs_figs} + {total_sbs_tabs}</div><div class="l">3-Column Figure &amp; Table Cuts</div><div class="sub-l">Original | Our Replicability | The Gap</div></div>
     </div>
   </section>
+
+  <div class="panel" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;border-left:4px solid var(--good);background:rgba(16,185,129,0.04)">
+    <div>
+      <div class="claim-head" style="margin-bottom:4px">
+        <span class="chip good">NEW · 39 MODELS &times; 29 DATASETS · 11,884 RUNS</span>
+        <strong>Voyager Out-of-Distribution Generalization Suite (`1,131` Model-Dataset Cells)</strong>
+      </div>
+      <p class="small muted" style="margin:0">
+        Every architecture in <code>spd_learn</code> (`27` audited papers plus `12` controlled ablations and domain-transfer wrappers) evaluated across all `29` datasets at `100%` native EEG/fMRI channels with strict validation-split (`85% train / 15% val`) checkpoint selection.
+      </p>
+    </div>
+    <a class="tag" style="border-color:var(--good);color:var(--good);font-weight:700;padding:8px 14px;font-size:0.86rem" href="generalization/index.html">Open Generalization Suite (29&times;39) &rarr;</a>
+  </div>
 
   <div class="panel">
     <div class="claim-head" style="margin-bottom:8px">
@@ -5157,11 +5466,11 @@ if(inp)inp.addEventListener('input',apply);
 
   <details class="panel-collapse">
     <summary>
-      <span>Voyager Cluster Empirical Benchmark Matrix (28 Datasets: 24 EEG/fMRI Benchmarks + 4 SPD Matrix Benchmarks · 4,419 Runs)</span>
-      <span class="tag">Expand 28-Dataset Matrix ▾</span>
+      <span>Voyager Cluster Empirical Generalization Matrix (29 Datasets &times; 39 Models: 25 EEG/fMRI Benchmarks + 4 SPD Matrix Benchmarks · 11,884 Runs)</span>
+      <span class="tag">Expand 29&times;39 Matrix ▾</span>
     </summary>
     <div class="collapse-body">
-      {_render_voyager_overview_matrix()}
+      {_render_voyager_overview_matrix(tabbed=False)}
     </div>
   </details>
 
@@ -5248,6 +5557,108 @@ if(inp)inp.addEventListener('input',apply);
         + _footer_html("../")
     )
     (OUT_DIR / "figures" / "index.html").write_text(figures_index_html)
+
+    # 3B. Write generalization/index.html (and benchmark.html alias)
+    generalization_body_html = f"""<header class="page">
+  <div class="eyebrow">Voyager Out-of-Distribution Generalization Campaign &middot; 39 Models &times; 29 Datasets &middot; 1,131 Cells &middot; 11,884 Runs</div>
+  <h1>Cross-Domain Generalization Matrix: 39 SPD Architectures Across 29 Benchmarks</h1>
+  <p class="lede">
+    Most Riemannian deep learning papers evaluate on 1 to 3 datasets under author-selected preprocessing, channel subsets, or epoch-peeking scripts. To separate architectural mechanisms from dataset-specific tuning, we executed a full <strong><code>39-model &times; 29-dataset</code></strong> factorial grid (<strong><code>1,131</code></strong> model-dataset cells, <strong><code>11,884</code></strong> subject/fold/seed evaluations) on SDSC Voyager. Every run uses <strong>100% native EEG/fMRI channels</strong> (up to <code>128</code> EEG channels on <code>Schirrmeister2017</code> and <code>200</code> Craddock ROIs on <code>ABIDE</code>), all available recordings, full trial windows, and strict validation-split (<code>85% train / 15% val</code>) checkpoint selection with zero test-set access during training.
+  </p>
+</header>
+<main>
+  <section aria-label="Generalization Key Metrics">
+    <div class="tiles">
+      <div class="tile"><div class="n">11,884</div><div class="l">Total Voyager Runs</div><div class="sub-l">11,104 EEG/fMRI + 780 SPD Matrix Runs</div></div>
+      <div class="tile"><div class="n">39 &times; 29</div><div class="l">Complete Evaluation Grid</div><div class="sub-l">1,131 / 1,131 Cells (0 Missing)</div></div>
+      <div class="tile"><div class="n" style="color:var(--good)">#1 / 39</div><div class="l">ARMAGNAC-GAH (Rank 11.17)</div><div class="sub-l">66.42% All-29 Mean &middot; 7 Top-3s</div></div>
+      <div class="tile"><div class="n" style="color:var(--spd-blue)">64.62%</div><div class="l">#1 on 15 BCI Datasets</div><div class="sub-l">ARMAGNAC-Harmonic (Rank 11.28)</div></div>
+      <div class="tile"><div class="n" style="color:var(--accent)">68.16%</div><div class="l">#1 on 10 Clinical / fMRI DS</div><div class="sub-l">Green Gabor Wavelet Bank (#14 Overall)</div></div>
+      <div class="tile"><div class="n" style="color:var(--warning)">+6.29%</div><div class="l">Mean Stem Gain (CorNet &rarr; OLM)</div><div class="sub-l">+20 to +29 Global Ranks from +TSM Stem</div></div>
+    </div>
+  </section>
+
+  <div class="panel">
+    <div class="claim-head" style="margin-bottom:8px">
+      <span class="tag" style="border-color:var(--good);color:var(--good)">THREE EMPIRICAL LAWS OF SPD GENERALIZATION</span>
+      <strong>What Transfers Across 29 Datasets When Preprocessing and Evaluation Are Held Constant</strong>
+    </div>
+    <div class="tri-grid">
+      <div class="diag-card col-orig">
+        <div class="col-banner orig">
+          <span>1 &middot; SPATIOTEMPORAL STEMS &amp; BATCHNORM BEAT RAW MATRIX DEPTH</span>
+          <span class="chip good">Top 5 Sweep</span>
+        </div>
+        <p class="small" style="margin:6px 0">
+          Models combining a learned temporal-spatial filterbank stem with Riemannian Batch Normalization occupy all five top positions across the 29 datasets:
+          <code>#01 ARMAGNAC-GAH</code> (mean rank <code>11.17</code>, <code>66.42%</code>),
+          <code>#02 GBWBN</code> (<code>11.24</code>, <code>66.32%</code>),
+          <code>#03 ARMAGNAC-Harmonic</code> (<code>11.28</code>, <code>66.49%</code>),
+          <code>#04 SPDNetBN</code> (<code>12.03</code>, <code>65.98%</code>), and
+          <code>#05 ARMAGNAC-Arithmetic</code> (<code>12.14</code>, <code>66.09%</code>).
+          Paired stem ablations confirm that prepending a <code>+TSM</code> filterbank stem lifts raw matrix models by <strong>+20 to +29 global ranks</strong>:
+          <code>SPDNet (#33, 61.44%) &rarr; SPDNetBN (#04, 65.98%)</code>,
+          <code>CorNet (#39, 57.81%) &rarr; CorNet-OLM (#19, 64.10%)</code>, and
+          <code>ALEM (#38, 59.59%) &rarr; SPDResNet-ALEM (#13, 64.00%)</code>.
+        </p>
+      </div>
+      <div class="diag-card col-ours">
+        <div class="col-banner ours">
+          <span>2 &middot; PARAMETER-FREE TOKEN MIXING BEATS MANIFOLD ATTENTION</span>
+          <span class="chip warning">#07 SPDMetaFormer</span>
+        </div>
+        <p class="small" style="margin:6px 0">
+          Among standalone architectures without Riemannian BatchNorm, <code>#06 EEGSPDNet</code> (rank <code>14.86</code>, <code>64.03%</code>) and <code>#07 SPDMetaFormer</code> (rank <code>15.10</code>, <code>64.57%</code>, <strong>6 #1 dataset wins</strong>) lead the field.
+          <code>SPDMetaFormer</code> replaces $Q/K/V$ manifold self-attention with parameter-free multi-scale pooling (<code>k=3,5,7</code>), yet outranks every parameterized attention model across the 29 datasets:
+          <code>#09 GBWAtt</code> (<code>15.48</code>),
+          <code>#10 MAtt</code> (<code>16.66</code>),
+          <code>#16 GyroAtt</code> (<code>18.59</code>),
+          <code>#22 CorAtt</code> (<code>20.69</code>),
+          <code>#24 STaRNet</code> (<code>20.76</code>), and
+          <code>#37 SPDTransNet</code> (<code>29.24</code>).
+          On small-sample EEG sessions, learned geodesic attention weights overfit session noise rather than extracting invariant cross-session structure.
+        </p>
+      </div>
+      <div class="diag-card col-gap">
+        <div class="col-banner gap">
+          <span>3 &middot; DOMAIN SPECIALIZATION ACROSS BCI, CLINICAL &amp; SPD MATRICES</span>
+          <span class="chip" style="border-color:var(--spd-blue);color:var(--spd-blue)">3 Regimes</span>
+        </div>
+        <p class="small" style="margin:6px 0">
+          No single inductive bias wins every modality:
+          <strong>(a) 15 BCI Motor/SSVEP Datasets:</strong> <code>ARMAGNAC-Harmonic</code> leads at <code>64.62%</code>, followed by <code>ARMAGNAC-GAH</code> (<code>64.12%</code>), <code>GBWBN</code> (<code>63.97%</code>), and <code>RHOP</code> (<code>63.96%</code>), where inverse-eigenvalue harmonic weighting suppresses high-amplitude artifact bursts.
+          <strong>(b) 10 Clinical, Sleep, ERP &amp; fMRI Datasets:</strong> <code>Green</code> ranks #1 at <code>68.16%</code> ahead of <code>SPDNetBN</code> (<code>67.37%</code>) and <code>GBWBN</code> (<code>66.98%</code>), because narrowband Gabor wavelets and log-diagonal power capture spectral slowing and ERP energy.
+          <strong>(c) 4 Native SPD Matrix Benchmarks:</strong> <code>ARMAGNAC-GAH</code> leads at <code>73.95%</code> ahead of <code>GBWBN</code> (<code>73.44%</code>) and <code>SPDNetBN</code> (<code>73.28%</code>).
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {_render_voyager_overview_matrix(tabbed=True)}
+</main>
+<script>(function(){{
+var tabs=[].slice.call(document.querySelectorAll('.tab-btn[data-panel]')),
+panels=[].slice.call(document.querySelectorAll('.tab-panel'));
+tabs.forEach(function(btn,idx){{
+  btn.addEventListener('click',function(){{
+    var target=btn.getAttribute('data-panel');
+    tabs.forEach(function(b,i){{b.setAttribute('aria-selected',i===idx);}});
+    panels.forEach(function(p){{p.hidden=(target!=='ALL'&&p.id!==target);}});
+  }});
+}});
+}})();</script>
+"""
+    generalization_index_html = (
+        _top_bar("../", "generalization", "Generalization Experiments: 39 Models × 29 Datasets · 11,884 Voyager Runs")
+        + generalization_body_html
+        + _footer_html("../")
+    )
+    (OUT_DIR / "generalization" / "index.html").write_text(generalization_index_html)
+    (OUT_DIR / "benchmark.html").write_text(
+        _top_bar("", "generalization", "Generalization Experiments: 39 Models × 29 Datasets · 11,884 Voyager Runs")
+        + generalization_body_html.replace('href="../papers/', 'href="papers/')
+        + _footer_html("")
+    )
 
     # 4. Write pipeline/index.html
     pipeline_index_html = (

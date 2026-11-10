@@ -1,0 +1,1038 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/app.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<title>Generalization Experiments: 39 Models × 29 Datasets · 11,884 Voyager Runs · SPD Replicability &amp; Generation Initiative</title></head><body>
+<nav class="top" aria-label="Sections"><div class="wrap">
+  <a class="brand" href="../index.html">
+    <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M21.6 8.3A9.5 9.5 0 1 0 25.5 16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18.9 10.7 24.1 5.5 24.7 11.3z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path class="tick" d="M11.3 16.3l3.3 3.3 5.9-6.8" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span>SPD Replicability &amp; Generation Initiative</span>
+  </a>
+  <a class="by" href="https://spdlearn.org">for spdlearn.org</a>
+  <a class="tab" href="../index.html">Overview</a>
+  <a class="tab" href="../generalization/index.html" aria-current="page">Generalization<span class="n">29&times;39</span></a>
+  <a class="tab" href="../papers/index.html">Papers &amp; Gaps<span class="n">27</span></a>
+  <a class="tab" href="../figures/index.html">Figures Atlas<span class="n">101</span></a>
+  <a class="tab" href="../methodology/index.html">Methodology</a>
+  <a class="tab" href="https://github.com/spdlearn/encore" target="_blank" rel="noopener">GitHub ↗</a>
+  <button class="theme" id="theme" type="button" title="Colour theme"><span>◐</span><span>Auto</span></button>
+</div></nav>
+<div class="wrap">
+<header class="page">
+  <div class="eyebrow">Voyager Out-of-Distribution Generalization Campaign &middot; 39 Models &times; 29 Datasets &middot; 1,131 Cells &middot; 11,884 Runs</div>
+  <h1>Cross-Domain Generalization Matrix: 39 SPD Architectures Across 29 Benchmarks</h1>
+  <p class="lede">
+    Most Riemannian deep learning papers evaluate on 1 to 3 datasets under author-selected preprocessing, channel subsets, or epoch-peeking scripts. To separate architectural mechanisms from dataset-specific tuning, we executed a full <strong><code>39-model &times; 29-dataset</code></strong> factorial grid (<strong><code>1,131</code></strong> model-dataset cells, <strong><code>11,884</code></strong> subject/fold/seed evaluations) on SDSC Voyager. Every run uses <strong>100% native EEG/fMRI channels</strong> (up to <code>128</code> EEG channels on <code>Schirrmeister2017</code> and <code>200</code> Craddock ROIs on <code>ABIDE</code>), all available recordings, full trial windows, and strict validation-split (<code>85% train / 15% val</code>) checkpoint selection with zero test-set access during training.
+  </p>
+</header>
+<main>
+  <section aria-label="Generalization Key Metrics">
+    <div class="tiles">
+      <div class="tile"><div class="n">11,884</div><div class="l">Total Voyager Runs</div><div class="sub-l">11,104 EEG/fMRI + 780 SPD Matrix Runs</div></div>
+      <div class="tile"><div class="n">39 &times; 29</div><div class="l">Complete Evaluation Grid</div><div class="sub-l">1,131 / 1,131 Cells (0 Missing)</div></div>
+      <div class="tile"><div class="n" style="color:var(--good)">#1 / 39</div><div class="l">ARMAGNAC-GAH (Rank 11.17)</div><div class="sub-l">66.42% All-29 Mean &middot; 7 Top-3s</div></div>
+      <div class="tile"><div class="n" style="color:var(--spd-blue)">64.62%</div><div class="l">#1 on 15 BCI Datasets</div><div class="sub-l">ARMAGNAC-Harmonic (Rank 11.28)</div></div>
+      <div class="tile"><div class="n" style="color:var(--accent)">68.16%</div><div class="l">#1 on 10 Clinical / fMRI DS</div><div class="sub-l">Green Gabor Wavelet Bank (#14 Overall)</div></div>
+      <div class="tile"><div class="n" style="color:var(--warning)">+6.29%</div><div class="l">Mean Stem Gain (CorNet &rarr; OLM)</div><div class="sub-l">+20 to +29 Global Ranks from +TSM Stem</div></div>
+    </div>
+  </section>
+
+  <div class="panel">
+    <div class="claim-head" style="margin-bottom:8px">
+      <span class="tag" style="border-color:var(--good);color:var(--good)">THREE EMPIRICAL LAWS OF SPD GENERALIZATION</span>
+      <strong>What Transfers Across 29 Datasets When Preprocessing and Evaluation Are Held Constant</strong>
+    </div>
+    <div class="tri-grid">
+      <div class="diag-card col-orig">
+        <div class="col-banner orig">
+          <span>1 &middot; SPATIOTEMPORAL STEMS &amp; BATCHNORM BEAT RAW MATRIX DEPTH</span>
+          <span class="chip good">Top 5 Sweep</span>
+        </div>
+        <p class="small" style="margin:6px 0">
+          Models combining a learned temporal-spatial filterbank stem with Riemannian Batch Normalization occupy all five top positions across the 29 datasets:
+          <code>#01 ARMAGNAC-GAH</code> (mean rank <code>11.17</code>, <code>66.42%</code>),
+          <code>#02 GBWBN</code> (<code>11.24</code>, <code>66.32%</code>),
+          <code>#03 ARMAGNAC-Harmonic</code> (<code>11.28</code>, <code>66.49%</code>),
+          <code>#04 SPDNetBN</code> (<code>12.03</code>, <code>65.98%</code>), and
+          <code>#05 ARMAGNAC-Arithmetic</code> (<code>12.14</code>, <code>66.09%</code>).
+          Paired stem ablations confirm that prepending a <code>+TSM</code> filterbank stem lifts raw matrix models by <strong>+20 to +29 global ranks</strong>:
+          <code>SPDNet (#33, 61.44%) &rarr; SPDNetBN (#04, 65.98%)</code>,
+          <code>CorNet (#39, 57.81%) &rarr; CorNet-OLM (#19, 64.10%)</code>, and
+          <code>ALEM (#38, 59.59%) &rarr; SPDResNet-ALEM (#13, 64.00%)</code>.
+        </p>
+      </div>
+      <div class="diag-card col-ours">
+        <div class="col-banner ours">
+          <span>2 &middot; PARAMETER-FREE TOKEN MIXING BEATS MANIFOLD ATTENTION</span>
+          <span class="chip warning">#07 SPDMetaFormer</span>
+        </div>
+        <p class="small" style="margin:6px 0">
+          Among standalone architectures without Riemannian BatchNorm, <code>#06 EEGSPDNet</code> (rank <code>14.86</code>, <code>64.03%</code>) and <code>#07 SPDMetaFormer</code> (rank <code>15.10</code>, <code>64.57%</code>, <strong>6 #1 dataset wins</strong>) lead the field.
+          <code>SPDMetaFormer</code> replaces <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mi mathvariant="normal">/</mi><mi>K</mi><mi mathvariant="normal">/</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">Q/K/V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">Q</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span></span></span></span> manifold self-attention with parameter-free multi-scale pooling (<code>k=3,5,7</code>), yet outranks every parameterized attention model across the 29 datasets:
+          <code>#09 GBWAtt</code> (<code>15.48</code>),
+          <code>#10 MAtt</code> (<code>16.66</code>),
+          <code>#16 GyroAtt</code> (<code>18.59</code>),
+          <code>#22 CorAtt</code> (<code>20.69</code>),
+          <code>#24 STaRNet</code> (<code>20.76</code>), and
+          <code>#37 SPDTransNet</code> (<code>29.24</code>).
+          On small-sample EEG sessions, learned geodesic attention weights overfit session noise rather than extracting invariant cross-session structure.
+        </p>
+      </div>
+      <div class="diag-card col-gap">
+        <div class="col-banner gap">
+          <span>3 &middot; DOMAIN SPECIALIZATION ACROSS BCI, CLINICAL &amp; SPD MATRICES</span>
+          <span class="chip" style="border-color:var(--spd-blue);color:var(--spd-blue)">3 Regimes</span>
+        </div>
+        <p class="small" style="margin:6px 0">
+          No single inductive bias wins every modality:
+          <strong>(a) 15 BCI Motor/SSVEP Datasets:</strong> <code>ARMAGNAC-Harmonic</code> leads at <code>64.62%</code>, followed by <code>ARMAGNAC-GAH</code> (<code>64.12%</code>), <code>GBWBN</code> (<code>63.97%</code>), and <code>RHOP</code> (<code>63.96%</code>), where inverse-eigenvalue harmonic weighting suppresses high-amplitude artifact bursts.
+          <strong>(b) 10 Clinical, Sleep, ERP &amp; fMRI Datasets:</strong> <code>Green</code> ranks #1 at <code>68.16%</code> ahead of <code>SPDNetBN</code> (<code>67.37%</code>) and <code>GBWBN</code> (<code>66.98%</code>), because narrowband Gabor wavelets and log-diagonal power capture spectral slowing and ERP energy.
+          <strong>(c) 4 Native SPD Matrix Benchmarks:</strong> <code>ARMAGNAC-GAH</code> leads at <code>73.95%</code> ahead of <code>GBWBN</code> (<code>73.44%</code>) and <code>SPDNetBN</code> (<code>73.28%</code>).
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs" role="tablist">
+    <button type="button" role="tab" data-panel="ALL" aria-selected="true">All Sections (Full Suite)</button>
+    <button type="button" role="tab" data-panel="gen-ranking" aria-selected="false">1. Global Ranking &amp; Family Synthesis <span class="n">39 Models</span></button>
+    <button type="button" role="tab" data-panel="gen-bci" aria-selected="false">2. Motor, ERP &amp; SSVEP BCI <span class="n">15&times;39</span></button>
+    <button type="button" role="tab" data-panel="gen-clin" aria-selected="false">3. Clinical, Sleep, Affect &amp; fMRI <span class="n">10&times;39</span></button>
+    <button type="button" role="tab" data-panel="gen-spd" aria-selected="false">4. Action, Radar &amp; Emotion SPD <span class="n">4&times;39</span></button>
+    <button type="button" role="tab" data-panel="gen-inventory" aria-selected="false">5. 29-Dataset Geometry &amp; Winners <span class="n">29 DS</span></button>
+  </div>
+  <div class="filter-bar" style="margin:10px 0">
+    <button type="button" class="filter-btn bm-fam-btn active" data-bmfam="all">All 39 Models</button>
+    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="batchnorm">Riemannian BatchNorm / Metric (11)</button>
+    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="foundational">Foundational SPD (5)</button>
+    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="attention">Attention / Transformer (7)</button>
+    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="graph">Graph / Filterbank / Multi-View (5)</button>
+    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="residual">Residual / Gyro / Autoencoder (8)</button>
+    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="correlation">Correlation Manifold (3)</button>
+    <input type="search" class="search-input bm-model-search" placeholder="Search any of the 39 models (e.g. ARMAGNAC, EEGSPDNet, SPDMetaFormer, Green)..." aria-label="Search models"/>
+  </div>
+
+  <section class="tabpanel" id="gen-ranking">
+    <div class="panel">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">GLOBAL CRITICAL-DIFFERENCE FOREST PLOT</span>
+        <span class="tag">39 Models &times; 29 Datasets · 11,884 Voyager Runs</span>
+        <strong>1A. Global 39-Model Ranking, Interquartile Rank Spread &amp; Sub-Domain Accuracy</strong>
+      </div>
+      <p class="small muted" style="margin:4px 0 10px">
+        Models are ordered by mean rank across all 29 datasets (<code>#01 ARMAGNAC-GAH</code> at mean rank <code>11.2</code> to <code>#39 CorNet</code> at mean rank <code>30.5</code>). Horizontal bars span the 25th to 75th percentile rank across the 29 benchmarks; right-hand columns report Top-3 podium counts and sub-domain means across the 15 BCI datasets, 10 Clinical/fMRI cohorts, and 4 SPD-matrix benchmarks.
+      </p>
+      <div class="diag-card" style="background:var(--panel);margin-bottom:14px">
+        <svg class="diag-svg" viewBox="0 0 1180 887" role="img" aria-label="39-Model Global Ranking and Critical Difference Forest Plot across 29 Datasets">
+<text x="12" y="20" class="svg-title" style="fill:var(--spd-blue)">1 · RANK &amp; SPD_LEARN MODEL</text>
+<text x="215" y="20" class="svg-title" style="fill:var(--muted)">2 · GEOMETRIC FAMILY</text>
+<text x="390" y="20" class="svg-title" style="fill:var(--accent-primary)">3 · GLOBAL RANK DISTRIBUTION ACROSS 29 DATASETS (1 = BEST, IQR BAR + MEAN)</text>
+<text x="765" y="20" class="svg-title" style="fill:var(--good)">4 · TOP-3 / #1</text>
+<text x="865" y="20" class="svg-title" style="fill:var(--ink)">5 · SUB-DOMAIN ACCURACY (15 BCI · 10 CLIN · 4 SPD)</text>
+<line x1="10" y1="28" x2="1170" y2="28" stroke="#cbd5e1" stroke-width="1"/>
+<line x1="390.0" y1="44" x2="390.0" y2="863" stroke="#e2e8f0" stroke-width="0.8" stroke-dasharray="2,2"/>
+<text x="390.0" y="40" text-anchor="middle" class="svg-tick">#1</text>
+<line x1="426.8" y1="44" x2="426.8" y2="863" stroke="#e2e8f0" stroke-width="0.8" stroke-dasharray="2,2"/>
+<text x="426.8" y="40" text-anchor="middle" class="svg-tick">#5</text>
+<line x1="472.9" y1="44" x2="472.9" y2="863" stroke="#e2e8f0" stroke-width="0.8" stroke-dasharray="2,2"/>
+<text x="472.9" y="40" text-anchor="middle" class="svg-tick">#10</text>
+<line x1="518.9" y1="44" x2="518.9" y2="863" stroke="#e2e8f0" stroke-width="0.8" stroke-dasharray="2,2"/>
+<text x="518.9" y="40" text-anchor="middle" class="svg-tick">#15</text>
+<line x1="565.0" y1="44" x2="565.0" y2="863" stroke="#e2e8f0" stroke-width="0.8" stroke-dasharray="2,2"/>
+<text x="565.0" y="40" text-anchor="middle" class="svg-tick">#20</text>
+<line x1="611.1" y1="44" x2="611.1" y2="863" stroke="#e2e8f0" stroke-width="0.8" stroke-dasharray="2,2"/>
+<text x="611.1" y="40" text-anchor="middle" class="svg-tick">#25</text>
+<line x1="657.1" y1="44" x2="657.1" y2="863" stroke="#e2e8f0" stroke-width="0.8" stroke-dasharray="2,2"/>
+<text x="657.1" y="40" text-anchor="middle" class="svg-tick">#30</text>
+<line x1="703.2" y1="44" x2="703.2" y2="863" stroke="#e2e8f0" stroke-width="0.8" stroke-dasharray="2,2"/>
+<text x="703.2" y="40" text-anchor="middle" class="svg-tick">#35</text>
+<line x1="740.0" y1="44" x2="740.0" y2="863" stroke="#e2e8f0" stroke-width="0.8" stroke-dasharray="2,2"/>
+<text x="740.0" y="40" text-anchor="middle" class="svg-tick">#39</text>
+<rect x="8" y="42.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="56.0" class="svg-val" style="font-weight:700;fill:#15803d">#01</text>
+<text x="48" y="56.0" class="svg-val" style="font-weight:700">ARMAGNAC-GAH</text>
+<text x="215" y="56.0" class="svg-tick" style="fill:#475569">Riemannian BatchNorm / Met</text>
+<line x1="417.6" y1="52.0" x2="509.7" y2="52.0" stroke="#15803d" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="483.7" cy="52.0" r="4.0" fill="#15803d"/>
+<text x="489.7" y="56.0" class="svg-tick" style="font-weight:700;fill:#15803d">11.2</text>
+<text x="765" y="56.0" class="svg-val" style="fill:#15803d;font-weight:600">7 top-3 (2 #1)</text>
+<text x="865" y="56.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 64.1% · Clin 66.9% · SPD 74.0% (All 66.4%)</text>
+<text x="14" y="76.5" class="svg-val" style="font-weight:700;fill:#15803d">#02</text>
+<text x="48" y="76.5" class="svg-val" style="font-weight:700">GBWBN</text>
+<text x="215" y="76.5" class="svg-tick" style="fill:#475569">Riemannian BatchNorm / Met</text>
+<line x1="436.1" y1="72.5" x2="518.9" y2="72.5" stroke="#15803d" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="484.3" cy="72.5" r="4.0" fill="#15803d"/>
+<text x="490.3" y="76.5" class="svg-tick" style="font-weight:700;fill:#15803d">11.2</text>
+<text x="765" y="76.5" class="svg-val" style="fill:#15803d;font-weight:600">3 top-3 (1 #1)</text>
+<text x="865" y="76.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 64.0% · Clin 67.0% · SPD 73.4% (All 66.3%)</text>
+<rect x="8" y="83.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="97.0" class="svg-val" style="font-weight:700;fill:#15803d">#03</text>
+<text x="48" y="97.0" class="svg-val" style="font-weight:700">ARMAGNAC-Harmonic</text>
+<text x="215" y="97.0" class="svg-tick" style="fill:#475569">Riemannian BatchNorm / Met</text>
+<line x1="426.8" y1="93.0" x2="537.4" y2="93.0" stroke="#15803d" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="484.6" cy="93.0" r="4.0" fill="#15803d"/>
+<text x="490.6" y="97.0" class="svg-tick" style="font-weight:700;fill:#15803d">11.3</text>
+<text x="765" y="97.0" class="svg-val" style="fill:#15803d;font-weight:600">4 top-3 (0 #1)</text>
+<text x="865" y="97.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 64.6% · Clin 66.7% · SPD 73.1% (All 66.5%)</text>
+<text x="14" y="117.5" class="svg-val" style="font-weight:700;fill:#15803d">#04</text>
+<text x="48" y="117.5" class="svg-val" style="font-weight:700">SPDNetBN</text>
+<text x="215" y="117.5" class="svg-tick" style="fill:#475569">Riemannian BatchNorm / Met</text>
+<line x1="436.1" y1="113.5" x2="546.6" y2="113.5" stroke="#15803d" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="491.6" cy="113.5" r="4.0" fill="#15803d"/>
+<text x="497.6" y="117.5" class="svg-tick" style="font-weight:700;fill:#15803d">12.0</text>
+<text x="765" y="117.5" class="svg-val" style="fill:#15803d;font-weight:600">6 top-3 (2 #1)</text>
+<text x="865" y="117.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 63.1% · Clin 67.4% · SPD 73.3% (All 66.0%)</text>
+<rect x="8" y="124.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="138.0" class="svg-val" style="font-weight:700;fill:#15803d">#05</text>
+<text x="48" y="138.0" class="svg-val" style="font-weight:700">ARMAGNAC-Arithmetic</text>
+<text x="215" y="138.0" class="svg-tick" style="fill:#475569">Riemannian BatchNorm / Met</text>
+<line x1="436.1" y1="134.0" x2="537.4" y2="134.0" stroke="#15803d" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="492.6" cy="134.0" r="4.0" fill="#15803d"/>
+<text x="498.6" y="138.0" class="svg-tick" style="font-weight:700;fill:#15803d">12.1</text>
+<text x="765" y="138.0" class="svg-val" style="fill:#15803d;font-weight:600">7 top-3 (3 #1)</text>
+<text x="865" y="138.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 63.8% · Clin 66.6% · SPD 73.1% (All 66.1%)</text>
+<text x="14" y="158.5" class="svg-val" style="font-weight:700;fill:#15803d">#06</text>
+<text x="48" y="158.5" class="svg-val" style="font-weight:700">EEGSPDNet</text>
+<text x="215" y="158.5" class="svg-tick" style="fill:#475569">Foundational Spatiotempora</text>
+<line x1="417.6" y1="154.5" x2="611.1" y2="154.5" stroke="#15803d" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="517.7" cy="154.5" r="4.0" fill="#15803d"/>
+<text x="523.7" y="158.5" class="svg-tick" style="font-weight:700;fill:#15803d">14.9</text>
+<text x="765" y="158.5" class="svg-val" style="fill:#15803d;font-weight:600">6 top-3 (1 #1)</text>
+<text x="865" y="158.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 62.7% · Clin 65.8% · SPD 64.5% (All 64.0%)</text>
+<rect x="8" y="165.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="179.0" class="svg-val" style="font-weight:700;fill:#15803d">#07</text>
+<text x="48" y="179.0" class="svg-val" style="font-weight:700">SPDMetaFormer</text>
+<text x="215" y="179.0" class="svg-tick" style="fill:#475569">Riemannian Attention / Tra</text>
+<line x1="436.1" y1="175.0" x2="592.6" y2="175.0" stroke="#15803d" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="519.9" cy="175.0" r="4.0" fill="#15803d"/>
+<text x="525.9" y="179.0" class="svg-tick" style="font-weight:700;fill:#15803d">15.1</text>
+<text x="765" y="179.0" class="svg-val" style="fill:#15803d;font-weight:600">7 top-3 (6 #1)</text>
+<text x="865" y="179.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 62.8% · Clin 66.0% · SPD 67.4% (All 64.6%)</text>
+<text x="14" y="199.5" class="svg-val" style="font-weight:700;fill:#15803d">#08</text>
+<text x="48" y="199.5" class="svg-val" style="font-weight:700">RieTrans-SPDRMLR</text>
+<text x="215" y="199.5" class="svg-tick" style="fill:#475569">Residual / Gyrovector / Au</text>
+<line x1="472.9" y1="195.5" x2="574.2" y2="195.5" stroke="#15803d" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="522.1" cy="195.5" r="4.0" fill="#15803d"/>
+<text x="528.1" y="199.5" class="svg-tick" style="font-weight:700;fill:#15803d">15.3</text>
+<text x="765" y="199.5" class="svg-val" style="fill:#15803d;font-weight:600">2 top-3 (1 #1)</text>
+<text x="865" y="199.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 62.7% · Clin 65.9% · SPD 70.1% (All 64.8%)</text>
+<rect x="8" y="206.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="220.0" class="svg-val" style="font-weight:700;fill:#15803d">#09</text>
+<text x="48" y="220.0" class="svg-val" style="font-weight:700">GBWAtt</text>
+<text x="215" y="220.0" class="svg-tick" style="fill:#475569">Riemannian Attention / Tra</text>
+<line x1="445.3" y1="216.0" x2="601.8" y2="216.0" stroke="#15803d" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="523.4" cy="216.0" r="4.0" fill="#15803d"/>
+<text x="529.4" y="220.0" class="svg-tick" style="font-weight:700;fill:#15803d">15.5</text>
+<text x="765" y="220.0" class="svg-val" style="fill:#15803d;font-weight:600">5 top-3 (0 #1)</text>
+<text x="865" y="220.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 62.2% · Clin 67.6% · SPD 66.3% (All 64.6%)</text>
+<text x="14" y="240.5" class="svg-val" style="font-weight:700;fill:#15803d">#10</text>
+<text x="48" y="240.5" class="svg-val" style="font-weight:700">MAtt</text>
+<text x="215" y="240.5" class="svg-tick" style="fill:#475569">Riemannian Attention / Tra</text>
+<line x1="426.8" y1="236.5" x2="638.7" y2="236.5" stroke="#15803d" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="534.2" cy="236.5" r="4.0" fill="#15803d"/>
+<text x="540.2" y="240.5" class="svg-tick" style="font-weight:700;fill:#15803d">16.7</text>
+<text x="765" y="240.5" class="svg-val" style="fill:#15803d;font-weight:600">2 top-3 (1 #1)</text>
+<text x="865" y="240.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 62.3% · Clin 66.9% · SPD 66.2% (All 64.4%)</text>
+<rect x="8" y="247.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="261.0" class="svg-val" style="font-weight:700;fill:#1d4ed8">#11</text>
+<text x="48" y="261.0" class="svg-val" style="font-weight:700">RHOP</text>
+<text x="215" y="261.0" class="svg-tick" style="fill:#475569">Graph / Filterbank / Multi</text>
+<line x1="463.7" y1="257.0" x2="601.8" y2="257.0" stroke="#1d4ed8" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="535.8" cy="257.0" r="4.0" fill="#1d4ed8"/>
+<text x="541.8" y="261.0" class="svg-tick" style="font-weight:700;fill:#1d4ed8">16.8</text>
+<text x="765" y="261.0" class="svg-val" style="fill:#15803d;font-weight:600">1 top-3 (1 #1)</text>
+<text x="865" y="261.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 64.0% · Clin 65.8% · SPD 64.6% (All 64.7%)</text>
+<text x="14" y="281.5" class="svg-val" style="font-weight:700;fill:#1d4ed8">#12</text>
+<text x="48" y="281.5" class="svg-val" style="font-weight:700">DeepGeoCCA</text>
+<text x="215" y="281.5" class="svg-tick" style="fill:#475569">Graph / Filterbank / Multi</text>
+<line x1="491.3" y1="277.5" x2="620.3" y2="277.5" stroke="#1d4ed8" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="546.3" cy="277.5" r="4.0" fill="#1d4ed8"/>
+<text x="552.3" y="281.5" class="svg-tick" style="font-weight:700;fill:#1d4ed8">18.0</text>
+<text x="765" y="281.5" class="svg-val" style="fill:#15803d;font-weight:600">3 top-3 (0 #1)</text>
+<text x="865" y="281.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 62.5% · Clin 65.7% · SPD 67.0% (All 64.2%)</text>
+<rect x="8" y="288.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="302.0" class="svg-val" style="font-weight:700;fill:#1d4ed8">#13</text>
+<text x="48" y="302.0" class="svg-val" style="font-weight:700">SPDResNet-ALEM</text>
+<text x="215" y="302.0" class="svg-tick" style="fill:#475569">Residual / Gyrovector / Au</text>
+<line x1="445.3" y1="298.0" x2="657.1" y2="298.0" stroke="#1d4ed8" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="546.6" cy="298.0" r="4.0" fill="#1d4ed8"/>
+<text x="552.6" y="302.0" class="svg-tick" style="font-weight:700;fill:#1d4ed8">18.0</text>
+<text x="765" y="302.0" class="svg-val" style="fill:#15803d;font-weight:600">2 top-3 (1 #1)</text>
+<text x="865" y="302.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 59.3% · Clin 68.1% · SPD 71.3% (All 64.0%)</text>
+<text x="14" y="322.5" class="svg-val" style="font-weight:700;fill:#1d4ed8">#14</text>
+<text x="48" y="322.5" class="svg-val" style="font-weight:700">Green</text>
+<text x="215" y="322.5" class="svg-tick" style="fill:#475569">Foundational Spatiotempora</text>
+<line x1="463.7" y1="318.5" x2="675.5" y2="318.5" stroke="#1d4ed8" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="546.9" cy="318.5" r="4.0" fill="#1d4ed8"/>
+<text x="552.9" y="322.5" class="svg-tick" style="font-weight:700;fill:#1d4ed8">18.0</text>
+<text x="765" y="322.5" class="svg-val" style="fill:#15803d;font-weight:600">4 top-3 (2 #1)</text>
+<text x="865" y="322.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 62.3% · Clin 68.2% · SPD 66.5% (All 64.9%)</text>
+<rect x="8" y="329.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="343.0" class="svg-val" style="font-weight:700;fill:#1d4ed8">#15</text>
+<text x="48" y="343.0" class="svg-val" style="font-weight:700">TSMNet</text>
+<text x="215" y="343.0" class="svg-tick" style="fill:#475569">Foundational Spatiotempora</text>
+<line x1="472.9" y1="339.0" x2="647.9" y2="339.0" stroke="#1d4ed8" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="548.5" cy="339.0" r="4.0" fill="#1d4ed8"/>
+<text x="554.5" y="343.0" class="svg-tick" style="font-weight:700;fill:#1d4ed8">18.2</text>
+<text x="765" y="343.0" class="svg-val" style="fill:#15803d;font-weight:600">3 top-3 (1 #1)</text>
+<text x="865" y="343.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 61.0% · Clin 65.6% · SPD 71.6% (All 64.1%)</text>
+<text x="14" y="363.5" class="svg-val" style="font-weight:700;fill:#1d4ed8">#16</text>
+<text x="48" y="363.5" class="svg-val" style="font-weight:700">GyroAtt</text>
+<text x="215" y="363.5" class="svg-tick" style="fill:#475569">Riemannian Attention / Tra</text>
+<line x1="454.5" y1="359.5" x2="638.7" y2="359.5" stroke="#1d4ed8" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="552.0" cy="359.5" r="4.0" fill="#1d4ed8"/>
+<text x="558.0" y="363.5" class="svg-tick" style="font-weight:700;fill:#1d4ed8">18.6</text>
+<text x="765" y="363.5" class="svg-val" style="fill:#15803d;font-weight:600">2 top-3 (0 #1)</text>
+<text x="865" y="363.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 61.8% · Clin 65.7% · SPD 67.0% (All 63.8%)</text>
+<rect x="8" y="370.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="384.0" class="svg-val" style="font-weight:700;fill:#1d4ed8">#17</text>
+<text x="48" y="384.0" class="svg-val" style="font-weight:700">LieBN-LCM</text>
+<text x="215" y="384.0" class="svg-tick" style="fill:#475569">Riemannian BatchNorm / Met</text>
+<line x1="500.5" y1="380.0" x2="583.4" y2="380.0" stroke="#1d4ed8" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="552.3" cy="380.0" r="4.0" fill="#1d4ed8"/>
+<text x="558.3" y="384.0" class="svg-tick" style="font-weight:700;fill:#1d4ed8">18.6</text>
+<text x="765" y="384.0" class="svg-val" style="fill:#15803d;font-weight:600">1 top-3 (0 #1)</text>
+<text x="865" y="384.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 62.2% · Clin 65.0% · SPD 69.7% (All 64.2%)</text>
+<text x="14" y="404.5" class="svg-val" style="font-weight:700;fill:#1d4ed8">#18</text>
+<text x="48" y="404.5" class="svg-val" style="font-weight:700">CorNet-LSM</text>
+<text x="215" y="404.5" class="svg-tick" style="fill:#475569">Correlation Manifold (OLM </text>
+<line x1="509.7" y1="400.5" x2="592.6" y2="400.5" stroke="#1d4ed8" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="552.6" cy="400.5" r="4.0" fill="#1d4ed8"/>
+<text x="558.6" y="404.5" class="svg-tick" style="font-weight:700;fill:#1d4ed8">18.7</text>
+<text x="765" y="404.5" class="svg-val" style="fill:#15803d;font-weight:600">0 top-3 (0 #1)</text>
+<text x="865" y="404.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 62.4% · Clin 65.1% · SPD 65.7% (All 63.8%)</text>
+<rect x="8" y="411.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="425.0" class="svg-val" style="font-weight:700;fill:#1d4ed8">#19</text>
+<text x="48" y="425.0" class="svg-val" style="font-weight:700">CorNet-OLM</text>
+<text x="215" y="425.0" class="svg-tick" style="fill:#475569">Correlation Manifold (OLM </text>
+<line x1="518.9" y1="421.0" x2="592.6" y2="421.0" stroke="#1d4ed8" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="552.9" cy="421.0" r="4.0" fill="#1d4ed8"/>
+<text x="558.9" y="425.0" class="svg-tick" style="font-weight:700;fill:#1d4ed8">18.7</text>
+<text x="765" y="425.0" class="svg-val" style="fill:#15803d;font-weight:600">0 top-3 (0 #1)</text>
+<text x="865" y="425.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 62.3% · Clin 65.5% · SPD 67.3% (All 64.1%)</text>
+<text x="14" y="445.5" class="svg-val" style="font-weight:700;fill:#1d4ed8">#20</text>
+<text x="48" y="445.5" class="svg-val" style="font-weight:700">LieBN-AIM</text>
+<text x="215" y="445.5" class="svg-tick" style="fill:#475569">Riemannian BatchNorm / Met</text>
+<line x1="509.7" y1="441.5" x2="601.8" y2="441.5" stroke="#1d4ed8" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="553.2" cy="441.5" r="4.0" fill="#1d4ed8"/>
+<text x="559.2" y="445.5" class="svg-tick" style="font-weight:700;fill:#1d4ed8">18.7</text>
+<text x="765" y="445.5" class="svg-val" style="fill:#15803d;font-weight:600">1 top-3 (0 #1)</text>
+<text x="865" y="445.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 61.9% · Clin 64.0% · SPD 73.0% (All 64.2%)</text>
+<rect x="8" y="452.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="466.0" class="svg-val" style="font-weight:700;fill:#1d4ed8">#21</text>
+<text x="48" y="466.0" class="svg-val" style="font-weight:700">LieBN-LEM</text>
+<text x="215" y="466.0" class="svg-tick" style="fill:#475569">Riemannian BatchNorm / Met</text>
+<line x1="491.3" y1="462.0" x2="620.3" y2="462.0" stroke="#1d4ed8" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="553.9" cy="462.0" r="4.0" fill="#1d4ed8"/>
+<text x="559.9" y="466.0" class="svg-tick" style="font-weight:700;fill:#1d4ed8">18.8</text>
+<text x="765" y="466.0" class="svg-val" style="fill:#15803d;font-weight:600">0 top-3 (0 #1)</text>
+<text x="865" y="466.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 62.2% · Clin 64.4% · SPD 72.4% (All 64.3%)</text>
+<text x="14" y="486.5" class="svg-val" style="font-weight:700;fill:#1d4ed8">#22</text>
+<text x="48" y="486.5" class="svg-val" style="font-weight:700">CorAtt</text>
+<text x="215" y="486.5" class="svg-tick" style="fill:#475569">Riemannian Attention / Tra</text>
+<line x1="482.1" y1="482.5" x2="675.5" y2="482.5" stroke="#1d4ed8" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="571.4" cy="482.5" r="4.0" fill="#1d4ed8"/>
+<text x="577.4" y="486.5" class="svg-tick" style="font-weight:700;fill:#1d4ed8">20.7</text>
+<text x="765" y="486.5" class="svg-val" style="fill:#15803d;font-weight:600">0 top-3 (0 #1)</text>
+<text x="865" y="486.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 61.2% · Clin 63.1% · SPD 67.9% (All 62.8%)</text>
+<rect x="8" y="493.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="507.0" class="svg-val" style="font-weight:700;fill:#1d4ed8">#23</text>
+<text x="48" y="507.0" class="svg-val" style="font-weight:700">PhaseSPDNet</text>
+<text x="215" y="507.0" class="svg-tick" style="fill:#475569">Foundational Spatiotempora</text>
+<line x1="491.3" y1="503.0" x2="629.5" y2="503.0" stroke="#1d4ed8" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="571.4" cy="503.0" r="4.0" fill="#1d4ed8"/>
+<text x="577.4" y="507.0" class="svg-tick" style="font-weight:700;fill:#1d4ed8">20.7</text>
+<text x="765" y="507.0" class="svg-val" style="fill:#15803d;font-weight:600">1 top-3 (0 #1)</text>
+<text x="865" y="507.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 62.0% · Clin 63.4% · SPD 66.9% (All 63.2%)</text>
+<text x="14" y="527.5" class="svg-val" style="font-weight:700;fill:#1d4ed8">#24</text>
+<text x="48" y="527.5" class="svg-val" style="font-weight:700">STaRNet</text>
+<text x="215" y="527.5" class="svg-tick" style="fill:#475569">Riemannian Attention / Tra</text>
+<line x1="491.3" y1="523.5" x2="629.5" y2="523.5" stroke="#1d4ed8" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="572.0" cy="523.5" r="4.0" fill="#1d4ed8"/>
+<text x="578.0" y="527.5" class="svg-tick" style="font-weight:700;fill:#1d4ed8">20.8</text>
+<text x="765" y="527.5" class="svg-val" style="fill:#15803d;font-weight:600">1 top-3 (0 #1)</text>
+<text x="865" y="527.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 61.7% · Clin 64.3% · SPD 66.5% (All 63.2%)</text>
+<rect x="8" y="534.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="548.0" class="svg-val" style="font-weight:700;fill:#1d4ed8">#25</text>
+<text x="48" y="548.0" class="svg-val" style="font-weight:700">GraphCSPNet</text>
+<text x="215" y="548.0" class="svg-tick" style="fill:#475569">Graph / Filterbank / Multi</text>
+<line x1="528.2" y1="544.0" x2="684.7" y2="544.0" stroke="#1d4ed8" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="579.6" cy="544.0" r="4.0" fill="#1d4ed8"/>
+<text x="585.6" y="548.0" class="svg-tick" style="font-weight:700;fill:#1d4ed8">21.6</text>
+<text x="765" y="548.0" class="svg-val" style="fill:#15803d;font-weight:600">6 top-3 (3 #1)</text>
+<text x="865" y="548.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 60.0% · Clin 66.1% · SPD 65.8% (All 62.9%)</text>
+<text x="14" y="568.5" class="svg-val" style="font-weight:700;fill:#b45309">#26</text>
+<text x="48" y="568.5" class="svg-val" style="font-weight:700">BWCM</text>
+<text x="215" y="568.5" class="svg-tick" style="fill:#475569">Riemannian BatchNorm / Met</text>
+<line x1="537.4" y1="564.5" x2="629.5" y2="564.5" stroke="#b45309" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="589.1" cy="564.5" r="4.0" fill="#b45309"/>
+<text x="595.1" y="568.5" class="svg-tick" style="font-weight:700;fill:#b45309">22.6</text>
+<text x="765" y="568.5" class="svg-val" style="fill:#15803d;font-weight:600">0 top-3 (0 #1)</text>
+<text x="865" y="568.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 60.9% · Clin 64.0% · SPD 65.5% (All 62.6%)</text>
+<rect x="8" y="575.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="589.0" class="svg-val" style="font-weight:700;fill:#b45309">#27</text>
+<text x="48" y="589.0" class="svg-val" style="font-weight:700">SSGCNet</text>
+<text x="215" y="589.0" class="svg-tick" style="fill:#475569">Graph / Filterbank / Multi</text>
+<line x1="509.7" y1="585.0" x2="675.5" y2="585.0" stroke="#b45309" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="592.0" cy="585.0" r="4.0" fill="#b45309"/>
+<text x="598.0" y="589.0" class="svg-tick" style="font-weight:700;fill:#b45309">22.9</text>
+<text x="765" y="589.0" class="svg-val" style="fill:#15803d;font-weight:600">0 top-3 (0 #1)</text>
+<text x="865" y="589.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 58.8% · Clin 65.2% · SPD 66.4% (All 62.1%)</text>
+<text x="14" y="609.5" class="svg-val" style="font-weight:700;fill:#b45309">#28</text>
+<text x="48" y="609.5" class="svg-val" style="font-weight:700">SPNN</text>
+<text x="215" y="609.5" class="svg-tick" style="fill:#475569">Residual / Gyrovector / Au</text>
+<line x1="518.9" y1="605.5" x2="675.5" y2="605.5" stroke="#b45309" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="594.2" cy="605.5" r="4.0" fill="#b45309"/>
+<text x="600.2" y="609.5" class="svg-tick" style="font-weight:700;fill:#b45309">23.2</text>
+<text x="765" y="609.5" class="svg-val" style="fill:#15803d;font-weight:600">2 top-3 (1 #1)</text>
+<text x="865" y="609.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 59.0% · Clin 62.8% · SPD 70.3% (All 61.9%)</text>
+<rect x="8" y="616.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="630.0" class="svg-val" style="font-weight:700;fill:#b45309">#29</text>
+<text x="48" y="630.0" class="svg-val" style="font-weight:700">RCEEGNet</text>
+<text x="215" y="630.0" class="svg-tick" style="fill:#475569">Residual / Gyrovector / Au</text>
+<line x1="518.9" y1="626.0" x2="675.5" y2="626.0" stroke="#b45309" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="596.8" cy="626.0" r="4.0" fill="#b45309"/>
+<text x="602.8" y="630.0" class="svg-tick" style="font-weight:700;fill:#b45309">23.4</text>
+<text x="765" y="630.0" class="svg-val" style="fill:#15803d;font-weight:600">2 top-3 (0 #1)</text>
+<text x="865" y="630.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 57.9% · Clin 65.5% · SPD 68.8% (All 62.0%)</text>
+<text x="14" y="650.5" class="svg-val" style="font-weight:700;fill:#b45309">#30</text>
+<text x="48" y="650.5" class="svg-val" style="font-weight:700">PCM</text>
+<text x="215" y="650.5" class="svg-tick" style="fill:#475569">Riemannian BatchNorm / Met</text>
+<line x1="546.6" y1="646.5" x2="638.7" y2="646.5" stroke="#b45309" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="598.3" cy="646.5" r="4.0" fill="#b45309"/>
+<text x="604.3" y="650.5" class="svg-tick" style="font-weight:700;fill:#b45309">23.6</text>
+<text x="765" y="650.5" class="svg-val" style="fill:#15803d;font-weight:600">0 top-3 (0 #1)</text>
+<text x="865" y="650.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 60.9% · Clin 64.0% · SPD 65.5% (All 62.6%)</text>
+<rect x="8" y="657.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="671.0" class="svg-val" style="font-weight:700;fill:#b45309">#31</text>
+<text x="48" y="671.0" class="svg-val" style="font-weight:700">GyroSPD</text>
+<text x="215" y="671.0" class="svg-tick" style="fill:#475569">Residual / Gyrovector / Au</text>
+<line x1="528.2" y1="667.0" x2="684.7" y2="667.0" stroke="#b45309" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="608.8" cy="667.0" r="4.0" fill="#b45309"/>
+<text x="614.8" y="671.0" class="svg-tick" style="font-weight:700;fill:#b45309">24.8</text>
+<text x="765" y="671.0" class="svg-val" style="fill:#15803d;font-weight:600">0 top-3 (0 #1)</text>
+<text x="865" y="671.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 58.4% · Clin 60.9% · SPD 73.1% (All 61.3%)</text>
+<text x="14" y="691.5" class="svg-val" style="font-weight:700;fill:#b45309">#32</text>
+<text x="48" y="691.5" class="svg-val" style="font-weight:700">CBN</text>
+<text x="215" y="691.5" class="svg-tick" style="fill:#475569">Riemannian BatchNorm / Met</text>
+<line x1="537.4" y1="687.5" x2="703.2" y2="687.5" stroke="#b45309" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="615.2" cy="687.5" r="4.0" fill="#b45309"/>
+<text x="621.2" y="691.5" class="svg-tick" style="font-weight:700;fill:#b45309">25.4</text>
+<text x="765" y="691.5" class="svg-val" style="fill:#15803d;font-weight:600">0 top-3 (0 #1)</text>
+<text x="865" y="691.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 56.5% · Clin 65.1% · SPD 69.6% (All 61.3%)</text>
+<rect x="8" y="698.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="712.0" class="svg-val" style="font-weight:700;fill:#b45309">#33</text>
+<text x="48" y="712.0" class="svg-val" style="font-weight:700">SPDNet</text>
+<text x="215" y="712.0" class="svg-tick" style="fill:#475569">Foundational Spatiotempora</text>
+<line x1="583.4" y1="708.0" x2="675.5" y2="708.0" stroke="#b45309" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="615.5" cy="708.0" r="4.0" fill="#b45309"/>
+<text x="621.5" y="712.0" class="svg-tick" style="font-weight:700;fill:#b45309">25.5</text>
+<text x="765" y="712.0" class="svg-val" style="fill:#15803d;font-weight:600">1 top-3 (1 #1)</text>
+<text x="865" y="712.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 59.8% · Clin 60.8% · SPD 69.2% (All 61.4%)</text>
+<text x="14" y="732.5" class="svg-val" style="font-weight:700;fill:#b45309">#34</text>
+<text x="48" y="732.5" class="svg-val" style="font-weight:700">SPDResNet</text>
+<text x="215" y="732.5" class="svg-tick" style="fill:#475569">Residual / Gyrovector / Au</text>
+<line x1="537.4" y1="728.5" x2="693.9" y2="728.5" stroke="#b45309" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="621.2" cy="728.5" r="4.0" fill="#b45309"/>
+<text x="627.2" y="732.5" class="svg-tick" style="font-weight:700;fill:#b45309">26.1</text>
+<text x="765" y="732.5" class="svg-val" style="fill:#15803d;font-weight:600">3 top-3 (0 #1)</text>
+<text x="865" y="732.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 56.1% · Clin 61.7% · SPD 72.2% (All 60.2%)</text>
+<rect x="8" y="739.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="753.0" class="svg-val" style="font-weight:700;fill:#b45309">#35</text>
+<text x="48" y="753.0" class="svg-val" style="font-weight:700">SPDNetAE</text>
+<text x="215" y="753.0" class="svg-tick" style="fill:#475569">Residual / Gyrovector / Au</text>
+<line x1="574.2" y1="749.0" x2="693.9" y2="749.0" stroke="#b45309" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="623.4" cy="749.0" r="4.0" fill="#b45309"/>
+<text x="629.4" y="753.0" class="svg-tick" style="font-weight:700;fill:#b45309">26.3</text>
+<text x="765" y="753.0" class="svg-val" style="fill:#15803d;font-weight:600">1 top-3 (0 #1)</text>
+<text x="865" y="753.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 59.7% · Clin 60.4% · SPD 66.9% (All 60.9%)</text>
+<text x="14" y="773.5" class="svg-val" style="font-weight:700;fill:#b45309">#36</text>
+<text x="48" y="773.5" class="svg-val" style="font-weight:700">TensorCSPNet</text>
+<text x="215" y="773.5" class="svg-tick" style="fill:#475569">Graph / Filterbank / Multi</text>
+<line x1="555.8" y1="769.5" x2="712.4" y2="769.5" stroke="#b45309" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="624.7" cy="769.5" r="4.0" fill="#b45309"/>
+<text x="630.7" y="773.5" class="svg-tick" style="font-weight:700;fill:#b45309">26.5</text>
+<text x="765" y="773.5" class="svg-val" style="fill:#15803d;font-weight:600">2 top-3 (0 #1)</text>
+<text x="865" y="773.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 57.2% · Clin 60.9% · SPD 66.5% (All 59.7%)</text>
+<rect x="8" y="780.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="794.0" class="svg-val" style="font-weight:700;fill:#b45309">#37</text>
+<text x="48" y="794.0" class="svg-val" style="font-weight:700">SPDTransNet</text>
+<text x="215" y="794.0" class="svg-tick" style="fill:#475569">Riemannian Attention / Tra</text>
+<line x1="620.3" y1="790.0" x2="730.8" y2="790.0" stroke="#b45309" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="650.1" cy="790.0" r="4.0" fill="#b45309"/>
+<text x="656.1" y="794.0" class="svg-tick" style="font-weight:700;fill:#b45309">29.2</text>
+<text x="765" y="794.0" class="svg-val" style="fill:#15803d;font-weight:600">1 top-3 (1 #1)</text>
+<text x="865" y="794.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 51.7% · Clin 59.0% · SPD 65.4% (All 56.1%)</text>
+<text x="14" y="814.5" class="svg-val" style="font-weight:700;fill:#b45309">#38</text>
+<text x="48" y="814.5" class="svg-val" style="font-weight:700">ALEM</text>
+<text x="215" y="814.5" class="svg-tick" style="fill:#475569">Residual / Gyrovector / Au</text>
+<line x1="611.1" y1="810.5" x2="721.6" y2="810.5" stroke="#b45309" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="654.6" cy="810.5" r="4.0" fill="#b45309"/>
+<text x="660.6" y="814.5" class="svg-tick" style="font-weight:700;fill:#b45309">29.7</text>
+<text x="765" y="814.5" class="svg-val" style="fill:#15803d;font-weight:600">1 top-3 (1 #1)</text>
+<text x="865" y="814.5" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 55.6% · Clin 60.9% · SPD 71.2% (All 59.6%)</text>
+<rect x="8" y="821.0" width="1164" height="20.5" fill="#f8fafc" rx="2"/>
+<text x="14" y="835.0" class="svg-val" style="font-weight:700;fill:#b45309">#39</text>
+<text x="48" y="835.0" class="svg-val" style="font-weight:700">CorNet</text>
+<text x="215" y="835.0" class="svg-tick" style="fill:#475569">Correlation Manifold (OLM </text>
+<line x1="638.7" y1="831.0" x2="730.8" y2="831.0" stroke="#b45309" stroke-width="2.4" stroke-opacity="0.45"/>
+<circle cx="661.6" cy="831.0" r="4.0" fill="#b45309"/>
+<text x="667.6" y="835.0" class="svg-tick" style="font-weight:700;fill:#b45309">30.5</text>
+<text x="765" y="835.0" class="svg-val" style="fill:#15803d;font-weight:600">0 top-3 (0 #1)</text>
+<text x="865" y="835.0" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI 56.0% · Clin 56.7% · SPD 67.5% (All 57.8%)</text>
+</svg>
+      </div>
+      <div class="grid2" style="margin:14px 0">
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="6 Geometric Families: Cross-Domain Accuracy (15 BCI vs 10 Clinical/fMRI)">
+<text x="12" y="16" class="svg-title">6 Geometric Families: Cross-Domain</text>
+<rect x="260" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="270" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">15 BCI</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">10 Clin/</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">50.0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">61.0</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">72.0</text>
+<rect x="57.8" y="98.3" width="17.4" height="87.7" rx="2" class="svg-bar-primary"/>
+<rect x="106.1" y="102.9" width="17.4" height="83.1" rx="2" class="svg-bar-primary"/>
+<rect x="154.4" y="110.5" width="17.4" height="75.5" rx="2" class="svg-bar-primary"/>
+<rect x="202.8" y="110.5" width="17.4" height="75.5" rx="2" class="svg-bar-primary"/>
+<rect x="251.1" y="124.3" width="17.4" height="61.7" rx="2" class="svg-bar-primary"/>
+<rect x="299.4" y="112.4" width="17.4" height="73.6" rx="2" class="svg-bar-primary"/>
+<rect x="77.2" y="74.3" width="17.4" height="111.7" rx="2" class="svg-bar-secondary"/>
+<rect x="125.5" y="80.0" width="17.4" height="106.0" rx="2" class="svg-bar-secondary"/>
+<rect x="173.8" y="80.8" width="17.4" height="105.2" rx="2" class="svg-bar-secondary"/>
+<rect x="222.2" y="80.2" width="17.4" height="105.8" rx="2" class="svg-bar-secondary"/>
+<rect x="270.5" y="90.8" width="17.4" height="95.2" rx="2" class="svg-bar-secondary"/>
+<rect x="318.8" y="96.9" width="17.4" height="89.1" rx="2" class="svg-bar-secondary"/>
+<text x="76.2" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="76.2" dy="0">Riemannian</tspan><tspan x="76.2" dy="9.5">Bat</tspan></text>
+<text x="124.5" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="124.5" dy="0">Foundation</tspan><tspan x="124.5" dy="9.5">S</tspan></text>
+<text x="172.8" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="172.8" dy="0">Riemannian</tspan><tspan x="172.8" dy="9.5">Att</tspan></text>
+<text x="221.2" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="221.2" dy="0">Graph</tspan><tspan x="221.2" dy="9.5">/ Filter</tspan></text>
+<text x="269.5" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="269.5" dy="0">Residual</tspan><tspan x="269.5" dy="9.5">/ Gyr</tspan></text>
+<text x="317.8" y="197.0" text-anchor="middle" class="svg-tick"><tspan x="317.8" dy="0">Correlatio</tspan><tspan x="317.8" dy="9.5">Ma</tspan></text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">SPD Geometric Architecture Family</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">Mean Accuracy (%)</text>
+</svg>
+    </div>
+    <div class="diag-card" style="background:var(--panel)">
+      <svg class="diag-svg" viewBox="0 0 360 234" role="img" aria-label="Controlled Stem Ablation: Raw Matrix Backbone vs +TSM Stem (29-DS Mean %)">
+<text x="12" y="16" class="svg-title">Controlled Stem Ablation: Raw Matrix</text>
+<rect x="260" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/><text x="270" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">Raw Matr</text><rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/><text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">+TSM</text>
+<line x1="52" y1="186.0" x2="342" y2="186.0" class="svg-grid"/>
+<text x="46" y="189.5" text-anchor="end" class="svg-tick">50.0</text>
+<line x1="52" y1="107.0" x2="342" y2="107.0" class="svg-grid"/>
+<text x="46" y="110.5" text-anchor="end" class="svg-tick">60.0</text>
+<line x1="52" y1="28.0" x2="342" y2="28.0" class="svg-grid"/>
+<text x="46" y="31.5" text-anchor="end" class="svg-tick">70.0</text>
+<rect x="59.1" y="95.6" width="20.9" height="90.4" rx="2" class="svg-bar-primary"/>
+<rect x="117.1" y="124.3" width="20.9" height="61.7" rx="2" class="svg-bar-primary"/>
+<rect x="175.1" y="124.3" width="20.9" height="61.7" rx="2" class="svg-bar-primary"/>
+<rect x="233.1" y="110.2" width="20.9" height="75.8" rx="2" class="svg-bar-primary"/>
+<rect x="291.1" y="92.2" width="20.9" height="93.8" rx="2" class="svg-bar-primary"/>
+<rect x="82.0" y="59.8" width="20.9" height="126.2" rx="2" class="svg-bar-secondary"/>
+<rect x="140.0" y="74.6" width="20.9" height="111.4" rx="2" class="svg-bar-secondary"/>
+<rect x="198.0" y="77.0" width="20.9" height="109.0" rx="2" class="svg-bar-secondary"/>
+<rect x="256.0" y="75.4" width="20.9" height="110.6" rx="2" class="svg-bar-secondary"/>
+<rect x="314.0" y="69.2" width="20.9" height="116.8" rx="2" class="svg-bar-secondary"/>
+<text x="81.0" y="199.5" text-anchor="middle" class="svg-tick">SPDNetBN</text>
+<text x="139.0" y="199.5" text-anchor="middle" class="svg-tick">CorNet-OLM</text>
+<text x="197.0" y="199.5" text-anchor="middle" class="svg-tick">CorNet-LSM</text>
+<text x="255.0" y="199.5" text-anchor="middle" class="svg-tick">SPDResNet-AL</text>
+<text x="313.0" y="199.5" text-anchor="middle" class="svg-tick">RieTrans-SPD</text>
+<line x1="52" y1="28" x2="52" y2="186" class="svg-axis"/>
+<line x1="52" y1="186" x2="342" y2="186" class="svg-axis"/>
+<text x="197.0" y="230" text-anchor="middle" class="svg-axis-label">Architecture Pair</text>
+<text transform="translate(13,107.0) rotate(-90)" text-anchor="middle" class="svg-axis-label">29-Dataset Mean Accuracy (%)</text>
+</svg>
+    </div>
+  </div>
+  <h3 style="margin:12px 0 6px;font-size:0.95rem">1B. Synthesis by Geometric Family (6 Families Across 29 Datasets)</h3>
+  <div style="overflow-x:auto;margin-bottom:14px">
+    <table class="data-table" style="font-size:0.79rem">
+      <thead>
+        <tr>
+          <th>Geometric Family &amp; Operator Mechanism</th>
+          <th>Top Representative Model</th>
+          <th>Family Mean Rank</th>
+          <th>15 BCI Mean</th>
+          <th>10 Clinical/fMRI Mean</th>
+          <th>4 SPD Matrix Mean</th>
+          <th>All-29 Mean &amp; Podiums</th>
+        </tr>
+      </thead>
+      <tbody><tr>
+  <td><strong>Riemannian BatchNorm / Metric (11)</strong><br><span class="small muted">Fréchet, Harmonic/GAH, Bures-Wasserstein, Cholesky, and Deformed Lie BatchNorm</span></td>
+  <td><strong style="color:var(--good)"><code>#01 ARMAGNAC-GAH</code></strong> (<code>66.42%</code>)</td>
+  <td><code>16.9</code></td>
+  <td><code>62.21%</code></td>
+  <td><code>65.55%</code></td>
+  <td><code>71.14%</code></td>
+  <td><strong><code>64.59%</code></strong> (<span class="muted">29 Top-3 · 8 #1</span>)</td>
+</tr><tr>
+  <td><strong>Foundational Spatiotemporal SPD (5)</strong><br><span class="small muted">Sinc/Gabor/Depthwise Temporal-Spatial Filterbanks + BiMap/ReEig/LogEig</span></td>
+  <td><strong style="color:var(--good)"><code>#06 EEGSPDNet</code></strong> (<code>64.03%</code>)</td>
+  <td><code>19.5</code></td>
+  <td><code>61.57%</code></td>
+  <td><code>64.76%</code></td>
+  <td><code>67.74%</code></td>
+  <td><strong><code>63.52%</code></strong> (<span class="muted">15 Top-3 · 5 #1</span>)</td>
+</tr><tr>
+  <td><strong>Riemannian Attention / Transformer (7)</strong><br><span class="small muted">Manifold Self-Attention, Gyro/Corr/GBW Attention, and Parameter-Free Pooling</span></td>
+  <td><strong style="color:var(--good)"><code>#07 SPDMetaFormer</code></strong> (<code>64.57%</code>)</td>
+  <td><code>19.5</code></td>
+  <td><code>60.51%</code></td>
+  <td><code>64.65%</code></td>
+  <td><code>66.67%</code></td>
+  <td><strong><code>62.79%</code></strong> (<span class="muted">18 Top-3 · 8 #1</span>)</td>
+</tr><tr>
+  <td><strong>Graph / Filterbank / Multi-View SPD (5)</strong><br><span class="small muted">Time-Frequency Graph BiMap, Lovrić Gaussian RHOP, Geodesic CCA, and Tangent k-NN</span></td>
+  <td><strong style="color:var(--good)"><code>#11 RHOP</code></strong> (<code>64.69%</code>)</td>
+  <td><code>21.2</code></td>
+  <td><code>60.51%</code></td>
+  <td><code>64.73%</code></td>
+  <td><code>66.06%</code></td>
+  <td><strong><code>62.73%</code></strong> (<span class="muted">12 Top-3 · 4 #1</span>)</td>
+</tr><tr>
+  <td><strong>Residual / Gyrovector / Autoencoder (8)</strong><br><span class="small muted">Log-Euclidean Residuals, Adaptive Log-Euclidean, GyroSPD, and SPD-RMLR</span></td>
+  <td><strong style="color:var(--good)"><code>#08 RieTrans-SPDRMLR</code></strong> (<code>64.79%</code>)</td>
+  <td><code>23.4</code></td>
+  <td><code>58.59%</code></td>
+  <td><code>63.26%</code></td>
+  <td><code>70.48%</code></td>
+  <td><strong><code>61.84%</code></strong> (<span class="muted">13 Top-3 · 4 #1</span>)</td>
+</tr><tr>
+  <td><strong>Correlation Manifold OLM / LSM (3)</strong><br><span class="small muted">Scale-Invariant Correlation Quotient Projection with Off-Diagonal / Cholesky Log</span></td>
+  <td><strong style="color:var(--good)"><code>#18 CorNet-LSM</code></strong> (<code>63.80%</code>)</td>
+  <td><code>22.6</code></td>
+  <td><code>60.25%</code></td>
+  <td><code>62.41%</code></td>
+  <td><code>66.83%</code></td>
+  <td><strong><code>61.90%</code></strong> (<span class="muted">0 Top-3 · 0 #1</span>)</td>
+</tr></tbody>
+    </table>
+  </div>
+  <h3 style="margin:12px 0 6px;font-size:0.95rem">1C. Controlled Spatiotemporal Stem Ablation (Raw Matrix Input vs. +TSM Spatiotemporal Filterbank Stem)</h3>
+  <div style="overflow-x:auto;margin-bottom:14px">
+    <table class="data-table" style="font-size:0.79rem">
+      <thead>
+        <tr>
+          <th>Raw Covariance Backbone (No Temporal Conv)</th>
+          <th>Paired Spatiotemporal Stem Variant (+TSM)</th>
+          <th>29-Dataset Rank &amp; Accuracy Gain</th>
+          <th>Structural &amp; Neurophysiological Mechanism</th>
+        </tr>
+      </thead>
+      <tbody><tr>
+  <td><code>#33 SPDNet</code> (<code>61.44%</code>)</td>
+  <td><strong style="color:var(--good)"><code>#04 SPDNetBN (+TSM)</code></strong> (<code>65.98%</code>)</td>
+  <td><span class="chip good">+29 ranks</span> · <strong><code>+4.55%</code></strong> (BCI <code>+3.30%</code>, Clin <code>+6.58%</code>)</td>
+  <td class="small muted">Adding temporal-spatial Conv stem + Fréchet SPDBatchNormMean lifts rank by 29 places across 29 datasets.</td>
+</tr><tr>
+  <td><code>#39 CorNet</code> (<code>57.81%</code>)</td>
+  <td><strong style="color:var(--good)"><code>#19 CorNet-OLM (+TSM)</code></strong> (<code>64.10%</code>)</td>
+  <td><span class="chip good">+20 ranks</span> · <strong><code>+6.29%</code></strong> (BCI <code>+6.35%</code>, Clin <code>+8.78%</code>)</td>
+  <td class="small muted">Raw correlation projection erases diagonal bandpower; adding TSMNet stem recovers +6.29% mean accuracy.</td>
+</tr><tr>
+  <td><code>#39 CorNet</code> (<code>57.81%</code>)</td>
+  <td><strong style="color:var(--good)"><code>#18 CorNet-LSM (+TSM)</code></strong> (<code>63.80%</code>)</td>
+  <td><span class="chip good">+21 ranks</span> · <strong><code>+6.00%</code></strong> (BCI <code>+6.47%</code>, Clin <code>+8.43%</code>)</td>
+  <td class="small muted">Log-Scaled Correlation metric with TSMNet stem gains +5.99% and jumps 21 places in global rank.</td>
+</tr><tr>
+  <td><code>#38 ALEM</code> (<code>59.59%</code>)</td>
+  <td><strong style="color:var(--good)"><code>#13 SPDResNet-ALEM (+TSM)</code></strong> (<code>64.00%</code>)</td>
+  <td><span class="chip good">+25 ranks</span> · <strong><code>+4.41%</code></strong> (BCI <code>+3.67%</code>, Clin <code>+7.27%</code>)</td>
+  <td class="small muted">Adding residual blocks + TSMNet stem prevents sorted-eigenvalue Conv1d overfitting (+4.41% global mean).</td>
+</tr><tr>
+  <td><code>#28 SPNN</code> (<code>61.87%</code>)</td>
+  <td><strong style="color:var(--good)"><code>#08 RieTrans-SPDRMLR (+TSM)</code></strong> (<code>64.79%</code>)</td>
+  <td><span class="chip good">+20 ranks</span> · <strong><code>+2.92%</code></strong> (BCI <code>+3.64%</code>, Clin <code>+3.07%</code>)</td>
+  <td class="small muted">Pairing Riemannian Multinomial Logistic Regression (SPDRMLR) with TSMNet stem lifts global rank from #28 to #08.</td>
+</tr></tbody>
+    </table>
+  </div>
+    </div>
+  </section>
+
+  <section class="tabpanel" id="gen-bci">
+    <div class="panel">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--spd-blue);color:var(--spd-blue)">COHORT A · 15 BCI BENCHMARKS</span>
+        <span class="tag">Motor Imagery, SSVEP, P300/ERN &amp; Mental Workload</span>
+        <strong>2. Motor-Imagery, ERP &amp; SSVEP BCI Generalization Matrix (15 Datasets &times; 39 Models, Mean &plusmn; SD %)</strong>
+      </div>
+      <p class="small muted" style="margin:4px 0 10px">
+        Evaluated at 100% native channel dimensionality (up to <code>128×128</code> on <code>Schirrmeister2017</code>, <code>64×64</code> on <code>Cho2017</code>, <code>PhysionetMI</code>, and <code>MAMEM2</code>, <code>62×62</code> on <code>Lee2019-MI</code>, <code>Stieger2021</code>, and <code>Hinss2021</code>, and <code>60×60</code> on <code>Weibo2014</code>). Geodesic and harmonic batch normalization paired with spatiotemporal conv stems (<code>ARMAGNAC-Harmonic</code> <code>64.62%</code>, <code>ARMAGNAC-GAH</code> <code>64.12%</code>, <code>GBWBN</code> <code>63.97%</code>) and high-order Lovrić pooling (<code>RHOP</code> <code>63.96%</code>) lead across the 15 cohorts, while parameter-free <code>SPDMetaFormer</code> (<code>62.85%</code>) and channel-specific filterbank <code>EEGSPDNet</code> (<code>62.72%</code>) lead all standalone end-to-end models.
+      </p>
+      <div style="overflow-x:auto">
+        <table class="data-table" style="font-size:0.75rem">
+          <thead><tr><th>Global Rank &amp; Model</th><th>BNCI14-001</th><th>BNCI14-002</th><th>BNCI14-004</th><th>BNCI15-001</th><th>Cho2017</th><th>Lee2019-MI</th><th>Schirr2017</th><th>Shin2017A</th><th>Weibo2014</th><th>Zhou2020</th><th>Hinss2021</th><th>Stieger2021</th><th>PhysioNet</th><th>MAMEM2</th><th>BCI-ERN</th></tr></thead>
+          <tbody><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#01</span> <strong><code>ARMAGNAC-GAH (+TSM)</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">73.0±12.9</code></strong></td><td><code>81.1±15.8</code></td><td><code>80.1±13.5</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">83.0±14.4</code></strong></td><td><code>72.5±17.5</code></td><td><code>71.2±13.3</code></td><td><code>86.6±6.7</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">64.7±15.3</code></strong></td><td><code>69.7±16.4</code></td><td><code>44.3±6.7</code></td><td><code>59.0±14.5</code></td><td><code>47.5±12.8</code></td><td><code>46.5±18.9</code></td><td><code>23.1±5.9</code></td><td><code>59.5±11.9</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#02</span> <strong><code>GBWBN (+TSM)</code></strong></td><td><code>71.3±13.9</code></td><td><code>81.1±15.8</code></td><td><code>80.2±12.7</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 83.2±14.1</code></strong></td><td><code>73.2±18.2</code></td><td><code>71.9±13.0</code></td><td><code>86.6±6.9</code></td><td><code>64.0±15.3</code></td><td><code>69.6±16.4</code></td><td><code>44.3±6.3</code></td><td><code>59.1±15.4</code></td><td><code>48.1±12.7</code></td><td><code>43.5±17.6</code></td><td><code>23.2±7.0</code></td><td><code>60.4±11.2</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#03</span> <strong><code>ARMAGNAC-Harmonic (+TSM)</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">73.1±13.3</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">81.2±15.9</code></strong></td><td><code>80.2±13.2</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">83.1±14.1</code></strong></td><td><code>74.6±17.2</code></td><td><code>71.7±13.1</code></td><td><code>86.8±6.1</code></td><td><code>64.2±14.9</code></td><td><code>69.6±14.8</code></td><td><code>44.0±6.6</code></td><td><code>58.8±13.4</code></td><td><code>47.7±12.5</code></td><td><code>50.2±16.5</code></td><td><code>24.1±7.4</code></td><td><code>60.0±11.1</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#04</span> <strong><code>SPDNetBN (+TSM)</code></strong></td><td><code>67.2±15.2</code></td><td><code>80.1±16.4</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 81.5±12.2</code></strong></td><td><code>82.5±14.8</code></td><td><code>72.4±15.8</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">72.9±12.2</code></strong></td><td><code>84.5±5.8</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 65.3±16.3</code></strong></td><td><code>65.6±15.8</code></td><td><code>41.6±5.1</code></td><td><code>61.4±15.6</code></td><td><code>47.7±13.8</code></td><td><code>39.5±12.5</code></td><td><code>23.5±6.7</code></td><td><code>60.8±12.7</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#05</span> <strong><code>ARMAGNAC-Arithmetic (+TSM)</code></strong></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 73.3±13.1</code></strong></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 81.3±15.8</code></strong></td><td><code>80.2±13.3</code></td><td><code>82.2±14.3</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">75.0±16.5</code></strong></td><td><code>71.8±12.2</code></td><td><code>87.1±6.5</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">64.7±15.2</code></strong></td><td><code>68.6±16.6</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">44.8±6.6</code></strong></td><td><code>57.7±12.9</code></td><td><code>48.0±12.9</code></td><td><code>42.0±17.9</code></td><td><code>21.6±4.5</code></td><td><code>59.3±10.8</code></td></tr><tr class="bm-model-row" data-fam="foundational"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#06</span> <strong><code>EEGSPDNet</code></strong></td><td><code>63.1±12.9</code></td><td><code>74.8±14.3</code></td><td><code>73.4±13.2</code></td><td><code>66.3±6.0</code></td><td><code>73.0±16.3</code></td><td><code>69.7±11.0</code></td><td><code>88.5±7.0</code></td><td><code>64.5±14.8</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">72.9±14.0</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">45.3±8.2</code></strong></td><td><code>67.0±17.5</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">48.7±14.0</code></strong></td><td><code>46.5±12.4</code></td><td><code>24.4±11.0</code></td><td><code>62.8±12.8</code></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#07</span> <strong><code>SPDMetaFormer</code></strong></td><td><code>64.0±12.6</code></td><td><code>73.0±14.1</code></td><td><code>76.9±12.6</code></td><td><code>62.3±4.6</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 77.5±14.9</code></strong></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 74.8±10.1</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">92.0±5.9</code></strong></td><td><code>64.0±16.4</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 75.1±14.2</code></strong></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 46.2±5.6</code></strong></td><td><code>63.5±17.3</code></td><td><code>48.1±13.1</code></td><td><code>41.5±12.3</code></td><td><code>24.4±9.1</code></td><td><code>59.2±9.8</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#08</span> <strong><code>RieTrans-SPDRMLR (+TSM)</code></strong></td><td><code>64.4±16.4</code></td><td><code>80.2±15.7</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">80.8±13.2</code></strong></td><td><code>82.4±13.6</code></td><td><code>71.8±16.5</code></td><td><code>67.4±13.6</code></td><td><code>83.1±7.1</code></td><td><code>62.4±14.3</code></td><td><code>65.2±15.6</code></td><td><code>43.7±6.9</code></td><td><code>62.0±14.2</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 49.0±12.8</code></strong></td><td><code>42.5±13.8</code></td><td><code>25.6±7.3</code></td><td><code>59.6±10.8</code></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#09</span> <strong><code>GBWAtt</code></strong></td><td><code>65.1±12.7</code></td><td><code>74.0±13.8</code></td><td><code>75.3±12.3</code></td><td><code>63.3±4.2</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">74.8±17.3</code></strong></td><td><code>71.8±11.6</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">91.9±3.7</code></strong></td><td><code>62.9±16.0</code></td><td><code>70.6±13.4</code></td><td><code>43.8±4.6</code></td><td><code>63.3±16.4</code></td><td><code>47.4±13.8</code></td><td><code>45.0±12.7</code></td><td><code>24.4±6.3</code></td><td><code>59.1±9.5</code></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#10</span> <strong><code>MAtt</code></strong></td><td><code>64.4±14.0</code></td><td><code>72.9±14.3</code></td><td><code>75.2±11.3</code></td><td><code>62.1±5.6</code></td><td><code>74.4±15.6</code></td><td><code>72.1±9.6</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 92.3±4.1</code></strong></td><td><code>63.4±14.9</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">71.7±14.7</code></strong></td><td><code>42.4±4.7</code></td><td><code>62.7±17.4</code></td><td><code>48.3±12.4</code></td><td><code>48.8±16.1</code></td><td><code>25.3±7.4</code></td><td><code>58.0±8.8</code></td></tr><tr class="bm-model-row" data-fam="graph"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#11</span> <strong><code>RHOP</code></strong></td><td><code>66.9±14.7</code></td><td><code>78.9±16.2</code></td><td><code>80.6±12.3</code></td><td><code>82.3±14.7</code></td><td><code>71.3±13.7</code></td><td><code>70.1±11.2</code></td><td><code>87.3±5.6</code></td><td><code>62.1±14.1</code></td><td><code>66.1±16.6</code></td><td><code>44.1±7.1</code></td><td><code>67.2±18.5</code></td><td><code>45.8±12.5</code></td><td><code>47.2±15.1</code></td><td><code>22.7±8.2</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 66.8±12.9</code></strong></td></tr><tr class="bm-model-row" data-fam="graph"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#12</span> <strong><code>DeepGeoCCA</code></strong></td><td><code>64.1±14.9</code></td><td><code>78.0±15.5</code></td><td><code>79.6±13.7</code></td><td><code>81.4±12.6</code></td><td><code>71.5±13.1</code></td><td><code>65.3±9.9</code></td><td><code>86.4±5.5</code></td><td><code>62.5±12.6</code></td><td><code>61.2±17.1</code></td><td><code>41.3±3.0</code></td><td><code>66.2±12.3</code></td><td><code>47.5±12.8</code></td><td><code>44.0±18.2</code></td><td><code>24.6±4.0</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">64.0±14.2</code></strong></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#13</span> <strong><code>SPDResNet-ALEM (+TSM)</code></strong></td><td><code>63.8±14.2</code></td><td><code>78.5±17.4</code></td><td><code>80.2±12.8</code></td><td><code>81.8±14.2</code></td><td><code>65.3±19.1</code></td><td><code>63.9±10.7</code></td><td><code>73.1±5.7</code></td><td><code>63.6±14.9</code></td><td><code>52.0±14.7</code></td><td><code>40.0±4.6</code></td><td><code>64.7±9.2</code></td><td><code>41.2±8.9</code></td><td><code>36.5±8.8</code></td><td><code>23.3±10.0</code></td><td><code>61.9±11.1</code></td></tr><tr class="bm-model-row" data-fam="foundational"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#14</span> <strong><code>Green</code></strong></td><td><code>68.5±14.6</code></td><td><code>79.0±15.1</code></td><td><code>79.4±14.2</code></td><td><code>81.5±11.5</code></td><td><code>67.1±10.3</code></td><td><code>63.2±8.3</code></td><td><code>85.3±5.7</code></td><td><code>59.0±11.0</code></td><td><code>65.6±16.3</code></td><td><code>39.6±5.7</code></td><td><code>65.5±12.8</code></td><td><code>44.7±12.7</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">52.8±11.9</code></strong></td><td><code>21.3±9.8</code></td><td><code>61.9±12.1</code></td></tr><tr class="bm-model-row" data-fam="foundational"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#15</span> <strong><code>TSMNet</code></strong></td><td><code>63.3±11.7</code></td><td><code>70.1±14.8</code></td><td><code>75.0±13.0</code></td><td><code>67.8±4.9</code></td><td><code>73.6±15.5</code></td><td><code>71.7±15.8</code></td><td><code>85.1±5.6</code></td><td><code>63.8±13.6</code></td><td><code>70.7±16.1</code></td><td><code>39.9±3.4</code></td><td><code>64.7±17.5</code></td><td><code>46.8±12.8</code></td><td><code>38.2±12.7</code></td><td><code>24.4±7.0</code></td><td><code>59.6±11.9</code></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#16</span> <strong><code>GyroAtt</code></strong></td><td><code>64.7±13.1</code></td><td><code>74.2±14.5</code></td><td><code>76.3±12.5</code></td><td><code>59.6±5.0</code></td><td><code>73.5±12.9</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">74.6±12.6</code></strong></td><td><code>90.6±5.5</code></td><td><code>64.4±13.6</code></td><td><code>68.1±17.6</code></td><td><code>44.0±6.8</code></td><td><code>67.0±15.7</code></td><td><code>46.1±11.9</code></td><td><code>46.8±10.9</code></td><td><code>20.8±3.6</code></td><td><code>55.6±7.0</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#17</span> <strong><code>LieBN-LCM (+TSM)</code></strong></td><td><code>64.1±13.1</code></td><td><code>80.4±15.2</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">80.6±12.0</code></strong></td><td><code>81.1±15.2</code></td><td><code>68.4±17.5</code></td><td><code>66.9±13.8</code></td><td><code>84.1±4.5</code></td><td><code>63.5±14.1</code></td><td><code>67.3±16.0</code></td><td><code>42.7±5.9</code></td><td><code>62.8±14.0</code></td><td><code>46.1±13.0</code></td><td><code>41.0±12.2</code></td><td><code>24.0±7.6</code></td><td><code>60.7±13.1</code></td></tr><tr class="bm-model-row" data-fam="correlation"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#18</span> <strong><code>CorNet-LSM (+TSM)</code></strong></td><td><code>64.8±15.3</code></td><td><code>76.2±19.3</code></td><td><code>79.5±11.9</code></td><td><code>82.5±15.0</code></td><td><code>71.9±15.4</code></td><td><code>69.5±14.1</code></td><td><code>84.8±6.3</code></td><td><code>64.7±15.2</code></td><td><code>64.8±17.8</code></td><td><code>42.8±3.5</code></td><td><code>62.8±14.2</code></td><td><code>47.8±14.0</code></td><td><code>42.0±12.5</code></td><td><code>23.1±8.0</code></td><td><code>59.4±10.3</code></td></tr><tr class="bm-model-row" data-fam="correlation"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#19</span> <strong><code>CorNet-OLM (+TSM)</code></strong></td><td><code>64.8±15.5</code></td><td><code>76.9±18.6</code></td><td><code>80.1±12.3</code></td><td><code>82.4±14.5</code></td><td><code>72.0±16.1</code></td><td><code>69.4±14.5</code></td><td><code>85.1±6.2</code></td><td><code>62.9±15.6</code></td><td><code>66.0±17.3</code></td><td><code>42.5±4.0</code></td><td><code>63.4±14.5</code></td><td><code>47.6±13.8</code></td><td><code>39.2±12.0</code></td><td><code>22.9±7.0</code></td><td><code>59.6±10.5</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#20</span> <strong><code>LieBN-AIM (+TSM)</code></strong></td><td><code>63.6±13.2</code></td><td><code>79.9±15.7</code></td><td><code>79.4±12.8</code></td><td><code>82.2±14.2</code></td><td><code>72.2±13.5</code></td><td><code>70.2±11.8</code></td><td><code>82.8±5.9</code></td><td><code>63.1±14.9</code></td><td><code>63.9±16.4</code></td><td><code>42.5±7.4</code></td><td><code>59.8±14.2</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">48.5±13.2</code></strong></td><td><code>37.5±13.3</code></td><td><code>23.7±5.5</code></td><td><code>60.0±12.7</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#21</span> <strong><code>LieBN-LEM (+TSM)</code></strong></td><td><code>67.0±14.5</code></td><td><code>78.8±16.7</code></td><td><code>80.1±12.6</code></td><td><code>82.8±14.8</code></td><td><code>67.8±17.7</code></td><td><code>67.7±13.7</code></td><td><code>84.1±5.0</code></td><td><code>63.7±15.4</code></td><td><code>67.1±15.2</code></td><td><code>43.4±7.2</code></td><td><code>62.5±15.2</code></td><td><code>47.5±13.1</code></td><td><code>36.2±13.1</code></td><td><code>24.2±5.3</code></td><td><code>59.5±12.4</code></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#22</span> <strong><code>CorAtt</code></strong></td><td><code>65.6±13.2</code></td><td><code>72.6±15.9</code></td><td><code>79.2±12.9</code></td><td><code>62.3±4.8</code></td><td><code>73.3±16.2</code></td><td><code>72.8±10.1</code></td><td><code>87.1±6.8</code></td><td><code>64.0±14.4</code></td><td><code>64.2±13.7</code></td><td><code>43.6±6.7</code></td><td><code>68.0±15.1</code></td><td><code>46.2±12.6</code></td><td><code>39.5±10.7</code></td><td><code>21.7±4.3</code></td><td><code>58.2±9.3</code></td></tr><tr class="bm-model-row" data-fam="foundational"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#23</span> <strong><code>PhaseSPDNet</code></strong></td><td><code>69.1±14.4</code></td><td><code>78.8±15.6</code></td><td><code>78.5±12.1</code></td><td><code>81.4±14.0</code></td><td><code>72.3±12.9</code></td><td><code>68.4±12.8</code></td><td><code>83.8±6.4</code></td><td><code>61.1±13.2</code></td><td><code>62.5±16.3</code></td><td><code>43.9±5.2</code></td><td><code>58.0±11.2</code></td><td><code>44.7±12.2</code></td><td><code>47.0±10.0</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">26.2±10.5</code></strong></td><td><code>54.7±7.6</code></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#24</span> <strong><code>STaRNet</code></strong></td><td><code>63.4±12.4</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">81.1±15.7</code></strong></td><td><code>80.1±13.5</code></td><td><code>81.9±14.9</code></td><td><code>70.2±17.0</code></td><td><code>66.1±13.2</code></td><td><code>83.0±7.4</code></td><td><code>62.8±14.0</code></td><td><code>60.2±17.0</code></td><td><code>44.7±8.8</code></td><td><code>61.5±13.4</code></td><td><code>46.0±12.1</code></td><td><code>38.8±13.2</code></td><td><code>23.1±4.8</code></td><td><code>62.0±10.0</code></td></tr><tr class="bm-model-row" data-fam="graph"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#25</span> <strong><code>GraphCSPNet</code></strong></td><td><code>69.6±12.2</code></td><td><code>66.3±13.9</code></td><td><code>74.1±11.6</code></td><td><code>60.3±4.1</code></td><td><code>66.5±14.5</code></td><td><code>60.6±6.2</code></td><td><code>84.9±9.1</code></td><td><code>58.0±10.4</code></td><td><code>62.9±18.6</code></td><td><code>41.8±3.9</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 72.3±16.9</code></strong></td><td><code>44.6±12.2</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">53.8±11.2</code></strong></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 27.4±11.2</code></strong></td><td><code>57.6±7.5</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#26</span> <strong><code>BWCM (+TSM)</code></strong></td><td><code>57.6±14.5</code></td><td><code>78.2±16.2</code></td><td><code>79.4±12.9</code></td><td><code>79.3±14.8</code></td><td><code>72.9±15.3</code></td><td><code>65.7±12.7</code></td><td><code>82.1±6.8</code></td><td><code>63.2±14.0</code></td><td><code>63.1±15.4</code></td><td><code>41.4±3.5</code></td><td><code>62.4±16.3</code></td><td><code>46.9±12.8</code></td><td><code>38.5±10.5</code></td><td><code>20.5±3.8</code></td><td><code>62.3±12.6</code></td></tr><tr class="bm-model-row" data-fam="graph"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#27</span> <strong><code>SSGCNet</code></strong></td><td><code>60.6±12.8</code></td><td><code>67.4±12.6</code></td><td><code>76.3±13.5</code></td><td><code>61.2±5.3</code></td><td><code>69.3±18.2</code></td><td><code>66.3±11.1</code></td><td><code>80.6±6.9</code></td><td><code>58.0±11.2</code></td><td><code>59.2±13.1</code></td><td><code>43.5±5.7</code></td><td><code>67.7±17.5</code></td><td><code>48.2±12.9</code></td><td><code>36.0±15.3</code></td><td><code>24.2±7.2</code></td><td><code>63.6±14.3</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#28</span> <strong><code>SPNN</code></strong></td><td><code>66.5±15.2</code></td><td><code>65.5±15.9</code></td><td><code>68.7±11.7</code></td><td><code>61.3±4.2</code></td><td><code>68.4±11.9</code></td><td><code>68.6±13.2</code></td><td><code>76.9±4.1</code></td><td><code>60.7±10.9</code></td><td><code>61.4±16.1</code></td><td><code>39.4±2.9</code></td><td><code>60.9±12.9</code></td><td><code>40.1±9.7</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 63.8±16.9</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">26.7±9.0</code></strong></td><td><code>56.5±4.3</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#29</span> <strong><code>RCEEGNet</code></strong></td><td><code>58.1±13.0</code></td><td><code>72.5±16.9</code></td><td><code>78.4±14.4</code></td><td><code>76.7±15.7</code></td><td><code>62.5±17.1</code></td><td><code>57.4±5.6</code></td><td><code>80.8±7.5</code></td><td><code>60.6±11.2</code></td><td><code>53.5±15.9</code></td><td><code>36.9±2.3</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">70.2±14.9</code></strong></td><td><code>41.7±10.3</code></td><td><code>39.5±16.2</code></td><td><code>19.2±7.3</code></td><td><code>60.7±9.1</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#30</span> <strong><code>PCM (+TSM)</code></strong></td><td><code>57.6±14.5</code></td><td><code>78.2±16.2</code></td><td><code>79.4±12.9</code></td><td><code>79.3±14.8</code></td><td><code>72.9±15.3</code></td><td><code>65.7±12.7</code></td><td><code>82.1±6.8</code></td><td><code>63.2±14.0</code></td><td><code>63.1±15.4</code></td><td><code>41.4±3.5</code></td><td><code>62.4±16.3</code></td><td><code>46.9±12.8</code></td><td><code>38.5±10.5</code></td><td><code>20.5±3.8</code></td><td><code>62.3±12.6</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#31</span> <strong><code>GyroSPD</code></strong></td><td><code>67.1±15.0</code></td><td><code>74.8±16.1</code></td><td><code>75.9±13.0</code></td><td><code>79.5±15.6</code></td><td><code>68.8±12.3</code></td><td><code>65.5±8.6</code></td><td><code>75.1±9.8</code></td><td><code>59.5±13.2</code></td><td><code>50.9±12.8</code></td><td><code>41.3±5.0</code></td><td><code>63.9±12.3</code></td><td><code>39.1±9.3</code></td><td><code>37.0±11.0</code></td><td><code>22.5±9.2</code></td><td><code>55.1±6.6</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#32</span> <strong><code>CBN (+TSM)</code></strong></td><td><code>58.3±12.1</code></td><td><code>75.4±15.5</code></td><td><code>77.3±13.9</code></td><td><code>74.4±15.9</code></td><td><code>63.9±12.1</code></td><td><code>53.5±6.9</code></td><td><code>77.2±8.0</code></td><td><code>57.2±9.0</code></td><td><code>49.0±14.0</code></td><td><code>37.1±2.3</code></td><td><code>66.6±15.5</code></td><td><code>41.2±9.7</code></td><td><code>31.0±8.2</code></td><td><code>23.8±5.6</code></td><td><code>61.1±11.7</code></td></tr><tr class="bm-model-row" data-fam="foundational"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#33</span> <strong><code>SPDNet</code></strong></td><td><code>62.8±16.5</code></td><td><code>76.9±16.5</code></td><td><code>75.8±13.0</code></td><td><code>77.8±14.9</code></td><td><code>67.9±11.4</code></td><td><code>69.8±11.5</code></td><td><code>80.0±8.0</code></td><td><code>61.0±12.5</code></td><td><code>59.8±16.6</code></td><td><code>40.0±3.6</code></td><td><code>55.9±8.7</code></td><td><code>41.2±10.9</code></td><td><code>48.2±16.0</code></td><td><code>24.3±10.7</code></td><td><code>55.6±5.3</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#34</span> <strong><code>SPDResNet</code></strong></td><td><code>55.8±17.9</code></td><td><code>77.0±17.0</code></td><td><code>74.3±14.9</code></td><td><code>77.5±15.0</code></td><td><code>65.9±10.7</code></td><td><code>61.2±9.3</code></td><td><code>57.2±1.4</code></td><td><code>60.9±11.7</code></td><td><code>46.8±8.1</code></td><td><code>39.8±3.4</code></td><td><code>61.0±9.2</code></td><td><code>41.2±8.6</code></td><td><code>44.5±18.5</code></td><td><code>23.9±7.2</code></td><td><code>54.3±6.1</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#35</span> <strong><code>SPDNetAE</code></strong></td><td><code>63.5±16.9</code></td><td><code>77.1±15.8</code></td><td><code>76.0±13.0</code></td><td><code>80.5±13.5</code></td><td><code>71.1±10.2</code></td><td><code>67.5±11.6</code></td><td><code>77.8±10.0</code></td><td><code>59.6±11.9</code></td><td><code>56.6±16.4</code></td><td><code>43.3±4.5</code></td><td><code>65.2±14.1</code></td><td><code>40.6±10.9</code></td><td><code>40.5±10.4</code></td><td><code>21.9±8.4</code></td><td><code>54.5±6.4</code></td></tr><tr class="bm-model-row" data-fam="graph"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#36</span> <strong><code>TensorCSPNet</code></strong></td><td><code>62.6±11.1</code></td><td><code>64.6±13.9</code></td><td><code>74.1±11.6</code></td><td><code>63.3±5.2</code></td><td><code>63.3±17.1</code></td><td><code>61.2±4.6</code></td><td><code>74.4±8.7</code></td><td><code>55.8±10.3</code></td><td><code>57.5±11.7</code></td><td><code>40.7±3.5</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">71.3±14.4</code></strong></td><td><code>43.1±10.9</code></td><td><code>37.0±9.1</code></td><td><code>25.0±6.6</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">64.1±7.9</code></strong></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#37</span> <strong><code>SPDTransNet</code></strong></td><td><code>65.5±16.3</code></td><td><code>77.1±13.5</code></td><td><code>75.1±14.0</code></td><td><code>78.0±13.4</code></td><td><code>59.5±13.6</code></td><td><code>54.2±5.1</code></td><td><code>25.0±0.0</code></td><td><code>61.5±13.3</code></td><td><code>27.3±7.0</code></td><td><code>40.2±4.5</code></td><td><code>56.5±12.1</code></td><td><code>37.7±8.8</code></td><td><code>38.2±12.3</code></td><td><code>21.7±7.7</code></td><td><code>57.4±8.0</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#38</span> <strong><code>ALEM</code></strong></td><td><code>60.0±17.0</code></td><td><code>74.6±17.7</code></td><td><code>74.5±14.5</code></td><td><code>77.6±14.9</code></td><td><code>62.2±14.0</code></td><td><code>60.5±6.1</code></td><td><code>67.6±8.0</code></td><td><code>61.6±11.6</code></td><td><code>48.0±10.1</code></td><td><code>39.5±2.3</code></td><td><code>59.1±13.3</code></td><td><code>38.4±9.9</code></td><td><code>38.0±15.4</code></td><td><code>19.6±9.8</code></td><td><code>53.6±3.1</code></td></tr><tr class="bm-model-row" data-fam="correlation"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#39</span> <strong><code>CorNet</code></strong></td><td><code>58.4±15.8</code></td><td><code>73.3±15.2</code></td><td><code>62.5±7.8</code></td><td><code>77.2±13.3</code></td><td><code>65.8±14.1</code></td><td><code>63.5±8.8</code></td><td><code>71.6±9.2</code></td><td><code>60.2±14.1</code></td><td><code>50.5±9.8</code></td><td><code>40.5±3.6</code></td><td><code>67.6±13.0</code></td><td><code>37.4±8.3</code></td><td><code>33.2±9.4</code></td><td><code>23.8±10.8</code></td><td><code>54.0±3.3</code></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="tabpanel" id="gen-clin">
+    <div class="panel">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--accent);color:var(--accent)">COHORT B · 10 CLINICAL, SLEEP, AFFECTIVE &amp; FMRI BENCHMARKS</span>
+        <span class="tag">Pathology, Sleep Staging, Oddball ERP, Emotion &amp; Connectomes</span>
+        <strong>3. Clinical, Sleep, Resting-State, ERP, Affective &amp; fMRI Connectivity Matrix (10 Datasets &times; 39 Models, Mean &plusmn; SD %)</strong>
+      </div>
+      <p class="small muted" style="margin:4px 0 10px">
+        Spans clinical neurology (<code>TUAB</code>, <code>TUEV</code>), polysomnography sleep staging (<code>Sleep-EDFX</code>, <code>MASS-SS3</code>), resting-state alpha/beta oscillatory topography (<code>LEMON</code> 61 ch), auditory oddball ERP (<code>TDBRAIN</code> 26 ch), affective EEG (<code>SEED</code> 62 ch, <code>DEAP</code> 32 ch), and whole-brain resting-state fMRI functional connectivity (<code>ABIDE</code> <code>200×200</code> Craddock ROI, <code>ADHD-200</code> <code>190×190</code> ROI). Learnable Gabor wavelets in <code>Green</code> achieve the highest domain mean (<code>68.16%</code>), closely followed by <code>SPDResNet-ALEM</code> (<code>68.13%</code>), <code>GBWAtt</code> (<code>67.63%</code>), and <code>SPDNetBN</code> (<code>67.37%</code>).
+      </p>
+      <div style="overflow-x:auto">
+        <table class="data-table" style="font-size:0.77rem">
+          <thead><tr><th>Global Rank &amp; Model</th><th>TUAB (Clinical)</th><th>TUEV (Events)</th><th>Sleep-EDFX</th><th>MASS-SS3</th><th>LEMON (RS-EEG)</th><th>TDBRAIN (ERP)</th><th>ABIDE (fMRI)</th><th>ADHD-200</th><th>SEED (3-Cls)</th><th>DEAP (Affect)</th></tr></thead>
+          <tbody><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#01</span> <strong><code>ARMAGNAC-GAH (+TSM)</code></strong></td><td><code>60.2±13.3</code></td><td><code>38.7±8.0</code></td><td><code>55.4±7.6</code></td><td><code>52.0±10.4</code></td><td><code>96.8±4.0</code></td><td><code>71.6±17.2</code></td><td><code>61.7±6.3</code></td><td><code>80.4±11.7</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">83.3±5.7</code></strong></td><td><code>68.4±14.7</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#02</span> <strong><code>GBWBN (+TSM)</code></strong></td><td><code>62.1±11.4</code></td><td><code>39.6±7.3</code></td><td><code>54.7±6.8</code></td><td><code>51.7±9.5</code></td><td><code>96.5±3.2</code></td><td><code>71.7±16.5</code></td><td><code>61.1±5.6</code></td><td><code>80.3±12.1</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">83.9±4.7</code></strong></td><td><code>68.4±14.1</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#03</span> <strong><code>ARMAGNAC-Harmonic (+TSM)</code></strong></td><td><code>59.9±13.7</code></td><td><code>41.2±7.4</code></td><td><code>55.5±8.3</code></td><td><code>51.8±11.2</code></td><td><code>95.9±4.3</code></td><td><code>69.7±15.3</code></td><td><code>60.5±6.5</code></td><td><code>81.0±11.7</code></td><td><code>82.8±7.1</code></td><td><code>68.6±14.7</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#04</span> <strong><code>SPDNetBN (+TSM)</code></strong></td><td><code>60.3±12.9</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">42.0±8.4</code></strong></td><td><code>56.6±6.7</code></td><td><code>52.9±11.8</code></td><td><code>94.6±7.0</code></td><td><code>73.8±17.2</code></td><td><code>61.1±5.5</code></td><td><code>82.1±11.3</code></td><td><code>81.2±7.8</code></td><td><code>69.0±15.1</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#05</span> <strong><code>ARMAGNAC-Arithmetic (+TSM)</code></strong></td><td><code>59.0±14.4</code></td><td><code>40.4±8.4</code></td><td><code>54.8±6.3</code></td><td><code>51.5±9.4</code></td><td><code>96.9±3.3</code></td><td><code>73.0±16.0</code></td><td><code>61.4±5.9</code></td><td><code>79.2±11.2</code></td><td><code>81.6±8.3</code></td><td><code>68.4±14.4</code></td></tr><tr class="bm-model-row" data-fam="foundational"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#06</span> <strong><code>EEGSPDNet</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">64.8±11.8</code></strong></td><td><code>37.3±7.1</code></td><td><code>31.0±4.9</code></td><td><code>55.4±13.4</code></td><td><code>96.9±3.9</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 77.8±14.7</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">63.2±3.8</code></strong></td><td><code>78.9±12.4</code></td><td><code>83.2±8.4</code></td><td><code>70.0±14.1</code></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#07</span> <strong><code>SPDMetaFormer</code></strong></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 65.5±11.1</code></strong></td><td><code>34.9±8.9</code></td><td><code>52.2±7.0</code></td><td><code>53.9±11.8</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 98.5±2.1</code></strong></td><td><code>71.1±14.8</code></td><td><code>61.2±5.6</code></td><td><code>78.4±13.1</code></td><td><code>75.0±6.8</code></td><td><code>69.5±15.3</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#08</span> <strong><code>RieTrans-SPDRMLR (+TSM)</code></strong></td><td><code>60.2±12.1</code></td><td><code>36.6±7.4</code></td><td><code>52.0±6.2</code></td><td><code>50.3±9.9</code></td><td><code>95.9±4.5</code></td><td><code>71.0±16.0</code></td><td><code>63.2±5.4</code></td><td><code>79.9±12.1</code></td><td><code>80.2±7.2</code></td><td><code>69.3±15.2</code></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#09</span> <strong><code>GBWAtt</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">64.6±9.1</code></strong></td><td><code>36.7±8.8</code></td><td><code>55.9±6.6</code></td><td><code>54.4±10.8</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">97.6±2.7</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">74.5±16.5</code></strong></td><td><code>61.2±5.0</code></td><td><code>81.5±11.0</code></td><td><code>80.6±8.2</code></td><td><code>69.2±15.3</code></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#10</span> <strong><code>MAtt</code></strong></td><td><code>62.7±10.5</code></td><td><code>37.4±7.0</code></td><td><code>55.6±7.3</code></td><td><code>53.6±10.0</code></td><td><code>95.3±4.9</code></td><td><code>71.2±15.1</code></td><td><code>60.7±4.7</code></td><td><code>82.2±10.9</code></td><td><code>79.8±8.7</code></td><td><code>70.2±15.4</code></td></tr><tr class="bm-model-row" data-fam="graph"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#11</span> <strong><code>RHOP</code></strong></td><td><code>60.8±12.8</code></td><td><code>37.4±6.3</code></td><td><code>53.1±5.8</code></td><td><code>54.3±11.1</code></td><td><code>97.1±3.4</code></td><td><code>71.2±16.4</code></td><td><code>60.6±4.0</code></td><td><code>78.8±12.6</code></td><td><code>76.8±7.2</code></td><td><code>67.9±14.1</code></td></tr><tr class="bm-model-row" data-fam="graph"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#12</span> <strong><code>DeepGeoCCA</code></strong></td><td><code>59.4±12.4</code></td><td><code>38.8±9.5</code></td><td><code>41.7±8.3</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">58.0±9.1</code></strong></td><td><code>97.1±3.1</code></td><td><code>74.0±15.3</code></td><td><code>59.8±4.4</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">82.8±13.3</code></strong></td><td><code>77.2±6.7</code></td><td><code>68.1±14.3</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#13</span> <strong><code>SPDResNet-ALEM (+TSM)</code></strong></td><td><code>62.5±11.9</code></td><td><code>40.9±7.2</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 58.7±6.5</code></strong></td><td><code>55.3±10.2</code></td><td><code>95.7±4.3</code></td><td><code>73.7±18.0</code></td><td><code>62.8±5.6</code></td><td><code>82.5±10.1</code></td><td><code>82.2±5.2</code></td><td><code>67.0±13.9</code></td></tr><tr class="bm-model-row" data-fam="foundational"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#14</span> <strong><code>Green</code></strong></td><td><code>62.8±8.9</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 46.1±11.3</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">56.8±9.2</code></strong></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 58.7±13.8</code></strong></td><td><code>97.3±3.3</code></td><td><code>71.5±14.9</code></td><td><code>59.5±4.2</code></td><td><code>81.8±9.7</code></td><td><code>79.0±8.1</code></td><td><code>68.2±13.4</code></td></tr><tr class="bm-model-row" data-fam="foundational"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#15</span> <strong><code>TSMNet</code></strong></td><td><code>61.8±12.0</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">41.3±8.5</code></strong></td><td><code>54.0±6.8</code></td><td><code>48.7±11.0</code></td><td><code>94.2±9.9</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">77.4±13.6</code></strong></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 64.2±4.9</code></strong></td><td><code>64.8±6.7</code></td><td><code>83.0±7.6</code></td><td><code>67.0±15.2</code></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#16</span> <strong><code>GyroAtt</code></strong></td><td><code>62.4±11.6</code></td><td><code>36.3±6.4</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">57.1±6.3</code></strong></td><td><code>54.0±10.2</code></td><td><code>97.1±4.1</code></td><td><code>64.9±11.5</code></td><td><code>58.6±4.1</code></td><td><code>81.0±12.3</code></td><td><code>76.6±7.1</code></td><td><code>69.2±13.9</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#17</span> <strong><code>LieBN-LCM (+TSM)</code></strong></td><td><code>61.7±12.1</code></td><td><code>39.8±8.4</code></td><td><code>51.7±7.4</code></td><td><code>48.3±10.7</code></td><td><code>92.5±13.2</code></td><td><code>70.6±14.9</code></td><td><code>59.0±6.3</code></td><td><code>76.8±14.6</code></td><td><code>80.2±6.4</code></td><td><code>69.5±14.5</code></td></tr><tr class="bm-model-row" data-fam="correlation"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#18</span> <strong><code>CorNet-LSM (+TSM)</code></strong></td><td><code>59.7±13.2</code></td><td><code>34.9±7.8</code></td><td><code>45.6±8.6</code></td><td><code>52.0±9.6</code></td><td><code>95.9±4.7</code></td><td><code>69.6±13.8</code></td><td><code>61.7±6.9</code></td><td><code>81.8±10.9</code></td><td><code>80.8±6.5</code></td><td><code>69.1±15.2</code></td></tr><tr class="bm-model-row" data-fam="correlation"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#19</span> <strong><code>CorNet-OLM (+TSM)</code></strong></td><td><code>59.7±13.1</code></td><td><code>34.8±8.1</code></td><td><code>49.1±9.4</code></td><td><code>52.4±8.7</code></td><td><code>96.0±4.3</code></td><td><code>70.5±13.8</code></td><td><code>60.7±6.4</code></td><td><code>81.8±10.9</code></td><td><code>81.0±6.5</code></td><td><code>68.6±15.4</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#20</span> <strong><code>LieBN-AIM (+TSM)</code></strong></td><td><code>60.6±13.0</code></td><td><code>38.5±6.7</code></td><td><code>48.5±7.0</code></td><td><code>46.5±11.1</code></td><td><code>96.2±4.1</code></td><td><code>70.0±14.3</code></td><td><code>60.3±6.7</code></td><td><code>71.7±15.1</code></td><td><code>79.3±7.6</code></td><td><code>68.9±15.2</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#21</span> <strong><code>LieBN-LEM (+TSM)</code></strong></td><td><code>59.2±12.1</code></td><td><code>36.9±6.7</code></td><td><code>51.4±6.2</code></td><td><code>47.3±11.9</code></td><td><code>93.1±13.3</code></td><td><code>71.2±14.8</code></td><td><code>61.5±5.6</code></td><td><code>75.9±14.7</code></td><td><code>79.0±6.5</code></td><td><code>68.2±16.1</code></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#22</span> <strong><code>CorAtt</code></strong></td><td><code>64.1±9.9</code></td><td><code>30.5±3.1</code></td><td><code>54.5±8.1</code></td><td><code>51.0±11.4</code></td><td><code>96.5±4.8</code></td><td><code>63.9±10.1</code></td><td><code>55.3±3.2</code></td><td><code>74.0±15.2</code></td><td><code>71.2±5.5</code></td><td><code>69.7±15.2</code></td></tr><tr class="bm-model-row" data-fam="foundational"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#23</span> <strong><code>PhaseSPDNet</code></strong></td><td><code>55.1±11.2</code></td><td><code>30.3±6.0</code></td><td><code>46.1±6.3</code></td><td><code>50.7±10.2</code></td><td><code>96.0±4.1</code></td><td><code>65.7±13.2</code></td><td><code>63.0±6.0</code></td><td><code>76.6±14.1</code></td><td><code>80.2±8.6</code></td><td><code>69.8±13.6</code></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#24</span> <strong><code>STaRNet</code></strong></td><td><code>63.8±12.2</code></td><td><code>38.4±8.4</code></td><td><code>46.1±5.8</code></td><td><code>48.4±10.0</code></td><td><code>96.4±2.9</code></td><td><code>74.0±15.7</code></td><td><code>59.0±6.1</code></td><td><code>77.1±12.2</code></td><td><code>70.0±5.7</code></td><td><code>69.6±14.4</code></td></tr><tr class="bm-model-row" data-fam="graph"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#25</span> <strong><code>GraphCSPNet</code></strong></td><td><code>55.2±8.9</code></td><td><code>36.9±5.9</code></td><td><code>51.2±9.6</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">56.4±10.7</code></strong></td><td><code>96.0±6.8</code></td><td><code>68.3±16.4</code></td><td><code>61.0±3.1</code></td><td><code>79.6±14.3</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 86.1±4.7</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">70.4±12.8</code></strong></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#26</span> <strong><code>BWCM (+TSM)</code></strong></td><td><code>60.2±11.8</code></td><td><code>34.4±4.2</code></td><td><code>49.3±9.4</code></td><td><code>50.7±11.4</code></td><td><code>97.1±2.9</code></td><td><code>68.4±14.4</code></td><td><code>60.3±3.5</code></td><td><code>75.4±14.0</code></td><td><code>75.6±8.5</code></td><td><code>68.5±14.5</code></td></tr><tr class="bm-model-row" data-fam="graph"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#27</span> <strong><code>SSGCNet</code></strong></td><td><code>64.5±12.9</code></td><td><code>40.8±10.1</code></td><td><code>53.2±9.0</code></td><td><code>49.3±11.1</code></td><td><code>97.2±3.6</code></td><td><code>69.1±13.6</code></td><td><code>58.8±4.9</code></td><td><code>75.8±15.5</code></td><td><code>74.6±5.1</code></td><td><code>68.6±15.3</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#28</span> <strong><code>SPNN</code></strong></td><td><code>56.0±10.5</code></td><td><code>30.8±5.5</code></td><td><code>36.5±6.6</code></td><td><code>52.6±13.6</code></td><td><code>95.5±5.4</code></td><td><code>66.2±13.4</code></td><td><code>62.6±3.5</code></td><td><code>79.2±11.9</code></td><td><code>79.0±7.1</code></td><td><code>69.4±13.6</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#29</span> <strong><code>RCEEGNet</code></strong></td><td><code>58.4±10.0</code></td><td><code>40.4±6.5</code></td><td><code>45.9±8.1</code></td><td><code>51.0±9.0</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">97.5±2.9</code></strong></td><td><code>70.4±14.5</code></td><td><code>61.1±5.0</code></td><td><code>82.3±13.1</code></td><td><code>78.6±7.5</code></td><td><code>69.8±13.8</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#30</span> <strong><code>PCM (+TSM)</code></strong></td><td><code>60.2±11.8</code></td><td><code>34.4±4.2</code></td><td><code>49.3±9.4</code></td><td><code>50.7±11.4</code></td><td><code>97.1±2.9</code></td><td><code>68.4±14.4</code></td><td><code>60.3±3.5</code></td><td><code>75.4±14.0</code></td><td><code>75.6±8.5</code></td><td><code>68.5±14.5</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#31</span> <strong><code>GyroSPD</code></strong></td><td><code>55.4±12.0</code></td><td><code>32.2±4.9</code></td><td><code>29.9±9.4</code></td><td><code>46.1±9.3</code></td><td><code>94.3±6.5</code></td><td><code>64.9±14.7</code></td><td><code>63.1±5.3</code></td><td><code>75.7±12.0</code></td><td><code>77.8±8.7</code></td><td><code>69.4±13.7</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#32</span> <strong><code>CBN (+TSM)</code></strong></td><td><code>58.1±13.5</code></td><td><code>41.0±7.7</code></td><td><code>53.7±7.9</code></td><td><code>53.2±9.5</code></td><td><code>97.4±4.0</code></td><td><code>69.0±15.0</code></td><td><code>59.5±7.1</code></td><td><code>78.6±11.3</code></td><td><code>72.7±4.0</code></td><td><code>67.8±13.0</code></td></tr><tr class="bm-model-row" data-fam="foundational"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#33</span> <strong><code>SPDNet</code></strong></td><td><code>53.4±13.0</code></td><td><code>31.0±5.3</code></td><td><code>33.5±5.6</code></td><td><code>46.8±9.7</code></td><td><code>95.4±4.9</code></td><td><code>62.0±14.8</code></td><td><code>60.9±5.3</code></td><td><code>75.1±11.6</code></td><td><code>79.0±7.7</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 70.8±14.4</code></strong></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#34</span> <strong><code>SPDResNet</code></strong></td><td><code>54.6±9.6</code></td><td><code>32.0±6.0</code></td><td><code>33.2±9.9</code></td><td><code>48.2±12.4</code></td><td><code>93.9±7.3</code></td><td><code>63.8±12.3</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">64.0±6.7</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">82.5±13.1</code></strong></td><td><code>76.6±8.4</code></td><td><code>67.7±15.0</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#35</span> <strong><code>SPDNetAE</code></strong></td><td><code>56.7±10.8</code></td><td><code>30.3±6.1</code></td><td><code>29.5±8.1</code></td><td><code>44.8±9.2</code></td><td><code>94.1±5.0</code></td><td><code>64.0±15.1</code></td><td><code>61.7±4.2</code></td><td><code>74.3±14.4</code></td><td><code>77.4±8.2</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">70.7±13.9</code></strong></td></tr><tr class="bm-model-row" data-fam="graph"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#36</span> <strong><code>TensorCSPNet</code></strong></td><td><code>60.5±9.3</code></td><td><code>33.6±5.8</code></td><td><code>53.7±6.8</code></td><td><code>53.7±10.6</code></td><td><code>93.1±10.0</code></td><td><code>72.5±15.3</code></td><td><code>58.1±8.1</code></td><td><code>73.4±15.3</code></td><td><code>41.1±9.4</code></td><td><code>68.7±13.2</code></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#37</span> <strong><code>SPDTransNet</code></strong></td><td><code>58.5±13.2</code></td><td><code>33.9±4.3</code></td><td><code>37.6±8.2</code></td><td><code>54.8±11.4</code></td><td><code>85.8±16.6</code></td><td><code>67.8±15.7</code></td><td><code>61.2±5.3</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 85.7±9.2</code></strong></td><td><code>37.0±6.3</code></td><td><code>67.5±12.6</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#38</span> <strong><code>ALEM</code></strong></td><td><code>58.4±9.5</code></td><td><code>31.1±5.0</code></td><td><code>32.7±9.9</code></td><td><code>50.5±10.6</code></td><td><code>92.7±7.1</code></td><td><code>61.6±11.5</code></td><td><code>61.2±3.3</code></td><td><code>77.4±15.3</code></td><td><code>74.3±7.2</code></td><td><code>68.7±13.8</code></td></tr><tr class="bm-model-row" data-fam="correlation"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#39</span> <strong><code>CorNet</code></strong></td><td><code>48.6±12.9</code></td><td><code>24.8±5.3</code></td><td><code>20.7±1.5</code></td><td><code>40.3±9.6</code></td><td><code>93.2±7.7</code></td><td><code>59.4±12.2</code></td><td><code>59.8±5.5</code></td><td><code>76.0±13.8</code></td><td><code>75.2±6.0</code></td><td><code>68.9±14.0</code></td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="tabpanel" id="gen-spd">
+    <div class="panel">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--warning);color:var(--warning)">COHORT C · 4 NATIVE SPD MATRIX BENCHMARKS</span>
+        <span class="tag">Radar (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>20</mn><mo>×</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">20\times 20</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">20</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">20</span></span></span></span>), HDM05 (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>93</mn><mo>×</mo><mn>93</mn></mrow><annotation encoding="application/x-tex">93\times 93</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">93</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">93</span></span></span></span>), FPHA (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>63</mn><mo>×</mo><mn>63</mn></mrow><annotation encoding="application/x-tex">63\times 63</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">63</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">63</span></span></span></span>), AFEW (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>400</mn><mo>×</mo><mn>400</mn></mrow><annotation encoding="application/x-tex">400\times 400</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">400</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">400</span></span></span></span>) · 5 Seeds</span>
+        <strong>4. Action Recognition, Micro-Doppler Radar &amp; Video Emotion SPD Matrix Benchmark (39/39 Models &times; 5 Seeds)</strong>
+      </div>
+      <p class="small muted" style="margin:4px 0 10px">
+        Evaluated across 5 random seeds (<code>1024..1028</code>) with held-out validation checkpoint selection on <code>spd-bench</code>. On high-dimensional SPD manifolds where no temporal EEG waveform exists, Riemannian batch normalization and gyrovector layers dominate: <code>ARMAGNAC-GAH</code> leads overall (<code>73.95%</code> mean across the 4 datasets, <code>71.75%</code> on 117-class <code>HDM05</code>), followed by <code>GBWBN</code> (<code>73.44%</code>), <code>SPDNetBN</code> (<code>73.28%</code>), <code>GyroSPD</code> (<code>73.14%</code>), and <code>LieBN-AIM</code> (<code>73.05%</code>).
+      </p>
+      <div style="overflow-x:auto">
+        <table class="data-table" style="font-size:0.79rem">
+          <thead>
+            <tr>
+              <th>Global Rank &amp; Model</th>
+              <th>Radar (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>20</mn><mo>×</mo><mn>20</mn></mrow><annotation encoding="application/x-tex">20\times 20</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">20</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">20</span></span></span></span>, 5 Seeds)</th>
+              <th>HDM05 (117-Cls, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>93</mn><mo>×</mo><mn>93</mn></mrow><annotation encoding="application/x-tex">93\times 93</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">93</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">93</span></span></span></span>, 5 Seeds)</th>
+              <th>FPHA (45-Cls, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>63</mn><mo>×</mo><mn>63</mn></mrow><annotation encoding="application/x-tex">63\times 63</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">63</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">63</span></span></span></span>, 5 Seeds)</th>
+              <th>AFEW (7-Cls, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>400</mn><mo>×</mo><mn>400</mn></mrow><annotation encoding="application/x-tex">400\times 400</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">400</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">400</span></span></span></span>, 5 Seeds)</th>
+              <th>Radar 5%</th>
+              <th>Radar 25%</th>
+              <th>Radar 50%</th>
+            </tr>
+          </thead>
+          <tbody><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#01</span> <strong><code>ARMAGNAC-GAH</code></strong></td><td><code>97.17±0.22%</code></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 72.24±0.91%</code></strong></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 93.36±0.35%</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">33.04±1.16%</code></strong></td><td><code>0.0%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#02</span> <strong><code>GBWBN</code></strong></td><td><code>97.12±0.42%</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">71.83±1.29%</code></strong></td><td><code>92.21±0.79%</code></td><td><code>32.61±1.75%</code></td><td><code>76.8%</code></td><td><code>78.5%</code></td><td><code>80.5%</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#03</span> <strong><code>ARMAGNAC-Harmonic</code></strong></td><td><code>97.15±0.44%</code></td><td><code>69.89±1.24%</code></td><td><code>92.24±0.41%</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">32.99±0.89%</code></strong></td><td><code>75.5%</code></td><td><code>78.4%</code></td><td><code>80.8%</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#04</span> <strong><code>SPDNetBN</code></strong></td><td><code>97.07±0.45%</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">71.89±1.22%</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">92.97±0.65%</code></strong></td><td><code>31.21±2.23%</code></td><td><code>75.9%</code></td><td><code>78.4%</code></td><td><code>80.4%</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#05</span> <strong><code>ARMAGNAC-Arithmetic</code></strong></td><td><code>96.93±0.24%</code></td><td><code>69.45±0.93%</code></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">92.83±0.47%</code></strong></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 33.37±0.89%</code></strong></td><td><code>0.0%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td></tr><tr class="bm-model-row" data-fam="foundational"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#06</span> <strong><code>EEGSPDNet</code></strong></td><td><code>87.31±0.73%</code></td><td><code>53.23±0.72%</code></td><td><code>86.82±1.39%</code></td><td><code>30.46±1.68%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#07</span> <strong><code>SPDMetaFormer</code></strong></td><td><code>90.69±0.76%</code></td><td><code>57.82±1.87%</code></td><td><code>89.46±0.50%</code></td><td><code>31.70±1.35%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#08</span> <strong><code>RieTrans-SPDRMLR</code></strong></td><td><code>96.85±0.37%</code></td><td><code>60.25±0.33%</code></td><td><code>91.24±0.45%</code></td><td><code>32.13±0.84%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#09</span> <strong><code>GBWAtt</code></strong></td><td><code>93.76±0.58%</code></td><td><code>58.31±0.83%</code></td><td><code>84.14±0.64%</code></td><td><code>29.06±1.94%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#10</span> <strong><code>MAtt</code></strong></td><td><code>90.06±0.65%</code></td><td><code>57.98±1.39%</code></td><td><code>87.30±1.18%</code></td><td><code>29.27±0.61%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="graph"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#11</span> <strong><code>RHOP</code></strong></td><td><code>94.83±0.57%</code></td><td><code>59.46±1.22%</code></td><td><code>77.15±0.82%</code></td><td><code>27.12±1.58%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="graph"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#12</span> <strong><code>DeepGeoCCA</code></strong></td><td><code>90.14±0.63%</code></td><td><code>57.26±1.24%</code></td><td><code>89.43±0.82%</code></td><td><code>31.27±1.24%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#13</span> <strong><code>SPDResNet-ALEM</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">97.65±0.77%</code></strong></td><td><code>68.74±1.70%</code></td><td><code>89.05±0.54%</code></td><td><code>29.60±0.55%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td></tr><tr class="bm-model-row" data-fam="foundational"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#14</span> <strong><code>Green</code></strong></td><td><code>90.16±0.33%</code></td><td><code>56.30±2.65%</code></td><td><code>88.63±0.50%</code></td><td><code>31.00±1.04%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="foundational"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#15</span> <strong><code>TSMNet</code></strong></td><td><code>96.51±0.30%</code></td><td><code>67.94±1.28%</code></td><td><code>90.78±0.71%</code></td><td><code>31.11±0.85%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#16</span> <strong><code>GyroAtt</code></strong></td><td><code>93.20±0.65%</code></td><td><code>58.20±1.09%</code></td><td><code>87.13±1.34%</code></td><td><code>29.27±2.23%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#17</span> <strong><code>LieBN-LCM</code></strong></td><td><code>96.93±0.60%</code></td><td><code>70.07±0.42%</code></td><td><code>80.49±1.31%</code></td><td><code>31.11±1.23%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td></tr><tr class="bm-model-row" data-fam="correlation"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#18</span> <strong><code>CorNet-LSM</code></strong></td><td><code>89.04±1.64%</code></td><td><code>57.80±0.89%</code></td><td><code>84.14±1.03%</code></td><td><code>31.64±1.45%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td></tr><tr class="bm-model-row" data-fam="correlation"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#19</span> <strong><code>CorNet-OLM</code></strong></td><td><code>88.99±1.87%</code></td><td><code>59.04±1.49%</code></td><td><code>90.26±0.31%</code></td><td><code>31.05±1.31%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#20</span> <strong><code>LieBN-AIM</code></strong></td><td><code>97.39±0.58%</code></td><td><code>71.56±1.30%</code></td><td><code>92.52±0.29%</code></td><td><code>30.73±2.33%</code></td><td><code>76.4%</code></td><td><code>78.1%</code></td><td><code>80.8%</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#21</span> <strong><code>LieBN-LEM</code></strong></td><td><code>97.28±0.49%</code></td><td><code>71.14±1.42%</code></td><td><code>91.58±0.61%</code></td><td><code>29.59±2.31%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#22</span> <strong><code>CorAtt</code></strong></td><td><code>93.60±0.34%</code></td><td><code>58.22±1.38%</code></td><td><code>89.08±1.03%</code></td><td><code>30.78±1.16%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="foundational"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#23</span> <strong><code>PhaseSPDNet</code></strong></td><td><code>90.19±0.46%</code></td><td><code>56.40±0.92%</code></td><td><code>89.32±0.53%</code></td><td><code>31.86±1.41%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#24</span> <strong><code>STaRNet</code></strong></td><td><code>90.06±0.65%</code></td><td><code>57.98±1.39%</code></td><td><code>87.30±1.18%</code></td><td><code>30.78±1.12%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="graph"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#25</span> <strong><code>GraphCSPNet</code></strong></td><td><code>91.74±0.83%</code></td><td><code>58.56±0.82%</code></td><td><code>83.93±1.02%</code></td><td><code>28.79±0.81%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#26</span> <strong><code>BWCM</code></strong></td><td><code>97.07±0.42%</code></td><td><code>58.81±1.42%</code></td><td><code>75.72±0.68%</code></td><td><code>30.30±1.02%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td></tr><tr class="bm-model-row" data-fam="graph"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#27</span> <strong><code>SSGCNet</code></strong></td><td><code>90.69±0.62%</code></td><td><code>56.55±0.97%</code></td><td><code>87.03±1.20%</code></td><td><code>31.16±2.07%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#28</span> <strong><code>SPNN</code></strong></td><td><code>96.75±0.48%</code></td><td><code>60.13±0.19%</code></td><td><code>91.24±0.45%</code></td><td><code>32.89±1.12%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#29</span> <strong><code>RCEEGNet</code></strong></td><td><code>97.39±0.40%</code></td><td><code>64.72±2.25%</code></td><td><code>84.59±4.54%</code></td><td><code>28.30±0.62%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#30</span> <strong><code>PCM</code></strong></td><td><code>97.07±0.42%</code></td><td><code>58.81±1.42%</code></td><td><code>75.72±0.68%</code></td><td><code>30.30±1.02%</code></td><td><code>68.4%</code></td><td><code>77.1%</code></td><td><code>79.3%</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#31</span> <strong><code>GyroSPD</code></strong></td><td><code>97.02±0.47%</code></td><td><code>71.37±1.26%</code></td><td><code>92.59±0.32%</code></td><td><code>31.59±0.75%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td></tr><tr class="bm-model-row" data-fam="batchnorm"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#32</span> <strong><code>CBN</code></strong></td><td><code>96.85±0.58%</code></td><td><code>66.42±1.61%</code></td><td><code>84.38±0.94%</code></td><td><code>30.62±2.28%</code></td><td><code>70.9%</code></td><td><code>75.1%</code></td><td><code>79.3%</code></td></tr><tr class="bm-model-row" data-fam="foundational"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#33</span> <strong><code>SPDNet</code></strong></td><td><code>96.96±0.48%</code></td><td><code>58.31±0.82%</code></td><td><code>91.38±0.67%</code></td><td><code>30.08±3.00%</code></td><td><code>70.1%</code></td><td><code>75.7%</code></td><td><code>79.1%</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#34</span> <strong><code>SPDResNet</code></strong></td><td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">97.81±0.62%</code></strong></td><td><code>67.79±1.06%</code></td><td><code>90.82±0.40%</code></td><td><code>32.18±1.93%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#35</span> <strong><code>SPDNetAE</code></strong></td><td><code>96.21±0.50%</code></td><td><code>58.43±0.86%</code></td><td><code>82.85±0.70%</code></td><td><code>30.24±1.40%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="graph"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#36</span> <strong><code>TensorCSPNet</code></strong></td><td><code>90.16±0.33%</code></td><td><code>56.30±2.65%</code></td><td><code>88.63±0.50%</code></td><td><code>31.00±1.04%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="attention"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#37</span> <strong><code>SPDTransNet</code></strong></td><td><code>94.74±0.59%</code></td><td><code>57.60±1.93%</code></td><td><code>80.97±3.45%</code></td><td><code>28.41±1.89%</code></td><td>-</td><td>-</td><td>-</td></tr><tr class="bm-model-row" data-fam="residual"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#38</span> <strong><code>ALEM</code></strong></td><td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ 98.00±0.49%</code></strong></td><td><code>68.80±1.40%</code></td><td><code>89.05±0.54%</code></td><td><code>29.11±1.27%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td><td><code>0.0%</code></td></tr><tr class="bm-model-row" data-fam="correlation"><td><span class="tag" style="padding:0 4px;font-size:0.68rem">#39</span> <strong><code>CorNet</code></strong></td><td><code>88.96±1.55%</code></td><td><code>59.08±1.26%</code></td><td><code>90.26±0.31%</code></td><td><code>31.64±1.49%</code></td><td>-</td><td>-</td><td>-</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="tabpanel" id="gen-inventory">
+    <div class="panel">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--good);color:var(--good)">COMPLETE PROVENANCE &amp; GEOMETRY INVENTORY</span>
+        <span class="tag">29 Datasets · From <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">S</mi><mrow><mo>+</mo><mo>+</mo></mrow><mn>2</mn></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{S}_{++}^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1194em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.075em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-2.453em;margin-left:-0.075em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msubsup><mi mathvariant="script">S</mi><mrow><mo>+</mo><mo>+</mo></mrow><mn>400</mn></msubsup></mrow><annotation encoding="application/x-tex">\mathcal{S}_{++}^{400}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1194em;vertical-align:-0.3053em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.075em;">S</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-2.453em;margin-left:-0.075em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">++</span></span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">400</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.3053em;"><span></span></span></span></span></span></span></span></span></span></span>
+        <strong>5. Complete 29-Dataset Native SPD Geometry, Tangent Dimensionality &amp; Winner Inventory</strong>
+      </div>
+      <p class="small muted" style="margin:4px 0 10px">
+        Every dataset's clinical or BCI paradigm, native covariance dimension <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>×</mo><mi>d</mi></mrow><annotation encoding="application/x-tex">d\times d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7778em;vertical-align:-0.0833em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span></span></span></span>, tangent vector dimension <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo stretchy="false">(</mo><mi>d</mi><mo>+</mo><mn>1</mn><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mn>2</mn></mrow><annotation encoding="application/x-tex">d(d+1)/2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mclose">)</span><span class="mord">/2</span></span></span></span>, evaluation population (subjects or seeds), theoretical chance level, #1 winning architecture, #2 runner-up, and 39-model median and accuracy spread.
+      </p>
+      <div style="overflow-x:auto">
+        <table class="data-table" style="font-size:0.78rem">
+          <thead>
+            <tr>
+              <th>Dataset &amp; Paradigm</th>
+              <th>Native SPD Geometry &amp; Tangent Dim</th>
+              <th>Population &amp; Chance</th>
+              <th>#1 Winner on Voyager (Mean &plusmn; SD)</th>
+              <th>#2 Runner-Up</th>
+              <th>39-Model Median &amp; Spread</th>
+            </tr>
+          </thead>
+          <tbody><tr>
+  <td><strong>BNCI2014-001 (BCIC-IV-2a)</strong><br><span class="small muted">4-Class Motor Imagery EEG</span></td>
+  <td><code>22 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 22 (250 Hz, 253 tang.)</code></td>
+  <td><code>9 subjs</code> · <code>4 cls</code> (<span class="muted">chance 25.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ ARMAGNAC-Arithmetic</code></strong> (<code>73.34±13.08%</code>)</td>
+  <td><code>ARMAGNAC-Harmonic</code> (<code>73.11%</code>)</td>
+  <td><code>64.39%</code> (<span class="muted">spread +17.6%</span>)</td>
+</tr><tr>
+  <td><strong>BNCI2014-002</strong><br><span class="small muted">2-Class Motor Imagery EEG</span></td>
+  <td><code>15 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 15 (512 Hz, 120 tang.)</code></td>
+  <td><code>14 subjs</code> · <code>2 cls</code> (<span class="muted">chance 50.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ ARMAGNAC-Arithmetic</code></strong> (<code>81.31±15.85%</code>)</td>
+  <td><code>ARMAGNAC-Harmonic</code> (<code>81.19%</code>)</td>
+  <td><code>76.95%</code> (<span class="muted">spread +16.7%</span>)</td>
+</tr><tr>
+  <td><strong>BNCI2014-004 (BCIC-IV-2b)</strong><br><span class="small muted">2-Class Motor Imagery EEG</span></td>
+  <td><code>3 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 3 (250 Hz, 6 tang.)</code></td>
+  <td><code>9 subjs</code> · <code>2 cls</code> (<span class="muted">chance 50.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ SPDNetBN</code></strong> (<code>81.49±12.15%</code>)</td>
+  <td><code>RieTrans-SPDRMLR</code> (<code>80.82%</code>)</td>
+  <td><code>78.54%</code> (<span class="muted">spread +18.9%</span>)</td>
+</tr><tr>
+  <td><strong>BNCI2015-001</strong><br><span class="small muted">2-Class Motor Imagery EEG</span></td>
+  <td><code>13 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 13 (256 Hz, 91 tang.)</code></td>
+  <td><code>12 subjs</code> · <code>2 cls</code> (<span class="muted">chance 50.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ GBWBN</code></strong> (<code>83.21±14.09%</code>)</td>
+  <td><code>ARMAGNAC-Harmonic</code> (<code>83.12%</code>)</td>
+  <td><code>79.33%</code> (<span class="muted">spread +23.6%</span>)</td>
+</tr><tr>
+  <td><strong>Cho2017 (GigaDB MI)</strong><br><span class="small muted">2-Class High-Density MI EEG</span></td>
+  <td><code>64 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 64 (512 Hz, 2,080 tang.)</code></td>
+  <td><code>10 subjs</code> · <code>2 cls</code> (<span class="muted">chance 50.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ SPDMetaFormer</code></strong> (<code>77.54±14.95%</code>)</td>
+  <td><code>ARMAGNAC-Arithmetic</code> (<code>75.00%</code>)</td>
+  <td><code>71.46%</code> (<span class="muted">spread +18.0%</span>)</td>
+</tr><tr>
+  <td><strong>Lee2019-MI (OpenBMI/KU)</strong><br><span class="small muted">2-Class High-Density MI EEG</span></td>
+  <td><code>62 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 62 (250 Hz, 1,953 tang.)</code></td>
+  <td><code>10 subjs</code> · <code>2 cls</code> (<span class="muted">chance 50.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ SPDMetaFormer</code></strong> (<code>74.80±10.12%</code>)</td>
+  <td><code>GyroAtt</code> (<code>74.60%</code>)</td>
+  <td><code>67.70%</code> (<span class="muted">spread +21.3%</span>)</td>
+</tr><tr>
+  <td><strong>Schirrmeister2017 (High-Gamma)</strong><br><span class="small muted">4-Class High-Density Motor EEG</span></td>
+  <td><code>128 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 128 (500 Hz, 8,256 tang.)</code></td>
+  <td><code>10 subjs</code> · <code>4 cls</code> (<span class="muted">chance 25.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ MAtt</code></strong> (<code>92.31±4.07%</code>)</td>
+  <td><code>SPDMetaFormer</code> (<code>92.01%</code>)</td>
+  <td><code>84.06%</code> (<span class="muted">spread +67.3%</span>)</td>
+</tr><tr>
+  <td><strong>Shin2017A</strong><br><span class="small muted">2-Class Motor Imagery EEG</span></td>
+  <td><code>30 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 30 (200 Hz, 465 tang.)</code></td>
+  <td><code>29 subjs</code> · <code>2 cls</code> (<span class="muted">chance 50.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ SPDNetBN</code></strong> (<code>65.34±16.33%</code>)</td>
+  <td><code>ARMAGNAC-Arithmetic</code> (<code>64.66%</code>)</td>
+  <td><code>62.93%</code> (<span class="muted">spread +9.6%</span>)</td>
+</tr><tr>
+  <td><strong>Weibo2014</strong><br><span class="small muted">4-Class High-Density MI EEG</span></td>
+  <td><code>60 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 60 (200 Hz, 1,830 tang.)</code></td>
+  <td><code>10 subjs</code> · <code>4 cls</code> (<span class="muted">chance 25.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ SPDMetaFormer</code></strong> (<code>75.09±14.23%</code>)</td>
+  <td><code>EEGSPDNet</code> (<code>72.88%</code>)</td>
+  <td><code>63.91%</code> (<span class="muted">spread +47.8%</span>)</td>
+</tr><tr>
+  <td><strong>Zhou2020</strong><br><span class="small muted">3-Class Multi-Session MI EEG</span></td>
+  <td><code>14 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 14 (250 Hz, 105 tang.)</code></td>
+  <td><code>4 subjs</code> · <code>3 cls</code> (<span class="muted">chance 33.3%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ SPDMetaFormer</code></strong> (<code>46.25±5.64%</code>)</td>
+  <td><code>EEGSPDNet</code> (<code>45.28%</code>)</td>
+  <td><code>42.45%</code> (<span class="muted">spread +9.4%</span>)</td>
+</tr><tr>
+  <td><strong>Hinss2021 (Mental Workload)</strong><br><span class="small muted">3-Class Neuroergonomics EEG</span></td>
+  <td><code>62 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 62 (500 Hz, 1,953 tang.)</code></td>
+  <td><code>15 subjs</code> · <code>3 cls</code> (<span class="muted">chance 33.3%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ GraphCSPNet</code></strong> (<code>72.26±16.89%</code>)</td>
+  <td><code>TensorCSPNet</code> (<code>71.28%</code>)</td>
+  <td><code>62.84%</code> (<span class="muted">spread +16.4%</span>)</td>
+</tr><tr>
+  <td><strong>Stieger2021 (Continuous MI)</strong><br><span class="small muted">4-Class High-Density MI EEG</span></td>
+  <td><code>62 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 62 (250 Hz, 1,953 tang.)</code></td>
+  <td><code>10 subjs</code> · <code>4 cls</code> (<span class="muted">chance 25.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ RieTrans-SPDRMLR</code></strong> (<code>48.96±12.75%</code>)</td>
+  <td><code>EEGSPDNet</code> (<code>48.70%</code>)</td>
+  <td><code>46.18%</code> (<span class="muted">spread +11.5%</span>)</td>
+</tr><tr>
+  <td><strong>PhysionetMI (EEGBCI)</strong><br><span class="small muted">4-Class Motor Execution/Imagery</span></td>
+  <td><code>64 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 64 (160 Hz, 2,080 tang.)</code></td>
+  <td><code>10 subjs</code> · <code>4 cls</code> (<span class="muted">chance 25.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ SPNN</code></strong> (<code>63.75±16.89%</code>)</td>
+  <td><code>GraphCSPNet</code> (<code>53.75%</code>)</td>
+  <td><code>41.00%</code> (<span class="muted">spread +32.8%</span>)</td>
+</tr><tr>
+  <td><strong>MAMEM2 (SSVEP)</strong><br><span class="small muted">5-Class High-Density SSVEP</span></td>
+  <td><code>64 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 64 (250 Hz, 2,080 tang.)</code></td>
+  <td><code>11 subjs</code> · <code>5 cls</code> (<span class="muted">chance 20.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ GraphCSPNet</code></strong> (<code>27.42±11.16%</code>)</td>
+  <td><code>SPNN</code> (<code>26.73%</code>)</td>
+  <td><code>23.70%</code> (<span class="muted">spread +8.2%</span>)</td>
+</tr><tr>
+  <td><strong>BCI-ERN (Margaux P300/ERN)</strong><br><span class="small muted">2-Class Error-Related Negativity</span></td>
+  <td><code>56 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 56 (200 Hz, 1,596 tang.)</code></td>
+  <td><code>6 subjs</code> · <code>2 cls</code> (<span class="muted">chance 50.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ RHOP</code></strong> (<code>66.83±12.95%</code>)</td>
+  <td><code>TensorCSPNet</code> (<code>64.11%</code>)</td>
+  <td><code>59.56%</code> (<span class="muted">spread +13.2%</span>)</td>
+</tr><tr>
+  <td><strong>TUH Abnormal EEG (TUAB)</strong><br><span class="small muted">2-Class Clinical Pathology EEG</span></td>
+  <td><code>19 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 19 (200 Hz, 190 tang.)</code></td>
+  <td><code>12 subjs</code> · <code>2 cls</code> (<span class="muted">chance 50.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ SPDMetaFormer</code></strong> (<code>65.52±11.12%</code>)</td>
+  <td><code>EEGSPDNet</code> (<code>64.79%</code>)</td>
+  <td><code>60.21%</code> (<span class="muted">spread +16.9%</span>)</td>
+</tr><tr>
+  <td><strong>TUH EEG Events (TUEV)</strong><br><span class="small muted">6-Class Clinical Epileptiform EEG</span></td>
+  <td><code>19 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 19 (200 Hz, 190 tang.)</code></td>
+  <td><code>8 subjs</code> · <code>6 cls</code> (<span class="muted">chance 16.7%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ Green</code></strong> (<code>46.08±11.35%</code>)</td>
+  <td><code>SPDNetBN</code> (<code>42.05%</code>)</td>
+  <td><code>36.85%</code> (<span class="muted">spread +21.3%</span>)</td>
+</tr><tr>
+  <td><strong>SleepPhysionet (Sleep-EDFX)</strong><br><span class="small muted">5-Class Polysomnography Sleep</span></td>
+  <td><code>2 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 2 (100 Hz, 3 tang.)</code></td>
+  <td><code>12 subjs</code> · <code>5 cls</code> (<span class="muted">chance 20.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ SPDResNet-ALEM</code></strong> (<code>58.66±6.50%</code>)</td>
+  <td><code>GyroAtt</code> (<code>57.09%</code>)</td>
+  <td><code>51.41%</code> (<span class="muted">spread +37.9%</span>)</td>
+</tr><tr>
+  <td><strong>Montreal Archive of Sleep (MASS-SS3)</strong><br><span class="small muted">5-Class Whole-Night Sleep PSG</span></td>
+  <td><code>20 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 20 (256 Hz, 210 tang.)</code></td>
+  <td><code>12 subjs</code> · <code>5 cls</code> (<span class="muted">chance 20.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ Green</code></strong> (<code>58.67±13.84%</code>)</td>
+  <td><code>DeepGeoCCA</code> (<code>58.01%</code>)</td>
+  <td><code>51.66%</code> (<span class="muted">spread +18.4%</span>)</td>
+</tr><tr>
+  <td><strong>MPI-LEMON (Resting-State EEG)</strong><br><span class="small muted">2-Class EC vs. EO Alpha/Beta SPD</span></td>
+  <td><code>61 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 61 (250 Hz, 1,891 tang.)</code></td>
+  <td><code>12 subjs</code> · <code>2 cls</code> (<span class="muted">chance 50.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ SPDMetaFormer</code></strong> (<code>98.50±2.10%</code>)</td>
+  <td><code>GBWAtt</code> (<code>97.60%</code>)</td>
+  <td><code>95.96%</code> (<span class="muted">spread +12.7%</span>)</td>
+</tr><tr>
+  <td><strong>TDBRAIN (Clinical Oddball ERP)</strong><br><span class="small muted">2-Class Target vs. Standard ERP</span></td>
+  <td><code>26 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 26 (500 Hz, 351 tang.)</code></td>
+  <td><code>12 subjs</code> · <code>2 cls</code> (<span class="muted">chance 50.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ EEGSPDNet</code></strong> (<code>77.76±14.70%</code>)</td>
+  <td><code>TSMNet</code> (<code>77.42%</code>)</td>
+  <td><code>70.42%</code> (<span class="muted">spread +18.4%</span>)</td>
+</tr><tr>
+  <td><strong>ABIDE (Autism Connectome fMRI)</strong><br><span class="small muted">2-Class Craddock-200 Resting-State fMRI</span></td>
+  <td><code>200 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 200 (BOLD, 20,100 tang.)</code></td>
+  <td><code>6 subjs</code> · <code>2 cls</code> (<span class="muted">chance 50.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ TSMNet</code></strong> (<code>64.24±4.86%</code>)</td>
+  <td><code>SPDResNet</code> (<code>64.05%</code>)</td>
+  <td><code>61.08%</code> (<span class="muted">spread +8.9%</span>)</td>
+</tr><tr>
+  <td><strong>ADHD-200 (Connectome fMRI)</strong><br><span class="small muted">2-Class Craddock-190 Connectivity SPD</span></td>
+  <td><code>190 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 190 (BOLD, 18,145 tang.)</code></td>
+  <td><code>6 subjs</code> · <code>2 cls</code> (<span class="muted">chance 50.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ SPDTransNet</code></strong> (<code>85.74±9.17%</code>)</td>
+  <td><code>DeepGeoCCA</code> (<code>82.85%</code>)</td>
+  <td><code>78.88%</code> (<span class="muted">spread +21.0%</span>)</td>
+</tr><tr>
+  <td><strong>SJTU SEED (Affective EEG)</strong><br><span class="small muted">3-Class Emotion Recognition EEG</span></td>
+  <td><code>62 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 62 (200 Hz, 1,953 tang.)</code></td>
+  <td><code>6 subjs</code> · <code>3 cls</code> (<span class="muted">chance 33.3%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ GraphCSPNet</code></strong> (<code>86.07±4.70%</code>)</td>
+  <td><code>GBWBN</code> (<code>83.86%</code>)</td>
+  <td><code>78.99%</code> (<span class="muted">spread +49.1%</span>)</td>
+</tr><tr>
+  <td><strong>DEAP (Affective Valence EEG)</strong><br><span class="small muted">2-Class Affective Valence BIDS EEG</span></td>
+  <td><code>32 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 32 (128 Hz, 528 tang.)</code></td>
+  <td><code>32 subjs</code> · <code>2 cls</code> (<span class="muted">chance 50.0%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ SPDNet</code></strong> (<code>70.83±14.39%</code>)</td>
+  <td><code>SPDNetAE</code> (<code>70.73%</code>)</td>
+  <td><code>68.88%</code> (<span class="muted">spread +3.8%</span>)</td>
+</tr><tr>
+  <td><strong>Synthetic Aperture Radar (Radar)</strong><br><span class="small muted">3-Class Micro-Doppler Toeplitz SPD</span></td>
+  <td><code>20 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 20 SPD (210 tang.)</code></td>
+  <td><code>5 seeds</code> · <code>3 cls</code> (<span class="muted">chance 33.3%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ ALEM</code></strong> (<code>98.00±0.49%</code>)</td>
+  <td><code>SPDResNet</code> (<code>97.81%</code>)</td>
+  <td><code>96.51%</code> (<span class="muted">spread +10.7%</span>)</td>
+</tr><tr>
+  <td><strong>HDM05 MoCap Action Recognition</strong><br><span class="small muted">117-Class 3D Skeletal Joint Covariance</span></td>
+  <td><code>93 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 93 SPD (4,371 tang.)</code></td>
+  <td><code>5 seeds</code> · <code>117 cls</code> (<span class="muted">chance 0.8%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ ARMAGNAC-GAH</code></strong> (<code>72.24±0.91%</code>)</td>
+  <td><code>SPDNetBN</code> (<code>71.89%</code>)</td>
+  <td><code>59.04%</code> (<span class="muted">spread +19.0%</span>)</td>
+</tr><tr>
+  <td><strong>First-Person Hand Action (FPHA)</strong><br><span class="small muted">45-Class Hand Pose SPD Covariance</span></td>
+  <td><code>63 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 63 SPD (2,016 tang.)</code></td>
+  <td><code>5 seeds</code> · <code>45 cls</code> (<span class="muted">chance 2.2%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ ARMAGNAC-GAH</code></strong> (<code>93.36±0.35%</code>)</td>
+  <td><code>SPDNetBN</code> (<code>92.97%</code>)</td>
+  <td><code>89.05%</code> (<span class="muted">spread +17.6%</span>)</td>
+</tr><tr>
+  <td><strong>Acted Facial Expressions (AFEW)</strong><br><span class="small muted">7-Class Video Deep Feature Covariance</span></td>
+  <td><code>400 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>×</mo></mrow><annotation encoding="application/x-tex">\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6667em;vertical-align:-0.0833em;"></span><span class="mord">×</span></span></span></span> 400 SPD (80,200 tang.)</code></td>
+  <td><code>5 seeds</code> · <code>7 cls</code> (<span class="muted">chance 14.3%</span>)</td>
+  <td><strong style="color:var(--good)"><code>★ ARMAGNAC-Arithmetic</code></strong> (<code>33.37±0.89%</code>)</td>
+  <td><code>ARMAGNAC-GAH</code> (<code>33.04%</code>)</td>
+  <td><code>31.00%</code> (<span class="muted">spread +6.2%</span>)</td>
+</tr></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+  <script>(function(){
+    var fbtns=[].slice.call(document.querySelectorAll('.bm-fam-btn'));
+    var mrows=[].slice.call(document.querySelectorAll('.bm-model-row'));
+    var minp=document.querySelector('.bm-model-search');
+    var curFam='all';
+    function applyFilter(){
+      var q=(minp&&minp.value||'').toLowerCase().trim();
+      mrows.forEach(function(r){
+        var okFam=(curFam==='all'||r.getAttribute('data-fam')===curFam);
+        var okTxt=(!q||r.textContent.toLowerCase().indexOf(q)!==-1);
+        r.style.display=(okFam&&okTxt)?'':'none';
+      });
+    }
+    fbtns.forEach(function(b){
+      b.addEventListener('click',function(){
+        curFam=b.getAttribute('data-bmfam')||'all';
+        fbtns.forEach(function(x){x.classList.toggle('active',x===b);});
+        applyFilter();
+      });
+    });
+    if(minp)minp.addEventListener('input',applyFilter);
+  })();</script>
+</main>
+<script>(function(){
+var tabs=[].slice.call(document.querySelectorAll('.tab-btn[data-panel]')),
+panels=[].slice.call(document.querySelectorAll('.tab-panel'));
+tabs.forEach(function(btn,idx){
+  btn.addEventListener('click',function(){
+    var target=btn.getAttribute('data-panel');
+    tabs.forEach(function(b,i){b.setAttribute('aria-selected',i===idx);});
+    panels.forEach(function(p){p.hidden=(target!=='ALL'&&p.id!==target);});
+  });
+});
+})();</script>
+<footer>
+  SPD Replicability &amp; Generation Initiative · Sub-Page for <a href="https://spdlearn.org">spdlearn.org</a> (modeled on <a href="https://encorescience.org/">Encore Science</a>, the ICML 2026 Open Reproductions Judge, and the NEMAR BIDS Auditing Protocol) ·
+  <a href="../registry.json">Registry JSON</a> ·
+  <a href="../repro/verdicts.json">Judge Verdicts JSON</a> ·
+  <a href="https://github.com/spdlearn/spd_learn">spd_learn Repository</a>.
+  Every verdict and root-cause attribution (Original Authors' Code vs. Our Repaired <code>spd_learn</code> Code) is computed deterministically from raw Trackio execution traces on the Voyager cluster.
+</footer>
+</div>
+<script>(function(){
+var b=document.getElementById('theme'),order=['auto','light','dark'],icon={auto:'◐',light:'☀',dark:'☾'},
+name={auto:'Auto',light:'Light',dark:'Dark'};
+function get(){try{var t=localStorage.getItem('theme');return t==='light'||t==='dark'?t:'auto';}catch(e){return 'auto';}}
+function show(t){if(!b)return;b.firstChild.textContent=icon[t];b.lastChild.textContent=name[t];}
+if(b){b.addEventListener('click',function(){var t=order[(order.indexOf(get())+1)%3];
+try{t==='auto'?localStorage.removeItem('theme'):localStorage.setItem('theme',t);}catch(e){}
+if(t==='auto')delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=t;show(t);});
+show(get());}
+function runKatex(){
+  if(typeof renderMathInElement==='function'&&document.body){
+    renderMathInElement(document.body,{
+      delimiters:[
+        {left:'$$',right:'$$',display:true},
+        {left:'$',right:'$',display:false},
+        {left:'\\(',right:'\\)',display:false},
+        {left:'\\[',right:'\\]',display:true}
+      ],
+      ignoredTags:['script','noscript','style','textarea','pre','svg'],
+      ignoredClasses:['katex'],
+      throwOnError:false,
+      strict:false
+    });
+  }
+}
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded',runKatex);
+}else{
+  runKatex();
+}
+window.addEventListener('load',runKatex);
+})();</script>
+</body></html>
