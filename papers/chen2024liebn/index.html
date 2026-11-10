@@ -1,11 +1,24 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;var q=new URLSearchParams(location.search).get("pass")||"";if(localStorage.getItem("spd_repli_auth")==="1"||q==="spdlearn"||q==="replicability"||q==="spd2026"){localStorage.setItem("spd_repli_auth","1");document.documentElement.dataset.auth="ok";}}catch(e){}</script>
+<script>try{localStorage.removeItem("spd_repli_auth");var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;if(sessionStorage.getItem("spd_repli_session_auth_v3")==="1"){document.documentElement.dataset.auth="ok";}}catch(e){}</script>
+<style>
+html:not([data-auth="ok"]) body { overflow: hidden !important; }
+html:not([data-auth="ok"]) body > *:not(#auth-gate):not(script) { display: none !important; }
+html[data-auth="ok"] #auth-gate { display: none !important; }
+#auth-gate { position: fixed; inset: 0; z-index: 99999; background: rgba(13, 17, 23, 0.96); display: flex; align-items: center; justify-content: center; padding: 20px; }
+.auth-gate-box { width: 100%; max-width: 420px; background: var(--panel, #ffffff); color: var(--text, #111827); border: 1px solid var(--line, #d1d5db); border-top: 4px solid var(--accent, #c84b31); border-radius: 10px; padding: 24px 26px; box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45); }
+.auth-gate-box h2 { margin: 0 0 6px; font-size: 1.22rem; }
+.auth-gate-box p { margin: 0 0 14px; font-size: 0.86rem; color: var(--text2, #4b5563); }
+.auth-gate-row { display: flex; gap: 8px; }
+.auth-gate-input { flex: 1; padding: 9px 12px; border: 1px solid var(--line, #d1d5db); border-radius: 6px; background: var(--surface, #f9fafb); color: var(--text, #111827); font-family: monospace; font-size: 0.90rem; }
+.auth-gate-btn { padding: 9px 16px; border: none; border-radius: 6px; background: var(--accent, #c84b31); color: #fff; font-weight: 700; font-size: 0.86rem; cursor: pointer; }
+.auth-gate-err { color: #b91c1c; font-size: 0.78rem; font-weight: 600; margin-top: 8px; min-height: 18px; }
+</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../../assets/app.css">
+<link rel="stylesheet" href="../../assets/app.css?v=20261110v3">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
@@ -16,7 +29,7 @@
     <h2 id="auth-gate-title">SPD Replicability &amp; Generation Initiative</h2>
     <p>Enter the research preview access password to unlock the 27-paper audit and 39&times;29 generalization benchmark.</p>
     <form class="auth-gate-row" id="auth-gate-form" autocomplete="off">
-      <input type="password" id="auth-gate-pass" class="auth-gate-input" placeholder="Access password..." aria-label="Access password" autofocus>
+      <input type="password" id="auth-gate-pass" class="auth-gate-input" placeholder="Enter password..." aria-label="Access password" autofocus>
       <button type="submit" class="auth-gate-btn">Unlock &rarr;</button>
     </form>
     <div class="auth-gate-err" id="auth-gate-err"></div>
@@ -35,7 +48,7 @@
   <a class="tab" href="../../methodology/index.html">Methodology</a>
   <a class="tab" href="https://github.com/spdlearn/replicability" target="_blank" rel="noopener">GitHub ↗</a>
   <button class="theme" id="theme" type="button" title="Colour theme"><span>◐</span><span>Auto</span></button>
-  <button class="theme" id="lock-site" type="button" title="Lock preview" style="margin-left:4px;padding:4px 8px"><span>🔒</span></button>
+  <button class="theme" id="lock-site" type="button" title="Lock page (require password again)" style="margin-left:4px;padding:4px 8px"><span>🔒</span><span>Lock</span></button>
 </div></nav>
 <div class="wrap">
 <header class="page">
@@ -2588,18 +2601,18 @@ if(af&&ai){
   af.addEventListener('submit',function(ev){
     ev.preventDefault();
     if(checkPass(ai.value)){
-      try{localStorage.setItem('spd_repli_auth','1');}catch(e){}
+      try{sessionStorage.setItem('spd_repli_session_auth_v3','1');}catch(e){}
       document.documentElement.dataset.auth='ok';
       if(ae)ae.textContent='';
     }else{
-      if(ae)ae.textContent='Invalid access code. Please enter the SPD-Learn preview password.';
+      if(ae)ae.textContent='Invalid access password. Hint: enter "spdlearn".';
       ai.select();
     }
   });
 }
 if(lb){
   lb.addEventListener('click',function(){
-    try{localStorage.removeItem('spd_repli_auth');}catch(e){}
+    try{sessionStorage.removeItem('spd_repli_session_auth_v3');localStorage.removeItem('spd_repli_auth');}catch(e){}
     delete document.documentElement.dataset.auth;
     if(ai){ai.value='';setTimeout(function(){ai.focus();},40);}
   });
