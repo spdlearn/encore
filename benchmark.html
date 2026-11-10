@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;var q=new URLSearchParams(location.search).get("pass")||"";if(localStorage.getItem("spd_repli_auth")==="1"||q==="spdlearn"||q==="replicability"||q==="spd2026"){localStorage.setItem("spd_repli_auth","1");document.documentElement.dataset.auth="ok";}}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -10,6 +10,18 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <title>Generalization Experiments: 39 Models × 29 Datasets · 11,884 Voyager Runs · SPD Replicability &amp; Generation Initiative</title></head><body>
+<div class="auth-gate-backdrop" id="auth-gate" role="dialog" aria-modal="true" aria-labelledby="auth-gate-title">
+  <div class="auth-gate-box">
+    <div class="eyebrow" style="margin-bottom:4px">RESTRICTED RESEARCH PREVIEW · SPD-LEARN</div>
+    <h2 id="auth-gate-title">SPD Replicability &amp; Generation Initiative</h2>
+    <p>Enter the research preview access password to unlock the 27-paper audit and 39&times;29 generalization benchmark.</p>
+    <form class="auth-gate-row" id="auth-gate-form" autocomplete="off">
+      <input type="password" id="auth-gate-pass" class="auth-gate-input" placeholder="Access password..." aria-label="Access password" autofocus>
+      <button type="submit" class="auth-gate-btn">Unlock &rarr;</button>
+    </form>
+    <div class="auth-gate-err" id="auth-gate-err"></div>
+  </div>
+</div>
 <nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="index.html">
     <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M21.6 8.3A9.5 9.5 0 1 0 25.5 16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18.9 10.7 24.1 5.5 24.7 11.3z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path class="tick" d="M11.3 16.3l3.3 3.3 5.9-6.8" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -23,6 +35,7 @@
   <a class="tab" href="methodology/index.html">Methodology</a>
   <a class="tab" href="https://github.com/spdlearn/replicability" target="_blank" rel="noopener">GitHub ↗</a>
   <button class="theme" id="theme" type="button" title="Colour theme"><span>◐</span><span>Auto</span></button>
+  <button class="theme" id="lock-site" type="button" title="Lock preview" style="margin-left:4px;padding:4px 8px"><span>🔒</span></button>
 </div></nav>
 <div class="wrap">
 <header class="page">
@@ -52,31 +65,31 @@
     <div class="tri-grid">
       <div class="diag-card col-orig">
         <div class="col-banner orig">
-          <span>1 &middot; SPATIOTEMPORAL STEMS + BATCHNORM FORM A 7-YEAR EQUIVALENCE CLIQUE</span>
-          <span class="chip good">Top 5 Sweep (p &ge; 0.40)</span>
+          <span>1 &middot; SPATIOTEMPORAL STEMS + BATCHNORM EQUIVALENCE CLIQUE</span>
+          <span class="chip good">Top 5 Sweep (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>≥</mo><mn>0.40</mn></mrow><annotation encoding="application/x-tex">p \ge 0.40</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8304em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.40</span></span></span></span>)</span>
         </div>
         <p class="small" style="margin:6px 0">
-          Models combining a learned temporal-spatial filterbank stem with Riemannian BatchNorm sweep the top five spots: <code>#01 ARMAGNAC-GAH</code> (<code>66.42%</code>), <code>#02 GBWBN</code> (<code>66.32%</code>), <code>#03 ARMAGNAC-Harmonic</code> (<code>66.49%</code>), <code>#04 SPDNetBN</code> (<code>65.98%</code>), and <code>#05 ARMAGNAC-Arithmetic</code> (<code>66.09%</code>). Prepending the <code>+TSM</code> stem adds <strong>+4.41 to +6.29 pp</strong>, and 2019 <code>SPDNetBN</code> ties 2026 <code>ARMAGNAC-GAH</code> at Wilcoxon <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0.61</mn></mrow><annotation encoding="application/x-tex">p = 0.61</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.61</span></span></span></span>.
+          Prepending the <code>+TSM</code> stem adds <strong>+4.4 to +6.3 pp</strong>, and 2026 <code>#01 ARMAGNAC-GAH</code> (<code>66.42%</code>), <code>#02 GBWBN</code> (<code>66.32%</code>), and 2019 <code>#04 SPDNetBN</code> (<code>65.98%</code>) tie statistically (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>≥</mo><mn>0.40</mn></mrow><annotation encoding="application/x-tex">p \ge 0.40</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8304em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.40</span></span></span></span>).
         </p>
       </div>
       <div class="diag-card col-ours">
         <div class="col-banner ours">
-          <span>2 &middot; PARAMETER-FREE TOKEN MIXING MATCHES OR BEATS MANIFOLD ATTENTION</span>
+          <span>2 &middot; PARAMETER-FREE MIXING VS. MANIFOLD ATTENTION</span>
           <span class="chip warning">#07 SPDMetaFormer</span>
         </div>
         <p class="small" style="margin:6px 0">
-          Among standalone models without Riemannian BatchNorm, <code>#06 EEGSPDNet</code> (<code>64.03%</code>) and parameter-free <code>#07 SPDMetaFormer</code> (<code>64.57%</code>, <strong>6 #1 wins</strong>) outrank every <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mi mathvariant="normal">/</mi><mi>K</mi><mi mathvariant="normal">/</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">Q/K/V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">Q</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span></span></span></span> attention architecture: <code>#09 GBWAtt</code>, <code>#10 MAtt</code> (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0.18</mn></mrow><annotation encoding="application/x-tex">p = 0.18</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.18</span></span></span></span>), <code>#16 GyroAtt</code>, <code>#22 CorAtt</code> (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo>=</mo><mn>0.0002</mn></mrow><annotation encoding="application/x-tex">p = 0.0002</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">p</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">0.0002</span></span></span></span>), <code>#24 STaRNet</code>, and <code>#37 SPDTransNet</code>.
+          Parameter-free <code>#07 SPDMetaFormer</code> (<code>64.57%</code>, 6 #1 wins) beats <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mi mathvariant="normal">/</mi><mi>K</mi><mi mathvariant="normal">/</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">Q/K/V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">Q</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span></span></span></span> attention in Few-Shot (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><mn>150</mn></mrow><annotation encoding="application/x-tex">\le 150</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">150</span></span></span></span> trials), whereas <code>#09 GBWAtt</code> and <code>#10 MAtt</code> cross over only at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>N</mi><mtext>train</mtext></msub><mo>≥</mo><mn>600</mn></mrow><annotation encoding="application/x-tex">N_{\text{train}} \ge 600</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">train</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">600</span></span></span></span>.
         </p>
       </div>
       <div class="diag-card col-gap">
         <div class="col-banner gap">
-          <span>3 &middot; DOMAIN SPECIALIZATION ACROSS BCI, CLINICAL &amp; SPD MATRICES</span>
+          <span>3 &middot; DOMAIN &amp; DATA-VOLUME SPECIALIZATION</span>
           <span class="chip" style="border-color:var(--spd-blue);color:var(--spd-blue)">3 Regimes</span>
         </div>
         <p class="small" style="margin:6px 0">
-          <strong>(a) 15 BCI Datasets:</strong> <code>ARMAGNAC-Harmonic</code> leads at <code>64.62%</code> ahead of <code>ARMAGNAC-GAH</code> (<code>64.12%</code>) and <code>GBWBN</code> (<code>63.97%</code>).
-          <strong>(b) 10 Clinical/fMRI Datasets:</strong> <code>Green</code> leads at <code>68.16%</code> via narrowband Gabor wavelets.
-          <strong>(c) 4 Native SPD Matrix Benchmarks:</strong> <code>ARMAGNAC-GAH</code> leads at <code>73.95%</code> ahead of <code>GBWBN</code> (<code>73.44%</code>) and <code>SPDNetBN</code> (<code>73.28%</code>).
+          <strong>15 BCI:</strong> <code>ARMAGNAC-Harmonic</code> (<code>64.62%</code>) ·
+          <strong>10 Clinical/fMRI:</strong> <code>Green</code> (<code>68.16%</code>) ·
+          <strong>4 SPD Matrices:</strong> <code>ARMAGNAC-GAH</code> (<code>73.95%</code>).
         </p>
       </div>
     </div>
@@ -85,7 +98,7 @@
   <div class="tabs" role="tablist">
     <button type="button" role="tab" data-panel="ALL" aria-selected="true">All Sections (Full Suite)</button>
     <button type="button" role="tab" data-panel="gen-ranking" aria-selected="false">1. Global Ranking &amp; Family Synthesis <span class="n">39 Models</span></button>
-    <button type="button" role="tab" data-panel="gen-scaling" aria-selected="false">2. Size &amp; Complexity Scaling (d, Params) <span class="n">O(C) vs O(C<sup>4</sup>)</span></button>
+    <button type="button" role="tab" data-panel="gen-scaling" aria-selected="false">2. Size, Data Volume &amp; Complexity (d, N, Params) <span class="n">O(C) vs O(C<sup>4</sup>)</span></button>
     <button type="button" role="tab" data-panel="gen-critical" aria-selected="false">3. Critical Audit &amp; Wilcoxon Lab <span class="n">N=306 Tests</span></button>
     <button type="button" role="tab" data-panel="gen-bci" aria-selected="false">4. Motor, ERP &amp; SSVEP BCI <span class="n">15&times;39</span></button>
     <button type="button" role="tab" data-panel="gen-clin" aria-selected="false">5. Clinical, Sleep, Affect &amp; fMRI <span class="n">10&times;39</span></button>
@@ -108,8 +121,8 @@
     <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding-top:6px;border-top:1px dashed var(--line)">
       <span class="small" style="font-weight:700;color:var(--spd-blue);margin-right:4px">Cell Metric Lens:</span>
       <button type="button" class="filter-btn bm-view-btn active" data-bmview="raw" title="Exact Mean ± SD (%) across subjects or seeds">📊 Mean &plusmn; SD (%)</button>
-      <button type="button" class="filter-btn bm-view-btn" data-bmview="heatmap" title="Tufte column-normalized heatmap shading + proportional bottom sparkbar">🔥 Heatmap + Sparkbar</button>
-      <button type="button" class="filter-btn bm-view-btn" data-bmview="chance" title="Jean-Rémi King convention: accuracy gain above theoretical chance (+Δ% vs 100/K)">🎯 Gain Over Chance (+&Delta;%)</button>
+      <button type="button" class="filter-btn bm-view-btn" data-bmview="heatmap" title="Column-normalized heatmap shading + proportional bottom sparkbar">🔥 Heatmap + Sparkbar</button>
+      <button type="button" class="filter-btn bm-view-btn" data-bmview="chance" title="Accuracy gain above theoretical chance (+Δ% vs 100/K)">🎯 Gain Over Chance (+&Delta;%)</button>
       <button type="button" class="filter-btn bm-view-btn" data-bmview="kappa" title="Cohen's kappa (imbalance- and chance-adjusted agreement across subjects/seeds)">⚖️ Cohen's &kappa;</button>
       <button type="button" class="filter-btn bm-view-btn" data-bmview="rank" title="Within-dataset ordinal rank (#01 to #39) with podium badges">🏆 Dataset Rank (#1&ndash;#39)</button>
       <button type="button" class="filter-btn bm-view-btn" data-bmview="gap" title="Accuracy deficit relative to the #1 model on each dataset (−Δ%)">📏 Gap to #1 (&minus;&Delta;%)</button>
@@ -129,7 +142,7 @@
         <strong>1A. Global 39-Model Ranking, Interquartile Rank Spread &amp; Sub-Domain Accuracy</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
-        Models are ordered by mean rank across all 29 datasets (<code>#01 ARMAGNAC-GAH</code> at mean rank <code>11.2</code> to <code>#39 CorNet</code> at mean rank <code>30.5</code>). Horizontal bars span the 25th to 75th percentile rank across the 29 benchmarks; right-hand columns report Top-3 podium counts and sub-domain means across the 15 BCI datasets, 10 Clinical/fMRI cohorts, and 4 SPD-matrix benchmarks.
+        Models ordered by mean rank across all 29 datasets (<code>#01 ARMAGNAC-GAH</code> at rank <code>11.2</code> to <code>#39 CorNet</code> at rank <code>30.5</code>), with IQR bars and sub-domain means.
       </p>
       <div class="diag-card" style="background:var(--panel);margin-bottom:14px">
         <svg class="diag-svg" viewBox="0 0 1180 901" role="img" aria-label="39-Model Global Ranking and Critical Difference Forest Plot across 29 Datasets">
@@ -842,12 +855,12 @@
   <section class="tabpanel" id="gen-scaling">
     <div class="panel">
       <div class="claim-head">
-        <span class="tag" style="border-color:var(--spd-blue);color:var(--spd-blue)">JEAN-R&Eacute;MI KING CLAIM LADDER &amp; PARETO FRONTIER</span>
-        <span class="tag">Manifold Dimension <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>∈</mo><mo stretchy="false">[</mo><mn>2</mn><mo separator="true">,</mo><mn>400</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">d \in [2, 400]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">400</span><span class="mclose">]</span></span></span></span> &middot; Parameter Growth <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>22</mn><mtext>ch</mtext><mo>→</mo><mn>128</mn><mtext>ch</mtext></mrow><annotation encoding="application/x-tex">22\text{ch} \to 128\text{ch}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">22</span><span class="mord text"><span class="mord">ch</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">128</span><span class="mord text"><span class="mord">ch</span></span></span></span></span></span>
-        <strong>2. Manifold Matrix Size Scaling, Parameter Complexity Pareto Frontier &amp; Peeking Stability</strong>
+        <span class="tag" style="border-color:var(--spd-blue);color:var(--spd-blue)">SCALING LAWS: CHANNELS, DATA VOLUME &amp; PARAMETERS</span>
+        <span class="tag">Channels <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>∈</mo><mo stretchy="false">[</mo><mn>2</mn><mo separator="true">,</mo><mn>400</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">d \in [2, 400]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">400</span><span class="mclose">]</span></span></span></span> &middot; Data Volume <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>N</mi><mtext>train</mtext></msub><mo>∈</mo><mo stretchy="false">[</mo><mn>50</mn><mo separator="true">,</mo><mn>150</mn><mtext>K</mtext><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">N_{\text{train}} \in [50, 150\text{K}]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">train</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">50</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">150</span><span class="mord text"><span class="mord">K</span></span><span class="mclose">]</span></span></span></span> &middot; Params <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>22</mn><mtext>ch</mtext><mo>→</mo><mn>128</mn><mtext>ch</mtext></mrow><annotation encoding="application/x-tex">22\text{ch} \to 128\text{ch}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">22</span><span class="mord text"><span class="mord">ch</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">128</span><span class="mord text"><span class="mord">ch</span></span></span></span></span></span>
+        <strong>2. Channel Density (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span></span></span></span>), Training Data Volume (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>N</mi><mtext>train</mtext></msub></mrow><annotation encoding="application/x-tex">N_{\text{train}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">train</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>), Parameter Pareto Frontier &amp; Sample Scarcity</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
-        Accuracy across four covariance dimension regimes (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>∈</mo><mo stretchy="false">[</mo><mn>2</mn><mo separator="true">,</mo><mn>19</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">d \in [2, 19]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">19</span><span class="mclose">]</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>20</mn><mo separator="true">,</mo><mn>32</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[20, 32]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">20</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">32</span><span class="mclose">]</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>56</mn><mo separator="true">,</mo><mn>64</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[56, 64]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">56</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">64</span><span class="mclose">]</span></span></span></span>, and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mn>93</mn><mo separator="true">,</mo><mn>400</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[93, 400]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">93</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">400</span><span class="mclose">]</span></span></span></span>) and parameter growth from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>22</mn><mtext> ch</mtext></mrow><annotation encoding="application/x-tex">22\text{ ch}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">22</span><span class="mord text"><span class="mord"> ch</span></span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>128</mn><mtext> ch</mtext></mrow><annotation encoding="application/x-tex">128\text{ ch}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">128</span><span class="mord text"><span class="mord"> ch</span></span></span></span></span>.
+        Accuracy across four covariance dimension regimes (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>∈</mo><mo stretchy="false">[</mo><mn>2</mn><mo separator="true">,</mo><mn>400</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">d \in [2, 400]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">400</span><span class="mclose">]</span></span></span></span>), four training sample-volume regimes (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>N</mi><mtext>train</mtext></msub><mo>≤</mo><mn>150</mn></mrow><annotation encoding="application/x-tex">N_{\text{train}} \le 150</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">train</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">150</span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>150</mn><mtext>K</mtext></mrow><annotation encoding="application/x-tex">150\text{K}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">150</span><span class="mord text"><span class="mord">K</span></span></span></span></span>), parameter complexity, and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mi mathvariant="normal">%</mi><mo>→</mo><mn>100</mn><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">5\% \to 100\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">5%</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">100%</span></span></span></span> scarcity.
       </p>
       <div class="grid2" style="margin:14px 0">
     <div class="diag-card" style="background:var(--panel)">
@@ -919,6 +932,80 @@
 <text x="441.0" y="174.4" text-anchor="start" class="svg-val" style="font-weight:700;fill:#15803d">Attention 61.6%</text>
 </svg>
     </div>
+    <div class="diag-card" style="background:var(--panel)">
+      <svg viewBox="0 0 560 285" class="diag-svg" role="img" aria-label="Training Data Volume Scaling Across 29 Datasets">
+<text x="14" y="18" class="svg-title">1D-B. Data Volume Scaling (N_train): Few-Shot (≤150) → Large Cohort (150K)</text>
+<text x="14" y="34" class="svg-sub">BatchNorm + SPDMetaFormer win Few-Shot; Attention (GBWAtt) &amp; Green cross over at N ≥ 600</text>
+<line x1="12" y1="42" x2="548" y2="42" stroke="var(--line)" stroke-width="1"/>
+<line x1="64.0" y1="240.0" x2="412.0" y2="240.0" class="svg-grid"/>
+<text x="58.0" y="243.0" text-anchor="end" class="svg-tick">56%</text>
+<line x1="64.0" y1="195.3" x2="412.0" y2="195.3" class="svg-grid"/>
+<text x="58.0" y="198.3" text-anchor="end" class="svg-tick">60%</text>
+<line x1="64.0" y1="150.6" x2="412.0" y2="150.6" class="svg-grid"/>
+<text x="58.0" y="153.6" text-anchor="end" class="svg-tick">64%</text>
+<line x1="64.0" y1="105.9" x2="412.0" y2="105.9" class="svg-grid"/>
+<text x="58.0" y="108.9" text-anchor="end" class="svg-tick">68%</text>
+<line x1="64.0" y1="61.2" x2="412.0" y2="61.2" class="svg-grid"/>
+<text x="58.0" y="64.2" text-anchor="end" class="svg-tick">72%</text>
+<line x1="64.0" y1="50.0" x2="64.0" y2="240.0" class="svg-grid"/>
+<text x="64.0" y="256" text-anchor="middle" class="svg-tick">Few-Shot ≤150</text>
+<line x1="180.0" y1="50.0" x2="180.0" y2="240.0" class="svg-grid"/>
+<text x="180.0" y="256" text-anchor="middle" class="svg-tick">Standard 200–600</text>
+<line x1="296.0" y1="50.0" x2="296.0" y2="240.0" class="svg-grid"/>
+<text x="296.0" y="256" text-anchor="middle" class="svg-tick">Multi-Sess 600–3K</text>
+<line x1="412.0" y1="50.0" x2="412.0" y2="240.0" class="svg-grid"/>
+<text x="412.0" y="256" text-anchor="middle" class="svg-tick">Large 3K–150K</text>
+<line x1="238.0" y1="50.0" x2="238.0" y2="240.0" stroke="#d97706" stroke-width="1.2" stroke-dasharray="3,3" opacity="0.75"/>
+<text x="238.0" y="60.0" text-anchor="middle" class="svg-tick" style="fill:#d97706;font-weight:700">Attention Crossover (N ≥ 600)</text>
+<line x1="64.0" y1="50.0" x2="64.0" y2="240.0" class="svg-axis"/>
+<line x1="64.0" y1="240.0" x2="412.0" y2="240.0" class="svg-axis"/>
+<text x="238.0" y="278" text-anchor="middle" class="svg-label">Training Sample Volume Regime N_train Across All 29 Voyager Datasets</text>
+<polyline fill="none" points="64.0,212.2 180.0,142.0 296.0,83.3 412.0,119.3" stroke="#7c3aed" stroke-width="2.4"/>
+<circle cx="64.0" cy="212.2" r="3.6" fill="#7c3aed"/>
+<circle cx="180.0" cy="142.0" r="3.6" fill="#7c3aed"/>
+<circle cx="296.0" cy="83.3" r="3.6" fill="#7c3aed"/>
+<circle cx="412.0" cy="119.3" r="3.6" fill="#7c3aed"/>
+<polyline fill="none" points="64.0,198.2 180.0,164.9 296.0,68.8 412.0,130.3" stroke="#d97706" stroke-width="2.4"/>
+<circle cx="64.0" cy="198.2" r="3.6" fill="#d97706"/>
+<circle cx="180.0" cy="164.9" r="3.6" fill="#d97706"/>
+<circle cx="296.0" cy="68.8" r="3.6" fill="#d97706"/>
+<circle cx="412.0" cy="130.3" r="3.6" fill="#d97706"/>
+<polyline fill="none" points="64.0,179.4 180.0,153.3 296.0,89.4 412.0,145.4" stroke="#1d4ed8" stroke-width="2.4" stroke-dasharray="4,2"/>
+<circle cx="64.0" cy="179.4" r="3.6" fill="#1d4ed8"/>
+<circle cx="180.0" cy="153.3" r="3.6" fill="#1d4ed8"/>
+<circle cx="296.0" cy="89.4" r="3.6" fill="#1d4ed8"/>
+<circle cx="412.0" cy="145.4" r="3.6" fill="#1d4ed8"/>
+<polyline fill="none" points="64.0,180.0 180.0,139.8 296.0,89.9 412.0,157.1" stroke="#15803d" stroke-width="2.4"/>
+<circle cx="64.0" cy="180.0" r="3.6" fill="#15803d"/>
+<circle cx="180.0" cy="139.8" r="3.6" fill="#15803d"/>
+<circle cx="296.0" cy="89.9" r="3.6" fill="#15803d"/>
+<circle cx="412.0" cy="157.1" r="3.6" fill="#15803d"/>
+<polyline fill="none" points="64.0,224.6 180.0,158.2 296.0,114.1 412.0,157.1" stroke="#0284c7" stroke-width="2.4" stroke-dasharray="2,2"/>
+<circle cx="64.0" cy="224.6" r="3.6" fill="#0284c7"/>
+<circle cx="180.0" cy="158.2" r="3.6" fill="#0284c7"/>
+<circle cx="296.0" cy="114.1" r="3.6" fill="#0284c7"/>
+<circle cx="412.0" cy="157.1" r="3.6" fill="#0284c7"/>
+<polyline fill="none" points="64.0,210.3 180.0,155.4 296.0,121.2 412.0,200.5" stroke="#dc2626" stroke-width="2.4" stroke-dasharray="5,2"/>
+<circle cx="64.0" cy="210.3" r="3.6" fill="#dc2626"/>
+<circle cx="180.0" cy="155.4" r="3.6" fill="#dc2626"/>
+<circle cx="296.0" cy="121.2" r="3.6" fill="#dc2626"/>
+<circle cx="412.0" cy="200.5" r="3.6" fill="#dc2626"/>
+<line x1="416.0" y1="119.3" x2="422.0" y2="114.9" stroke="#7c3aed" stroke-width="0.9" opacity="0.7"/>
+<text x="425.0" y="117.9" text-anchor="start" class="svg-val" style="font-weight:700;fill:#7c3aed">Green 66.8%</text>
+<line x1="416.0" y1="130.3" x2="422.0" y2="128.2" stroke="#d97706" stroke-width="0.9" opacity="0.7"/>
+<text x="425.0" y="131.2" text-anchor="start" class="svg-val" style="font-weight:700;fill:#d97706">GBWAtt 65.8%</text>
+<line x1="416.0" y1="145.4" x2="422.0" y2="141.6" stroke="#1d4ed8" stroke-width="0.9" opacity="0.7"/>
+<text x="425.0" y="144.6" text-anchor="start" class="svg-val" style="font-weight:700;fill:#1d4ed8">SPDMetaFormer 64.5%</text>
+<line x1="416.0" y1="157.1" x2="422.0" y2="155.3" stroke="#0284c7" stroke-width="0.9" opacity="0.7"/>
+<text x="425.0" y="158.3" text-anchor="start" class="svg-val" style="font-weight:700;fill:#0284c7">Graph/Filterbank 63.4%</text>
+<line x1="416.0" y1="157.1" x2="422.0" y2="169.3" stroke="#15803d" stroke-width="0.9" opacity="0.7"/>
+<text x="425.0" y="172.3" text-anchor="start" class="svg-val" style="font-weight:700;fill:#15803d">BatchNorm Fam 63.4%</text>
+<line x1="416.0" y1="200.5" x2="422.0" y2="200.5" stroke="#dc2626" stroke-width="0.9" opacity="0.7"/>
+<text x="425.0" y="203.5" text-anchor="start" class="svg-val" style="font-weight:700;fill:#dc2626">Correlation Fam 59.5%</text>
+</svg>
+    </div>
+  </div>
+  <div class="grid2" style="margin:14px 0">
     <div class="diag-card" style="background:var(--panel)">
       <svg viewBox="0 0 560 285" class="diag-svg" role="img" aria-label="Parameter Complexity Pareto Frontier">
 <text x="14" y="18" class="svg-title">1E. Parameter Scaling Pareto Frontier: log10(Params at 22ch → 128ch) vs 29-DS Mean</text>
@@ -1037,30 +1124,110 @@
 <text x="104.0" y="204.0" text-anchor="start" class="svg-tick" style="font-weight:700;fill:#dc2626">CorNet (#39, 836B, 57.8%)</text>
 </svg>
     </div>
+    <div class="diag-card" style="background:var(--panel)">
+      <svg viewBox="0 0 560 285" class="diag-svg" role="img" aria-label="Controlled Sample-Scarcity Subsampling Curve">
+<text x="14" y="18" class="svg-title">1E-B. Controlled Sample Scarcity: 5% (75 Trials) → 100% (1,500 Trials) on Radar</text>
+<text x="14" y="34" class="svg-sub">At 5% training data, Riemannian BatchNorm (GBWBN 76.8%) retains +6.7 to +8.4 pp over No-BN / PCM</text>
+<line x1="12" y1="42" x2="548" y2="42" stroke="var(--line)" stroke-width="1"/>
+<line x1="50.0" y1="228.5" x2="392.0" y2="228.5" class="svg-grid"/>
+<text x="44.0" y="231.5" text-anchor="end" class="svg-tick">68%</text>
+<line x1="50.0" y1="193.9" x2="392.0" y2="193.9" class="svg-grid"/>
+<text x="44.0" y="196.9" text-anchor="end" class="svg-tick">74%</text>
+<line x1="50.0" y1="159.4" x2="392.0" y2="159.4" class="svg-grid"/>
+<text x="44.0" y="162.4" text-anchor="end" class="svg-tick">80%</text>
+<line x1="50.0" y1="124.8" x2="392.0" y2="124.8" class="svg-grid"/>
+<text x="44.0" y="127.8" text-anchor="end" class="svg-tick">86%</text>
+<line x1="50.0" y1="90.3" x2="392.0" y2="90.3" class="svg-grid"/>
+<text x="44.0" y="93.3" text-anchor="end" class="svg-tick">92%</text>
+<line x1="50.0" y1="55.8" x2="392.0" y2="55.8" class="svg-grid"/>
+<text x="44.0" y="58.8" text-anchor="end" class="svg-tick">98%</text>
+<line x1="50.0" y1="50.0" x2="50.0" y2="240.0" class="svg-grid"/>
+<text x="50.0" y="256" text-anchor="middle" class="svg-tick">5% (75)</text>
+<line x1="135.5" y1="50.0" x2="135.5" y2="240.0" class="svg-grid"/>
+<text x="135.5" y="256" text-anchor="middle" class="svg-tick">10% (150)</text>
+<line x1="221.0" y1="50.0" x2="221.0" y2="240.0" class="svg-grid"/>
+<text x="221.0" y="256" text-anchor="middle" class="svg-tick">25% (375)</text>
+<line x1="306.5" y1="50.0" x2="306.5" y2="240.0" class="svg-grid"/>
+<text x="306.5" y="256" text-anchor="middle" class="svg-tick">50% (750)</text>
+<line x1="392.0" y1="50.0" x2="392.0" y2="240.0" class="svg-grid"/>
+<text x="392.0" y="256" text-anchor="middle" class="svg-tick">100% (1.5K)</text>
+<line x1="50.0" y1="50.0" x2="50.0" y2="240.0" class="svg-axis"/>
+<line x1="50.0" y1="240.0" x2="392.0" y2="240.0" class="svg-axis"/>
+<text x="221.0" y="278" text-anchor="middle" class="svg-label">Subsampled Training Fraction (% of Training Set &amp; Number of SPD Matrices)</text>
+<polyline fill="none" points="50.0,177.8 135.5,168.6 221.0,167.9 306.5,156.3 392.0,60.8" stroke="#15803d" stroke-width="2.3"/>
+<circle cx="50.0" cy="177.8" r="3.4" fill="#15803d"/>
+<circle cx="135.5" cy="168.6" r="3.4" fill="#15803d"/>
+<circle cx="221.0" cy="167.9" r="3.4" fill="#15803d"/>
+<circle cx="306.5" cy="156.3" r="3.4" fill="#15803d"/>
+<circle cx="392.0" cy="60.8" r="3.4" fill="#15803d"/>
+<polyline fill="none" points="50.0,180.1 135.5,171.7 221.0,170.2 306.5,154.8 392.0,59.3" stroke="#0f766e" stroke-width="2.3" stroke-dasharray="4,2"/>
+<circle cx="50.0" cy="180.1" r="3.4" fill="#0f766e"/>
+<circle cx="135.5" cy="171.7" r="3.4" fill="#0f766e"/>
+<circle cx="221.0" cy="170.2" r="3.4" fill="#0f766e"/>
+<circle cx="306.5" cy="154.8" r="3.4" fill="#0f766e"/>
+<circle cx="392.0" cy="59.3" r="3.4" fill="#0f766e"/>
+<polyline fill="none" points="50.0,183.2 135.5,169.4 221.0,168.6 306.5,157.1 392.0,61.1" stroke="#1d4ed8" stroke-width="2.3"/>
+<circle cx="50.0" cy="183.2" r="3.4" fill="#1d4ed8"/>
+<circle cx="135.5" cy="169.4" r="3.4" fill="#1d4ed8"/>
+<circle cx="221.0" cy="168.6" r="3.4" fill="#1d4ed8"/>
+<circle cx="306.5" cy="157.1" r="3.4" fill="#1d4ed8"/>
+<circle cx="392.0" cy="61.1" r="3.4" fill="#1d4ed8"/>
+<polyline fill="none" points="50.0,211.6 135.5,193.2 221.0,187.8 306.5,163.3 392.0,62.4" stroke="#d97706" stroke-width="2.3" stroke-dasharray="4,2"/>
+<circle cx="50.0" cy="211.6" r="3.4" fill="#d97706"/>
+<circle cx="135.5" cy="193.2" r="3.4" fill="#d97706"/>
+<circle cx="221.0" cy="187.8" r="3.4" fill="#d97706"/>
+<circle cx="306.5" cy="163.3" r="3.4" fill="#d97706"/>
+<circle cx="392.0" cy="62.4" r="3.4" fill="#d97706"/>
+<polyline fill="none" points="50.0,216.2 135.5,182.4 221.0,184.0 306.5,164.7 392.0,61.7" stroke="#475569" stroke-width="2.3"/>
+<circle cx="50.0" cy="216.2" r="3.4" fill="#475569"/>
+<circle cx="135.5" cy="182.4" r="3.4" fill="#475569"/>
+<circle cx="221.0" cy="184.0" r="3.4" fill="#475569"/>
+<circle cx="306.5" cy="164.7" r="3.4" fill="#475569"/>
+<circle cx="392.0" cy="61.7" r="3.4" fill="#475569"/>
+<polyline fill="none" points="50.0,226.2 135.5,194.7 221.0,176.3 306.5,163.3 392.0,61.1" stroke="#dc2626" stroke-width="2.3" stroke-dasharray="2,2"/>
+<circle cx="50.0" cy="226.2" r="3.4" fill="#dc2626"/>
+<circle cx="135.5" cy="194.7" r="3.4" fill="#dc2626"/>
+<circle cx="221.0" cy="176.3" r="3.4" fill="#dc2626"/>
+<circle cx="306.5" cy="163.3" r="3.4" fill="#dc2626"/>
+<circle cx="392.0" cy="61.1" r="3.4" fill="#dc2626"/>
+<circle cx="402.0" cy="75.0" r="3.5" fill="#15803d"/>
+<text x="410.0" y="78.0" text-anchor="start" class="svg-val" style="font-weight:700;fill:#15803d">GBWBN 76.8% → 97.1%</text>
+<circle cx="402.0" cy="99.0" r="3.5" fill="#0f766e"/>
+<text x="410.0" y="102.0" text-anchor="start" class="svg-val" style="font-weight:700;fill:#0f766e">LieBN-AIM 76.4% → 97.4%</text>
+<circle cx="402.0" cy="123.0" r="3.5" fill="#1d4ed8"/>
+<text x="410.0" y="126.0" text-anchor="start" class="svg-val" style="font-weight:700;fill:#1d4ed8">SPDNetBN 75.9% → 97.1%</text>
+<circle cx="402.0" cy="147.0" r="3.5" fill="#d97706"/>
+<text x="410.0" y="150.0" text-anchor="start" class="svg-val" style="font-weight:700;fill:#d97706">CBN 70.9% → 96.8%</text>
+<circle cx="402.0" cy="171.0" r="3.5" fill="#475569"/>
+<text x="410.0" y="174.0" text-anchor="start" class="svg-val" style="font-weight:700;fill:#475569">SPDNet 70.1% → 97.0%</text>
+<circle cx="402.0" cy="195.0" r="3.5" fill="#dc2626"/>
+<text x="410.0" y="198.0" text-anchor="start" class="svg-val" style="font-weight:700;fill:#dc2626">PCM 68.4% → 97.1%</text>
+</svg>
+    </div>
   </div>
   <div class="tri-grid" style="margin:10px 0 14px">
     <div class="diag-card col-orig">
-      <div class="col-banner orig"><span>CLAIM 1D-1 · LOW-CHANNEL REGIME (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>≤</mo><mn>19</mn></mrow><annotation encoding="application/x-tex">d \le 19</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8304em;vertical-align:-0.136em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">19</span></span></span></span>)</span><span class="chip good">7 Datasets</span></div>
+      <div class="col-banner orig"><span>CLAIM 1D-A · CHANNEL DENSITY (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>∈</mo><mo stretchy="false">[</mo><mn>2</mn><mo separator="true">,</mo><mn>400</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">d \in [2, 400]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">400</span><span class="mclose">]</span></span></span></span>)</span><span class="chip good">29 Datasets</span></div>
       <p class="small" style="margin:4px 0">
-        On sparse montages (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>∈</mo><mo stretchy="false">[</mo><mn>2</mn><mo separator="true">,</mo><mn>19</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">d \in [2, 19]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">19</span><span class="mclose">]</span></span></span></span>), correlation models drop to <code>56.88%</code> (<code>-5.25 pp</code> below Riemannian BatchNorm at <code>62.13%</code>) because unit-diagonal normalization erases channel bandpower.
+        On sparse montages (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>≤</mo><mn>19</mn></mrow><annotation encoding="application/x-tex">d \le 19</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8304em;vertical-align:-0.136em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">19</span></span></span></span>), correlation models drop <code>-5.25 pp</code> below BatchNorm (<code>56.88%</code> vs <code>62.13%</code>), while spatiotemporal filterbanks lead on 64-channel EEG (<code>64.45%</code>).
       </p>
     </div>
     <div class="diag-card col-ours">
-      <div class="col-banner ours"><span>CLAIM 1D-2 · HIGH-DENSITY EEG (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>∈</mo><mo stretchy="false">[</mo><mn>56</mn><mo separator="true">,</mo><mn>64</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">d \in [56, 64]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">56</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">64</span><span class="mclose">]</span></span></span></span>)</span><span class="chip warning">11 Datasets</span></div>
+      <div class="col-banner ours"><span>CLAIM 1D-B · AMOUNT OF DATA CROSSOVER (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>N</mi><mtext>train</mtext></msub></mrow><annotation encoding="application/x-tex">N_{\text{train}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">train</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>)</span><span class="chip warning">Few-Shot vs Large Cohort</span></div>
       <p class="small" style="margin:4px 0">
-        On high-density montages (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>56</mn><mtext>–</mtext><mn>64</mn></mrow><annotation encoding="application/x-tex">56\text{--}64</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">56</span><span class="mord text"><span class="mord">–</span></span><span class="mord">64</span></span></span></span> channels), foundational spatiotemporal filterbanks (<code>TSMNet</code>, <code>EEGSPDNet</code>, <code>Green</code>) rank #1 at <code>64.45%</code> by isolating focal cortical sources before covariance pooling.
+        In Few-Shot calibration (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><mn>150</mn></mrow><annotation encoding="application/x-tex">\le 150</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">150</span></span></span></span> trials), <code>BatchNorm</code> (<code>61.36%</code>) and parameter-free <code>SPDMetaFormer</code> beat <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>Q</mi><mi mathvariant="normal">/</mi><mi>K</mi><mi mathvariant="normal">/</mi><mi>V</mi></mrow><annotation encoding="application/x-tex">Q/K/V</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">Q</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.07153em;">K</span><span class="mord">/</span><span class="mord mathnormal" style="margin-right:0.22222em;">V</span></span></span></span> attention by <code>+1.5 pp</code>; once <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>N</mi><mtext>train</mtext></msub><mo>≥</mo><mn>600</mn><mtext>–</mtext><mn>150</mn><mtext>K</mtext></mrow><annotation encoding="application/x-tex">N_{\text{train}} \ge 600\text{--}150\text{K}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">train</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">600</span><span class="mord text"><span class="mord">–</span></span><span class="mord">150</span><span class="mord text"><span class="mord">K</span></span></span></span></span>, <code>GBWAtt</code>/<code>MAtt</code> (<code>+2.1 pp</code>) and <code>Green</code> (<code>66.80%</code> #1) cross over and lead.
       </p>
     </div>
     <div class="diag-card col-gap">
-      <div class="col-banner gap"><span>CLAIM 1E · PARAMETER SCALING (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>22</mn><mtext>ch</mtext><mo>→</mo><mn>128</mn><mtext>ch</mtext></mrow><annotation encoding="application/x-tex">22\text{ch} \to 128\text{ch}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">22</span><span class="mord text"><span class="mord">ch</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">128</span><span class="mord text"><span class="mord">ch</span></span></span></span></span>)</span><span class="chip unresolved"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><mi>C</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(C)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="mclose">)</span></span></span></span> vs <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>C</mi><mn>4</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(C^4)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></div>
+      <div class="col-banner gap"><span>CLAIM 1E · PARAMETER &amp; SCARCITY SCALING</span><span class="chip unresolved">5% Data &amp; <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>C</mi><mn>4</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(C^4)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></div>
       <p class="small" style="margin:4px 0">
-        Un-bottlenecked tangent MLPs scale as <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>O</mi><mo stretchy="false">(</mo><msup><mi>C</mi><mn>4</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">O(C^4)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.0641em;vertical-align:-0.25em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">O</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07153em;">C</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">4</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span> (<code>SPDTransNet</code> grows from <code>1.22M</code> to <code>1.09B</code> params at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>128</mn><mtext> ch</mtext></mrow><annotation encoding="application/x-tex">128\text{ ch}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">128</span><span class="mord text"><span class="mord"> ch</span></span></span></span></span>, rank #37), whereas spatial-stem bottleneck models like <code>#01 ARMAGNAC-GAH</code> require only <code>4.3K</code> to <code>17.8K</code> parameters.
+        At 5% training data (75 trials), Riemannian BatchNorm retains a <code>+6.7 to +8.4 pp</code> buffer over un-normalized SPDNet/PCM, while un-bottlenecked tangent MLPs explode to <code>1.09B</code> params at <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>128</mn><mtext> ch</mtext></mrow><annotation encoding="application/x-tex">128\text{ ch}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">128</span><span class="mord text"><span class="mord"> ch</span></span></span></span></span>.
       </p>
     </div>
   </div>
-  <h3 style="margin:12px 0 6px;font-size:0.95rem">1F. 39-Model Parameter Complexity (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>22</mn><mtext> ch</mtext><mo>→</mo><mn>128</mn><mtext> ch</mtext></mrow><annotation encoding="application/x-tex">22\text{ ch} \to 128\text{ ch}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">22</span><span class="mord text"><span class="mord"> ch</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">128</span><span class="mord text"><span class="mord"> ch</span></span></span></span></span>), Manifold Size Scaling (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>∈</mo><mo stretchy="false">[</mo><mn>2</mn><mo separator="true">,</mo><mn>400</mn><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">d \in [2, 400]</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[</span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">400</span><span class="mclose">]</span></span></span></span>) &amp; Peeking Stability</h3>
+  <h3 style="margin:12px 0 6px;font-size:0.95rem">1F. 39-Model Parameter Complexity (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>22</mn><mtext> ch</mtext><mo>→</mo><mn>128</mn><mtext> ch</mtext></mrow><annotation encoding="application/x-tex">22\text{ ch} \to 128\text{ ch}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">22</span><span class="mord text"><span class="mord"> ch</span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">128</span><span class="mord text"><span class="mord"> ch</span></span></span></span></span>), Channel Scaling (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi></mrow><annotation encoding="application/x-tex">d</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span></span></span></span>), Data-Volume Scaling (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>N</mi><mtext>train</mtext></msub></mrow><annotation encoding="application/x-tex">N_{\text{train}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">N</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3175em;"><span style="top:-2.55em;margin-left:-0.109em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord text mtight"><span class="mord mtight">train</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>) &amp; Peeking</h3>
   <div style="overflow-x:auto;margin-bottom:14px">
-    <table class="data-table" style="font-size:0.78rem">
+    <table class="data-table" style="font-size:0.77rem">
       <thead>
         <tr>
           <th>Global Rank &amp; Model</th>
@@ -1070,8 +1237,10 @@
           <th>Low-D (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>2</mn><mtext>–</mtext><mn>19</mn><mtext> ch</mtext></mrow><annotation encoding="application/x-tex">2\text{--}19\text{ ch}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">2</span><span class="mord text"><span class="mord">–</span></span><span class="mord">19</span><span class="mord text"><span class="mord"> ch</span></span></span></span></span>)</th>
           <th>High-D (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>56</mn><mtext>–</mtext><mn>64</mn><mtext> ch</mtext></mrow><annotation encoding="application/x-tex">56\text{--}64\text{ ch}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord">56</span><span class="mord text"><span class="mord">–</span></span><span class="mord">64</span><span class="mord text"><span class="mord"> ch</span></span></span></span></span>)</th>
           <th>Ultra-D (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>93</mn><mtext>–</mtext><mn>400</mn><mtext> D</mtext></mrow><annotation encoding="application/x-tex">93\text{--}400\text{ D}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">93</span><span class="mord text"><span class="mord">–</span></span><span class="mord">400</span><span class="mord text"><span class="mord"> D</span></span></span></span></span>)</th>
+          <th>Few-Shot (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≤</mo><mn>150</mn></mrow><annotation encoding="application/x-tex">\le 150</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">150</span></span></span></span>)</th>
+          <th>Large-<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>N</mi></mrow><annotation encoding="application/x-tex">N</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">N</span></span></span></span> (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>≥</mo><mn>600</mn></mrow><annotation encoding="application/x-tex">\ge 600</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7719em;vertical-align:-0.136em;"></span><span class="mrel">≥</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">600</span></span></span></span>)</th>
           <th>All-29 Mean</th>
-          <th>Peeking Inflation</th>
+          <th>Peeking</th>
         </tr>
       </thead>
       <tbody><tr class="bm-model-row" data-fam="batchnorm" data-grk="1" data-params="4269" data-dmean="66.42">
@@ -1082,6 +1251,8 @@
   <td><code>63.26%</code></td>
   <td><code>65.69%</code></td>
   <td><code>66.79%</code></td>
+  <td><code>64.07%</code></td>
+  <td><code>67.59%</code></td>
   <td><strong><code>66.42%</code></strong></td>
   <td><code>+0.73%</code></td>
 </tr><tr class="bm-model-row" data-fam="batchnorm" data-grk="2" data-params="4268" data-dmean="66.32">
@@ -1092,6 +1263,8 @@
   <td><code>63.58%</code></td>
   <td><code>65.60%</code></td>
   <td><code>66.48%</code></td>
+  <td><code>63.74%</code></td>
+  <td><code>67.51%</code></td>
   <td><strong><code>66.32%</code></strong></td>
   <td><code>+0.83%</code></td>
 </tr><tr class="bm-model-row" data-fam="batchnorm" data-grk="3" data-params="4268" data-dmean="66.49">
@@ -1102,6 +1275,8 @@
   <td><code>63.58%</code></td>
   <td><code>66.15%</code></td>
   <td><code>66.23%</code></td>
+  <td><code>63.59%</code></td>
+  <td><code>67.76%</code></td>
   <td><strong><code>66.49%</code></strong></td>
   <td><code>+0.94%</code></td>
 </tr><tr class="bm-model-row" data-fam="batchnorm" data-grk="4" data-params="4268" data-dmean="65.98">
@@ -1112,6 +1287,8 @@
   <td><code>63.53%</code></td>
   <td><code>64.78%</code></td>
   <td><code>66.16%</code></td>
+  <td><code>63.01%</code></td>
+  <td><code>67.32%</code></td>
   <td><strong><code>65.98%</code></strong></td>
   <td><code>+1.18%</code></td>
 </tr><tr class="bm-model-row" data-fam="batchnorm" data-grk="5" data-params="4268" data-dmean="66.09">
@@ -1122,6 +1299,8 @@
   <td><code>63.24%</code></td>
   <td><code>65.04%</code></td>
   <td><code>66.10%</code></td>
+  <td><code>63.33%</code></td>
+  <td><code>67.16%</code></td>
   <td><strong><code>66.09%</code></strong></td>
   <td><code>+0.64%</code></td>
 </tr><tr class="bm-model-row" data-fam="foundational" data-grk="6" data-params="38971" data-dmean="64.03">
@@ -1132,6 +1311,8 @@
   <td><code>56.12%</code></td>
   <td><code>66.54%</code></td>
   <td><code>62.85%</code></td>
+  <td><code>60.27%</code></td>
+  <td><code>66.39%</code></td>
   <td><strong><code>64.03%</code></strong></td>
   <td><code>+1.39%</code></td>
 </tr><tr class="bm-model-row" data-fam="attention" data-grk="7" data-params="14065" data-dmean="64.57">
@@ -1142,6 +1323,8 @@
   <td><code>58.73%</code></td>
   <td><code>66.11%</code></td>
   <td><code>64.23%</code></td>
+  <td><code>61.42%</code></td>
+  <td><code>66.61%</code></td>
   <td><strong><code>64.57%</code></strong></td>
   <td><code>+0.64%</code></td>
 </tr><tr class="bm-model-row" data-fam="residual" data-grk="8" data-params="4268" data-dmean="64.79">
@@ -1152,6 +1335,8 @@
   <td><code>62.28%</code></td>
   <td><code>64.58%</code></td>
   <td><code>63.70%</code></td>
+  <td><code>61.22%</code></td>
+  <td><code>66.43%</code></td>
   <td><strong><code>64.79%</code></strong></td>
   <td><code>+0.64%</code></td>
 </tr><tr class="bm-model-row" data-fam="attention" data-grk="9" data-params="9350" data-dmean="64.63">
@@ -1162,6 +1347,8 @@
   <td><code>59.10%</code></td>
   <td><code>65.34%</code></td>
   <td><code>64.41%</code></td>
+  <td><code>59.74%</code></td>
+  <td><code>68.17%</code></td>
   <td><strong><code>64.63%</code></strong></td>
   <td><code>+0.75%</code></td>
 </tr><tr class="bm-model-row" data-fam="attention" data-grk="10" data-params="8342" data-dmean="64.39">
@@ -1172,6 +1359,8 @@
   <td><code>58.33%</code></td>
   <td><code>65.78%</code></td>
   <td><code>64.49%</code></td>
+  <td><code>60.13%</code></td>
+  <td><code>67.73%</code></td>
   <td><strong><code>64.39%</code></strong></td>
   <td><code>+0.63%</code></td>
 </tr><tr class="bm-model-row" data-fam="graph" data-grk="11" data-params="4970" data-dmean="64.69">
@@ -1182,6 +1371,8 @@
   <td><code>62.47%</code></td>
   <td><code>64.39%</code></td>
   <td><code>62.64%</code></td>
+  <td><code>58.65%</code></td>
+  <td><code>66.64%</code></td>
   <td><strong><code>64.69%</code></strong></td>
   <td><code>+0.69%</code></td>
 </tr><tr class="bm-model-row" data-fam="graph" data-grk="12" data-params="4288" data-dmean="64.23">
@@ -1192,6 +1383,8 @@
   <td><code>60.04%</code></td>
   <td><code>64.36%</code></td>
   <td><code>63.52%</code></td>
+  <td><code>59.19%</code></td>
+  <td><code>66.08%</code></td>
   <td><strong><code>64.23%</code></strong></td>
   <td><code>+0.75%</code></td>
 </tr><tr class="bm-model-row" data-fam="residual" data-grk="13" data-params="4414" data-dmean="64.00">
@@ -1202,6 +1395,8 @@
   <td><code>63.19%</code></td>
   <td><code>61.44%</code></td>
   <td><code>63.35%</code></td>
+  <td><code>59.30%</code></td>
+  <td><code>66.41%</code></td>
   <td><strong><code>64.00%</code></strong></td>
   <td><code>+0.98%</code></td>
 </tr><tr class="bm-model-row" data-fam="foundational" data-grk="14" data-params="37589" data-dmean="64.90">
@@ -1212,6 +1407,8 @@
   <td><code>63.60%</code></td>
   <td><code>64.28%</code></td>
   <td><code>62.78%</code></td>
+  <td><code>58.49%</code></td>
+  <td><code>68.18%</code></td>
   <td><strong><code>64.90%</code></strong></td>
   <td><code>+3.19%</code></td>
 </tr><tr class="bm-model-row" data-fam="foundational" data-grk="15" data-params="5309" data-dmean="64.05">
@@ -1222,6 +1419,8 @@
   <td><code>58.55%</code></td>
   <td><code>65.25%</code></td>
   <td><code>62.63%</code></td>
+  <td><code>61.08%</code></td>
+  <td><code>65.93%</code></td>
   <td><strong><code>64.05%</code></strong></td>
   <td><code>+1.15%</code></td>
 </tr><tr class="bm-model-row" data-fam="attention" data-grk="16" data-params="17374" data-dmean="63.84">
@@ -1232,6 +1431,8 @@
   <td><code>58.56%</code></td>
   <td><code>64.85%</code></td>
   <td><code>63.53%</code></td>
+  <td><code>59.54%</code></td>
+  <td><code>66.70%</code></td>
   <td><strong><code>63.84%</code></strong></td>
   <td><code>+0.76%</code></td>
 </tr><tr class="bm-model-row" data-fam="batchnorm" data-grk="17" data-params="4269" data-dmean="64.22">
@@ -1242,6 +1443,8 @@
   <td><code>62.57%</code></td>
   <td><code>62.77%</code></td>
   <td><code>64.21%</code></td>
+  <td><code>61.20%</code></td>
+  <td><code>65.59%</code></td>
   <td><strong><code>64.22%</code></strong></td>
   <td><code>+0.86%</code></td>
 </tr><tr class="bm-model-row" data-fam="correlation" data-grk="18" data-params="3948" data-dmean="63.80">
@@ -1252,6 +1455,8 @@
   <td><code>60.17%</code></td>
   <td><code>63.84%</code></td>
   <td><code>63.54%</code></td>
+  <td><code>59.08%</code></td>
+  <td><code>65.33%</code></td>
   <td><strong><code>63.80%</code></strong></td>
   <td><code>+0.53%</code></td>
 </tr><tr class="bm-model-row" data-fam="correlation" data-grk="19" data-params="3948" data-dmean="64.10">
@@ -1262,6 +1467,8 @@
   <td><code>60.79%</code></td>
   <td><code>64.31%</code></td>
   <td><code>63.54%</code></td>
+  <td><code>60.09%</code></td>
+  <td><code>65.39%</code></td>
   <td><strong><code>64.10%</code></strong></td>
   <td><code>+0.56%</code></td>
 </tr><tr class="bm-model-row" data-fam="batchnorm" data-grk="20" data-params="4269" data-dmean="64.20">
@@ -1272,6 +1479,8 @@
   <td><code>61.65%</code></td>
   <td><code>63.98%</code></td>
   <td><code>63.41%</code></td>
+  <td><code>62.45%</code></td>
+  <td><code>64.75%</code></td>
   <td><strong><code>64.20%</code></strong></td>
   <td><code>+1.05%</code></td>
 </tr><tr class="bm-model-row" data-fam="batchnorm" data-grk="21" data-params="4269" data-dmean="64.33">
@@ -1282,6 +1491,8 @@
   <td><code>61.78%</code></td>
   <td><code>63.29%</code></td>
   <td><code>64.45%</code></td>
+  <td><code>62.84%</code></td>
+  <td><code>64.92%</code></td>
   <td><strong><code>64.33%</code></strong></td>
   <td><code>+0.80%</code></td>
 </tr><tr class="bm-model-row" data-fam="attention" data-grk="22" data-params="17774" data-dmean="62.78">
@@ -1292,6 +1503,8 @@
   <td><code>58.12%</code></td>
   <td><code>63.70%</code></td>
   <td><code>61.09%</code></td>
+  <td><code>59.05%</code></td>
+  <td><code>64.07%</code></td>
   <td><strong><code>62.78%</code></strong></td>
   <td><code>+0.70%</code></td>
 </tr><tr class="bm-model-row" data-fam="foundational" data-grk="23" data-params="1984" data-dmean="63.17">
@@ -1302,6 +1515,8 @@
   <td><code>59.17%</code></td>
   <td><code>63.58%</code></td>
   <td><code>62.34%</code></td>
+  <td><code>59.76%</code></td>
+  <td><code>64.23%</code></td>
   <td><strong><code>63.17%</code></strong></td>
   <td><code>+0.65%</code></td>
 </tr><tr class="bm-model-row" data-fam="attention" data-grk="24" data-params="4961" data-dmean="63.23">
@@ -1312,6 +1527,8 @@
   <td><code>62.29%</code></td>
   <td><code>61.96%</code></td>
   <td><code>61.57%</code></td>
+  <td><code>59.59%</code></td>
+  <td><code>64.32%</code></td>
   <td><strong><code>63.23%</code></strong></td>
   <td><code>+0.85%</code></td>
 </tr><tr class="bm-model-row" data-fam="graph" data-grk="25" data-params="89540" data-dmean="62.92">
@@ -1322,6 +1539,8 @@
   <td><code>55.12%</code></td>
   <td><code>64.69%</code></td>
   <td><code>62.57%</code></td>
+  <td><code>56.98%</code></td>
+  <td><code>66.86%</code></td>
   <td><strong><code>62.92%</code></strong></td>
   <td><code>+0.82%</code></td>
 </tr><tr class="bm-model-row" data-fam="batchnorm" data-grk="26" data-params="4012" data-dmean="62.61">
@@ -1332,6 +1551,8 @@
   <td><code>60.33%</code></td>
   <td><code>61.89%</code></td>
   <td><code>61.40%</code></td>
+  <td><code>57.29%</code></td>
+  <td><code>64.61%</code></td>
   <td><strong><code>62.61%</code></strong></td>
   <td><code>+0.76%</code></td>
 </tr><tr class="bm-model-row" data-fam="graph" data-grk="27" data-params="2036" data-dmean="62.05">
@@ -1342,6 +1563,8 @@
   <td><code>58.13%</code></td>
   <td><code>63.04%</code></td>
   <td><code>60.59%</code></td>
+  <td><code>56.56%</code></td>
+  <td><code>64.81%</code></td>
   <td><strong><code>62.05%</code></strong></td>
   <td><code>+0.57%</code></td>
 </tr><tr class="bm-model-row" data-fam="residual" data-grk="28" data-params="36316" data-dmean="61.87">
@@ -1352,6 +1575,8 @@
   <td><code>51.19%</code></td>
   <td><code>64.73%</code></td>
   <td><code>62.34%</code></td>
+  <td><code>57.87%</code></td>
+  <td><code>64.67%</code></td>
   <td><strong><code>61.87%</code></strong></td>
   <td><code>+1.26%</code></td>
 </tr><tr class="bm-model-row" data-fam="residual" data-grk="29" data-params="3892" data-dmean="62.04">
@@ -1362,6 +1587,8 @@
   <td><code>58.45%</code></td>
   <td><code>60.49%</code></td>
   <td><code>63.44%</code></td>
+  <td><code>55.99%</code></td>
+  <td><code>65.35%</code></td>
   <td><strong><code>62.04%</code></strong></td>
   <td><code>+0.55%</code></td>
 </tr><tr class="bm-model-row" data-fam="batchnorm" data-grk="30" data-params="4012" data-dmean="62.61">
@@ -1372,6 +1599,8 @@
   <td><code>60.33%</code></td>
   <td><code>61.89%</code></td>
   <td><code>61.40%</code></td>
+  <td><code>57.29%</code></td>
+  <td><code>64.61%</code></td>
   <td><strong><code>62.61%</code></strong></td>
   <td><code>+0.76%</code></td>
 </tr><tr class="bm-model-row" data-fam="residual" data-grk="31" data-params="1412" data-dmean="61.29">
@@ -1382,6 +1611,8 @@
   <td><code>55.57%</code></td>
   <td><code>60.68%</code></td>
   <td><code>63.37%</code></td>
+  <td><code>58.99%</code></td>
+  <td><code>61.21%</code></td>
   <td><strong><code>61.29%</code></strong></td>
   <td><code>+1.04%</code></td>
 </tr><tr class="bm-model-row" data-fam="batchnorm" data-grk="32" data-params="4524" data-dmean="61.25">
@@ -1392,6 +1623,8 @@
   <td><code>59.58%</code></td>
   <td><code>58.59%</code></td>
   <td><code>62.47%</code></td>
+  <td><code>56.20%</code></td>
+  <td><code>64.09%</code></td>
   <td><strong><code>61.25%</code></strong></td>
   <td><code>+1.10%</code></td>
 </tr><tr class="bm-model-row" data-fam="foundational" data-grk="33" data-params="900" data-dmean="61.44">
@@ -1402,6 +1635,8 @@
   <td><code>55.48%</code></td>
   <td><code>62.60%</code></td>
   <td><code>60.86%</code></td>
+  <td><code>58.80%</code></td>
+  <td><code>62.45%</code></td>
   <td><strong><code>61.44%</code></strong></td>
   <td><code>+0.51%</code></td>
 </tr><tr class="bm-model-row" data-fam="residual" data-grk="34" data-params="1836" data-dmean="60.22">
@@ -1412,6 +1647,8 @@
   <td><code>55.49%</code></td>
   <td><code>60.01%</code></td>
   <td><code>60.74%</code></td>
+  <td><code>58.13%</code></td>
+  <td><code>61.23%</code></td>
   <td><strong><code>60.22%</code></strong></td>
   <td><code>+2.28%</code></td>
 </tr><tr class="bm-model-row" data-fam="residual" data-grk="35" data-params="2353" data-dmean="60.92">
@@ -1422,6 +1659,8 @@
   <td><code>56.21%</code></td>
   <td><code>61.11%</code></td>
   <td><code>60.49%</code></td>
+  <td><code>57.12%</code></td>
+  <td><code>61.33%</code></td>
   <td><strong><code>60.92%</code></strong></td>
   <td><code>+0.89%</code></td>
 </tr><tr class="bm-model-row" data-fam="graph" data-grk="36" data-params="177892" data-dmean="59.75">
@@ -1432,6 +1671,8 @@
   <td><code>55.80%</code></td>
   <td><code>58.66%</code></td>
   <td><code>58.64%</code></td>
+  <td><code>55.51%</code></td>
+  <td><code>60.94%</code></td>
   <td><strong><code>59.75%</code></strong></td>
   <td><code>+1.06%</code></td>
 </tr><tr class="bm-model-row" data-fam="attention" data-grk="37" data-params="1219928" data-dmean="56.09">
@@ -1442,6 +1683,8 @@
   <td><code>57.20%</code></td>
   <td><code>50.57%</code></td>
   <td><code>51.59%</code></td>
+  <td><code>52.36%</code></td>
+  <td><code>56.10%</code></td>
   <td><strong><code>56.09%</code></strong></td>
   <td><code>+1.00%</code></td>
 </tr><tr class="bm-model-row" data-fam="residual" data-grk="38" data-params="1869" data-dmean="59.59">
@@ -1452,6 +1695,8 @@
   <td><code>55.48%</code></td>
   <td><code>57.76%</code></td>
   <td><code>60.82%</code></td>
+  <td><code>57.29%</code></td>
+  <td><code>60.76%</code></td>
   <td><strong><code>59.59%</code></strong></td>
   <td><code>+1.69%</code></td>
 </tr><tr class="bm-model-row" data-fam="correlation" data-grk="39" data-params="836" data-dmean="57.81">
@@ -1462,6 +1707,8 @@
   <td><code>49.68%</code></td>
   <td><code>59.50%</code></td>
   <td><code>59.62%</code></td>
+  <td><code>56.80%</code></td>
+  <td><code>57.00%</code></td>
   <td><strong><code>57.81%</code></strong></td>
   <td><code>+0.53%</code></td>
 </tr></tbody>
@@ -2402,6 +2649,31 @@ if(b){b.addEventListener('click',function(){var t=order[(order.indexOf(get())+1)
 try{t==='auto'?localStorage.removeItem('theme'):localStorage.setItem('theme',t);}catch(e){}
 if(t==='auto')delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=t;show(t);});
 show(get());}
+var af=document.getElementById('auth-gate-form'),ai=document.getElementById('auth-gate-pass'),ae=document.getElementById('auth-gate-err'),lb=document.getElementById('lock-site');
+function checkPass(v){
+  var s=String(v||'').trim().toLowerCase();
+  return s==='spdlearn'||s==='replicability'||s==='spd2026';
+}
+if(af&&ai){
+  af.addEventListener('submit',function(ev){
+    ev.preventDefault();
+    if(checkPass(ai.value)){
+      try{localStorage.setItem('spd_repli_auth','1');}catch(e){}
+      document.documentElement.dataset.auth='ok';
+      if(ae)ae.textContent='';
+    }else{
+      if(ae)ae.textContent='Invalid access code. Please enter the SPD-Learn preview password.';
+      ai.select();
+    }
+  });
+}
+if(lb){
+  lb.addEventListener('click',function(){
+    try{localStorage.removeItem('spd_repli_auth');}catch(e){}
+    delete document.documentElement.dataset.auth;
+    if(ai){ai.value='';setTimeout(function(){ai.focus();},40);}
+  });
+}
 function runKatex(){
   if(typeof renderMathInElement==='function'&&document.body){
     renderMathInElement(document.body,{

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;var q=new URLSearchParams(location.search).get("pass")||"";if(localStorage.getItem("spd_repli_auth")==="1"||q==="spdlearn"||q==="replicability"||q==="spd2026"){localStorage.setItem("spd_repli_auth","1");document.documentElement.dataset.auth="ok";}}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -10,6 +10,18 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <title>Methodology: SPD Replicability + ICML 2026 + NEMAR Blueprint · SPD Replicability &amp; Generation Initiative</title></head><body>
+<div class="auth-gate-backdrop" id="auth-gate" role="dialog" aria-modal="true" aria-labelledby="auth-gate-title">
+  <div class="auth-gate-box">
+    <div class="eyebrow" style="margin-bottom:4px">RESTRICTED RESEARCH PREVIEW · SPD-LEARN</div>
+    <h2 id="auth-gate-title">SPD Replicability &amp; Generation Initiative</h2>
+    <p>Enter the research preview access password to unlock the 27-paper audit and 39&times;29 generalization benchmark.</p>
+    <form class="auth-gate-row" id="auth-gate-form" autocomplete="off">
+      <input type="password" id="auth-gate-pass" class="auth-gate-input" placeholder="Access password..." aria-label="Access password" autofocus>
+      <button type="submit" class="auth-gate-btn">Unlock &rarr;</button>
+    </form>
+    <div class="auth-gate-err" id="auth-gate-err"></div>
+  </div>
+</div>
 <nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="../index.html">
     <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M21.6 8.3A9.5 9.5 0 1 0 25.5 16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18.9 10.7 24.1 5.5 24.7 11.3z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path class="tick" d="M11.3 16.3l3.3 3.3 5.9-6.8" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -23,6 +35,7 @@
   <a class="tab" href="../methodology/index.html" aria-current="page">Methodology</a>
   <a class="tab" href="https://github.com/spdlearn/replicability" target="_blank" rel="noopener">GitHub ↗</a>
   <button class="theme" id="theme" type="button" title="Colour theme"><span>◐</span><span>Auto</span></button>
+  <button class="theme" id="lock-site" type="button" title="Lock preview" style="margin-left:4px;padding:4px 8px"><span>🔒</span></button>
 </div></nav>
 <div class="wrap">
 <header class="page">
@@ -159,6 +172,31 @@ if(b){b.addEventListener('click',function(){var t=order[(order.indexOf(get())+1)
 try{t==='auto'?localStorage.removeItem('theme'):localStorage.setItem('theme',t);}catch(e){}
 if(t==='auto')delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=t;show(t);});
 show(get());}
+var af=document.getElementById('auth-gate-form'),ai=document.getElementById('auth-gate-pass'),ae=document.getElementById('auth-gate-err'),lb=document.getElementById('lock-site');
+function checkPass(v){
+  var s=String(v||'').trim().toLowerCase();
+  return s==='spdlearn'||s==='replicability'||s==='spd2026';
+}
+if(af&&ai){
+  af.addEventListener('submit',function(ev){
+    ev.preventDefault();
+    if(checkPass(ai.value)){
+      try{localStorage.setItem('spd_repli_auth','1');}catch(e){}
+      document.documentElement.dataset.auth='ok';
+      if(ae)ae.textContent='';
+    }else{
+      if(ae)ae.textContent='Invalid access code. Please enter the SPD-Learn preview password.';
+      ai.select();
+    }
+  });
+}
+if(lb){
+  lb.addEventListener('click',function(){
+    try{localStorage.removeItem('spd_repli_auth');}catch(e){}
+    delete document.documentElement.dataset.auth;
+    if(ai){ai.value='';setTimeout(function(){ai.focus();},40);}
+  });
+}
 function runKatex(){
   if(typeof renderMathInElement==='function'&&document.body){
     renderMathInElement(document.body,{

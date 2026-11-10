@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;var q=new URLSearchParams(location.search).get("pass")||"";if(localStorage.getItem("spd_repli_auth")==="1"||q==="spdlearn"||q==="replicability"||q==="spd2026"){localStorage.setItem("spd_repli_auth","1");document.documentElement.dataset.auth="ok";}}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -10,6 +10,18 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <title>TSMNet &amp; SPDDSMBN: Domain-Specific Momentum Batch Normalization (NeurIPS 2022) · SPD Replicability &amp; Generation Initiative</title></head><body>
+<div class="auth-gate-backdrop" id="auth-gate" role="dialog" aria-modal="true" aria-labelledby="auth-gate-title">
+  <div class="auth-gate-box">
+    <div class="eyebrow" style="margin-bottom:4px">RESTRICTED RESEARCH PREVIEW · SPD-LEARN</div>
+    <h2 id="auth-gate-title">SPD Replicability &amp; Generation Initiative</h2>
+    <p>Enter the research preview access password to unlock the 27-paper audit and 39&times;29 generalization benchmark.</p>
+    <form class="auth-gate-row" id="auth-gate-form" autocomplete="off">
+      <input type="password" id="auth-gate-pass" class="auth-gate-input" placeholder="Access password..." aria-label="Access password" autofocus>
+      <button type="submit" class="auth-gate-btn">Unlock &rarr;</button>
+    </form>
+    <div class="auth-gate-err" id="auth-gate-err"></div>
+  </div>
+</div>
 <nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="../../index.html">
     <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M21.6 8.3A9.5 9.5 0 1 0 25.5 16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18.9 10.7 24.1 5.5 24.7 11.3z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path class="tick" d="M11.3 16.3l3.3 3.3 5.9-6.8" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -23,6 +35,7 @@
   <a class="tab" href="../../methodology/index.html">Methodology</a>
   <a class="tab" href="https://github.com/spdlearn/replicability" target="_blank" rel="noopener">GitHub ↗</a>
   <button class="theme" id="theme" type="button" title="Colour theme"><span>◐</span><span>Auto</span></button>
+  <button class="theme" id="lock-site" type="button" title="Lock preview" style="margin-left:4px;padding:4px 8px"><span>🔒</span></button>
 </div></nav>
 <div class="wrap">
 <header class="page">
@@ -57,9 +70,9 @@
       <table class="data-table" style="font-size:0.78rem">
         <tbody>
           <tr><th style="width:115px">Split &amp; Harness</th><td><code>BNCI2014-001 (9 subj, 4-class), BNCI2014-004 (9 subj, 2-class), BNCI2015-001 (12 subj, 2-class), Lee2019 (54 subj), Zhou2016 (4 subj), Stieger2021 (62 subj): Session-to-Session &amp; LOSO</code></td></tr>
-          <tr><th>Preprocessing</th><td>250 Hz resampling, 4-40 Hz 4th-order Butterworth causal bandpass, [0.5, 4.0]s epoch window (875 samples), 22/13/62 EEG chans, regularized temporal-spatial sample cov.</td></tr>
+          <tr><th>Preprocessing</th><td>250 Hz resampling, 4-40 Hz 4th-order Butterworth causal bandpass, [0.5, 4.0]s epoch window (875 samples), 22/13/62 EEG chans, regularized temporal-spatial sample cov</td></tr>
           <tr><th>Architecture</th><td><code>Conv2d(1<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>4, temporal=(1,25)) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> SpatialConv(4<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>40, (C,1)) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> CovPool(<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>40</mn><mo>×</mo><mn>40</mn></mrow><annotation encoding="application/x-tex">40 \times 40</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">40</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">40</span></span></span></span>) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> BiMap(40<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span>20, Stiefel) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> ReEig(1e-4) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> SPDDSMBN(20, domain-specific mean+disp) <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> LogEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Linear</code></td></tr>
-          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>AIRM Fréchet mean + scalar tangent-space dispersion <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>ν</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\nu^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.06366em;">ν</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> per domain/session; unsupervised test-domain recalibration before inference.</td></tr>
+          <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>AIRM Fréchet mean + scalar tangent-space dispersion <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi>ν</mi><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\nu^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.06366em;">ν</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span> per domain/session.</td></tr>
           <tr><th>Optimizer</th><td><code>AdamW + Riemannian Stiefel projection, lr=1e-3, wd=1e-4, cosine annealing, batch_size=64 (balanced across domains), epochs=200</code></td></tr>
         </tbody>
       </table>
@@ -131,7 +144,7 @@
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Struggles</div>
-        <p>Collapses in causal online BCI (<code>batch_size=1</code>, <code>60.03%</code> final-epoch mean on <code>BNCI2014-001</code>; S2: <code>47.22%</code>, S6: <code>50.00%</code>) where target-session Fréchet statistics are unavailable.</p>
+        <p>Collapses in causal online BCI (<code>batch_size=1</code>, <code>60.03%</code> final-epoch mean on <code>BNCI2014-001</code>; S2: <code>47.22%</code>, S6: <code>50.00%</code>).</p>
       </div>
     </div>
   </div>
@@ -258,7 +271,7 @@
           <img src="../../assets/original_figures/kobler2022tsmnet/figures_fig-architecture.png" alt="Original Figure 2 (NeurIPS 2022 / arXiv:2206.01323)" loading="lazy"/>
         </a>
       </div>
-      <p class="small muted" style="margin:4px 0 0;font-size:0.78rem">TSMNet architecture combining temporal-spatial convolutions, Stiefel BiMap projection (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>40</mn><mo>→</mo><mn>20</mn><mo>→</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">40 \to 20 \to 4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">40</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">20</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span>), and domain-specific Riemannian batch normalization.</p>
+      <p class="small muted" style="margin:4px 0 0;font-size:0.78rem">TSMNet architecture combining temporal-spatial convolutions, Stiefel BiMap projection (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>40</mn><mo>→</mo><mn>20</mn><mo>→</mo><mn>4</mn></mrow><annotation encoding="application/x-tex">40 \to 20 \to 4</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">40</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">20</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">4</span></span></span></span>).</p>
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
@@ -1262,11 +1275,11 @@
       <h2>Technical Notes, Protocol Differences &amp; Practitioner Guidance</h2>
       <table class="data-table">
         <tbody>
-          <tr><th style="width:220px;color:var(--spd-blue)">Original Protocol / Code Issue</th><td>HUMAN / PROTOCOL ERROR: Original <code>rkobler/TSMNet</code> computes <strong>transductive domain-specific batch normalization (<code>SPDDSMBN</code>)</strong> over the <strong>entire unlabeled test session (<code>1test</code>) simultaneously</strong>. This leaks the target session&#x27;s Riemannian Fréchet mean and dispersion across all 288 test trials before making a single prediction.</td></tr>
+          <tr><th style="width:220px;color:var(--spd-blue)">Original Protocol / Code Issue</th><td>Original <code>rkobler/TSMNet</code> computes <strong>transductive domain-specific batch normalization (<code>SPDDSMBN</code>)</strong> over the <strong>entire unlabeled test session (<code>1test</code>) simultaneously</strong>.</td></tr>
           <tr><th style="color:var(--good)">Our <code>spd_learn</code> Fix Applied</th><td>Under strictly <strong>causal inductive zero-shot evaluation</strong> (<code>eval()</code> using frozen source-session running stats) on Voyager <code>BNCI2014-001</code>, <code>TSMNet</code> drops from <code>74.60%</code> (transductive) to <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>63.31</mn><mo>±</mo><mn>11.68</mn></mrow><annotation encoding="application/x-tex">63.31 \pm 11.68</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">63.31</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.68</span></span></span></span>%</code></strong> (best checkpoint) and <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>60.03</mn><mo>±</mo><mn>11.95</mn></mrow><annotation encoding="application/x-tex">60.03 \pm 11.95</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">60.03</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">11.95</span></span></span></span>%</code></strong> (final epoch, <code>+3.28%</code> test-peeking gap).</td></tr>
-          <tr><th>Dataloader &amp; Preprocessing Diff</th><td>Paper evaluates transductive target-session batch normalization across the whole test session and drops <code>Fpz</code> on <code>Hinss2021</code>; Voyager evaluates causal single-trial zero-shot inference (<code>0train <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> 1test</code>) without access to future test trials.</td></tr>
-          <tr><th>Architecture &amp; Optimizer Diff</th><td><code>spd_learn</code> implements both causal <code>SPDBatchNormMeanVar</code> (frozen source running stats) and transductive domain BN, proving that <code>+11.3%</code> of <code>TSMNet</code>&#x27;s headline score comes from test-session adaptation.</td></tr>
-          <tr><th>Where It Struggles / Diverges</th><td>Collapses in causal online BCI (<code>batch_size=1</code>, <code>60.03%</code> final-epoch mean on <code>BNCI2014-001</code>; S2: <code>47.22%</code>, S6: <code>50.00%</code>) where target-session Fréchet statistics are unavailable.</td></tr>
+          <tr><th>Dataloader &amp; Preprocessing Diff</th><td>Paper evaluates transductive target-session batch normalization across the whole test session and drops <code>Fpz</code> on <code>Hinss2021</code>.</td></tr>
+          <tr><th>Architecture &amp; Optimizer Diff</th><td><code>spd_learn</code> implements both causal <code>SPDBatchNormMeanVar</code> (frozen source running stats) and transductive domain BN.</td></tr>
+          <tr><th>Where It Struggles / Diverges</th><td>Collapses in causal online BCI (<code>batch_size=1</code>, <code>60.03%</code> final-epoch mean on <code>BNCI2014-001</code>; S2: <code>47.22%</code>, S6: <code>50.00%</code>).</td></tr>
           <tr><th>Practitioner Recommendation</th><td><strong>Use SPDDSMBN target-domain statistic estimation whenever an unlabelled calibration block (&gt;= 16 trials) is available from the target session.</strong></td></tr>
         </tbody>
       </table>
@@ -1341,7 +1354,7 @@
         <span class="tag">Analytical Claim (kobler2022tsmnet_c3)</span>
         <span class="muted small">Verified directional effect on MOABB/spd-bench harness with mechanistic attribution of baseline/protocol delta.</span>
       </div>
-      <p class="statement">On real BNCI2014-001 cross-session evaluation (Session T <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Session E, window [2.500, 5.496] s, 4-38 Hz), domain-specific target-session adaptation (SPDDSMBN) increases Subject 3 accuracy from 80.90% (frozen source running stats) to 88.19% (+7.29 pp), while forensic audit reveals that rkobler/TSMNet uses unpublished MOABB interval offsets ([2.500, 5.496] s vs standard [2.0, 6.0] s) and defines domain=(subject, session) record.</p>
+      <p class="statement">On real BNCI2014-001 cross-session evaluation (Session T <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Session E, window [2.500, 5.496] s, 4-38 Hz), domain-specific target-session adaptation (SPDDSMBN) increases Subject 3 accuracy from 80.90% (frozen source running stats) to 88.19% (+7.29 pp).</p>
     </summary>
     <div class="claim-body">
       <ul style="margin:0"><li><code>harness</code>: <strong>MOABB CrossSession BNCI2014-001 (NEMAR nm000139, window [2.500, 5.496]s, 4-38 Hz)</strong></li><li><code>published_mean_pct</code>: <strong>74.6</strong></li><li><code>published_sd_pct</code>: <strong>11.5</strong></li><li><code>our_9subj_harness_mean_pct</code>: <strong>73.84</strong></li><li><code>our_9subj_harness_sd_pct</code>: <strong>11.2</strong></li><li><code>delta_pct</code>: <strong>-0.76</strong></li><li><code>bnci_subj3_spddsmbn_acc_pct</code>: <strong>87.5</strong></li></ul>
@@ -1382,6 +1395,31 @@ if(b){b.addEventListener('click',function(){var t=order[(order.indexOf(get())+1)
 try{t==='auto'?localStorage.removeItem('theme'):localStorage.setItem('theme',t);}catch(e){}
 if(t==='auto')delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=t;show(t);});
 show(get());}
+var af=document.getElementById('auth-gate-form'),ai=document.getElementById('auth-gate-pass'),ae=document.getElementById('auth-gate-err'),lb=document.getElementById('lock-site');
+function checkPass(v){
+  var s=String(v||'').trim().toLowerCase();
+  return s==='spdlearn'||s==='replicability'||s==='spd2026';
+}
+if(af&&ai){
+  af.addEventListener('submit',function(ev){
+    ev.preventDefault();
+    if(checkPass(ai.value)){
+      try{localStorage.setItem('spd_repli_auth','1');}catch(e){}
+      document.documentElement.dataset.auth='ok';
+      if(ae)ae.textContent='';
+    }else{
+      if(ae)ae.textContent='Invalid access code. Please enter the SPD-Learn preview password.';
+      ai.select();
+    }
+  });
+}
+if(lb){
+  lb.addEventListener('click',function(){
+    try{localStorage.removeItem('spd_repli_auth');}catch(e){}
+    delete document.documentElement.dataset.auth;
+    if(ai){ai.value='';setTimeout(function(){ai.focus();},40);}
+  });
+}
 function runKatex(){
   if(typeof renderMathInElement==='function'&&document.body){
     renderMathInElement(document.body,{

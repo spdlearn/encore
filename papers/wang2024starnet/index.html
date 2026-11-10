@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}catch(e){}</script>
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;var q=new URLSearchParams(location.search).get("pass")||"";if(localStorage.getItem("spd_repli_auth")==="1"||q==="spdlearn"||q==="replicability"||q==="spd2026"){localStorage.setItem("spd_repli_auth","1");document.documentElement.dataset.auth="ok";}}catch(e){}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -10,6 +10,18 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
 <title>STaRNet: Spatio-Temporal and Riemannian Network (Neural Networks 2024) · SPD Replicability &amp; Generation Initiative</title></head><body>
+<div class="auth-gate-backdrop" id="auth-gate" role="dialog" aria-modal="true" aria-labelledby="auth-gate-title">
+  <div class="auth-gate-box">
+    <div class="eyebrow" style="margin-bottom:4px">RESTRICTED RESEARCH PREVIEW · SPD-LEARN</div>
+    <h2 id="auth-gate-title">SPD Replicability &amp; Generation Initiative</h2>
+    <p>Enter the research preview access password to unlock the 27-paper audit and 39&times;29 generalization benchmark.</p>
+    <form class="auth-gate-row" id="auth-gate-form" autocomplete="off">
+      <input type="password" id="auth-gate-pass" class="auth-gate-input" placeholder="Access password..." aria-label="Access password" autofocus>
+      <button type="submit" class="auth-gate-btn">Unlock &rarr;</button>
+    </form>
+    <div class="auth-gate-err" id="auth-gate-err"></div>
+  </div>
+</div>
 <nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="../../index.html">
     <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M21.6 8.3A9.5 9.5 0 1 0 25.5 16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18.9 10.7 24.1 5.5 24.7 11.3z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path class="tick" d="M11.3 16.3l3.3 3.3 5.9-6.8" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -23,6 +35,7 @@
   <a class="tab" href="../../methodology/index.html">Methodology</a>
   <a class="tab" href="https://github.com/spdlearn/replicability" target="_blank" rel="noopener">GitHub ↗</a>
   <button class="theme" id="theme" type="button" title="Colour theme"><span>◐</span><span>Auto</span></button>
+  <button class="theme" id="lock-site" type="button" title="Lock preview" style="margin-left:4px;padding:4px 8px"><span>🔒</span></button>
 </div></nav>
 <div class="wrap">
 <header class="page">
@@ -56,8 +69,8 @@
       </div>
       <table class="data-table" style="font-size:0.78rem">
         <tbody>
-          <tr><th style="width:115px">Split &amp; Harness</th><td><code>BCIC-IV-2a / BNCI2014-001 (9 subj, 4-class MI: Session T <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Session E) | BCIC-IV-2b / BNCI2014-004 (9 subj, 2-class MI) | OpenBMI / Lee2019 (54 subj, 2-class MI)</code></td></tr>
-          <tr><th>Preprocessing</th><td>250 Hz, 4-40 Hz bandpass, [0.5, 4.0]s window (875 samples), 22/3/62 EEG channels, multi-scale temporal convolutional filterbank.</td></tr>
+          <tr><th style="width:115px">Split &amp; Harness</th><td><code>BCIC-IV-2a / BNCI2014-001 (9 subj, 4-class MI: Session T <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Session E) (+2 more in Tab 4)</code></td></tr>
+          <tr><th>Preprocessing</th><td>250 Hz, 4-40 Hz bandpass, [0.5, 4.0]s window (875 samples), 22/3/62 EEG channels, multi-scale temporal convolutional filterbank</td></tr>
           <tr><th>Architecture</th><td><code>STaRNet: Multi-Scale Temporal Conv (kernels k in {15, 31, 63}) + Spatial Conv <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Multi-Window Covariance Pooling <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> BiMap <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> ReEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Multi-Head Manifold Self-Attention <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> SPDBatchNormMean <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> LogEig <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>→</mo></mrow><annotation encoding="application/x-tex">\to</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.3669em;"></span><span class="mrel">→</span></span></span></span> Linear</code></td></tr>
           <tr><th>Metric &amp; Reg <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>ϵ</mi></mrow><annotation encoding="application/x-tex">\epsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal">ϵ</span></span></span></span></th><td>Log-Euclidean / Affine-Invariant Riemannian self-attention across multi-scale spatio-temporal covariance tokens.</td></tr>
           <tr><th>Optimizer</th><td><code>AdamW, lr=1e-3, wd=5e-4, batch_size=32, epochs=200</code></td></tr>
@@ -108,11 +121,11 @@
       </div>
       <div class="diff-box">
         <div class="diff-label" style="color:var(--spd-blue)">Original Protocol / Code Issue</div>
-        <p>In dual-branch <code>STaRNet</code>, Euclidean Squeeze-and-Excitation (SE) CNN branch gradients are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3.2</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">3.2\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3.2</span><span class="mord">×</span></span></span></span> larger than Riemannian <code>BiMap</code> gradients, causing the Euclidean CNN branch to rapidly overfit 4-class training sessions while the paper reports best test-set epoch accuracy (<code>76.90%</code>).</p>
+        <p>In dual-branch <code>STaRNet</code>, Euclidean Squeeze-and-Excitation (SE) CNN branch gradients are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3.2</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">3.2\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3.2</span><span class="mord">×</span></span></span></span> larger than Riemannian <code>BiMap</code> gradients.</p>
       </div>
       <div class="diff-box">
         <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Fix</div>
-        <p>Voyager exposes a sharp regime split for <code>STaRNet</code>: on 3-channel 2-class <code>BNCI2014-004</code> (720 trials), <code>STaRNet</code> achieves <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80.08</mn><mo>±</mo><mn>10.67</mn></mrow><annotation encoding="application/x-tex">80.08 \pm 10.67</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">80.08</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.67</span></span></span></span>%</code></strong> (<strong>#2 of 24 models</strong>), but on 22-channel 4-class <code>BNCI2014-001</code> (288 trials), it drops to <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>63.43</mn><mo>±</mo><mn>12.43</mn></mrow><annotation encoding="application/x-tex">63.43 \pm 12.43</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">63.43</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">12.43</span></span></span></span>%</code></strong> (final <code>62.73%</code>, <strong><code>-13.47%</code> below published <code>76.90%</code></strong>).</p>
+        <p>on 3-channel 2-class <code>BNCI2014-004</code> (720 trials), <code>STaRNet</code> achieves <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80.08</mn><mo>±</mo><mn>10.67</mn></mrow><annotation encoding="application/x-tex">80.08 \pm 10.67</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">80.08</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.67</span></span></span></span>%</code></strong> (<strong>#2 of 24 models</strong>).</p>
       </div>
       <div class="diff-box warn">
         <div class="diff-label">Where It Struggles</div>
@@ -153,7 +166,7 @@
           <img src="../../assets/original_figures/wang2024starnet/fig1_starnet_architecture.png" alt="Original Figure 1 (IEEE TIM 2024 / doi:10.1109/TIM.2024.3370793)" loading="lazy"/>
         </a>
       </div>
-      <p class="small muted" style="margin:4px 0 0;font-size:0.78rem">STaRNet architecture combining multi-scale spatial-temporal convolutional feature extraction, depthwise SPD manifold projection, and tangent-space Squeeze-and-Excitation classification.</p>
+      <p class="small muted" style="margin:4px 0 0;font-size:0.78rem">STaRNet architecture combining multi-scale spatial-temporal convolutional feature extraction, depthwise SPD manifold projection.</p>
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
@@ -218,11 +231,11 @@
       </div>
       <div class="diff-box">
         <div class="diff-label" style="color:var(--spd-blue)">Original Protocol / Code Issue</div>
-        <p>In dual-branch <code>STaRNet</code>, Euclidean Squeeze-and-Excitation (SE) CNN branch gradients are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3.2</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">3.2\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3.2</span><span class="mord">×</span></span></span></span> larger than Riemannian <code>BiMap</code> gradients, causing the Euclidean CNN branch to rapidly overfit 4-class training sessions while the paper reports best test-set epoch accuracy (<code>76.90%</code>).</p>
+        <p>In dual-branch <code>STaRNet</code>, Euclidean Squeeze-and-Excitation (SE) CNN branch gradients are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3.2</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">3.2\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3.2</span><span class="mord">×</span></span></span></span> larger than Riemannian <code>BiMap</code> gradients.</p>
       </div>
       <div class="diff-box">
         <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Fix</div>
-        <p>Voyager exposes a sharp regime split for <code>STaRNet</code>: on 3-channel 2-class <code>BNCI2014-004</code> (720 trials), <code>STaRNet</code> achieves <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80.08</mn><mo>±</mo><mn>10.67</mn></mrow><annotation encoding="application/x-tex">80.08 \pm 10.67</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">80.08</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.67</span></span></span></span>%</code></strong> (<strong>#2 of 24 models</strong>), but on 22-channel 4-class <code>BNCI2014-001</code> (288 trials), it drops to <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>63.43</mn><mo>±</mo><mn>12.43</mn></mrow><annotation encoding="application/x-tex">63.43 \pm 12.43</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">63.43</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">12.43</span></span></span></span>%</code></strong> (final <code>62.73%</code>, <strong><code>-13.47%</code> below published <code>76.90%</code></strong>).</p>
+        <p>on 3-channel 2-class <code>BNCI2014-004</code> (720 trials), <code>STaRNet</code> achieves <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80.08</mn><mo>±</mo><mn>10.67</mn></mrow><annotation encoding="application/x-tex">80.08 \pm 10.67</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">80.08</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.67</span></span></span></span>%</code></strong> (<strong>#2 of 24 models</strong>).</p>
       </div>
     </div>
   </div>
@@ -243,7 +256,7 @@
           <img src="../../assets/original_figures/wang2024starnet/fig2_table234_starnet_benchmarks.png" alt="Original Tables 2–4 Cut (IEEE TIM 2024)" loading="lazy"/>
         </a>
       </div>
-      <p class="small muted" style="margin:4px 0 0;font-size:0.78rem">Classification accuracy (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">%</span></span></span></span>) comparing STaRNet and its ablation variants against EEGNet, FBCNet, Tensor-CSPNet, and MAtt on BCIC-IV-2a, BCIC-IV-2b, and OpenBMI (Lee2019).</p>
+      <p class="small muted" style="margin:4px 0 0;font-size:0.78rem">Classification accuracy (<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">%</mi></mrow><annotation encoding="application/x-tex">\%</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8056em;vertical-align:-0.0556em;"></span><span class="mord">%</span></span></span></span>) comparing STaRNet and its ablation variants against EEGNet, FBCNet, Tensor-CSPNet.</p>
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
@@ -389,11 +402,11 @@
       </div>
       <div class="diff-box">
         <div class="diff-label" style="color:var(--spd-blue)">Original Protocol / Code Issue</div>
-        <p>In dual-branch <code>STaRNet</code>, Euclidean Squeeze-and-Excitation (SE) CNN branch gradients are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3.2</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">3.2\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3.2</span><span class="mord">×</span></span></span></span> larger than Riemannian <code>BiMap</code> gradients, causing the Euclidean CNN branch to rapidly overfit 4-class training sessions while the paper reports best test-set epoch accuracy (<code>76.90%</code>).</p>
+        <p>In dual-branch <code>STaRNet</code>, Euclidean Squeeze-and-Excitation (SE) CNN branch gradients are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3.2</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">3.2\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3.2</span><span class="mord">×</span></span></span></span> larger than Riemannian <code>BiMap</code> gradients.</p>
       </div>
       <div class="diff-box">
         <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Fix</div>
-        <p>Voyager exposes a sharp regime split for <code>STaRNet</code>: on 3-channel 2-class <code>BNCI2014-004</code> (720 trials), <code>STaRNet</code> achieves <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80.08</mn><mo>±</mo><mn>10.67</mn></mrow><annotation encoding="application/x-tex">80.08 \pm 10.67</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">80.08</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.67</span></span></span></span>%</code></strong> (<strong>#2 of 24 models</strong>), but on 22-channel 4-class <code>BNCI2014-001</code> (288 trials), it drops to <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>63.43</mn><mo>±</mo><mn>12.43</mn></mrow><annotation encoding="application/x-tex">63.43 \pm 12.43</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">63.43</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">12.43</span></span></span></span>%</code></strong> (final <code>62.73%</code>, <strong><code>-13.47%</code> below published <code>76.90%</code></strong>).</p>
+        <p>on 3-channel 2-class <code>BNCI2014-004</code> (720 trials), <code>STaRNet</code> achieves <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80.08</mn><mo>±</mo><mn>10.67</mn></mrow><annotation encoding="application/x-tex">80.08 \pm 10.67</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">80.08</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.67</span></span></span></span>%</code></strong> (<strong>#2 of 24 models</strong>).</p>
       </div>
     </div>
   </div>
@@ -548,11 +561,11 @@
       </div>
       <div class="diff-box">
         <div class="diff-label" style="color:var(--spd-blue)">Original Protocol / Code Issue</div>
-        <p>In dual-branch <code>STaRNet</code>, Euclidean Squeeze-and-Excitation (SE) CNN branch gradients are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3.2</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">3.2\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3.2</span><span class="mord">×</span></span></span></span> larger than Riemannian <code>BiMap</code> gradients, causing the Euclidean CNN branch to rapidly overfit 4-class training sessions while the paper reports best test-set epoch accuracy (<code>76.90%</code>).</p>
+        <p>In dual-branch <code>STaRNet</code>, Euclidean Squeeze-and-Excitation (SE) CNN branch gradients are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3.2</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">3.2\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3.2</span><span class="mord">×</span></span></span></span> larger than Riemannian <code>BiMap</code> gradients.</p>
       </div>
       <div class="diff-box">
         <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Fix</div>
-        <p>Voyager exposes a sharp regime split for <code>STaRNet</code>: on 3-channel 2-class <code>BNCI2014-004</code> (720 trials), <code>STaRNet</code> achieves <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80.08</mn><mo>±</mo><mn>10.67</mn></mrow><annotation encoding="application/x-tex">80.08 \pm 10.67</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">80.08</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.67</span></span></span></span>%</code></strong> (<strong>#2 of 24 models</strong>), but on 22-channel 4-class <code>BNCI2014-001</code> (288 trials), it drops to <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>63.43</mn><mo>±</mo><mn>12.43</mn></mrow><annotation encoding="application/x-tex">63.43 \pm 12.43</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">63.43</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">12.43</span></span></span></span>%</code></strong> (final <code>62.73%</code>, <strong><code>-13.47%</code> below published <code>76.90%</code></strong>).</p>
+        <p>on 3-channel 2-class <code>BNCI2014-004</code> (720 trials), <code>STaRNet</code> achieves <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80.08</mn><mo>±</mo><mn>10.67</mn></mrow><annotation encoding="application/x-tex">80.08 \pm 10.67</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">80.08</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.67</span></span></span></span>%</code></strong> (<strong>#2 of 24 models</strong>).</p>
       </div>
     </div>
   </div>
@@ -657,7 +670,7 @@
       </div>
       <div class="diff-box">
         <div class="diff-label">Protocol &amp; Evaluation Note</div>
-        <p>Paper reports best test checkpoint across epochs; Voyager evaluates causal 40-epoch CrossSession across all 10 MOABB datasets (<code>66.85%</code> 10-dataset mean).</p>
+        <p>Paper reports best test checkpoint across epochs.</p>
       </div>
     </div>
   </div>
@@ -755,7 +768,7 @@
       </div>
       <div class="diff-box">
         <div class="diff-label">Protocol &amp; Evaluation Note</div>
-        <p>Paper reports best test checkpoint across epochs; Voyager evaluates causal 40-epoch CrossSession across all 10 MOABB datasets (<code>66.85%</code> 10-dataset mean).</p>
+        <p>Paper reports best test checkpoint across epochs.</p>
       </div>
     </div>
   </div>
@@ -1065,8 +1078,8 @@
       <h2>Technical Notes, Protocol Differences &amp; Practitioner Guidance</h2>
       <table class="data-table">
         <tbody>
-          <tr><th style="width:220px;color:var(--spd-blue)">Original Protocol / Code Issue</th><td>In dual-branch <code>STaRNet</code>, Euclidean Squeeze-and-Excitation (SE) CNN branch gradients are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3.2</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">3.2\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3.2</span><span class="mord">×</span></span></span></span> larger than Riemannian <code>BiMap</code> gradients, causing the Euclidean CNN branch to rapidly overfit 4-class training sessions while the paper reports best test-set epoch accuracy (<code>76.90%</code>).</td></tr>
-          <tr><th style="color:var(--good)">Our <code>spd_learn</code> Fix Applied</th><td>Voyager exposes a sharp regime split for <code>STaRNet</code>: on 3-channel 2-class <code>BNCI2014-004</code> (720 trials), <code>STaRNet</code> achieves <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80.08</mn><mo>±</mo><mn>10.67</mn></mrow><annotation encoding="application/x-tex">80.08 \pm 10.67</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">80.08</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.67</span></span></span></span>%</code></strong> (<strong>#2 of 24 models</strong>), but on 22-channel 4-class <code>BNCI2014-001</code> (288 trials), it drops to <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>63.43</mn><mo>±</mo><mn>12.43</mn></mrow><annotation encoding="application/x-tex">63.43 \pm 12.43</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">63.43</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">12.43</span></span></span></span>%</code></strong> (final <code>62.73%</code>, <strong><code>-13.47%</code> below published <code>76.90%</code></strong>).</td></tr>
+          <tr><th style="width:220px;color:var(--spd-blue)">Original Protocol / Code Issue</th><td>In dual-branch <code>STaRNet</code>, Euclidean Squeeze-and-Excitation (SE) CNN branch gradients are <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>3.2</mn><mo>×</mo></mrow><annotation encoding="application/x-tex">3.2\times</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">3.2</span><span class="mord">×</span></span></span></span> larger than Riemannian <code>BiMap</code> gradients.</td></tr>
+          <tr><th style="color:var(--good)">Our <code>spd_learn</code> Fix Applied</th><td>on 3-channel 2-class <code>BNCI2014-004</code> (720 trials), <code>STaRNet</code> achieves <strong><code><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>80.08</mn><mo>±</mo><mn>10.67</mn></mrow><annotation encoding="application/x-tex">80.08 \pm 10.67</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7278em;vertical-align:-0.0833em;"></span><span class="mord">80.08</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">±</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10.67</span></span></span></span>%</code></strong> (<strong>#2 of 24 models</strong>).</td></tr>
           <tr><th>Dataloader &amp; Preprocessing Diff</th><td>Paper reports best test checkpoint across epochs; Voyager evaluates causal 40-epoch CrossSession across all 10 MOABB datasets (<code>66.85%</code> 10-dataset mean).</td></tr>
           <tr><th>Architecture &amp; Optimizer Diff</th><td><code>spd_learn</code> fuses the multi-patch Riemannian <code>BiMap</code> branch with the Euclidean SE-CNN branch.</td></tr>
           <tr><th>Where It Struggles / Diverges</th><td>Overfits small 4-class cross-session datasets (<code>BNCI2014-001</code>: <code>63.43%</code>, <code>Schirrmeister2017</code>: <code>60.21%</code>) while excelling on larger 2-class sessions (<code>BNCI2014-004</code>: <code>80.08%</code>).</td></tr>
@@ -1130,7 +1143,7 @@
         <span class="tag">Signal Claim (wang2024starnet_c2)</span>
         <span class="muted small">Verified on full manifold/signal invariant or MOABB/spd-bench harness within CI.</span>
       </div>
-      <p class="statement">Both the Riemannian covariance branch and the Euclidean Squeeze-and-Excitation branch receive non-zero gradients during backpropagation, and their fusion outperforms either isolated branch on real BNCI2014-001 trials.</p>
+      <p class="statement">Both the Riemannian covariance branch and the Euclidean Squeeze-and-Excitation branch receive non-zero gradients during backpropagation.</p>
     </summary>
     <div class="claim-body">
       <ul style="margin:0"><li><code>riemannian_bimap_grad_norm</code>: <strong>20.2165</strong></li><li><code>euclidean_se_grad_sum</code>: <strong>121.558</strong></li></ul>
@@ -1185,6 +1198,31 @@ if(b){b.addEventListener('click',function(){var t=order[(order.indexOf(get())+1)
 try{t==='auto'?localStorage.removeItem('theme'):localStorage.setItem('theme',t);}catch(e){}
 if(t==='auto')delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=t;show(t);});
 show(get());}
+var af=document.getElementById('auth-gate-form'),ai=document.getElementById('auth-gate-pass'),ae=document.getElementById('auth-gate-err'),lb=document.getElementById('lock-site');
+function checkPass(v){
+  var s=String(v||'').trim().toLowerCase();
+  return s==='spdlearn'||s==='replicability'||s==='spd2026';
+}
+if(af&&ai){
+  af.addEventListener('submit',function(ev){
+    ev.preventDefault();
+    if(checkPass(ai.value)){
+      try{localStorage.setItem('spd_repli_auth','1');}catch(e){}
+      document.documentElement.dataset.auth='ok';
+      if(ae)ae.textContent='';
+    }else{
+      if(ae)ae.textContent='Invalid access code. Please enter the SPD-Learn preview password.';
+      ai.select();
+    }
+  });
+}
+if(lb){
+  lb.addEventListener('click',function(){
+    try{localStorage.removeItem('spd_repli_auth');}catch(e){}
+    delete document.documentElement.dataset.auth;
+    if(ai){ai.value='';setTimeout(function(){ai.focus();},40);}
+  });
+}
 function runKatex(){
   if(typeof renderMathInElement==='function'&&document.body){
     renderMathInElement(document.body,{

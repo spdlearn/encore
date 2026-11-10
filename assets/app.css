@@ -713,6 +713,64 @@ table.data-table th {
 .katex { font-size: 1.01em; }
 code .katex { font-size: 0.95em; }
 table.data-table td .katex, table.data-table th .katex { font-size: 0.96em; }
+/* Client-Side Password Gate */
+html:not([data-auth="ok"]) body { overflow: hidden; }
+.auth-gate-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(13, 17, 23, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+html[data-auth="ok"] .auth-gate-backdrop { display: none !important; }
+.auth-gate-box {
+  width: 100%;
+  max-width: 420px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--accent);
+  border-radius: 10px;
+  padding: 24px 26px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+}
+.auth-gate-box h2 { margin: 0 0 6px; font-size: 1.22rem; }
+.auth-gate-box p { margin: 0 0 14px; font-size: 0.86rem; color: var(--text2); }
+.auth-gate-row { display: flex; gap: 8px; }
+.auth-gate-input {
+  flex: 1;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.90rem;
+}
+.auth-gate-input:focus { outline: 2px solid var(--accent); border-color: transparent; }
+.auth-gate-btn {
+  padding: 9px 16px;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+.auth-gate-btn:hover { background: var(--accent-dark); }
+.auth-gate-err {
+  color: var(--critical);
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-top: 8px;
+  min-height: 18px;
+}
 footer {
   margin: 36px 0 28px;
   padding-top: 14px;

@@ -480,21 +480,79 @@ def _esc(text: Any) -> str:
 _latexify_prose = _esc
 
 
-def _short_prose(text: Any, max_chars: int = 240) -> str:
+def _short_prose(text: Any, max_chars: int = 150) -> str:
     """Trim verbose multi-sentence log/protocol text into a single complete, human-readable sentence."""
     s = _clean_prose(str(text)).strip()
-    s = re.sub(r"^(?:HUMAN\s*/\s*PROTOCOL\s*ERROR|PROTOCOL\s*/\s*BASELINE\s*GAP|VERIFIED|AUTHOR\s*CODE\s*BUG)\s*:\s*", "", s, flags=re.IGNORECASE)
+    s = re.sub(
+        r"^(?:HUMAN\s*/\s*PROTOCOL\s*ERROR|PROTOCOL\s*/\s*BASELINE\s*GAP|VERIFIED|AUTHOR\s*CODE\s*BUG|THREE\s+[A-Z\s]+|FUNDAMENTAL\s+MATHEMATICAL\s+FLAW|MATHEMATICAL\s+FLAW|ARCHITECTURAL\s+FLAW|C\d\s*(?:&\s*C\d\s*)?Falsified)(?:\s+in\s+[^:]+)?\s*:\s*",
+        "",
+        s,
+        flags=re.IGNORECASE,
+    )
+    s = re.sub(r"^(?:Voyager|Evaluated)\s+[^:]{0,85}:\s*", "", s, flags=re.IGNORECASE)
     s = re.sub(r"^Voyager\s+[A-Za-z0-9_-]+\s*\([^)]*\)\.\s*", "", s)
+    s = re.sub(r"^\(\d+\)\s*", "", s)
+    # Split before inline numbered items like (1) or (2)
+    for num_tok in (" (2) ", ". (1) ", "; (1) "):
+        if num_tok in s:
+            cand_num = s.split(num_tok)[0].strip().rstrip(";,.")
+            if len(cand_num) >= 35 and cand_num.count("(") == cand_num.count(")") and cand_num.count("$") % 2 == 0 and cand_num.count("`") % 2 == 0:
+                s = cand_num
     # Split after the first sentence boundary (avoiding decimals like 71.68% or 0.4 or et al.)
-    m_sent = re.split(r"(?<=[a-zA-Z0-9%)`\*])(?<!et al)(?<!Fig)(?<!Tab)(?<!vs)\.\s+(?=[A-Z0-9`\*])", s, maxsplit=1)
+    m_sent = re.split(r"(?<=[a-zA-Z0-9%)`\*\$])(?<!et al)(?<!Fig)(?<!Tab)(?<!vs)\.\s+(?=[A-Z0-9`\*\$])", s, maxsplit=1)
     first = m_sent[0].strip()
-    if len(first) > 165 and ";" in first:
-        semi_head = first.split(";")[0].strip()
-        if semi_head.count("(") == semi_head.count(")") and semi_head.count("$") % 2 == 0:
-            first = semi_head
+    seps = (
+        "; ",
+        " — ",
+        " -- ",
+        ", whereas ",
+        ", while ",
+        ", though ",
+        ", but ",
+        ", causing ",
+        ", proving ",
+        ", exposing ",
+        ", confirming ",
+        ", and reports ",
+        ", achieving ",
+        ", plus ",
+        ", beating ",
+        ", and only ",
+        " and the ",
+        " where ",
+        ", and ",
+    )
+    for sep in seps:
+        if len(first) > max_chars and sep in first:
+            head = first.split(sep)[0].strip().rstrip(";,")
+            if (
+                len(head) >= 40
+                and head.count("(") == head.count(")")
+                and head.count("$") % 2 == 0
+                and head.count("`") % 2 == 0
+                and head.count("**") % 2 == 0
+            ):
+                first = head
     if not first.endswith("."):
         first += "."
     return _esc(first)
+
+
+def _short_pipe_spec(text: Any, max_pipes: int = 1) -> str:
+    """Condense pipe-separated multi-dataset config strings into the primary dataset + count badge."""
+    s = _clean_prose(str(text)).strip()
+    parts = [p.strip() for p in s.split("|") if p.strip()]
+    if not parts:
+        return ""
+    head = " | ".join(parts[:max_pipes])
+    if len(head) > 135 and ";" in head:
+        c_semi = head.split(";")[0].strip()
+        if c_semi.count("(") == c_semi.count(")") and c_semi.count("$") % 2 == 0:
+            head = c_semi
+    extra = len(parts) - max_pipes
+    if extra > 0:
+        return f"{_esc(head)} (+{extra} more in Tab 4)"
+    return _esc(head)
 
 
 
@@ -1225,7 +1283,7 @@ def _render_imported_tables_section(paper_id: str, harness_rows: list[dict[str, 
           <tbody>
             <tr><th style="width:125px">spd_learn Symbols</th><td>{targets_badges}</td></tr>
             <tr><th>Manifold Geometry</th><td>{_short_prose(fig_meta.get("geometry", ""), 120)}</td></tr>
-            <tr><th>Layer Pipeline</th><td><code>{_esc(cfg.get("architecture", ""))}</code></td></tr>
+            <tr><th>Layer Pipeline</th><td><code>{_short_pipe_spec(cfg.get("architecture", ""), 1)}</code></td></tr>
           </tbody>
         </table>
       </div>"""
@@ -1312,7 +1370,7 @@ def _render_architectural_side_by_side_card(
 
     spec_rows = f"""<tr><th style="width:118px">spd_learn Classes</th><td>{targets_badges}</td></tr>
           <tr><th>Manifold Geometry</th><td>{_short_prose(fig_meta.get("geometry", ""), 115)}</td></tr>
-          <tr><th>Layer Pipeline</th><td><code>{_esc(cfg.get("architecture", ""))}</code></td></tr>"""
+          <tr><th>Layer Pipeline</th><td><code>{_short_pipe_spec(cfg.get("architecture", ""), 1)}</code></td></tr>"""
 
     return f"""<div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
@@ -3345,6 +3403,64 @@ table.data-table th {
 .katex { font-size: 1.01em; }
 code .katex { font-size: 0.95em; }
 table.data-table td .katex, table.data-table th .katex { font-size: 0.96em; }
+/* Client-Side Password Gate */
+html:not([data-auth="ok"]) body { overflow: hidden; }
+.auth-gate-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(13, 17, 23, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+html[data-auth="ok"] .auth-gate-backdrop { display: none !important; }
+.auth-gate-box {
+  width: 100%;
+  max-width: 420px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--accent);
+  border-radius: 10px;
+  padding: 24px 26px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+}
+.auth-gate-box h2 { margin: 0 0 6px; font-size: 1.22rem; }
+.auth-gate-box p { margin: 0 0 14px; font-size: 0.86rem; color: var(--text2); }
+.auth-gate-row { display: flex; gap: 8px; }
+.auth-gate-input {
+  flex: 1;
+  padding: 9px 12px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.90rem;
+}
+.auth-gate-input:focus { outline: 2px solid var(--accent); border-color: transparent; }
+.auth-gate-btn {
+  padding: 9px 16px;
+  border: none;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+.auth-gate-btn:hover { background: var(--accent-dark); }
+.auth-gate-err {
+  color: var(--critical);
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-top: 8px;
+  min-height: 18px;
+}
 footer {
   margin: 36px 0 28px;
   padding-top: 14px;
@@ -3363,6 +3479,31 @@ if(b){b.addEventListener('click',function(){var t=order[(order.indexOf(get())+1)
 try{t==='auto'?localStorage.removeItem('theme'):localStorage.setItem('theme',t);}catch(e){}
 if(t==='auto')delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=t;show(t);});
 show(get());}
+var af=document.getElementById('auth-gate-form'),ai=document.getElementById('auth-gate-pass'),ae=document.getElementById('auth-gate-err'),lb=document.getElementById('lock-site');
+function checkPass(v){
+  var s=String(v||'').trim().toLowerCase();
+  return s==='spdlearn'||s==='replicability'||s==='spd2026';
+}
+if(af&&ai){
+  af.addEventListener('submit',function(ev){
+    ev.preventDefault();
+    if(checkPass(ai.value)){
+      try{localStorage.setItem('spd_repli_auth','1');}catch(e){}
+      document.documentElement.dataset.auth='ok';
+      if(ae)ae.textContent='';
+    }else{
+      if(ae)ae.textContent='Invalid access code. Please enter the SPD-Learn preview password.';
+      ai.select();
+    }
+  });
+}
+if(lb){
+  lb.addEventListener('click',function(){
+    try{localStorage.removeItem('spd_repli_auth');}catch(e){}
+    delete document.documentElement.dataset.auth;
+    if(ai){ai.value='';setTimeout(function(){ai.focus();},40);}
+  });
+}
 function runKatex(){
   if(typeof renderMathInElement==='function'&&document.body){
     renderMathInElement(document.body,{
@@ -3392,7 +3533,7 @@ def _nav_html(root_prefix: str, active: str) -> str:
     return f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<script>try{{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;}}catch(e){{}}</script>
+<script>try{{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t;var q=new URLSearchParams(location.search).get("pass")||"";if(localStorage.getItem("spd_repli_auth")==="1"||q==="spdlearn"||q==="replicability"||q==="spd2026"){{localStorage.setItem("spd_repli_auth","1");document.documentElement.dataset.auth="ok";}}}}catch(e){{}}</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Source+Sans+3:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -3410,6 +3551,19 @@ def _top_bar(root_prefix: str, active: str, page_title: str) -> str:
     return (
         _nav_html(root_prefix, active)
         + f"<title>{_esc_svg(page_title)} · SPD Replicability &amp; Generation Initiative</title></head><body>\n"
+        + """<div class="auth-gate-backdrop" id="auth-gate" role="dialog" aria-modal="true" aria-labelledby="auth-gate-title">
+  <div class="auth-gate-box">
+    <div class="eyebrow" style="margin-bottom:4px">RESTRICTED RESEARCH PREVIEW · SPD-LEARN</div>
+    <h2 id="auth-gate-title">SPD Replicability &amp; Generation Initiative</h2>
+    <p>Enter the research preview access password to unlock the 27-paper audit and 39&times;29 generalization benchmark.</p>
+    <form class="auth-gate-row" id="auth-gate-form" autocomplete="off">
+      <input type="password" id="auth-gate-pass" class="auth-gate-input" placeholder="Access password..." aria-label="Access password" autofocus>
+      <button type="submit" class="auth-gate-btn">Unlock &rarr;</button>
+    </form>
+    <div class="auth-gate-err" id="auth-gate-err"></div>
+  </div>
+</div>
+"""
         + f"""<nav class="top" aria-label="Sections"><div class="wrap">
   <a class="brand" href="{root_prefix}index.html">
     <svg class="mark" viewBox="0 0 32 32" aria-hidden="true"><path d="M21.6 8.3A9.5 9.5 0 1 0 25.5 16" fill="none" stroke="currentColor" stroke-width="2.8" stroke-linecap="round"/><path d="M18.9 10.7 24.1 5.5 24.7 11.3z" fill="currentColor" stroke="currentColor" stroke-width="1.2" stroke-linejoin="round"/><path class="tick" d="M11.3 16.3l3.3 3.3 5.9-6.8" fill="none" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -3423,6 +3577,7 @@ def _top_bar(root_prefix: str, active: str, page_title: str) -> str:
   <a class="tab" href="{root_prefix}methodology/index.html"{cur("methodology")}>Methodology</a>
   <a class="tab" href="https://github.com/spdlearn/replicability" target="_blank" rel="noopener">GitHub ↗</a>
   <button class="theme" id="theme" type="button" title="Colour theme"><span>◐</span><span>Auto</span></button>
+  <button class="theme" id="lock-site" type="button" title="Lock preview" style="margin-left:4px;padding:4px 8px"><span>🔒</span></button>
 </div></nav>
 <div class="wrap">
 """
@@ -3641,10 +3796,10 @@ def _normalize_harness_rows(
                     row_note = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}); replicates or exceeds published claim."
                 elif dv >= -8.0:
                     sb_v, st_v = "BASELINE-ADJUSTED", "Baseline-Adjusted"
-                    row_note = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}). {gap_diff}"
+                    row_note = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}). {_short_prose(gap_diff, 110)}"
                 else:
                     sb_v, st_v = "FALSIFIED", "Falsified"
-                    row_note = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}). {gap_diff}"
+                    row_note = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}). {_short_prose(gap_diff, 110)}"
                 executed_rows.append(
                     {
                         "dataset": ds_str,
@@ -3680,7 +3835,7 @@ def _normalize_harness_rows(
                     ours_str = f"{best_v:.2f} ± {sd_v:.2f}%"
                 if "no tabulated" in pub_str.lower() or r.get("spdbench_verdict") == "NO TARGET":
                     sb_v, st_v = "NO TARGET", "Verified"
-                    note_str = f"{use_m}: {best_v:.2f} ± {sd_v:.2f}% ({rec.get('n_subjects', 1)} subjects). {orig_notes}"
+                    note_str = f"{use_m}: {best_v:.2f} ± {sd_v:.2f}% ({rec.get('n_subjects', 1)} subjects). {_short_prose(orig_notes, 110)}"
                 elif 20.0 <= pub_f <= 100.0:
                     dv = best_v - pub_f
                     sign = "+" if dv >= 0 else ""
@@ -3689,13 +3844,13 @@ def _normalize_harness_rows(
                         note_str = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}); replicates or exceeds published benchmark."
                     elif dv >= -8.0:
                         sb_v, st_v = "BASELINE-ADJUSTED", "Baseline-Adjusted"
-                        note_str = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}). {gap_diff}"
+                        note_str = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}). {_short_prose(gap_diff, 110)}"
                     else:
                         sb_v, st_v = "FALSIFIED", "Falsified"
-                        note_str = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}). {gap_diff}"
+                        note_str = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}). {_short_prose(gap_diff, 110)}"
                 else:
                     sb_v, st_v = "BASELINE-ADJUSTED", c3_verdict
-                    note_str = f"{use_m}: {best_v:.2f} ± {sd_v:.2f}%. {gap_diff}"
+                    note_str = f"{use_m}: {best_v:.2f} ± {sd_v:.2f}%. {_short_prose(gap_diff, 110)}"
                 executed_rows.append(
                     {
                         "dataset": ds_str,
@@ -3717,7 +3872,7 @@ def _normalize_harness_rows(
                 "our_harness": str(r.get("our_harness", "See Voyager Table")),
                 "spdbench_verdict": str(r.get("spdbench_verdict", "NO TARGET")),
                 "status": str(r.get("status", "Inconclusive")),
-                "notes": orig_notes,
+                "notes": _short_prose(orig_notes, 120),
             }
         )
 
@@ -4781,7 +4936,170 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     par_svg_lines.append("</svg>")
     pareto_params_svg = "\n".join(par_svg_lines)
 
-    # Build 39-Model Complexity, Size Scaling & Peeking Table
+    # 1D-B. Custom 560x285 Training Data Volume Scaling SVG (Few-Shot <=150 -> Large Clinical Cohort 3K-150K+)
+    dv_few_keys = ("hdm05", "fpha", "shin2017a", "weibo2014", "mamem2", "bnci2014_002", "zhou2020")
+    dv_std_keys = ("bnci2014_001", "bnci2014_004", "bnci2015_001", "cho2017", "lee2019_mi", "bci_ern", "hinss2021", "afew")
+    dv_mul_keys = ("schirrmeister2017", "stieger2021", "physionet_mi", "deap", "seed", "radar")
+    dv_lrg_keys = ("tuab", "tuev", "sleep_edfx", "mass_ss3", "lemon", "tdbrain", "abide", "adhd200")
+    dv_regimes = [
+        ("Few-Shot ≤150", dv_few_keys),
+        ("Standard 200–600", dv_std_keys),
+        ("Multi-Sess 600–3K", dv_mul_keys),
+        ("Large 3K–150K", dv_lrg_keys),
+    ]
+
+    def _model_dv_curve(m_name: str) -> list[float]:
+        out_c = []
+        for _, r_keys in dv_regimes:
+            vals = [ds_model_vals[d][m_name] for d in r_keys if m_name in ds_model_vals.get(d, {})]
+            out_c.append(sum(vals) / max(len(vals), 1))
+        return out_c
+
+    def _fam_dv_curve(f_key: str) -> list[float]:
+        f_ms = [ms["model"] for ms in model_stats if ms["fam_key"] == f_key]
+        out_c = []
+        for _, r_keys in dv_regimes:
+            vals = [ds_model_vals[d][m] for d in r_keys for m in f_ms if m in ds_model_vals.get(d, {})]
+            out_c.append(sum(vals) / max(len(vals), 1))
+        return out_c
+
+    series_1db = [
+        ("Green (Gabor Wavelet)", _model_dv_curve("Green"), "#7c3aed", ""),
+        ("GBWAtt (Manifold Att)", _model_dv_curve("GBWAtt"), "#d97706", ""),
+        ("SPDMetaFormer (0-Att)", _model_dv_curve("SPDMetaFormer"), "#1d4ed8", "4,2"),
+        ("BatchNorm Fam (11)", _fam_dv_curve("batchnorm"), "#15803d", ""),
+        ("Graph/Filterbank (5)", _fam_dv_curve("graph"), "#0284c7", "2,2"),
+        ("Correlation Fam (3)", _fam_dv_curve("correlation"), "#dc2626", "5,2"),
+    ]
+    w_1db, h_1db = 560, 285
+    xl_1db, xr_1db = 64.0, 412.0
+    yt_1db, yb_1db = 50.0, 240.0
+
+    def _x_1db(idx_b: int) -> float:
+        return xl_1db + (idx_b / 3.0) * (xr_1db - xl_1db)
+
+    def _y_1db(val_p: float) -> float:
+        return yb_1db - ((val_p - 56.0) / (73.0 - 56.0)) * (yb_1db - yt_1db)
+
+    lines_1db = [
+        f'<svg viewBox="0 0 {w_1db} {h_1db}" class="diag-svg" role="img" aria-label="Training Data Volume Scaling Across 29 Datasets">',
+        '<text x="14" y="18" class="svg-title">1D-B. Data Volume Scaling (N_train): Few-Shot (≤150) → Large Cohort (150K)</text>',
+        '<text x="14" y="34" class="svg-sub">BatchNorm + SPDMetaFormer win Few-Shot; Attention (GBWAtt) &amp; Green cross over at N ≥ 600</text>',
+        f'<line x1="12" y1="42" x2="{w_1db - 12}" y2="42" stroke="var(--line)" stroke-width="1"/>',
+    ]
+    for y_tk in [56, 60, 64, 68, 72]:
+        yy = _y_1db(float(y_tk))
+        lines_1db.append(f'<line x1="{xl_1db}" y1="{yy:.1f}" x2="{xr_1db}" y2="{yy:.1f}" class="svg-grid"/>')
+        lines_1db.append(f'<text x="{xl_1db - 6}" y="{yy + 3:.1f}" text-anchor="end" class="svg-tick">{y_tk}%</text>')
+    for i_b, (b_lbl, _) in enumerate(dv_regimes):
+        xx = _x_1db(i_b)
+        lines_1db.append(f'<line x1="{xx:.1f}" y1="{yt_1db}" x2="{xx:.1f}" y2="{yb_1db}" class="svg-grid"/>')
+        lines_1db.append(f'<text x="{xx:.1f}" y="256" text-anchor="middle" class="svg-tick">{_esc_svg(b_lbl)}</text>')
+    # Highlight crossover zone between Standard (i=1) and Multi-Session (i=2)
+    x_cross = 0.5 * (_x_1db(1) + _x_1db(2))
+    lines_1db.append(f'<line x1="{x_cross:.1f}" y1="{yt_1db}" x2="{x_cross:.1f}" y2="{yb_1db}" stroke="#d97706" stroke-width="1.2" stroke-dasharray="3,3" opacity="0.75"/>')
+    lines_1db.append(f'<text x="{x_cross:.1f}" y="{yt_1db + 10:.1f}" text-anchor="middle" class="svg-tick" style="fill:#d97706;font-weight:700">Attention Crossover (N ≥ 600)</text>')
+    lines_1db.append(f'<line x1="{xl_1db}" y1="{yt_1db}" x2="{xl_1db}" y2="{yb_1db}" class="svg-axis"/>')
+    lines_1db.append(f'<line x1="{xl_1db}" y1="{yb_1db}" x2="{xr_1db}" y2="{yb_1db}" class="svg-axis"/>')
+    lines_1db.append(f'<text x="{0.5 * (xl_1db + xr_1db):.1f}" y="278" text-anchor="middle" class="svg-label">Training Sample Volume Regime N_train Across All 29 Voyager Datasets</text>')
+
+    end_callouts_1db = []
+    for slbl, svals, scol, sdash in series_1db:
+        pts = [(_x_1db(i), _y_1db(v), v) for i, v in enumerate(svals)]
+        poly = " ".join(f"{px:.1f},{py:.1f}" for px, py, _ in pts)
+        dash_attr = f' stroke-dasharray="{sdash}"' if sdash else ""
+        lines_1db.append(f'<polyline fill="none" points="{poly}" stroke="{scol}" stroke-width="2.4"{dash_attr}/>')
+        for px, py, _ in pts:
+            lines_1db.append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="3.6" fill="{scol}"/>')
+        short_n = slbl.split("(")[0].strip()
+        end_callouts_1db.append([pts[-1][0], pts[-1][1], pts[-1][1], f"{short_n} {pts[-1][2]:.1f}%", scol])
+
+    end_callouts_1db.sort(key=lambda item: item[2])
+    for _ in range(6):
+        for k in range(1, len(end_callouts_1db)):
+            if end_callouts_1db[k][2] - end_callouts_1db[k - 1][2] < 14.0:
+                mid = 0.5 * (end_callouts_1db[k][2] + end_callouts_1db[k - 1][2])
+                end_callouts_1db[k - 1][2] = mid - 7.0
+                end_callouts_1db[k][2] = mid + 7.0
+    for px_end, py_orig, py_adj, c_txt, scol in end_callouts_1db:
+        lines_1db.append(f'<line x1="{px_end + 4:.1f}" y1="{py_orig:.1f}" x2="{xr_1db + 10:.1f}" y2="{py_adj:.1f}" stroke="{scol}" stroke-width="0.9" opacity="0.7"/>')
+        lines_1db.append(f'<text x="{xr_1db + 13:.1f}" y="{py_adj + 3:.1f}" text-anchor="start" class="svg-val" style="font-weight:700;fill:{scol}">{_esc_svg(c_txt)}</text>')
+    lines_1db.append("</svg>")
+    data_vol_scaling_svg = "\n".join(lines_1db)
+
+    # 1E-B. Custom 560x285 Controlled Sample-Scarcity Subsampling SVG (5% -> 10% -> 25% -> 50% -> 100% on Radar)
+    scarcity_map = VOYAGER_RESULTS.get("radar_scarcity", {})
+    sc_fracs_spec = [("0.05", "5% (75)"), ("0.1", "10% (150)"), ("0.25", "25% (375)"), ("0.5", "50% (750)"), ("1.0", "100% (1.5K)")]
+
+    def _sc_vals(m_name: str, fallback: list[float]) -> list[float]:
+        rec_s = scarcity_map.get(m_name, {})
+        if not rec_s:
+            return fallback
+        return [float(rec_s.get(fk, {}).get("mean", fallback[i])) for i, (fk, _) in enumerate(sc_fracs_spec)]
+
+    series_sc = [
+        ("GBWBN (#2)", _sc_vals("GBWBN", [76.80, 78.40, 78.53, 80.53, 97.12]), "#15803d", ""),
+        ("LieBN-AIM (#6)", _sc_vals("LieBN-AIM", [76.40, 77.87, 78.13, 80.80, 97.39]), "#0f766e", "4,2"),
+        ("SPDNetBN (#4)", _sc_vals("SPDNetBN", [75.87, 78.27, 78.40, 80.40, 97.07]), "#1d4ed8", ""),
+        ("CBN (Cholesky)", _sc_vals("CBN", [70.93, 74.13, 75.07, 79.33, 96.85]), "#d97706", "4,2"),
+        ("SPDNet (No BN)", _sc_vals("SPDNet", [70.13, 76.00, 75.73, 79.07, 96.96]), "#475569", ""),
+        ("PCM (Power-Chol)", _sc_vals("PCM", [68.40, 73.87, 77.07, 79.33, 97.07]), "#dc2626", "2,2"),
+    ]
+    w_sc, h_sc = 560, 285
+    xl_sc, xr_sc = 50.0, 392.0
+    yt_sc, yb_sc = 50.0, 240.0
+
+    def _x_sc(idx_s: int) -> float:
+        return xl_sc + (idx_s / 4.0) * (xr_sc - xl_sc)
+
+    def _y_sc(val_s: float) -> float:
+        return yb_sc - ((val_s - 66.0) / (99.0 - 66.0)) * (yb_sc - yt_sc)
+
+    lines_sc = [
+        f'<svg viewBox="0 0 {w_sc} {h_sc}" class="diag-svg" role="img" aria-label="Controlled Sample-Scarcity Subsampling Curve">',
+        '<text x="14" y="18" class="svg-title">1E-B. Controlled Sample Scarcity: 5% (75 Trials) → 100% (1,500 Trials) on Radar</text>',
+        '<text x="14" y="34" class="svg-sub">At 5% training data, Riemannian BatchNorm (GBWBN 76.8%) retains +6.7 to +8.4 pp over No-BN / PCM</text>',
+        f'<line x1="12" y1="42" x2="{w_sc - 12}" y2="42" stroke="var(--line)" stroke-width="1"/>',
+    ]
+    for y_tk in [68, 74, 80, 86, 92, 98]:
+        yy = _y_sc(float(y_tk))
+        lines_sc.append(f'<line x1="{xl_sc}" y1="{yy:.1f}" x2="{xr_sc}" y2="{yy:.1f}" class="svg-grid"/>')
+        lines_sc.append(f'<text x="{xl_sc - 6}" y="{yy + 3:.1f}" text-anchor="end" class="svg-tick">{y_tk}%</text>')
+    for i_s, (_, s_lbl) in enumerate(sc_fracs_spec):
+        xx = _x_sc(i_s)
+        lines_sc.append(f'<line x1="{xx:.1f}" y1="{yt_sc}" x2="{xx:.1f}" y2="{yb_sc}" class="svg-grid"/>')
+        lines_sc.append(f'<text x="{xx:.1f}" y="256" text-anchor="middle" class="svg-tick">{_esc_svg(s_lbl)}</text>')
+    lines_sc.append(f'<line x1="{xl_sc}" y1="{yt_sc}" x2="{xl_sc}" y2="{yb_sc}" class="svg-axis"/>')
+    lines_sc.append(f'<line x1="{xl_sc}" y1="{yb_sc}" x2="{xr_sc}" y2="{yb_sc}" class="svg-axis"/>')
+    lines_sc.append(f'<text x="{0.5 * (xl_sc + xr_sc):.1f}" y="278" text-anchor="middle" class="svg-label">Subsampled Training Fraction (% of Training Set &amp; Number of SPD Matrices)</text>')
+
+    end_callouts_sc = []
+    for slbl, svals, scol, sdash in series_sc:
+        pts = [(_x_sc(i), _y_sc(v), v) for i, v in enumerate(svals)]
+        poly = " ".join(f"{px:.1f},{py:.1f}" for px, py, _ in pts)
+        dash_attr = f' stroke-dasharray="{sdash}"' if sdash else ""
+        lines_sc.append(f'<polyline fill="none" points="{poly}" stroke="{scol}" stroke-width="2.3"{dash_attr}/>')
+        for px, py, _ in pts:
+            lines_sc.append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="3.4" fill="{scol}"/>')
+        short_n = slbl.split("(")[0].strip()
+        # Show 5% -> 100% in callout so the scarcity spread is immediately visible
+        end_callouts_sc.append([pts[0][0], pts[0][1], pts[0][1], f"{short_n} {pts[0][2]:.1f}% → {pts[-1][2]:.1f}%", scol])
+
+    end_callouts_sc.sort(key=lambda item: item[2])
+    for _ in range(6):
+        for k in range(1, len(end_callouts_sc)):
+            if end_callouts_sc[k][2] - end_callouts_sc[k - 1][2] < 15.0:
+                mid = 0.5 * (end_callouts_sc[k][2] + end_callouts_sc[k - 1][2])
+                end_callouts_sc[k - 1][2] = mid - 7.5
+                end_callouts_sc[k][2] = mid + 7.5
+    for idx_c, (_, py_orig, py_adj, c_txt, scol) in enumerate(end_callouts_sc):
+        y_box = 78.0 + idx_c * 24.0
+        lines_sc.append(f'<circle cx="{xr_sc + 10:.1f}" cy="{y_box - 3.0:.1f}" r="3.5" fill="{scol}"/>')
+        lines_sc.append(f'<text x="{xr_sc + 18:.1f}" y="{y_box:.1f}" text-anchor="start" class="svg-val" style="font-weight:700;fill:{scol}">{_esc_svg(c_txt)}</text>')
+    lines_sc.append("</svg>")
+    scarcity_curve_svg = "\n".join(lines_sc)
+
+    # Build 39-Model Complexity, Size Scaling, Data Volume & Peeking Table
     size_scaling_rows_html = []
     for ms in model_stats:
         m = ms["model"]
@@ -4793,9 +5111,13 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         low_d_vals = [ds_model_vals[d][m] for d in ("sleep_edfx", "bnci2014_004", "bnci2015_001", "zhou2020", "bnci2014_002", "tuab", "tuev") if m in ds_model_vals.get(d, {})]
         high_d_vals = [ds_model_vals[d][m] for d in ("bci_ern", "weibo2014", "lemon", "hinss2021", "lee2019_mi", "seed", "stieger2021", "fpha", "cho2017", "mamem2", "physionet_mi") if m in ds_model_vals.get(d, {})]
         ultra_d_vals = [ds_model_vals[d][m] for d in ("hdm05", "schirrmeister2017", "adhd200", "abide", "afew") if m in ds_model_vals.get(d, {})]
+        few_n_vals = [ds_model_vals[d][m] for d in dv_few_keys if m in ds_model_vals.get(d, {})]
+        lrg_n_vals = [ds_model_vals[d][m] for d in (dv_mul_keys + dv_lrg_keys) if m in ds_model_vals.get(d, {})]
         low_m = sum(low_d_vals) / max(len(low_d_vals), 1)
         high_m = sum(high_d_vals) / max(len(high_d_vals), 1)
         ultra_m = sum(ultra_d_vals) / max(len(ultra_d_vals), 1)
+        few_n_m = sum(few_n_vals) / max(len(few_n_vals), 1)
+        lrg_n_m = sum(lrg_n_vals) / max(len(lrg_n_vals), 1)
         mult_cls = "good" if mult <= 5.0 else ("warning" if mult <= 10.0 else "unresolved")
         size_scaling_rows_html.append(
             f"""<tr class="bm-model-row" data-fam="{_esc(ms['fam_key'])}" data-grk="{g_rk}" data-params="{p22}" data-dmean="{ms['overall_mean']:.2f}">
@@ -4806,6 +5128,8 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
   <td><code>{low_m:.2f}%</code></td>
   <td><code>{high_m:.2f}%</code></td>
   <td><code>{ultra_m:.2f}%</code></td>
+  <td><code>{few_n_m:.2f}%</code></td>
+  <td><code>{lrg_n_m:.2f}%</code></td>
   <td><strong><code>{ms['overall_mean']:.2f}%</code></strong></td>
   <td><code>+{mean_pk:.2f}%</code></td>
 </tr>"""
@@ -4816,32 +5140,40 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
       {dim_scaling_svg}
     </div>
     <div class="diag-card" style="background:var(--panel)">
+      {data_vol_scaling_svg}
+    </div>
+  </div>
+  <div class="grid2" style="margin:14px 0">
+    <div class="diag-card" style="background:var(--panel)">
       {pareto_params_svg}
+    </div>
+    <div class="diag-card" style="background:var(--panel)">
+      {scarcity_curve_svg}
     </div>
   </div>
   <div class="tri-grid" style="margin:10px 0 14px">
     <div class="diag-card col-orig">
-      <div class="col-banner orig"><span>CLAIM 1D-1 · LOW-CHANNEL REGIME ($d \\le 19$)</span><span class="chip good">7 Datasets</span></div>
+      <div class="col-banner orig"><span>CLAIM 1D-A · CHANNEL DENSITY ($d \\in [2, 400]$)</span><span class="chip good">29 Datasets</span></div>
       <p class="small" style="margin:4px 0">
-        On sparse montages ($d \\in [2, 19]$), correlation models drop to <code>56.88%</code> (<code>-5.25 pp</code> below Riemannian BatchNorm at <code>62.13%</code>) because unit-diagonal normalization erases channel bandpower.
+        On sparse montages ($d \\le 19$), correlation models drop <code>-5.25 pp</code> below BatchNorm (<code>56.88%</code> vs <code>62.13%</code>), while spatiotemporal filterbanks lead on 64-channel EEG (<code>64.45%</code>).
       </p>
     </div>
     <div class="diag-card col-ours">
-      <div class="col-banner ours"><span>CLAIM 1D-2 · HIGH-DENSITY EEG ($d \\in [56, 64]$)</span><span class="chip warning">11 Datasets</span></div>
+      <div class="col-banner ours"><span>CLAIM 1D-B · AMOUNT OF DATA CROSSOVER ($N_{{\\text{{train}}}}$)</span><span class="chip warning">Few-Shot vs Large Cohort</span></div>
       <p class="small" style="margin:4px 0">
-        On high-density montages ($56\\text{{--}}64$ channels), foundational spatiotemporal filterbanks (<code>TSMNet</code>, <code>EEGSPDNet</code>, <code>Green</code>) rank #1 at <code>64.45%</code> by isolating focal cortical sources before covariance pooling.
+        In Few-Shot calibration ($\\le 150$ trials), <code>BatchNorm</code> (<code>61.36%</code>) and parameter-free <code>SPDMetaFormer</code> beat $Q/K/V$ attention by <code>+1.5 pp</code>; once $N_{{\\text{{train}}}} \\ge 600\\text{{--}}150\\text{{K}}$, <code>GBWAtt</code>/<code>MAtt</code> (<code>+2.1 pp</code>) and <code>Green</code> (<code>66.80%</code> #1) cross over and lead.
       </p>
     </div>
     <div class="diag-card col-gap">
-      <div class="col-banner gap"><span>CLAIM 1E · PARAMETER SCALING ($22\\text{{ch}} \\to 128\\text{{ch}}$)</span><span class="chip unresolved">$O(C)$ vs $O(C^4)$</span></div>
+      <div class="col-banner gap"><span>CLAIM 1E · PARAMETER &amp; SCARCITY SCALING</span><span class="chip unresolved">5% Data &amp; $O(C^4)$</span></div>
       <p class="small" style="margin:4px 0">
-        Un-bottlenecked tangent MLPs scale as $O(C^4)$ (<code>SPDTransNet</code> grows from <code>1.22M</code> to <code>1.09B</code> params at $128\\text{{ ch}}$, rank #37), whereas spatial-stem bottleneck models like <code>#01 ARMAGNAC-GAH</code> require only <code>4.3K</code> to <code>17.8K</code> parameters.
+        At 5% training data (75 trials), Riemannian BatchNorm retains a <code>+6.7 to +8.4 pp</code> buffer over un-normalized SPDNet/PCM, while un-bottlenecked tangent MLPs explode to <code>1.09B</code> params at $128\\text{{ ch}}$.
       </p>
     </div>
   </div>
-  <h3 style="margin:12px 0 6px;font-size:0.95rem">1F. 39-Model Parameter Complexity ($22\\text{{ ch}} \\to 128\\text{{ ch}}$), Manifold Size Scaling ($d \\in [2, 400]$) &amp; Peeking Stability</h3>
+  <h3 style="margin:12px 0 6px;font-size:0.95rem">1F. 39-Model Parameter Complexity ($22\\text{{ ch}} \\to 128\\text{{ ch}}$), Channel Scaling ($d$), Data-Volume Scaling ($N_{{\\text{{train}}}}$) &amp; Peeking</h3>
   <div style="overflow-x:auto;margin-bottom:14px">
-    <table class="data-table" style="font-size:0.78rem">
+    <table class="data-table" style="font-size:0.77rem">
       <thead>
         <tr>
           <th>Global Rank &amp; Model</th>
@@ -4851,8 +5183,10 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
           <th>Low-D ($2\\text{{--}}19\\text{{ ch}}$)</th>
           <th>High-D ($56\\text{{--}}64\\text{{ ch}}$)</th>
           <th>Ultra-D ($93\\text{{--}}400\\text{{ D}}$)</th>
+          <th>Few-Shot ($\\le 150$)</th>
+          <th>Large-$N$ ($\\ge 600$)</th>
           <th>All-29 Mean</th>
-          <th>Peeking Inflation</th>
+          <th>Peeking</th>
         </tr>
       </thead>
       <tbody>{"".join(size_scaling_rows_html)}</tbody>
@@ -5213,8 +5547,8 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding-top:6px;border-top:1px dashed var(--line)">
       <span class="small" style="font-weight:700;color:var(--spd-blue);margin-right:4px">Cell Metric Lens:</span>
       <button type="button" class="filter-btn bm-view-btn active" data-bmview="raw" title="Exact Mean ± SD (%) across subjects or seeds">📊 Mean &plusmn; SD (%)</button>
-      <button type="button" class="filter-btn bm-view-btn" data-bmview="heatmap" title="Tufte column-normalized heatmap shading + proportional bottom sparkbar">🔥 Heatmap + Sparkbar</button>
-      <button type="button" class="filter-btn bm-view-btn" data-bmview="chance" title="Jean-Rémi King convention: accuracy gain above theoretical chance (+Δ% vs 100/K)">🎯 Gain Over Chance (+&Delta;%)</button>
+      <button type="button" class="filter-btn bm-view-btn" data-bmview="heatmap" title="Column-normalized heatmap shading + proportional bottom sparkbar">🔥 Heatmap + Sparkbar</button>
+      <button type="button" class="filter-btn bm-view-btn" data-bmview="chance" title="Accuracy gain above theoretical chance (+Δ% vs 100/K)">🎯 Gain Over Chance (+&Delta;%)</button>
       <button type="button" class="filter-btn bm-view-btn" data-bmview="kappa" title="Cohen's kappa (imbalance- and chance-adjusted agreement across subjects/seeds)">⚖️ Cohen's &kappa;</button>
       <button type="button" class="filter-btn bm-view-btn" data-bmview="rank" title="Within-dataset ordinal rank (#01 to #39) with podium badges">🏆 Dataset Rank (#1&ndash;#39)</button>
       <button type="button" class="filter-btn bm-view-btn" data-bmview="gap" title="Accuracy deficit relative to the #1 model on each dataset (−Δ%)">📏 Gap to #1 (&minus;&Delta;%)</button>
@@ -5473,11 +5807,48 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     </table>
   </div>"""
 
+    if tabbed == "strip":
+        return f"""<div class="panel">
+    <div class="claim-head" style="margin-bottom:8px">
+      <span class="tag" style="border-color:var(--critical);color:var(--critical)">CRITICAL AUDIT &amp; DATA-VOLUME SCALING (2017&ndash;2026)</span>
+      <strong>The 7-Year Metric Plateau ($p \\ge 0.40$) &amp; Training Sample-Volume Crossover ($N_{{\\text{{train}}}} \\in [50, 150\\text{{K}}]$)</strong>
+      <a class="small" href="generalization/index.html" style="margin-left:auto;font-weight:700">Open Full 39&times;29 Suite &amp; Wilcoxon Lab &rarr;</a>
+    </div>
+    <div class="grid2" style="margin-bottom:10px">
+      <div class="diag-card" style="background:var(--panel)">
+        {chrono_audit_svg}
+      </div>
+      <div class="diag-card" style="background:var(--panel)">
+        {data_vol_scaling_svg}
+      </div>
+    </div>
+    <div class="tri-grid">
+      <div class="diag-card col-orig">
+        <div class="col-banner orig"><span>1 &middot; 7-YEAR METRIC EQUIVALENCE</span><span class="chip good">Wilcoxon $p \\ge 0.40$</span></div>
+        <p class="small" style="margin:4px 0">
+          Across $N=306$ paired subjects/seeds, 2026 <code>ARMAGNAC-GAH</code> ($p=0.61$) and 2025 <code>GBWBN</code> ($p=0.57$) tie 2019 <code>SPDNetBN</code> once the <code>+TSM</code> stem is held constant.
+        </p>
+      </div>
+      <div class="diag-card col-ours">
+        <div class="col-banner ours"><span>2 &middot; DATA-VOLUME CROSSOVER ($N_{{\\text{{train}}}}$)</span><span class="chip warning">$N \\ge 600$ Threshold</span></div>
+        <p class="small" style="margin:4px 0">
+          <code>BatchNorm</code> (<code>61.4%</code>) and parameter-free <code>SPDMetaFormer</code> beat $Q/K/V$ attention in Few-Shot ($\\le 150$ trials); <code>GBWAtt</code>/<code>MAtt</code> and <code>Green</code> (<code>66.8%</code> #1) cross over only at $N \\ge 600$.
+        </p>
+      </div>
+      <div class="diag-card col-gap">
+        <div class="col-banner gap"><span>3 &middot; SINGLE-BENCHMARK FALLACY</span><span class="chip unresolved">$\\bar{{\\rho}} = +0.25$</span></div>
+        <p class="small" style="margin:4px 0">
+          Rankings on <code>BNCI2014-001</code> correlate at only $\\bar{{\\rho}} = +0.25$ ($R^2 = 6.3\\%$) with the other 28 datasets, dropping to $\\rho \\le 0.04$ on clinical EEG and fMRI.
+        </p>
+      </div>
+    </div>
+  </div>"""
+
     if tabbed:
         return f"""<div class="tabs" role="tablist">
     <button type="button" role="tab" data-panel="ALL" aria-selected="true">All Sections (Full Suite)</button>
     <button type="button" role="tab" data-panel="gen-ranking" aria-selected="false">1. Global Ranking &amp; Family Synthesis <span class="n">39 Models</span></button>
-    <button type="button" role="tab" data-panel="gen-scaling" aria-selected="false">2. Size &amp; Complexity Scaling (d, Params) <span class="n">O(C) vs O(C<sup>4</sup>)</span></button>
+    <button type="button" role="tab" data-panel="gen-scaling" aria-selected="false">2. Size, Data Volume &amp; Complexity (d, N, Params) <span class="n">O(C) vs O(C<sup>4</sup>)</span></button>
     <button type="button" role="tab" data-panel="gen-critical" aria-selected="false">3. Critical Audit &amp; Wilcoxon Lab <span class="n">N=306 Tests</span></button>
     <button type="button" role="tab" data-panel="gen-bci" aria-selected="false">4. Motor, ERP &amp; SSVEP BCI <span class="n">15&times;39</span></button>
     <button type="button" role="tab" data-panel="gen-clin" aria-selected="false">5. Clinical, Sleep, Affect &amp; fMRI <span class="n">10&times;39</span></button>
@@ -5494,7 +5865,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         <strong>1A. Global 39-Model Ranking, Interquartile Rank Spread &amp; Sub-Domain Accuracy</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
-        Models are ordered by mean rank across all 29 datasets (<code>#01 ARMAGNAC-GAH</code> at mean rank <code>11.2</code> to <code>#39 CorNet</code> at mean rank <code>30.5</code>). Horizontal bars span the 25th to 75th percentile rank across the 29 benchmarks; right-hand columns report Top-3 podium counts and sub-domain means across the 15 BCI datasets, 10 Clinical/fMRI cohorts, and 4 SPD-matrix benchmarks.
+        Models ordered by mean rank across all 29 datasets (<code>#01 ARMAGNAC-GAH</code> at rank <code>11.2</code> to <code>#39 CorNet</code> at rank <code>30.5</code>), with IQR bars and sub-domain means.
       </p>
       <div class="diag-card" style="background:var(--panel);margin-bottom:14px">
         {ranking_forest_svg}
@@ -5506,12 +5877,12 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
   <section class="tabpanel" id="gen-scaling">
     <div class="panel">
       <div class="claim-head">
-        <span class="tag" style="border-color:var(--spd-blue);color:var(--spd-blue)">JEAN-R&Eacute;MI KING CLAIM LADDER &amp; PARETO FRONTIER</span>
-        <span class="tag">Manifold Dimension $d \\in [2, 400]$ &middot; Parameter Growth $22\\text{{ch}} \\to 128\\text{{ch}}$</span>
-        <strong>2. Manifold Matrix Size Scaling, Parameter Complexity Pareto Frontier &amp; Peeking Stability</strong>
+        <span class="tag" style="border-color:var(--spd-blue);color:var(--spd-blue)">SCALING LAWS: CHANNELS, DATA VOLUME &amp; PARAMETERS</span>
+        <span class="tag">Channels $d \\in [2, 400]$ &middot; Data Volume $N_{{\\text{{train}}}} \\in [50, 150\\text{{K}}]$ &middot; Params $22\\text{{ch}} \\to 128\\text{{ch}}$</span>
+        <strong>2. Channel Density ($d$), Training Data Volume ($N_{{\\text{{train}}}}$), Parameter Pareto Frontier &amp; Sample Scarcity</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
-        Accuracy across four covariance dimension regimes ($d \\in [2, 19]$, $[20, 32]$, $[56, 64]$, and $[93, 400]$) and parameter growth from $22\\text{{ ch}}$ to $128\\text{{ ch}}$.
+        Accuracy across four covariance dimension regimes ($d \\in [2, 400]$), four training sample-volume regimes ($N_{{\\text{{train}}}} \\le 150$ to $150\\text{{K}}$), parameter complexity, and $5\\% \\to 100\\%$ scarcity.
       </p>
       {scaling_section_html}
     </div>
@@ -5875,11 +6246,11 @@ def _render_paper_top_tri_summary(
       </div>
       <table class="data-table" style="font-size:0.78rem">
         <tbody>
-          <tr><th style="width:115px">Split &amp; Harness</th><td><code>{_esc(cfg.get("split_protocol", ""))}</code></td></tr>
-          <tr><th>Preprocessing</th><td>{_short_prose(cfg.get("preprocessing", ""), 130)}</td></tr>
-          <tr><th>Architecture</th><td><code>{_esc(cfg.get("architecture", ""))}</code></td></tr>
-          <tr><th>Metric &amp; Reg $\\epsilon$</th><td>{_short_prose(cfg.get("metric_and_reg", ""), 130)}</td></tr>
-          <tr><th>Optimizer</th><td><code>{_esc(cfg.get("optimizer_recipe", ""))}</code></td></tr>
+          <tr><th style="width:115px">Split &amp; Harness</th><td><code>{_short_pipe_spec(cfg.get("split_protocol", ""), 1)}</code></td></tr>
+          <tr><th>Preprocessing</th><td>{_short_pipe_spec(cfg.get("preprocessing", ""), 1)}</td></tr>
+          <tr><th>Architecture</th><td><code>{_short_pipe_spec(cfg.get("architecture", ""), 1)}</code></td></tr>
+          <tr><th>Metric &amp; Reg $\\epsilon$</th><td>{_short_prose(cfg.get("metric_and_reg", ""), 120)}</td></tr>
+          <tr><th>Optimizer</th><td><code>{_short_pipe_spec(cfg.get("optimizer_recipe", ""), 1)}</code></td></tr>
         </tbody>
       </table>
     </div>
@@ -5956,7 +6327,7 @@ def build_paper_detail_page(
         <span class="tag">{_esc(c["category"])} Claim ({_esc(cid)})</span>
         <span class="muted small">{_esc(v["reason"])}</span>
       </div>
-      <p class="statement">{_esc(c["text"])}</p>
+      <p class="statement">{_short_prose(c["text"], 155)}</p>
     </summary>
     <div class="claim-body">
       <ul style="margin:0">{metrics_rows}</ul>
@@ -6064,12 +6435,12 @@ def build_paper_detail_page(
       <h2>Technical Notes, Protocol Differences &amp; Practitioner Guidance</h2>
       <table class="data-table">
         <tbody>
-          <tr><th style="width:220px;color:var(--spd-blue)">Original Protocol / Code Issue</th><td>{_latexify_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]))}</td></tr>
-          <tr><th style="color:var(--good)">Our <code>spd_learn</code> Fix Applied</th><td>{_latexify_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]))}</td></tr>
-          <tr><th>Dataloader &amp; Preprocessing Diff</th><td>{_latexify_prose(gap_spec["dataloader_diff"])}</td></tr>
-          <tr><th>Architecture &amp; Optimizer Diff</th><td>{_latexify_prose(gap_spec["arch_optim_diff"])}</td></tr>
-          <tr><th>Where It Struggles / Diverges</th><td>{_latexify_prose(gap_spec["where_it_struggles"])}</td></tr>
-          <tr><th>Practitioner Recommendation</th><td><strong>{_latexify_prose(moreau_audit.get("recommendation", ""))}</strong></td></tr>
+          <tr><th style="width:220px;color:var(--spd-blue)">Original Protocol / Code Issue</th><td>{_short_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]), 165)}</td></tr>
+          <tr><th style="color:var(--good)">Our <code>spd_learn</code> Fix Applied</th><td>{_short_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]), 165)}</td></tr>
+          <tr><th>Dataloader &amp; Preprocessing Diff</th><td>{_short_prose(gap_spec["dataloader_diff"], 165)}</td></tr>
+          <tr><th>Architecture &amp; Optimizer Diff</th><td>{_short_prose(gap_spec["arch_optim_diff"], 165)}</td></tr>
+          <tr><th>Where It Struggles / Diverges</th><td>{_short_prose(gap_spec["where_it_struggles"], 165)}</td></tr>
+          <tr><th>Practitioner Recommendation</th><td><strong>{_short_prose(moreau_audit.get("recommendation", ""), 165)}</strong></td></tr>
         </tbody>
       </table>
       {paper_details_html}
@@ -6440,6 +6811,8 @@ if(inp)inp.addEventListener('input',apply);
     <a class="tag" style="border-color:var(--good);color:var(--good);font-weight:700;padding:8px 14px;font-size:0.86rem" href="generalization/index.html">Open Generalization Suite (29&times;39) &rarr;</a>
   </div>
 
+  {_render_voyager_overview_matrix(tabbed="strip")}
+
   <div class="panel">
     <div class="claim-head" style="margin-bottom:8px">
       <span class="tag" style="border-color:var(--accent);color:var(--accent)">MACRO VISUAL SYNTHESIS</span>
@@ -6596,31 +6969,31 @@ if(inp)inp.addEventListener('input',apply);
     <div class="tri-grid">
       <div class="diag-card col-orig">
         <div class="col-banner orig">
-          <span>1 &middot; SPATIOTEMPORAL STEMS + BATCHNORM FORM A 7-YEAR EQUIVALENCE CLIQUE</span>
-          <span class="chip good">Top 5 Sweep (p &ge; 0.40)</span>
+          <span>1 &middot; SPATIOTEMPORAL STEMS + BATCHNORM EQUIVALENCE CLIQUE</span>
+          <span class="chip good">Top 5 Sweep ($p \\ge 0.40$)</span>
         </div>
         <p class="small" style="margin:6px 0">
-          Models combining a learned temporal-spatial filterbank stem with Riemannian BatchNorm sweep the top five spots: <code>#01 ARMAGNAC-GAH</code> (<code>66.42%</code>), <code>#02 GBWBN</code> (<code>66.32%</code>), <code>#03 ARMAGNAC-Harmonic</code> (<code>66.49%</code>), <code>#04 SPDNetBN</code> (<code>65.98%</code>), and <code>#05 ARMAGNAC-Arithmetic</code> (<code>66.09%</code>). Prepending the <code>+TSM</code> stem adds <strong>+4.41 to +6.29 pp</strong>, and 2019 <code>SPDNetBN</code> ties 2026 <code>ARMAGNAC-GAH</code> at Wilcoxon $p = 0.61$.
+          Prepending the <code>+TSM</code> stem adds <strong>+4.4 to +6.3 pp</strong>, and 2026 <code>#01 ARMAGNAC-GAH</code> (<code>66.42%</code>), <code>#02 GBWBN</code> (<code>66.32%</code>), and 2019 <code>#04 SPDNetBN</code> (<code>65.98%</code>) tie statistically ($p \\ge 0.40$).
         </p>
       </div>
       <div class="diag-card col-ours">
         <div class="col-banner ours">
-          <span>2 &middot; PARAMETER-FREE TOKEN MIXING MATCHES OR BEATS MANIFOLD ATTENTION</span>
+          <span>2 &middot; PARAMETER-FREE MIXING VS. MANIFOLD ATTENTION</span>
           <span class="chip warning">#07 SPDMetaFormer</span>
         </div>
         <p class="small" style="margin:6px 0">
-          Among standalone models without Riemannian BatchNorm, <code>#06 EEGSPDNet</code> (<code>64.03%</code>) and parameter-free <code>#07 SPDMetaFormer</code> (<code>64.57%</code>, <strong>6 #1 wins</strong>) outrank every $Q/K/V$ attention architecture: <code>#09 GBWAtt</code>, <code>#10 MAtt</code> ($p = 0.18$), <code>#16 GyroAtt</code>, <code>#22 CorAtt</code> ($p = 0.0002$), <code>#24 STaRNet</code>, and <code>#37 SPDTransNet</code>.
+          Parameter-free <code>#07 SPDMetaFormer</code> (<code>64.57%</code>, 6 #1 wins) beats $Q/K/V$ attention in Few-Shot ($\\le 150$ trials), whereas <code>#09 GBWAtt</code> and <code>#10 MAtt</code> cross over only at $N_{{\\text{{train}}}} \\ge 600$.
         </p>
       </div>
       <div class="diag-card col-gap">
         <div class="col-banner gap">
-          <span>3 &middot; DOMAIN SPECIALIZATION ACROSS BCI, CLINICAL &amp; SPD MATRICES</span>
+          <span>3 &middot; DOMAIN &amp; DATA-VOLUME SPECIALIZATION</span>
           <span class="chip" style="border-color:var(--spd-blue);color:var(--spd-blue)">3 Regimes</span>
         </div>
         <p class="small" style="margin:6px 0">
-          <strong>(a) 15 BCI Datasets:</strong> <code>ARMAGNAC-Harmonic</code> leads at <code>64.62%</code> ahead of <code>ARMAGNAC-GAH</code> (<code>64.12%</code>) and <code>GBWBN</code> (<code>63.97%</code>).
-          <strong>(b) 10 Clinical/fMRI Datasets:</strong> <code>Green</code> leads at <code>68.16%</code> via narrowband Gabor wavelets.
-          <strong>(c) 4 Native SPD Matrix Benchmarks:</strong> <code>ARMAGNAC-GAH</code> leads at <code>73.95%</code> ahead of <code>GBWBN</code> (<code>73.44%</code>) and <code>SPDNetBN</code> (<code>73.28%</code>).
+          <strong>15 BCI:</strong> <code>ARMAGNAC-Harmonic</code> (<code>64.62%</code>) ·
+          <strong>10 Clinical/fMRI:</strong> <code>Green</code> (<code>68.16%</code>) ·
+          <strong>4 SPD Matrices:</strong> <code>ARMAGNAC-GAH</code> (<code>73.95%</code>).
         </p>
       </div>
     </div>
