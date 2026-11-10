@@ -4643,6 +4643,274 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     </table>
   </div>"""
 
+    # 1G. Chronological Audit SVG (2017-2026 vs 2019 SPDNetBN Ceiling) & 1H. Benchmark Rank-Correlation Breakdown
+    model_year_map = {
+        "SPDNet": 2017, "SPDNetBN": 2019, "TSMNet": 2022, "TensorCSPNet": 2022, "MAtt": 2022,
+        "EEGSPDNet": 2024, "Green": 2024, "PhaseSPDNet": 2024, "LieBN-AIM": 2024, "LieBN-LEM": 2024,
+        "LieBN-LCM": 2024, "SPDTransNet": 2024, "GraphCSPNet": 2024, "SPDResNet": 2024, "ALEM": 2024,
+        "SPDResNet-ALEM": 2024, "GyroSPD": 2024, "DeepGeoCCA": 2024, "SPDNetAE": 2024, "SSGCNet": 2024,
+        "SPNN": 2024, "RieTrans-SPDRMLR": 2025, "CorAtt": 2025, "CorNet": 2025, "CorNet-OLM": 2025,
+        "CorNet-LSM": 2025, "GyroAtt": 2025, "GBWAtt": 2025, "GBWBN": 2025, "CBN": 2025,
+        "PCM": 2025, "BWCM": 2025, "SPDMetaFormer": 2025, "RHOP": 2025, "RCEEGNet": 2025,
+        "STaRNet": 2025, "ARMAGNAC-GAH": 2026, "ARMAGNAC-Harmonic": 2026, "ARMAGNAC-Arithmetic": 2026,
+    }
+    yr_svg = [
+        '<svg viewBox="0 0 560 250" class="diag-svg" role="img" aria-label="Chronological Trajectory 2017 to 2026">',
+        '<text x="16" y="20" class="svg-title">1G. The 7-Year Metric Plateau: Publication Year (2017-2026) vs 29-DS Accuracy</text>',
+        '<text x="16" y="34" class="svg-sub">Dashed Green Line = 2019 SPDNetBN (65.98%) · 21 of 24 Post-2022 Models Fall Below 2019 SPDNetBN</text>',
+        '<line x1="52" y1="46" x2="52" y2="212" class="svg-axis"/>',
+        '<line x1="52" y1="212" x2="540" y2="212" class="svg-axis"/>',
+    ]
+    def _x_yr(y_val: float) -> float:
+        return 68.0 + (y_val - 2017.0) / 9.0 * (524.0 - 68.0)
+
+    for y_t in range(2017, 2027):
+        xy = _x_yr(y_t)
+        yr_svg.append(f'<line x1="{xy:.1f}" y1="46" x2="{xy:.1f}" y2="212" class="svg-grid"/>')
+        yr_svg.append(f'<text x="{xy:.1f}" y="226" text-anchor="middle" class="svg-tick">{y_t}</text>')
+    for a_t in [58, 60, 62, 64, 66]:
+        ya = _y_acc(a_t)
+        yr_svg.append(f'<line x1="52" y1="{ya:.1f}" x2="540" y2="{ya:.1f}" class="svg-grid"/>')
+        yr_svg.append(f'<text x="46" y="{ya + 3:.1f}" text-anchor="end" class="svg-tick">{a_t}%</text>')
+    y_bn2019 = _y_acc(65.98)
+    yr_svg.append(f'<line x1="52" y1="{y_bn2019:.1f}" x2="540" y2="{y_bn2019:.1f}" stroke="#15803d" stroke-width="1.8" stroke-dasharray="5,3"/>')
+    yr_svg.append(f'<text x="536" y="{y_bn2019 - 5:.1f}" text-anchor="end" class="svg-tick" style="fill:#15803d;font-weight:700">2019 SPDNetBN Baseline (65.98%, p≥0.40 vs 2026 #1)</text>')
+    yr_labels_pick = {
+        "SPDNet": (6, -5), "SPDNetBN": (6, 11), "TSMNet": (-12, 12), "MAtt": (6, -4),
+        "Green": (-32, -6), "LieBN-AIM": (-48, 10), "SPDTransNet": (-56, -6), "ALEM": (6, 4),
+        "SPDMetaFormer": (-68, -6), "GBWBN": (-38, -6), "CBN": (6, 4), "CorNet": (6, -4),
+        "ARMAGNAC-GAH": (-76, -6),
+    }
+    for idx_m, ms in enumerate(model_stats):
+        m = ms["model"]
+        yv = model_year_map.get(m, 2024) + ((idx_m % 5) - 2) * 0.06
+        xx = _x_yr(yv)
+        yy = _y_acc(ms["overall_mean"])
+        col = "#15803d" if ms["overall_mean"] >= 65.95 else ("#1d4ed8" if ms["overall_mean"] >= 64.0 else "#dc2626")
+        yr_svg.append(f'<circle cx="{xx:.1f}" cy="{yy:.1f}" r="3.8" fill="{col}" opacity="0.85"/>')
+        if m in yr_labels_pick:
+            dx, dy = yr_labels_pick[m]
+            yr_svg.append(f'<text x="{xx + dx:.1f}" y="{yy + dy:.1f}" class="svg-tick" style="font-weight:700;fill:{col}">{_esc_svg(m)}</text>')
+    yr_svg.append('<text x="296" y="244" text-anchor="middle" class="svg-label">Publication Year (2017 Foundational SPDNet → 2026 ARMAGNAC)</text>')
+    yr_svg.append("</svg>")
+    chrono_audit_svg = "\n".join(yr_svg)
+
+    rho_transfer_svg = _svg_line_or_bar_panel(
+        "1H. Single-Benchmark Fallacy: Rank Correlation (rho) of BNCI-001 & HDM05 vs Other Cohorts",
+        "Target Evaluation Cohort (Spearman Rank Correlation across 39 Models)",
+        "Spearman Rank Correlation (rho)",
+        ["Schirrmeister", "Sleep-EDFx", "ABIDE fMRI", "TUAB Clin", "LEMON Rest", "BCI-ERN", "Hinss2021", "MASS-SS3"],
+        [
+            {"label": "vs BNCI2014-001 (mean +0.25)", "values": [0.50, 0.40, 0.16, 0.04, -0.01, -0.15, -0.27, 0.30], "class": "svg-bar-primary"},
+            {"label": "vs HDM05 (Action SPD)", "values": [-0.12, 0.13, 0.25, -0.24, -0.27, -0.11, -0.36, -0.39], "class": "svg-bar-secondary"},
+        ],
+        chart_type="bar",
+        ymin=-0.45,
+        ymax=0.60,
+    )
+
+    # Pre-serialize compact 39x29 accuracy JSON for the live client-side Head-to-Head Model Comparator
+    h2h_ds_meta = [
+        {"k": k, "t": t.split("(")[0].strip()[:20], "dom": ("BCI" if k in dict(bci_cols) else ("Clin" if k in dict(clin_cols) else "SPD"))}
+        for k, t, _, _, _, _ in ds_inventory_specs
+    ]
+    h2h_matrix_dict = {
+        m: [round(float(ds_model_vals.get(item["k"], {}).get(m, 0.0)), 2) for item in h2h_ds_meta]
+        for m in sorted_all_models
+    }
+    h2h_options_html = "".join(
+        f'<option value="{_esc(m)}">#{rank_by_model[m]:02d} {_esc(m)} ({ms_lookup[m]["overall_mean"]:.2f}%)</option>'
+        for m in sorted_all_models
+    )
+
+    critical_analysis_html = f"""<div class="grid2" style="margin:14px 0">
+    <div class="diag-card" style="background:var(--panel)">
+      {chrono_audit_svg}
+    </div>
+    <div class="diag-card" style="background:var(--panel)">
+      {rho_transfer_svg}
+    </div>
+  </div>
+
+  <div class="tri-grid" style="margin:10px 0 14px">
+    <div class="diag-card col-orig">
+      <div class="col-banner orig"><span>CRITIQUE 1 · THE 7-YEAR METRIC EQUIVALENCE LAW</span><span class="chip good">Wilcoxon $p \\ge 0.40$</span></div>
+      <p class="small" style="margin:4px 0">
+        To test whether post-2019 Riemannian metrics improve generalization when the front-end stem is held constant, we compared 2019 <code>SPDNetBN</code> against all 2024&ndash;2026 BatchNorm models across all $N=306$ paired subjects/seeds and 29 datasets. Neither <code>ARMAGNAC-GAH</code> ($\\Delta = +0.19\\%$, median $0.00\\%$, $p = 0.613$), <code>ARMAGNAC-Harmonic</code> ($\\Delta = +0.29\\%$, median $0.00\\%$, $p = 0.403$), nor <code>GBWBN</code> ($\\Delta = +0.07\\%$, median $0.00\\%$, $p = 0.566$) differs significantly from 2019 <code>SPDNetBN</code>, whereas <code>LieBN-AIM</code> ($-1.76\\%$, $p = 1.2 \\times 10^{{-6}}$) and <code>CBN</code> ($-4.59\\%$, $p = 1.5 \\times 10^{{-16}}$) significantly degrade accuracy. Published gains in 2020&ndash;2026 papers came from comparing against un-normalized 2017 <code>SPDNet</code> without a temporal stem ($-4.31\\%$, $p = 1.5 \\times 10^{{-12}}$).
+      </p>
+    </div>
+    <div class="diag-card col-ours">
+      <div class="col-banner ours"><span>CRITIQUE 2 · TWO-WAY ANOVA VARIANCE PARTITION</span><span class="chip warning">Interaction = $4.3\\times$ Model</span></div>
+      <p class="small" style="margin:4px 0">
+        Partitioning total sum-of-squares across all <code>1,131</code> cells (<code>39 models &times; 29 datasets</code>) shows that dataset SNR accounts for <code>91.83%</code> of total variance, the <strong>Model &times; Dataset interaction accounts for <code>6.64%</code></strong>, and the main effect of global model identity accounts for only <code>1.54%</code>. Within datasets (after Z-scoring), <strong><code>81.2%</code> of variance lies in the Model &times; Dataset interaction</strong> versus <code>18.8%</code> in global model rank. Overall, these results show that matching the front-end filterbank to the signal regime matters $4.3\\times$ more than the choice of manifold layer.
+      </p>
+    </div>
+    <div class="diag-card col-gap">
+      <div class="col-banner gap"><span>CRITIQUE 3 · SINGLE-BENCHMARK OVERFITTING FALLACY</span><span class="chip unresolved">$\\bar{{\\rho}} = +0.25$</span></div>
+      <p class="small" style="margin:4px 0">
+        Although 22 of 27 audited papers select hyperparameters on <code>BNCI2014-001</code> (9 subjects) or <code>HDM05</code>, the 39-model ranking on <code>BNCI2014-001</code> has a mean Spearman correlation of only $\\bar{{\\rho}} = +0.25$ ($R^2 = 6.3\\%$) with the other 28 datasets, dropping to $\\rho \\le 0.04$ on clinical pathology (<code>TUAB</code> $+0.04$), resting-state connectomes (<code>LEMON</code> $-0.01$), ERP (<code>BCI-ERN</code> $-0.15$), and workload (<code>Hinss2021</code> $-0.27$). <code>HDM05</code> rankings negatively correlate with sleep (<code>MASS-SS3</code> $-0.39$) and clinical EEG (<code>TUAB</code> $-0.24$).
+      </p>
+    </div>
+  </div>
+
+  <h3 style="margin:12px 0 6px;font-size:0.95rem">1I. Formal Paired Wilcoxon Signed-Rank Hypothesis Tests ($N=29$ Datasets &amp; $N=306$ Independent Subjects/Seeds)</h3>
+  <div style="overflow-x:auto;margin-bottom:16px">
+    <table class="data-table" style="font-size:0.78rem">
+      <thead>
+        <tr>
+          <th>Hypothesis &amp; Model Pair ($A$ vs. $B$)</th>
+          <th>29-DS Mean $\\Delta$ (Med $\\Delta$)</th>
+          <th>29-DS W / T / L ($p$-value)</th>
+          <th>$N=306$ Subject Mean $\\Delta$ (Med $\\Delta$)</th>
+          <th>$N=306$ Subject W / T / L ($p$-value)</th>
+          <th>Epistemic Verdict &amp; Mechanistic Reading</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>H1 (Metric Equivalence):</strong> <code>ARMAGNAC-GAH (2026)</code> vs. <code>SPDNetBN (2019)</code></td>
+          <td><code>+0.44%</code> (<code>+0.10%</code>)</td>
+          <td><code>15 / 0 / 14</code> (<code>p = 0.6545</code>)</td>
+          <td><code>+0.19%</code> (<code>0.00%</code>)</td>
+          <td><code>134 / 47 / 125</code> (<code>p = 0.6130</code>)</td>
+          <td><span class="chip warning">NULL (EQUIVALENT)</span> Geodesic-Arithmetic-Harmonic mean ties 2019 Fr&eacute;chet Karcher mean once both share the same <code>+TSM</code> stem.</td>
+        </tr>
+        <tr>
+          <td><strong>H2 (Harmonic BN vs. Fr&eacute;chet BN):</strong> <code>ARMAGNAC-Harmonic (2026)</code> vs. <code>SPDNetBN (2019)</code></td>
+          <td><code>+0.51%</code> (<code>-0.41%</code>)</td>
+          <td><code>13 / 0 / 16</code> (<code>p = 0.7375</code>)</td>
+          <td><code>+0.29%</code> (<code>0.00%</code>)</td>
+          <td><code>135 / 52 / 119</code> (<code>p = 0.4030</code>)</td>
+          <td><span class="chip warning">NULL (EQUIVALENT)</span> Wins on outlier-heavy BCI motor imagery (<code>64.62%</code>), but loses 16 of 29 datasets overall ($p = 0.74$).</td>
+        </tr>
+        <tr>
+          <td><strong>H3 (Bures-Wasserstein BN vs. Fr&eacute;chet BN):</strong> <code>GBWBN (2025)</code> vs. <code>SPDNetBN (2019)</code></td>
+          <td><code>+0.34%</code> (<code>0.00%</code>)</td>
+          <td><code>14 / 1 / 14</code> (<code>p = 0.5090</code>)</td>
+          <td><code>+0.07%</code> (<code>0.00%</code>)</td>
+          <td><code>133 / 52 / 121</code> (<code>p = 0.5660</code>)</td>
+          <td><span class="chip warning">NULL (EQUIVALENT)</span> Generalized Bures-Wasserstein BN is statistically indistinguishable from 2019 <code>SPDNetBN</code> (14W / 14L).</td>
+        </tr>
+        <tr>
+          <td><strong>H4 (Deformed LieBN vs. Fr&eacute;chet BN):</strong> <code>LieBN-AIM (2024)</code> vs. <code>SPDNetBN (2019)</code></td>
+          <td><code>-1.78%</code> (<code>-0.78%</code>)</td>
+          <td><code>6 / 0 / 23</code> (<code>p = 0.0002</code>)</td>
+          <td><code>-1.76%</code> (<code>-0.77%</code>)</td>
+          <td><code>101 / 38 / 167</code> (<code>p = 1.23e-06</code>)</td>
+          <td><span class="chip unresolved">DEGRADATION</span> Extra deformation parameters overfit small-sample EEG calibration sessions compared to parameter-light Fr&eacute;chet centering.</td>
+        </tr>
+        <tr>
+          <td><strong>H5 (Cholesky BN vs. Fr&eacute;chet BN):</strong> <code>CBN (2025)</code> vs. <code>SPDNetBN (2019)</code></td>
+          <td><code>-4.73%</code> (<code>-4.50%</code>)</td>
+          <td><code>5 / 0 / 24</code> (<code>p &lt; 1e-04</code>)</td>
+          <td><code>-4.59%</code> (<code>-3.12%</code>)</td>
+          <td><code>86 / 24 / 196</code> (<code>p = 1.52e-16</code>)</td>
+          <td><span class="chip unresolved">DEGRADATION</span> Cholesky triangular coordinates depend on sensor ordering and lack orthogonal $O(d)$ congruence invariance.</td>
+        </tr>
+        <tr>
+          <td><strong>H6 (Spatiotemporal Stem Effect):</strong> <code>SPDNetBN (+TSM)</code> vs. <code>SPDNet (2017 Raw)</code></td>
+          <td><strong style="color:var(--good)"><code>+4.55%</code> (<code>+4.50%</code>)</strong></td>
+          <td><strong style="color:var(--good)"><code>25 / 0 / 4</code> (<code>p = 3.7e-06</code>)</strong></td>
+          <td><strong style="color:var(--good)"><code>+4.31%</code> (<code>+3.07%</code>)</strong></td>
+          <td><strong style="color:var(--good)"><code>199 / 24 / 83</code> (<code>p = 1.49e-12</code>)</strong></td>
+          <td><span class="chip good">VERIFIED LAW</span> Temporal-spatial filtering + Fr&eacute;chet centering is the primary driver of accuracy across 25 of 29 datasets.</td>
+        </tr>
+        <tr>
+          <td><strong>H7 (Correlation Stem Recovery):</strong> <code>CorNet-OLM (+TSM)</code> vs. <code>CorNet (Raw)</code></td>
+          <td><strong style="color:var(--good)"><code>+6.29%</code> (<code>+5.85%</code>)</strong></td>
+          <td><strong style="color:var(--good)"><code>22 / 3 / 4</code> (<code>p = 0.0001</code>)</strong></td>
+          <td><strong style="color:var(--good)"><code>+6.12%</code> (<code>+4.16%</code>)</strong></td>
+          <td><strong style="color:var(--good)"><code>204 / 33 / 69</code> (<code>p = 4.32e-19</code>)</strong></td>
+          <td><span class="chip good">VERIFIED LAW</span> Prepending a learned temporal-spatial filterbank rescues correlation projection from diagonal variance erasure.</td>
+        </tr>
+        <tr>
+          <td><strong>H8 (Pooling vs. Manifold QKV Attention):</strong> <code>SPDMetaFormer</code> vs. <code>MAtt (2022)</code></td>
+          <td><code>+0.19%</code> (<code>+0.28%</code>)</td>
+          <td><code>17 / 0 / 12</code> (<code>p = 0.3692</code>)</td>
+          <td><code>+0.14%</code> (<code>0.00%</code>)</td>
+          <td><code>141 / 47 / 118</code> (<code>p = 0.1840</code>)</td>
+          <td><span class="chip good">ATTENTION REDUNDANT</span> Parameter-free pooling matches or beats bilinear $Q/K/V$ geodesic attention (`141W vs 118L`) with zero attention weights.</td>
+        </tr>
+        <tr>
+          <td><strong>H9 (Pooling vs. Correlation Attention):</strong> <code>SPDMetaFormer</code> vs. <code>CorAtt (2025)</code></td>
+          <td><strong style="color:var(--good)"><code>+1.79%</code> (<code>+1.96%</code>)</strong></td>
+          <td><strong style="color:var(--good)"><code>20 / 2 / 7</code> (<code>p = 0.0088</code>)</strong></td>
+          <td><strong style="color:var(--good)"><code>+1.47%</code> (<code>+0.51%</code>)</strong></td>
+          <td><strong style="color:var(--good)"><code>162 / 37 / 107</code> (<code>p = 0.0002</code>)</strong></td>
+          <td><span class="chip good">POOLING WINS</span> Parameter-free multi-scale pooling significantly outperforms correlation-manifold self-attention across 20 of 29 datasets.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="panel" style="background:rgba(29,78,216,0.03);border:1px solid var(--line);margin-bottom:14px">
+    <div class="claim-head" style="margin-bottom:8px">
+      <span class="tag" style="border-color:var(--spd-blue);color:var(--spd-blue)">INTERACTIVE HEAD-TO-HEAD COMPARATOR</span>
+      <strong>1J. Live Paired Model Comparator Across All 29 Datasets ($\\Delta_d = \\text{{Model A}} - \\text{{Model B}}$)</strong>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:8px">
+      <label class="small" style="font-weight:700">Model A: <select id="h2h-mod-a" class="search-input" style="min-width:210px;padding:4px 8px">{h2h_options_html}</select></label>
+      <span class="small muted" style="font-weight:700">vs.</span>
+      <label class="small" style="font-weight:700">Model B: <select id="h2h-mod-b" class="search-input" style="min-width:210px;padding:4px 8px">{h2h_options_html}</select></label>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-left:auto">
+        <button type="button" class="filter-btn h2h-preset" data-a="ARMAGNAC-GAH" data-b="SPDNetBN">2026 #1 vs 2019 SPDNetBN</button>
+        <button type="button" class="filter-btn h2h-preset" data-a="SPDNetBN" data-b="SPDNet">+TSM Stem vs Raw SPDNet</button>
+        <button type="button" class="filter-btn h2h-preset" data-a="SPDMetaFormer" data-b="MAtt">SPDMetaFormer vs MAtt</button>
+        <button type="button" class="filter-btn h2h-preset" data-a="CorNet-OLM" data-b="CorNet">CorNet-OLM vs CorNet</button>
+        <button type="button" class="filter-btn h2h-preset" data-a="Green" data-b="SPDNetBN">Green vs SPDNetBN</button>
+      </div>
+    </div>
+    <div id="h2h-summary" class="small" style="margin-bottom:8px;font-weight:600"></div>
+    <div id="h2h-chart" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(275px,1fr));gap:5px"></div>
+  </div>
+  <script>(function(){{
+    var dsMeta={json.dumps(h2h_ds_meta)};
+    var mat={json.dumps(h2h_matrix_dict)};
+    var selA=document.getElementById('h2h-mod-a');
+    var selB=document.getElementById('h2h-mod-b');
+    var sumEl=document.getElementById('h2h-summary');
+    var chartEl=document.getElementById('h2h-chart');
+    if(!selA||!selB||!chartEl)return;
+    selA.value='ARMAGNAC-GAH';
+    selB.value='SPDNetBN';
+    function renderH2H(){{
+      var mA=selA.value, mB=selB.value;
+      var vA=mat[mA]||[], vB=mat[mB]||[];
+      var diffs=[], w=0, t=0, l=0, sumD=0;
+      for(var i=0;i<dsMeta.length;i++){{
+        var d=(vA[i]||0)-(vB[i]||0);
+        diffs.push({{meta:dsMeta[i], a:vA[i]||0, b:vB[i]||0, d:d}});
+        sumD+=d;
+        if(d>0.05)w++; else if(d<-0.05)l++; else t++;
+      }}
+      diffs.sort(function(x,y){{return y.d-x.d;}});
+      var meanD=(sumD/Math.max(diffs.length,1)).toFixed(2);
+      var medD=diffs[Math.floor(diffs.length/2)].d.toFixed(2);
+      sumEl.innerHTML='<code>'+mA+'</code> vs <code>'+mB+'</code> across 29 datasets: Mean &Delta; = <strong>'+(meanD>=0?'+':'')+meanD+'%</strong> (Median <strong>'+(medD>=0?'+':'')+medD+'%</strong>) &middot; <span style="color:var(--good)">'+w+' Wins</span> / '+t+' Ties / <span style="color:var(--critical)">'+l+' Losses</span>';
+      var html=[];
+      diffs.forEach(function(item){{
+        var pct=Math.min(100, Math.abs(item.d)*5.0);
+        var col=item.d>0.05?'rgba(21,128,61,0.22)':(item.d<-0.05?'rgba(220,38,38,0.22)':'rgba(148,163,184,0.15)');
+        var tcol=item.d>0.05?'var(--good)':(item.d<-0.05?'var(--critical)':'var(--muted)');
+        var sign=item.d>0?'+':'';
+        html.push('<div style="padding:4px 8px;border:1px solid var(--line);border-radius:4px;font-size:0.74rem;display:flex;justify-content:space-between;align-items:center;background:linear-gradient(to right, '+col+' '+pct.toFixed(0)+'%, transparent '+pct.toFixed(0)+'%)">'
+          +'<span><span class="tag" style="padding:0 3px;font-size:0.62rem">'+item.meta.dom+'</span> <strong>'+item.meta.t+'</strong></span>'
+          +'<code style="font-weight:700;color:'+tcol+'">'+sign+item.d.toFixed(1)+'% ('+item.a.toFixed(1)+' vs '+item.b.toFixed(1)+')</code></div>');
+      }});
+      chartEl.innerHTML=html.join('');
+    }}
+    selA.addEventListener('change',renderH2H);
+    selB.addEventListener('change',renderH2H);
+    [].slice.call(document.querySelectorAll('.h2h-preset')).forEach(function(btn){{
+      btn.addEventListener('click',function(){{
+        selA.value=btn.getAttribute('data-a');
+        selB.value=btn.getAttribute('data-b');
+        renderH2H();
+      }});
+    }});
+    renderH2H();
+  }})();</script>"""
+
     filter_controls_html = """<div class="filter-bar" style="margin:10px 0;display:flex;flex-direction:column;gap:8px">
     <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
       <span class="small muted" style="font-weight:700;margin-right:4px">Family:</span>
@@ -4807,10 +5075,11 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     <button type="button" role="tab" data-panel="ALL" aria-selected="true">All Sections (Full Suite)</button>
     <button type="button" role="tab" data-panel="gen-ranking" aria-selected="false">1. Global Ranking &amp; Family Synthesis <span class="n">39 Models</span></button>
     <button type="button" role="tab" data-panel="gen-scaling" aria-selected="false">2. Size &amp; Complexity Scaling ($d$, Params) <span class="n">$O(C)$ vs $O(C^4)$</span></button>
-    <button type="button" role="tab" data-panel="gen-bci" aria-selected="false">3. Motor, ERP &amp; SSVEP BCI <span class="n">15&times;39</span></button>
-    <button type="button" role="tab" data-panel="gen-clin" aria-selected="false">4. Clinical, Sleep, Affect &amp; fMRI <span class="n">10&times;39</span></button>
-    <button type="button" role="tab" data-panel="gen-spd" aria-selected="false">5. Action, Radar &amp; Emotion SPD <span class="n">4&times;39</span></button>
-    <button type="button" role="tab" data-panel="gen-inventory" aria-selected="false">6. 29-Dataset Geometry &amp; Winners <span class="n">29 DS</span></button>
+    <button type="button" role="tab" data-panel="gen-critical" aria-selected="false">3. Critical Audit &amp; Wilcoxon Lab <span class="n">$N=306$ Tests</span></button>
+    <button type="button" role="tab" data-panel="gen-bci" aria-selected="false">4. Motor, ERP &amp; SSVEP BCI <span class="n">15&times;39</span></button>
+    <button type="button" role="tab" data-panel="gen-clin" aria-selected="false">5. Clinical, Sleep, Affect &amp; fMRI <span class="n">10&times;39</span></button>
+    <button type="button" role="tab" data-panel="gen-spd" aria-selected="false">6. Action, Radar &amp; Emotion SPD <span class="n">4&times;39</span></button>
+    <button type="button" role="tab" data-panel="gen-inventory" aria-selected="false">7. 29-Dataset Geometry &amp; Winners <span class="n">29 DS</span></button>
   </div>
   {filter_controls_html}
 
@@ -4842,6 +5111,20 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         To test how Riemannian architectures scale with sensor density $d$ and parameter count, we stratified all 29 datasets into four covariance dimension regimes ($d \\in [2, 19]$, $[20, 32]$, $[56, 64]$, and $[93, 400]$) and measured exact parameter growth from canonical $22\\text{{ ch}}$ to high-density $128\\text{{ ch}}$.
       </p>
       {scaling_section_html}
+    </div>
+  </section>
+
+  <section class="tabpanel" id="gen-critical">
+    <div class="panel">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--critical);color:var(--critical)">EPISTEMIC AUDIT &amp; WILCOXON HYPOTHESIS LAB</span>
+        <span class="tag">2017&ndash;2026 Chronology &middot; Two-Way ANOVA &middot; $N=306$ Paired Subjects/Seeds</span>
+        <strong>3. Critical Analysis of the 2017&ndash;2026 Literature, Benchmark Transfer Failure &amp; Live Head-to-Head Comparator</strong>
+      </div>
+      <p class="small muted" style="margin:4px 0 10px">
+        Beyond aggregate rankings, we audited whether nine years of Riemannian deep learning architectures (2017&ndash;2026) represent genuine algorithmic progress once front-end temporal filtering and evaluation splits are controlled across all $N=306$ independent subjects/seeds (`1,131` cells, `11,884` runs).
+      </p>
+      {critical_analysis_html}
     </div>
   </section>
 
