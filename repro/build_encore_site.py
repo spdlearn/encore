@@ -4162,82 +4162,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     svg_lines.append("</svg>")
     ranking_forest_svg = "\n".join(svg_lines)
 
-    # Helper to format matrix cells with Top-3 highlights (#1 gold/green bold, #2/#3 green)
-    def _fmt_cell(d_key: str, m: str, val_str: str) -> str:
-        rk = ds_ranks.get(d_key, {}).get(m, 99.0)
-        if rk == 1.0:
-            return f'<td style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">★ {val_str}</code></strong></td>'
-        if rk <= 3.0:
-            return f'<td style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">{val_str}</code></strong></td>'
-        return f"<td><code>{val_str}</code></td>"
-
-    # Sort models by global mean rank in the tables so the best models appear at the top
-    sorted_all_models = [ms["model"] for ms in model_stats]
-
-    bci_rows_html = []
-    for m in sorted_all_models:
-        fam_key, fam_lbl = _model_geo_family(m)
-        g_rk = rank_by_model[m]
-        lbl_m = f"{m} (+TSM)" if m in tsm_stem_variants else m
-        cells = []
-        for d_key, _ in bci_cols:
-            rec = eeg_ds.get(d_key, {}).get(m)
-            if rec and float(rec.get("mean", 0.0)) > 0:
-                cells.append(_fmt_cell(d_key, m, f"{float(rec['mean']):.1f}±{float(rec['sd']):.1f}"))
-            else:
-                cells.append('<td class="muted">-</td>')
-        bci_rows_html.append(
-            f'<tr class="bm-model-row" data-fam="{_esc(fam_key)}">'
-            f'<td><span class="tag" style="padding:0 4px;font-size:0.68rem">#{g_rk:02d}</span> <strong><code>{_esc(lbl_m)}</code></strong></td>'
-            f'{"".join(cells)}</tr>'
-        )
-
-    clin_rows_html = []
-    for m in sorted_all_models:
-        fam_key, _ = _model_geo_family(m)
-        g_rk = rank_by_model[m]
-        lbl_m = f"{m} (+TSM)" if m in tsm_stem_variants else m
-        cells = []
-        for d_key, _ in clin_cols:
-            rec = eeg_ds.get(d_key, {}).get(m)
-            if rec and float(rec.get("mean", 0.0)) > 0:
-                cells.append(_fmt_cell(d_key, m, f"{float(rec['mean']):.1f}±{float(rec['sd']):.1f}"))
-            else:
-                cells.append('<td class="muted">-</td>')
-        clin_rows_html.append(
-            f'<tr class="bm-model-row" data-fam="{_esc(fam_key)}">'
-            f'<td><span class="tag" style="padding:0 4px;font-size:0.68rem">#{g_rk:02d}</span> <strong><code>{_esc(lbl_m)}</code></strong></td>'
-            f'{"".join(cells)}</tr>'
-        )
-
-    spd_models = sorted(
-        set(radar_ds.keys()) | set(hdm05_ds.keys()) | set(fpha_ds.keys()) | set(afew_ds.keys()),
-        key=lambda x: rank_by_model.get(x, 99),
-    )
-    spd_rows_html = []
-    scarcity_ds = VOYAGER_RESULTS.get("radar_scarcity", {})
-    for m in spd_models:
-        fam_key, _ = _model_geo_family(m)
-        g_rk = rank_by_model.get(m, 99)
-        r_rec = radar_ds.get(m, {})
-        h_rec = hdm05_ds.get(m, {})
-        f_rec = fpha_ds.get(m, {})
-        a_rec = afew_ds.get(m, {})
-        sc_rec = scarcity_ds.get(m, {})
-        r_cell = _fmt_cell("radar", m, f"{float(r_rec['accuracy']):.2f}±{float(r_rec['sd']):.2f}%") if r_rec else "<td>-</td>"
-        h_cell = _fmt_cell("hdm05", m, f"{float(h_rec['accuracy']):.2f}±{float(h_rec['sd']):.2f}%") if h_rec else "<td>-</td>"
-        f_cell = _fmt_cell("fpha", m, f"{float(f_rec['accuracy']):.2f}±{float(f_rec['sd']):.2f}%") if f_rec else "<td>-</td>"
-        a_cell = _fmt_cell("afew", m, f"{float(a_rec['accuracy']):.2f}±{float(a_rec['sd']):.2f}%") if a_rec else "<td>-</td>"
-        s05 = f"<code>{float(sc_rec.get('0.05', {}).get('mean', 0.0)):.1f}%</code>" if sc_rec else "-"
-        s25 = f"<code>{float(sc_rec.get('0.25', {}).get('mean', 0.0)):.1f}%</code>" if sc_rec else "-"
-        s50 = f"<code>{float(sc_rec.get('0.5', {}).get('mean', 0.0)):.1f}%</code>" if sc_rec else "-"
-        spd_rows_html.append(
-            f'<tr class="bm-model-row" data-fam="{_esc(fam_key)}">'
-            f'<td><span class="tag" style="padding:0 4px;font-size:0.68rem">#{g_rk:02d}</span> <strong><code>{_esc(m)}</code></strong></td>'
-            f"{r_cell}{h_cell}{f_cell}{a_cell}<td>{s05}</td><td>{s25}</td><td>{s50}</td></tr>"
-        )
-
-    # Build 29-Dataset Provenance, Native Geometry & Winner Inventory Table
+    # Build 29-Dataset Provenance, Native Geometry & Chance Inventory Specs first
     ds_inventory_specs = [
         ("bnci2014_001", "BNCI2014-001 (BCIC-IV-2a)", "4-Class Motor Imagery EEG", "22×22 (250 Hz, 253 tang.)", 4, 25.0),
         ("bnci2014_002", "BNCI2014-002", "2-Class Motor Imagery EEG", "15×15 (512 Hz, 120 tang.)", 2, 50.0),
@@ -4269,6 +4194,165 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         ("fpha", "First-Person Hand Action (FPHA)", "45-Class Hand Pose SPD Covariance", "63×63 SPD (2,016 tang.)", 45, 2.22),
         ("afew", "Acted Facial Expressions (AFEW)", "7-Class Video Deep Feature Covariance", "400×400 SPD (80,200 tang.)", 7, 14.3),
     ]
+    ds_chance_map = {k: ch for k, _, _, _, _, ch in ds_inventory_specs}
+    ds_max_map = {k: max(v.values()) if v else 100.0 for k, v in ds_model_vals.items()}
+    ds_min_map = {k: min(v.values()) if v else 0.0 for k, v in ds_model_vals.items()}
+
+    # Exact trainable parameter counts at 22 channels (BNCI2014-001) and 128 channels (Schirrmeister2017)
+    model_params_map: dict[str, tuple[int, int, str]] = {
+        "CorNet": (836, 2532, "O(C) BiMap"),
+        "SPDNet": (900, 2596, "O(C) BiMap"),
+        "GyroSPD": (1412, 3108, "O(C) BiMap + Gyro"),
+        "SPDResNet": (1836, 4456, "O(C) Residual BiMap"),
+        "ALEM": (1869, 4489, "O(C) BiMap + 1D Conv"),
+        "PhaseSPDNet": (1984, 6648, "O(C) Phase BiMap"),
+        "SSGCNet": (2036, 3732, "O(C) BiMap + k-NN"),
+        "SPDNetAE": (2353, 20965, "O(C^2) Autoencoder"),
+        "RCEEGNet": (3892, 101412, "O(C^2) ReLU Cov"),
+        "CorNet-LSM": (3948, 17516, "O(C) TSM + Corr"),
+        "CorNet-OLM": (3948, 17516, "O(C) TSM + Corr"),
+        "BWCM": (4012, 17580, "O(C) TSM + Bures"),
+        "PCM": (4012, 17580, "O(C) TSM + Power"),
+        "ARMAGNAC-Arithmetic": (4268, 17836, "O(C) TSM + ArithBN"),
+        "ARMAGNAC-Harmonic": (4268, 17836, "O(C) TSM + HarmBN"),
+        "GBWBN": (4268, 17836, "O(C) TSM + GBWBN"),
+        "RieTrans-SPDRMLR": (4268, 17836, "O(C) TSM + RMLR"),
+        "SPDNetBN": (4268, 17836, "O(C) TSM + FrechetBN"),
+        "ARMAGNAC-GAH": (4269, 17837, "O(C) TSM + GAH-BN"),
+        "LieBN-AIM": (4269, 17837, "O(C) TSM + LieBN"),
+        "LieBN-LCM": (4269, 17837, "O(C) TSM + LieBN"),
+        "LieBN-LEM": (4269, 17837, "O(C) TSM + LieBN"),
+        "DeepGeoCCA": (4288, 14404, "O(C) Dual-View CCA"),
+        "SPDResNet-ALEM": (4414, 17982, "O(C) TSM + ALEM"),
+        "CBN": (4524, 18092, "O(C) TSM + CholBN"),
+        "STaRNet": (4961, 9942, "O(C) Spatiotemp Att"),
+        "RHOP": (4970, 7964, "O(C) Lovric BFM Pool"),
+        "TSMNet": (5309, 22269, "O(C) Sinc/SpdBN Stem"),
+        "MAtt": (8342, 50000, "O(C) Manifold QKV"),
+        "GBWAtt": (9350, 51008, "O(C) Bures QKV Att"),
+        "SPDMetaFormer": (14065, 83283, "O(C) Pool TokenMixer"),
+        "GyroAtt": (17374, 86592, "O(C) Gyro QKV Att"),
+        "CorAtt": (17774, 86992, "O(C) Corr QKV Att"),
+        "SPNN": (36316, 45388, "O(C) Subspace Proj"),
+        "Green": (37589, 39285, "O(1) Gabor Wavelet"),
+        "EEGSPDNet": (38971, 1160004, "O(C^2) Ch-Specific"),
+        "GraphCSPNet": (89540, 215300, "O(C) Graph BiMap"),
+        "TensorCSPNet": (177892, 272212, "O(C) Multi-Band CSP"),
+        "SPDTransNet": (1219928, 1090807496, "O(C^4) Tangent MLP"),
+    }
+
+    def _fmt_param_badge(m: str) -> str:
+        p22, _, _ = model_params_map.get(m, (4268, 17836, "O(C)"))
+        if p22 >= 1_000_000:
+            s = f"{p22 / 1_000_000:.2f}M"
+        elif p22 >= 1_000:
+            s = f"{p22 / 1_000:.1f}K"
+        else:
+            s = f"{p22}B"
+        return f'<span class="tag bm-param-badge" style="padding:0 4px;font-size:0.64rem;opacity:0.8" title="{p22:,} params at 22ch">{s}</span>'
+
+    # Helper to format matrix cells with multi-mode attributes (Mean±SD, Compact, Gain over Chance, Rank, Gap to #1, Heatmap %)
+    def _fmt_cell(d_key: str, m: str, mean_v: float, sd_v: float, decimals: int = 1) -> str:
+        rk = ds_ranks.get(d_key, {}).get(m, 99.0)
+        rk_int = int(round(rk))
+        best_v = ds_max_map.get(d_key, mean_v)
+        worst_v = ds_min_map.get(d_key, 0.0)
+        chance_v = ds_chance_map.get(d_key, 25.0)
+        pct = max(0.0, min(100.0, 100.0 * (mean_v - worst_v) / max(best_v - worst_v, 1e-6)))
+        gain_c = mean_v - chance_v
+        gap_b = mean_v - best_v
+        star = "★ " if rk == 1.0 else ""
+        raw_s = f"{star}{mean_v:.{decimals}f}±{sd_v:.{decimals}f}"
+        comp_s = f"{star}{mean_v:.{decimals}f}"
+        chance_s = f"{star}{gain_c:+.1f}%"
+        rk_s = f"🥇 #01" if rk_int == 1 else (f"🥈 #02" if rk_int == 2 else (f"🥉 #03" if rk_int == 3 else f"#{rk_int:02d}"))
+        gap_s = "★ 0.0%" if rk == 1.0 else f"{gap_b:.1f}%"
+        attrs = (
+            f'class="bm-cell" data-raw="{_esc(raw_s)}" data-compact="{_esc(comp_s)}" '
+            f'data-chance="{_esc(chance_s)}" data-rk="{_esc(rk_s)}" data-rknum="{rk_int}" '
+            f'data-gap="{_esc(gap_s)}" data-pct="{pct:.1f}"'
+        )
+        if rk == 1.0:
+            return f'<td {attrs} style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">{raw_s}</code></strong></td>'
+        if rk <= 3.0:
+            return f'<td {attrs} style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">{raw_s}</code></strong></td>'
+        return f"<td {attrs}><code>{raw_s}</code></td>"
+
+    # Sort models by global mean rank in the tables so the best models appear at the top
+    sorted_all_models = [ms["model"] for ms in model_stats]
+    ms_lookup = {ms["model"]: ms for ms in model_stats}
+
+    bci_rows_html = []
+    for m in sorted_all_models:
+        fam_key, fam_lbl = _model_geo_family(m)
+        g_rk = rank_by_model[m]
+        p22 = model_params_map.get(m, (4268, 17836, ""))[0]
+        bci_m = ms_lookup[m]["bci_mean"]
+        lbl_m = f"{m} (+TSM)" if m in tsm_stem_variants else m
+        cells = []
+        for d_key, _ in bci_cols:
+            rec = eeg_ds.get(d_key, {}).get(m)
+            if rec and float(rec.get("mean", 0.0)) > 0:
+                cells.append(_fmt_cell(d_key, m, float(rec["mean"]), float(rec["sd"]), decimals=1))
+            else:
+                cells.append('<td class="muted">-</td>')
+        bci_rows_html.append(
+            f'<tr class="bm-model-row" data-fam="{_esc(fam_key)}" data-grk="{g_rk}" data-params="{p22}" data-dmean="{bci_m:.2f}">'
+            f'<td style="white-space:nowrap"><span class="tag" style="padding:0 4px;font-size:0.68rem">#{g_rk:02d}</span> '
+            f'<strong><code>{_esc(lbl_m)}</code></strong> {_fmt_param_badge(m)}</td>'
+            f'{"".join(cells)}</tr>'
+        )
+
+    clin_rows_html = []
+    for m in sorted_all_models:
+        fam_key, _ = _model_geo_family(m)
+        g_rk = rank_by_model[m]
+        p22 = model_params_map.get(m, (4268, 17836, ""))[0]
+        clin_m = ms_lookup[m]["clin_mean"]
+        lbl_m = f"{m} (+TSM)" if m in tsm_stem_variants else m
+        cells = []
+        for d_key, _ in clin_cols:
+            rec = eeg_ds.get(d_key, {}).get(m)
+            if rec and float(rec.get("mean", 0.0)) > 0:
+                cells.append(_fmt_cell(d_key, m, float(rec["mean"]), float(rec["sd"]), decimals=1))
+            else:
+                cells.append('<td class="muted">-</td>')
+        clin_rows_html.append(
+            f'<tr class="bm-model-row" data-fam="{_esc(fam_key)}" data-grk="{g_rk}" data-params="{p22}" data-dmean="{clin_m:.2f}">'
+            f'<td style="white-space:nowrap"><span class="tag" style="padding:0 4px;font-size:0.68rem">#{g_rk:02d}</span> '
+            f'<strong><code>{_esc(lbl_m)}</code></strong> {_fmt_param_badge(m)}</td>'
+            f'{"".join(cells)}</tr>'
+        )
+
+    spd_models = sorted(
+        set(radar_ds.keys()) | set(hdm05_ds.keys()) | set(fpha_ds.keys()) | set(afew_ds.keys()),
+        key=lambda x: rank_by_model.get(x, 99),
+    )
+    spd_rows_html = []
+    scarcity_ds = VOYAGER_RESULTS.get("radar_scarcity", {})
+    for m in spd_models:
+        fam_key, _ = _model_geo_family(m)
+        g_rk = rank_by_model.get(m, 99)
+        p22 = model_params_map.get(m, (4268, 17836, ""))[0]
+        spd_m = ms_lookup.get(m, {}).get("spd_mean", 0.0)
+        r_rec = radar_ds.get(m, {})
+        h_rec = hdm05_ds.get(m, {})
+        f_rec = fpha_ds.get(m, {})
+        a_rec = afew_ds.get(m, {})
+        sc_rec = scarcity_ds.get(m, {})
+        r_cell = _fmt_cell("radar", m, float(r_rec["accuracy"]), float(r_rec["sd"]), decimals=2) if r_rec else "<td>-</td>"
+        h_cell = _fmt_cell("hdm05", m, float(h_rec["accuracy"]), float(h_rec["sd"]), decimals=2) if h_rec else "<td>-</td>"
+        f_cell = _fmt_cell("fpha", m, float(f_rec["accuracy"]), float(f_rec["sd"]), decimals=2) if f_rec else "<td>-</td>"
+        a_cell = _fmt_cell("afew", m, float(a_rec["accuracy"]), float(a_rec["sd"]), decimals=2) if a_rec else "<td>-</td>"
+        s05 = f"<code>{float(sc_rec.get('0.05', {}).get('mean', 0.0)):.1f}%</code>" if sc_rec else "-"
+        s25 = f"<code>{float(sc_rec.get('0.25', {}).get('mean', 0.0)):.1f}%</code>" if sc_rec else "-"
+        s50 = f"<code>{float(sc_rec.get('0.5', {}).get('mean', 0.0)):.1f}%</code>" if sc_rec else "-"
+        spd_rows_html.append(
+            f'<tr class="bm-model-row" data-fam="{_esc(fam_key)}" data-grk="{g_rk}" data-params="{p22}" data-dmean="{spd_m:.2f}">'
+            f'<td style="white-space:nowrap"><span class="tag" style="padding:0 4px;font-size:0.68rem">#{g_rk:02d}</span> '
+            f'<strong><code>{_esc(m)}</code></strong> {_fmt_param_badge(m)}</td>'
+            f"{r_cell}{h_cell}{f_cell}{a_cell}<td>{s05}</td><td>{s25}</td><td>{s50}</td></tr>"
+        )
     inv_rows_html = []
     for d_key, d_title, d_mod, d_dim, n_cls, chance_v in ds_inventory_specs:
         m_vals = ds_model_vals.get(d_key, {})
@@ -4403,22 +4487,198 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     bci_headers = "".join(f"<th>{_esc(lbl)}</th>" for _, lbl in bci_cols)
     clin_headers = "".join(f"<th>{_esc(lbl)}</th>" for _, lbl in clin_cols)
 
-    filter_controls_html = """<div class="filter-bar" style="margin:10px 0">
-    <button type="button" class="filter-btn bm-fam-btn active" data-bmfam="all">All 39 Models</button>
-    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="batchnorm">Riemannian BatchNorm / Metric (11)</button>
-    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="foundational">Foundational SPD (5)</button>
-    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="attention">Attention / Transformer (7)</button>
-    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="graph">Graph / Filterbank / Multi-View (5)</button>
-    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="residual">Residual / Gyro / Autoencoder (8)</button>
-    <button type="button" class="filter-btn bm-fam-btn" data-bmfam="correlation">Correlation Manifold (3)</button>
-    <input type="search" class="search-input bm-model-search" placeholder="Search any of the 39 models (e.g. ARMAGNAC, EEGSPDNet, SPDMetaFormer, Green)..." aria-label="Search models"/>
+    # 1D. Manifold Dimensionality Scaling (Low-D 2-19ch, Mid-D 20-32ch, High-D 56-64ch, Ultra-D 93-400ch)
+    dim_scaling_svg = _svg_line_or_bar_panel(
+        "1D. Manifold Matrix Size Scaling: Accuracy Across d in [2, 400]",
+        "SPD Matrix Dimension Regime d x d (Tangent Dim d(d+1)/2)",
+        "Mean Accuracy (%)",
+        ["Low-D (2-19)", "Mid-D (20-32)", "High-D (56-64)", "Ultra-D (93-400)"],
+        [
+            {"label": "BatchNorm (11)", "values": [62.13, 69.38, 63.61, 64.46], "class": "svg-series-primary"},
+            {"label": "Foundational (5)", "values": [58.58, 68.59, 64.45, 62.29], "class": "svg-series-secondary"},
+            {"label": "Attention (7)", "values": [58.90, 68.67, 62.62, 61.56], "class": "svg-series-tertiary"},
+            {"label": "Correlation (3)", "values": [56.88, 66.30, 62.55, 62.23], "class": "svg-series-baseline"},
+        ],
+        chart_type="line",
+        ymin=54.0,
+        ymax=72.0,
+    )
+
+    # 1E. Log10 Parameter Complexity vs. 29-Dataset Generalization Pareto Frontier SVG
+    w_par, h_par = 560, 250
+    par_svg_lines = [
+        f'<svg viewBox="0 0 {w_par} {h_par}" class="diag-svg" role="img" aria-label="Parameter Complexity Pareto Frontier">',
+        f'<text x="16" y="20" class="svg-title">1E. Parameter Scaling Pareto Frontier: log10(Params at 22ch vs 128ch) vs 29-DS Mean</text>',
+        f'<text x="16" y="34" class="svg-sub">Dots = 22ch params · Arrows = 128ch growth · Green = Pareto Frontier (4.3K params, 66.4%)</text>',
+        f'<line x1="56" y1="46" x2="56" y2="212" class="svg-axis"/>',
+        f'<line x1="56" y1="212" x2="540" y2="212" class="svg-axis"/>',
+    ]
+    import math as _math
+
+    def _x_par(p_val: float) -> float:
+        lg = _math.log10(max(p_val, 500.0))
+        return 56.0 + (lg - 2.8) / (9.2 - 2.8) * (540.0 - 56.0)
+
+    def _y_acc(a_val: float) -> float:
+        return 212.0 - (a_val - 56.0) / (68.0 - 56.0) * (212.0 - 46.0)
+
+    for p_tick, p_lbl in [(1e3, "1K"), (1e4, "10K"), (1e5, "100K"), (1e6, "1M"), (1e7, "10M"), (1e8, "100M"), (1e9, "1B")]:
+        xt = _x_par(p_tick)
+        par_svg_lines.append(f'<line x1="{xt:.1f}" y1="46" x2="{xt:.1f}" y2="212" class="svg-grid"/>')
+        par_svg_lines.append(f'<text x="{xt:.1f}" y="226" text-anchor="middle" class="svg-tick">{p_lbl}</text>')
+    for a_tick in [58, 60, 62, 64, 66]:
+        yt = _y_acc(a_tick)
+        par_svg_lines.append(f'<line x1="56" y1="{yt:.1f}" x2="540" y2="{yt:.1f}" class="svg-grid"/>')
+        par_svg_lines.append(f'<text x="50" y="{yt + 3:.1f}" text-anchor="end" class="svg-tick">{a_tick}%</text>')
+    par_svg_lines.append('<text x="298" y="244" text-anchor="middle" class="svg-label">Trainable Parameters (Log Scale: 22-Ch Dot → 128-Ch Arrowhead)</text>')
+
+    highlight_par_models = {
+        "ARMAGNAC-GAH": ("#15803d", -6, -6),
+        "SPDNetBN": ("#15803d", -6, 11),
+        "SPDMetaFormer": ("#1d4ed8", -8, -6),
+        "RHOP": ("#1d4ed8", 6, 4),
+        "Green": ("#7c3aed", 6, -5),
+        "EEGSPDNet": ("#b45309", -10, -7),
+        "GraphCSPNet": ("#475569", -10, 11),
+        "SPDTransNet": ("#dc2626", -55, -8),
+        "CorNet": ("#dc2626", 6, 4),
+        "SPDNet": ("#64748b", 6, -4),
+    }
+    for ms in model_stats:
+        m = ms["model"]
+        p22, p128, _ = model_params_map.get(m, (4268, 17836, ""))
+        x1 = _x_par(p22)
+        x2 = _x_par(p128)
+        y1 = _y_acc(ms["overall_mean"])
+        if m in highlight_par_models:
+            col, dx, dy = highlight_par_models[m]
+            par_svg_lines.append(
+                f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y1:.1f}" stroke="{col}" stroke-width="1.6" stroke-dasharray="2,2" opacity="0.75"/>'
+            )
+            par_svg_lines.append(f'<circle cx="{x2:.1f}" cy="{y1:.1f}" r="2.3" fill="{col}" opacity="0.65"/>')
+            par_svg_lines.append(f'<circle cx="{x1:.1f}" cy="{y1:.1f}" r="4.2" fill="{col}"/>')
+            par_svg_lines.append(
+                f'<text x="{x1 + dx:.1f}" y="{y1 + dy:.1f}" class="svg-tick" style="font-weight:700;fill:{col}">{_esc_svg(m)}</text>'
+            )
+        else:
+            par_svg_lines.append(f'<circle cx="{x1:.1f}" cy="{y1:.1f}" r="2.6" fill="#94a3b8" opacity="0.55"/>')
+    par_svg_lines.append("</svg>")
+    pareto_params_svg = "\n".join(par_svg_lines)
+
+    # Build 39-Model Complexity, Size Scaling & Peeking Table
+    size_scaling_rows_html = []
+    for ms in model_stats:
+        m = ms["model"]
+        g_rk = rank_by_model[m]
+        p22, p128, law_s = model_params_map.get(m, (4268, 17836, "O(C)"))
+        mult = p128 / max(p22, 1)
+        pks = [float(eeg_ds[d][m].get("peek_inflation", 0.0)) for d in eeg_ds if m in eeg_ds[d]]
+        mean_pk = sum(pks) / max(len(pks), 1)
+        low_d_vals = [ds_model_vals[d][m] for d in ("sleep_edfx", "bnci2014_004", "bnci2015_001", "zhou2020", "bnci2014_002", "tuab", "tuev") if m in ds_model_vals.get(d, {})]
+        high_d_vals = [ds_model_vals[d][m] for d in ("bci_ern", "weibo2014", "lemon", "hinss2021", "lee2019_mi", "seed", "stieger2021", "fpha", "cho2017", "mamem2", "physionet_mi") if m in ds_model_vals.get(d, {})]
+        ultra_d_vals = [ds_model_vals[d][m] for d in ("hdm05", "schirrmeister2017", "adhd200", "abide", "afew") if m in ds_model_vals.get(d, {})]
+        low_m = sum(low_d_vals) / max(len(low_d_vals), 1)
+        high_m = sum(high_d_vals) / max(len(high_d_vals), 1)
+        ultra_m = sum(ultra_d_vals) / max(len(ultra_d_vals), 1)
+        mult_cls = "good" if mult <= 5.0 else ("warning" if mult <= 10.0 else "unresolved")
+        size_scaling_rows_html.append(
+            f"""<tr class="bm-model-row" data-fam="{_esc(ms['fam_key'])}" data-grk="{g_rk}" data-params="{p22}" data-dmean="{ms['overall_mean']:.2f}">
+  <td style="white-space:nowrap"><span class="tag" style="padding:0 4px;font-size:0.68rem">#{g_rk:02d}</span> <strong><code>{_esc(m)}</code></strong></td>
+  <td><code>{p22:,}</code></td>
+  <td><code>{p128:,}</code> (<span class="chip {mult_cls}" style="padding:0 5px;font-size:0.68rem">&times;{mult:.1f}</span>)</td>
+  <td><code>{_esc(law_s)}</code></td>
+  <td><code>{low_m:.2f}%</code></td>
+  <td><code>{high_m:.2f}%</code></td>
+  <td><code>{ultra_m:.2f}%</code></td>
+  <td><strong><code>{ms['overall_mean']:.2f}%</code></strong></td>
+  <td><code>+{mean_pk:.2f}%</code></td>
+</tr>"""
+        )
+
+    scaling_section_html = f"""<div class="grid2" style="margin:14px 0">
+    <div class="diag-card" style="background:var(--panel)">
+      {dim_scaling_svg}
+    </div>
+    <div class="diag-card" style="background:var(--panel)">
+      {pareto_params_svg}
+    </div>
+  </div>
+  <div class="tri-grid" style="margin:10px 0 14px">
+    <div class="diag-card col-orig">
+      <div class="col-banner orig"><span>CLAIM 1D-1 · LOW-CHANNEL REGIME ($d \\le 19$)</span><span class="chip good">7 Datasets</span></div>
+      <p class="small" style="margin:4px 0">
+        To test whether scale-invariant correlation projection preserves discriminative power on sparse sensor montages, we compared all 6 families on the 7 low-dimensional datasets ($d \\in [2, 19]$, tangent dimension $3\\text{{--}}190$). Correlation models drop to <code>56.88%</code> (<code>-5.25%</code> below Riemannian BatchNorm at <code>62.13%</code>), confirming that projecting $P \\mapsto \\Delta(P)^{{-1/2}}P\\Delta(P)^{{-1/2}}$ discards up to half of the degrees of freedom when diagonal log-variance carries the primary ERD/ERS signal.
+      </p>
+    </div>
+    <div class="diag-card col-ours">
+      <div class="col-banner ours"><span>CLAIM 1D-2 · HIGH-DENSITY EEG ($d \\in [56, 64]$)</span><span class="chip warning">11 Datasets</span></div>
+      <p class="small" style="margin:4px 0">
+        To determine when spatial filterbanks outperform metric normalization, we evaluated the 11 high-density cohorts ($56\\text{{--}}64$ channels, tangent dimension $1,596\\text{{--}}2,080$). Foundational spatiotemporal filterbanks (<code>TSMNet</code>, <code>EEGSPDNet</code>, <code>Green</code>, <code>TensorCSPNet</code>) rise to #1 across all families at <code>64.45%</code> (ahead of BatchNorm at <code>63.61%</code>), suggesting that dense 60+ electrode montages provide the spatial resolution needed to isolate focal cortical sources prior to covariance pooling.
+      </p>
+    </div>
+    <div class="diag-card col-gap">
+      <div class="col-banner gap"><span>CLAIM 1E · PARAMETER SCALING ($22\\text{{ch}} \\to 128\\text{{ch}}$)</span><span class="chip unresolved">$O(C)$ vs $O(C^4)$</span></div>
+      <p class="small" style="margin:4px 0">
+        Because tangent dimensionality grows quadratically as $d(d+1)/2$, un-bottlenecked tangent MLPs scale as $O(C^4)$: <code>SPDTransNet</code> explodes from <code>1.22M</code> parameters at $22\\text{{ ch}}$ to <code>1.09 Billion</code> parameters at $128\\text{{ ch}}$ (<code>&times;894.2</code>) while ranking #37 (<code>60.41%</code>). In contrast, spatial-stem bottleneck models compress $C \\to 24 \\to 16$, so <code>#01 ARMAGNAC-GAH</code> requires only <code>4,269</code> parameters at $22\\text{{ ch}}$ and <code>17,837</code> at $128\\text{{ ch}}$ (<code>&times;4.2</code>) while achieving <code>66.42%</code> (#1).
+      </p>
+    </div>
+  </div>
+  <h3 style="margin:12px 0 6px;font-size:0.95rem">1F. 39-Model Parameter Complexity ($22\\text{{ ch}} \\to 128\\text{{ ch}}$), Manifold Size Scaling ($d \\in [2, 400]$) &amp; Peeking Stability</h3>
+  <div style="overflow-x:auto;margin-bottom:14px">
+    <table class="data-table" style="font-size:0.78rem">
+      <thead>
+        <tr>
+          <th>Global Rank &amp; Model</th>
+          <th>Params ($22\\text{{ ch}}$)</th>
+          <th>Params ($128\\text{{ ch}}$ &amp; Growth)</th>
+          <th>Scaling Law</th>
+          <th>Low-D ($2\\text{{--}}19\\text{{ ch}}$)</th>
+          <th>High-D ($56\\text{{--}}64\\text{{ ch}}$)</th>
+          <th>Ultra-D ($93\\text{{--}}400\\text{{ D}}$)</th>
+          <th>All-29 Mean</th>
+          <th>Peeking Inflation</th>
+        </tr>
+      </thead>
+      <tbody>{"".join(size_scaling_rows_html)}</tbody>
+    </table>
+  </div>"""
+
+    filter_controls_html = """<div class="filter-bar" style="margin:10px 0;display:flex;flex-direction:column;gap:8px">
+    <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+      <span class="small muted" style="font-weight:700;margin-right:4px">Family:</span>
+      <button type="button" class="filter-btn bm-fam-btn active" data-bmfam="all">All 39 Models</button>
+      <button type="button" class="filter-btn bm-fam-btn" data-bmfam="batchnorm">Riemannian BatchNorm / Metric (11)</button>
+      <button type="button" class="filter-btn bm-fam-btn" data-bmfam="foundational">Foundational SPD (5)</button>
+      <button type="button" class="filter-btn bm-fam-btn" data-bmfam="attention">Attention / Transformer (7)</button>
+      <button type="button" class="filter-btn bm-fam-btn" data-bmfam="graph">Graph / Filterbank / Multi-View (5)</button>
+      <button type="button" class="filter-btn bm-fam-btn" data-bmfam="residual">Residual / Gyro / Autoencoder (8)</button>
+      <button type="button" class="filter-btn bm-fam-btn" data-bmfam="correlation">Correlation Manifold (3)</button>
+      <input type="search" class="search-input bm-model-search" style="margin-left:auto;min-width:240px" placeholder="Search 39 models (e.g. ARMAGNAC, SPDMetaFormer, Green)..." aria-label="Search models"/>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding-top:6px;border-top:1px dashed var(--line)">
+      <span class="small" style="font-weight:700;color:var(--spd-blue);margin-right:4px">Table Lens (/dataviz &amp; /jean-remi):</span>
+      <button type="button" class="filter-btn bm-view-btn active" data-bmview="raw" title="Exact Mean ± SD (%) across subjects or seeds">📊 Mean &plusmn; SD (%)</button>
+      <button type="button" class="filter-btn bm-view-btn" data-bmview="heatmap" title="Tufte column-normalized heatmap shading + proportional bottom sparkbar">🔥 Heatmap + Sparkbar</button>
+      <button type="button" class="filter-btn bm-view-btn" data-bmview="chance" title="Jean-Rémi King convention: accuracy gain above theoretical chance (+Δ% vs 100/K)">🎯 Gain Over Chance (+&Delta;%)</button>
+      <button type="button" class="filter-btn bm-view-btn" data-bmview="rank" title="Within-dataset ordinal rank (#01 to #39) with podium badges">🏆 Dataset Rank (#1&ndash;#39)</button>
+      <button type="button" class="filter-btn bm-view-btn" data-bmview="gap" title="Accuracy deficit relative to the #1 model on each dataset (−Δ%)">📏 Gap to #1 (&minus;&Delta;%)</button>
+      <button type="button" class="filter-btn bm-compact-btn" title="Hide ±SD to fit all 15 columns on one screen without scrolling">⊟ Compact (Hide &plusmn;SD)</button>
+      <span class="small muted" style="font-weight:700;margin-left:auto;margin-right:2px">Sort Rows:</span>
+      <button type="button" class="filter-btn bm-sort-btn active" data-bmsort="grk">Global Rank (#1&rarr;#39)</button>
+      <button type="button" class="filter-btn bm-sort-btn" data-bmsort="dmean">Domain Mean (&darr;)</button>
+      <button type="button" class="filter-btn bm-sort-btn" data-bmsort="params_asc">Smallest Params (&uarr;)</button>
+    </div>
   </div>"""
 
     filter_js_block = """<script>(function(){
     var fbtns=[].slice.call(document.querySelectorAll('.bm-fam-btn'));
+    var vbtns=[].slice.call(document.querySelectorAll('.bm-view-btn'));
+    var sbtns=[].slice.call(document.querySelectorAll('.bm-sort-btn'));
+    var cbtns=[].slice.call(document.querySelectorAll('.bm-compact-btn'));
     var mrows=[].slice.call(document.querySelectorAll('.bm-model-row'));
+    var cells=[].slice.call(document.querySelectorAll('.bm-cell'));
     var minp=document.querySelector('.bm-model-search');
-    var curFam='all';
+    var curFam='all', curView='raw', isCompact=false;
     function applyFilter(){
       var q=(minp&&minp.value||'').toLowerCase().trim();
       mrows.forEach(function(r){
@@ -4427,11 +4687,76 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         r.style.display=(okFam&&okTxt)?'':'none';
       });
     }
+    function applyView(){
+      cells.forEach(function(td){
+        var code=td.querySelector('code');
+        if(!code)return;
+        var rk=parseInt(td.getAttribute('data-rknum')||'99',10);
+        var pct=parseFloat(td.getAttribute('data-pct')||'0');
+        var raw=isCompact?(td.getAttribute('data-compact')||''):(td.getAttribute('data-raw')||'');
+        if(curView==='raw'){
+          code.textContent=raw;
+          td.style.background=(rk===1)?'rgba(21,128,61,0.13)':((rk<=3)?'rgba(21,128,61,0.06)':'');
+        }else if(curView==='heatmap'){
+          code.textContent=raw;
+          var alpha=(0.05+(pct/100.0)*0.30).toFixed(2);
+          td.style.background='linear-gradient(to right, rgba(16,185,129,'+alpha+') '+pct.toFixed(0)+'%, transparent '+pct.toFixed(0)+'%)';
+        }else if(curView==='chance'){
+          code.textContent=td.getAttribute('data-chance')||raw;
+          var aCh=(0.04+(pct/100.0)*0.22).toFixed(2);
+          td.style.background='rgba(29,78,216,'+aCh+')';
+        }else if(curView==='rank'){
+          code.textContent=td.getAttribute('data-rk')||raw;
+          td.style.background=(rk===1)?'rgba(21,128,61,0.18)':((rk<=3)?'rgba(21,128,61,0.09)':((rk>=30)?'rgba(220,38,38,0.08)':''));
+        }else if(curView==='gap'){
+          code.textContent=td.getAttribute('data-gap')||raw;
+          var inv=(100.0-pct)/100.0;
+          td.style.background=(rk===1)?'rgba(21,128,61,0.14)':('rgba(220,38,38,'+(inv*0.22).toFixed(2)+')');
+        }
+      });
+    }
+    function applySort(mode){
+      var tbodies=[].slice.call(document.querySelectorAll('table.data-table tbody'));
+      tbodies.forEach(function(tb){
+        var rows=[].slice.call(tb.querySelectorAll('tr.bm-model-row'));
+        if(rows.length<2)return;
+        rows.sort(function(a,b){
+          if(mode==='params_asc'){
+            return (parseFloat(a.getAttribute('data-params')||'0')-parseFloat(b.getAttribute('data-params')||'0'));
+          }else if(mode==='dmean'){
+            return (parseFloat(b.getAttribute('data-dmean')||'0')-parseFloat(a.getAttribute('data-dmean')||'0'));
+          }
+          return (parseFloat(a.getAttribute('data-grk')||'99')-parseFloat(b.getAttribute('data-grk')||'99'));
+        });
+        rows.forEach(function(r){tb.appendChild(r);});
+      });
+    }
     fbtns.forEach(function(b){
       b.addEventListener('click',function(){
         curFam=b.getAttribute('data-bmfam')||'all';
         fbtns.forEach(function(x){x.classList.toggle('active',x===b);});
         applyFilter();
+      });
+    });
+    vbtns.forEach(function(b){
+      b.addEventListener('click',function(){
+        curView=b.getAttribute('data-bmview')||'raw';
+        vbtns.forEach(function(x){x.classList.toggle('active',x===b);});
+        applyView();
+      });
+    });
+    cbtns.forEach(function(b){
+      b.addEventListener('click',function(){
+        isCompact=!isCompact;
+        cbtns.forEach(function(x){x.classList.toggle('active',isCompact);});
+        applyView();
+      });
+    });
+    sbtns.forEach(function(b){
+      b.addEventListener('click',function(){
+        var m=b.getAttribute('data-bmsort')||'grk';
+        sbtns.forEach(function(x){x.classList.toggle('active',x===b);});
+        applySort(m);
       });
     });
     if(minp)minp.addEventListener('input',applyFilter);
@@ -4481,10 +4806,11 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         return f"""<div class="tabs" role="tablist">
     <button type="button" role="tab" data-panel="ALL" aria-selected="true">All Sections (Full Suite)</button>
     <button type="button" role="tab" data-panel="gen-ranking" aria-selected="false">1. Global Ranking &amp; Family Synthesis <span class="n">39 Models</span></button>
-    <button type="button" role="tab" data-panel="gen-bci" aria-selected="false">2. Motor, ERP &amp; SSVEP BCI <span class="n">15&times;39</span></button>
-    <button type="button" role="tab" data-panel="gen-clin" aria-selected="false">3. Clinical, Sleep, Affect &amp; fMRI <span class="n">10&times;39</span></button>
-    <button type="button" role="tab" data-panel="gen-spd" aria-selected="false">4. Action, Radar &amp; Emotion SPD <span class="n">4&times;39</span></button>
-    <button type="button" role="tab" data-panel="gen-inventory" aria-selected="false">5. 29-Dataset Geometry &amp; Winners <span class="n">29 DS</span></button>
+    <button type="button" role="tab" data-panel="gen-scaling" aria-selected="false">2. Size &amp; Complexity Scaling ($d$, Params) <span class="n">$O(C)$ vs $O(C^4)$</span></button>
+    <button type="button" role="tab" data-panel="gen-bci" aria-selected="false">3. Motor, ERP &amp; SSVEP BCI <span class="n">15&times;39</span></button>
+    <button type="button" role="tab" data-panel="gen-clin" aria-selected="false">4. Clinical, Sleep, Affect &amp; fMRI <span class="n">10&times;39</span></button>
+    <button type="button" role="tab" data-panel="gen-spd" aria-selected="false">5. Action, Radar &amp; Emotion SPD <span class="n">4&times;39</span></button>
+    <button type="button" role="tab" data-panel="gen-inventory" aria-selected="false">6. 29-Dataset Geometry &amp; Winners <span class="n">29 DS</span></button>
   </div>
   {filter_controls_html}
 
@@ -4502,6 +4828,20 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         {ranking_forest_svg}
       </div>
       {family_and_ablation_html}
+    </div>
+  </section>
+
+  <section class="tabpanel" id="gen-scaling">
+    <div class="panel">
+      <div class="claim-head">
+        <span class="tag" style="border-color:var(--spd-blue);color:var(--spd-blue)">JEAN-R&Eacute;MI KING CLAIM LADDER &amp; PARETO FRONTIER</span>
+        <span class="tag">Manifold Dimension $d \\in [2, 400]$ &middot; Parameter Growth $22\\text{{ch}} \\to 128\\text{{ch}}$</span>
+        <strong>2. Manifold Matrix Size Scaling, Parameter Complexity Pareto Frontier &amp; Peeking Stability</strong>
+      </div>
+      <p class="small muted" style="margin:4px 0 10px">
+        To test how Riemannian architectures scale with sensor density $d$ and parameter count, we stratified all 29 datasets into four covariance dimension regimes ($d \\in [2, 19]$, $[20, 32]$, $[56, 64]$, and $[93, 400]$) and measured exact parameter growth from canonical $22\\text{{ ch}}$ to high-density $128\\text{{ ch}}$.
+      </p>
+      {scaling_section_html}
     </div>
   </section>
 
@@ -4618,6 +4958,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     {ranking_forest_svg}
   </div>
   {family_and_ablation_html}
+  {scaling_section_html}
   {filter_controls_html}
 
   <h3 style="margin:10px 0 6px;font-size:0.95rem">2A. Motor-Imagery, ERP &amp; SSVEP BCI Matrix (15 Datasets &times; 39 Models, Sorted by Global Rank, Mean &plusmn; SD %)</h3>
@@ -5637,8 +5978,8 @@ if(inp)inp.addEventListener('input',apply);
   {_render_voyager_overview_matrix(tabbed=True)}
 </main>
 <script>(function(){{
-var tabs=[].slice.call(document.querySelectorAll('.tab-btn[data-panel]')),
-panels=[].slice.call(document.querySelectorAll('.tab-panel'));
+var tabs=[].slice.call(document.querySelectorAll('[role="tab"][data-panel]')),
+panels=[].slice.call(document.querySelectorAll('.tabpanel'));
 tabs.forEach(function(btn,idx){{
   btn.addEventListener('click',function(){{
     var target=btn.getAttribute('data-panel');
