@@ -1336,6 +1336,7 @@ class SPDMatrixClassifier(nn.Module):
                     nn.Sequential(
                         modules.BiMap(d_in, final_d, dtype=dtype),
                         modules.ReEig(threshold=reeig_eps, dtype=dtype),
+                        modules.SPDBatchNormMean(final_d, dtype=dtype),
                     )
                     for _ in range(n_sub)
                 ]
@@ -1438,23 +1439,27 @@ class SPDMatrixClassifier(nn.Module):
                 layers.append(modules.SPDBatchNormMean(b, dtype=dtype))
                 continue
             if variant == "SPNN":
-                layers.append(
-                    modules.SPDLinear(
-                        a,
-                        b,
-                        metric="LCM",
-                        unidirectional=True,
-                        return_tangent=is_last_l,
-                        eps=reeig_eps,
-                        dtype=dtype,
+                if idx_l == 0 and len(dims) == 2:
+                    layers.append(modules.BiMap(a, b, dtype=dtype))
+                    layers.append(modules.ReEig(threshold=reeig_eps, dtype=dtype))
+                    layers.append(modules.SPDBatchNormMean(b, dtype=dtype))
+                else:
+                    layers.append(
+                        modules.SPDLinear(
+                            a,
+                            b,
+                            metric="LCM",
+                            unidirectional=True,
+                            return_tangent=False,
+                            eps=reeig_eps,
+                            dtype=dtype,
+                        )
                     )
-                )
-                if not is_last_l:
                     layers.append(modules.SPDBatchNormLie(b, metric="LCM", theta=0.5, dtype=dtype))
                 continue
             layers.append(modules.BiMap(a, b, dtype=dtype))
             layers.append(modules.ReEig(threshold=reeig_eps, dtype=dtype))
-            if variant in ("SPDNetBN", "TSMNet", "RieTrans-SPDRMLR"):
+            if variant in ("SPDNetBN", "TSMNet", "RieTrans-SPDRMLR", "PCM"):
                 layers.append(modules.SPDBatchNormMean(b, dtype=dtype))
             elif variant == "EEGSPDNet":
                 layers.append(modules.SPDDropout(p=0.1, epsilon=reeig_eps, dtype=dtype))
@@ -1470,7 +1475,7 @@ class SPDMatrixClassifier(nn.Module):
                 layers.append(modules.SPDBatchNormHarmonic(b, alpha=0.95, learnable_alpha=False, dtype=dtype))
             elif variant == "ARMAGNAC-GAH":
                 layers.append(modules.SPDBatchNormHarmonic(b, alpha=0.5, learnable_alpha=True, dtype=dtype))
-            elif variant == "GBWBN":
+            elif variant in ("GBWBN", "BWCM"):
                 layers.append(modules.SPDBatchNormBW(b, dtype=dtype))
             elif variant == "CBN":
                 layers.append(modules.SPDBatchNormCholesky(b, dtype=dtype))
@@ -1505,7 +1510,7 @@ class SPDMatrixClassifier(nn.Module):
                 n_classes,
                 metric="LCM",
                 unidirectional=True,
-                input_tangent=True,
+                input_tangent=False,
                 eps=reeig_eps,
                 dtype=dtype,
             )
@@ -1532,8 +1537,7 @@ class SPDMatrixClassifier(nn.Module):
             for bm in self.sub_bimaps:
                 si = bm(X)
                 si = 0.5 * (si + si.transpose(-1, -2))
-                tr_i = si.diagonal(dim1=-2, dim2=-1).mean(dim=-1, keepdim=True).unsqueeze(-1).clamp(min=1e-4)
-                s_list.append(si / tr_i + 1e-2 * eye)
+                s_list.append(si + 1e-4 * eye)
             S = torch.stack(s_list, dim=1)
             if self.variant == "GraphCSPNet":
                 assert self.seq_block is not None and self.graph_prop is not None
@@ -1550,7 +1554,7 @@ class SPDMatrixClassifier(nn.Module):
         if self.variant == "PCM":
             eye = torch.eye(self.final_d, dtype=X.dtype, device=X.device).expand_as(X)
             X_reg = 0.5 * (X + X.transpose(-1, -2)) + 1e-3 * eye
-            T = F_spd.log_map_pcm(X_reg, eye, theta=0.5)
+            T = F_spd.log_map_pcm(X_reg, eye, theta=0.75)
             X_vec = self.vech(0.5 * (T + T.transpose(-1, -2)))
             return self.head(X_vec)
         if self.variant == "BWCM":

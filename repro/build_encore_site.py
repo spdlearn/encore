@@ -47,8 +47,8 @@ PAPER_TO_VOYAGER_MODELS: dict[str, list[str]] = {
     "wilson2025eegspdnet": ["EEGSPDNet", "SPDNet"],
     "chen2026pcm_bwcm": ["BWCM", "PCM", "SPDNet"],
     "hu2025coratt": ["CorAtt"],
-    "chen2026cornet": ["CorNet", "CorNet-OLM", "CorNet-LSM"],
-    "chen2026rietrans": ["SPNN", "RieTrans-SPDRMLR", "SPDNet"],
+    "chen2026cornet": ["CorNet-LSM", "CorNet-OLM", "CorNet"],
+    "chen2026rietrans": ["RieTrans-SPDRMLR", "SPNN", "SPDNet"],
     "wang2025gyroatt": ["GyroAtt"],
     "ju2023graphcspnet": ["GraphCSPNet"],
     "zhou2026gbwatt": ["GBWAtt"],
@@ -60,7 +60,7 @@ PAPER_TO_VOYAGER_MODELS: dict[str, list[str]] = {
     "zhou2025gbwbn_cbn": ["GBWBN", "CBN"],
     "tibermacine2025rceegnet": ["RCEEGNet"],
     "wang2024starnet": ["STaRNet"],
-    "chen2025alem_spdresnet": ["SPDResNet", "ALEM", "SPDResNet-ALEM"],
+    "chen2025alem_spdresnet": ["SPDResNet-ALEM", "ALEM", "SPDResNet"],
     "nguyen2023gyrospd": ["GyroSPD"],
     "boucherie2026spdnetae_ssgcnet": ["SPDNetAE", "SSGCNet"],
 }
@@ -6160,6 +6160,10 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
 
 
 def _extract_first_float(s: str, default: float = 70.0) -> float:
+    cleaned = re.sub(r"(?:\+/-|±)\s*\d+(?:\.\d+)?%?", "", str(s))
+    cands = [float(x) for x in re.findall(r"\b(\d+\.\d+)\b", cleaned) if 20.0 <= float(x) <= 100.0]
+    if cands:
+        return min(cands, key=lambda v: abs(v - default))
     m = re.search(r"\b(\d+\.\d+)\b", str(s))
     if m:
         return float(m.group(1))
