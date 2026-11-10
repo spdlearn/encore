@@ -298,6 +298,7 @@ h3 { font-size: 0.98rem; margin: 0 0 6px; }
   :root:not([data-theme=light]) .col-banner.gap  { color: #fbbf24; }
 }
 .col-banner code { font-size: 0.72rem; text-transform: none; color: var(--text); font-weight: 700; }
+.col-banner .katex { text-transform: none; }
 
 .fig-canvas {
   border: 1px solid var(--line);
@@ -440,28 +441,32 @@ ul.legend {
 /* Tabs */
 .tabs {
   display: flex;
-  gap: 2px;
+  flex-wrap: wrap;
+  gap: 4px;
   border-bottom: 2px solid var(--line);
-  overflow-x: auto;
+  overflow-x: visible;
   margin-top: 14px;
+  padding-bottom: 2px;
 }
 .tabs button {
-  background: none;
-  border: none;
-  padding: 9px 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-bottom: 2px solid transparent;
+  border-radius: 5px 5px 0 0;
+  padding: 7px 11px;
   font: inherit;
   font-family: var(--font-heading);
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   color: var(--text2);
   cursor: pointer;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
   white-space: nowrap;
 }
 .tabs button[aria-selected="true"] {
   color: var(--accent);
   font-weight: 700;
-  border-bottom-color: var(--accent);
+  background: rgba(238, 76, 44, 0.06);
+  border-color: var(--accent);
+  border-bottom: 2px solid var(--accent);
 }
 .tabs button:hover { color: var(--text); background: var(--hover); }
 .tabs button .n {
@@ -660,6 +665,12 @@ table.data-table td.bm-cell {
   overflow-wrap: normal;
   word-break: normal;
   text-align: right;
+}
+.bm-table-wrap {
+  overflow: auto;
+  max-height: 680px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
 }
 table.data-table.bm-matrix-table {
   border-collapse: separate;

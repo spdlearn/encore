@@ -662,21 +662,31 @@ def _svg_line_or_bar_panel(
         return f"{v:.1f}"
 
     has_multi_series = len(series) >= 2
-    clean_title = _clean_label(title, 42 if has_multi_series else 58)
-    lines = [
-        f'<svg class="diag-svg" viewBox="0 0 {w} {h}" role="img" aria-label="{_esc_svg(title)}">',
-        f'<text x="12" y="16" class="svg-title">{_esc_svg(clean_title)}</text>',
-    ]
     if has_multi_series:
         raw0 = str(series[0].get("label", "Pub")).strip()
         raw1 = str(series[1].get("label", "Ours")).strip()
         lbl0 = "Pub" if raw0.lower().startswith("pub") else (_clean_label(raw0.split("(")[0].strip(), 8) or "Pub")
         lbl1 = "Ours" if raw1.lower().startswith("our") else (_clean_label(raw1.split("(")[0].strip(), 8) or "Ours")
+        w1 = len(lbl1) * 5.2
+        w0 = len(lbl0) * 5.2
+        x1_txt = w - 8.0 - w1
+        x1_box = x1_txt - 9.0
+        x0_txt = x1_box - 8.0 - w0
+        x0_box = x0_txt - 9.0
+        max_title_chars = max(24, int((x0_box - 16.0) / 5.5))
+        clean_title = _clean_label(title, max_title_chars)
+    else:
+        clean_title = _clean_label(title, 58)
+    lines = [
+        f'<svg class="diag-svg" viewBox="0 0 {w} {h}" role="img" aria-label="{_esc_svg(title)}">',
+        f'<text x="12" y="16" class="svg-title">{_esc_svg(clean_title)}</text>',
+    ]
+    if has_multi_series:
         lines.append(
-            f'<rect x="260" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/>'
-            f'<text x="270" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">{_esc_svg(lbl0)}</text>'
-            f'<rect x="304" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/>'
-            f'<text x="314" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">{_esc_svg(lbl1)}</text>'
+            f'<rect x="{x0_box:.1f}" y="8" width="7" height="7" rx="1.5" class="svg-bar-primary"/>'
+            f'<text x="{x0_txt:.1f}" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">{_esc_svg(lbl0)}</text>'
+            f'<rect x="{x1_box:.1f}" y="8" width="7" height="7" rx="1.5" class="svg-bar-secondary"/>'
+            f'<text x="{x1_txt:.1f}" y="14.5" class="svg-tick" style="font-weight:700;fill:var(--text2)">{_esc_svg(lbl1)}</text>'
         )
 
     for frac in (0.0, 0.5, 1.0):
@@ -2940,6 +2950,7 @@ h3 { font-size: 0.98rem; margin: 0 0 6px; }
   :root:not([data-theme=light]) .col-banner.gap  { color: #fbbf24; }
 }
 .col-banner code { font-size: 0.72rem; text-transform: none; color: var(--text); font-weight: 700; }
+.col-banner .katex { text-transform: none; }
 
 .fig-canvas {
   border: 1px solid var(--line);
@@ -3082,28 +3093,32 @@ ul.legend {
 /* Tabs */
 .tabs {
   display: flex;
-  gap: 2px;
+  flex-wrap: wrap;
+  gap: 4px;
   border-bottom: 2px solid var(--line);
-  overflow-x: auto;
+  overflow-x: visible;
   margin-top: 14px;
+  padding-bottom: 2px;
 }
 .tabs button {
-  background: none;
-  border: none;
-  padding: 9px 14px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-bottom: 2px solid transparent;
+  border-radius: 5px 5px 0 0;
+  padding: 7px 11px;
   font: inherit;
   font-family: var(--font-heading);
-  font-size: 0.88rem;
+  font-size: 0.82rem;
   color: var(--text2);
   cursor: pointer;
-  border-bottom: 2px solid transparent;
-  margin-bottom: -2px;
   white-space: nowrap;
 }
 .tabs button[aria-selected="true"] {
   color: var(--accent);
   font-weight: 700;
-  border-bottom-color: var(--accent);
+  background: rgba(238, 76, 44, 0.06);
+  border-color: var(--accent);
+  border-bottom: 2px solid var(--accent);
 }
 .tabs button:hover { color: var(--text); background: var(--hover); }
 .tabs button .n {
@@ -3302,6 +3317,12 @@ table.data-table td.bm-cell {
   overflow-wrap: normal;
   word-break: normal;
   text-align: right;
+}
+.bm-table-wrap {
+  overflow: auto;
+  max-height: 680px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
 }
 table.data-table.bm-matrix-table {
   border-collapse: separate;
@@ -4184,7 +4205,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     for tick_r in [1, 5, 10, 15, 20, 25, 30, 35, 39]:
         tx = x_rk(float(tick_r))
         svg_lines.append(
-            f'<line x1="{tx:.1f}" y1="{pad_t - 10}" x2="{tx:.1f}" y2="{h_svg - 24}" stroke="var(--line)" stroke-width="0.8" stroke-dasharray="2,2"/>'
+            f'<line class="bm-svg-gridline" x1="{tx:.1f}" y1="{pad_t - 10}" x2="{tx:.1f}" y2="{h_svg - 24}" stroke="var(--line)" stroke-width="0.8" stroke-dasharray="2,2"/>'
         )
         svg_lines.append(
             f'<text x="{tx:.1f}" y="{pad_t - 14}" text-anchor="middle" class="svg-tick">#{tick_r}</text>'
@@ -4192,10 +4213,6 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
 
     for idx, ms in enumerate(model_stats):
         ym = pad_t + idx * row_h
-        if idx % 2 == 0:
-            svg_lines.append(
-                f'<rect x="8" y="{ym - 12:.1f}" width="{w_svg - 16}" height="{row_h:.1f}" fill="var(--svg-band)" rx="2"/>'
-            )
         m_name = ms["model"]
         rk_mean = ms["mean_rank"]
         x_m = x_rk(rk_mean)
@@ -4203,16 +4220,20 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         x_q75 = x_rk(ms["q75_rank"])
         col_dot = "#15803d" if idx < 10 else ("#1d4ed8" if idx < 25 else "#b45309")
         spd_s = f"{ms['spd_mean']:.1f}%" if ms["spd_mean"] > 0 else "—"
+        band_op = "1" if idx % 2 == 0 else "0"
         svg_lines.extend(
             [
-                f'<text x="14" y="{ym + 2:.1f}" class="svg-val" style="font-weight:700;fill:{col_dot}">#{idx + 1:02d}</text>',
-                f'<text x="48" y="{ym + 2:.1f}" class="svg-val" style="font-weight:700;fill:var(--text)">{_esc_svg(m_name)}</text>',
-                f'<text x="215" y="{ym + 2:.1f}" class="svg-tick" style="fill:var(--muted)">{_esc_svg(ms["fam_lbl"][:26])}</text>',
-                f'<text x="422" y="{ym + 2:.1f}" text-anchor="end" class="svg-tick" style="font-family:var(--mono);font-weight:700;fill:{col_dot}">{rk_mean:.1f}</text>',
-                f'<line x1="{x_q25:.1f}" y1="{ym - 2:.1f}" x2="{x_q75:.1f}" y2="{ym - 2:.1f}" stroke="{col_dot}" stroke-width="2.4" stroke-opacity="0.45"/>',
-                f'<circle cx="{x_m:.1f}" cy="{ym - 2:.1f}" r="4.0" fill="{col_dot}"/>',
-                f'<text x="765" y="{ym + 2:.1f}" class="svg-val" style="fill:#15803d;font-weight:600">{ms["top_3"]} top-3 ({ms["wins_1"]} #1)</text>',
-                f'<text x="865" y="{ym + 2:.1f}" class="svg-tick" style="font-family:var(--mono);fill:var(--text)">BCI {ms["bci_mean"]:.1f}% · Clin {ms["clin_mean"]:.1f}% · SPD {spd_s} (All {ms["overall_mean"]:.1f}%)</text>',
+                f'<g class="bm-svg-row" data-fam="{_esc_svg(ms["fam_key"])}" data-grk="{idx + 1}" data-dmean="{ms["overall_mean"]:.2f}" data-model="{_esc_svg(m_name)}" transform="translate(0, {ym:.1f})">',
+                f'<rect class="bm-svg-band" x="8" y="-12" width="{w_svg - 16}" height="{row_h:.1f}" fill="var(--svg-band)" rx="2" opacity="{band_op}"/>',
+                f'<text x="14" y="2" class="svg-val" style="font-weight:700;fill:{col_dot}">#{idx + 1:02d}</text>',
+                f'<text x="48" y="2" class="svg-val" style="font-weight:700;fill:var(--text)">{_esc_svg(m_name)}</text>',
+                f'<text x="215" y="2" class="svg-tick" style="fill:var(--muted)">{_esc_svg(ms["fam_lbl"][:26])}</text>',
+                f'<text x="422" y="2" text-anchor="end" class="svg-tick" style="font-family:var(--mono);font-weight:700;fill:{col_dot}">{rk_mean:.1f}</text>',
+                f'<line x1="{x_q25:.1f}" y1="-2" x2="{x_q75:.1f}" y2="-2" stroke="{col_dot}" stroke-width="2.4" stroke-opacity="0.45"/>',
+                f'<circle cx="{x_m:.1f}" cy="-2" r="4.0" fill="{col_dot}"/>',
+                f'<text x="765" y="2" class="svg-val" style="fill:#15803d;font-weight:600">{ms["top_3"]} top-3 ({ms["wins_1"]} #1)</text>',
+                f'<text x="865" y="2" class="svg-tick" style="font-family:var(--mono);fill:var(--text)">BCI {ms["bci_mean"]:.1f}% · Clin {ms["clin_mean"]:.1f}% · SPD {spd_s} (All {ms["overall_mean"]:.1f}%)</text>',
+                '</g>',
             ]
         )
     svg_lines.append("</svg>")
@@ -4409,13 +4430,16 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         f_rec = fpha_ds.get(m, {})
         a_rec = afew_ds.get(m, {})
         sc_rec = scarcity_ds.get(m, {})
-        r_cell = _fmt_cell("radar", m, float(r_rec["accuracy"]), float(r_rec["sd"]), decimals=2) if r_rec else "<td>-</td>"
-        h_cell = _fmt_cell("hdm05", m, float(h_rec["accuracy"]), float(h_rec["sd"]), decimals=2) if h_rec else "<td>-</td>"
-        f_cell = _fmt_cell("fpha", m, float(f_rec["accuracy"]), float(f_rec["sd"]), decimals=2) if f_rec else "<td>-</td>"
-        a_cell = _fmt_cell("afew", m, float(a_rec["accuracy"]), float(a_rec["sd"]), decimals=2) if a_rec else "<td>-</td>"
-        s05 = f"<code>{float(sc_rec.get('0.05', {}).get('mean', 0.0)):.1f}%</code>" if sc_rec else "-"
-        s25 = f"<code>{float(sc_rec.get('0.25', {}).get('mean', 0.0)):.1f}%</code>" if sc_rec else "-"
-        s50 = f"<code>{float(sc_rec.get('0.5', {}).get('mean', 0.0)):.1f}%</code>" if sc_rec else "-"
+        r_cell = _fmt_cell("radar", m, float(r_rec["accuracy"]), float(r_rec["sd"]), decimals=2) if r_rec else '<td class="muted">&mdash;</td>'
+        h_cell = _fmt_cell("hdm05", m, float(h_rec["accuracy"]), float(h_rec["sd"]), decimals=2) if h_rec else '<td class="muted">&mdash;</td>'
+        f_cell = _fmt_cell("fpha", m, float(f_rec["accuracy"]), float(f_rec["sd"]), decimals=2) if f_rec else '<td class="muted">&mdash;</td>'
+        a_cell = _fmt_cell("afew", m, float(a_rec["accuracy"]), float(a_rec["sd"]), decimals=2) if a_rec else '<td class="muted">&mdash;</td>'
+        v05 = float(sc_rec.get("0.05", {}).get("mean", 0.0)) if sc_rec else 0.0
+        v25 = float(sc_rec.get("0.25", {}).get("mean", 0.0)) if sc_rec else 0.0
+        v50 = float(sc_rec.get("0.5", {}).get("mean", 0.0)) if sc_rec else 0.0
+        s05 = f"<code>{v05:.1f}%</code>" if v05 > 0.0 else '<span class="muted">&mdash;</span>'
+        s25 = f"<code>{v25:.1f}%</code>" if v25 > 0.0 else '<span class="muted">&mdash;</span>'
+        s50 = f"<code>{v50:.1f}%</code>" if v50 > 0.0 else '<span class="muted">&mdash;</span>'
         spd_rows_html.append(
             f'<tr class="bm-model-row" data-fam="{_esc(fam_key)}" data-grk="{g_rk}" data-params="{p22}" data-dmean="{spd_m:.2f}">'
             f'<td style="white-space:nowrap"><span class="tag" style="padding:0 4px;font-size:0.68rem">#{g_rk:02d}</span> '
@@ -4482,9 +4506,9 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         fam_clin_series.append(round(f_clin, 2))
         fam_spd_series.append(round(f_spd, 2))
         fam_rows_html.append(
-            f"""<tr>
+            f"""<tr class="bm-fam-summary-row" data-fam="{_esc(fk)}">
   <td><strong>{_esc(flbl)}</strong><br><span class="small muted">{_esc(fdesc)}</span></td>
-  <td><strong style="color:var(--good)"><code>#{ rank_by_model[best_f['model']]:02d} {_esc(best_f['model'])}</code></strong> (<code>{best_f['overall_mean']:.2f}%</code>)</td>
+  <td><strong style="color:var(--good)"><code>#{rank_by_model[best_f['model']]:02d} {_esc(best_f['model'])}</code></strong> (<code>{best_f['overall_mean']:.2f}%</code>)</td>
   <td><code>{f_rk:.1f}</code></td>
   <td><code>{f_bci:.2f}%</code></td>
   <td><code>{f_clin:.2f}%</code></td>
@@ -4493,19 +4517,67 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
 </tr>"""
         )
 
-    fam_domain_svg = _svg_line_or_bar_panel(
-        "6 Geometric Families: Cross-Domain Accuracy (15 BCI vs 10 Clinical/fMRI)",
-        "SPD Geometric Architecture Family",
-        "Mean Accuracy (%)",
-        fam_chart_ticks,
-        [
-            {"label": "15 BCI", "values": fam_bci_series, "class": "svg-bar-primary"},
-            {"label": "10 Clin/fMRI", "values": fam_clin_series, "class": "svg-bar-secondary"},
-        ],
-        chart_type="bar",
-        ymin=50.0,
-        ymax=72.0,
-    )
+    # 1B. Custom 560x285 Horizontal Multi-Domain Cleveland Dot & Range Plot
+    fam_short_names = [
+        "Riemannian BatchNorm (11)",
+        "Foundational Spatiotemp (5)",
+        "Attention / Transformer (7)",
+        "Graph / Multi-View SPD (5)",
+        "Residual / Gyrovector (8)",
+        "Correlation OLM / LSM (3)",
+    ]
+    fam_all_series = [
+        round(sum(x["overall_mean"] for x in model_stats if x["fam_key"] == fk) / max(len([x for x in model_stats if x["fam_key"] == fk]), 1), 2)
+        for fk, _, _ in fam_order
+    ]
+    w_1b, h_1b = 560, 285
+    xl_1b, xr_1b = 186.0, 472.0
+
+    def _x_1b(v: float) -> float:
+        return xl_1b + ((v - 56.0) / (74.0 - 56.0)) * (xr_1b - xl_1b)
+
+    lines_1b = [
+        f'<svg viewBox="0 0 {w_1b} {h_1b}" class="diag-svg" role="img" aria-label="6 Geometric Families Cross-Domain Cleveland Dot Plot">',
+        '<text x="14" y="18" class="svg-title">1B. 6 Geometric Families: Cross-Domain Accuracy (15 BCI · 10 Clin/fMRI · 4 SPD)</text>',
+        '<circle cx="20" cy="32" r="4.0" fill="var(--spd-blue)"/>',
+        '<text x="28" y="35" class="svg-tick" style="font-weight:700;fill:var(--text2)">15 BCI Datasets</text>',
+        '<rect x="132" y="28" width="8" height="8" rx="1.5" fill="var(--accent)"/>',
+        '<text x="144" y="35" class="svg-tick" style="font-weight:700;fill:var(--text2)">10 Clinical/fMRI</text>',
+        '<polygon points="262,27.5 266.5,32 262,36.5 257.5,32" fill="#15803d"/>',
+        '<text x="271" y="35" class="svg-tick" style="font-weight:700;fill:var(--text2)">4 SPD Matrix</text>',
+        '<text x="548" y="35" text-anchor="end" class="svg-tick" style="font-weight:700;fill:var(--text)">All-29 Mean</text>',
+        f'<line x1="12" y1="42" x2="{w_1b - 12}" y2="42" stroke="var(--line)" stroke-width="1"/>',
+    ]
+    for tk in [56, 59, 62, 65, 68, 71, 74]:
+        xt = _x_1b(float(tk))
+        lines_1b.append(f'<line x1="{xt:.1f}" y1="48" x2="{xt:.1f}" y2="250" class="svg-grid"/>')
+        lines_1b.append(f'<text x="{xt:.1f}" y="264" text-anchor="middle" class="svg-tick">{tk}%</text>')
+    lines_1b.append(f'<line x1="{xl_1b}" y1="250" x2="{xr_1b}" y2="250" class="svg-axis"/>')
+    lines_1b.append(f'<text x="{0.5 * (xl_1b + xr_1b):.1f}" y="279" text-anchor="middle" class="svg-label">Domain Mean Accuracy (%)</text>')
+
+    for idx_f, s_name in enumerate(fam_short_names):
+        yf = 66.0 + idx_f * 31.5
+        if idx_f % 2 == 0:
+            lines_1b.append(f'<rect x="10" y="{yf - 14:.1f}" width="{w_1b - 20}" height="28" fill="var(--svg-band)" rx="3"/>')
+        vbci = fam_bci_series[idx_f]
+        vclin = fam_clin_series[idx_f]
+        vspd = fam_spd_series[idx_f]
+        vall = fam_all_series[idx_f]
+        xb = _x_1b(vbci)
+        xc = _x_1b(vclin)
+        xs = _x_1b(vspd)
+        xmin_f = min(xb, xc, xs)
+        xmax_f = max(xb, xc, xs)
+        lines_1b.extend([
+            f'<text x="14" y="{yf + 3:.1f}" class="svg-val" style="font-weight:700;fill:var(--text)">{_esc_svg(s_name)}</text>',
+            f'<line x1="{xmin_f:.1f}" y1="{yf:.1f}" x2="{xmax_f:.1f}" y2="{yf:.1f}" stroke="var(--muted)" stroke-width="2.0" stroke-opacity="0.45"/>',
+            f'<circle cx="{xb:.1f}" cy="{yf:.1f}" r="4.3" fill="var(--spd-blue)"/>',
+            f'<rect x="{xc - 4.0:.1f}" y="{yf - 4.0:.1f}" width="8.0" height="8.0" rx="1.5" fill="var(--accent)"/>',
+            f'<polygon points="{xs:.1f},{yf - 5.0:.1f} {xs + 5.0:.1f},{yf:.1f} {xs:.1f},{yf + 5.0:.1f} {xs - 5.0:.1f},{yf:.1f}" fill="#15803d"/>',
+            f'<text x="548" y="{yf + 3:.1f}" text-anchor="end" class="svg-val" style="font-weight:700;fill:var(--text)">{vall:.2f}%</text>',
+        ])
+    lines_1b.append("</svg>")
+    fam_domain_svg = "\n".join(lines_1b)
 
     stem_pairs = [
         ("SPDNet", "SPDNetBN", "Adding temporal-spatial Conv stem + Fréchet SPDBatchNormMean lifts rank by 29 places across 29 datasets."),
@@ -4516,9 +4588,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     ]
     ms_by_name = {ms["model"]: ms for ms in model_stats}
     stem_rows_html = []
-    stem_ticks = []
-    stem_raw_vals = []
-    stem_tsm_vals = []
+    stem_plot_items = []
     for raw_m, tsm_m, reason_txt in stem_pairs:
         if raw_m in ms_by_name and tsm_m in ms_by_name:
             r_ms = ms_by_name[raw_m]
@@ -4527,91 +4597,191 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
             d_bci = t_ms["bci_mean"] - r_ms["bci_mean"]
             d_clin = t_ms["clin_mean"] - r_ms["clin_mean"]
             rk_jump = int(rank_by_model[raw_m] - rank_by_model[tsm_m])
-            stem_ticks.append(tsm_m[:12])
-            stem_raw_vals.append(round(r_ms["overall_mean"], 2))
-            stem_tsm_vals.append(round(t_ms["overall_mean"], 2))
+            stem_plot_items.append((raw_m, tsm_m, r_ms["overall_mean"], t_ms["overall_mean"], d_all, rk_jump))
             stem_rows_html.append(
                 f"""<tr>
   <td><code>#{rank_by_model[raw_m]:02d} {_esc(raw_m)}</code> (<code>{r_ms['overall_mean']:.2f}%</code>)</td>
   <td><strong style="color:var(--good)"><code>#{rank_by_model[tsm_m]:02d} {_esc(tsm_m)} (+TSM)</code></strong> (<code>{t_ms['overall_mean']:.2f}%</code>)</td>
-  <td><span class="chip good">+{rk_jump} ranks</span> · <strong><code>+{d_all:.2f}%</code></strong> (BCI <code>+{d_bci:.2f}%</code>, Clin <code>+{d_clin:.2f}%</code>)</td>
+  <td><span class="chip good">+{rk_jump} ranks</span> · <strong><code>+{d_all:.2f} pp</code></strong> (BCI <code>+{d_bci:.2f} pp</code>, Clin <code>+{d_clin:.2f} pp</code>)</td>
   <td class="small muted">{_esc(reason_txt)}</td>
 </tr>"""
             )
 
-    stem_ablation_svg = _svg_line_or_bar_panel(
-        "Controlled Stem Ablation: Raw Matrix Backbone vs +TSM Stem (29-DS Mean %)",
-        "Architecture Pair (Raw Covariance vs Spatiotemporal Stem)",
-        "29-Dataset Mean Accuracy (%)",
-        stem_ticks,
-        [
-            {"label": "Raw Matrix", "values": stem_raw_vals, "class": "svg-bar-primary"},
-            {"label": "+TSM Stem", "values": stem_tsm_vals, "class": "svg-bar-secondary"},
-        ],
-        chart_type="bar",
-        ymin=50.0,
-        ymax=70.0,
-    )
+    # 1C. Custom 560x285 Horizontal Paired Dumbbell Arrow Plot
+    w_1c, h_1c = 560, 285
+    xl_1c, xr_1c = 178.0, 444.0
+
+    def _x_1c(v: float) -> float:
+        return xl_1c + ((v - 56.0) / (68.0 - 56.0)) * (xr_1c - xl_1c)
+
+    lines_1c = [
+        f'<svg viewBox="0 0 {w_1c} {h_1c}" class="diag-svg" role="img" aria-label="Controlled Spatiotemporal Stem Ablation Dumbbell Plot">',
+        '<text x="14" y="18" class="svg-title">1C. Controlled Stem Ablation: Raw Matrix Backbone vs +TSM Stem (29-DS Mean)</text>',
+        '<circle cx="20" cy="32" r="4.0" fill="#64748b"/>',
+        '<text x="28" y="35" class="svg-tick" style="font-weight:700;fill:var(--text2)">Raw Matrix Input (No Temporal Conv)</text>',
+        '<circle cx="248" cy="32" r="4.2" fill="#15803d"/>',
+        '<text x="256" y="35" class="svg-tick" style="font-weight:700;fill:#15803d">+TSM Filterbank Stem Variant</text>',
+        '<text x="548" y="35" text-anchor="end" class="svg-tick" style="font-weight:700;fill:var(--text)">Gain &amp; Rank</text>',
+        f'<line x1="12" y1="42" x2="{w_1c - 12}" y2="42" stroke="var(--line)" stroke-width="1"/>',
+    ]
+    for tk in [56, 58, 60, 62, 64, 66, 68]:
+        xt = _x_1c(float(tk))
+        lines_1c.append(f'<line x1="{xt:.1f}" y1="48" x2="{xt:.1f}" y2="250" class="svg-grid"/>')
+        lines_1c.append(f'<text x="{xt:.1f}" y="264" text-anchor="middle" class="svg-tick">{tk}%</text>')
+    lines_1c.append(f'<line x1="{xl_1c}" y1="250" x2="{xr_1c}" y2="250" class="svg-axis"/>')
+    lines_1c.append(f'<text x="{0.5 * (xl_1c + xr_1c):.1f}" y="279" text-anchor="middle" class="svg-label">29-Dataset Mean Accuracy (%)</text>')
+
+    for idx_s, (raw_m, tsm_m, vr, vt, dall, rkj) in enumerate(stem_plot_items):
+        ys = 70.0 + idx_s * 37.0
+        if idx_s % 2 == 0:
+            lines_1c.append(f'<rect x="10" y="{ys - 15:.1f}" width="{w_1c - 20}" height="30" fill="var(--svg-band)" rx="3"/>')
+        xr_pt = _x_1c(vr)
+        xt_pt = _x_1c(vt)
+        tsm_short = "RieTrans-RMLR" if tsm_m == "RieTrans-SPDRMLR" else tsm_m
+        pair_lbl = f"{raw_m} → {tsm_short}"
+        lines_1c.extend([
+            f'<text x="14" y="{ys + 3:.1f}" class="svg-val" style="font-weight:700;fill:var(--text)">{_esc_svg(pair_lbl)}</text>',
+            f'<line x1="{xr_pt:.1f}" y1="{ys:.1f}" x2="{xt_pt - 5.0:.1f}" y2="{ys:.1f}" stroke="#15803d" stroke-width="2.4"/>',
+            f'<polygon points="{xt_pt - 4.0:.1f},{ys:.1f} {xt_pt - 10.5:.1f},{ys - 3.8:.1f} {xt_pt - 10.5:.1f},{ys + 3.8:.1f}" fill="#15803d"/>',
+            f'<circle cx="{xr_pt:.1f}" cy="{ys:.1f}" r="4.0" fill="#64748b"/>',
+            f'<circle cx="{xt_pt:.1f}" cy="{ys:.1f}" r="4.4" fill="#15803d"/>',
+            f'<text x="{xr_pt - 6.0:.1f}" y="{ys + 3:.1f}" text-anchor="end" class="svg-tick" style="fill:var(--muted)">{vr:.1f}%</text>',
+            f'<text x="{xt_pt + 6.0:.1f}" y="{ys + 3:.1f}" text-anchor="start" class="svg-tick" style="font-weight:700;fill:#15803d">{vt:.1f}%</text>',
+            f'<text x="548" y="{ys + 3:.1f}" text-anchor="end" class="svg-val" style="font-weight:700;fill:#15803d">+{dall:.2f} pp (+{rkj})</text>',
+        ])
+    lines_1c.append("</svg>")
+    stem_ablation_svg = "\n".join(lines_1c)
 
     bci_headers = "".join(f'<th style="white-space:nowrap">{_esc(lbl)}</th>' for _, lbl in bci_cols)
     clin_headers = "".join(f'<th style="white-space:nowrap">{_esc(lbl)}</th>' for _, lbl in clin_cols)
 
-    # 1D. Manifold Dimensionality Scaling (Low-D 2-19ch, Mid-D 20-32ch, High-D 56-64ch, Ultra-D 93-400ch)
-    dim_scaling_svg = _svg_line_or_bar_panel(
-        "1D. Manifold Matrix Size Scaling: Accuracy Across d in [2, 400]",
-        "SPD Matrix Dimension Regime d x d (Tangent Dim d(d+1)/2)",
-        "Mean Accuracy (%)",
-        ["Low-D (2-19)", "Mid-D (20-32)", "High-D (56-64)", "Ultra-D (93-400)"],
-        [
-            {"label": "BatchNorm (11)", "values": [62.13, 69.38, 63.61, 64.46], "class": "svg-series-primary"},
-            {"label": "Foundational (5)", "values": [58.58, 68.59, 64.45, 62.29], "class": "svg-series-secondary"},
-            {"label": "Attention (7)", "values": [58.90, 68.67, 62.62, 61.56], "class": "svg-series-tertiary"},
-            {"label": "Correlation (3)", "values": [56.88, 66.30, 62.55, 62.23], "class": "svg-series-baseline"},
-        ],
-        chart_type="line",
-        ymin=54.0,
-        ymax=72.0,
-    )
-
-    # 1E. Log10 Parameter Complexity vs. 29-Dataset Generalization Pareto Frontier SVG
-    w_par, h_par = 560, 250
-    par_svg_lines = [
-        f'<svg viewBox="0 0 {w_par} {h_par}" class="diag-svg" role="img" aria-label="Parameter Complexity Pareto Frontier">',
-        f'<text x="16" y="20" class="svg-title">1E. Parameter Scaling Pareto Frontier: log10(Params at 22ch vs 128ch) vs 29-DS Mean</text>',
-        f'<text x="16" y="34" class="svg-sub">Dots = 22ch params · Arrows = 128ch growth · Green = Pareto Frontier (4.3K params, 66.4%)</text>',
-        f'<line x1="56" y1="46" x2="56" y2="212" class="svg-axis"/>',
-        f'<line x1="56" y1="212" x2="540" y2="212" class="svg-axis"/>',
+    # 1D. Custom 560x285 Manifold Dimensionality Scaling Slope Chart with De-Collided Right Labels
+    w_1d, h_1d = 560, 285
+    xl_1d, xr_1d = 52.0, 428.0
+    yt_1d, yb_1d = 52.0, 240.0
+    regimes_1d = ["Low-D (2–19 ch)", "Mid-D (20–32 ch)", "High-D (56–64 ch)", "Ultra-D (93–400 D)"]
+    series_1d = [
+        ("BatchNorm (11)", [62.13, 69.38, 63.61, 64.46], "#2f6fed", ""),
+        ("Foundational (5)", [58.58, 68.59, 64.45, 62.29], "#ee4c2c", "5,2"),
+        ("Attention (7)", [58.90, 68.67, 62.62, 61.56], "#15803d", ""),
+        ("Correlation (3)", [56.88, 66.30, 62.55, 62.23], "#64748b", "2,2"),
     ]
+
+    def _x_1d(idx_r: int) -> float:
+        return xl_1d + 24.0 + (idx_r / 3.0) * (xr_1d - xl_1d - 48.0)
+
+    def _y_1d(v: float) -> float:
+        return yb_1d - ((v - 55.0) / (71.0 - 55.0)) * (yb_1d - yt_1d)
+
+    lines_1d = [
+        f'<svg viewBox="0 0 {w_1d} {h_1d}" class="diag-svg" role="img" aria-label="Manifold Matrix Size Scaling Across Regimes">',
+        '<text x="14" y="18" class="svg-title">1D. Manifold Matrix Size Scaling: Accuracy Across Dimension Regimes d ∈ [2, 400]</text>',
+    ]
+    leg_x_1d = [14, 142, 284, 412]
+    for s_idx, (slbl, _, scol, sdash) in enumerate(series_1d):
+        lx = leg_x_1d[s_idx]
+        dash_attr = f' stroke-dasharray="{sdash}"' if sdash else ""
+        lines_1d.append(f'<line x1="{lx}" y1="32" x2="{lx + 16}" y2="32" stroke="{scol}" stroke-width="2.4"{dash_attr}/>')
+        lines_1d.append(f'<circle cx="{lx + 8}" cy="32" r="3.2" fill="{scol}"/>')
+        lines_1d.append(f'<text x="{lx + 21}" y="35" class="svg-tick" style="font-weight:700;fill:{scol}">{_esc_svg(slbl)}</text>')
+    lines_1d.append(f'<line x1="12" y1="42" x2="{w_1d - 12}" y2="42" stroke="var(--line)" stroke-width="1"/>')
+
+    for tk in [56, 59, 62, 65, 68, 71]:
+        yt = _y_1d(float(tk))
+        lines_1d.append(f'<line x1="{xl_1d}" y1="{yt:.1f}" x2="{xr_1d}" y2="{yt:.1f}" class="svg-grid"/>')
+        lines_1d.append(f'<text x="{xl_1d - 6}" y="{yt + 3:.1f}" text-anchor="end" class="svg-tick">{tk}%</text>')
+    for idx_r, rlbl in enumerate(regimes_1d):
+        xr_c = _x_1d(idx_r)
+        lines_1d.append(f'<line x1="{xr_c:.1f}" y1="{yt_1d}" x2="{xr_c:.1f}" y2="{yb_1d}" class="svg-grid"/>')
+        lines_1d.append(f'<text x="{xr_c:.1f}" y="256" text-anchor="middle" class="svg-tick" style="font-weight:600;fill:var(--text2)">{_esc_svg(rlbl)}</text>')
+    lines_1d.append(f'<line x1="{xl_1d}" y1="{yt_1d}" x2="{xl_1d}" y2="{yb_1d}" class="svg-axis"/>')
+    lines_1d.append(f'<line x1="{xl_1d}" y1="{yb_1d}" x2="{xr_1d}" y2="{yb_1d}" class="svg-axis"/>')
+    lines_1d.append(f'<text x="{0.5 * (xl_1d + xr_1d):.1f}" y="278" text-anchor="middle" class="svg-label">SPD Covariance Matrix Dimension Regime d × d (Tangent Dim d(d+1)/2)</text>')
+
+    end_callouts_1d = []
+    for slbl, svals, scol, sdash in series_1d:
+        pts = [(_x_1d(i), _y_1d(v), v) for i, v in enumerate(svals)]
+        poly = " ".join(f"{px:.1f},{py:.1f}" for px, py, _ in pts)
+        dash_attr = f' stroke-dasharray="{sdash}"' if sdash else ""
+        lines_1d.append(f'<polyline fill="none" points="{poly}" stroke="{scol}" stroke-width="2.4"{dash_attr}/>')
+        for px, py, pv in pts:
+            lines_1d.append(f'<circle cx="{px:.1f}" cy="{py:.1f}" r="3.6" fill="{scol}"/>')
+        short_n = slbl.split("(")[0].strip()
+        end_callouts_1d.append([pts[-1][0], pts[-1][1], pts[-1][1], f"{short_n} {pts[-1][2]:.1f}%", scol])
+
+    end_callouts_1d.sort(key=lambda item: item[2])
+    for _ in range(6):
+        for k in range(1, len(end_callouts_1d)):
+            if end_callouts_1d[k][2] - end_callouts_1d[k - 1][2] < 14.0:
+                mid = 0.5 * (end_callouts_1d[k][2] + end_callouts_1d[k - 1][2])
+                end_callouts_1d[k - 1][2] = mid - 7.0
+                end_callouts_1d[k][2] = mid + 7.0
+    for px_end, py_orig, py_adj, c_txt, scol in end_callouts_1d:
+        lines_1d.append(f'<line x1="{px_end + 4:.1f}" y1="{py_orig:.1f}" x2="{xr_1d + 10:.1f}" y2="{py_adj:.1f}" stroke="{scol}" stroke-width="0.9" opacity="0.7"/>')
+        lines_1d.append(f'<text x="{xr_1d + 13:.1f}" y="{py_adj + 3:.1f}" text-anchor="start" class="svg-val" style="font-weight:700;fill:{scol}">{_esc_svg(c_txt)}</text>')
+    lines_1d.append("</svg>")
+    dim_scaling_svg = "\n".join(lines_1d)
+
+    # 1E. Custom 560x285 Log10 Parameter Complexity vs. 29-Dataset Generalization Pareto Frontier SVG
     import math as _math
+
+    w_par, h_par = 560, 285
+    xl_par, xr_par = 52.0, 542.0
+    yt_par, yb_par = 50.0, 240.0
 
     def _x_par(p_val: float) -> float:
         lg = _math.log10(max(p_val, 500.0))
-        return 56.0 + (lg - 2.8) / (9.2 - 2.8) * (540.0 - 56.0)
+        return xl_par + (lg - 2.7) / (9.15 - 2.7) * (xr_par - xl_par)
 
     def _y_acc(a_val: float) -> float:
-        return 212.0 - (a_val - 56.0) / (68.0 - 56.0) * (212.0 - 46.0)
+        return yb_par - (a_val - 55.0) / (68.0 - 55.0) * (yb_par - yt_par)
 
+    par_svg_lines = [
+        f'<svg viewBox="0 0 {w_par} {h_par}" class="diag-svg" role="img" aria-label="Parameter Complexity Pareto Frontier">',
+        '<text x="14" y="18" class="svg-title">1E. Parameter Scaling Pareto Frontier: log10(Params at 22ch → 128ch) vs 29-DS Mean</text>',
+        '<text x="14" y="34" class="svg-sub">Dots = 22ch params · Dashed arrows = 128ch growth · Stepped green curve = Pareto Efficiency Frontier</text>',
+        f'<line x1="12" y1="42" x2="{w_par - 12}" y2="42" stroke="var(--line)" stroke-width="1"/>',
+    ]
     for p_tick, p_lbl in [(1e3, "1K"), (1e4, "10K"), (1e5, "100K"), (1e6, "1M"), (1e7, "10M"), (1e8, "100M"), (1e9, "1B")]:
         xt = _x_par(p_tick)
-        par_svg_lines.append(f'<line x1="{xt:.1f}" y1="46" x2="{xt:.1f}" y2="212" class="svg-grid"/>')
-        par_svg_lines.append(f'<text x="{xt:.1f}" y="226" text-anchor="middle" class="svg-tick">{p_lbl}</text>')
-    for a_tick in [58, 60, 62, 64, 66]:
-        yt = _y_acc(a_tick)
-        par_svg_lines.append(f'<line x1="56" y1="{yt:.1f}" x2="540" y2="{yt:.1f}" class="svg-grid"/>')
-        par_svg_lines.append(f'<text x="50" y="{yt + 3:.1f}" text-anchor="end" class="svg-tick">{a_tick}%</text>')
-    par_svg_lines.append('<text x="298" y="244" text-anchor="middle" class="svg-label">Trainable Parameters (Log Scale: 22-Ch Dot → 128-Ch Arrowhead)</text>')
+        par_svg_lines.append(f'<line x1="{xt:.1f}" y1="{yt_par}" x2="{xt:.1f}" y2="{yb_par}" class="svg-grid"/>')
+        par_svg_lines.append(f'<text x="{xt:.1f}" y="256" text-anchor="middle" class="svg-tick">{p_lbl}</text>')
+    for a_tick in [56, 58, 60, 62, 64, 66, 68]:
+        yt = _y_acc(float(a_tick))
+        par_svg_lines.append(f'<line x1="{xl_par}" y1="{yt:.1f}" x2="{xr_par}" y2="{yt:.1f}" class="svg-grid"/>')
+        par_svg_lines.append(f'<text x="{xl_par - 6}" y="{yt + 3:.1f}" text-anchor="end" class="svg-tick">{a_tick}%</text>')
+    par_svg_lines.append(f'<line x1="{xl_par}" y1="{yt_par}" x2="{xl_par}" y2="{yb_par}" class="svg-axis"/>')
+    par_svg_lines.append(f'<line x1="{xl_par}" y1="{yb_par}" x2="{xr_par}" y2="{yb_par}" class="svg-axis"/>')
+    par_svg_lines.append('<text x="297" y="278" text-anchor="middle" class="svg-label">Trainable Parameters (Log10 Scale: 22-Ch Dot → 128-Ch Growth Arrow)</text>')
 
-    highlight_par_models = {
-        "ARMAGNAC-GAH": ("#15803d", -6, -6),
-        "SPDNetBN": ("#15803d", -6, 11),
-        "SPDMetaFormer": ("#1d4ed8", -8, -6),
-        "RHOP": ("#1d4ed8", 6, 4),
-        "Green": ("#7c3aed", 6, -5),
-        "EEGSPDNet": ("#b45309", -10, -7),
-        "GraphCSPNet": ("#475569", -10, 11),
-        "SPDTransNet": ("#dc2626", -55, -8),
-        "CorNet": ("#dc2626", 6, 4),
-        "SPDNet": ("#64748b", 6, -4),
+    # Draw stepped Pareto frontier
+    pareto_pts_raw = sorted([(model_params_map.get(ms["model"], (4268, 17836, ""))[0], ms["overall_mean"]) for ms in model_stats], key=lambda t: t[0])
+    pareto_poly = []
+    running_best = -1.0
+    for pv, av in pareto_pts_raw:
+        if av > running_best:
+            xp = _x_par(pv)
+            yp = _y_acc(av)
+            if pareto_poly:
+                pareto_poly.append(f"{xp:.1f},{pareto_poly[-1].split(',')[1]}")
+            pareto_poly.append(f"{xp:.1f},{yp:.1f}")
+            running_best = av
+    if pareto_poly:
+        pareto_poly.append(f"{xr_par:.1f},{pareto_poly[-1].split(',')[1]}")
+        par_svg_lines.append(f'<polyline fill="none" points="{" ".join(pareto_poly)}" stroke="#15803d" stroke-width="1.8" stroke-dasharray="4,2" opacity="0.75"/>')
+
+    # De-collided callout specification: (color, callout_x, callout_y, anchor, label_text)
+    par_callouts = {
+        "ARMAGNAC-GAH": ("#15803d", 252.0, 61.0, "start", "ARMAGNAC-GAH (#1, 4.3K, 66.4%)"),
+        "SPDNetBN": ("#15803d", 252.0, 82.0, "start", "SPDNetBN (#4, 4.3K, 66.0%)"),
+        "Green": ("#7c3aed", 252.0, 96.5, "start", "Green (#14, 37.6K, 64.9%)"),
+        "RHOP": ("#1d4ed8", 252.0, 111.0, "start", "RHOP (#11, 5.0K, 64.7%)"),
+        "SPDMetaFormer": ("#1d4ed8", 252.0, 125.5, "start", "SPDMetaFormer (#7, 14.1K, 64.6%)"),
+        "EEGSPDNet": ("#b45309", 252.0, 140.0, "start", "EEGSPDNet (#6, 39K→1.16M, 64.0%)"),
+        "GraphCSPNet": ("#475569", 252.0, 158.0, "start", "GraphCSPNet (#25, 90K→215K, 62.9%)"),
+        "SPDNet": ("#475569", 58.0, 132.0, "start", "SPDNet (900B, 61.4%)"),
+        "CorNet": ("#dc2626", 104.0, 204.0, "start", "CorNet (#39, 836B, 57.8%)"),
+        "SPDTransNet": ("#dc2626", 310.0, 229.0, "start", "SPDTransNet (#37, 1.22M→1.09B, 56.1%)"),
     }
     for ms in model_stats:
         m = ms["model"]
@@ -4619,18 +4789,22 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         x1 = _x_par(p22)
         x2 = _x_par(p128)
         y1 = _y_acc(ms["overall_mean"])
-        if m in highlight_par_models:
-            col, dx, dy = highlight_par_models[m]
-            par_svg_lines.append(
-                f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y1:.1f}" stroke="{col}" stroke-width="1.6" stroke-dasharray="2,2" opacity="0.75"/>'
-            )
-            par_svg_lines.append(f'<circle cx="{x2:.1f}" cy="{y1:.1f}" r="2.3" fill="{col}" opacity="0.65"/>')
-            par_svg_lines.append(f'<circle cx="{x1:.1f}" cy="{y1:.1f}" r="4.2" fill="{col}"/>')
-            par_svg_lines.append(
-                f'<text x="{x1 + dx:.1f}" y="{y1 + dy:.1f}" class="svg-tick" style="font-weight:700;fill:{col}">{_esc_svg(m)}</text>'
-            )
-        else:
+        if m not in par_callouts:
             par_svg_lines.append(f'<circle cx="{x1:.1f}" cy="{y1:.1f}" r="2.6" fill="#94a3b8" opacity="0.55"/>')
+    for ms in model_stats:
+        m = ms["model"]
+        if m not in par_callouts:
+            continue
+        p22, p128, _ = model_params_map.get(m, (4268, 17836, ""))
+        x1 = _x_par(p22)
+        x2 = _x_par(p128)
+        y1 = _y_acc(ms["overall_mean"])
+        col, cx_lbl, cy_lbl, anchor, c_txt = par_callouts[m]
+        par_svg_lines.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{x2:.1f}" y2="{y1:.1f}" stroke="{col}" stroke-width="1.5" stroke-dasharray="2,2" opacity="0.75"/>')
+        par_svg_lines.append(f'<circle cx="{x2:.1f}" cy="{y1:.1f}" r="2.4" fill="{col}" opacity="0.65"/>')
+        par_svg_lines.append(f'<circle cx="{x1:.1f}" cy="{y1:.1f}" r="4.0" fill="{col}"/>')
+        par_svg_lines.append(f'<line x1="{x1:.1f}" y1="{y1:.1f}" x2="{cx_lbl - 3.0:.1f}" y2="{cy_lbl - 2.5:.1f}" stroke="{col}" stroke-width="0.8" opacity="0.6"/>')
+        par_svg_lines.append(f'<text x="{cx_lbl:.1f}" y="{cy_lbl:.1f}" text-anchor="{anchor}" class="svg-tick" style="font-weight:700;fill:{col}">{_esc_svg(c_txt)}</text>')
     par_svg_lines.append("</svg>")
     pareto_params_svg = "\n".join(par_svg_lines)
 
@@ -4676,7 +4850,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     <div class="diag-card col-orig">
       <div class="col-banner orig"><span>CLAIM 1D-1 · LOW-CHANNEL REGIME ($d \\le 19$)</span><span class="chip good">7 Datasets</span></div>
       <p class="small" style="margin:4px 0">
-        To test whether scale-invariant correlation projection preserves discriminative power on sparse sensor montages, we compared all 6 families on the 7 low-dimensional datasets ($d \\in [2, 19]$, tangent dimension $3\\text{{--}}190$). Correlation models drop to <code>56.88%</code> (<code>-5.25%</code> below Riemannian BatchNorm at <code>62.13%</code>), confirming that projecting $P \\mapsto \\Delta(P)^{{-1/2}}P\\Delta(P)^{{-1/2}}$ discards up to half of the degrees of freedom when diagonal log-variance carries the primary ERD/ERS signal.
+        To test whether scale-invariant correlation projection preserves discriminative power on sparse sensor montages, we compared all 6 families on the 7 low-dimensional datasets ($d \\in [2, 19]$, tangent dimension $3\\text{{--}}190$). Correlation models drop to <code>56.88%</code> (<code>-5.25 pp</code> below Riemannian BatchNorm at <code>62.13%</code>), confirming that projecting $P \\mapsto \\Delta(P)^{{-1/2}}P\\Delta(P)^{{-1/2}}$ discards up to half of the degrees of freedom when diagonal log-variance carries the primary ERD/ERS signal.
       </p>
     </div>
     <div class="diag-card col-ours">
@@ -4688,7 +4862,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     <div class="diag-card col-gap">
       <div class="col-banner gap"><span>CLAIM 1E · PARAMETER SCALING ($22\\text{{ch}} \\to 128\\text{{ch}}$)</span><span class="chip unresolved">$O(C)$ vs $O(C^4)$</span></div>
       <p class="small" style="margin:4px 0">
-        Because tangent dimensionality grows quadratically as $d(d+1)/2$, un-bottlenecked tangent MLPs scale as $O(C^4)$: <code>SPDTransNet</code> explodes from <code>1.22M</code> parameters at $22\\text{{ ch}}$ to <code>1.09 Billion</code> parameters at $128\\text{{ ch}}$ (<code>&times;894.2</code>) while ranking #37 (<code>60.41%</code>). In contrast, spatial-stem bottleneck models compress $C \\to 24 \\to 16$, so <code>#01 ARMAGNAC-GAH</code> requires only <code>4,269</code> parameters at $22\\text{{ ch}}$ and <code>17,837</code> at $128\\text{{ ch}}$ (<code>&times;4.2</code>) while achieving <code>66.42%</code> (#1).
+        Because tangent dimensionality grows quadratically as $d(d+1)/2$, un-bottlenecked tangent MLPs scale as $O(C^4)$: <code>SPDTransNet</code> explodes from <code>1.22M</code> parameters at $22\\text{{ ch}}$ to <code>1.09 Billion</code> parameters at $128\\text{{ ch}}$ (<code>&times;894.2</code>) while ranking #37 (<code>56.09%</code>). In contrast, spatial-stem bottleneck models compress $C \\to 24 \\to 16$, so <code>#01 ARMAGNAC-GAH</code> requires only <code>4,269</code> parameters at $22\\text{{ ch}}$ and <code>17,837</code> at $128\\text{{ ch}}$ (<code>&times;4.2</code>) while achieving <code>66.42%</code> (#1).
       </p>
     </div>
   </div>
@@ -4712,7 +4886,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     </table>
   </div>"""
 
-    # 1G. Chronological Audit SVG (2017-2026 vs 2019 SPDNetBN Ceiling) & 1H. Benchmark Rank-Correlation Breakdown
+    # 1G. Custom 560x285 Chronological Audit SVG (2017-2026 vs 2019 SPDNetBN Ceiling) with De-Collided Callouts
     model_year_map = {
         "SPDNet": 2017, "SPDNetBN": 2019, "TSMNet": 2022, "TensorCSPNet": 2022, "MAtt": 2022,
         "EEGSPDNet": 2024, "Green": 2024, "PhaseSPDNet": 2024, "LieBN-AIM": 2024, "LieBN-LEM": 2024,
@@ -4723,60 +4897,130 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         "PCM": 2025, "BWCM": 2025, "SPDMetaFormer": 2025, "RHOP": 2025, "RCEEGNet": 2025,
         "STaRNet": 2025, "ARMAGNAC-GAH": 2026, "ARMAGNAC-Harmonic": 2026, "ARMAGNAC-Arithmetic": 2026,
     }
-    yr_svg = [
-        '<svg viewBox="0 0 560 250" class="diag-svg" role="img" aria-label="Chronological Trajectory 2017 to 2026">',
-        '<text x="16" y="20" class="svg-title">1G. The 7-Year Metric Plateau: Publication Year (2017-2026) vs 29-DS Accuracy</text>',
-        '<text x="16" y="34" class="svg-sub">Dashed Green Line = 2019 SPDNetBN (65.98%) · 21 of 24 Post-2022 Models Fall Below 2019 SPDNetBN</text>',
-        '<line x1="52" y1="46" x2="52" y2="212" class="svg-axis"/>',
-        '<line x1="52" y1="212" x2="540" y2="212" class="svg-axis"/>',
-    ]
+    w_yr, h_yr = 560, 285
+    xl_yr, xr_yr = 52.0, 542.0
+    yt_yr, yb_yr = 50.0, 240.0
+
     def _x_yr(y_val: float) -> float:
         return 68.0 + (y_val - 2017.0) / 9.0 * (524.0 - 68.0)
 
+    yr_svg = [
+        f'<svg viewBox="0 0 {w_yr} {h_yr}" class="diag-svg" role="img" aria-label="Chronological Trajectory 2017 to 2026">',
+        '<text x="14" y="18" class="svg-title">1G. The 7-Year Metric Plateau: Publication Year (2017–2026) vs 29-DS Accuracy</text>',
+        '<text x="14" y="34" class="svg-sub">Dashed Green Line = 2019 SPDNetBN (65.98%) · 33 of 37 Post-2019 Models Fall Below · Top 4 Tie (p ≥ 0.40)</text>',
+        f'<line x1="12" y1="42" x2="{w_yr - 12}" y2="42" stroke="var(--line)" stroke-width="1"/>',
+    ]
     for y_t in range(2017, 2027):
-        xy = _x_yr(y_t)
-        yr_svg.append(f'<line x1="{xy:.1f}" y1="46" x2="{xy:.1f}" y2="212" class="svg-grid"/>')
-        yr_svg.append(f'<text x="{xy:.1f}" y="226" text-anchor="middle" class="svg-tick">{y_t}</text>')
-    for a_t in [58, 60, 62, 64, 66]:
-        ya = _y_acc(a_t)
-        yr_svg.append(f'<line x1="52" y1="{ya:.1f}" x2="540" y2="{ya:.1f}" class="svg-grid"/>')
-        yr_svg.append(f'<text x="46" y="{ya + 3:.1f}" text-anchor="end" class="svg-tick">{a_t}%</text>')
+        xy = _x_yr(float(y_t))
+        yr_svg.append(f'<line x1="{xy:.1f}" y1="{yt_yr}" x2="{xy:.1f}" y2="{yb_yr}" class="svg-grid"/>')
+        yr_svg.append(f'<text x="{xy:.1f}" y="256" text-anchor="middle" class="svg-tick">{y_t}</text>')
+    for a_t in [56, 58, 60, 62, 64, 66, 68]:
+        ya = _y_acc(float(a_t))
+        yr_svg.append(f'<line x1="{xl_yr}" y1="{ya:.1f}" x2="{xr_yr}" y2="{ya:.1f}" class="svg-grid"/>')
+        yr_svg.append(f'<text x="{xl_yr - 6}" y="{ya + 3:.1f}" text-anchor="end" class="svg-tick">{a_t}%</text>')
+    yr_svg.append(f'<line x1="{xl_yr}" y1="{yt_yr}" x2="{xl_yr}" y2="{yb_yr}" class="svg-axis"/>')
+    yr_svg.append(f'<line x1="{xl_yr}" y1="{yb_yr}" x2="{xr_yr}" y2="{yb_yr}" class="svg-axis"/>')
+
     y_bn2019 = _y_acc(65.98)
-    yr_svg.append(f'<line x1="52" y1="{y_bn2019:.1f}" x2="540" y2="{y_bn2019:.1f}" stroke="#15803d" stroke-width="1.8" stroke-dasharray="5,3"/>')
-    yr_svg.append(f'<text x="536" y="{y_bn2019 - 5:.1f}" text-anchor="end" class="svg-tick" style="fill:#15803d;font-weight:700">2019 SPDNetBN Baseline (65.98%, p≥0.40 vs 2026 #1)</text>')
-    yr_labels_pick = {
-        "SPDNet": (6, -5), "SPDNetBN": (6, 11), "TSMNet": (-12, 12), "MAtt": (6, -4),
-        "Green": (-32, -6), "LieBN-AIM": (-48, 10), "SPDTransNet": (-56, -6), "ALEM": (6, 4),
-        "SPDMetaFormer": (-68, -6), "GBWBN": (-38, -6), "CBN": (6, 4), "CorNet": (6, -4),
-        "ARMAGNAC-GAH": (-76, -6),
+    yr_svg.append(f'<line x1="{xl_yr}" y1="{y_bn2019:.1f}" x2="{xr_yr}" y2="{y_bn2019:.1f}" stroke="#15803d" stroke-width="1.8" stroke-dasharray="5,3"/>')
+    yr_svg.append(f'<text x="58" y="{y_bn2019 - 5:.1f}" text-anchor="start" class="svg-tick" style="fill:#15803d;font-weight:700">2019 SPDNetBN Ceiling (65.98% · Wilcoxon p ≥ 0.40)</text>')
+
+    # De-collided callout coordinates: (cx_lbl, cy_lbl, anchor, label_text)
+    yr_callouts = {
+        "ARMAGNAC-GAH": (536.0, 58.0, "end", "ARMAGNAC-GAH (2026, 66.4%)"),
+        "GBWBN": (445.0, 86.0, "end", "GBWBN (2025, 66.3%)"),
+        "SPDNetBN": (145.0, 88.0, "start", "SPDNetBN (2019, 66.0%)"),
+        "Green": (358.0, 101.0, "end", "Green (64.9%)"),
+        "SPDMetaFormer": (445.0, 115.0, "end", "SPDMetaFormer (64.6%)"),
+        "MAtt": (248.0, 114.0, "end", "MAtt (64.4%)"),
+        "TSMNet": (248.0, 130.0, "end", "TSMNet (64.1%)"),
+        "SPDNet": (80.0, 150.0, "start", "SPDNet (2017, 61.4%)"),
+        "CBN": (445.0, 156.0, "end", "CBN (61.3%)"),
+        "TensorCSPNet": (298.0, 174.0, "end", "TensorCSPNet (59.8%)"),
+        "CorNet": (445.0, 202.0, "end", "CorNet (57.8%)"),
+        "SPDTransNet": (388.0, 228.0, "end", "SPDTransNet (56.1%)"),
     }
     for idx_m, ms in enumerate(model_stats):
         m = ms["model"]
-        yv = model_year_map.get(m, 2024) + ((idx_m % 5) - 2) * 0.06
+        yv = model_year_map.get(m, 2024) + ((idx_m % 5) - 2) * 0.055
         xx = _x_yr(yv)
         yy = _y_acc(ms["overall_mean"])
         col = "#15803d" if ms["overall_mean"] >= 65.95 else ("#1d4ed8" if ms["overall_mean"] >= 64.0 else "#dc2626")
-        yr_svg.append(f'<circle cx="{xx:.1f}" cy="{yy:.1f}" r="3.8" fill="{col}" opacity="0.85"/>')
-        if m in yr_labels_pick:
-            dx, dy = yr_labels_pick[m]
-            yr_svg.append(f'<text x="{xx + dx:.1f}" y="{yy + dy:.1f}" class="svg-tick" style="font-weight:700;fill:{col}">{_esc_svg(m)}</text>')
-    yr_svg.append('<text x="296" y="244" text-anchor="middle" class="svg-label">Publication Year (2017 Foundational SPDNet → 2026 ARMAGNAC)</text>')
+        r_dot = "4.0" if m in yr_callouts else "3.1"
+        op_dot = "0.92" if m in yr_callouts else "0.60"
+        yr_svg.append(f'<circle cx="{xx:.1f}" cy="{yy:.1f}" r="{r_dot}" fill="{col}" opacity="{op_dot}"/>')
+        if m in yr_callouts:
+            cx_l, cy_l, anch, l_txt = yr_callouts[m]
+            lx_end = cx_l + 3.0 if anch == "end" else cx_l - 3.0
+            yr_svg.append(f'<line x1="{xx:.1f}" y1="{yy:.1f}" x2="{lx_end:.1f}" y2="{cy_l - 2.5:.1f}" stroke="{col}" stroke-width="0.8" opacity="0.65"/>')
+            yr_svg.append(f'<text x="{cx_l:.1f}" y="{cy_l:.1f}" text-anchor="{anch}" class="svg-tick" style="font-weight:700;fill:{col}">{_esc_svg(l_txt)}</text>')
+    yr_svg.append('<text x="297" y="278" text-anchor="middle" class="svg-label">Publication Year (2017 Foundational SPDNet → 2026 ARMAGNAC)</text>')
     yr_svg.append("</svg>")
     chrono_audit_svg = "\n".join(yr_svg)
 
-    rho_transfer_svg = _svg_line_or_bar_panel(
-        "1H. Single-Benchmark Fallacy: Rank Correlation (rho) of BNCI-001 & HDM05 vs Other Cohorts",
-        "Target Evaluation Cohort (Spearman Rank Correlation across 39 Models)",
-        "Spearman Rank Correlation (rho)",
-        ["Schirrmeister", "Sleep-EDFx", "ABIDE fMRI", "TUAB Clin", "LEMON Rest", "BCI-ERN", "Hinss2021", "MASS-SS3"],
-        [
-            {"label": "vs BNCI2014-001 (mean +0.25)", "values": [0.50, 0.40, 0.16, 0.04, -0.01, -0.15, -0.27, 0.30], "class": "svg-bar-primary"},
-            {"label": "vs HDM05 (Action SPD)", "values": [-0.12, 0.13, 0.25, -0.24, -0.27, -0.11, -0.36, -0.39], "class": "svg-bar-secondary"},
-        ],
-        chart_type="bar",
-        ymin=-0.45,
-        ymax=0.60,
-    )
+    # 1H. Custom 560x285 Horizontal Diverging Bar Chart with Solid Zero Axis (rho = 0.00)
+    w_1h, h_1h = 560, 285
+    xl_1h, xr_1h = 166.0, 534.0
+    rho_rows_spec = [
+        ("Schirrmeister2017 (MI)", 0.50, -0.12),
+        ("Sleep-EDFX (Sleep PSG)", 0.40, 0.13),
+        ("MASS-SS3 (Sleep PSG)", 0.30, -0.39),
+        ("ABIDE (fMRI Connectome)", 0.16, 0.25),
+        ("TUAB (Clinical EEG)", 0.04, -0.24),
+        ("MPI-LEMON (Resting EEG)", -0.01, -0.27),
+        ("BCI-ERN (Feedback ERP)", -0.15, -0.11),
+        ("Hinss2021 (Workload)", -0.27, -0.36),
+    ]
+
+    def _x_1h(r_val: float) -> float:
+        return xl_1h + ((r_val - (-0.50)) / (0.65 - (-0.50))) * (xr_1h - xl_1h)
+
+    x_zero_1h = _x_1h(0.0)
+    x_mean_bci = _x_1h(0.25)
+    lines_1h = [
+        f'<svg viewBox="0 0 {w_1h} {h_1h}" class="diag-svg" role="img" aria-label="Spearman Rank Correlation Diverging Bar Chart">',
+        '<text x="14" y="18" class="svg-title">1H. Single-Benchmark Fallacy: Spearman Rank Correlation (ρ) vs Other Cohorts</text>',
+        '<rect x="14" y="28" width="8" height="8" rx="1.5" fill="var(--spd-blue)"/>',
+        '<text x="26" y="35" class="svg-tick" style="font-weight:700;fill:var(--spd-blue)">vs BNCI2014-001 (28-DS mean ρ̄ = +0.25)</text>',
+        '<rect x="278" y="28" width="8" height="8" rx="1.5" fill="var(--accent)"/>',
+        '<text x="290" y="35" class="svg-tick" style="font-weight:700;fill:var(--accent)">vs HDM05 (117-Cls Action SPD)</text>',
+        f'<line x1="12" y1="42" x2="{w_1h - 12}" y2="42" stroke="var(--line)" stroke-width="1"/>',
+    ]
+    for r_tk in [-0.4, -0.2, 0.0, 0.2, 0.4, 0.6]:
+        xt = _x_1h(r_tk)
+        if abs(r_tk) < 1e-6:
+            lines_1h.append(f'<line x1="{xt:.1f}" y1="46" x2="{xt:.1f}" y2="250" stroke="var(--text2)" stroke-width="1.3"/>')
+            lines_1h.append(f'<text x="{xt:.1f}" y="264" text-anchor="middle" class="svg-tick" style="font-weight:700;fill:var(--text)">0.00</text>')
+        else:
+            lines_1h.append(f'<line x1="{xt:.1f}" y1="46" x2="{xt:.1f}" y2="250" class="svg-grid"/>')
+            lines_1h.append(f'<text x="{xt:.1f}" y="264" text-anchor="middle" class="svg-tick">{r_tk:+.1f}</text>')
+    lines_1h.append(f'<line x1="{x_mean_bci:.1f}" y1="46" x2="{x_mean_bci:.1f}" y2="250" stroke="var(--spd-blue)" stroke-width="1.2" stroke-dasharray="3,2" opacity="0.7"/>')
+    lines_1h.append(f'<line x1="{xl_1h}" y1="250" x2="{xr_1h}" y2="250" class="svg-axis"/>')
+    lines_1h.append(f'<text x="{0.5 * (xl_1h + xr_1h):.1f}" y="279" text-anchor="middle" class="svg-label">Spearman Rank Correlation ρ Across 39 Models (0.00 = Orthogonal Rankings)</text>')
+
+    for idx_r, (ds_lbl, rbci, rhdm) in enumerate(rho_rows_spec):
+        yr_c = 60.0 + idx_r * 24.0
+        if idx_r % 2 == 0:
+            lines_1h.append(f'<rect x="10" y="{yr_c - 11:.1f}" width="{w_1h - 20}" height="22" fill="var(--svg-band)" rx="2"/>')
+        lines_1h.append(f'<text x="14" y="{yr_c + 3:.1f}" class="svg-val" style="font-weight:600;fill:var(--text)">{_esc_svg(ds_lbl)}</text>')
+        # Bar 1: vs BNCI2014-001 (top half of row)
+        xb1 = _x_1h(rbci)
+        bx1 = min(x_zero_1h, xb1)
+        bw1 = max(1.5, abs(xb1 - x_zero_1h))
+        lbl_x1 = xb1 + 4.0 if rbci >= 0 else xb1 - 4.0
+        anch1 = "start" if rbci >= 0 else "end"
+        lines_1h.append(f'<rect x="{bx1:.1f}" y="{yr_c - 7.5:.1f}" width="{bw1:.1f}" height="6.8" rx="1.5" fill="var(--spd-blue)" opacity="0.9"/>')
+        lines_1h.append(f'<text x="{lbl_x1:.1f}" y="{yr_c - 1.5:.1f}" text-anchor="{anch1}" class="svg-tick" style="font-size:8px;font-weight:700;fill:var(--spd-blue)">{rbci:+.2f}</text>')
+        # Bar 2: vs HDM05 (bottom half of row)
+        xb2 = _x_1h(rhdm)
+        bx2 = min(x_zero_1h, xb2)
+        bw2 = max(1.5, abs(xb2 - x_zero_1h))
+        lbl_x2 = xb2 + 4.0 if rhdm >= 0 else xb2 - 4.0
+        anch2 = "start" if rhdm >= 0 else "end"
+        lines_1h.append(f'<rect x="{bx2:.1f}" y="{yr_c + 0.5:.1f}" width="{bw2:.1f}" height="6.8" rx="1.5" fill="var(--accent)" opacity="0.9"/>')
+        lines_1h.append(f'<text x="{lbl_x2:.1f}" y="{yr_c + 6.8:.1f}" text-anchor="{anch2}" class="svg-tick" style="font-size:8px;font-weight:700;fill:var(--accent)">{rhdm:+.2f}</text>')
+    lines_1h.append("</svg>")
+    rho_transfer_svg = "\n".join(lines_1h)
 
     # Pre-serialize compact 39x29 accuracy JSON for the live client-side Head-to-Head Model Comparator
     h2h_ds_meta = [
@@ -4898,7 +5142,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
           <td><code>17 / 0 / 12</code> (<code>p = 0.3692</code>)</td>
           <td><code>+0.14%</code> (<code>0.00%</code>)</td>
           <td><code>141 / 47 / 118</code> (<code>p = 0.1840</code>)</td>
-          <td><span class="chip good">ATTENTION REDUNDANT</span> Parameter-free pooling matches or beats bilinear $Q/K/V$ geodesic attention (`141W vs 118L`) with zero attention weights.</td>
+          <td><span class="chip good">ATTENTION REDUNDANT</span> Parameter-free pooling matches or beats bilinear $Q/K/V$ geodesic attention (<code>141W vs 118L</code>) with zero attention weights.</td>
         </tr>
         <tr>
           <td><strong>H9 (Pooling vs. Correlation Attention):</strong> <code>SPDMetaFormer</code> vs. <code>CorAtt (2025)</code></td>
@@ -4990,7 +5234,8 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
       <button type="button" class="filter-btn bm-fam-btn" data-bmfam="graph">Graph / Filterbank / Multi-View (5)</button>
       <button type="button" class="filter-btn bm-fam-btn" data-bmfam="residual">Residual / Gyro / Autoencoder (8)</button>
       <button type="button" class="filter-btn bm-fam-btn" data-bmfam="correlation">Correlation Manifold (3)</button>
-      <input type="search" class="search-input bm-model-search" style="margin-left:auto;min-width:240px" placeholder="Search 39 models (e.g. ARMAGNAC, SPDMetaFormer, Green)..." aria-label="Search models"/>
+      <span class="tag bm-status-pill" style="margin-left:6px;border-color:var(--good);color:var(--good);font-weight:700">Showing 39/39 models &middot; Lens: Mean &plusmn; SD (%)</span>
+      <input type="search" class="search-input bm-model-search" style="margin-left:auto;min-width:230px" placeholder="Search 39 models (e.g. ARMAGNAC, SPDMetaFormer, Green)..." aria-label="Search models"/>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding-top:6px;border-top:1px dashed var(--line)">
       <span class="small" style="font-weight:700;color:var(--spd-blue);margin-right:4px">Cell Metric Lens:</span>
@@ -5008,101 +5253,212 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     </div>
   </div>"""
 
-    filter_js_block = """<script>(function(){
+    matrix_lens_bar_html = """<div class="filter-bar" style="margin:6px 0 8px;padding:6px 10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;background:rgba(29,78,216,0.03)">
+      <span class="small" style="font-weight:700;color:var(--spd-blue);margin-right:2px">Matrix Lens:</span>
+      <button type="button" class="filter-btn bm-view-btn active" data-bmview="raw">📊 Mean &plusmn; SD (%)</button>
+      <button type="button" class="filter-btn bm-view-btn" data-bmview="heatmap">🔥 Heatmap + Sparkbar</button>
+      <button type="button" class="filter-btn bm-view-btn" data-bmview="chance">🎯 Gain Over Chance (+&Delta;%)</button>
+      <button type="button" class="filter-btn bm-view-btn" data-bmview="kappa">⚖️ Cohen's &kappa;</button>
+      <button type="button" class="filter-btn bm-view-btn" data-bmview="rank">🏆 Dataset Rank (#1&ndash;#39)</button>
+      <button type="button" class="filter-btn bm-view-btn" data-bmview="gap">📏 Gap to #1 (&minus;&Delta;%)</button>
+      <button type="button" class="filter-btn bm-compact-btn">⊟ Compact (Hide &plusmn;SD)</button>
+      <span class="small muted" style="font-weight:700;margin-left:auto;margin-right:2px">Sort:</span>
+      <button type="button" class="filter-btn bm-sort-btn active" data-bmsort="grk">Global Rank</button>
+      <button type="button" class="filter-btn bm-sort-btn" data-bmsort="dmean">Domain Mean</button>
+      <button type="button" class="filter-btn bm-sort-btn" data-bmsort="params_asc">Smallest Params</button>
+    </div>"""
+
+    filter_js_block = f"""<script>(function(){{
     var fbtns=[].slice.call(document.querySelectorAll('.bm-fam-btn'));
     var vbtns=[].slice.call(document.querySelectorAll('.bm-view-btn'));
     var sbtns=[].slice.call(document.querySelectorAll('.bm-sort-btn'));
     var cbtns=[].slice.call(document.querySelectorAll('.bm-compact-btn'));
     var mrows=[].slice.call(document.querySelectorAll('.bm-model-row'));
+    var frows=[].slice.call(document.querySelectorAll('.bm-fam-summary-row'));
+    var svgRows=[].slice.call(document.querySelectorAll('.bm-svg-row'));
     var cells=[].slice.call(document.querySelectorAll('.bm-cell'));
-    var minp=document.querySelector('.bm-model-search');
-    var curFam='all', curView='raw', isCompact=false;
-    function applyFilter(){
-      var q=(minp&&minp.value||'').toLowerCase().trim();
-      mrows.forEach(function(r){
+    var statusPills=[].slice.call(document.querySelectorAll('.bm-status-pill'));
+    var minps=[].slice.call(document.querySelectorAll('.bm-model-search'));
+    var paramMap={json.dumps({m: model_params_map.get(m, (4268, 17836, ""))[0] for m in sorted_all_models})};
+    var curFam='all', curView='raw', curSort='grk', isCompact=false, curQuery='';
+    var viewNames={{raw:'Mean ± SD (%)', heatmap:'Heatmap + Sparkbar', chance:'Gain Over Chance (+Δ%)', kappa:"Cohen's κ", rank:'Dataset Rank (#1–#39)', gap:'Gap to #1 (−Δ%)'}};
+
+    function updateStatusPill(visCount){{
+      var vLbl=viewNames[curView]||curView;
+      if(isCompact&&(curView==='raw'||curView==='heatmap')) vLbl='Mean (%) [Compact]';
+      statusPills.forEach(function(p){{
+        p.textContent='Showing '+visCount+'/39 models · Lens: '+vLbl;
+      }});
+    }}
+
+    function repackForestSvg(){{
+      var visIdx=0;
+      svgRows.forEach(function(g){{
+        if(g.style.display==='none')return;
+        var ym=58.0+visIdx*18.5;
+        g.setAttribute('transform','translate(0, '+ym.toFixed(1)+')');
+        var band=g.querySelector('.bm-svg-band');
+        if(band) band.setAttribute('opacity', (visIdx%2===0)?'1':'0');
+        visIdx++;
+      }});
+      var nVis=Math.max(visIdx,1);
+      var hSvg=Math.round(74+nVis*18.5);
+      svgRows.forEach(function(g){{
+        var svg=g.ownerSVGElement;
+        if(svg){{
+          svg.setAttribute('viewBox','0 0 920 '+hSvg);
+          [].slice.call(svg.querySelectorAll('.bm-svg-gridline')).forEach(function(ln){{
+            ln.setAttribute('y2', String(hSvg-22));
+          }});
+        }}
+      }});
+      return visIdx;
+    }}
+
+    function applyFilter(){{
+      var q=curQuery.toLowerCase().trim();
+      mrows.forEach(function(r){{
         var okFam=(curFam==='all'||r.getAttribute('data-fam')===curFam);
         var okTxt=(!q||r.textContent.toLowerCase().indexOf(q)!==-1);
         r.style.display=(okFam&&okTxt)?'':'none';
-      });
-    }
-    function applyView(){
-      cells.forEach(function(td){
+      }});
+      frows.forEach(function(r){{
+        var rf=r.getAttribute('data-fam');
+        r.style.opacity=(curFam==='all'||rf===curFam)?'1':'0.38';
+        r.style.background=(curFam!=='all'&&rf===curFam)?'rgba(29,78,216,0.07)':'';
+      }});
+      svgRows.forEach(function(g){{
+        var okFam=(curFam==='all'||g.getAttribute('data-fam')===curFam);
+        var mName=(g.getAttribute('data-model')||'').toLowerCase();
+        var okTxt=(!q||mName.indexOf(q)!==-1||g.textContent.toLowerCase().indexOf(q)!==-1);
+        g.style.display=(okFam&&okTxt)?'':'none';
+      }});
+      var visCount=repackForestSvg();
+      if(!svgRows.length){{
+        visCount=mrows.filter(function(r){{return r.style.display!=='none';}}).length;
+      }}
+      updateStatusPill(visCount);
+    }}
+
+    function ensureMatrixVisibleOnLensClick(){{
+      var bciSec=document.getElementById('gen-bci');
+      var clinSec=document.getElementById('gen-clin');
+      var spdSec=document.getElementById('gen-spd');
+      if(bciSec&&clinSec&&spdSec&&bciSec.hidden&&clinSec.hidden&&spdSec.hidden){{
+        bciSec.hidden=false;
+        bciSec.scrollIntoView({{behavior:'smooth', block:'nearest'}});
+      }}
+    }}
+
+    function applyView(){{
+      cells.forEach(function(td){{
         var code=td.querySelector('code');
         if(!code)return;
         var rk=parseInt(td.getAttribute('data-rknum')||'99',10);
         var pct=parseFloat(td.getAttribute('data-pct')||'0');
         var raw=isCompact?(td.getAttribute('data-compact')||''):(td.getAttribute('data-raw')||'');
-        if(curView==='raw'){
+        if(curView==='raw'){{
           code.textContent=raw;
           td.style.background=(rk===1)?'rgba(21,128,61,0.13)':((rk<=3)?'rgba(21,128,61,0.06)':'');
-        }else if(curView==='heatmap'){
+        }}else if(curView==='heatmap'){{
           code.textContent=raw;
           var alpha=(0.05+(pct/100.0)*0.30).toFixed(2);
           td.style.background='linear-gradient(to right, rgba(16,185,129,'+alpha+') '+pct.toFixed(0)+'%, transparent '+pct.toFixed(0)+'%)';
-        }else if(curView==='chance'){
-          code.textContent=td.getAttribute('data-chance')||raw;
+        }}else if(curView==='chance'){{
+          var chVal=td.getAttribute('data-chance')||raw;
+          code.textContent=isCompact?chVal.replace('★ ',''):chVal;
           var aCh=(0.04+(pct/100.0)*0.22).toFixed(2);
           td.style.background='rgba(29,78,216,'+aCh+')';
-        }else if(curView==='kappa'){
-          code.textContent=td.getAttribute('data-kappa')||raw;
+        }}else if(curView==='kappa'){{
+          var kpVal=td.getAttribute('data-kappa')||raw;
+          code.textContent=isCompact?kpVal.replace('★ ',''):kpVal;
           var aKp=(0.04+(pct/100.0)*0.22).toFixed(2);
           td.style.background='rgba(124,58,237,'+aKp+')';
-        }else if(curView==='rank'){
-          code.textContent=td.getAttribute('data-rk')||raw;
+        }}else if(curView==='rank'){{
+          var rkVal=td.getAttribute('data-rk')||raw;
+          code.textContent=isCompact?('#'+String(rk).padStart(2,'0')):rkVal;
           td.style.background=(rk===1)?'rgba(21,128,61,0.18)':((rk<=3)?'rgba(21,128,61,0.09)':((rk>=30)?'rgba(220,38,38,0.08)':''));
-        }else if(curView==='gap'){
-          code.textContent=td.getAttribute('data-gap')||raw;
+        }}else if(curView==='gap'){{
+          var gpVal=td.getAttribute('data-gap')||raw;
+          code.textContent=isCompact?gpVal.replace('★ ',''):gpVal;
           var inv=(100.0-pct)/100.0;
           td.style.background=(rk===1)?'rgba(21,128,61,0.14)':('rgba(220,38,38,'+(inv*0.22).toFixed(2)+')');
-        }
-      });
-    }
-    function applySort(mode){
+        }}
+      }});
+      var visCount=svgRows.filter(function(g){{return g.style.display!=='none';}}).length||39;
+      updateStatusPill(visCount);
+    }}
+
+    function applySort(mode){{
+      curSort=mode;
       var tbodies=[].slice.call(document.querySelectorAll('table.data-table tbody'));
-      tbodies.forEach(function(tb){
+      tbodies.forEach(function(tb){{
         var rows=[].slice.call(tb.querySelectorAll('tr.bm-model-row'));
         if(rows.length<2)return;
-        rows.sort(function(a,b){
-          if(mode==='params_asc'){
+        rows.sort(function(a,b){{
+          if(mode==='params_asc'){{
             return (parseFloat(a.getAttribute('data-params')||'0')-parseFloat(b.getAttribute('data-params')||'0'));
-          }else if(mode==='dmean'){
+          }}else if(mode==='dmean'){{
             return (parseFloat(b.getAttribute('data-dmean')||'0')-parseFloat(a.getAttribute('data-dmean')||'0'));
-          }
+          }}
           return (parseFloat(a.getAttribute('data-grk')||'99')-parseFloat(b.getAttribute('data-grk')||'99'));
-        });
-        rows.forEach(function(r){tb.appendChild(r);});
-      });
-    }
-    fbtns.forEach(function(b){
-      b.addEventListener('click',function(){
+        }});
+        rows.forEach(function(r){{tb.appendChild(r);}});
+      }});
+      if(svgRows.length>1){{
+        var parentSvg=svgRows[0].parentNode;
+        svgRows.sort(function(a,b){{
+          var mA=a.getAttribute('data-model')||'', mB=b.getAttribute('data-model')||'';
+          if(mode==='params_asc'){{
+            return ((paramMap[mA]||999999)-(paramMap[mB]||999999));
+          }}else if(mode==='dmean'){{
+            return (parseFloat(b.getAttribute('data-dmean')||'0')-parseFloat(a.getAttribute('data-dmean')||'0'));
+          }}
+          return (parseFloat(a.getAttribute('data-grk')||'99')-parseFloat(b.getAttribute('data-grk')||'99'));
+        }});
+        svgRows.forEach(function(g){{parentSvg.appendChild(g);}});
+        repackForestSvg();
+      }}
+    }}
+
+    fbtns.forEach(function(b){{
+      b.addEventListener('click',function(){{
         curFam=b.getAttribute('data-bmfam')||'all';
-        fbtns.forEach(function(x){x.classList.toggle('active',x===b);});
+        fbtns.forEach(function(x){{x.classList.toggle('active',x.getAttribute('data-bmfam')===curFam);}});
         applyFilter();
-      });
-    });
-    vbtns.forEach(function(b){
-      b.addEventListener('click',function(){
+      }});
+    }});
+    vbtns.forEach(function(b){{
+      b.addEventListener('click',function(){{
         curView=b.getAttribute('data-bmview')||'raw';
-        vbtns.forEach(function(x){x.classList.toggle('active',x===b);});
+        vbtns.forEach(function(x){{x.classList.toggle('active',x.getAttribute('data-bmview')===curView);}});
         applyView();
-      });
-    });
-    cbtns.forEach(function(b){
-      b.addEventListener('click',function(){
+        ensureMatrixVisibleOnLensClick();
+      }});
+    }});
+    cbtns.forEach(function(b){{
+      b.addEventListener('click',function(){{
         isCompact=!isCompact;
-        cbtns.forEach(function(x){x.classList.toggle('active',isCompact);});
+        cbtns.forEach(function(x){{x.classList.toggle('active',isCompact);}});
         applyView();
-      });
-    });
-    sbtns.forEach(function(b){
-      b.addEventListener('click',function(){
+        ensureMatrixVisibleOnLensClick();
+      }});
+    }});
+    sbtns.forEach(function(b){{
+      b.addEventListener('click',function(){{
         var m=b.getAttribute('data-bmsort')||'grk';
-        sbtns.forEach(function(x){x.classList.toggle('active',x===b);});
+        sbtns.forEach(function(x){{x.classList.toggle('active',x.getAttribute('data-bmsort')===m);}});
         applySort(m);
-      });
-    });
-    if(minp)minp.addEventListener('input',applyFilter);
-  })();</script>"""
+      }});
+    }});
+    minps.forEach(function(inp){{
+      inp.addEventListener('input',function(){{
+        curQuery=inp.value||'';
+        minps.forEach(function(other){{if(other!==inp)other.value=curQuery;}});
+        applyFilter();
+      }});
+    }});
+  }})();</script>"""
 
     family_and_ablation_html = f"""<div class="grid2" style="margin:14px 0">
     <div class="diag-card" style="background:var(--panel)">
@@ -5148,7 +5504,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         return f"""<div class="tabs" role="tablist">
     <button type="button" role="tab" data-panel="ALL" aria-selected="true">All Sections (Full Suite)</button>
     <button type="button" role="tab" data-panel="gen-ranking" aria-selected="false">1. Global Ranking &amp; Family Synthesis <span class="n">39 Models</span></button>
-    <button type="button" role="tab" data-panel="gen-scaling" aria-selected="false">2. Size &amp; Complexity Scaling (d, Params) <span class="n">O(C) vs O(C&sup4;)</span></button>
+    <button type="button" role="tab" data-panel="gen-scaling" aria-selected="false">2. Size &amp; Complexity Scaling (d, Params) <span class="n">O(C) vs O(C<sup>4</sup>)</span></button>
     <button type="button" role="tab" data-panel="gen-critical" aria-selected="false">3. Critical Audit &amp; Wilcoxon Lab <span class="n">N=306 Tests</span></button>
     <button type="button" role="tab" data-panel="gen-bci" aria-selected="false">4. Motor, ERP &amp; SSVEP BCI <span class="n">15&times;39</span></button>
     <button type="button" role="tab" data-panel="gen-clin" aria-selected="false">5. Clinical, Sleep, Affect &amp; fMRI <span class="n">10&times;39</span></button>
@@ -5196,7 +5552,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         <strong>3. Critical Analysis of the 2017&ndash;2026 Literature, Benchmark Transfer Failure &amp; Live Head-to-Head Comparator</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
-        Beyond aggregate rankings, we audited whether nine years of Riemannian deep learning architectures (2017&ndash;2026) represent genuine algorithmic progress once front-end temporal filtering and evaluation splits are controlled across all $N=306$ independent subjects/seeds (`1,131` cells, `11,884` runs).
+        Beyond aggregate rankings, we audited whether nine years of Riemannian deep learning architectures (2017&ndash;2026) represent genuine algorithmic progress once front-end temporal filtering and evaluation splits are controlled across all $N=306$ independent subjects/seeds (<code>1,131</code> cells, <code>11,884</code> runs).
       </p>
       {critical_analysis_html}
     </div>
@@ -5212,7 +5568,8 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
       <p class="small muted" style="margin:4px 0 10px">
         Evaluated at 100% native channel dimensionality (up to <code>128×128</code> on <code>Schirrmeister2017</code>, <code>64×64</code> on <code>Cho2017</code>, <code>PhysionetMI</code>, and <code>MAMEM2</code>, <code>62×62</code> on <code>Lee2019-MI</code>, <code>Stieger2021</code>, and <code>Hinss2021</code>, and <code>60×60</code> on <code>Weibo2014</code>). Geodesic and harmonic batch normalization paired with spatiotemporal conv stems (<code>ARMAGNAC-Harmonic</code> <code>64.62%</code>, <code>ARMAGNAC-GAH</code> <code>64.12%</code>, <code>GBWBN</code> <code>63.97%</code>) and high-order Lovrić pooling (<code>RHOP</code> <code>63.96%</code>) lead across the 15 cohorts, while parameter-free <code>SPDMetaFormer</code> (<code>62.85%</code>) and channel-specific filterbank <code>EEGSPDNet</code> (<code>62.72%</code>) lead all standalone end-to-end models.
       </p>
-      <div style="overflow-x:auto">
+      {matrix_lens_bar_html}
+      <div class="bm-table-wrap">
         <table class="data-table bm-matrix-table" style="font-size:0.75rem">
           <thead><tr><th>Global Rank &amp; Model</th>{bci_headers}</tr></thead>
           <tbody>{"".join(bci_rows_html)}</tbody>
@@ -5231,7 +5588,8 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
       <p class="small muted" style="margin:4px 0 10px">
         Spans clinical neurology (<code>TUAB</code>, <code>TUEV</code>), polysomnography sleep staging (<code>Sleep-EDFX</code>, <code>MASS-SS3</code>), resting-state alpha/beta oscillatory topography (<code>LEMON</code> 61 ch), auditory oddball ERP (<code>TDBRAIN</code> 26 ch), affective EEG (<code>SEED</code> 62 ch, <code>DEAP</code> 32 ch), and whole-brain resting-state fMRI functional connectivity (<code>ABIDE</code> <code>200×200</code> Craddock ROI, <code>ADHD-200</code> <code>190×190</code> ROI). Learnable Gabor wavelets in <code>Green</code> achieve the highest domain mean (<code>68.16%</code>), closely followed by <code>SPDResNet-ALEM</code> (<code>68.13%</code>), <code>GBWAtt</code> (<code>67.63%</code>), and <code>SPDNetBN</code> (<code>67.37%</code>).
       </p>
-      <div style="overflow-x:auto">
+      {matrix_lens_bar_html}
+      <div class="bm-table-wrap">
         <table class="data-table bm-matrix-table" style="font-size:0.77rem">
           <thead><tr><th>Global Rank &amp; Model</th>{clin_headers}</tr></thead>
           <tbody>{"".join(clin_rows_html)}</tbody>
@@ -5250,7 +5608,8 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
       <p class="small muted" style="margin:4px 0 10px">
         Evaluated across 5 random seeds (<code>1024..1028</code>) with held-out validation checkpoint selection on <code>spd-bench</code>. On high-dimensional SPD manifolds where no temporal EEG waveform exists, Riemannian batch normalization and gyrovector layers dominate: <code>ARMAGNAC-GAH</code> leads overall (<code>73.95%</code> mean across the 4 datasets, <code>71.75%</code> on 117-class <code>HDM05</code>), followed by <code>GBWBN</code> (<code>73.44%</code>), <code>SPDNetBN</code> (<code>73.28%</code>), <code>GyroSPD</code> (<code>73.14%</code>), and <code>LieBN-AIM</code> (<code>73.05%</code>).
       </p>
-      <div style="overflow-x:auto">
+      {matrix_lens_bar_html}
+      <div class="bm-table-wrap">
         <table class="data-table bm-matrix-table" style="font-size:0.79rem">
           <thead>
             <tr>
@@ -5319,7 +5678,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
   {filter_controls_html}
 
   <h3 style="margin:10px 0 6px;font-size:0.95rem">2A. Motor-Imagery, ERP &amp; SSVEP BCI Matrix (15 Datasets &times; 39 Models, Sorted by Global Rank, Mean &plusmn; SD %)</h3>
-  <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
+  <div class="bm-table-wrap">
     <table class="data-table bm-matrix-table" style="font-size:0.75rem">
       <thead><tr><th>Global Rank &amp; Model</th>{bci_headers}</tr></thead>
       <tbody>{"".join(bci_rows_html)}</tbody>
@@ -5327,7 +5686,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
   </div>
 
   <h3 style="margin:14px 0 6px;font-size:0.95rem">2B. Clinical, Sleep, Resting-State, ERP, Affective &amp; fMRI Connectivity Matrix (10 Datasets &times; 39 Models, Mean &plusmn; SD %)</h3>
-  <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
+  <div class="bm-table-wrap">
     <table class="data-table bm-matrix-table" style="font-size:0.77rem">
       <thead><tr><th>Global Rank &amp; Model</th>{clin_headers}</tr></thead>
       <tbody>{"".join(clin_rows_html)}</tbody>
@@ -5335,7 +5694,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
   </div>
 
   <h3 style="margin:14px 0 6px;font-size:0.95rem">2C. SPD Matrix Benchmark Matrix (Radar $20\\times 20$, HDM05 $93\\times 93$, FPHA $63\\times 63$, AFEW $400\\times 400$ + Scarcity)</h3>
-  <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
+  <div class="bm-table-wrap">
     <table class="data-table bm-matrix-table" style="font-size:0.79rem">
       <thead>
         <tr>
@@ -6064,7 +6423,7 @@ def build_all() -> None:
     </div>"""
 
     filter_script_js = """<script>(function(){
-var btns=[].slice.call(document.querySelectorAll('.filter-btn')),
+var btns=[].slice.call(document.querySelectorAll('.filter-btn[data-filter]')),
 rows=[].slice.call(document.querySelectorAll('.drow, .atlas-sec')),
 pills=[].slice.call(document.querySelectorAll('.jump-pill[data-gap]')),
 inp=document.getElementById('paper-search'),active='all';
@@ -6119,10 +6478,10 @@ if(inp)inp.addEventListener('input',apply);
     <div>
       <div class="claim-head" style="margin-bottom:4px">
         <span class="chip good">NEW · 39 MODELS &times; 29 DATASETS · 11,884 RUNS</span>
-        <strong>Voyager Out-of-Distribution Generalization Suite (`1,131` Model-Dataset Cells)</strong>
+        <strong>Voyager Out-of-Distribution Generalization Suite (<code>1,131</code> Model-Dataset Cells)</strong>
       </div>
       <p class="small muted" style="margin:0">
-        Every architecture in <code>spd_learn</code> (`27` audited papers plus `12` controlled ablations and domain-transfer wrappers) evaluated across all `29` datasets at `100%` native EEG/fMRI channels with strict validation-split (`85% train / 15% val`) checkpoint selection.
+        Every architecture in <code>spd_learn</code> (<code>27</code> audited papers plus <code>12</code> controlled ablations and domain-transfer wrappers) evaluated across all <code>29</code> datasets at <code>100%</code> native EEG/fMRI channels with strict validation-split (<code>85% train / 15% val</code>) checkpoint selection.
       </p>
     </div>
     <a class="tag" style="border-color:var(--good);color:var(--good);font-weight:700;padding:8px 14px;font-size:0.86rem" href="generalization/index.html">Open Generalization Suite (29&times;39) &rarr;</a>
