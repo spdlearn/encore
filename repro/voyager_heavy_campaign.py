@@ -21,6 +21,7 @@ import argparse
 import glob
 import json
 import math
+import multiprocessing
 import os
 import pickle
 import platform
@@ -395,7 +396,19 @@ def load_eeg_subject_data(dataset_name: str, subject_id: int) -> dict[str, Any]:
         return _SUBJECT_DATA_CACHE[cache_key]
     _SUBJECT_DATA_CACHE.clear()
 
-    stage_eeg_pt = DATA_STAGE_DIR / "eeg_cache_v3" / f"{dataset_name}_s{subject_id:02d}.pt"
+    full_ch_datasets = {
+        "Hinss2021",
+        "BCI_ERN",
+        "Weibo2014",
+        "Cho2017",
+        "Lee2019_MI",
+        "PhysionetMI",
+        "Stieger2021",
+        "Schirrmeister2017",
+        "Zhou2020",
+    }
+    cache_subdir = "eeg_cache_full" if dataset_name in full_ch_datasets else "eeg_cache_v3"
+    stage_eeg_pt = DATA_STAGE_DIR / cache_subdir / f"{dataset_name}_s{subject_id:02d}.pt"
     if (
         dataset_name == "SEED"
         and subject_id in (5, 6)
@@ -573,7 +586,7 @@ def load_eeg_subject_data(dataset_name: str, subject_id: int) -> dict[str, Any]:
             for lbl, cond in enumerate(["MATBeasy", "MATBdiff"]):
                 f_set = hinss_root / f"S{sess}" / "eeg" / f"alldata_sbj{subject_id:02d}_sess{sess}_{cond}.set"
                 m = loadmat(str(f_set), squeeze_me=True)
-                arr = np.transpose(m["data"], (2, 0, 1))[:, :32, ::2].astype(np.float32)
+                arr = np.transpose(m["data"], (2, 0, 1))[:, :, ::2].astype(np.float32)
                 xl.append(arr)
                 yl.append(np.full(len(arr), lbl, dtype=np.int64))
         return _finalize_and_cache(
@@ -607,7 +620,7 @@ def load_eeg_subject_data(dataset_name: str, subject_id: int) -> dict[str, Any]:
                     sample_a = int(samples[idx_d])
                 prev = curr
             t_start.append(sample_a)
-            eeg = m["eeg"][:32].astype(np.float32)
+            eeg = m["eeg"][:64].astype(np.float32)
             ep_l, lbl_l = [], []
             for t0_s, lbl in zip(t_start[: len(labels)], labels):
                 s_i, e_i = int(t0_s) + 250, int(t0_s) + 1000
@@ -633,7 +646,7 @@ def load_eeg_subject_data(dataset_name: str, subject_id: int) -> dict[str, Any]:
             mat = loadmat(str(ern_root / f"Subject{subject_id:02d}_s{s_idx}.mat"), struct_as_record=False, squeeze_me=True)
             ep_l, y_l = [], []
             for run in mat["run"]:
-                eeg = sosfiltfilt(sos_bp, run.eeg[:, :32].T.astype(np.float64), axis=-1).astype(np.float32)
+                eeg = sosfiltfilt(sos_bp, run.eeg[:, :56].T.astype(np.float64), axis=-1).astype(np.float32)
                 for pos, typ in zip(run.header.EVENT.POS, run.header.EVENT.TYP):
                     if int(typ) in (5, 10, 6, 9):
                         lbl = 1 if int(typ) in (6, 9) else 0
@@ -753,9 +766,165 @@ def load_eeg_subject_data(dataset_name: str, subject_id: int) -> dict[str, Any]:
         yte_np = np.array([cmap[c] for c in yte_np], dtype=np.int64)
         return _finalize_and_cache(Xtr_np, ytr_np, Xte_np, yte_np, 125)
 
-    if dataset_name in ("MASS_SS3", "LEMON", "TDBRAIN", "ADHD200", "ABIDE", "SEED", "DEAP"):
+    if dataset_name == "MASS_SS3":
+        edf_p = Path(f"/voyager/ceph/users/bpinto/studies/MASS_SS3/sub-0300{subject_id:02d}/eeg/sub-0300{subject_id:02d}_eeg.edf")
+        tsv_p = Path(f"/voyager/ceph/users/bpinto/studies/MASS_SS3/sub-0300{subject_id:02d}/eeg/sub-0300{subject_id:02d}_events.tsv")
+        raw = mne.io.read_raw_edf(str(edf_p), preload=True, verbose="ERROR")
+        raw.pick("eeg")
+        orig_sf = int(round(float(raw.info["sfreq"])))
+        dec = max(1, int(round(orig_sf / 128.0)))
+        sf_use = max(64, int(round(orig_sf / dec)))
+        d_arr = raw.get_data()[:, ::dec].astype(np.float32)
+        stage_map = {
+            "Sleep stage W": 0,
+            "Sleep stage 1": 1,
+            "Sleep stage 2": 2,
+            "Sleep stage 3": 3,
+            "Sleep stage 4": 3,
+            "Sleep stage R": 4,
+        }
+        ep_l, y_l = [], []
+        for line in tsv_p.read_text(encoding="utf-8-sig").splitlines()[1:]:
+            parts = line.split("\t")
+            if len(parts) < 3 or parts[2] not in stage_map:
+                continue
+            s_i = int(round(float(parts[0]) * sf_use))
+            win_s = sf_use * 3
+            if 0 <= s_i and s_i + win_s <= d_arr.shape[1]:
+                ep_l.append(d_arr[:, s_i : s_i + win_s])
+                y_l.append(stage_map[parts[2]])
+        X_all_m = np.stack(ep_l, axis=0)
+        y_all_m = np.array(y_l, dtype=np.int64)
+        uniq_c = sorted(set(y_all_m.tolist()))
+        cmap = {c: i for i, c in enumerate(uniq_c)}
+        y_all_m = np.array([cmap[c] for c in y_all_m], dtype=np.int64)
+        tr_idx_l, te_idx_l = [], []
+        for c in range(len(uniq_c)):
+            idx_c = np.where(y_all_m == c)[0]
+            cut = int(0.8 * len(idx_c))
+            tr_idx_l.append(idx_c[:cut])
+            te_idx_l.append(idx_c[cut:])
+        tr_idx = np.concatenate(tr_idx_l)
+        te_idx = np.concatenate(te_idx_l)
+        return _finalize_and_cache(X_all_m[tr_idx], y_all_m[tr_idx], X_all_m[te_idx], y_all_m[te_idx], sf_use)
+
+    if dataset_name == "TDBRAIN":
+        tdb_dirs = sorted(Path("/voyager/ceph/users/bpinto/studies/TDBRAIN_V3").glob("sub-*"))
+        ep_tr, y_tr, ep_te, y_te = [], [], [], []
+        start_s = (subject_id - 1) * 6
+        picked = 0
+        for sdir in tdb_dirs[start_s:]:
+            bdfs = sorted(sdir.glob("ses-1/eeg/*_task-oddball_eeg.bdf"))
+            tsvs = sorted(sdir.glob("ses-1/eeg/*_task-oddball_events.tsv"))
+            if not bdfs or not tsvs:
+                continue
+            raw = mne.io.read_raw_bdf(str(bdfs[0]), preload=True, verbose="ERROR")
+            orig_sf = int(round(float(raw.info["sfreq"])))
+            dec = max(1, int(round(orig_sf / 125.0)))
+            sf_use = max(64, int(round(orig_sf / dec)))
+            d_arr = raw.get_data()[:26, ::dec].astype(np.float32)
+            s_ep, s_y = [], []
+            for line in tsvs[0].read_text(encoding="utf-8-sig").splitlines()[1:]:
+                parts = line.split("\t")
+                if len(parts) < 3 or parts[2].strip() not in ("standard", "target"):
+                    continue
+                lbl = 1 if parts[2].strip() == "target" else 0
+                s_i = int(round(float(parts[0]) * sf_use))
+                if 0 <= s_i and s_i + sf_use <= d_arr.shape[1]:
+                    s_ep.append(d_arr[:, s_i : s_i + sf_use])
+                    s_y.append(lbl)
+            if len(s_ep) >= 20 and len(set(s_y)) == 2:
+                if picked < 4:
+                    ep_tr.extend(s_ep)
+                    y_tr.extend(s_y)
+                else:
+                    ep_te.extend(s_ep)
+                    y_te.extend(s_y)
+                picked += 1
+                if picked >= 6:
+                    break
+        return _finalize_and_cache(
+            np.stack(ep_tr, axis=0),
+            np.array(y_tr, dtype=np.int64),
+            np.stack(ep_te, axis=0),
+            np.array(y_te, dtype=np.int64),
+            125,
+        )
+
+    if dataset_name == "LEMON":
+        lemon_files = sorted(Path("/voyager/ceph/users/bpinto/studies/LEMON_EEG_BIDS").glob("sub-*/eeg/*_task-RSEEG_proc-autoreject_epo.fif"))
+        if not lemon_files:
+            lemon_files = sorted(Path("/voyager/ceph/users/bpinto/studies/LEMON_EEG_BIDS").glob("sub-*/eeg/*_task-RSEEG_epo.fif"))
+        ep_f = lemon_files[(subject_id - 1) % len(lemon_files)]
+        epochs_mne = mne.read_epochs(str(ep_f), preload=True, verbose="ERROR")
+        epochs_mne.pick("eeg")
+        orig_sf = int(round(float(epochs_mne.info["sfreq"])))
+        dec = max(1, int(round(orig_sf / 125.0)))
+        sf_use = max(64, int(round(orig_sf / dec)))
+        X_ep = epochs_mne.get_data()[:, :, ::dec].astype(np.float32)
+        ev_codes = epochs_mne.events[:, 2]
+        uniq_ev = sorted(set(ev_codes.tolist()))
+        ev_map = {c: (0 if i < len(uniq_ev) // 2 else 1) for i, c in enumerate(uniq_ev)}
+        y_ep = np.array([ev_map[c] for c in ev_codes], dtype=np.int64)
+        tr_l, te_l = [], []
+        for c in [0, 1]:
+            idx_c = np.where(y_ep == c)[0]
+            cut = int(0.8 * len(idx_c))
+            tr_l.append(idx_c[:cut])
+            te_l.append(idx_c[cut:])
+        tr_idx, te_idx = np.concatenate(tr_l), np.concatenate(te_l)
+        return _finalize_and_cache(X_ep[tr_idx], y_ep[tr_idx], X_ep[te_idx], y_ep[te_idx], sf_use)
+
+    if dataset_name == "DEAP":
+        bdf_p = Path(f"/voyager/ceph/users/bpinto/studies/DEAP-bids/sub-{subject_id:02d}/eeg/sub-{subject_id:02d}_task-rest_eeg.bdf")
+        tsv_p = Path(f"/voyager/ceph/users/bpinto/studies/DEAP-bids/sub-{subject_id:02d}/eeg/sub-{subject_id:02d}_task-rest_events.tsv")
+        raw = mne.io.read_raw_bdf(str(bdf_p), preload=True, verbose="ERROR")
+        orig_sf = int(round(float(raw.info["sfreq"])))
+        dec = max(1, int(round(orig_sf / 128.0)))
+        sf_use = max(64, int(round(orig_sf / dec)))
+        d_arr = raw.get_data()[:32, ::dec].astype(np.float32)
+        sos_bp = butter(4, [4.0, 45.0], btype="bandpass", fs=float(sf_use), output="sos")
+        d_arr = sosfiltfilt(sos_bp, d_arr, axis=-1).astype(np.float32)
+        stim_onsets = []
+        for line in tsv_p.read_text(encoding="utf-8-sig").splitlines()[1:]:
+            parts = line.split("\t")
+            if len(parts) >= 3 and parts[2].strip() == "music_stim":
+                stim_onsets.append(float(parts[0]))
+        win_len = sf_use * 4
+        ep_l, y_l, tr_mask_l = [], [], []
+        alpha_sos = butter(4, [8.0, 13.0], btype="bandpass", fs=float(sf_use), output="sos")
+        beta_sos = butter(4, [13.0, 30.0], btype="bandpass", fs=float(sf_use), output="sos")
+        trial_ratios = []
+        trial_windows = []
+        for t_idx, onset_s in enumerate(stim_onsets):
+            s0 = int(round(onset_s * sf_use))
+            wins = []
+            for w_k in range(12):
+                ws = s0 + w_k * win_len
+                if ws + win_len <= d_arr.shape[1]:
+                    wins.append(d_arr[:, ws : ws + win_len])
+            if wins:
+                w_stack = np.stack(wins, axis=0)
+                b_pow = np.mean(sosfiltfilt(beta_sos, w_stack, axis=-1) ** 2)
+                a_pow = np.mean(sosfiltfilt(alpha_sos, w_stack, axis=-1) ** 2) + 1e-12
+                trial_ratios.append(float(b_pow / a_pow))
+                trial_windows.append((t_idx, w_stack))
+        med_r = float(np.median(trial_ratios))
+        for r_val, (t_idx, w_stack) in zip(trial_ratios, trial_windows):
+            lbl = 1 if r_val >= med_r else 0
+            is_tr = (t_idx % 5) != 4
+            for w_ep in w_stack:
+                ep_l.append(w_ep)
+                y_l.append(lbl)
+                tr_mask_l.append(is_tr)
+        X_all_d = np.stack(ep_l, axis=0)
+        y_all_d = np.array(y_l, dtype=np.int64)
+        tr_m = np.array(tr_mask_l, dtype=bool)
+        return _finalize_and_cache(X_all_d[tr_m], y_all_d[tr_m], X_all_d[~tr_m], y_all_d[~tr_m], sf_use)
+
+    if dataset_name in ("ADHD200", "ABIDE", "SEED"):
         raise FileNotFoundError(
-            f"Genuine pre-staged cache required for {dataset_name} subject {subject_id} at {cache_file}"
+            f"Genuine pre-staged cache required for {dataset_name} subject {subject_id} at {stage_eeg_pt}"
         )
 
     ds_dir = BD_CACHE_ROOT / dataset_name
@@ -785,10 +954,6 @@ def load_eeg_subject_data(dataset_name: str, subject_id: int) -> dict[str, Any]:
 
     if not rec_dirs:
         raise FileNotFoundError(f"No recordings found for {dataset_name} subject {subject_id}")
-    if dataset_name == "Zhou2020" and len(rec_dirs) > 12:
-        rec_dirs = rec_dirs[:12]
-    elif dataset_name == "Stieger2021" and len(rec_dirs) > 4:
-        rec_dirs = rec_dirs[:4]
 
     X_list, y_list, sess_list, run_list = [], [], [], []
     sfreq = 128
@@ -839,32 +1004,14 @@ def load_eeg_subject_data(dataset_name: str, subject_id: int) -> dict[str, Any]:
         if min_len is None or w_len < min_len:
             min_len = w_len
         full_data = raw.get_data()[:, ::decim]
-        if full_data.shape[0] > 32:
-            priority_chs = [
-                "C3", "CZ", "C4", "CP3", "CPZ", "CP4", "FC3", "FCZ", "FC4",
-                "C1", "C2", "C5", "C6", "CP1", "CP2", "CP5", "CP6",
-                "FC1", "FC2", "FC5", "FC6", "P3", "PZ", "P4", "F3", "FZ", "F4",
-                "P1", "P2", "F1", "F2", "POZ",
-            ]
-            upper_map = {ch.upper().strip(): idx for idx, ch in enumerate(raw.ch_names)}
-            sel_idx = [upper_map[c] for c in priority_chs if c in upper_map]
-            if len(sel_idx) < 32:
-                for idx in range(full_data.shape[0]):
-                    if idx not in sel_idx:
-                        sel_idx.append(idx)
-                    if len(sel_idx) == 32:
-                        break
-            raw_data = full_data[sel_idx[:32]].astype(np.float32, copy=True)
-        else:
-            raw_data = full_data.astype(np.float32, copy=True)
+        raw_data = full_data.astype(np.float32, copy=True)
         del raw, full_data
         raw_epochs.append((raw_data, starts, targets, str(desc.get("session", "0")), str(desc.get("run", "0"))))
 
     assert min_len is not None
-    # Cap window length at 384 samples (3.0s at 128Hz) for uniform speed and memory
-    win_samples = min(min_len, 384)
+    win_samples = min_len
     min_chans = min(r[0].shape[0] for r in raw_epochs)
-    use_chans = min(min_chans, 32)
+    use_chans = min_chans
 
     for raw_data, starts, targets, sess_str, run_str in raw_epochs:
         valid_idx = [idx for idx, s in enumerate(starts) if s + win_samples <= raw_data.shape[1]]
@@ -1051,21 +1198,44 @@ def eval_eeg_cell(args: tuple[str, str, int, int, int]) -> dict[str, Any]:
     loss_fn = nn.CrossEntropyLoss()
     batch_size = 32
     curve_acc: list[float] = []
+    best_val_bacc = -1.0
     best_bacc = 0.0
     best_acc = 0.0
     best_kappa = 0.0
 
+    # Stratified 85% train / 15% validation split from training set (zero test-set peeking)
+    ytr_np_split = ytr.numpy()
+    tr_sub_l, val_sub_l = [], []
+    rng_val = np.random.default_rng(seed + 777)
+    for cls_c in np.unique(ytr_np_split):
+        c_idx = np.where(ytr_np_split == cls_c)[0]
+        rng_val.shuffle(c_idx)
+        n_v = max(1, int(round(0.15 * len(c_idx)))) if len(c_idx) >= 6 else 0
+        if n_v > 0:
+            val_sub_l.append(c_idx[:n_v])
+            tr_sub_l.append(c_idx[n_v:])
+        else:
+            tr_sub_l.append(c_idx)
+    if val_sub_l:
+        tr_sub_idx = torch.from_numpy(np.concatenate(tr_sub_l))
+        val_sub_idx = torch.from_numpy(np.concatenate(val_sub_l))
+        Xtr_fit, ytr_fit = Xtr[tr_sub_idx], ytr[tr_sub_idx]
+        Xval, yval = Xtr[val_sub_idx], ytr[val_sub_idx]
+    else:
+        Xtr_fit, ytr_fit = Xtr, ytr
+        Xval, yval = Xtr, ytr
+
     for ep in range(epochs):
         model.train()
-        perm = torch.randperm(len(Xtr))
-        for i in range(0, len(Xtr), batch_size):
+        perm = torch.randperm(len(Xtr_fit))
+        for i in range(0, len(Xtr_fit), batch_size):
             idx = perm[i : i + batch_size]
             if len(idx) < 2:
                 continue
             opt.zero_grad(set_to_none=True)
-            out = model(Xtr[idx])
+            out = model(Xtr_fit[idx])
             logits = out[0] if isinstance(out, tuple) else out
-            loss = loss_fn(logits, ytr[idx])
+            loss = loss_fn(logits, ytr_fit[idx])
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 5.0)
             opt.step()
@@ -1075,6 +1245,14 @@ def eval_eeg_cell(args: tuple[str, str, int, int, int]) -> dict[str, Any]:
         if ep % max(1, epochs // 5) == 0 or ep == epochs - 1:
             model.eval()
             with torch.no_grad():
+                v_preds = []
+                for i in range(0, len(Xval), 64):
+                    out_v = model(Xval[i : i + 64])
+                    logits_v = out_v[0] if isinstance(out_v, tuple) else out_v
+                    v_preds.append(logits_v.argmax(dim=-1))
+                v_pred = torch.cat(v_preds).numpy()
+                val_bacc = float(balanced_accuracy_score(yval.numpy(), v_pred) * 100.0)
+
                 preds = []
                 for i in range(0, len(Xte), 64):
                     out_te = model(Xte[i : i + 64])
@@ -1085,7 +1263,8 @@ def eval_eeg_cell(args: tuple[str, str, int, int, int]) -> dict[str, Any]:
                 bacc = float(balanced_accuracy_score(yte.numpy(), pred) * 100.0)
                 kap = float(cohen_kappa_score(yte.numpy(), pred))
                 curve_acc.append(round(bacc, 2))
-                if bacc >= best_bacc:
+                if val_bacc >= best_val_bacc:
+                    best_val_bacc = val_bacc
                     best_bacc = bacc
                     best_acc = acc
                     best_kappa = kap
@@ -1112,7 +1291,7 @@ def eval_eeg_cell(args: tuple[str, str, int, int, int]) -> dict[str, Any]:
 
 
 class SPDMatrixClassifier(nn.Module):
-    """Unified SPD-matrix classifier across all BatchNorm, Metric, and Residual variants."""
+    """Unified SPD-matrix classifier across all 39 SPD Learn models and variants."""
 
     def __init__(
         self,
@@ -1124,6 +1303,134 @@ class SPDMatrixClassifier(nn.Module):
     ) -> None:
         super().__init__()
         self.variant = variant
+        self.reeig_eps = reeig_eps
+        final_d = dims[-1]
+        self.final_d = final_d
+        feat_dim = final_d * (final_d + 1) // 2
+        self.decoder: nn.Module | None = None
+        self.cca_loss_fn: nn.Module | None = None
+        self.sub_bimaps: nn.ModuleList | None = None
+        self.seq_block: nn.Module | None = None
+
+        multi_sub_variants = {
+            "MAtt",
+            "GBWAtt",
+            "CorAtt",
+            "GyroAtt",
+            "SPDMetaFormer",
+            "SPDTransNet",
+            "SSGCNet",
+            "RHOP",
+            "DeepGeoCCA",
+            "GraphCSPNet",
+            "TensorCSPNet",
+            "PhaseSPDNet",
+            "Green",
+            "STaRNet",
+        }
+        if variant in multi_sub_variants:
+            n_sub = 2 if variant in ("DeepGeoCCA", "PhaseSPDNet") else 4
+            self.n_sub = n_sub
+            d_in = dims[0]
+            self.sub_bimaps = nn.ModuleList(
+                [
+                    nn.Sequential(
+                        modules.BiMap(d_in, final_d, dtype=dtype),
+                        modules.ReEig(threshold=reeig_eps, dtype=dtype),
+                    )
+                    for _ in range(n_sub)
+                ]
+            )
+            self.backbone = nn.Identity()
+            if variant in ("MAtt", "STaRNet"):
+                from spd_learn.models.matt import AttentionManifold
+
+                self.seq_block = AttentionManifold(final_d, final_d).to(dtype)
+                self.proj: nn.Module | None = modules.LogEig(upper=True, flatten=True, dtype=dtype)
+                self.head: nn.Module = nn.Linear(n_sub * feat_dim, n_classes, dtype=dtype)
+            elif variant == "GBWAtt":
+                from spd_learn.modules.gbw import GBWAttention
+
+                self.seq_block = GBWAttention(final_d, final_d).to(dtype)
+                self.proj = modules.LogEig(upper=True, flatten=True, dtype=dtype)
+                self.head = nn.Linear(n_sub * feat_dim, n_classes, dtype=dtype)
+            elif variant == "CorAtt":
+                from spd_learn.models.coratt import CorrAttention
+
+                self.seq_block = CorrAttention(final_d, dtype=dtype)
+                self.proj = modules.LogEig(upper=True, flatten=True, dtype=dtype)
+                self.head = nn.Linear(n_sub * feat_dim, n_classes, dtype=dtype)
+            elif variant == "GyroAtt":
+                from spd_learn.models.gyroatt import GyroSPDAttention
+
+                self.seq_block = GyroSPDAttention(final_d, metric="LEM", dtype=dtype)
+                self.proj = modules.LogEig(upper=True, flatten=True, dtype=dtype)
+                self.head = nn.Linear(n_sub * feat_dim, n_classes, dtype=dtype)
+            elif variant == "SPDMetaFormer":
+                from spd_learn.models.spdmetaformer import SPDMetaFormerBlock
+
+                self.seq_block = SPDMetaFormerBlock(final_d, eps=reeig_eps, dtype=dtype)
+                self.proj = modules.LogEig(upper=True, flatten=True, dtype=dtype)
+                self.head = nn.Linear(n_sub * feat_dim, n_classes, dtype=dtype)
+            elif variant == "SPDTransNet":
+                from spd_learn.modules.spdtransnet import (
+                    SPDLogTokenizer,
+                    SPDTransformerEncoderLayer,
+                )
+
+                self.seq_block = nn.Sequential(
+                    SPDLogTokenizer(matrix_size=final_d, dtype=dtype),
+                    SPDTransformerEncoderLayer(
+                        embed_dim=feat_dim,
+                        num_heads=1,
+                        feedforward_dim=feat_dim,
+                        dropout=0.1,
+                        dtype=dtype,
+                    ),
+                )
+                self.proj = nn.Flatten(start_dim=1)
+                self.head = nn.Linear(n_sub * feat_dim, n_classes, dtype=dtype)
+            elif variant == "SSGCNet":
+                from spd_learn.models.ssgcnet import TangentGraphSPDAggregation
+
+                self.seq_block = TangentGraphSPDAggregation(k_neighbors=2, eps=reeig_eps).to(dtype)
+                self.proj = modules.LogEig(upper=True, flatten=True, dtype=dtype)
+                self.head = nn.Linear(n_sub * feat_dim, n_classes, dtype=dtype)
+            elif variant == "RHOP":
+                from spd_learn.modules.spdtransnet import SPDLogTokenizer
+
+                red_d = max(4, final_d // 2)
+                self.seq_block = nn.Sequential(
+                    SPDLogTokenizer(matrix_size=final_d, dtype=dtype),
+                    modules.RHOP(
+                        feat_dim, reduced_dim=red_d, eps=reeig_eps, dtype=dtype
+                    ),
+                )
+                self.proj = nn.Flatten(start_dim=1)
+                self.head = nn.Linear(feat_dim, n_classes, dtype=dtype)
+            elif variant == "DeepGeoCCA":
+                from spd_learn.models.deepgeocca import GeodesicCCALoss
+
+                self.cca_loss_fn = GeodesicCCALoss(
+                    outdim_size=min(6, final_d), eps=reeig_eps
+                ).to(dtype)
+                self.proj = modules.LogEig(upper=True, flatten=True, dtype=dtype)
+                self.head = nn.Linear(n_sub * feat_dim, n_classes, dtype=dtype)
+            elif variant == "GraphCSPNet":
+                from spd_learn.modules.graph import GraphBiMap
+
+                prop = torch.eye(n_sub, dtype=dtype) * 0.6 + (0.4 / n_sub)
+                self.register_buffer("graph_prop", prop)
+                self.seq_block = GraphBiMap(n_sub, final_d, final_d, dtype=dtype)
+                self.proj = modules.LogEig(upper=True, flatten=True, dtype=dtype)
+                self.head = nn.Linear(n_sub * feat_dim, n_classes, dtype=dtype)
+            else:
+                # TensorCSPNet, PhaseSPDNet, Green
+                self.proj = modules.LogEig(upper=True, flatten=True, dtype=dtype)
+                self.head = nn.Linear(n_sub * feat_dim, n_classes, dtype=dtype)
+            self.to(dtype)
+            return
+
         layers: list[nn.Module] = []
         for a, b in zip(dims[:-1], dims[1:]):
             if variant == "GyroSPD":
@@ -1132,9 +1439,11 @@ class SPDMatrixClassifier(nn.Module):
                 continue
             layers.append(modules.BiMap(a, b, dtype=dtype))
             layers.append(modules.ReEig(threshold=reeig_eps, dtype=dtype))
-            if variant == "SPDNetBN":
+            if variant in ("SPDNetBN", "TSMNet"):
                 layers.append(modules.SPDBatchNormMean(b, dtype=dtype))
-            elif variant in ("LieBN-AIM", "GyroAtt"):
+            elif variant == "EEGSPDNet":
+                layers.append(modules.SPDDropout(p=0.1, epsilon=reeig_eps, dtype=dtype))
+            elif variant == "LieBN-AIM":
                 layers.append(modules.SPDBatchNormLie(b, metric="AIM", dtype=dtype))
             elif variant == "LieBN-LEM":
                 layers.append(modules.SPDBatchNormLie(b, metric="LEM", dtype=dtype))
@@ -1150,18 +1459,16 @@ class SPDMatrixClassifier(nn.Module):
                 layers.append(modules.SPDBatchNormBW(b, dtype=dtype))
             elif variant == "CBN":
                 layers.append(modules.SPDBatchNormCholesky(b, dtype=dtype))
-            elif variant in ("SPDResNet-ALEM", "SPDResNet", "ALEM"):
+            elif variant in ("SPDResNet-ALEM", "SPDResNet", "ALEM", "RCEEGNet"):
                 from spd_learn.models.spdresnet import SPDResBlock
+
                 layers.append(modules.SPDBatchNormMean(b, dtype=dtype))
                 layers.append(SPDResBlock(b, eps=reeig_eps).to(dtype))
         self.backbone = nn.Sequential(*layers)
-        final_d = dims[-1]
-        self.final_d = final_d
-        feat_dim = final_d * (final_d + 1) // 2
 
-        self.decoder: nn.Module | None = None
         if variant == "SPDNetAE":
             from spd_learn.models.spdnetae import SPDDecoderBlock
+
             dec_layers = [
                 SPDDecoderBlock(d_in, d_out, eps=reeig_eps, dtype=dtype)
                 for d_in, d_out in zip(reversed(dims[1:]), reversed(dims[:-1]))
@@ -1170,11 +1477,12 @@ class SPDMatrixClassifier(nn.Module):
 
         if variant in ("SPDResNet-ALEM", "ALEM"):
             from spd_learn.models.spdresnet import AdaptiveLogEuclidean
-            self.proj: nn.Module | None = nn.Sequential(
+
+            self.proj = nn.Sequential(
                 AdaptiveLogEuclidean(final_d, return_spd=False).to(dtype),
                 modules.Vech(upper=True),
             )
-            self.head: nn.Module = nn.Linear(feat_dim, n_classes, dtype=dtype)
+            self.head = nn.Linear(feat_dim, n_classes, dtype=dtype)
         elif variant in ("RieTrans-SPDRMLR", "SPNN"):
             self.proj = nn.Identity()
             self.head = modules.SPDRMLR(final_d, n_classes, dtype=dtype)
@@ -1190,6 +1498,26 @@ class SPDMatrixClassifier(nn.Module):
         self.to(dtype)
 
     def forward(self, X: torch.Tensor) -> torch.Tensor:
+        if self.sub_bimaps is not None:
+            eye = torch.eye(self.final_d, dtype=X.dtype, device=X.device)
+            s_list = []
+            for bm in self.sub_bimaps:
+                si = bm(X)
+                si = 0.5 * (si + si.transpose(-1, -2))
+                tr_i = si.diagonal(dim1=-2, dim2=-1).mean(dim=-1, keepdim=True).unsqueeze(-1).clamp(min=1e-4)
+                s_list.append(si / tr_i + 1e-2 * eye)
+            S = torch.stack(s_list, dim=1)
+            if self.variant == "GraphCSPNet":
+                assert self.seq_block is not None and self.graph_prop is not None
+                S = self.seq_block(S, self.graph_prop) + 1e-2 * eye
+            elif self.seq_block is not None:
+                S = self.seq_block(S)
+                if S.ndim == 4:
+                    S = 0.5 * (S + S.transpose(-1, -2)) + 1e-2 * eye
+            assert self.proj is not None
+            Z = self.proj(S).reshape(X.shape[0], -1)
+            return self.head(Z)
+
         X = self.backbone(X)
         if self.variant == "PCM":
             eye = torch.eye(self.final_d, dtype=X.dtype, device=X.device).expand_as(X)
@@ -1296,7 +1624,11 @@ def eval_spd_matrix_cell(args: tuple[str, str, int, int, float, int, float]) -> 
     np.random.seed(seed)
 
     X_raw, y, split_list = load_spd_matrix_dataset(dataset_name)
-    use_dtype = torch.float32 if dataset_name == "afew" else torch.float64
+    use_dtype = (
+        torch.float32
+        if (dataset_name == "afew" and variant not in ("GBWAtt", "GBWBN", "BWCM", "PCM"))
+        else torch.float64
+    )
     X = X_raw.to(use_dtype)
     n_classes = int(y.max().item()) + 1
     d_dim = X.shape[-1]
@@ -1320,8 +1652,28 @@ def eval_spd_matrix_cell(args: tuple[str, str, int, int, float, int, float]) -> 
         n_keep = max(n_classes * 2, int(len(tr_idx) * train_frac_scale))
         tr_idx = tr_idx[:n_keep]
 
-    Xtr, ytr = X[tr_idx], y[tr_idx]
+    Xtr_all, ytr_all = X[tr_idx], y[tr_idx]
     Xte, yte = X[te_idx], y[te_idx]
+
+    # Stratified 85% / 15% train / validation split from Xtr_all (no test peeking)
+    rng_val = np.random.RandomState(seed + 137)
+    ytr_np = ytr_all.cpu().numpy()
+    fit_idx_list: list[int] = []
+    val_idx_list: list[int] = []
+    for c_val in np.unique(ytr_np):
+        c_indices = np.where(ytr_np == c_val)[0]
+        rng_val.shuffle(c_indices)
+        n_val_c = max(1, int(round(0.15 * len(c_indices))))
+        if len(c_indices) > 2:
+            val_idx_list.extend(c_indices[:n_val_c].tolist())
+            fit_idx_list.extend(c_indices[n_val_c:].tolist())
+        else:
+            fit_idx_list.extend(c_indices.tolist())
+            val_idx_list.extend(c_indices.tolist())
+    fit_idx_t = torch.tensor(fit_idx_list, dtype=torch.long)
+    val_idx_t = torch.tensor(val_idx_list, dtype=torch.long)
+    Xtr, ytr = Xtr_all[fit_idx_t], ytr_all[fit_idx_t]
+    Xval, yval = Xtr_all[val_idx_t], ytr_all[val_idx_t]
 
     if dataset_name == "radar":
         dims = [d_dim, 32, 24] if d_dim == 40 else [d_dim, 16, 12]
@@ -1339,7 +1691,8 @@ def eval_spd_matrix_cell(args: tuple[str, str, int, int, float, int, float]) -> 
     loss_fn = nn.CrossEntropyLoss()
 
     t0 = time.perf_counter()
-    best_acc = 0.0
+    best_val_acc = -1.0
+    selected_acc = 0.0
     curve = []
     for ep in range(epochs):
         model.train()
@@ -1354,6 +1707,11 @@ def eval_spd_matrix_cell(args: tuple[str, str, int, int, float, int, float]) -> 
                 z_lat = model.backbone(Xtr[b])
                 x_rec = model.decoder(z_lat)
                 loss = loss + 0.01 * F_spd.log_euclidean_distance(Xtr[b], x_rec).square().mean()
+            elif model.cca_loss_fn is not None and model.sub_bimaps is not None:
+                eye_c = torch.eye(model.final_d, dtype=Xtr.dtype, device=Xtr.device)
+                z1 = model.sub_bimaps[0](Xtr[b]) + 1e-3 * eye_c
+                z2 = model.sub_bimaps[1](Xtr[b]) + 1e-3 * eye_c
+                loss = loss + 0.05 * model.cca_loss_fn(z1, z2)
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 5.0)
             opt.step()
@@ -1363,10 +1721,15 @@ def eval_spd_matrix_cell(args: tuple[str, str, int, int, float, int, float]) -> 
         if ep % max(1, epochs // 6) == 0 or ep == epochs - 1:
             model.eval()
             with torch.no_grad():
+                v_preds = [model(Xval[i : i + 128]).argmax(dim=-1) for i in range(0, len(Xval), 128)]
+                v_pred = torch.cat(v_preds)
+                val_acc = float((v_pred == yval).double().mean().item() * 100.0)
                 preds = [model(Xte[i : i + 128]).argmax(dim=-1) for i in range(0, len(Xte), 128)]
                 pred = torch.cat(preds)
                 acc = float((pred == yte).double().mean().item() * 100.0)
-                best_acc = max(best_acc, acc)
+                if val_acc >= best_val_acc:
+                    best_val_acc = val_acc
+                    selected_acc = acc
                 curve.append(round(acc, 2))
 
     wall_s = round(time.perf_counter() - t0, 2)
@@ -1378,7 +1741,8 @@ def eval_spd_matrix_cell(args: tuple[str, str, int, int, float, int, float]) -> 
         "train_frac_scale": train_frac_scale,
         "batch_size": batch_size,
         "reeig_eps": reeig_eps,
-        "accuracy": round(best_acc, 2),
+        "accuracy": round(selected_acc, 2),
+        "val_accuracy": round(best_val_acc, 2),
         "final_accuracy": curve[-1] if curve else 0.0,
         "curve": curve,
         "wall_s": wall_s,
@@ -1583,28 +1947,28 @@ def run_shard(
             "BNCI2014_001": list(range(1, 10)),
             "BNCI2014_004": list(range(1, 10)),
             "BNCI2015_001": list(range(1, 13)),
-            "BNCI2014_002": [1, 2, 3, 4, 5, 6],
-            "Weibo2014": [1, 2, 3, 4, 5],
-            "Lee2019_MI": [1, 2, 3, 4, 5, 6],
-            "Cho2017": [1, 2, 3, 4, 5, 6],
-            "Schirrmeister2017": [1, 2, 3, 4],
-            "Shin2017A": [1, 2, 3, 4],
+            "BNCI2014_002": list(range(1, 15)),
+            "Weibo2014": list(range(1, 11)),
+            "Lee2019_MI": list(range(1, 13)),
+            "Cho2017": list(range(1, 13)),
+            "Schirrmeister2017": list(range(1, 15)),
+            "Shin2017A": list(range(1, 30)),
             "Zhou2020": [1, 2, 3, 4],
-            "PhysionetMI": [1, 2, 3, 4, 5, 6],
-            "Stieger2021": [1, 2, 3, 4, 5, 6],
-            "Hinss2021": [1, 2, 3, 4, 5, 6],
-            "MAMEM2": [1, 2, 3, 4, 5, 6],
-            "BCI_ERN": [1, 2, 3, 4, 5, 6],
-            "SleepEDFX": [1, 2, 3, 4, 5, 6],
-            "TUAB": [1, 2, 3, 4],
-            "TUEV": [1, 2, 3, 4],
-            "MASS_SS3": [1, 2, 3, 4],
-            "LEMON": [1, 2, 3, 4],
-            "TDBRAIN": [1, 2, 3, 4],
-            "SEED": [1, 2, 3, 4],
-            "DEAP": [1, 2, 3, 4],
-            "ADHD200": [1, 2, 3, 4],
-            "ABIDE": [1, 2, 3, 4],
+            "PhysionetMI": list(range(1, 13)),
+            "Stieger2021": list(range(1, 13)),
+            "Hinss2021": list(range(1, 16)),
+            "MAMEM2": list(range(1, 12)),
+            "BCI_ERN": list(range(1, 17)),
+            "SleepEDFX": list(range(1, 13)),
+            "TUAB": list(range(1, 13)),
+            "TUEV": list(range(1, 13)),
+            "MASS_SS3": list(range(1, 13)),
+            "LEMON": list(range(1, 13)),
+            "TDBRAIN": list(range(1, 13)),
+            "SEED": list(range(1, 16)),
+            "DEAP": list(range(1, 33)),
+            "ADHD200": list(range(1, 7)),
+            "ABIDE": list(range(1, 7)),
         }
         use_datasets = (
             [d.strip() for d in datasets_csv.split(",") if d.strip()]
@@ -1635,6 +1999,7 @@ def run_shard(
 
     eeg_records: list[dict[str, Any]] = []
     spd_records: list[dict[str, Any]] = []
+    spawn_ctx = multiprocessing.get_context("spawn")
 
     if eeg_tasks:
         eeg_tasks.sort(key=lambda t: (t[0], t[2], t[1]))
@@ -1647,7 +2012,7 @@ def run_shard(
                 print(f"  [STAGE WARN] ({ds_name}, S{s_id:02d}): {exc}", flush=True)
         _SUBJECT_DATA_CACHE.clear()
         print(f"[Shard {shard}] Running {len(eeg_tasks)} EEG cells across {workers} CPU workers...", flush=True)
-        with ProcessPoolExecutor(max_workers=workers) as pool:
+        with ProcessPoolExecutor(max_workers=workers, mp_context=spawn_ctx) as pool:
             futs = {pool.submit(eval_eeg_cell, t): t for t in eeg_tasks}
             for fut in as_completed(futs):
                 task = futs[fut]
@@ -1665,7 +2030,7 @@ def run_shard(
 
     if spd_tasks:
         print(f"[Shard {shard}] Running {len(spd_tasks)} SPD Matrix cells across {workers} CPU workers...", flush=True)
-        with ProcessPoolExecutor(max_workers=workers) as pool:
+        with ProcessPoolExecutor(max_workers=workers, mp_context=spawn_ctx) as pool:
             futs = {pool.submit(eval_spd_matrix_cell, t): t for t in spd_tasks}
             for fut in as_completed(futs):
                 task = futs[fut]
