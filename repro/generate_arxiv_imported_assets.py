@@ -11,7 +11,7 @@ from pathlib import Path
 from typing import Any
 
 REPRO_DIR = Path(__file__).resolve().parent
-ENCORE_ORIG_DIR = Path("/Users/bruaristimunha/Projects/spd/spd_encore/assets/original_figures")
+ENCORE_ORIG_DIR = Path("/Users/bruaristimunha/Projects/spd/spd_replicability/assets/original_figures")
 SUMMARY_PATH = Path("/tmp/spd_arxiv_sources/parsed_tex_summary.json")
 
 

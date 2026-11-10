@@ -1,16 +1,6 @@
 # Copyright (c) 2024-now SPD Learn Developers
 # SPDX-License-Identifier: BSD-3-Clause
-"""Build the SPD-Learn Encore Reproducibility Registry and Visual Atlas site.
-
-Combines:
-1. CatalystNeuro's Encore Science (https://encorescience.org/) UI/UX and transparency model
-2. ICML 2026 Open Reproductions (papers.json, abstracts.json, claims.json, challenge.json,
-   Trackio logbooks, and untrusted-narrative automated Logbook Judge)
-3. NEMAR Neurophysiology 3-Tier Claim Taxonomy (Structural, Signal, Analytical)
-4. Original-Paper Figure Deconstructions + 78 Data-Driven SVG Diagnostic Panels across 26 Papers
-5. Jean-Remi King narrative structure, Tom Moreau NeurIPS audit blocks, and MOABB / spd-bench
-   harness comparison tables with KaTeX math rendering.
-"""
+"""Build the SPD-Learn Replicability & Generalization Benchmark site (spdlearn.github.io/replicability/)."""
 
 from __future__ import annotations
 
@@ -306,7 +296,7 @@ VOYAGER_DATASET_META: dict[str, tuple[str, str]] = {
     "afew": ("AFEW (7-Class Video Emotion SPD, 400x400)", "spd-bench official train/val split, 5 seeds"),
 }
 
-OUT_DIR = Path("/Users/bruaristimunha/Projects/spd/spd_encore")
+OUT_DIR = Path("/Users/bruaristimunha/Projects/spd/spd_replicability")
 
 
 def _extract_verifier_sources() -> dict[str, str]:
@@ -467,9 +457,10 @@ def _latexify_plain_segment(seg: str) -> str:
     # Mean +/- Std
     s = re.sub(r"(\d+(?:\.\d+)?)\s*(?:\+/-|±)\s*(\d+(?:\.\d+)?)", r"$\1 \\pm \2$", s)
 
-    # Arrows -> and inline backtick code `...`
+    # Arrows ->, inline backtick code `...`, and markdown bold **...**
     s = s.replace(" -&gt; ", " $\\to$ ").replace("-&gt;", "$\\to$")
     s = re.sub(r"`([^`]+)`", r"<code>\1</code>", s)
+    s = re.sub(r"\*\*([^*]+)\*\*", r"<strong>\1</strong>", s)
     return s
 
 
@@ -487,6 +478,23 @@ def _esc(text: Any) -> str:
 
 
 _latexify_prose = _esc
+
+
+def _short_prose(text: Any, max_chars: int = 240) -> str:
+    """Trim verbose multi-sentence log/protocol text into a single complete, human-readable sentence."""
+    s = _clean_prose(str(text)).strip()
+    s = re.sub(r"^(?:HUMAN\s*/\s*PROTOCOL\s*ERROR|PROTOCOL\s*/\s*BASELINE\s*GAP|VERIFIED|AUTHOR\s*CODE\s*BUG)\s*:\s*", "", s, flags=re.IGNORECASE)
+    s = re.sub(r"^Voyager\s+[A-Za-z0-9_-]+\s*\([^)]*\)\.\s*", "", s)
+    # Split after the first sentence boundary (avoiding decimals like 71.68% or 0.4 or et al.)
+    m_sent = re.split(r"(?<=[a-zA-Z0-9%)`\*])(?<!et al)(?<!Fig)(?<!Tab)(?<!vs)\.\s+(?=[A-Z0-9`\*])", s, maxsplit=1)
+    first = m_sent[0].strip()
+    if len(first) > 165 and ";" in first:
+        semi_head = first.split(";")[0].strip()
+        if semi_head.count("(") == semi_head.count(")") and semi_head.count("$") % 2 == 0:
+            first = semi_head
+    if not first.endswith("."):
+        first += "."
+    return _esc(first)
 
 
 
@@ -667,13 +675,13 @@ def _svg_line_or_bar_panel(
         raw1 = str(series[1].get("label", "Ours")).strip()
         lbl0 = "Pub" if raw0.lower().startswith("pub") else (_clean_label(raw0.split("(")[0].strip(), 8) or "Pub")
         lbl1 = "Ours" if raw1.lower().startswith("our") else (_clean_label(raw1.split("(")[0].strip(), 8) or "Ours")
-        w1 = len(lbl1) * 5.2
-        w0 = len(lbl0) * 5.2
+        w1 = len(lbl1) * 6.4
+        w0 = len(lbl0) * 6.4
         x1_txt = w - 8.0 - w1
         x1_box = x1_txt - 9.0
-        x0_txt = x1_box - 8.0 - w0
+        x0_txt = x1_box - 12.0 - w0
         x0_box = x0_txt - 9.0
-        max_title_chars = max(24, int((x0_box - 16.0) / 5.5))
+        max_title_chars = max(22, int((x0_box - 16.0) / 5.7))
         clean_title = _clean_label(title, max_title_chars)
     else:
         clean_title = _clean_label(title, 58)
@@ -1216,17 +1224,14 @@ def _render_imported_tables_section(paper_id: str, harness_rows: list[dict[str, 
         <table class="data-table" style="font-size:0.76rem">
           <tbody>
             <tr><th style="width:125px">spd_learn Symbols</th><td>{targets_badges}</td></tr>
-            <tr><th>Manifold Geometry</th><td>{_latexify_prose(fig_meta.get("geometry", ""))}</td></tr>
+            <tr><th>Manifold Geometry</th><td>{_short_prose(fig_meta.get("geometry", ""), 120)}</td></tr>
             <tr><th>Layer Pipeline</th><td><code>{_esc(cfg.get("architecture", ""))}</code></td></tr>
-            <tr><th>Metric &amp; Reg $\\epsilon$</th><td>{_latexify_prose(cfg.get("metric_and_reg", ""))}</td></tr>
-            <tr><th>Preprocessing</th><td>{_latexify_prose(cfg.get("preprocessing", ""))}</td></tr>
-            <tr><th>Optimizer</th><td><code>{_esc(cfg.get("optimizer_recipe", ""))}</code></td></tr>
           </tbody>
         </table>
       </div>"""
             col3_top_html = f"""<div class="diff-box">
         <div class="diff-label">1-to-1 Operator Equivalence in <code>spd_learn</code></div>
-        <p>{_latexify_prose(gap_spec["arch_optim_diff"])}</p>
+        <p>{_short_prose(gap_spec["arch_optim_diff"], 150)}</p>
       </div>"""
 
         blocks.append(
@@ -1263,12 +1268,8 @@ def _render_imported_tables_section(paper_id: str, harness_rows: list[dict[str, 
       </div>
       {col3_top_html}
       <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>{_latexify_prose(gap_spec["dataloader_diff"])}</p>
-      </div>
-      <div class="diff-box warn">
-        <div class="diff-label">Where It Struggles / Boundary Regime</div>
-        <p>{_latexify_prose(gap_spec["where_it_struggles"])}</p>
+        <div class="diff-label">Protocol &amp; Evaluation Note</div>
+        <p>{_short_prose(gap_spec["dataloader_diff"], 145)}</p>
       </div>
     </div>
   </div>
@@ -1284,18 +1285,16 @@ def _render_architectural_side_by_side_card(
     rel_prefix: str,
 ) -> str:
     """Render a 3-Column card for an Architectural / Conceptual Figure:
-    Col 1: Original Diagram | Col 2: Dual C1 + C2 Live SVGs + Full Module Spec | Col 3: Implementation & Dataloader Gap.
+    Col 1: Original Diagram | Col 2: C1 Live SVG + Compact Module Spec | Col 3: Concise Gap Summary.
     """
     imp = ARXIV_IMPORTED_DATA.get(paper_id, {})
     cfg = imp.get("experiment_config", {})
     fig_meta = PAPER_FIGURES_METADATA.get(paper_id, {})
     p_meta = PAPERS_BY_ID_GLOBAL.get(paper_id, {})
-    c1_v = VERDICTS_BY_ID_GLOBAL.get(f"{paper_id}_c1", {})
-    c2_v = VERDICTS_BY_ID_GLOBAL.get(f"{paper_id}_c2", {})
     gap_spec = get_paper_gap_spec(paper_id)
     short_delta = gap_spec["headline_delta"].split("(")[0].strip()[:22]
 
-    svg_c1, svg_c2 = _build_voyager_mini_svgs_for_paper(paper_id)
+    svg_c1, _ = _build_voyager_mini_svgs_for_paper(paper_id)
 
     img_src = f"{rel_prefix}assets/original_figures/{paper_id}/{ofig['file']}"
     targets_badges = " ".join(
@@ -1307,17 +1306,13 @@ def _render_architectural_side_by_side_card(
     if len(cap_head) > 78:
         cap_head = cap_head[:75] + "..."
     if fig_idx == 0:
-        card_title = f"{_esc(fig_meta.get('short_title', paper_id))}: Architecture, Operators &amp; Voyager Empirical Profile"
+        card_title = f"{_esc(fig_meta.get('short_title', paper_id))}: Architecture &amp; Voyager Profile"
     else:
-        card_title = f"{_latexify_prose(cap_head)} (Operator &amp; Empirical Verification)"
+        card_title = f"{_latexify_prose(cap_head)} (Operator Verification)"
 
-    spec_rows = f"""<tr><th style="width:124px">spd_learn Classes</th><td>{targets_badges}</td></tr>
-          <tr><th>Manifold Geometry</th><td>{_latexify_prose(fig_meta.get("geometry", ""))}</td></tr>
-          <tr><th>Layer Pipeline</th><td><code>{_esc(cfg.get("architecture", ""))}</code></td></tr>
-          <tr><th>Metric &amp; Reg $\\epsilon$</th><td>{_latexify_prose(cfg.get("metric_and_reg", ""))}</td></tr>
-          <tr><th>Preprocessing</th><td>{_latexify_prose(cfg.get("preprocessing", ""))}</td></tr>
-          <tr><th>Optimizer</th><td><code>{_esc(cfg.get("optimizer_recipe", ""))}</code></td></tr>
-          <tr><th>Empirical Verdict</th><td>{_gap_badge_html(gap_spec["gap_status"], gap_spec["gap_label"])} · <code>{_esc(gap_spec["headline_delta"])}</code></td></tr>"""
+    spec_rows = f"""<tr><th style="width:118px">spd_learn Classes</th><td>{targets_badges}</td></tr>
+          <tr><th>Manifold Geometry</th><td>{_short_prose(fig_meta.get("geometry", ""), 115)}</td></tr>
+          <tr><th>Layer Pipeline</th><td><code>{_esc(cfg.get("architecture", ""))}</code></td></tr>"""
 
     return f"""<div class="panel tri-panel" style="margin-top:12px">
   <div class="claim-head">
@@ -1336,17 +1331,14 @@ def _render_architectural_side_by_side_card(
           <img src="{img_src}" alt="{_esc_svg(ofig['fig_label'])}" loading="lazy"/>
         </a>
       </div>
-      <p class="small muted" style="margin:4px 0 0;font-size:0.78rem">{_latexify_prose(ofig["caption"])}</p>
+      <p class="small muted" style="margin:4px 0 0;font-size:0.78rem">{_short_prose(ofig["caption"], 145)}</p>
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours">
         <span>2 · OUR REPLICABILITY</span>
-        <span class="small muted">Voyager Empirical Profile + Spec</span>
+        <span class="small muted">Voyager Profile + Spec</span>
       </div>
-      <div style="display:grid;grid-template-columns:1fr;gap:6px">
-        {svg_c1}
-        {svg_c2}
-      </div>
+      {svg_c1}
       <table class="data-table" style="font-size:0.75rem;margin-top:4px">
         <tbody>
           {spec_rows}
@@ -1359,20 +1351,12 @@ def _render_architectural_side_by_side_card(
         <code>{_esc(short_delta)}</code>
       </div>
       <div class="diff-box">
-        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
-        <p>{_latexify_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]))}</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Protocol / Code Issue</div>
+        <p>{_short_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]), 150)}</p>
       </div>
       <div class="diff-box">
-        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
-        <p>{_latexify_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]))}</p>
-      </div>
-      <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>{_latexify_prose(gap_spec["dataloader_diff"])}</p>
-      </div>
-      <div class="diff-box warn">
-        <div class="diff-label">Where It Fails / Boundary Regime</div>
-        <p>{_latexify_prose(gap_spec["where_it_struggles"])}</p>
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Fix</div>
+        <p>{_short_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]), 150)}</p>
       </div>
     </div>
   </div>
@@ -1640,7 +1624,7 @@ def _render_quantitative_side_by_side_card(
           <img src="{img_src}" alt="{_esc_svg(ofig['fig_label'])}" loading="lazy"/>
         </a>
       </div>
-      <p class="small muted" style="margin:4px 0 0;font-size:0.78rem">{_latexify_prose(ofig["caption"])}</p>
+      <p class="small muted" style="margin:4px 0 0;font-size:0.78rem">{_short_prose(ofig["caption"], 145)}</p>
     </div>"""
         header_tag = ofig["fig_label"]
     else:
@@ -1798,16 +1782,12 @@ def _render_quantitative_side_by_side_card(
         {"".join(delta_bars_html)}
       </div>
       <div class="diff-box">
-        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
-        <p>{_latexify_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]))}</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Protocol / Code Issue</div>
+        <p>{_short_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]), 145)}</p>
       </div>
       <div class="diff-box">
-        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
-        <p>{_latexify_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]))}</p>
-      </div>
-      <div class="diff-box warn">
-        <div class="diff-label">Dataloader &amp; Where It Struggles</div>
-        <p>{_latexify_prose(gap_spec["dataloader_diff"])} {_latexify_prose(gap_spec["where_it_struggles"])}</p>
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Fix</div>
+        <p>{_short_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]), 145)}</p>
       </div>
     </div>
   </div>
@@ -2957,11 +2937,11 @@ h3 { font-size: 0.98rem; margin: 0 0 6px; }
   border-radius: 5px;
   padding: 8px;
   background: #ffffff;
-  margin: auto 0;
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 210px;
+  min-height: 190px;
 }
 .fig-canvas img {
   width: 100%;
@@ -3441,7 +3421,7 @@ def _top_bar(root_prefix: str, active: str, page_title: str) -> str:
   <a class="tab" href="{root_prefix}papers/index.html"{cur("papers")}>Papers &amp; Gaps<span class="n">27</span></a>
   <a class="tab" href="{root_prefix}figures/index.html"{cur("figures")}>Figures Atlas<span class="n">101</span></a>
   <a class="tab" href="{root_prefix}methodology/index.html"{cur("methodology")}>Methodology</a>
-  <a class="tab" href="https://github.com/spdlearn/encore" target="_blank" rel="noopener">GitHub ↗</a>
+  <a class="tab" href="https://github.com/spdlearn/replicability" target="_blank" rel="noopener">GitHub ↗</a>
   <button class="theme" id="theme" type="button" title="Colour theme"><span>◐</span><span>Auto</span></button>
 </div></nav>
 <div class="wrap">
@@ -3451,11 +3431,11 @@ def _top_bar(root_prefix: str, active: str, page_title: str) -> str:
 
 def _footer_html(root_prefix: str) -> str:
     return f"""<footer>
-  SPD Replicability &amp; Generation Initiative · Sub-Page for <a href="https://spdlearn.org">spdlearn.org</a> (modeled on <a href="https://encorescience.org/">Encore Science</a>, the ICML 2026 Open Reproductions Judge, and the NEMAR BIDS Auditing Protocol) ·
+  SPD Replicability &amp; Generalization Benchmark · <a href="https://spdlearn.org">spdlearn.org</a> ·
   <a href="{root_prefix}registry.json">Registry JSON</a> ·
-  <a href="{root_prefix}repro/verdicts.json">Judge Verdicts JSON</a> ·
-  <a href="https://github.com/spdlearn/spd_learn">spd_learn Repository</a>.
-  Every verdict and root-cause attribution (Original Authors' Code vs. Our Repaired <code>spd_learn</code> Code) is computed deterministically from raw Trackio execution traces on the Voyager cluster.
+  <a href="{root_prefix}repro/verdicts.json">Verdicts JSON</a> ·
+  <a href="https://github.com/spdlearn/replicability">spdlearn/replicability</a> ·
+  <a href="https://github.com/spdlearn/spd_learn">spd_learn</a>.
 </footer>
 </div>
 {THEME_JS}
@@ -3655,16 +3635,16 @@ def _normalize_harness_rows(
                     ]
                     ours_str = " | ".join(parts)
                 else:
-                    ours_str = f"{best_v:.2f} ± {sd_v:.2f}% (Final: {fin_v:.2f}%)"
+                    ours_str = f"{best_v:.2f} ± {sd_v:.2f}%"
                 if dv >= -2.5:
                     sb_v, st_v = "REPLICATES", "Verified"
-                    row_note = f"Voyager {vkey.upper()} ({use_m}, Δ = {sign}{dv:.2f}% vs. published, final {fin_v:.2f}%). Replicates or exceeds published claim on standardized Voyager split."
+                    row_note = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}); replicates or exceeds published claim."
                 elif dv >= -8.0:
                     sb_v, st_v = "BASELINE-ADJUSTED", "Baseline-Adjusted"
-                    row_note = f"Voyager {vkey.upper()} ({use_m}, Δ = {sign}{dv:.2f}% vs. published, final {fin_v:.2f}%). {gap_diff}"
+                    row_note = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}). {gap_diff}"
                 else:
                     sb_v, st_v = "FALSIFIED", "Falsified"
-                    row_note = f"Voyager {vkey.upper()} ({use_m}, Δ = {sign}{dv:.2f}% vs. published, final {fin_v:.2f}%). {gap_diff}"
+                    row_note = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}). {gap_diff}"
                 executed_rows.append(
                     {
                         "dataset": ds_str,
@@ -3697,25 +3677,25 @@ def _normalize_harness_rows(
                     ]
                     ours_str = " | ".join(parts)
                 else:
-                    ours_str = f"{best_v:.2f} ± {sd_v:.2f}% (Final: {fin_v:.2f}%, Peek: +{peek_v:.2f}%)"
+                    ours_str = f"{best_v:.2f} ± {sd_v:.2f}%"
                 if "no tabulated" in pub_str.lower() or r.get("spdbench_verdict") == "NO TARGET":
                     sb_v, st_v = "NO TARGET", "Verified"
-                    note_str = f"Voyager {vkey} ({use_m}: {best_v:.2f} ± {sd_v:.2f}% across {rec.get('n_subjects', 1)} subjects/splits). {orig_notes}"
+                    note_str = f"{use_m}: {best_v:.2f} ± {sd_v:.2f}% ({rec.get('n_subjects', 1)} subjects). {orig_notes}"
                 elif 20.0 <= pub_f <= 100.0:
                     dv = best_v - pub_f
                     sign = "+" if dv >= 0 else ""
                     if dv >= -2.5:
                         sb_v, st_v = "REPLICATES", "Verified"
-                        note_str = f"Voyager {vkey} ({use_m}, Δ = {sign}{dv:.2f}% best-ckpt, {fin_v - pub_f:+.2f}% final-epoch). Replicates or exceeds published benchmark on Voyager."
+                        note_str = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}); replicates or exceeds published benchmark."
                     elif dv >= -8.0:
                         sb_v, st_v = "BASELINE-ADJUSTED", "Baseline-Adjusted"
-                        note_str = f"Voyager {vkey} ({use_m}, Δ = {sign}{dv:.2f}% best-ckpt, {fin_v - pub_f:+.2f}% final-epoch, Peek: +{peek_v:.2f}%). {gap_diff}"
+                        note_str = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}). {gap_diff}"
                     else:
                         sb_v, st_v = "FALSIFIED", "Falsified"
-                        note_str = f"Voyager {vkey} ({use_m}, Δ = {sign}{dv:.2f}% best-ckpt, {fin_v - pub_f:+.2f}% final-epoch, Peek: +{peek_v:.2f}%). {gap_diff}"
+                        note_str = f"Δ = {sign}{dv:.2f}% vs. published ({use_m}). {gap_diff}"
                 else:
                     sb_v, st_v = "BASELINE-ADJUSTED", c3_verdict
-                    note_str = f"Voyager {vkey} ({use_m}: {best_v:.2f} ± {sd_v:.2f}%). {gap_diff}"
+                    note_str = f"{use_m}: {best_v:.2f} ± {sd_v:.2f}%. {gap_diff}"
                 executed_rows.append(
                     {
                         "dataset": ds_str,
@@ -3749,12 +3729,12 @@ def _normalize_harness_rows(
             executed_rows.append(
                 {
                     "dataset": "HDM05 (spd-bench 117-Class Skeletal)",
-                    "protocol": "50% Train / 50% Test Split (3 Seeds)",
+                    "protocol": "50% Train / 50% Test Split (5 Seeds)",
                     "published": "See Paper Table",
-                    "our_harness": f"{float(rec['accuracy']):.2f} ± {float(rec['sd']):.2f}% (Final: {float(rec.get('final_accuracy', rec.get('final_mean', rec['accuracy']))):.2f}%)",
+                    "our_harness": f"{float(rec['accuracy']):.2f} ± {float(rec['sd']):.2f}%",
                     "spdbench_verdict": "REPLICATES",
                     "status": c3_verdict,
-                    "notes": f"Executed on Voyager HDM05 ({m}).",
+                    "notes": f"Standardized 5-seed holdout on HDM05 ({m}).",
                 }
             )
             break
@@ -3767,10 +3747,10 @@ def _normalize_harness_rows(
                     "dataset": "BNCI2014-001 (BCIC-IV-2a, 4-Class MI)",
                     "protocol": "MOABB Cross-Session (0train -> 1test, 9 Subj)",
                     "published": "See Paper Table",
-                    "our_harness": f"{float(rec['mean']):.2f} ± {float(rec['sd']):.2f}% (Final: {float(rec.get('final_mean', rec['mean'])):.2f}%)",
+                    "our_harness": f"{float(rec['mean']):.2f} ± {float(rec['sd']):.2f}%",
                     "spdbench_verdict": "BASELINE-ADJUSTED",
                     "status": c3_verdict,
-                    "notes": f"Executed on Voyager BNCI2014-001 ({m}).",
+                    "notes": f"Standardized cross-session evaluation on BNCI2014-001 ({m}).",
                 }
             )
             break
@@ -3836,7 +3816,6 @@ def _render_voyager_cluster_execution_section(paper_id: str) -> str:
                 peek_v = float(rec.get("peek_inflation", mean_v - fin_v))
                 n_subj = int(rec.get("n_subjects", 0))
                 curve = [float(x) for x in rec.get("curve", [])]
-                curve_str = " $\\to$ ".join(f"{x:.1f}%" for x in curve) if curve else "N/A"
                 summary_rows.append(
                     f"""<tr>
   <td><strong>{_esc(ds_title)}</strong><br><span class="small muted">{_esc(ds_proto)}</span></td>
@@ -3844,7 +3823,6 @@ def _render_voyager_cluster_execution_section(paper_id: str) -> str:
   <td><code>{n_subj} subjects</code></td>
   <td><strong><code>${mean_v:.2f} \\pm {sd_v:.2f}\\%$</code></strong></td>
   <td><code>${fin_v:.2f} \\pm {fin_sd:.2f}\\%$</code> <span class="chip warning" style="padding:1px 4px;font-size:0.70rem">Peek +${peek_v:.2f}\\%$</span></td>
-  <td class="small"><code>{curve_str}</code></td>
 </tr>"""
                 )
                 short_ds = (
@@ -3888,7 +3866,6 @@ def _render_voyager_cluster_execution_section(paper_id: str) -> str:
                 peek_v = float(rec.get("peek_inflation", mean_v - fin_v))
                 n_seeds = int(rec.get("n_seeds", 0))
                 curve = [float(x) for x in rec.get("curve", [])][:6]
-                curve_str = " $\\to$ ".join(f"{x:.1f}%" for x in curve) if curve else "N/A"
                 summary_rows.append(
                     f"""<tr>
   <td><strong>{_esc(ds_title)}</strong><br><span class="small muted">{_esc(ds_proto)}</span></td>
@@ -3896,7 +3873,6 @@ def _render_voyager_cluster_execution_section(paper_id: str) -> str:
   <td><code>{n_seeds} seeds</code></td>
   <td><strong><code>${mean_v:.2f} \\pm {sd_v:.2f}\\%$</code></strong></td>
   <td><code>${fin_v:.2f} \\pm {fin_sd:.2f}\\%$</code> <span class="chip warning" style="padding:1px 4px;font-size:0.70rem">Peek +${peek_v:.2f}\\%$</span></td>
-  <td class="small"><code>{curve_str}</code></td>
 </tr>"""
                 )
                 if len(ds_bar_ticks) < 6:
@@ -3997,17 +3973,15 @@ def _render_voyager_cluster_execution_section(paper_id: str) -> str:
 
     hc_sum = VOYAGER_RESULTS.get("heavy_campaign_summary", {})
     n_tot_runs = int(hc_sum.get("n_total_runs", 8216))
-    n_eeg_runs = int(hc_sum.get("n_eeg_runs", 7716))
-    n_spd_runs = int(hc_sum.get("n_spd_runs", 500))
 
     return f"""<div class="panel" style="margin-top:14px">
   <div class="claim-head">
-    <span class="tag" style="border-color:var(--good);color:var(--good)">VOYAGER DISTRIBUTED CLUSTER SHARD EXECUTION</span>
-    <span class="tag">29 Datasets · {n_tot_runs:,} Runs · voyager_spdbench_results.json</span>
-    <strong>Multi-Dataset, Subject-Level &amp; Epoch-Curve Replicability ({", ".join(models)})</strong>
+    <span class="tag" style="border-color:var(--good);color:var(--good)">VOYAGER 29-DATASET BENCHMARK</span>
+    <span class="tag">{n_tot_runs:,} Total Runs</span>
+    <strong>Cross-Dataset &amp; Subject-Level Performance ({", ".join(models)})</strong>
   </div>
   <p class="small muted" style="margin:4px 0 10px">
-    Executed across distributed Voyager CPU/HPU shards (<code>{n_eeg_runs:,}</code> EEG/fMRI subject-model runs across 25 datasets + <code>{n_spd_runs:,}</code> SPD matrix runs across 4 datasets = <code>{n_tot_runs:,}</code> runs). Below are the exact per-dataset means, standard deviations, subject-by-subject accuracies ($S_1 \\dots S_N$), Cohen's $\\kappa$, and 6-stage epoch convergence trajectories.
+    Standardized validation-selected accuracy and final-epoch stability across all 29 Voyager benchmarks.
   </p>
   <div class="grid2" style="margin-bottom:12px">
     <div class="diag-card" style="background:var(--panel)">
@@ -4021,12 +3995,11 @@ def _render_voyager_cluster_execution_section(paper_id: str) -> str:
     <table class="data-table" style="font-size:0.82rem">
       <thead>
         <tr>
-          <th>Voyager Dataset &amp; Protocol</th>
+          <th>Dataset &amp; Protocol</th>
           <th>Model Variant</th>
           <th>Subjects / Seeds</th>
-          <th>Voyager Val-Selected $\\pm$ SD</th>
-          <th>Causal Final-Epoch (Stability Gap)</th>
-          <th>6-Stage Epoch Convergence Trajectory</th>
+          <th>Validation-Selected $\\pm$ SD</th>
+          <th>Final-Epoch (Peeking Gap)</th>
         </tr>
       </thead>
       <tbody>
@@ -4850,19 +4823,19 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     <div class="diag-card col-orig">
       <div class="col-banner orig"><span>CLAIM 1D-1 · LOW-CHANNEL REGIME ($d \\le 19$)</span><span class="chip good">7 Datasets</span></div>
       <p class="small" style="margin:4px 0">
-        To test whether scale-invariant correlation projection preserves discriminative power on sparse sensor montages, we compared all 6 families on the 7 low-dimensional datasets ($d \\in [2, 19]$, tangent dimension $3\\text{{--}}190$). Correlation models drop to <code>56.88%</code> (<code>-5.25 pp</code> below Riemannian BatchNorm at <code>62.13%</code>), confirming that projecting $P \\mapsto \\Delta(P)^{{-1/2}}P\\Delta(P)^{{-1/2}}$ discards up to half of the degrees of freedom when diagonal log-variance carries the primary ERD/ERS signal.
+        On sparse montages ($d \\in [2, 19]$), correlation models drop to <code>56.88%</code> (<code>-5.25 pp</code> below Riemannian BatchNorm at <code>62.13%</code>) because unit-diagonal normalization erases channel bandpower.
       </p>
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours"><span>CLAIM 1D-2 · HIGH-DENSITY EEG ($d \\in [56, 64]$)</span><span class="chip warning">11 Datasets</span></div>
       <p class="small" style="margin:4px 0">
-        To determine when spatial filterbanks outperform metric normalization, we evaluated the 11 high-density cohorts ($56\\text{{--}}64$ channels, tangent dimension $1,596\\text{{--}}2,080$). Foundational spatiotemporal filterbanks (<code>TSMNet</code>, <code>EEGSPDNet</code>, <code>Green</code>, <code>TensorCSPNet</code>) rise to #1 across all families at <code>64.45%</code> (ahead of BatchNorm at <code>63.61%</code>), suggesting that dense 60+ electrode montages provide the spatial resolution needed to isolate focal cortical sources prior to covariance pooling.
+        On high-density montages ($56\\text{{--}}64$ channels), foundational spatiotemporal filterbanks (<code>TSMNet</code>, <code>EEGSPDNet</code>, <code>Green</code>) rank #1 at <code>64.45%</code> by isolating focal cortical sources before covariance pooling.
       </p>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap"><span>CLAIM 1E · PARAMETER SCALING ($22\\text{{ch}} \\to 128\\text{{ch}}$)</span><span class="chip unresolved">$O(C)$ vs $O(C^4)$</span></div>
       <p class="small" style="margin:4px 0">
-        Because tangent dimensionality grows quadratically as $d(d+1)/2$, un-bottlenecked tangent MLPs scale as $O(C^4)$: <code>SPDTransNet</code> explodes from <code>1.22M</code> parameters at $22\\text{{ ch}}$ to <code>1.09 Billion</code> parameters at $128\\text{{ ch}}$ (<code>&times;894.2</code>) while ranking #37 (<code>56.09%</code>). In contrast, spatial-stem bottleneck models compress $C \\to 24 \\to 16$, so <code>#01 ARMAGNAC-GAH</code> requires only <code>4,269</code> parameters at $22\\text{{ ch}}$ and <code>17,837</code> at $128\\text{{ ch}}$ (<code>&times;4.2</code>) while achieving <code>66.42%</code> (#1).
+        Un-bottlenecked tangent MLPs scale as $O(C^4)$ (<code>SPDTransNet</code> grows from <code>1.22M</code> to <code>1.09B</code> params at $128\\text{{ ch}}$, rank #37), whereas spatial-stem bottleneck models like <code>#01 ARMAGNAC-GAH</code> require only <code>4.3K</code> to <code>17.8K</code> parameters.
       </p>
     </div>
   </div>
@@ -5049,19 +5022,19 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
     <div class="diag-card col-orig">
       <div class="col-banner orig"><span>CRITIQUE 1 · THE 7-YEAR METRIC EQUIVALENCE LAW</span><span class="chip good">Wilcoxon $p \\ge 0.40$</span></div>
       <p class="small" style="margin:4px 0">
-        To test whether post-2019 Riemannian metrics improve generalization when the front-end stem is held constant, we compared 2019 <code>SPDNetBN</code> against all 2024&ndash;2026 BatchNorm models across all $N=306$ paired subjects/seeds and 29 datasets. Neither <code>ARMAGNAC-GAH</code> ($\\Delta = +0.19\\%$, median $0.00\\%$, $p = 0.613$), <code>ARMAGNAC-Harmonic</code> ($\\Delta = +0.29\\%$, median $0.00\\%$, $p = 0.403$), nor <code>GBWBN</code> ($\\Delta = +0.07\\%$, median $0.00\\%$, $p = 0.566$) differs significantly from 2019 <code>SPDNetBN</code>, whereas <code>LieBN-AIM</code> ($-1.76\\%$, $p = 1.2 \\times 10^{{-6}}$) and <code>CBN</code> ($-4.59\\%$, $p = 1.5 \\times 10^{{-16}}$) significantly degrade accuracy. Published gains in 2020&ndash;2026 papers came from comparing against un-normalized 2017 <code>SPDNet</code> without a temporal stem ($-4.31\\%$, $p = 1.5 \\times 10^{{-12}}$).
+        Across all $N=306$ paired subjects/seeds and 29 datasets, 2025&ndash;2026 <code>ARMAGNAC-GAH</code> ($p = 0.613$), <code>ARMAGNAC-Harmonic</code> ($p = 0.403$), and <code>GBWBN</code> ($p = 0.566$) are statistically indistinguishable from 2019 <code>SPDNetBN</code> once the <code>+TSM</code> stem is held constant.
       </p>
     </div>
     <div class="diag-card col-ours">
       <div class="col-banner ours"><span>CRITIQUE 2 · TWO-WAY ANOVA VARIANCE PARTITION</span><span class="chip warning">Interaction = $4.3\\times$ Model</span></div>
       <p class="small" style="margin:4px 0">
-        Partitioning total sum-of-squares across all <code>1,131</code> cells (<code>39 models &times; 29 datasets</code>) shows that dataset SNR accounts for <code>91.83%</code> of total variance, the <strong>Model &times; Dataset interaction accounts for <code>6.64%</code></strong>, and the main effect of global model identity accounts for only <code>1.54%</code>. Within datasets (after Z-scoring), <strong><code>81.2%</code> of variance lies in the Model &times; Dataset interaction</strong> versus <code>18.8%</code> in global model rank. Overall, these results show that matching the front-end filterbank to the signal regime matters $4.3\\times$ more than the choice of manifold layer.
+        Across all <code>1,131</code> cells, the <strong>Model &times; Dataset interaction accounts for $4.3\\times$ more variance (<code>6.64%</code>) than global model identity (<code>1.54%</code>)</strong>, showing that matching the front-end filterbank to the signal regime dominates the choice of manifold layer.
       </p>
     </div>
     <div class="diag-card col-gap">
       <div class="col-banner gap"><span>CRITIQUE 3 · SINGLE-BENCHMARK OVERFITTING FALLACY</span><span class="chip unresolved">$\\bar{{\\rho}} = +0.25$</span></div>
       <p class="small" style="margin:4px 0">
-        Although 22 of 27 audited papers select hyperparameters on <code>BNCI2014-001</code> (9 subjects) or <code>HDM05</code>, the 39-model ranking on <code>BNCI2014-001</code> has a mean Spearman correlation of only $\\bar{{\\rho}} = +0.25$ ($R^2 = 6.3\\%$) with the other 28 datasets, dropping to $\\rho \\le 0.04$ on clinical pathology (<code>TUAB</code> $+0.04$), resting-state connectomes (<code>LEMON</code> $-0.01$), ERP (<code>BCI-ERN</code> $-0.15$), and workload (<code>Hinss2021</code> $-0.27$). <code>HDM05</code> rankings negatively correlate with sleep (<code>MASS-SS3</code> $-0.39$) and clinical EEG (<code>TUAB</code> $-0.24$).
+        Model rankings on <code>BNCI2014-001</code> correlate at only $\\bar{{\\rho}} = +0.25$ ($R^2 = 6.3\\%$) with the other 28 datasets, dropping to $\\rho \\le 0.04$ on clinical EEG (<code>TUAB</code>), resting-state connectomes (<code>LEMON</code>), ERP, and workload.
       </p>
     </div>
   </div>
@@ -5538,7 +5511,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         <strong>2. Manifold Matrix Size Scaling, Parameter Complexity Pareto Frontier &amp; Peeking Stability</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
-        To test how Riemannian architectures scale with sensor density $d$ and parameter count, we stratified all 29 datasets into four covariance dimension regimes ($d \\in [2, 19]$, $[20, 32]$, $[56, 64]$, and $[93, 400]$) and measured exact parameter growth from canonical $22\\text{{ ch}}$ to high-density $128\\text{{ ch}}$.
+        Accuracy across four covariance dimension regimes ($d \\in [2, 19]$, $[20, 32]$, $[56, 64]$, and $[93, 400]$) and parameter growth from $22\\text{{ ch}}$ to $128\\text{{ ch}}$.
       </p>
       {scaling_section_html}
     </div>
@@ -5552,7 +5525,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         <strong>3. Critical Analysis of the 2017&ndash;2026 Literature, Benchmark Transfer Failure &amp; Live Head-to-Head Comparator</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
-        Beyond aggregate rankings, we audited whether nine years of Riemannian deep learning architectures (2017&ndash;2026) represent genuine algorithmic progress once front-end temporal filtering and evaluation splits are controlled across all $N=306$ independent subjects/seeds (<code>1,131</code> cells, <code>11,884</code> runs).
+        Chronological audit (2017&ndash;2026), Two-Way ANOVA variance partition, Spearman rank transfer across datasets, and paired Wilcoxon tests ($N=306$).
       </p>
       {critical_analysis_html}
     </div>
@@ -5566,7 +5539,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         <strong>4. Motor-Imagery, ERP &amp; SSVEP BCI Generalization Matrix (15 Datasets &times; 39 Models, Mean &plusmn; SD %)</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
-        Evaluated at 100% native channel dimensionality (up to <code>128×128</code> on <code>Schirrmeister2017</code>, <code>64×64</code> on <code>Cho2017</code>, <code>PhysionetMI</code>, and <code>MAMEM2</code>, <code>62×62</code> on <code>Lee2019-MI</code>, <code>Stieger2021</code>, and <code>Hinss2021</code>, and <code>60×60</code> on <code>Weibo2014</code>). Geodesic and harmonic batch normalization paired with spatiotemporal conv stems (<code>ARMAGNAC-Harmonic</code> <code>64.62%</code>, <code>ARMAGNAC-GAH</code> <code>64.12%</code>, <code>GBWBN</code> <code>63.97%</code>) and high-order Lovrić pooling (<code>RHOP</code> <code>63.96%</code>) lead across the 15 cohorts, while parameter-free <code>SPDMetaFormer</code> (<code>62.85%</code>) and channel-specific filterbank <code>EEGSPDNet</code> (<code>62.72%</code>) lead all standalone end-to-end models.
+        Evaluated at 100% native channel counts (up to $128\\times 128$). <code>ARMAGNAC-Harmonic</code> (<code>64.62%</code>), <code>ARMAGNAC-GAH</code> (<code>64.12%</code>), and <code>GBWBN</code> (<code>63.97%</code>) lead overall; <code>SPDMetaFormer</code> (<code>62.85%</code>) leads standalone models.
       </p>
       {matrix_lens_bar_html}
       <div class="bm-table-wrap">
@@ -5586,7 +5559,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         <strong>5. Clinical, Sleep, Resting-State, ERP, Affective &amp; fMRI Connectivity Matrix (10 Datasets &times; 39 Models, Mean &plusmn; SD %)</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
-        Spans clinical neurology (<code>TUAB</code>, <code>TUEV</code>), polysomnography sleep staging (<code>Sleep-EDFX</code>, <code>MASS-SS3</code>), resting-state alpha/beta oscillatory topography (<code>LEMON</code> 61 ch), auditory oddball ERP (<code>TDBRAIN</code> 26 ch), affective EEG (<code>SEED</code> 62 ch, <code>DEAP</code> 32 ch), and whole-brain resting-state fMRI functional connectivity (<code>ABIDE</code> <code>200×200</code> Craddock ROI, <code>ADHD-200</code> <code>190×190</code> ROI). Learnable Gabor wavelets in <code>Green</code> achieve the highest domain mean (<code>68.16%</code>), closely followed by <code>SPDResNet-ALEM</code> (<code>68.13%</code>), <code>GBWAtt</code> (<code>67.63%</code>), and <code>SPDNetBN</code> (<code>67.37%</code>).
+        Clinical EEG (<code>TUAB</code>, <code>TUEV</code>), sleep PSG (<code>Sleep-EDFX</code>, <code>MASS-SS3</code>), resting/ERP/affective EEG, and fMRI connectomes (<code>ABIDE</code> $200\\times 200$, <code>ADHD-200</code> $190\\times 190$). <code>Green</code> leads at <code>68.16%</code>.
       </p>
       {matrix_lens_bar_html}
       <div class="bm-table-wrap">
@@ -5606,7 +5579,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         <strong>6. Action Recognition, Micro-Doppler Radar &amp; Video Emotion SPD Matrix Benchmark (39/39 Models &times; 5 Seeds)</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
-        Evaluated across 5 random seeds (<code>1024..1028</code>) with held-out validation checkpoint selection on <code>spd-bench</code>. On high-dimensional SPD manifolds where no temporal EEG waveform exists, Riemannian batch normalization and gyrovector layers dominate: <code>ARMAGNAC-GAH</code> leads overall (<code>73.95%</code> mean across the 4 datasets, <code>71.75%</code> on 117-class <code>HDM05</code>), followed by <code>GBWBN</code> (<code>73.44%</code>), <code>SPDNetBN</code> (<code>73.28%</code>), <code>GyroSPD</code> (<code>73.14%</code>), and <code>LieBN-AIM</code> (<code>73.05%</code>).
+        Evaluated across 5 seeds with validation checkpoint selection. <code>ARMAGNAC-GAH</code> leads at <code>73.95%</code> (<code>71.75%</code> on <code>HDM05</code>), followed by <code>GBWBN</code> (<code>73.44%</code>) and <code>SPDNetBN</code> (<code>73.28%</code>).
       </p>
       {matrix_lens_bar_html}
       <div class="bm-table-wrap">
@@ -5637,7 +5610,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         <strong>7. Complete 29-Dataset Native SPD Geometry, Tangent Dimensionality &amp; Winner Inventory</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
-        Every dataset's clinical or BCI paradigm, native covariance dimension $d\\times d$, tangent vector dimension $d(d+1)/2$, evaluation population (subjects or seeds), theoretical chance level, #1 winning architecture, #2 runner-up, and 39-model median and accuracy spread.
+        Native covariance dimension $d\\times d$, tangent dimension $d(d+1)/2$, evaluation population, chance level, and top models per dataset.
       </p>
       <div style="overflow-x:auto">
         <table class="data-table" style="font-size:0.78rem">
@@ -5660,13 +5633,13 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
 
     return f"""<div class="panel">
   <div class="claim-head">
-    <span class="tag" style="border-color:var(--good);color:var(--good)">VOYAGER DISTRIBUTED CLUSTER SHARD MATRIX</span>
+    <span class="tag" style="border-color:var(--good);color:var(--good)">VOYAGER 29&times;39 BENCHMARK SUITE</span>
     <span class="tag">29 Datasets · 39 Models · {n_tot_runs:,} Total Runs</span>
-    <strong>Cross-Model &times; Cross-Dataset Empirical Benchmark Suite (<code>repro/voyager_spdbench_results.json</code>)</strong>
+    <strong>Cross-Model &times; Cross-Dataset Empirical Benchmark Suite</strong>
     <a class="small" href="generalization/index.html" style="margin-left:auto;font-weight:700">Open Dedicated Generalization (29&times;39) Tab →</a>
   </div>
   <p class="small muted" style="margin:4px 0 10px">
-    All 29 datasets executed on the SDSC Voyager cluster (<code>{n_eeg_runs:,}</code> EEG/fMRI runs + <code>{n_spd_runs:,}</code> SPD matrix runs = <code>{n_tot_runs:,}</code> total runs) using 100% native channel counts, stratified validation checkpoint selection (zero test-set peeking), and the unified <code>spd_learn</code> API. Cells marked <strong style="color:var(--good)"><code>★</code></strong> denote the #1 model on that dataset; shaded green cells denote Top-3 finishes.
+    All 29 datasets evaluated with 100% native channel counts and validation checkpoint selection (zero test-set peeking). <strong style="color:var(--good)"><code>★</code></strong> marks the #1 model per dataset; green shading marks Top-3 finishes.
   </p>
 
   <h3 style="margin:10px 0 6px;font-size:0.95rem">1. Global 39-Model Ranking &amp; Critical-Difference Forest Plot Across All 29 Datasets</h3>
@@ -5751,7 +5724,7 @@ def _render_master_gap_forest_svg(
     w, h = 1180, 672
     pad_t, row_h = 56, 21.8
     c2_l, c2_r = 300.0, 560.0
-    c3_l, c3_r = 588.0, 816.0
+    c3_l, c3_r = 588.0, 790.0
 
     def x_acc(pct: float) -> float:
         clamped = max(40.0, min(100.0, pct))
@@ -5801,8 +5774,10 @@ def _render_master_gap_forest_svg(
         ds_short = r0.get("dataset", "MOABB").split("(")[0].strip()
         pub_v = _extract_first_float(r0.get("published", "74.0"), 74.0)
         ours_v = _extract_first_float(r0.get("our_harness", "73.0"), pub_v - 1.0)
-        dm = re.search(r"([-+]?\d+\.\d+)\s*%", gap_spec["headline_delta"])
-        delta_v = float(dm.group(1)) if dm else (ours_v - pub_v)
+        dm = re.search(r"([+-]\d+\.\d+)\s*%", gap_spec["headline_delta"])
+        pub_raw_l = str(r0.get("published", "")).lower()
+        has_num_pub = (20.0 <= pub_v <= 100.0) and ("see paper" not in pub_raw_l) and ("no tabulated" not in pub_raw_l)
+        delta_v = (ours_v - pub_v) if has_num_pub else (float(dm.group(1)) if dm else (ours_v - pub_v))
 
         ry = pad_t + idx * row_h + 8.0
         lines.append(f'<a href="{paper_href_prefix}{pid}/index.html" style="text-decoration:none">')
@@ -5850,7 +5825,7 @@ def _render_master_gap_forest_svg(
         )
 
         # Col 4: Concise root-cause summary (strip redundant parenthetical delta already shown in Col 3)
-        cause = gap_spec["gap_label"].split("(")[0].strip()
+        cause = _clean_label(gap_spec["gap_label"].split("(")[0].strip(), 55)
         lines.append(
             f'<text x="828" y="{ry:.1f}" class="svg-tick" style="fill:var(--text2)">{_esc_svg(cause)}</text>'
         )
@@ -5901,9 +5876,9 @@ def _render_paper_top_tri_summary(
       <table class="data-table" style="font-size:0.78rem">
         <tbody>
           <tr><th style="width:115px">Split &amp; Harness</th><td><code>{_esc(cfg.get("split_protocol", ""))}</code></td></tr>
-          <tr><th>Preprocessing</th><td>{_latexify_prose(cfg.get("preprocessing", ""))}</td></tr>
+          <tr><th>Preprocessing</th><td>{_short_prose(cfg.get("preprocessing", ""), 130)}</td></tr>
           <tr><th>Architecture</th><td><code>{_esc(cfg.get("architecture", ""))}</code></td></tr>
-          <tr><th>Metric &amp; Reg $\\epsilon$</th><td>{_latexify_prose(cfg.get("metric_and_reg", ""))}</td></tr>
+          <tr><th>Metric &amp; Reg $\\epsilon$</th><td>{_short_prose(cfg.get("metric_and_reg", ""), 130)}</td></tr>
           <tr><th>Optimizer</th><td><code>{_esc(cfg.get("optimizer_recipe", ""))}</code></td></tr>
         </tbody>
       </table>
@@ -5931,20 +5906,16 @@ def _render_paper_top_tri_summary(
         <code>{_esc(short_delta)}</code>
       </div>
       <div class="diff-box">
-        <div class="diff-label" style="color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</div>
-        <p>{_latexify_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]))}</p>
+        <div class="diff-label" style="color:var(--spd-blue)">Original Protocol / Code Issue</div>
+        <p>{_short_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]), 145)}</p>
       </div>
       <div class="diff-box">
-        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix</div>
-        <p>{_latexify_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]))}</p>
-      </div>
-      <div class="diff-box">
-        <div class="diff-label">Dataloader &amp; Preprocessing Diff</div>
-        <p>{_latexify_prose(gap_spec["dataloader_diff"])}</p>
+        <div class="diff-label" style="color:var(--good)">Our <code>spd_learn</code> Fix</div>
+        <p>{_short_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]), 145)}</p>
       </div>
       <div class="diff-box warn">
-        <div class="diff-label">Where It Fails / Struggles</div>
-        <p>{_latexify_prose(gap_spec["where_it_struggles"])}</p>
+        <div class="diff-label">Where It Struggles</div>
+        <p>{_short_prose(gap_spec["where_it_struggles"], 145)}</p>
       </div>
     </div>
   </div>
@@ -5962,7 +5933,6 @@ def build_paper_detail_page(
 ) -> str:
     pid = p_meta["paper_id"]
     fig_meta = PAPER_FIGURES_METADATA[pid]
-    verifier_src = VERIFIER_SOURCES.get(f"verify_{pid}", "")
 
     section_heading = fig_meta.get("section_heading", p_meta["title"])
     moreau_audit = fig_meta.get("moreau_audit", {})
@@ -5979,7 +5949,7 @@ def build_paper_detail_page(
         )
         claims_html.append(
             f"""<li class="claim" id="{cid}">
-  <details open>
+  <details>
     <summary>
       <div class="claim-head">
         {_verdict_chip(v["verdict"], v["points"])}
@@ -5995,26 +5965,6 @@ def build_paper_detail_page(
 </li>"""
         )
 
-    repro_panels_html = []
-    for idx, rpan in enumerate(fig_meta["reproduced_panels"]):
-        cid = f"{pid}_c{idx + 1}"
-        v = verdicts_by_id[cid]
-        repro_panels_html.append(
-            f"""<div class="diag-card">
-  <div class="claim-head">
-    <span class="tag">{_esc(rpan["panel_id"])}</span>
-    {_verdict_chip(v["verdict"], v["points"])}
-  </div>
-  {svg_panels[idx]}
-  <div class="small">
-    <p style="margin:3px 0"><strong>{_esc(rpan["title"])}</strong></p>
-    <p class="muted" style="margin:2px 0;font-size:0.78rem">{_esc(rpan["exact_reading"])}</p>
-  </div>
-</div>"""
-        )
-
-    ponytail_items = "".join(f"<li>{_latexify_prose(n)}</li>" for n in fig_meta["ponytail_notes"])
-    targets_items = "".join(f"<li><code>{_esc(t)}</code></li>" for t in p_meta["spd_learn_targets"])
     targets_inline = " ".join(f"<code>{_esc(t)}</code>" for t in p_meta["spd_learn_targets"])
     imp_data = ARXIV_IMPORTED_DATA.get(pid, {})
     exp_cfg = imp_data.get("experiment_config", {})
@@ -6023,33 +5973,34 @@ def build_paper_detail_page(
     imp_tables_html = _render_imported_tables_section(pid, harness_rows)
     voyager_exec_html = _render_voyager_cluster_execution_section(pid)
 
-    paper_details_html = f"""<div class="panel" style="margin-top:12px">
-    <div class="claim-head">
-      <span class="tag">Paper Overview &amp; Mathematical Spec</span>
-      <strong>{_esc(p_meta["title"])} ({_esc(p_meta["venue"])})</strong>
-      <span class="small muted" style="margin-left:auto">{len(sbs_cards)} Figures · {n_imp_tables} Paper Tables · {len(harness_rows)} Voyager Benchmarks</span>
-    </div>
-    <div style="display:grid;grid-template-columns:1.05fr 1fr;gap:14px;margin-top:10px">
-      <div class="diag-card" style="background:var(--panel)">
-        <div class="diff-label" style="color:var(--accent-primary);margin-bottom:6px">Paper Abstract &amp; Core Formulation</div>
-        <p style="margin:0;font-size:0.84rem;line-height:1.55">{_latexify_prose(abstract_text)}</p>
+    paper_details_html = f"""<details class="panel-collapse">
+      <summary>
+        <span>Paper Abstract &amp; Full Mathematical Specification ({_esc(p_meta["venue"])})</span>
+        <span class="tag">Click to Expand</span>
+      </summary>
+      <div class="collapse-body">
+        <div style="display:grid;grid-template-columns:1.05fr 1fr;gap:14px;margin-top:10px">
+          <div class="diag-card" style="background:var(--panel)">
+            <div class="diff-label" style="color:var(--accent-primary);margin-bottom:6px">Paper Abstract</div>
+            <p style="margin:0;font-size:0.83rem;line-height:1.5">{_latexify_prose(abstract_text)}</p>
+          </div>
+          <div class="diag-card" style="background:var(--panel)">
+            <div class="diff-label" style="color:var(--accent-primary);margin-bottom:6px">Full Architecture &amp; Dataloader Specification</div>
+            <table class="data-table" style="font-size:0.78rem">
+              <tbody>
+                <tr><th style="width:140px">Authors &amp; Venue</th><td>{_esc(", ".join(p_meta["authors"]))} ({_esc(p_meta["venue"])})</td></tr>
+                <tr><th>spd_learn Symbols</th><td>{targets_inline}</td></tr>
+                <tr><th>Manifold Geometry</th><td>{_latexify_prose(fig_meta.get("geometry", ""))}</td></tr>
+                <tr><th>Metric &amp; Reg $\\epsilon$</th><td>{_latexify_prose(exp_cfg.get("metric_and_reg", ""))}</td></tr>
+                <tr><th>Layer-by-Layer Arch</th><td><code>{_esc(exp_cfg.get("architecture", ""))}</code></td></tr>
+                <tr><th>Dataloader &amp; Windows</th><td>{_latexify_prose(exp_cfg.get("preprocessing", ""))}</td></tr>
+                <tr><th>Optimizer &amp; Recipe</th><td><code>{_esc(exp_cfg.get("optimizer_recipe", ""))}</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-      <div class="diag-card" style="background:var(--panel)">
-        <div class="diff-label" style="color:var(--accent-primary);margin-bottom:6px">Complete Architecture, Manifold &amp; Dataloader Specification</div>
-        <table class="data-table" style="font-size:0.78rem">
-          <tbody>
-            <tr><th style="width:140px">Authors &amp; Venue</th><td>{_esc(", ".join(p_meta["authors"]))} ({_esc(p_meta["venue"])})</td></tr>
-            <tr><th>spd_learn Symbols</th><td>{targets_inline}</td></tr>
-            <tr><th>Manifold Geometry</th><td>{_latexify_prose(fig_meta.get("geometry", ""))}</td></tr>
-            <tr><th>Metric &amp; Reg $\\epsilon$</th><td>{_latexify_prose(exp_cfg.get("metric_and_reg", ""))}</td></tr>
-            <tr><th>Layer-by-Layer Arch</th><td><code>{_esc(exp_cfg.get("architecture", ""))}</code></td></tr>
-            <tr><th>Dataloader &amp; Windows</th><td>{_latexify_prose(exp_cfg.get("preprocessing", ""))}</td></tr>
-            <tr><th>Optimizer &amp; Recipe</th><td><code>{_esc(exp_cfg.get("optimizer_recipe", ""))}</code></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>"""
+    </details>"""
 
     return (
         _top_bar("../../", "papers", p_challenge["name"])
@@ -6064,7 +6015,6 @@ def build_paper_detail_page(
   <h1>{_esc(section_heading)}</h1>
   <p class="lede">
     <strong>{_esc(p_meta["title"])}</strong> ({_esc(", ".join(p_meta["authors"][:4]))}{" et al." if len(p_meta["authors"]) > 4 else ""}) ·
-    <strong>Geometry:</strong> {_latexify_prose(fig_meta["geometry"])} ·
     <a href="{_esc(p_meta["url"])}" target="_blank" rel="noopener">Paper / Code ↗</a> ·
     Branch: <code>{_esc(p_meta["worktree_branch"])}</code>
   </p>
@@ -6072,21 +6022,20 @@ def build_paper_detail_page(
 
 <main>
   {top_tri_html}
-  {paper_details_html}
 
   <div class="tabs" role="tablist">
     <button type="button" role="tab" data-panel="ALL" aria-selected="true">All Sections (Full Page)</button>
     <button type="button" role="tab" data-panel="tab-figures" aria-selected="false">1. Figures: Original | Ours | The Gap <span class="n">{len(sbs_cards)}</span></button>
     <button type="button" role="tab" data-panel="tab-tables" aria-selected="false">2. Paper Tables: Original | Ours | The Gap <span class="n">{n_imp_tables}</span></button>
     <button type="button" role="tab" data-panel="tab-generalization" aria-selected="false">3. Generalization Experiments <span class="n">29 DS</span></button>
-    <button type="button" role="tab" data-panel="tab-claims" aria-selected="false">4. Author Code Flaws, Protocol Diffs &amp; Claims <span class="n">3</span></button>
+    <button type="button" role="tab" data-panel="tab-claims" aria-selected="false">4. Technical Notes &amp; Logs <span class="n">3</span></button>
   </div>
 
   <section class="tabpanel" id="tab-figures">
     <div class="panel">
       <div class="claim-head">
-        <h2 style="margin:0">Every Paper Figure: 1. Original Figure | 2. Our Replicability (All Sub-Plots) | 3. The Gap &amp; Why ({len(sbs_cards)} Figures)</h2>
-        <span class="small muted" style="margin-left:auto">Blue = Published · Red = Ours (Voyager spd_learn)</span>
+        <h2 style="margin:0">Paper Figures: 1. Original Figure | 2. Our Replicability | 3. The Gap ({len(sbs_cards)} Figures)</h2>
+        <span class="small muted" style="margin-left:auto">Blue = Published · Red = Ours (spd_learn)</span>
       </div>
       {"".join(sbs_cards)}
     </div>
@@ -6094,7 +6043,7 @@ def build_paper_detail_page(
 
   <section class="tabpanel" id="tab-tables">
     <div class="panel">
-      <h2>All Paper Tables: 1. Original Table | 2. Our Replicability | 3. The Gap &amp; Why ({n_imp_tables} Tables)</h2>
+      <h2>Paper Tables: 1. Original Table | 2. Our Replicability | 3. The Gap ({n_imp_tables} Tables)</h2>
       {imp_tables_html}
     </div>
   </section>
@@ -6103,7 +6052,7 @@ def build_paper_detail_page(
     <div class="panel" style="margin-bottom:10px;padding:10px 14px;background:var(--surface)">
       <div class="claim-head" style="margin:0">
         <span class="tag" style="border-color:var(--good);color:var(--good)">CROSS-DOMAIN GENERALIZATION BENCHMARK</span>
-        <strong>How <code>{_esc(pid)}</code> Generalizes Across All 29 Voyager Datasets (25 EEG/fMRI + 4 SPD Matrix Benchmarks)</strong>
+        <strong><code>{_esc(pid)}</code> Across All 29 Voyager Datasets (25 EEG/fMRI + 4 SPD Matrix Benchmarks)</strong>
         <a class="small" href="../../generalization/index.html" style="margin-left:auto;font-weight:600">Open Full 39-Model &times; 29-Dataset Generalization Suite →</a>
       </div>
     </div>
@@ -6112,25 +6061,29 @@ def build_paper_detail_page(
 
   <section class="tabpanel" id="tab-claims">
     <div class="panel">
-      <h2>Deep-Dive Root-Cause Attribution (Original Authors' Code vs. Our Code), Failure Modes &amp; Practitioner Guidance</h2>
+      <h2>Technical Notes, Protocol Differences &amp; Practitioner Guidance</h2>
       <table class="data-table">
         <tbody>
-          <tr><th style="width:230px;color:var(--spd-blue)">Original Authors' Code / Protocol Root Cause</th><td>{_latexify_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]))}</td></tr>
-          <tr><th style="color:var(--good)">Our <code>spd_learn</code> Code / Harness Fix Applied</th><td>{_latexify_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]))}</td></tr>
+          <tr><th style="width:220px;color:var(--spd-blue)">Original Protocol / Code Issue</th><td>{_latexify_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]))}</td></tr>
+          <tr><th style="color:var(--good)">Our <code>spd_learn</code> Fix Applied</th><td>{_latexify_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]))}</td></tr>
           <tr><th>Dataloader &amp; Preprocessing Diff</th><td>{_latexify_prose(gap_spec["dataloader_diff"])}</td></tr>
           <tr><th>Architecture &amp; Optimizer Diff</th><td>{_latexify_prose(gap_spec["arch_optim_diff"])}</td></tr>
           <tr><th>Where It Struggles / Diverges</th><td>{_latexify_prose(gap_spec["where_it_struggles"])}</td></tr>
-          <tr><th>Primary Mathematical Failure Mode</th><td>{_latexify_prose(moreau_audit.get("failure_mode", ""))}</td></tr>
-          <tr><th>Silent Diagnostic Risk</th><td>{_latexify_prose(moreau_audit.get("diagnostic_risk", ""))}</td></tr>
           <tr><th>Practitioner Recommendation</th><td><strong>{_latexify_prose(moreau_audit.get("recommendation", ""))}</strong></td></tr>
         </tbody>
       </table>
-    </div>
-    <div class="panel">
-      <h2>Audited 3-Tier Anchor Claims (ICML 2026 / NEMAR Protocol)</h2>
-      <ul class="claims">
-        {"".join(claims_html)}
-      </ul>
+      {paper_details_html}
+      <details class="panel-collapse">
+        <summary>
+          <span>Audited 3-Tier Anchor Claims &amp; Verification Metrics (3 Claims)</span>
+          <span class="tag">Click to Expand</span>
+        </summary>
+        <div class="collapse-body" style="padding-top:10px">
+          <ul class="claims">
+            {"".join(claims_html)}
+          </ul>
+        </div>
+      </details>
     </div>
   </section>
 </main>
@@ -6315,10 +6268,10 @@ def build_all() -> None:
       <code>{_esc(short_delta)}</code>
     </div>
     <p class="small muted" style="margin:0 0 3px;font-size:0.77rem;line-height:1.35">
-      <strong style="color:var(--spd-blue)">Orig Code / Protocol:</strong> {_latexify_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]))}
+      <strong style="color:var(--spd-blue)">Original Issue:</strong> {_short_prose(gap_spec.get("original_code_issue", gap_spec["dataloader_diff"]), 135)}
     </p>
     <p class="small muted" style="margin:0;font-size:0.77rem;line-height:1.35">
-      <strong style="color:var(--good)">Our <code>spd_learn</code> Fix:</strong> {_latexify_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]))}
+      <strong style="color:var(--good)">Our Fix:</strong> {_short_prose(gap_spec.get("our_code_fix", gap_spec["arch_optim_diff"]), 135)}
     </p>
   </div>
 </div>"""
@@ -6358,8 +6311,8 @@ def build_all() -> None:
   </div>
   <h2 style="margin-bottom:4px"><a href="../papers/{pid}/index.html">{_esc(section_heading)}</a></h2>
   <p class="small muted" style="margin:0 0 8px">
-    <strong>Dataloader / Protocol Diff:</strong> {_latexify_prose(gap_spec["dataloader_diff"])} ·
-    <strong>Where It Struggles:</strong> {_latexify_prose(gap_spec["where_it_struggles"])}
+    <strong>Protocol Diff:</strong> {_short_prose(gap_spec["dataloader_diff"], 145)} ·
+    <strong>Boundary Regime:</strong> {_short_prose(gap_spec["where_it_struggles"], 145)}
   </p>
   {"".join(sbs_cards_atlas)}
   <details class="panel-collapse" style="margin-top:10px">
@@ -6419,7 +6372,7 @@ def build_all() -> None:
       <button type="button" class="filter-btn" data-filter="exact"><span style="color:var(--good)">●</span> Verified / Beats Baseline ({n_exact_gap})</button>
       <button type="button" class="filter-btn" data-filter="moderate"><span style="color:var(--warning)">●</span> Dataloader / Filterbank Gap ({n_mod_gap})</button>
       <button type="button" class="filter-btn" data-filter="large"><span style="color:var(--critical)">●</span> Author Leakage / Peeking / Design Flaw ({n_div_gap})</button>
-      <input type="search" class="search-input" id="paper-search" placeholder="Filter by paper, dataset, or author flaw (e.g. test peeking, transductive BN, GREEN, Phase-SPDNet)..." aria-label="Filter papers"/>
+      <input type="search" class="search-input" id="paper-search" placeholder="Filter by paper, dataset, or protocol issue (e.g. peeking, transductive BN, GREEN, Phase-SPDNet)..." aria-label="Filter papers"/>
     </div>"""
 
     filter_script_js = """<script>(function(){
@@ -6458,7 +6411,7 @@ if(inp)inp.addEventListener('input',apply);
   <div class="eyebrow">SPD Replicability &amp; Generation Initiative · 27 Papers · {total_sbs_figs} Figures · {total_ds_evals} Benchmarks</div>
   <h1>Original Figure &nbsp;|&nbsp; Our Replicability &nbsp;|&nbsp; The Gap &amp; Root-Cause Attribution</h1>
   <p class="lede">
-    Systematic replication and generation initiative across 27 Riemannian SPD architectures (2017–2026) in <code>spd_learn</code> on MOABB and <code>spd-bench</code>. Every paper, figure, and table is presented in a unified 3-column layout isolating <strong>(1) Original Authors' Code / Protocol Root Causes</strong> (such as <code>GREEN</code>'s resting-state $[1, 8]\\text{{ Hz}}$ default wavelets and custom MNE-BIDS + <code>autoreject</code> dataloader, <code>TSMNet</code>'s transductive test-session BN, <code>SPDTransNet</code>'s full-recording whitening without spatial <code>BiMap</code>, <code>RCEEGNet</code>'s <code>ReLU</code> before uncentered covariance, or <code>CorNet</code>'s hollow correlation projection discarding diagonal ERD/ERS variance) vs. <strong>(2) Our Repaired <code>spd_learn</code> Code &amp; Harness Fixes</strong>.
+    Systematic replication and out-of-distribution generalization benchmark across 27 Riemannian SPD architectures (2017–2026) in <code>spd_learn</code>. Every paper, figure, and table is presented in a 3-column layout isolating original protocol differences from our standardized <code>spd_learn</code> implementations.
   </p>
 </header>
 
@@ -6466,7 +6419,7 @@ if(inp)inp.addEventListener('input',apply);
   <section aria-label="Key Metrics">
     <div class="tiles">
       <div class="tile"><div class="n">27</div><div class="l">SPD Papers Audited</div><div class="sub-l">9 Foundational + 18 Recent (2017–2026)</div></div>
-      <div class="tile"><div class="n" style="color:var(--critical)">{n_mod_gap + n_div_gap} / 27</div><div class="l">Human / Author Protocol Gaps</div><div class="sub-l">{n_div_gap} Leakage / Peeking / Flaw · {n_mod_gap} Dataloader Gaps</div></div>
+      <div class="tile"><div class="n" style="color:var(--critical)">{n_mod_gap + n_div_gap} / 27</div><div class="l">Protocol / Baseline Gaps</div><div class="sub-l">{n_div_gap} Leakage / Peeking · {n_mod_gap} Dataloader Gaps</div></div>
       <div class="tile"><div class="n" style="color:var(--good)">{n_exact_gap} / 27</div><div class="l">Match or Beat Baseline</div><div class="sub-l">SPDNetBN (+6.4%), ARMAGNAC, Phase-SPDNet</div></div>
       <div class="tile"><div class="n" style="color:var(--warning)">+1.77%</div><div class="l">Mean Test-Peeking Inflation</div><div class="sub-l">Up to +36.3% (Best-Ckpt vs. Causal Final)</div></div>
       <div class="tile"><div class="n">11,884</div><div class="l">Executed Voyager Runs</div><div class="sub-l">11,104 EEG/fMRI + 780 SPD Runs (39&times;29)</div></div>
@@ -6481,7 +6434,7 @@ if(inp)inp.addEventListener('input',apply);
         <strong>Voyager Out-of-Distribution Generalization Suite (<code>1,131</code> Model-Dataset Cells)</strong>
       </div>
       <p class="small muted" style="margin:0">
-        Every architecture in <code>spd_learn</code> (<code>27</code> audited papers plus <code>12</code> controlled ablations and domain-transfer wrappers) evaluated across all <code>29</code> datasets at <code>100%</code> native EEG/fMRI channels with strict validation-split (<code>85% train / 15% val</code>) checkpoint selection.
+        All 39 <code>spd_learn</code> architectures evaluated across 29 datasets at 100% native channel dimensionality with strict validation-split checkpoint selection.
       </p>
     </div>
     <a class="tag" style="border-color:var(--good);color:var(--good);font-weight:700;padding:8px 14px;font-size:0.86rem" href="generalization/index.html">Open Generalization Suite (29&times;39) &rarr;</a>
@@ -6491,7 +6444,7 @@ if(inp)inp.addEventListener('input',apply);
     <div class="claim-head" style="margin-bottom:8px">
       <span class="tag" style="border-color:var(--accent);color:var(--accent)">MACRO VISUAL SYNTHESIS</span>
       <strong>27-Paper Cleveland Paired Dot Plot (Published vs. Ours) &amp; Diverging Gap Forest Plot ($\\Delta = \\text{{Ours}} - \\text{{Published}}$)</strong>
-      <span class="small muted" style="margin-left:auto">Blue = Published · Red = Ours (spd_learn) · Shaded Band = &plusmn;1.75% Tight Replication</span>
+      <span class="small muted" style="margin-left:auto">Blue = Published · Red = Ours (spd_learn) · Shaded Band = &plusmn;2.0% Tight Replication</span>
     </div>
     {master_forest_svg}
   </div>
@@ -6500,7 +6453,7 @@ if(inp)inp.addEventListener('input',apply);
     <div style="padding:14px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
       <div>
         <h2 style="margin:0">All 27 Papers: 1. Paper &amp; Datasets &nbsp;|&nbsp; 2. Replicability &nbsp;|&nbsp; 3. The Gap &amp; Pipeline Differences</h2>
-        <p class="small muted" style="margin:2px 0 0">Filter by replication regime or search any paper, dataset, or dataloader difference.</p>
+        <p class="small muted" style="margin:2px 0 0">Filter by replication regime or search any paper, dataset, or protocol difference.</p>
       </div>
       <a class="tag" href="figures/index.html">Browse All {total_sbs_figs} 3-Column Figure Cards →</a>
     </div>
@@ -6514,7 +6467,7 @@ if(inp)inp.addEventListener('input',apply);
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
       <div>
         <h2 style="margin:0">Featured 3-Column Figure Audits (Original Figure | Our Replicability | The Gap &amp; Why)</h2>
-        <p class="small muted" style="margin:2px 0 0">Highlighting key dataloader &amp; protocol differences across flagship architectures (<code>Phase-SPDNet</code>, <code>GREEN</code>, <code>TSMNet</code>, <code>SPDNet</code>, <code>LieBN</code>, <code>CorAtt</code>).</p>
+        <p class="small muted" style="margin:2px 0 0">Representative 3-column comparisons across <code>Phase-SPDNet</code>, <code>GREEN</code>, <code>TSMNet</code>, <code>SPDNet</code>, <code>LieBN</code>, and <code>CorAtt</code>.</p>
       </div>
       <a class="tag" href="figures/index.html">Open Full {total_sbs_figs}-Figure Visual Atlas →</a>
     </div>
@@ -6523,7 +6476,7 @@ if(inp)inp.addEventListener('input',apply);
 
   <details class="panel-collapse">
     <summary>
-      <span>Voyager Cluster Empirical Generalization Matrix (29 Datasets &times; 39 Models: 25 EEG/fMRI Benchmarks + 4 SPD Matrix Benchmarks · 11,884 Runs)</span>
+      <span>Voyager Cluster Empirical Generalization Matrix (29 Datasets &times; 39 Models · 11,884 Runs)</span>
       <span class="tag">Expand 29&times;39 Matrix ▾</span>
     </summary>
     <div class="collapse-body">
@@ -6542,10 +6495,10 @@ if(inp)inp.addEventListener('input',apply);
           <thead>
             <tr>
               <th>Paper ID</th>
-              <th>Dataset &amp; <code>spd-bench</code> / MOABB Protocol</th>
+              <th>Dataset &amp; Protocol</th>
               <th>Published Paper Result</th>
-              <th>Our Voyager Harness Result</th>
-              <th><code>spd-bench</code> &amp; Judge Verdict</th>
+              <th>Our Voyager Result</th>
+              <th>Verdict &amp; Note</th>
             </tr>
           </thead>
           <tbody>
@@ -6594,10 +6547,10 @@ if(inp)inp.addEventListener('input',apply);
     figures_index_html = (
         _top_bar("../", "figures", f"Figures Atlas ({total_sbs_figs} 3-Column Original | Ours | Gap Cards)")
         + f"""<header class="page">
-  <div class="eyebrow">3-Column Visual Reproducibility Atlas</div>
+  <div class="eyebrow">3-Column Visual Replicability Atlas</div>
   <h1>{total_sbs_figs} Paper Figures: 1. Original Figure &nbsp;|&nbsp; 2. Our Replicability &nbsp;|&nbsp; 3. The Gap</h1>
   <p class="lede">
-    Every figure from all 27 papers is paired in a 3-column grid showing the tight-cropped original figure on the left, our <code>spd_learn</code> replication in the center, and the numeric gap ($\\Delta$), dataloader differences, and failure regimes on the right.
+    Every figure from all 27 papers paired in a 3-column grid: original figure on the left, our <code>spd_learn</code> replication in the center, and the numeric gap ($\\Delta$) and root cause on the right.
   </p>
   <div class="panel" style="padding:0;margin-top:10px">
     {filter_bar_html}
@@ -6620,7 +6573,7 @@ if(inp)inp.addEventListener('input',apply);
   <div class="eyebrow">Voyager Out-of-Distribution Generalization Campaign &middot; 39 Models &times; 29 Datasets &middot; 1,131 Cells &middot; 11,884 Runs</div>
   <h1>Cross-Domain Generalization Matrix: 39 SPD Architectures Across 29 Benchmarks</h1>
   <p class="lede">
-    Most Riemannian deep learning papers evaluate on 1 to 3 datasets under author-selected preprocessing, channel subsets, or epoch-peeking scripts. To separate architectural mechanisms from dataset-specific tuning, we executed a full <strong><code>39-model &times; 29-dataset</code></strong> factorial grid (<strong><code>1,131</code></strong> model-dataset cells, <strong><code>11,884</code></strong> subject/fold/seed evaluations) on SDSC Voyager. Every run uses <strong>100% native EEG/fMRI channels</strong> (up to <code>128</code> EEG channels on <code>Schirrmeister2017</code> and <code>200</code> Craddock ROIs on <code>ABIDE</code>), all available recordings, full trial windows, and strict validation-split (<code>85% train / 15% val</code>) checkpoint selection with zero test-set access during training.
+    Full <strong><code>39-model &times; 29-dataset</code></strong> factorial grid (<strong><code>1,131</code></strong> cells, <strong><code>11,884</code></strong> evaluations) executed on SDSC Voyager using <strong>100% native EEG/fMRI channels</strong> and strict validation-split (<code>85% train / 15% val</code>) checkpoint selection.
   </p>
 </header>
 <main>
@@ -6647,13 +6600,7 @@ if(inp)inp.addEventListener('input',apply);
           <span class="chip good">Top 5 Sweep (p &ge; 0.40)</span>
         </div>
         <p class="small" style="margin:6px 0">
-          Models combining a learned temporal-spatial filterbank stem with Riemannian Batch Normalization occupy all five top positions across the 29 datasets:
-          <code>#01 ARMAGNAC-GAH</code> (mean rank <code>11.17</code>, <code>66.42%</code>),
-          <code>#02 GBWBN</code> (<code>11.24</code>, <code>66.32%</code>),
-          <code>#03 ARMAGNAC-Harmonic</code> (<code>11.28</code>, <code>66.49%</code>),
-          <code>#04 SPDNetBN</code> (<code>12.03</code>, <code>65.98%</code>), and
-          <code>#05 ARMAGNAC-Arithmetic</code> (<code>12.14</code>, <code>66.09%</code>).
-          Paired ablations show a two-step gain: prepending the <code>+TSM</code> stem lifts raw matrix models by <strong>+4.41 to +6.29 pp</strong> (<code>CorNet #39 &rarr; CorNet-OLM #19</code>, <code>ALEM #38 &rarr; SPDResNet-ALEM #13</code>), and adding <code>SPDBatchNormMean</code> yields an additional <strong>+1.9 pp</strong> (<code>SPDNet #33, 61.44% &rarr; SPDNetBN #04, 65.98%</code>, tied with 2026 <code>ARMAGNAC-GAH</code> at Wilcoxon $p = 0.61$).
+          Models combining a learned temporal-spatial filterbank stem with Riemannian BatchNorm sweep the top five spots: <code>#01 ARMAGNAC-GAH</code> (<code>66.42%</code>), <code>#02 GBWBN</code> (<code>66.32%</code>), <code>#03 ARMAGNAC-Harmonic</code> (<code>66.49%</code>), <code>#04 SPDNetBN</code> (<code>65.98%</code>), and <code>#05 ARMAGNAC-Arithmetic</code> (<code>66.09%</code>). Prepending the <code>+TSM</code> stem adds <strong>+4.41 to +6.29 pp</strong>, and 2019 <code>SPDNetBN</code> ties 2026 <code>ARMAGNAC-GAH</code> at Wilcoxon $p = 0.61$.
         </p>
       </div>
       <div class="diag-card col-ours">
@@ -6662,15 +6609,7 @@ if(inp)inp.addEventListener('input',apply);
           <span class="chip warning">#07 SPDMetaFormer</span>
         </div>
         <p class="small" style="margin:6px 0">
-          Among standalone architectures without Riemannian BatchNorm, <code>#06 EEGSPDNet</code> (rank <code>14.86</code>, <code>64.03%</code>) and <code>#07 SPDMetaFormer</code> (rank <code>15.10</code>, <code>64.57%</code>, <strong>6 #1 dataset wins</strong>) lead the field.
-          <code>SPDMetaFormer</code> replaces $Q/K/V$ manifold self-attention with parameter-free multi-scale pooling (<code>k=3,5,7</code>), yet outranks every parameterized attention model by mean rank across the 29 datasets:
-          <code>#09 GBWAtt</code> (<code>15.48</code>),
-          <code>#10 MAtt</code> (<code>16.66</code>, $p = 0.18$),
-          <code>#16 GyroAtt</code> (<code>18.59</code>),
-          <code>#22 CorAtt</code> (<code>20.69</code>, $p = 0.0002$),
-          <code>#24 STaRNet</code> (<code>20.76</code>), and
-          <code>#37 SPDTransNet</code> (<code>29.24</code>).
-          On small-sample EEG sessions, learned geodesic attention weights overfit session noise rather than extracting invariant cross-session structure.
+          Among standalone models without Riemannian BatchNorm, <code>#06 EEGSPDNet</code> (<code>64.03%</code>) and parameter-free <code>#07 SPDMetaFormer</code> (<code>64.57%</code>, <strong>6 #1 wins</strong>) outrank every $Q/K/V$ attention architecture: <code>#09 GBWAtt</code>, <code>#10 MAtt</code> ($p = 0.18$), <code>#16 GyroAtt</code>, <code>#22 CorAtt</code> ($p = 0.0002$), <code>#24 STaRNet</code>, and <code>#37 SPDTransNet</code>.
         </p>
       </div>
       <div class="diag-card col-gap">
@@ -6679,9 +6618,8 @@ if(inp)inp.addEventListener('input',apply);
           <span class="chip" style="border-color:var(--spd-blue);color:var(--spd-blue)">3 Regimes</span>
         </div>
         <p class="small" style="margin:6px 0">
-          No single inductive bias wins every modality:
-          <strong>(a) 15 BCI Motor/SSVEP Datasets:</strong> <code>ARMAGNAC-Harmonic</code> leads at <code>64.62%</code>, followed by <code>ARMAGNAC-GAH</code> (<code>64.12%</code>), <code>GBWBN</code> (<code>63.97%</code>), and <code>RHOP</code> (<code>63.96%</code>), where inverse-eigenvalue harmonic weighting suppresses high-amplitude artifact bursts.
-          <strong>(b) 10 Clinical, Sleep, ERP &amp; fMRI Datasets:</strong> <code>Green</code> ranks #1 at <code>68.16%</code> ahead of <code>SPDNetBN</code> (<code>67.37%</code>) and <code>GBWBN</code> (<code>66.98%</code>), because narrowband Gabor wavelets and log-diagonal power capture spectral slowing and ERP energy.
+          <strong>(a) 15 BCI Datasets:</strong> <code>ARMAGNAC-Harmonic</code> leads at <code>64.62%</code> ahead of <code>ARMAGNAC-GAH</code> (<code>64.12%</code>) and <code>GBWBN</code> (<code>63.97%</code>).
+          <strong>(b) 10 Clinical/fMRI Datasets:</strong> <code>Green</code> leads at <code>68.16%</code> via narrowband Gabor wavelets.
           <strong>(c) 4 Native SPD Matrix Benchmarks:</strong> <code>ARMAGNAC-GAH</code> leads at <code>73.95%</code> ahead of <code>GBWBN</code> (<code>73.44%</code>) and <code>SPDNetBN</code> (<code>73.28%</code>).
         </p>
       </div>
@@ -6716,12 +6654,12 @@ tabs.forEach(function(btn,idx){{
 
     # 4. Write pipeline/index.html
     pipeline_index_html = (
-        _top_bar("../", "pipeline", "Reproducibility Pipeline & Trackio Logbook Matrix")
+        _top_bar("../", "pipeline", "Replicability Pipeline & Verification Matrix")
         + f"""<header class="page">
   <div class="eyebrow">Deterministic Execution &amp; Judging Pipeline</div>
-  <h1>6-Stage Reproducibility Pipeline &amp; Trackio Logbook Matrix</h1>
+  <h1>6-Stage Replicability Pipeline &amp; Verification Matrix</h1>
   <p class="lede">
-    Every paper passes through six auditable stages: (1) Metadata and Abstract Indexing (<code>papers.json</code>, <code>abstracts.json</code>), (2) 3-Tier Anchor Claim Extraction (<code>challenge.json</code>), (3) <code>/ponytail</code> Normalized Implementation in <code>spd_learn</code>, (4) Voyager Trackio Logbook Execution (<code>repro/trackio_runner.py</code>), (5) Diagnostic SVG Rendering, and (6) Untrusted-Narrative Automated Judging (<code>repro/judge.py</code>).
+    Six auditable stages across all 27 papers: (1) Metadata Indexing, (2) 3-Tier Anchor Claim Extraction, (3) Normalized Implementation in <code>spd_learn</code>, (4) Voyager Execution, (5) SVG Diagnostic Rendering, and (6) Automated Judging.
   </p>
 </header>
 <main>
@@ -6737,7 +6675,7 @@ tabs.forEach(function(btn,idx){{
             <th>C1: Structural</th>
             <th>C2: Signal</th>
             <th>C3: Analytical</th>
-            <th>Stage 4: Trackio Logbook</th>
+            <th>Stage 4: Execution Log</th>
             <th>Stage 6: Score</th>
           </tr>
         </thead>
@@ -6755,18 +6693,18 @@ tabs.forEach(function(btn,idx){{
 
     # 5. Write methodology/index.html
     methodology_html = (
-        _top_bar("../", "methodology", "Methodology: Encore Science + ICML 2026 + NEMAR Blueprint")
+        _top_bar("../", "methodology", "Methodology: SPD Replicability + ICML 2026 + NEMAR Blueprint")
         + r"""<header class="page">
   <div class="eyebrow">Architectural Blueprint</div>
-  <h1>Automated Claim Extraction &amp; Agentic Reproducibility Auditing for Riemannian Neuroinformatics</h1>
+  <h1>Automated Claim Extraction &amp; Replicability Auditing for Riemannian Neuroinformatics</h1>
   <p class="lede">
-    How we combine CatalystNeuro's <strong>Encore Science</strong> registry design, the <strong>ICML 2026 Open Reproductions</strong> challenge (Trackio logbooks and untrusted-narrative automated judge), and the <strong>NEMAR / BIDS</strong> 3-tier neurophysiological claim taxonomy across all 27 models in <code>spd_learn</code>.
+    Combining 3-column figure/table replication auditing, the <strong>ICML 2026 Open Reproductions</strong> verification schema, and the <strong>NEMAR / BIDS</strong> 3-tier neurophysiological claim taxonomy across all 27 models in <code>spd_learn</code>.
   </p>
 </header>
 <main>
   <div class="panel">
     <h2>1. End-to-End Architecture Diagram</h2>
-    <svg viewBox="0 0 920 210" class="diag-svg" style="padding:10px" role="img" aria-label="Reproducibility Pipeline Architecture">
+    <svg viewBox="0 0 920 210" class="diag-svg" style="padding:10px" role="img" aria-label="Replicability Pipeline Architecture">
       <rect x="15" y="35" width="160" height="135" rx="6" fill="none" stroke="var(--accent)" stroke-width="2"/>
       <text x="95" y="62" text-anchor="middle" class="svg-title">1. Extraction Schema</text>
       <text x="95" y="86" text-anchor="middle" class="svg-tick">repro/papers.json (27)</text>
@@ -6784,7 +6722,7 @@ tabs.forEach(function(btn,idx){{
 
       <line x1="405" y1="102" x2="445" y2="102" class="svg-axis" stroke-width="2"/>
       <rect x="445" y="35" width="205" height="135" rx="6" fill="none" stroke="var(--accent)" stroke-width="2"/>
-      <text x="547" y="62" text-anchor="middle" class="svg-title">3. Voyager Trackio Runner</text>
+      <text x="547" y="62" text-anchor="middle" class="svg-title">3. Voyager Runner</text>
       <text x="547" y="88" text-anchor="middle" class="svg-tick">repro/trackio_runner.py</text>
       <text x="547" y="110" text-anchor="middle" class="svg-tick">Captures git SHA, CLI, runtime</text>
       <text x="547" y="132" text-anchor="middle" class="svg-tick">logbooks/&lt;id&gt;_logbook.json</text>
@@ -6792,51 +6730,47 @@ tabs.forEach(function(btn,idx){{
 
       <line x1="650" y1="102" x2="690" y2="102" class="svg-axis" stroke-width="2"/>
       <rect x="690" y="35" width="215" height="135" rx="6" fill="none" stroke="var(--good)" stroke-width="2.2"/>
-      <text x="797" y="62" text-anchor="middle" class="svg-title">4. Untrusted-Narrative Judge</text>
+      <text x="797" y="62" text-anchor="middle" class="svg-title">4. Automated Judge</text>
       <text x="797" y="88" text-anchor="middle" class="svg-tick">repro/judge.py (v2.0)</text>
       <text x="797" y="110" text-anchor="middle" class="svg-tick">Verified (2) | Adjusted (2)</text>
       <text x="797" y="132" text-anchor="middle" class="svg-tick">Falsified (2) | Inconclusive (0)</text>
-      <text x="797" y="152" text-anchor="middle" class="svg-tick">verdicts.json &amp; Encore Registry</text>
+      <text x="797" y="152" text-anchor="middle" class="svg-tick">verdicts.json &amp; Replicability</text>
     </svg>
   </div>
 
   <div class="grid2">
     <div class="panel">
-      <h2>2. Deconstructing the ICML 2026 Open Reproductions Schema</h2>
-      <p class="small">Instead of treating a paper as a monolithic pass or fail entity, our pipeline mirrors the four canonical files of the <code>ICML-2026-agent-repro/challenge</code> dataset:</p>
+      <h2>2. Verification Schema</h2>
       <ul class="small">
-        <li><code>repro/papers.json</code>: Canonical index mapping each paper ID (9 foundational models from <code>spd_learn</code> plus 18 recent architectures from 2023 to 2026) to its venue, DOI or arXiv URL, isolated worktree branch, and target classes.</li>
-        <li><code>repro/abstracts.json</code>: Key-value store of the raw paper abstracts used for claim grounding.</li>
-        <li><code>repro/claims.json</code>: Flat index of all 81 discrete, falsifiable assertions with explicit quantitative thresholds.</li>
-        <li><code>repro/challenge.json</code>: Master state file tracking the anchor claims and their current judge verdict (<code>Verified</code>, <code>Baseline-Adjusted</code>, <code>Falsified</code>, or <code>Inconclusive</code>).</li>
+        <li><code>repro/papers.json</code>: Canonical index mapping all 27 papers to their venue, URL, worktree branch, and target classes.</li>
+        <li><code>repro/abstracts.json</code>: Paper abstracts used for claim grounding.</li>
+        <li><code>repro/claims.json</code>: Flat index of all 81 falsifiable assertions with explicit thresholds.</li>
+        <li><code>repro/challenge.json</code>: Master state file tracking verdicts (<code>Verified</code>, <code>Baseline-Adjusted</code>, <code>Falsified</code>).</li>
       </ul>
     </div>
 
     <div class="panel">
-      <h2>3. Translating to Neuroinformatics: The 3-Tier Claim Taxonomy</h2>
-      <p class="small">Every paper in <code>spd_learn</code> is audited across three orthogonal dimensions modeled on the NEMAR BIDS and MOABB benchmarking protocols:</p>
+      <h2>3. The 3-Tier Claim Taxonomy</h2>
       <ul class="small">
-        <li><strong>Tier 1 (Structural Identity, C1):</strong> Tests exact differential-geometric identities ($\text{Exp}_P(\text{Log}_P(X)) = X$ to $10^{-15}$, hollow tangent diagonals $\text{diag}(\Phi(C)) = 0$, $\mathcal{H} \#_0 \mathcal{A} = \mathcal{H}$, and positive-definite cone closure $\lambda_{\min}(Y) > 0$).</li>
-        <li><strong>Tier 2 (Signal &amp; Conditioning Regime, C2):</strong> Tests behavior under neurophysiological edge conditions: ill-conditioned covariances ($\kappa(X) = 10^6$), random per-electrode impedance scaling ($D S D$), temporal window jitter, and small-sample attention entropy saturation.</li>
-        <li><strong>Tier 3 (Analytical MOABB &amp; spd-bench Harness, C3):</strong> Evaluates cross-session motor imagery decoding on MOABB <code>BNCI2014-001</code> (<code>NEMAR nm000139</code>, Session 0 train $\to$ Session 1 test) and skeletal action recognition on <code>spd-bench</code> <code>HDM05</code>.</li>
+        <li><strong>Tier 1 (Structural Identity, C1):</strong> Exact differential-geometric identities ($\text{Exp}_P(\text{Log}_P(X)) = X$, hollow tangent diagonals, and positive-definite cone closure).</li>
+        <li><strong>Tier 2 (Signal &amp; Conditioning Regime, C2):</strong> Behavior under ill-conditioned covariances ($\kappa(X) = 10^6$), electrode scaling ($D S D$), and window jitter.</li>
+        <li><strong>Tier 3 (Analytical Harness, C3):</strong> Cross-session decoding on MOABB and skeletal action recognition on <code>spd-bench</code>.</li>
       </ul>
     </div>
   </div>
 
   <div class="panel">
-    <h2>4. The 3-Column Visual Reproducibility &amp; Author Error Taxonomy (24 / 27 Papers = 89%)</h2>
-    <p class="small">Every paper, figure, and table in the registry is audited across three columns (<strong>1 · Original Figure</strong> | <strong>2 · Our Replicability</strong> | <strong>3 · The Gap &amp; Pipeline Differences</strong>) and classified into one of three empirical replication regimes based on <code>repro/voyager_spdbench_results.json</code>:</p>
+    <h2>4. Replicability Regimes Across the 27 Papers</h2>
     <div class="tri-grid" style="margin-top:10px">
       <div class="diag-card col-orig">
         <div class="col-banner orig">
           <span>✓ VERIFIED / BEATS BASELINE (3 PAPERS)</span>
           <span class="chip good">11% of Corpus</span>
         </div>
-        <p class="small" style="margin:4px 0"><strong>Mechanism:</strong> Replicates or exceeds published claims under identical inductive cross-session or skeletal holdout evaluation.</p>
         <ul class="small muted" style="margin:4px 0;padding-left:16px">
-          <li><code>SPDNetBN</code> ($+6.44\%$ on HDM05, $71.68\%$ vs. $65.24\%$ published): Properly tuned 2019 <code>SPDNetBN</code> beats 2024–2025 <code>LieBN</code> ($70.85\%$), <code>GBWBN</code> ($71.17\%$), and <code>CBN</code> ($66.19\%$).</li>
-          <li><code>ARMAGNAC</code> ($71.75\%$ #1 on HDM05, $+0.07\%$ over tuned <code>SPDNetBN</code>, $97.17\%$ on $40\times 40$ Radar).</li>
-          <li><code>Phase-SPDNet</code> ($69.13\%$ #2 of 24 on BNCI2014-001; $69.55\%$ #3 10-dataset mean; $-0.34\%$ on 3-channel Within-Session CV).</li>
+          <li><code>SPDNetBN</code> ($+6.44\%$ on HDM05, $71.68\%$ vs. $65.24\%$ published).</li>
+          <li><code>ARMAGNAC</code> ($71.75\%$ #1 on HDM05, $97.17\%$ on Radar).</li>
+          <li><code>Phase-SPDNet</code> ($69.13\%$ #2 on BNCI2014-001; $-0.34\%$ on Within-Session CV).</li>
         </ul>
       </div>
       <div class="diag-card col-ours">
@@ -6844,40 +6778,37 @@ tabs.forEach(function(btn,idx){{
           <span>◐ DATALOADER / FILTERBANK GAP (6 PAPERS)</span>
           <span class="chip warning">22% of Corpus</span>
         </div>
-        <p class="small" style="margin:4px 0"><strong>Mechanism:</strong> Strong empirical rank on Voyager (#1–#7 across MOABB), but published numbers rely on bespoke preprocessing, offline graphs, or foundation-model pretraining:</p>
         <ul class="small muted" style="margin:4px 0;padding-left:16px">
-          <li><code>GREEN</code> ($68.48\%$ BNCI-001, #2 10-dataset mean $70.16\%$ after fixing $[1,8]\text{ Hz}$ resting-state default wavelets; $61.09\%$ vs. $85.10\%$ on <code>TUAB</code> without <code>autoreject</code>).</li>
-          <li><code>Graph-CSPNet</code> ($69.56\%$ #1 on BNCI-001; $-7.49\%$ vs. 36-node offline time-frequency LGT).</li>
-          <li><code>RHOP</code> ($80.59\%$ #1 on BNCI-004, $69.15\%$ #4 10-DS mean; $-7.34\%$ on BNCI-001 without pretrained <code>LaBraM</code>/<code>BIOT</code>).</li>
-          <li><code>GyroSPD</code> ($67.13\%$ BNCI-001, #1 on <code>Schirrmeister2017</code> $72.01\%$, $71.33\%$ #3 on HDM05), <code>SPDMetaFormer</code> ($64.04\%$ matching <code>MAtt</code> $64.43\%$), <code>SPDNet</code> ($-3.44\%$ HDM05).</li>
+          <li><code>GREEN</code> ($68.48\%$ BNCI-001; $61.09\%$ vs. $85.10\%$ on <code>TUAB</code> without <code>autoreject</code>).</li>
+          <li><code>Graph-CSPNet</code> ($69.56\%$ #1 on BNCI-001; $-7.49\%$ vs. offline LGT).</li>
+          <li><code>RHOP</code> ($80.59\%$ #1 on BNCI-004; $-7.34\%$ on BNCI-001 without pretrained foundation weights).</li>
+          <li><code>GyroSPD</code>, <code>SPDMetaFormer</code>, and <code>SPDNet</code>.</li>
         </ul>
       </div>
       <div class="diag-card col-gap">
         <div class="col-banner gap">
-          <span>! AUTHOR LEAKAGE / PEEKING / DESIGN FLAW (18 PAPERS)</span>
+          <span>! LEAKAGE / PEEKING / DESIGN FLAW (18 PAPERS)</span>
           <span class="chip unresolved">67% of Corpus</span>
         </div>
-        <p class="small" style="margin:4px 0"><strong>Mechanism:</strong> Severe evaluation leakage, per-epoch test peeking ($+1.77\%$ mean, up to $+36.3\%$), under-tuned baselines, or mathematical collapse:</p>
         <ul class="small muted" style="margin:4px 0;padding-left:16px">
-          <li><strong>Transductive Leakage:</strong> <code>TSMNet</code> ($-11.29\%$ test-session BN adaptation), <code>SPDTransNet</code> (full-recording whitening + 450K-param classifier without <code>BiMap</code>), <code>SSGCNet</code> ($-13.49\%$ transductive train+test $k$-NN graph).</li>
-          <li><strong>Test-Set Peeking &amp; Attention Redundancy:</strong> <code>MAtt</code> ($64.43\%$, $-10.28\%$), <code>CorAtt</code> ($65.59\%$, $-10.21\%$), <code>GyroAtt</code> ($64.66\%$, $-9.14\%$), <code>GBWAtt</code> ($65.08\%$, $-10.07\%$) all cluster within $1.1\%$ of parameter-free <code>SPDMetaFormer</code> ($64.04\%$).</li>
-          <li><strong>Mathematical / Code Flaws:</strong> <code>ALEM</code> ($55.75\%$ #24/24 on BNCI-001: <code>Conv1d</code> over sorted eigenvalues), <code>RCEEGNet</code> ($58.06\%$ #23/24: <code>ReLU</code> before uncentered covariance + $10^{-12}$ <code>float32</code> floor), <code>CorNet</code> ($58.41\%$ BNCI-001, $62.54\%$ #24/24 on 3-ch BNCI-004, $88.99\%$ on $40\times 40$ Radar: hollow correlation projection erases diagonal power), <code>RieTrans</code> ($60.31\%$ HDM05, $60.84\%$ #24/24 10-DS mean: $\exp/\log$ cancellation without <code>ReEig</code>), <code>LieBN</code> / <code>GBWBN</code> / <code>CBN</code> / <code>PCM-BWCM</code> (all trail tuned 2019 <code>SPDNetBN</code> $71.68\%$ on HDM05).</li>
+          <li><strong>Transductive Leakage:</strong> <code>TSMNet</code> ($-11.29\%$), <code>SPDTransNet</code>, <code>SSGCNet</code> ($-13.49\%$).</li>
+          <li><strong>Test-Set Peeking &amp; Attention Redundancy:</strong> <code>MAtt</code>, <code>CorAtt</code>, <code>GyroAtt</code>, <code>GBWAtt</code> cluster within $1.1\%$ of parameter-free <code>SPDMetaFormer</code>.</li>
+          <li><strong>Mathematical / Code Flaws:</strong> <code>ALEM</code>, <code>RCEEGNet</code>, <code>CorNet</code>, <code>RieTrans</code>, <code>LieBN</code>, <code>CBN</code>, <code>PCM-BWCM</code>.</li>
         </ul>
       </div>
     </div>
   </div>
 
   <div class="panel">
-    <h2>5. Reproducing Everything on the Voyager Cluster in 3 Commands</h2>
-    <p class="small">All 27 Trackio logbooks, 81 claim verifications, and the static Encore site are regenerated deterministically on the Voyager cluster:</p>
-    <pre><code># 1. Run all 81 claim verifiers on Voyager and emit Trackio logbooks (repro/logbooks/*_logbook.{json,md})
+    <h2>5. Reproducing the Benchmark in 3 Commands</h2>
+    <pre><code># 1. Run all 81 claim verifiers on Voyager
 python -m repro.trackio_runner run --all
 
-# 2. Run the untrusted-narrative automated Logbook Judge and emit verdicts.json + LEADERBOARD.md
+# 2. Run the automated Judge and emit verdicts.json
 python -m repro.judge
 
-# 3. Rebuild this static Encore Science registry &amp; 81-panel SVG visual atlas
-python -m repro.build_encore_site</code></pre>
+# 3. Rebuild this static Replicability site
+python -m repro.build_replicability_site</code></pre>
   </div>
 </main>
 """
@@ -6886,17 +6817,13 @@ python -m repro.build_encore_site</code></pre>
     (OUT_DIR / "methodology" / "index.html").write_text(methodology_html)
 
     (OUT_DIR / "README.md").write_text(
-        f"""# SPD-Learn Encore: Agentic Reproducibility & Exact Figure Registry
+        f"""# SPD-Learn Replicability & Generalization Benchmark
 
-Live sub-page for **[spdlearn.github.io/encore/](https://spdlearn.github.io/encore/)** combining:
-- **[Encore Science (`encorescience.org`)](https://encorescience.org/)** transparent claim-by-claim registry design,
-- **ICML 2026 Open Reproductions** (`papers.json`, `abstracts.json`, `claims.json`, `challenge.json`, Trackio logbooks, and untrusted-narrative automated `logbook-judge`),
-- **NEMAR / MOABB / `spd-bench` 3-Tier Auditing** (`Structural`, `Signal`, `Analytical` claims across 27 Riemannian SPD papers / 81 claims),
-- **81 Live Data-Driven SVG Diagnostic Panels + Original Paper Figure Deconstructions + KaTeX Math Rendering**.
-
-## Score Summary
-- **Papers Audited**: `27` (`9` Foundational + `18` Recent)
-- **Claims Audited**: `81` (`{n_verified} Verified` + `{n_adjusted} Baseline-Adjusted` + `{n_falsified} Falsified` = **`{total_pts} / {max_pts}` points**, `0 Inconclusive`)
+Live benchmark registry at **[spdlearn.github.io/replicability/](https://spdlearn.github.io/replicability/)**:
+- **27 Riemannian SPD Papers Audited** (`9` Foundational + `18` Recent, 2017–2026),
+- **39 Models × 29 Datasets Generalization Suite** (`1,131` cells, `11,884` Voyager evaluations),
+- **101 3-Column Figure Cards & 59 Table Comparisons** (`1. Original | 2. Our Replicability | 3. The Gap`),
+- **81 Audited 3-Tier Claims** (`{n_verified} Verified` + `{n_adjusted} Baseline-Adjusted` + `{n_falsified} Falsified` = **`{total_pts} / {max_pts}` points**).
 """
     )
     # Pre-render all $...$ math expressions into static <span class="katex"> HTML via Node.js KaTeX if available
@@ -6956,7 +6883,7 @@ console.log(`Pre-rendered ${{count}} math expressions (${{cache.size}} unique) a
 """
         subprocess.run(["node", "-e", node_script], check=True)
 
-    print(f"Built SPD-Learn Encore site at {OUT_DIR} with 27 paper pages and 81 SVG panels.")
+    print(f"Built SPD-Learn Replicability site at {OUT_DIR} with 27 paper pages and 81 SVG panels.")
 
 
 if __name__ == "__main__":
