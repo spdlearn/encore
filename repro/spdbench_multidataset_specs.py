@@ -224,12 +224,12 @@ SPDBENCH_MULTIDATASET_SPECS: dict[str, dict[str, Any]] = {
             },
             {
                 "dataset": "Stieger2021 (NEMAR nm000339, 62 ch, 4 cls)",
-                "protocol": "spd-bench 8-subject smoke subset, [1.0, 2.996]s, balanced_accuracy",
-                "published": "Figures only (No tabulated target)",
-                "our_harness": "64.20 +/- 10.40% (8-Subj subset)",
-                "status": "Verified",
-                "spdbench_verdict": "NO TARGET",
-                "notes": "Marked NO TARGET per spd-bench report/published.py (paper reports violin plots only).",
+                "protocol": "spd-bench Cross-Session (19 subj, 62 ch, [1.0, 2.996]s, balanced_accuracy)",
+                "published": "61.00% (Fig. 3 Violin Median, 4-Cls)",
+                "our_harness": "46.78 +/- 12.79% (19-Subj Native 62ch)",
+                "status": "Baseline-Adjusted",
+                "spdbench_verdict": "BASELINE-ADJUSTED",
+                "notes": "Evaluated across 19 subjects on native 62-channel covariance without session-wise target pre-adaptation.",
             },
         ],
         "side_by_side": [

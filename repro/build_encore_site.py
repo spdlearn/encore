@@ -3889,39 +3889,40 @@ def _normalize_harness_rows(
             }
         )
 
-    # Ensure primary Voyager anchor datasets are always present even if omitted from static spec
-    for m in models:
-        if m in hdm05_all and "hdm05" not in seen_vkeys:
-            seen_vkeys.add("hdm05")
-            rec = hdm05_all[m]
-            executed_rows.append(
-                {
-                    "dataset": "HDM05 (spd-bench 117-Class Skeletal)",
-                    "protocol": "50% Train / 50% Test Split (5 Seeds)",
-                    "published": "See Paper Table",
-                    "our_harness": f"{float(rec['accuracy']):.2f} ± {float(rec['sd']):.2f}%",
-                    "spdbench_verdict": "REPLICATES",
-                    "status": c3_verdict,
-                    "notes": f"Standardized 5-seed holdout on HDM05 ({m}).",
-                }
-            )
-            break
-    for m in models:
-        if m in eeg_all.get("bnci2014_001", {}) and "bnci2014_001" not in seen_vkeys:
-            seen_vkeys.add("bnci2014_001")
-            rec = eeg_all["bnci2014_001"][m]
-            executed_rows.append(
-                {
-                    "dataset": "BNCI2014-001 (BCIC-IV-2a, 4-Class MI)",
-                    "protocol": "MOABB Cross-Session (0train -> 1test, 9 Subj)",
-                    "published": "See Paper Table",
-                    "our_harness": f"{float(rec['mean']):.2f} ± {float(rec['sd']):.2f}%",
-                    "spdbench_verdict": "BASELINE-ADJUSTED",
-                    "status": c3_verdict,
-                    "notes": f"Standardized cross-session evaluation on BNCI2014-001 ({m}).",
-                }
-            )
-            break
+    # Fallback only if a paper had zero matched datasets in its static spec
+    if not executed_rows:
+        for m in models:
+            if m in hdm05_all and "hdm05" not in seen_vkeys:
+                seen_vkeys.add("hdm05")
+                rec = hdm05_all[m]
+                executed_rows.append(
+                    {
+                        "dataset": "HDM05 (spd-bench 117-Class Skeletal)",
+                        "protocol": "50% Train / 50% Test Split (5 Seeds)",
+                        "published": "61.45 ± 0.90% (SPDNet Baseline)",
+                        "our_harness": f"{float(rec['accuracy']):.2f} ± {float(rec['sd']):.2f}%",
+                        "spdbench_verdict": "REPLICATES",
+                        "status": c3_verdict,
+                        "notes": f"Standardized 5-seed holdout on HDM05 ({m}).",
+                    }
+                )
+                break
+        for m in models:
+            if m in eeg_all.get("bnci2014_001", {}) and "bnci2014_001" not in seen_vkeys:
+                seen_vkeys.add("bnci2014_001")
+                rec = eeg_all["bnci2014_001"][m]
+                executed_rows.append(
+                    {
+                        "dataset": "BNCI2014-001 (BCIC-IV-2a, 4-Class MI)",
+                        "protocol": "MOABB Cross-Session (0train -> 1test, 9 Subj)",
+                        "published": "68.00% (TSMNet Baseline)",
+                        "our_harness": f"{float(rec['mean']):.2f} ± {float(rec['sd']):.2f}%",
+                        "spdbench_verdict": "BASELINE-ADJUSTED",
+                        "status": c3_verdict,
+                        "notes": f"Standardized cross-session evaluation on BNCI2014-001 ({m}).",
+                    }
+                )
+                break
 
     return executed_rows + external_rows
 
@@ -5051,10 +5052,10 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         return [float(rec_s.get(fk, {}).get("mean", fallback[i])) for i, (fk, _) in enumerate(sc_fracs_spec)]
 
     series_sc = [
-        ("GBWBN (#2)", _sc_vals("GBWBN", [76.80, 78.40, 78.53, 80.53, 97.12]), "#15803d", ""),
-        ("LieBN-AIM (#6)", _sc_vals("LieBN-AIM", [76.40, 77.87, 78.13, 80.80, 97.39]), "#0f766e", "4,2"),
-        ("SPDNetBN (#4)", _sc_vals("SPDNetBN", [75.87, 78.27, 78.40, 80.40, 97.07]), "#1d4ed8", ""),
-        ("CBN (Cholesky)", _sc_vals("CBN", [70.93, 74.13, 75.07, 79.33, 96.85]), "#d97706", "4,2"),
+        ("ARMAGNAC-GAH (#1)", _sc_vals("ARMAGNAC-GAH", [76.93, 78.53, 78.80, 80.93, 97.39]), "#15803d", ""),
+        ("GBWBN (#2)", _sc_vals("GBWBN", [76.80, 78.40, 78.53, 80.53, 97.12]), "#0f766e", "4,2"),
+        ("SPDNetBN (#3)", _sc_vals("SPDNetBN", [75.87, 78.27, 78.40, 80.40, 97.07]), "#1d4ed8", ""),
+        ("RieTrans (#8)", _sc_vals("RieTrans-SPDRMLR", [74.40, 76.80, 77.60, 79.87, 97.28]), "#7c3aed", "4,2"),
         ("SPDNet (No BN)", _sc_vals("SPDNet", [70.13, 76.00, 75.73, 79.07, 96.96]), "#475569", ""),
         ("PCM (Power-Chol)", _sc_vals("PCM", [68.40, 73.87, 77.07, 79.33, 97.07]), "#dc2626", "2,2"),
     ]
@@ -5139,7 +5140,9 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         dv_gain = 0.5 * (mul_n_m + lrg_n_m) - few_n_m
         sc_rec_m = scarcity_map.get(m, {})
         sc_5 = f"{float(sc_rec_m['0.05']['mean']):.2f}%" if "0.05" in sc_rec_m else "—"
+        sc_10 = f"{float(sc_rec_m['0.1']['mean']):.2f}%" if "0.1" in sc_rec_m else "—"
         sc_25 = f"{float(sc_rec_m['0.25']['mean']):.2f}%" if "0.25" in sc_rec_m else "—"
+        sc_50 = f"{float(sc_rec_m['0.5']['mean']):.2f}%" if "0.5" in sc_rec_m else "—"
         sc_100 = f"{float(sc_rec_m['1.0']['mean']):.2f}%" if "1.0" in sc_rec_m else f"{float(radar_ds.get(m, {}).get('accuracy', 0.0)):.2f}%"
         dv_cls = "good" if dv_gain >= 6.0 else ("warning" if dv_gain >= 4.0 else "blocked")
         datavol_rows_html.append(
@@ -5151,7 +5154,9 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
   <td><code>{lrg_n_m:.2f}%</code></td>
   <td><span class="chip {dv_cls}" style="padding:0 5px;font-size:0.68rem">{'+' if dv_gain >= 0 else ''}{dv_gain:.2f} pp</span></td>
   <td><code>{sc_5}</code></td>
+  <td><code>{sc_10}</code></td>
   <td><code>{sc_25}</code></td>
+  <td><code>{sc_50}</code></td>
   <td><code>{sc_100}</code></td>
   <td><strong><code>{ms['overall_mean']:.2f}%</code></strong></td>
 </tr>"""
@@ -5211,7 +5216,9 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
           <th>Large Cohort ($3\\text{{K--}}150\\text{{K}}$, 8 DS)</th>
           <th>Data-Volume Gain ($\\Delta_{{\\text{{Large}}-\\text{{Few}}}}$)</th>
           <th>Radar 5% (75)</th>
+          <th>Radar 10% (150)</th>
           <th>Radar 25% (375)</th>
+          <th>Radar 50% (750)</th>
           <th>Radar 100% (1.5K)</th>
           <th>All-29 Mean</th>
         </tr>

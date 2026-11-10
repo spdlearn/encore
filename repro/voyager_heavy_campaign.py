@@ -119,7 +119,6 @@ PURE_COV_EEG_MODELS = {
     "SPDNet",
     "PhaseSPDNet",
     "CorNet",
-    "SPNN",
     "SPDResNet",
     "ALEM",
     "GyroSPD",
@@ -1108,7 +1107,7 @@ def load_eeg_subject_data(dataset_name: str, subject_id: int) -> dict[str, Any]:
 def eval_eeg_cell(args: tuple[str, str, int, int, int]) -> dict[str, Any]:
     """Evaluate one (dataset_name, model_name, subject_id, epochs, seed) cell."""
     dataset_name, model_name, subj, epochs, seed = args
-    torch.set_num_threads(2)
+    torch.set_num_threads(1)
     torch.manual_seed(seed)
     np.random.seed(seed)
 
@@ -1432,14 +1431,30 @@ class SPDMatrixClassifier(nn.Module):
             return
 
         layers: list[nn.Module] = []
-        for a, b in zip(dims[:-1], dims[1:]):
+        for idx_l, (a, b) in enumerate(zip(dims[:-1], dims[1:])):
+            is_last_l = idx_l == len(dims) - 2
             if variant == "GyroSPD":
                 layers.append(models.GyroSPDLayer(a, b, threshold=reeig_eps, dtype=dtype))
                 layers.append(modules.SPDBatchNormMean(b, dtype=dtype))
                 continue
+            if variant == "SPNN":
+                layers.append(
+                    modules.SPDLinear(
+                        a,
+                        b,
+                        metric="LCM",
+                        unidirectional=True,
+                        return_tangent=is_last_l,
+                        eps=reeig_eps,
+                        dtype=dtype,
+                    )
+                )
+                if not is_last_l:
+                    layers.append(modules.SPDBatchNormLie(b, metric="LCM", theta=0.5, dtype=dtype))
+                continue
             layers.append(modules.BiMap(a, b, dtype=dtype))
             layers.append(modules.ReEig(threshold=reeig_eps, dtype=dtype))
-            if variant in ("SPDNetBN", "TSMNet"):
+            if variant in ("SPDNetBN", "TSMNet", "RieTrans-SPDRMLR"):
                 layers.append(modules.SPDBatchNormMean(b, dtype=dtype))
             elif variant == "EEGSPDNet":
                 layers.append(modules.SPDDropout(p=0.1, epsilon=reeig_eps, dtype=dtype))
@@ -1483,9 +1498,22 @@ class SPDMatrixClassifier(nn.Module):
                 modules.Vech(upper=True),
             )
             self.head = nn.Linear(feat_dim, n_classes, dtype=dtype)
-        elif variant in ("RieTrans-SPDRMLR", "SPNN"):
+        elif variant == "SPNN":
             self.proj = nn.Identity()
-            self.head = modules.SPDRMLR(final_d, n_classes, dtype=dtype)
+            self.head = modules.SPDRMLR(
+                final_d,
+                n_classes,
+                metric="LCM",
+                unidirectional=True,
+                input_tangent=True,
+                eps=reeig_eps,
+                dtype=dtype,
+            )
+        elif variant == "RieTrans-SPDRMLR":
+            self.proj = nn.Identity()
+            self.head = modules.SPDRMLR(
+                final_d, n_classes, metric="LEM", unidirectional=True, eps=reeig_eps, dtype=dtype
+            )
         elif variant in ("PCM", "BWCM", "CorNet-OLM", "CorNet-LSM", "CorNet"):
             self.proj = None
             if variant in ("CorNet-OLM", "CorNet-LSM", "CorNet"):
@@ -1619,7 +1647,7 @@ def load_spd_matrix_dataset(name: str) -> tuple[torch.Tensor, torch.Tensor, list
 def eval_spd_matrix_cell(args: tuple[str, str, int, int, float, int, float]) -> dict[str, Any]:
     """Evaluate (dataset_name, variant, epochs, seed, train_frac_scale, batch_size, reeig_eps)."""
     dataset_name, variant, epochs, seed, train_frac_scale, batch_size, reeig_eps = args
-    torch.set_num_threads(2)
+    torch.set_num_threads(1)
     torch.manual_seed(seed)
     np.random.seed(seed)
 
