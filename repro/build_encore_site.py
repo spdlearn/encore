@@ -2713,14 +2713,19 @@ APP_CSS = r"""/* SPD-Learn Encore Science Reproducibility Registry CSS
   color-scheme: dark;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; scroll-padding-top: 64px; max-width: 100%; overflow-x: hidden; }
+html { scroll-behavior: smooth; scroll-padding-top: 64px; max-width: 100%; overflow-x: clip; }
 body {
   margin: 0;
   background: var(--surface);
   color: var(--text);
   font: 15.5px/1.5 var(--font-body);
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
+  --ink: var(--text);
+  --ink-muted: var(--muted);
+  --accent-primary: var(--accent);
+  --mono: var(--font-mono);
+  --svg-band: rgba(148, 163, 184, 0.09);
 }
 h1, h2, h3, h4, .brand, .eyebrow, .col-banner {
   font-family: var(--font-heading);
@@ -2919,10 +2924,10 @@ h3 { font-size: 0.98rem; margin: 0 0 6px; }
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-  white-space: nowrap;
-  overflow: hidden;
+  white-space: normal;
+  line-height: 1.25;
 }
-.col-banner > span:first-child { overflow: hidden; text-overflow: ellipsis; }
+.col-banner > span:first-child { min-width: 0; }
 .col-banner.orig { background: rgba(47, 111, 237, 0.09); color: #1d4ed8; }
 .col-banner.ours { background: rgba(238, 76, 44, 0.09); color: #C03216; }
 .col-banner.gap  { background: rgba(247, 148, 29, 0.13); color: #9a3412; }
@@ -3101,6 +3106,15 @@ ul.legend {
   border-bottom-color: var(--accent);
 }
 .tabs button:hover { color: var(--text); background: var(--hover); }
+.tabs button .n {
+  margin-left: 5px;
+  font-size: 0.71rem;
+  color: var(--accent);
+  background: rgba(238, 76, 44, 0.10);
+  padding: 1px 6px;
+  border-radius: 10px;
+  font-weight: 700;
+}
 
 /* 3-Column Paper Catalog Rows (Paper | Original vs Ours | The Gap & Why) */
 .drow {
@@ -3248,6 +3262,8 @@ blockquote.quote {
 }
 .diag-svg { width: 100%; height: auto; display: block; background: var(--panel); border-radius: 4px; border: 1px solid var(--line); }
 .svg-title { font-family: var(--font-heading); font-size: 10.5px; font-weight: 700; fill: var(--text); }
+.svg-sub { font-family: var(--font-body); font-size: 8.8px; fill: var(--muted); }
+.svg-label { font-family: var(--font-body); font-size: 9.5px; font-weight: 600; fill: var(--text2); }
 .svg-axis { stroke: var(--text2); stroke-width: 1.1; }
 .svg-grid { stroke: var(--line); stroke-width: 0.8; stroke-dasharray: 2,2; }
 .svg-hline { stroke: var(--accent-secondary); stroke-width: 1.2; stroke-dasharray: 4,3; }
@@ -3255,10 +3271,14 @@ blockquote.quote {
 .svg-axis-label { font-family: var(--font-body); font-size: 9.5px; font-weight: 600; fill: var(--text2); }
 .svg-val { font-family: var(--font-mono); font-size: 8.8px; font-weight: 700; fill: var(--text); font-variant-numeric: tabular-nums; }
 .svg-annot { font-family: var(--font-mono); font-size: 8.5px; font-weight: 600; fill: var(--accent-secondary); }
-.svg-line-primary { stroke: var(--spd-blue); stroke-width: 2.2; }
-.svg-line-primary-dot { fill: var(--spd-blue); }
-.svg-line-secondary { stroke: var(--accent); stroke-width: 2.2; stroke-dasharray: 4,2; }
-.svg-line-secondary-dot { fill: var(--accent); }
+.svg-line-primary, .svg-series-primary { stroke: var(--spd-blue); stroke-width: 2.2; fill: none; }
+.svg-line-primary-dot, .svg-series-primary-dot { fill: var(--spd-blue); }
+.svg-line-secondary, .svg-series-secondary { stroke: var(--accent); stroke-width: 2.2; stroke-dasharray: 4,2; fill: none; }
+.svg-line-secondary-dot, .svg-series-secondary-dot { fill: var(--accent); }
+.svg-series-tertiary { stroke: var(--good); stroke-width: 2.1; fill: none; }
+.svg-series-tertiary-dot { fill: var(--good); }
+.svg-series-baseline { stroke: var(--muted); stroke-width: 2.0; stroke-dasharray: 2,2; fill: none; }
+.svg-series-baseline-dot { fill: var(--muted); }
 .svg-bar-primary { fill: var(--spd-blue); opacity: 0.88; }
 .svg-bar-secondary { fill: var(--accent); opacity: 0.90; }
 
@@ -3269,12 +3289,42 @@ table.data-table {
   font-size: 0.84rem;
 }
 table.data-table th, table.data-table td {
-  padding: 7px 9px;
+  padding: 6px 8px;
   border-bottom: 1px solid var(--line);
   text-align: left;
-  vertical-align: top;
+  vertical-align: middle;
   overflow-wrap: anywhere;
   word-break: break-word;
+}
+table.data-table td.bm-cell {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow-wrap: normal;
+  word-break: normal;
+  text-align: right;
+}
+table.data-table.bm-matrix-table {
+  border-collapse: separate;
+  border-spacing: 0;
+}
+table.data-table.bm-matrix-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  background: var(--hover);
+  border-bottom: 2px solid var(--line);
+}
+table.data-table.bm-matrix-table th:first-child,
+table.data-table.bm-matrix-table td:first-child {
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background: var(--panel);
+  border-right: 2px solid var(--line);
+}
+table.data-table.bm-matrix-table thead th:first-child {
+  z-index: 4;
+  background: var(--hover);
 }
 code { overflow-wrap: anywhere; word-break: break-word; }
 @media (max-width: 640px) {
@@ -4107,28 +4157,34 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
 
     # Build Tufte 39-Model Global Ranking & Critical-Difference Forest Plot SVG
     w_svg = 1180
-    pad_t = 54
+    pad_t = 68
     row_h = 20.5
     h_svg = int(pad_t + len(model_stats) * row_h + 34)
-    rx_l, rx_r = 390.0, 740.0
+    rx_l, rx_r = 434.0, 740.0
 
     def x_rk(rk: float) -> float:
         clamped = max(1.0, min(39.0, rk))
         return rx_l + ((clamped - 1.0) / 38.0) * (rx_r - rx_l)
 
+    x_cd_start = x_rk(11.17)
+    x_cd_end = x_rk(11.17 + 8.24)
     svg_lines = [
         f'<svg class="diag-svg" viewBox="0 0 {w_svg} {h_svg}" role="img" aria-label="39-Model Global Ranking and Critical Difference Forest Plot across 29 Datasets">',
         '<text x="12" y="20" class="svg-title" style="fill:var(--spd-blue)">1 · RANK &amp; SPD_LEARN MODEL</text>',
         '<text x="215" y="20" class="svg-title" style="fill:var(--muted)">2 · GEOMETRIC FAMILY</text>',
-        '<text x="390" y="20" class="svg-title" style="fill:var(--accent-primary)">3 · GLOBAL RANK DISTRIBUTION ACROSS 29 DATASETS (1 = BEST, IQR BAR + MEAN)</text>',
+        '<text x="390" y="20" class="svg-title" style="fill:var(--accent-primary)">3 · MEAN RANK &amp; IQR (Q25–Q75, 29 DS)</text>',
         '<text x="765" y="20" class="svg-title" style="fill:var(--good)">4 · TOP-3 / #1</text>',
         '<text x="865" y="20" class="svg-title" style="fill:var(--ink)">5 · SUB-DOMAIN ACCURACY (15 BCI · 10 CLIN · 4 SPD)</text>',
-        f'<line x1="10" y1="28" x2="{w_svg - 10}" y2="28" stroke="#cbd5e1" stroke-width="1"/>',
+        f'<line x1="10" y1="28" x2="{w_svg - 10}" y2="28" stroke="var(--line)" stroke-width="1"/>',
+        f'<line x1="{x_cd_start:.1f}" y1="38" x2="{x_cd_end:.1f}" y2="38" stroke="#15803d" stroke-width="2.6"/>',
+        f'<line x1="{x_cd_start:.1f}" y1="34" x2="{x_cd_start:.1f}" y2="42" stroke="#15803d" stroke-width="1.8"/>',
+        f'<line x1="{x_cd_end:.1f}" y1="34" x2="{x_cd_end:.1f}" y2="42" stroke="#15803d" stroke-width="1.8"/>',
+        f'<text x="{x_cd_end + 6:.1f}" y="41" class="svg-tick" style="fill:#15803d;font-weight:700">Top-5 BN Clique (Wilcoxon p ≥ 0.40 vs 2019 SPDNetBN · Nemenyi CD = 8.2)</text>',
     ]
     for tick_r in [1, 5, 10, 15, 20, 25, 30, 35, 39]:
         tx = x_rk(float(tick_r))
         svg_lines.append(
-            f'<line x1="{tx:.1f}" y1="{pad_t - 10}" x2="{tx:.1f}" y2="{h_svg - 24}" stroke="#e2e8f0" stroke-width="0.8" stroke-dasharray="2,2"/>'
+            f'<line x1="{tx:.1f}" y1="{pad_t - 10}" x2="{tx:.1f}" y2="{h_svg - 24}" stroke="var(--line)" stroke-width="0.8" stroke-dasharray="2,2"/>'
         )
         svg_lines.append(
             f'<text x="{tx:.1f}" y="{pad_t - 14}" text-anchor="middle" class="svg-tick">#{tick_r}</text>'
@@ -4138,7 +4194,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         ym = pad_t + idx * row_h
         if idx % 2 == 0:
             svg_lines.append(
-                f'<rect x="8" y="{ym - 12:.1f}" width="{w_svg - 16}" height="{row_h:.1f}" fill="#f8fafc" rx="2"/>'
+                f'<rect x="8" y="{ym - 12:.1f}" width="{w_svg - 16}" height="{row_h:.1f}" fill="var(--svg-band)" rx="2"/>'
             )
         m_name = ms["model"]
         rk_mean = ms["mean_rank"]
@@ -4150,13 +4206,13 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         svg_lines.extend(
             [
                 f'<text x="14" y="{ym + 2:.1f}" class="svg-val" style="font-weight:700;fill:{col_dot}">#{idx + 1:02d}</text>',
-                f'<text x="48" y="{ym + 2:.1f}" class="svg-val" style="font-weight:700">{_esc_svg(m_name)}</text>',
-                f'<text x="215" y="{ym + 2:.1f}" class="svg-tick" style="fill:#475569">{_esc_svg(ms["fam_lbl"][:26])}</text>',
+                f'<text x="48" y="{ym + 2:.1f}" class="svg-val" style="font-weight:700;fill:var(--text)">{_esc_svg(m_name)}</text>',
+                f'<text x="215" y="{ym + 2:.1f}" class="svg-tick" style="fill:var(--muted)">{_esc_svg(ms["fam_lbl"][:26])}</text>',
+                f'<text x="422" y="{ym + 2:.1f}" text-anchor="end" class="svg-tick" style="font-family:var(--mono);font-weight:700;fill:{col_dot}">{rk_mean:.1f}</text>',
                 f'<line x1="{x_q25:.1f}" y1="{ym - 2:.1f}" x2="{x_q75:.1f}" y2="{ym - 2:.1f}" stroke="{col_dot}" stroke-width="2.4" stroke-opacity="0.45"/>',
                 f'<circle cx="{x_m:.1f}" cy="{ym - 2:.1f}" r="4.0" fill="{col_dot}"/>',
-                f'<text x="{x_m + 6:.1f}" y="{ym + 2:.1f}" class="svg-tick" style="font-weight:700;fill:{col_dot}">{rk_mean:.1f}</text>',
                 f'<text x="765" y="{ym + 2:.1f}" class="svg-val" style="fill:#15803d;font-weight:600">{ms["top_3"]} top-3 ({ms["wins_1"]} #1)</text>',
-                f'<text x="865" y="{ym + 2:.1f}" class="svg-tick" style="font-family:var(--mono);fill:#0f172a">BCI {ms["bci_mean"]:.1f}% · Clin {ms["clin_mean"]:.1f}% · SPD {spd_s} (All {ms["overall_mean"]:.1f}%)</text>',
+                f'<text x="865" y="{ym + 2:.1f}" class="svg-tick" style="font-family:var(--mono);fill:var(--text)">BCI {ms["bci_mean"]:.1f}% · Clin {ms["clin_mean"]:.1f}% · SPD {spd_s} (All {ms["overall_mean"]:.1f}%)</text>',
             ]
         )
     svg_lines.append("</svg>")
@@ -4251,8 +4307,8 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
             s = f"{p22}B"
         return f'<span class="tag bm-param-badge" style="padding:0 4px;font-size:0.64rem;opacity:0.8" title="{p22:,} params at 22ch">{s}</span>'
 
-    # Helper to format matrix cells with multi-mode attributes (Mean±SD, Compact, Gain over Chance, Rank, Gap to #1, Heatmap %)
-    def _fmt_cell(d_key: str, m: str, mean_v: float, sd_v: float, decimals: int = 1) -> str:
+    # Helper to format matrix cells with multi-mode attributes (Mean±SD, Compact, Gain over Chance, Cohen's kappa, Rank, Gap to #1, Heatmap %)
+    def _fmt_cell(d_key: str, m: str, mean_v: float, sd_v: float, decimals: int = 1, kappa_v: float | None = None) -> str:
         rk = ds_ranks.get(d_key, {}).get(m, 99.0)
         rk_int = int(round(rk))
         best_v = ds_max_map.get(d_key, mean_v)
@@ -4261,22 +4317,35 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         pct = max(0.0, min(100.0, 100.0 * (mean_v - worst_v) / max(best_v - worst_v, 1e-6)))
         gain_c = mean_v - chance_v
         gap_b = mean_v - best_v
+        if kappa_v is None:
+            kappa_v = (mean_v - chance_v) / max(100.0 - chance_v, 1.0)
         star = "★ " if rk == 1.0 else ""
         raw_s = f"{star}{mean_v:.{decimals}f}±{sd_v:.{decimals}f}"
         comp_s = f"{star}{mean_v:.{decimals}f}"
         chance_s = f"{star}{gain_c:+.1f}%"
-        rk_s = f"🥇 #01" if rk_int == 1 else (f"🥈 #02" if rk_int == 2 else (f"🥉 #03" if rk_int == 3 else f"#{rk_int:02d}"))
+        kappa_s = f"{star}{kappa_v:+.2f}"
+        rk_s = "🥇 #01" if rk_int == 1 else ("🥈 #02" if rk_int == 2 else ("🥉 #03" if rk_int == 3 else f"#{rk_int:02d}"))
         gap_s = "★ 0.0%" if rk == 1.0 else f"{gap_b:.1f}%"
         attrs = (
-            f'class="bm-cell" data-raw="{_esc(raw_s)}" data-compact="{_esc(comp_s)}" '
-            f'data-chance="{_esc(chance_s)}" data-rk="{_esc(rk_s)}" data-rknum="{rk_int}" '
-            f'data-gap="{_esc(gap_s)}" data-pct="{pct:.1f}"'
+            f'class="bm-cell" data-raw="{html.escape(raw_s, quote=True)}" '
+            f'data-compact="{html.escape(comp_s, quote=True)}" '
+            f'data-chance="{html.escape(chance_s, quote=True)}" '
+            f'data-kappa="{html.escape(kappa_s, quote=True)}" '
+            f'data-rk="{html.escape(rk_s, quote=True)}" data-rknum="{rk_int}" '
+            f'data-gap="{html.escape(gap_s, quote=True)}" data-pct="{pct:.1f}"'
         )
         if rk == 1.0:
-            return f'<td {attrs} style="background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">{raw_s}</code></strong></td>'
+            return f'<td {attrs} style="white-space:nowrap;background:rgba(21,128,61,0.13)"><strong><code style="color:var(--good)">{raw_s}</code></strong></td>'
         if rk <= 3.0:
-            return f'<td {attrs} style="background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">{raw_s}</code></strong></td>'
-        return f"<td {attrs}><code>{raw_s}</code></td>"
+            return f'<td {attrs} style="white-space:nowrap;background:rgba(21,128,61,0.06)"><strong><code style="color:var(--good)">{raw_s}</code></strong></td>'
+        return f'<td {attrs} style="white-space:nowrap"><code>{raw_s}</code></td>'
+
+    def _rec_kappa(rec: dict) -> float | None:
+        sk = rec.get("subject_kappas")
+        if isinstance(sk, dict) and sk:
+            vals = [float(v) for v in sk.values()]
+            return sum(vals) / len(vals)
+        return None
 
     # Sort models by global mean rank in the tables so the best models appear at the top
     sorted_all_models = [ms["model"] for ms in model_stats]
@@ -4293,7 +4362,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         for d_key, _ in bci_cols:
             rec = eeg_ds.get(d_key, {}).get(m)
             if rec and float(rec.get("mean", 0.0)) > 0:
-                cells.append(_fmt_cell(d_key, m, float(rec["mean"]), float(rec["sd"]), decimals=1))
+                cells.append(_fmt_cell(d_key, m, float(rec["mean"]), float(rec["sd"]), decimals=1, kappa_v=_rec_kappa(rec)))
             else:
                 cells.append('<td class="muted">-</td>')
         bci_rows_html.append(
@@ -4314,7 +4383,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         for d_key, _ in clin_cols:
             rec = eeg_ds.get(d_key, {}).get(m)
             if rec and float(rec.get("mean", 0.0)) > 0:
-                cells.append(_fmt_cell(d_key, m, float(rec["mean"]), float(rec["sd"]), decimals=1))
+                cells.append(_fmt_cell(d_key, m, float(rec["mean"]), float(rec["sd"]), decimals=1, kappa_v=_rec_kappa(rec)))
             else:
                 cells.append('<td class="muted">-</td>')
         clin_rows_html.append(
@@ -4484,8 +4553,8 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         ymax=70.0,
     )
 
-    bci_headers = "".join(f"<th>{_esc(lbl)}</th>" for _, lbl in bci_cols)
-    clin_headers = "".join(f"<th>{_esc(lbl)}</th>" for _, lbl in clin_cols)
+    bci_headers = "".join(f'<th style="white-space:nowrap">{_esc(lbl)}</th>' for _, lbl in bci_cols)
+    clin_headers = "".join(f'<th style="white-space:nowrap">{_esc(lbl)}</th>' for _, lbl in clin_cols)
 
     # 1D. Manifold Dimensionality Scaling (Low-D 2-19ch, Mid-D 20-32ch, High-D 56-64ch, Ultra-D 93-400ch)
     dim_scaling_svg = _svg_line_or_bar_panel(
@@ -4924,10 +4993,11 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
       <input type="search" class="search-input bm-model-search" style="margin-left:auto;min-width:240px" placeholder="Search 39 models (e.g. ARMAGNAC, SPDMetaFormer, Green)..." aria-label="Search models"/>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding-top:6px;border-top:1px dashed var(--line)">
-      <span class="small" style="font-weight:700;color:var(--spd-blue);margin-right:4px">Table Lens (/dataviz &amp; /jean-remi):</span>
+      <span class="small" style="font-weight:700;color:var(--spd-blue);margin-right:4px">Cell Metric Lens:</span>
       <button type="button" class="filter-btn bm-view-btn active" data-bmview="raw" title="Exact Mean ± SD (%) across subjects or seeds">📊 Mean &plusmn; SD (%)</button>
       <button type="button" class="filter-btn bm-view-btn" data-bmview="heatmap" title="Tufte column-normalized heatmap shading + proportional bottom sparkbar">🔥 Heatmap + Sparkbar</button>
       <button type="button" class="filter-btn bm-view-btn" data-bmview="chance" title="Jean-Rémi King convention: accuracy gain above theoretical chance (+Δ% vs 100/K)">🎯 Gain Over Chance (+&Delta;%)</button>
+      <button type="button" class="filter-btn bm-view-btn" data-bmview="kappa" title="Cohen's kappa (imbalance- and chance-adjusted agreement across subjects/seeds)">⚖️ Cohen's &kappa;</button>
       <button type="button" class="filter-btn bm-view-btn" data-bmview="rank" title="Within-dataset ordinal rank (#01 to #39) with podium badges">🏆 Dataset Rank (#1&ndash;#39)</button>
       <button type="button" class="filter-btn bm-view-btn" data-bmview="gap" title="Accuracy deficit relative to the #1 model on each dataset (−Δ%)">📏 Gap to #1 (&minus;&Delta;%)</button>
       <button type="button" class="filter-btn bm-compact-btn" title="Hide ±SD to fit all 15 columns on one screen without scrolling">⊟ Compact (Hide &plusmn;SD)</button>
@@ -4973,6 +5043,10 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
           code.textContent=td.getAttribute('data-chance')||raw;
           var aCh=(0.04+(pct/100.0)*0.22).toFixed(2);
           td.style.background='rgba(29,78,216,'+aCh+')';
+        }else if(curView==='kappa'){
+          code.textContent=td.getAttribute('data-kappa')||raw;
+          var aKp=(0.04+(pct/100.0)*0.22).toFixed(2);
+          td.style.background='rgba(124,58,237,'+aKp+')';
         }else if(curView==='rank'){
           code.textContent=td.getAttribute('data-rk')||raw;
           td.style.background=(rk===1)?'rgba(21,128,61,0.18)':((rk<=3)?'rgba(21,128,61,0.09)':((rk>=30)?'rgba(220,38,38,0.08)':''));
@@ -5074,8 +5148,8 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
         return f"""<div class="tabs" role="tablist">
     <button type="button" role="tab" data-panel="ALL" aria-selected="true">All Sections (Full Suite)</button>
     <button type="button" role="tab" data-panel="gen-ranking" aria-selected="false">1. Global Ranking &amp; Family Synthesis <span class="n">39 Models</span></button>
-    <button type="button" role="tab" data-panel="gen-scaling" aria-selected="false">2. Size &amp; Complexity Scaling ($d$, Params) <span class="n">$O(C)$ vs $O(C^4)$</span></button>
-    <button type="button" role="tab" data-panel="gen-critical" aria-selected="false">3. Critical Audit &amp; Wilcoxon Lab <span class="n">$N=306$ Tests</span></button>
+    <button type="button" role="tab" data-panel="gen-scaling" aria-selected="false">2. Size &amp; Complexity Scaling (d, Params) <span class="n">O(C) vs O(C&sup4;)</span></button>
+    <button type="button" role="tab" data-panel="gen-critical" aria-selected="false">3. Critical Audit &amp; Wilcoxon Lab <span class="n">N=306 Tests</span></button>
     <button type="button" role="tab" data-panel="gen-bci" aria-selected="false">4. Motor, ERP &amp; SSVEP BCI <span class="n">15&times;39</span></button>
     <button type="button" role="tab" data-panel="gen-clin" aria-selected="false">5. Clinical, Sleep, Affect &amp; fMRI <span class="n">10&times;39</span></button>
     <button type="button" role="tab" data-panel="gen-spd" aria-selected="false">6. Action, Radar &amp; Emotion SPD <span class="n">4&times;39</span></button>
@@ -5133,13 +5207,13 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
       <div class="claim-head">
         <span class="tag" style="border-color:var(--spd-blue);color:var(--spd-blue)">COHORT A · 15 BCI BENCHMARKS</span>
         <span class="tag">Motor Imagery, SSVEP, P300/ERN &amp; Mental Workload</span>
-        <strong>2. Motor-Imagery, ERP &amp; SSVEP BCI Generalization Matrix (15 Datasets &times; 39 Models, Mean &plusmn; SD %)</strong>
+        <strong>4. Motor-Imagery, ERP &amp; SSVEP BCI Generalization Matrix (15 Datasets &times; 39 Models, Mean &plusmn; SD %)</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
         Evaluated at 100% native channel dimensionality (up to <code>128×128</code> on <code>Schirrmeister2017</code>, <code>64×64</code> on <code>Cho2017</code>, <code>PhysionetMI</code>, and <code>MAMEM2</code>, <code>62×62</code> on <code>Lee2019-MI</code>, <code>Stieger2021</code>, and <code>Hinss2021</code>, and <code>60×60</code> on <code>Weibo2014</code>). Geodesic and harmonic batch normalization paired with spatiotemporal conv stems (<code>ARMAGNAC-Harmonic</code> <code>64.62%</code>, <code>ARMAGNAC-GAH</code> <code>64.12%</code>, <code>GBWBN</code> <code>63.97%</code>) and high-order Lovrić pooling (<code>RHOP</code> <code>63.96%</code>) lead across the 15 cohorts, while parameter-free <code>SPDMetaFormer</code> (<code>62.85%</code>) and channel-specific filterbank <code>EEGSPDNet</code> (<code>62.72%</code>) lead all standalone end-to-end models.
       </p>
       <div style="overflow-x:auto">
-        <table class="data-table" style="font-size:0.75rem">
+        <table class="data-table bm-matrix-table" style="font-size:0.75rem">
           <thead><tr><th>Global Rank &amp; Model</th>{bci_headers}</tr></thead>
           <tbody>{"".join(bci_rows_html)}</tbody>
         </table>
@@ -5152,13 +5226,13 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
       <div class="claim-head">
         <span class="tag" style="border-color:var(--accent);color:var(--accent)">COHORT B · 10 CLINICAL, SLEEP, AFFECTIVE &amp; FMRI BENCHMARKS</span>
         <span class="tag">Pathology, Sleep Staging, Oddball ERP, Emotion &amp; Connectomes</span>
-        <strong>3. Clinical, Sleep, Resting-State, ERP, Affective &amp; fMRI Connectivity Matrix (10 Datasets &times; 39 Models, Mean &plusmn; SD %)</strong>
+        <strong>5. Clinical, Sleep, Resting-State, ERP, Affective &amp; fMRI Connectivity Matrix (10 Datasets &times; 39 Models, Mean &plusmn; SD %)</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
         Spans clinical neurology (<code>TUAB</code>, <code>TUEV</code>), polysomnography sleep staging (<code>Sleep-EDFX</code>, <code>MASS-SS3</code>), resting-state alpha/beta oscillatory topography (<code>LEMON</code> 61 ch), auditory oddball ERP (<code>TDBRAIN</code> 26 ch), affective EEG (<code>SEED</code> 62 ch, <code>DEAP</code> 32 ch), and whole-brain resting-state fMRI functional connectivity (<code>ABIDE</code> <code>200×200</code> Craddock ROI, <code>ADHD-200</code> <code>190×190</code> ROI). Learnable Gabor wavelets in <code>Green</code> achieve the highest domain mean (<code>68.16%</code>), closely followed by <code>SPDResNet-ALEM</code> (<code>68.13%</code>), <code>GBWAtt</code> (<code>67.63%</code>), and <code>SPDNetBN</code> (<code>67.37%</code>).
       </p>
       <div style="overflow-x:auto">
-        <table class="data-table" style="font-size:0.77rem">
+        <table class="data-table bm-matrix-table" style="font-size:0.77rem">
           <thead><tr><th>Global Rank &amp; Model</th>{clin_headers}</tr></thead>
           <tbody>{"".join(clin_rows_html)}</tbody>
         </table>
@@ -5171,13 +5245,13 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
       <div class="claim-head">
         <span class="tag" style="border-color:var(--warning);color:var(--warning)">COHORT C · 4 NATIVE SPD MATRIX BENCHMARKS</span>
         <span class="tag">Radar ($20\\times 20$), HDM05 ($93\\times 93$), FPHA ($63\\times 63$), AFEW ($400\\times 400$) · 5 Seeds</span>
-        <strong>4. Action Recognition, Micro-Doppler Radar &amp; Video Emotion SPD Matrix Benchmark (39/39 Models &times; 5 Seeds)</strong>
+        <strong>6. Action Recognition, Micro-Doppler Radar &amp; Video Emotion SPD Matrix Benchmark (39/39 Models &times; 5 Seeds)</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
         Evaluated across 5 random seeds (<code>1024..1028</code>) with held-out validation checkpoint selection on <code>spd-bench</code>. On high-dimensional SPD manifolds where no temporal EEG waveform exists, Riemannian batch normalization and gyrovector layers dominate: <code>ARMAGNAC-GAH</code> leads overall (<code>73.95%</code> mean across the 4 datasets, <code>71.75%</code> on 117-class <code>HDM05</code>), followed by <code>GBWBN</code> (<code>73.44%</code>), <code>SPDNetBN</code> (<code>73.28%</code>), <code>GyroSPD</code> (<code>73.14%</code>), and <code>LieBN-AIM</code> (<code>73.05%</code>).
       </p>
       <div style="overflow-x:auto">
-        <table class="data-table" style="font-size:0.79rem">
+        <table class="data-table bm-matrix-table" style="font-size:0.79rem">
           <thead>
             <tr>
               <th>Global Rank &amp; Model</th>
@@ -5201,7 +5275,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
       <div class="claim-head">
         <span class="tag" style="border-color:var(--good);color:var(--good)">COMPLETE PROVENANCE &amp; GEOMETRY INVENTORY</span>
         <span class="tag">29 Datasets · From $\\mathcal{{S}}_{{++}}^2$ to $\\mathcal{{S}}_{{++}}^{{400}}$</span>
-        <strong>5. Complete 29-Dataset Native SPD Geometry, Tangent Dimensionality &amp; Winner Inventory</strong>
+        <strong>7. Complete 29-Dataset Native SPD Geometry, Tangent Dimensionality &amp; Winner Inventory</strong>
       </div>
       <p class="small muted" style="margin:4px 0 10px">
         Every dataset's clinical or BCI paradigm, native covariance dimension $d\\times d$, tangent vector dimension $d(d+1)/2$, evaluation population (subjects or seeds), theoretical chance level, #1 winning architecture, #2 runner-up, and 39-model median and accuracy spread.
@@ -5246,7 +5320,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
 
   <h3 style="margin:10px 0 6px;font-size:0.95rem">2A. Motor-Imagery, ERP &amp; SSVEP BCI Matrix (15 Datasets &times; 39 Models, Sorted by Global Rank, Mean &plusmn; SD %)</h3>
   <div style="overflow-x:auto;max-height:460px;overflow-y:auto">
-    <table class="data-table" style="font-size:0.75rem">
+    <table class="data-table bm-matrix-table" style="font-size:0.75rem">
       <thead><tr><th>Global Rank &amp; Model</th>{bci_headers}</tr></thead>
       <tbody>{"".join(bci_rows_html)}</tbody>
     </table>
@@ -5254,7 +5328,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
 
   <h3 style="margin:14px 0 6px;font-size:0.95rem">2B. Clinical, Sleep, Resting-State, ERP, Affective &amp; fMRI Connectivity Matrix (10 Datasets &times; 39 Models, Mean &plusmn; SD %)</h3>
   <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
-    <table class="data-table" style="font-size:0.77rem">
+    <table class="data-table bm-matrix-table" style="font-size:0.77rem">
       <thead><tr><th>Global Rank &amp; Model</th>{clin_headers}</tr></thead>
       <tbody>{"".join(clin_rows_html)}</tbody>
     </table>
@@ -5262,7 +5336,7 @@ def _render_voyager_overview_matrix(tabbed: bool = False) -> str:
 
   <h3 style="margin:14px 0 6px;font-size:0.95rem">2C. SPD Matrix Benchmark Matrix (Radar $20\\times 20$, HDM05 $93\\times 93$, FPHA $63\\times 63$, AFEW $400\\times 400$ + Scarcity)</h3>
   <div style="overflow-x:auto;max-height:420px;overflow-y:auto">
-    <table class="data-table" style="font-size:0.79rem">
+    <table class="data-table bm-matrix-table" style="font-size:0.79rem">
       <thead>
         <tr>
           <th>Global Rank &amp; Model</th>
@@ -6198,7 +6272,7 @@ if(inp)inp.addEventListener('input',apply);
       <div class="tile"><div class="n" style="color:var(--good)">#1 / 39</div><div class="l">ARMAGNAC-GAH (Rank 11.17)</div><div class="sub-l">66.42% All-29 Mean &middot; 7 Top-3s</div></div>
       <div class="tile"><div class="n" style="color:var(--spd-blue)">64.62%</div><div class="l">#1 on 15 BCI Datasets</div><div class="sub-l">ARMAGNAC-Harmonic (Rank 11.28)</div></div>
       <div class="tile"><div class="n" style="color:var(--accent)">68.16%</div><div class="l">#1 on 10 Clinical / fMRI DS</div><div class="sub-l">Green Gabor Wavelet Bank (#14 Overall)</div></div>
-      <div class="tile"><div class="n" style="color:var(--warning)">+6.29%</div><div class="l">Mean Stem Gain (CorNet &rarr; OLM)</div><div class="sub-l">+20 to +29 Global Ranks from +TSM Stem</div></div>
+      <div class="tile"><div class="n" style="color:var(--warning)">+6.29 pp</div><div class="l">Mean Stem Gain (CorNet &rarr; OLM)</div><div class="sub-l">+20 to +29 Global Ranks from +TSM Stem</div></div>
     </div>
   </section>
 
@@ -6210,8 +6284,8 @@ if(inp)inp.addEventListener('input',apply);
     <div class="tri-grid">
       <div class="diag-card col-orig">
         <div class="col-banner orig">
-          <span>1 &middot; SPATIOTEMPORAL STEMS &amp; BATCHNORM BEAT RAW MATRIX DEPTH</span>
-          <span class="chip good">Top 5 Sweep</span>
+          <span>1 &middot; SPATIOTEMPORAL STEMS + BATCHNORM FORM A 7-YEAR EQUIVALENCE CLIQUE</span>
+          <span class="chip good">Top 5 Sweep (p &ge; 0.40)</span>
         </div>
         <p class="small" style="margin:6px 0">
           Models combining a learned temporal-spatial filterbank stem with Riemannian Batch Normalization occupy all five top positions across the 29 datasets:
@@ -6220,24 +6294,21 @@ if(inp)inp.addEventListener('input',apply);
           <code>#03 ARMAGNAC-Harmonic</code> (<code>11.28</code>, <code>66.49%</code>),
           <code>#04 SPDNetBN</code> (<code>12.03</code>, <code>65.98%</code>), and
           <code>#05 ARMAGNAC-Arithmetic</code> (<code>12.14</code>, <code>66.09%</code>).
-          Paired stem ablations confirm that prepending a <code>+TSM</code> filterbank stem lifts raw matrix models by <strong>+20 to +29 global ranks</strong>:
-          <code>SPDNet (#33, 61.44%) &rarr; SPDNetBN (#04, 65.98%)</code>,
-          <code>CorNet (#39, 57.81%) &rarr; CorNet-OLM (#19, 64.10%)</code>, and
-          <code>ALEM (#38, 59.59%) &rarr; SPDResNet-ALEM (#13, 64.00%)</code>.
+          Paired ablations show a two-step gain: prepending the <code>+TSM</code> stem lifts raw matrix models by <strong>+4.41 to +6.29 pp</strong> (<code>CorNet #39 &rarr; CorNet-OLM #19</code>, <code>ALEM #38 &rarr; SPDResNet-ALEM #13</code>), and adding <code>SPDBatchNormMean</code> yields an additional <strong>+1.9 pp</strong> (<code>SPDNet #33, 61.44% &rarr; SPDNetBN #04, 65.98%</code>, tied with 2026 <code>ARMAGNAC-GAH</code> at Wilcoxon $p = 0.61$).
         </p>
       </div>
       <div class="diag-card col-ours">
         <div class="col-banner ours">
-          <span>2 &middot; PARAMETER-FREE TOKEN MIXING BEATS MANIFOLD ATTENTION</span>
+          <span>2 &middot; PARAMETER-FREE TOKEN MIXING MATCHES OR BEATS MANIFOLD ATTENTION</span>
           <span class="chip warning">#07 SPDMetaFormer</span>
         </div>
         <p class="small" style="margin:6px 0">
           Among standalone architectures without Riemannian BatchNorm, <code>#06 EEGSPDNet</code> (rank <code>14.86</code>, <code>64.03%</code>) and <code>#07 SPDMetaFormer</code> (rank <code>15.10</code>, <code>64.57%</code>, <strong>6 #1 dataset wins</strong>) lead the field.
-          <code>SPDMetaFormer</code> replaces $Q/K/V$ manifold self-attention with parameter-free multi-scale pooling (<code>k=3,5,7</code>), yet outranks every parameterized attention model across the 29 datasets:
+          <code>SPDMetaFormer</code> replaces $Q/K/V$ manifold self-attention with parameter-free multi-scale pooling (<code>k=3,5,7</code>), yet outranks every parameterized attention model by mean rank across the 29 datasets:
           <code>#09 GBWAtt</code> (<code>15.48</code>),
-          <code>#10 MAtt</code> (<code>16.66</code>),
+          <code>#10 MAtt</code> (<code>16.66</code>, $p = 0.18$),
           <code>#16 GyroAtt</code> (<code>18.59</code>),
-          <code>#22 CorAtt</code> (<code>20.69</code>),
+          <code>#22 CorAtt</code> (<code>20.69</code>, $p = 0.0002$),
           <code>#24 STaRNet</code> (<code>20.76</code>), and
           <code>#37 SPDTransNet</code> (<code>29.24</code>).
           On small-sample EEG sessions, learned geodesic attention weights overfit session noise rather than extracting invariant cross-session structure.
@@ -6508,6 +6579,10 @@ for (const hf of walk(root)) {{
   let txt = fs.readFileSync(hf, "utf8");
   const protectedBlocks = [];
   txt = txt.replace(/<(script|style|pre|svg|title)\\b[\\s\\S]*?<\\/\\1>/gi, (m) => {{
+    protectedBlocks.push(m);
+    return `__PROTECTED_BLOCK_${{protectedBlocks.length - 1}}__`;
+  }});
+  txt = txt.replace(/<[a-zA-Z][^>]*>/g, (m) => {{
     protectedBlocks.push(m);
     return `__PROTECTED_BLOCK_${{protectedBlocks.length - 1}}__`;
   }});
